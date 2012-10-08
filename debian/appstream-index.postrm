@@ -1,0 +1,12 @@
+#!/bin/sh
+# postrm script for appstream-index
+set -e
+
+if [ "$1" = "purge" ]; then
+
+        # remove the AppStream database
+        rm -rf /var/cache/software-center
+
+fi
+
+#DEBHELPER#
