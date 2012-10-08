@@ -1,0 +1,69 @@
+Source: appstream
+Section: admin
+Priority: optional
+Maintainer: Matthias Klumpp <matthias@tenstral.net>
+DM-Upload-Allowed: yes
+Build-Depends: cmake (>= 2.8),
+               debhelper (>= 9.0.0),
+               intltool,
+               libdbus-glib-1-dev,
+               libglib2.0-dev (>= 2.28),
+               libpolkit-gobject-1-dev,
+               valac (>= 0.16),
+               xmlto
+Standards-Version: 3.9.3
+Homepage: http://distributions.freedesktop.org/wiki/AppStream
+Vcs-Git: git://anonscm.debian.org/pkg-packagekit/appstream.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
+
+Package: appstream-index
+Architecture: any
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Suggests: packagekit (>= 0.8.4)
+Recommends: app-install-data
+Description: Generator for application index
+ AppStream is an initiative of cross-distro collaboration,
+ which aims at creating an unified software metadata database,
+ and also a centralized OCS (Open Collaboration Services)
+ user-contributed content database.
+ The AppStream database allows people to write application-centric
+ software management tools easily.
+ .
+ This package provides tools to generate, maintain and
+ access the AppStream database of installed applications.
+
+Package: libappstream0
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: appstream-index (= ${binary:Version})
+Description: Library to acess the AppStream database
+ AppStream is an initiative of cross-distro collaboration,
+ which aims at creating an unified software metadata database,
+ and also a centralized OCS (Open Collaboration Services)
+ user-contributed content database.
+ The AppStream database allows people to write application-centric
+ software management tools easily.
+ .
+ This package contains a GObject-based library to access the
+ database of installed applications.
+
+Package: libappstream-dev
+Architecture: any
+Section: libdevel
+Depends: libglib2.0-dev (>= 2.28),
+         libappstream0 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Library to acess the AppStream database (development files)
+ AppStream is an initiative of cross-distro collaboration,
+ which aims at creating an unified software metadata database,
+ and also a centralized OCS (Open Collaboration Services)
+ user-contributed content database.
+ The AppStream database allows people to write application-centric
+ software management tools easily.
+ .
+ This package contains development files necessary to develop
+ software-manager which use the AppStream library.

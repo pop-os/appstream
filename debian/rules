@@ -1,0 +1,21 @@
+#!/usr/bin/make -f
+# -*- makefile -*-
+#export DH_VERBOSE=1
+
+AS_CONFIGURE_ARGS = -DPROVIDER_UBUNTU_APPINSTALL=ON
+
+
+# Define install target dir
+INSTALLDIR = $(CURDIR)/debian/tmp
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	dh_auto_configure -- $(AS_CONFIGURE_ARGS)
+
+override_dh_auto_install:
+	dh_auto_install --destdir=$(INSTALLDIR)
+
+override_dh_install:
+	dh_install --list-missing
