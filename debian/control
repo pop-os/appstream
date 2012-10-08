@@ -67,3 +67,20 @@ Description: Library to acess the AppStream database (development files)
  .
  This package contains development files necessary to develop
  software-manager which use the AppStream library.
+
+Package: gir1.2-appstream
+Architecture: any
+Section: introspection
+Depends: gir1.2-freedesktop (>= 1.32),
+         gir1.2-glib-2.0 (>= 1.32),
+         libappstream0 (= ${binary:Version}),
+         ${misc:Depends}
+Description: Library to acess the AppStream database (development files)
+ AppStream is an initiative of cross-distro collaboration,
+ which aims at creating an unified software metadata database,
+ and also a centralized OCS (Open Collaboration Services)
+ user-contributed content database.
+ The AppStream database allows people to write application-centric
+ software management tools easily.
+ .
+ This package contains introspection data for the AppStream library.
