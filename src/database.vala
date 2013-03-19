@@ -1,6 +1,6 @@
 /* database.vala -- Access the AppStream database
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -23,11 +23,12 @@ using Appstream.Utils;
 
 namespace Appstream {
 
-// TRANSLATORS: List of "grey-listed" words sperated with ";"
-// Do not translate this list directly. Instead,
-// provide a list of words in your language that people are likely
-// to include in a search but that should normally be ignored in
-// the search.
+/** TRANSLATORS: List of "grey-listed" words sperated with ";"
+ * Do not translate this list directly. Instead,
+ * provide a list of words in your language that people are likely
+ * to include in a search but that should normally be ignored in
+ * the search.
+ */
 private static const string SEARCH_GREYLIST_STR = _("app;application;package;program;programme;suite;tool");
 
 public class SearchQuery : Object {

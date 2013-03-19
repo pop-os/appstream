@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-settings">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-settings.top_of_page">settings</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>settings</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="appstream-settings.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>#define             <link linkend="APPSTREAM-ICON-PATH:CAPS">APPSTREAM_ICON_PATH</link>
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="appstream-settings.description" role="desc">
+<title role="desc.title">Description</title>
+
+</refsect1>
+<refsect1 id="appstream-settings.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="APPSTREAM-ICON-PATH:CAPS" role="macro">
+<title>APPSTREAM_ICON_PATH</title>
+<indexterm zone="APPSTREAM-ICON-PATH:CAPS"><primary sortas="ICON_PATH">APPSTREAM_ICON_PATH</primary></indexterm>
+<programlisting>#define APPSTREAM_ICON_PATH APPSTREAM_APPSTREAM_BASE_PATH "/icons"
+</programlisting>
+</refsect2>
+
+</refsect1>
+
+</refentry>

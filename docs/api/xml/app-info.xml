@@ -1,0 +1,419 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-AppstreamAppInfo">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-AppstreamAppInfo.top_of_page">AppstreamAppInfo</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AppstreamAppInfo</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="appstream-AppstreamAppInfo.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>#define             <link linkend="APPSTREAM-TYPE-APP-INFO:CAPS">APPSTREAM_TYPE_APP_INFO</link>
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-app-info-is-valid">appstream_app_info_is_valid</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="appstream-app-info-to-string">appstream_app_info_to_string</link>        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-app-info-set-categories-from-str">appstream_app_info_set_categories_from_str</link>
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
+<link linkend="AppstreamAppInfo"><returnvalue>AppstreamAppInfo</returnvalue></link> *  <link linkend="appstream-app-info-new">appstream_app_info_new</link>              (<parameter><type>void</type></parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-pkgname">appstream_app_info_get_pkgname</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-pkgname">appstream_app_info_set_pkgname</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-name">appstream_app_info_get_name</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-name">appstream_app_info_set_name</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-name-original">appstream_app_info_get_name_original</link>
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-name-original">appstream_app_info_set_name_original</link>
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-summary">appstream_app_info_get_summary</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-summary">appstream_app_info_set_summary</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-description">appstream_app_info_get_description</link>  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-description">appstream_app_info_set_description</link>  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-app-info-get-keywords">appstream_app_info_get_keywords</link>     (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-keywords">appstream_app_info_set_keywords</link>     (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-url">appstream_app_info_get_url</link>          (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-url">appstream_app_info_set_url</link>          (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-desktop-file">appstream_app_info_get_desktop_file</link> (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-desktop-file">appstream_app_info_set_desktop_file</link> (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-icon">appstream_app_info_get_icon</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-icon">appstream_app_info_set_icon</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** <link linkend="appstream-app-info-get-categories">appstream_app_info_get_categories</link>  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-categories">appstream_app_info_set_categories</link>   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-app-info-get-mimetypes">appstream_app_info_get_mimetypes</link>    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-mimetypes">appstream_app_info_set_mimetypes</link>    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);
+struct              <link linkend="AppstreamAppInfo">AppstreamAppInfo</link>;
+struct              <link linkend="AppstreamAppInfoClass">AppstreamAppInfoClass</link>;
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="appstream-AppstreamAppInfo.description" role="desc">
+<title role="desc.title">Description</title>
+
+</refsect1>
+<refsect1 id="appstream-AppstreamAppInfo.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="APPSTREAM-TYPE-APP-INFO:CAPS" role="macro">
+<title>APPSTREAM_TYPE_APP_INFO</title>
+<indexterm zone="APPSTREAM-TYPE-APP-INFO:CAPS"><primary sortas="TYPE_APP_INFO">APPSTREAM_TYPE_APP_INFO</primary></indexterm>
+<programlisting>#define APPSTREAM_TYPE_APP_INFO (appstream_app_info_get_type ())
+</programlisting>
+<para>
+The type for <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link>.
+</para></refsect2>
+<refsect2 id="appstream-app-info-is-valid" role="function">
+<title>appstream_app_info_is_valid ()</title>
+<indexterm zone="appstream-app-info-is-valid"><primary sortas="app_info_is_valid">appstream_app_info_is_valid</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_app_info_is_valid         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-to-string" role="function">
+<title>appstream_app_info_to_string ()</title>
+<indexterm zone="appstream-app-info-to-string"><primary sortas="app_info_to_string">appstream_app_info_to_string</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             appstream_app_info_to_string        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-categories-from-str" role="function">
+<title>appstream_app_info_set_categories_from_str ()</title>
+<indexterm zone="appstream-app-info-set-categories-from-str"><primary sortas="app_info_set_categories_from_str">appstream_app_info_set_categories_from_str</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_app_info_set_categories_from_str
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-new" role="function">
+<title>appstream_app_info_new ()</title>
+<indexterm zone="appstream-app-info-new"><primary sortas="app_info_new">appstream_app_info_new</primary></indexterm>
+<programlisting><link linkend="AppstreamAppInfo"><returnvalue>AppstreamAppInfo</returnvalue></link> *  appstream_app_info_new              (<parameter><type>void</type></parameter>);</programlisting>
+</refsect2>
+<refsect2 id="appstream-app-info-get-pkgname" role="function">
+<title>appstream_app_info_get_pkgname ()</title>
+<indexterm zone="appstream-app-info-get-pkgname"><primary sortas="app_info_get_pkgname">appstream_app_info_get_pkgname</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_pkgname      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-pkgname" role="function">
+<title>appstream_app_info_set_pkgname ()</title>
+<indexterm zone="appstream-app-info-set-pkgname"><primary sortas="app_info_set_pkgname">appstream_app_info_set_pkgname</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_pkgname      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-name" role="function">
+<title>appstream_app_info_get_name ()</title>
+<indexterm zone="appstream-app-info-get-name"><primary sortas="app_info_get_name">appstream_app_info_get_name</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_name         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-name" role="function">
+<title>appstream_app_info_set_name ()</title>
+<indexterm zone="appstream-app-info-set-name"><primary sortas="app_info_set_name">appstream_app_info_set_name</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_name         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-name-original" role="function">
+<title>appstream_app_info_get_name_original ()</title>
+<indexterm zone="appstream-app-info-get-name-original"><primary sortas="app_info_get_name_original">appstream_app_info_get_name_original</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_name_original
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-name-original" role="function">
+<title>appstream_app_info_set_name_original ()</title>
+<indexterm zone="appstream-app-info-set-name-original"><primary sortas="app_info_set_name_original">appstream_app_info_set_name_original</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_name_original
+                                                        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-summary" role="function">
+<title>appstream_app_info_get_summary ()</title>
+<indexterm zone="appstream-app-info-get-summary"><primary sortas="app_info_get_summary">appstream_app_info_get_summary</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_summary      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-summary" role="function">
+<title>appstream_app_info_set_summary ()</title>
+<indexterm zone="appstream-app-info-set-summary"><primary sortas="app_info_set_summary">appstream_app_info_set_summary</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_summary      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-description" role="function">
+<title>appstream_app_info_get_description ()</title>
+<indexterm zone="appstream-app-info-get-description"><primary sortas="app_info_get_description">appstream_app_info_get_description</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_description  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-description" role="function">
+<title>appstream_app_info_set_description ()</title>
+<indexterm zone="appstream-app-info-set-description"><primary sortas="app_info_set_description">appstream_app_info_set_description</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_description  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-keywords" role="function">
+<title>appstream_app_info_get_keywords ()</title>
+<indexterm zone="appstream-app-info-get-keywords"><primary sortas="app_info_get_keywords">appstream_app_info_get_keywords</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_app_info_get_keywords     (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-keywords" role="function">
+<title>appstream_app_info_set_keywords ()</title>
+<indexterm zone="appstream-app-info-set-keywords"><primary sortas="app_info_set_keywords">appstream_app_info_set_keywords</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_keywords     (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-url" role="function">
+<title>appstream_app_info_get_url ()</title>
+<indexterm zone="appstream-app-info-get-url"><primary sortas="app_info_get_url">appstream_app_info_get_url</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_url          (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-url" role="function">
+<title>appstream_app_info_set_url ()</title>
+<indexterm zone="appstream-app-info-set-url"><primary sortas="app_info_set_url">appstream_app_info_set_url</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_url          (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-desktop-file" role="function">
+<title>appstream_app_info_get_desktop_file ()</title>
+<indexterm zone="appstream-app-info-get-desktop-file"><primary sortas="app_info_get_desktop_file">appstream_app_info_get_desktop_file</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_desktop_file (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-desktop-file" role="function">
+<title>appstream_app_info_set_desktop_file ()</title>
+<indexterm zone="appstream-app-info-set-desktop-file"><primary sortas="app_info_set_desktop_file">appstream_app_info_set_desktop_file</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_desktop_file (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-icon" role="function">
+<title>appstream_app_info_get_icon ()</title>
+<indexterm zone="appstream-app-info-get-icon"><primary sortas="app_info_get_icon">appstream_app_info_get_icon</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_app_info_get_icon         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-icon" role="function">
+<title>appstream_app_info_set_icon ()</title>
+<indexterm zone="appstream-app-info-set-icon"><primary sortas="app_info_set_icon">appstream_app_info_set_icon</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_icon         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-categories" role="function">
+<title>appstream_app_info_get_categories ()</title>
+<indexterm zone="appstream-app-info-get-categories"><primary sortas="app_info_get_categories">appstream_app_info_get_categories</primary></indexterm>
+<programlisting><link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** appstream_app_info_get_categories  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-categories" role="function">
+<title>appstream_app_info_set_categories ()</title>
+<indexterm zone="appstream-app-info-set-categories"><primary sortas="app_info_set_categories">appstream_app_info_set_categories</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_categories   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-mimetypes" role="function">
+<title>appstream_app_info_get_mimetypes ()</title>
+<indexterm zone="appstream-app-info-get-mimetypes"><primary sortas="app_info_get_mimetypes">appstream_app_info_get_mimetypes</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_app_info_get_mimetypes    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-set-mimetypes" role="function">
+<title>appstream_app_info_set_mimetypes ()</title>
+<indexterm zone="appstream-app-info-set-mimetypes"><primary sortas="app_info_set_mimetypes">appstream_app_info_set_mimetypes</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_mimetypes    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
+                                                         <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="AppstreamAppInfo" role="struct">
+<title>struct AppstreamAppInfo</title>
+<indexterm zone="AppstreamAppInfo"><primary sortas="AppInfo">AppstreamAppInfo</primary></indexterm>
+<programlisting>struct AppstreamAppInfo {
+	GObject parent_instance;
+	AppstreamAppInfoPrivate * priv;
+};
+</programlisting>
+</refsect2>
+<refsect2 id="AppstreamAppInfoClass" role="struct">
+<title>struct AppstreamAppInfoClass</title>
+<indexterm zone="AppstreamAppInfoClass"><primary sortas="AppInfoClass">AppstreamAppInfoClass</primary></indexterm>
+<programlisting>struct AppstreamAppInfoClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+The class structure for <link linkend="APPSTREAM-TYPE-APP-INFO:CAPS"><literal>APPSTREAM_TYPE_APP_INFO</literal></link>. All the fields in this structure are private and should never be accessed directly.
+</para><variablelist role="struct">
+<varlistentry><term><link linkend="GObjectClass"><type>GObjectClass</type></link>&#160;<structfield id="AppstreamAppInfoClass.parent-class">parent_class</structfield>;</term>
+<listitem><simpara>the parent class structure</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+</refentry>

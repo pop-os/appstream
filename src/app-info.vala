@@ -1,6 +1,6 @@
 /* app-info.vala
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -36,7 +36,7 @@ public class AppInfo : Object {
 			set {
 				_name = value;
 			}
-		}// Localized!
+		} // Localized!
 	public string name_original { get; set; } // Not localized!
 	public string summary { get; set; } // Localized!
 	public string description { get; set; } // Localized!

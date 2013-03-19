@@ -1,6 +1,6 @@
 /* uai-client.vala -- Simple client for the Update-AppStream-Index DBus service
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU General Public License Version 3
  *
@@ -22,8 +22,11 @@ using GLib;
 
 [DBus (name = "org.freedesktop.AppStream")]
 interface UAIService : Object {
-	public abstract bool refresh () throws IOError;
-	public signal void rebuild_finished ();
+	public abstract async bool refresh () throws IOError;
+
+	public signal void error_code (string error_details);
+	public signal void finished (string action_name, bool success);
+	public signal void authorized (bool success);
 }
 
 private class UaiClient : Object {
@@ -92,19 +95,40 @@ private class UaiClient : Object {
 
 		} catch (IOError e) {
 			stderr.printf ("%s\n", e.message);
+			exit_code = 1;
+			return;
 		}
 
 		if (o_refresh) {
 			try {
 				/* Connecting to 'finished' signal */
-				uaisv.rebuild_finished.connect(() => {
-					stdout.printf ("%s\n", _("Finished rebuilding the app-info cache."));
+				uaisv.finished.connect((action, success) => {
+					if (action != "refresh")
+						return;
+
+					if (success)
+						stdout.printf ("%s\n", _("Successfully rebuilt the app-info cache."));
+					else
+						stdout.printf ("%s\n", _("Unable to rebuild the app-info cache."));
 					quit_loop ();
 				});
 
-			stdout.printf ("Rebuilding app-info cache...\n");
+				uaisv.error_code.connect((error_details) => {
+					stderr.printf ("%s\n", error_details);
+				});
 
-			uaisv.refresh ();
+				uaisv.authorized.connect((success) => {
+					// return immediately without waiting for action to complete if user has set --nowait
+					if (o_no_wait)
+						quit_loop ();
+				});
+
+				if (o_no_wait)
+					stdout.printf ("%s\n", _("Triggered app-info cache rebuild."));
+				else
+					stdout.printf ("%s\n", _("Rebuilding app-info cache..."));
+
+				uaisv.refresh ();
 
 			} catch (IOError e) {
 				stderr.printf ("%s\n", e.message);
@@ -114,10 +138,7 @@ private class UaiClient : Object {
 			return;
 		}
 
-		// return immediately without waiting for action to complete if user has set --nowait
-		if (!o_no_wait)
-			loop.run();
-
+		loop.run();
 	}
 
 	static int main (string[] args) {

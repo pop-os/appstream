@@ -1,6 +1,6 @@
 /* uai-engine.vala
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU General Public License Version 3
  *
@@ -24,14 +24,32 @@ using Appstream;
 
 namespace Uai {
 
+public enum Action {
+	NONE,
+	REFRESH;
+
+	public string to_string () {
+		switch (this) {
+			case NONE: return "unknown";
+			case REFRESH: return "refresh";
+			default:
+				return "error";
+		}
+
+		return "";
+	}
+}
+
 [DBus (name = "org.freedesktop.AppStream")]
 public class Engine : Object {
 	private Appstream.DatabaseWrite db_rw;
 	private Array<Appstream.AppInfo> appList;
 	private Timer timer;
+	private static Action current_action;
 
-	public signal void finished ();
-	public signal void rebuild_finished ();
+	public signal void error_code (string error_details);
+	public signal void finished (string action_name, bool success);
+	public signal void authorized (bool success);
 
 	public Engine () {
 		db_rw = new Appstream.DatabaseWrite ();
@@ -40,6 +58,7 @@ public class Engine : Object {
 		if (CURRENT_DB_PATH == "")
 			CURRENT_DB_PATH = db_rw.database_path;
 
+		current_action = Action.NONE;
 		timer = new Timer ();
 		appList = new Array<Appstream.AppInfo> ();
 	}
@@ -52,6 +71,19 @@ public class Engine : Object {
 
 		db_rw.open ();
 		timer.start ();
+	}
+
+	private void finish_reset (string action_name, bool success) {
+		finished (action_name, success);
+
+		current_action = Action.NONE;
+		timer.start ();
+	}
+
+	private void emit_error_code (string error_details) {
+		warning ("ERROR: %s", error_details);
+
+		error_code (error_details);
 	}
 
 	private bool run_provider (DataProvider dprov) {
@@ -67,8 +99,19 @@ public class Engine : Object {
 		return (uint) timer.elapsed ();
 	}
 
-	public bool refresh (GLib.BusName sender) {
+	public async bool refresh (GLib.BusName sender) {
 		bool ret = false;
+		var action = Action.REFRESH;
+
+		debug ("Refreshing cache");
+
+		if (current_action != Action.NONE) {
+			emit_error_code (_("Another cache update is already running!"));
+			finished (action.to_string (), false);
+			return false;
+		}
+
+		current_action = action;
 
 		timer.stop ();
 		timer.reset ();
@@ -84,15 +127,20 @@ public class Engine : Object {
 								null);
 			ret = res.get_is_authorized ();
 		} catch (Error e) {
-			critical (e.message);
-			rebuild_finished ();
+			emit_error_code (e.message);
+			finish_reset (action.to_string (), false);
+
 			return false;
 		}
 
 		if (!ret) {
-			warning ("Couldn't get authorization for this action!");
+			emit_error_code (_("Couldn't get authorization to refresh the cache!"));
+			finish_reset (action.to_string (), false);
+			authorized (false);
+
 			return false;
 		}
+		authorized (true);
 
 #if APPSTREAM
 		run_provider (new Provider.AppstreamXML ());
@@ -106,8 +154,9 @@ public class Engine : Object {
 
 		ret = db_rw.rebuild (appList);
 
-		rebuild_finished ();
-		timer.start ();
+		finish_reset (action.to_string (), ret);
+
+		debug ("Cache refresh completed.");
 
 		return ret;
 	}

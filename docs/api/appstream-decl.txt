@@ -1,0 +1,562 @@
+<MACRO>
+<NAME>APPSTREAM_TYPE_APP_INFO</NAME>
+#define APPSTREAM_TYPE_APP_INFO (appstream_app_info_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_APP_INFO</NAME>
+#define APPSTREAM_APP_INFO(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfo))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_APP_INFO_CLASS</NAME>
+#define APPSTREAM_APP_INFO_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_APP_INFO</NAME>
+#define APPSTREAM_IS_APP_INFO(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_APP_INFO))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_APP_INFO_CLASS</NAME>
+#define APPSTREAM_IS_APP_INFO_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_APP_INFO))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_APP_INFO_GET_CLASS</NAME>
+#define APPSTREAM_APP_INFO_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_TYPE_CATEGORY</NAME>
+#define APPSTREAM_TYPE_CATEGORY (appstream_category_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY</NAME>
+#define APPSTREAM_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategory))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY_CLASS</NAME>
+#define APPSTREAM_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_CATEGORY</NAME>
+#define APPSTREAM_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_CATEGORY_CLASS</NAME>
+#define APPSTREAM_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY_GET_CLASS</NAME>
+#define APPSTREAM_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_TYPE_SEARCH_QUERY</NAME>
+#define APPSTREAM_TYPE_SEARCH_QUERY (appstream_search_query_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SEARCH_QUERY</NAME>
+#define APPSTREAM_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQuery))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SEARCH_QUERY_CLASS</NAME>
+#define APPSTREAM_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQueryClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SEARCH_QUERY</NAME>
+#define APPSTREAM_IS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SEARCH_QUERY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SEARCH_QUERY_CLASS</NAME>
+#define APPSTREAM_IS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SEARCH_QUERY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SEARCH_QUERY_GET_CLASS</NAME>
+#define APPSTREAM_SEARCH_QUERY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQueryClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_TYPE_DATABASE</NAME>
+#define APPSTREAM_TYPE_DATABASE (appstream_database_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DATABASE</NAME>
+#define APPSTREAM_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_DATABASE, AppstreamDatabase))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DATABASE_CLASS</NAME>
+#define APPSTREAM_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_DATABASE, AppstreamDatabaseClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_DATABASE</NAME>
+#define APPSTREAM_IS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_DATABASE))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_DATABASE_CLASS</NAME>
+#define APPSTREAM_IS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_DATABASE))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DATABASE_GET_CLASS</NAME>
+#define APPSTREAM_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_DATABASE, AppstreamDatabaseClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_TYPE_MENU_PARSER</NAME>
+#define APPSTREAM_TYPE_MENU_PARSER (appstream_menu_parser_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_MENU_PARSER</NAME>
+#define APPSTREAM_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParser))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_MENU_PARSER_CLASS</NAME>
+#define APPSTREAM_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParserClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_MENU_PARSER</NAME>
+#define APPSTREAM_IS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_MENU_PARSER))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_MENU_PARSER_CLASS</NAME>
+#define APPSTREAM_IS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_MENU_PARSER))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_MENU_PARSER_GET_CLASS</NAME>
+#define APPSTREAM_MENU_PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParserClass))
+</MACRO>
+<STRUCT>
+<NAME>AppstreamAppInfo</NAME>
+struct _AppstreamAppInfo {
+	GObject parent_instance;
+	AppstreamAppInfoPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamAppInfoClass</NAME>
+struct _AppstreamAppInfoClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamSearchQuery</NAME>
+struct _AppstreamSearchQuery {
+	GObject parent_instance;
+	AppstreamSearchQueryPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamSearchQueryClass</NAME>
+struct _AppstreamSearchQueryClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamDatabase</NAME>
+struct _AppstreamDatabase {
+	GObject parent_instance;
+	AppstreamDatabasePrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamDatabaseClass</NAME>
+struct _AppstreamDatabaseClass {
+	GObjectClass parent_class;
+	void (*open) (AppstreamDatabase* self);
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamCategory</NAME>
+struct _AppstreamCategory {
+	GObject parent_instance;
+	AppstreamCategoryPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamCategoryClass</NAME>
+struct _AppstreamCategoryClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamMenuParser</NAME>
+struct _AppstreamMenuParser {
+	GTypeInstance parent_instance;
+	volatile int ref_count;
+	AppstreamMenuParserPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamMenuParserClass</NAME>
+struct _AppstreamMenuParserClass {
+	GTypeClass parent_class;
+	void (*finalize) (AppstreamMenuParser *self);
+};
+</STRUCT>
+<MACRO>
+<NAME>APPSTREAM_ICON_PATH</NAME>
+#define APPSTREAM_ICON_PATH APPSTREAM_APPSTREAM_BASE_PATH "/icons"
+</MACRO>
+<FUNCTION>
+<NAME>appstream_app_info_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_new</NAME>
+<RETURNS>AppstreamAppInfo * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_construct</NAME>
+<RETURNS>AppstreamAppInfo * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_is_valid</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_to_string</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_categories_from_str</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamAppInfo* self, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_pkgname</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_pkgname</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_name</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_name</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_name_original</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_name_original</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_summary</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_summary</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_description</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_description</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_keywords</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamAppInfo* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_keywords</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, gchar** value, int value_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_url</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_url</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_desktop_file</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_desktop_file</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_icon</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_icon</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_categories</NAME>
+<RETURNS>AppstreamCategory ** </RETURNS>
+AppstreamAppInfo* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_categories</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, AppstreamCategory** value, int value_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_mimetypes</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamAppInfo* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_mimetypes</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, gchar** value, int value_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_new</NAME>
+<RETURNS>AppstreamSearchQuery * </RETURNS>
+const gchar* term 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_construct</NAME>
+<RETURNS>AppstreamSearchQuery * </RETURNS>
+GType object_type, const gchar* term 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_get_search_all_categories</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamSearchQuery* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_set_search_all_categories</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamSearchQuery* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_set_categories_from_string</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamSearchQuery* self, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_get_search_term</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamSearchQuery* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_set_search_term</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamSearchQuery* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_get_categories</NAME>
+<RETURNS>AppstreamCategory ** </RETURNS>
+AppstreamSearchQuery* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_search_query_set_categories</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamSearchQuery* self, AppstreamCategory** value, int value_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_new</NAME>
+<RETURNS>AppstreamDatabase * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_construct</NAME>
+<RETURNS>AppstreamDatabase * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_open</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamDatabase* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_db_exists</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamDatabase* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_get_all_applications</NAME>
+<RETURNS>GArray * </RETURNS>
+AppstreamDatabase* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_find_applications</NAME>
+<RETURNS>GArray * </RETURNS>
+AppstreamDatabase* self, AppstreamSearchQuery* query 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_find_applications_by_str</NAME>
+<RETURNS>GArray * </RETURNS>
+AppstreamDatabase* self, const gchar* search_str, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_get_database_path</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamDatabase* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_new</NAME>
+<RETURNS>AppstreamCategory * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_construct</NAME>
+<RETURNS>AppstreamCategory * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_id</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_name</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_summary</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_icon</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_directory</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_included</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamCategory* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_excluded</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamCategory* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_level</NAME>
+<RETURNS>gint  </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_ref</NAME>
+<RETURNS>gpointer  </RETURNS>
+gpointer instance 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_unref</NAME>
+<RETURNS>void  </RETURNS>
+gpointer instance 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_param_spec_menu_parser</NAME>
+<RETURNS>GParamSpec * </RETURNS>
+const gchar* name, const gchar* nick, const gchar* blurb, GType object_type, GParamFlags flags 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_value_set_menu_parser</NAME>
+<RETURNS>void  </RETURNS>
+GValue* value, gpointer v_object 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_value_take_menu_parser</NAME>
+<RETURNS>void  </RETURNS>
+GValue* value, gpointer v_object 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_value_get_menu_parser</NAME>
+<RETURNS>gpointer  </RETURNS>
+const GValue* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_new</NAME>
+<RETURNS>AppstreamMenuParser * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_construct</NAME>
+<RETURNS>AppstreamMenuParser * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_new_from_file</NAME>
+<RETURNS>AppstreamMenuParser * </RETURNS>
+const gchar* menu_file 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_construct_from_file</NAME>
+<RETURNS>AppstreamMenuParser * </RETURNS>
+GType object_type, const gchar* menu_file 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_parse</NAME>
+<RETURNS>AppstreamCategory ** </RETURNS>
+AppstreamMenuParser* self, int* result_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_get_system_categories</NAME>
+<RETURNS>AppstreamCategory ** </RETURNS>
+int* result_length1 
+</FUNCTION>
+<STRUCT>
+<NAME>AppstreamSearchQueryPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamCategoryPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamDatabasePrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamAppInfoPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamMenuParserPrivate</NAME>
+</STRUCT>
