@@ -2,7 +2,7 @@
 # postinst script for appstream-index
 set -e
 
-/usr/bin/appstream-index --refresh --nowait
+appstream-index --refresh --nowait
 
 #DEBHELPER#
 
