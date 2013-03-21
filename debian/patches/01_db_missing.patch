@@ -1,0 +1,25 @@
+From be922f34422153fe0410b294962971d6e9a479f9 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Thu, 21 Mar 2013 13:20:13 +0100
+Subject: [PATCH] Fix creation of missing database
+
+---
+ src/database.vala |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
+diff --git a/src/database.vala b/src/database.vala
+index a6067c8..f1fb83d 100644
+--- a/src/database.vala
++++ b/src/database.vala
+@@ -147,6 +147,8 @@ internal class DatabaseWrite : Database {
+ 	public DatabaseWrite () {
+ 		base ();
+ 		db_w = new ASXapian.DatabaseWrite ();
++		// ensure db directory exists
++		touch_dir (SOFTWARE_CENTER_DATABASE_PATH);
+ 	}
+ 
+ 	public override void open () {
+-- 
+1.7.1
+
