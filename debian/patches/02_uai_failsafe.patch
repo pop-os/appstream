@@ -1,14 +1,14 @@
-From b45738e4d05da2d713c12b9a1018615a33c91735 Mon Sep 17 00:00:00 2001
+From 81b912ce6335027ddb7fa4a8b043bd797a3474cf Mon Sep 17 00:00:00 2001
 From: Matthias Klumpp <matthias@tenstral.net>
-Date: Thu, 21 Mar 2013 13:45:45 +0100
-Subject: [PATCH] Make UAI a bit more failsafe
+Date: Thu, 21 Mar 2013 13:58:57 +0100
+Subject: [PATCH] Make UAI more failsafe
 
 ---
  uai/uai-engine.vala |   13 ++++++++-----
  1 files changed, 8 insertions(+), 5 deletions(-)
 
 diff --git a/uai/uai-engine.vala b/uai/uai-engine.vala
-index 1c39381..a8a4421 100644
+index 1c39381..bf52e56 100644
 --- a/uai/uai-engine.vala
 +++ b/uai/uai-engine.vala
 @@ -80,10 +80,15 @@ public class Engine : Object {
@@ -16,7 +16,7 @@ index 1c39381..a8a4421 100644
  	}
  
 +	private void emit_error (string details) {
-+		error_code (error_details);
++		error_code (details);
 +		finish_reset (current_action.to_string (), false);
 +	}
 +
