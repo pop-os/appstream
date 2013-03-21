@@ -1,3 +1,13 @@
+appstream (0.2.0-2) unstable; urgency=low
+
+  * Fix debian/watch file
+  * Fix database path
+  * Add dependency on PolicyKit (Closes: #703513)
+  * db_missing.patch: Create database if it is missing
+  * uai_failsafe.patch: Make UAI a bit more failsafe
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 21 Mar 2013 14:04:45 +0100
+
 appstream (0.2.0-1) unstable; urgency=low
 
   * New upstream release: 0.2
