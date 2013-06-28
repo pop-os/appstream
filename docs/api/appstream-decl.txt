@@ -1,4 +1,28 @@
 <MACRO>
+<NAME>APPSTREAM_TYPE_DISTRO_DETAILS</NAME>
+#define APPSTREAM_TYPE_DISTRO_DETAILS (appstream_distro_details_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DISTRO_DETAILS</NAME>
+#define APPSTREAM_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetails))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DISTRO_DETAILS_CLASS</NAME>
+#define APPSTREAM_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetailsClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_DISTRO_DETAILS</NAME>
+#define APPSTREAM_IS_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_DISTRO_DETAILS))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_DISTRO_DETAILS_CLASS</NAME>
+#define APPSTREAM_IS_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_DISTRO_DETAILS))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_DISTRO_DETAILS_GET_CLASS</NAME>
+#define APPSTREAM_DISTRO_DETAILS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetailsClass))
+</MACRO>
+<MACRO>
 <NAME>APPSTREAM_TYPE_APP_INFO</NAME>
 #define APPSTREAM_TYPE_APP_INFO (appstream_app_info_get_type ())
 </MACRO>
@@ -21,30 +45,6 @@
 <MACRO>
 <NAME>APPSTREAM_APP_INFO_GET_CLASS</NAME>
 #define APPSTREAM_APP_INFO_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_CATEGORY</NAME>
-#define APPSTREAM_TYPE_CATEGORY (appstream_category_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY</NAME>
-#define APPSTREAM_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategory))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY_CLASS</NAME>
-#define APPSTREAM_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_CATEGORY</NAME>
-#define APPSTREAM_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_CATEGORY_CLASS</NAME>
-#define APPSTREAM_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY_GET_CLASS</NAME>
-#define APPSTREAM_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
 </MACRO>
 <MACRO>
 <NAME>APPSTREAM_TYPE_SEARCH_QUERY</NAME>
@@ -95,6 +95,30 @@
 #define APPSTREAM_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_DATABASE, AppstreamDatabaseClass))
 </MACRO>
 <MACRO>
+<NAME>APPSTREAM_TYPE_CATEGORY</NAME>
+#define APPSTREAM_TYPE_CATEGORY (appstream_category_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY</NAME>
+#define APPSTREAM_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategory))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY_CLASS</NAME>
+#define APPSTREAM_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_CATEGORY</NAME>
+#define APPSTREAM_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_CATEGORY_CLASS</NAME>
+#define APPSTREAM_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_CATEGORY_GET_CLASS</NAME>
+#define APPSTREAM_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
+</MACRO>
+<MACRO>
 <NAME>APPSTREAM_TYPE_MENU_PARSER</NAME>
 #define APPSTREAM_TYPE_MENU_PARSER (appstream_menu_parser_get_type ())
 </MACRO>
@@ -118,6 +142,43 @@
 <NAME>APPSTREAM_MENU_PARSER_GET_CLASS</NAME>
 #define APPSTREAM_MENU_PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParserClass))
 </MACRO>
+<MACRO>
+<NAME>APPSTREAM_TYPE_SCREENSHOT_SERVICE</NAME>
+#define APPSTREAM_TYPE_SCREENSHOT_SERVICE (appstream_screenshot_service_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT_SERVICE</NAME>
+#define APPSTREAM_SCREENSHOT_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotService))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT_SERVICE_CLASS</NAME>
+#define APPSTREAM_SCREENSHOT_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotServiceClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SCREENSHOT_SERVICE</NAME>
+#define APPSTREAM_IS_SCREENSHOT_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SCREENSHOT_SERVICE_CLASS</NAME>
+#define APPSTREAM_IS_SCREENSHOT_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SCREENSHOT_SERVICE))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT_SERVICE_GET_CLASS</NAME>
+#define APPSTREAM_SCREENSHOT_SERVICE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotServiceClass))
+</MACRO>
+<STRUCT>
+<NAME>AppstreamDistroDetails</NAME>
+struct _AppstreamDistroDetails {
+	GObject parent_instance;
+	AppstreamDistroDetailsPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamDistroDetailsClass</NAME>
+struct _AppstreamDistroDetailsClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
 <STRUCT>
 <NAME>AppstreamAppInfo</NAME>
 struct _AppstreamAppInfo {
@@ -155,7 +216,7 @@ struct _AppstreamDatabase {
 <NAME>AppstreamDatabaseClass</NAME>
 struct _AppstreamDatabaseClass {
 	GObjectClass parent_class;
-	void (*open) (AppstreamDatabase* self);
+	gboolean (*open) (AppstreamDatabase* self);
 };
 </STRUCT>
 <STRUCT>
@@ -186,10 +247,64 @@ struct _AppstreamMenuParserClass {
 	void (*finalize) (AppstreamMenuParser *self);
 };
 </STRUCT>
-<MACRO>
-<NAME>APPSTREAM_ICON_PATH</NAME>
-#define APPSTREAM_ICON_PATH APPSTREAM_APPSTREAM_BASE_PATH "/icons"
-</MACRO>
+<STRUCT>
+<NAME>AppstreamScreenshotService</NAME>
+struct _AppstreamScreenshotService {
+	GObject parent_instance;
+	AppstreamScreenshotServicePrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamScreenshotServiceClass</NAME>
+struct _AppstreamScreenshotServiceClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>appstream_distro_details_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_new</NAME>
+<RETURNS>AppstreamDistroDetails * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_construct</NAME>
+<RETURNS>AppstreamDistroDetails * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_config_distro_get_str</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamDistroDetails* self, const gchar* key 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_config_distro_get_bool</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamDistroDetails* self, const gchar* key 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_get_distro_id</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamDistroDetails* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_get_distro_name</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamDistroDetails* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_get_distro_version</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamDistroDetails* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_distro_details_get_icon_repository_path</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamDistroDetails* self 
+</FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_get_type</NAME>
 <RETURNS>GType  </RETURNS>
@@ -217,7 +332,7 @@ AppstreamAppInfo* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_set_categories_from_str</NAME>
-<RETURNS>gboolean  </RETURNS>
+<RETURNS>void  </RETURNS>
 AppstreamAppInfo* self, const gchar* categories_str 
 </FUNCTION>
 <FUNCTION>
@@ -311,19 +426,14 @@ AppstreamAppInfo* self
 AppstreamAppInfo* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_type</NAME>
-<RETURNS>GType  </RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
 <NAME>appstream_app_info_get_categories</NAME>
-<RETURNS>AppstreamCategory ** </RETURNS>
+<RETURNS>gchar ** </RETURNS>
 AppstreamAppInfo* self, int* result_length1 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_set_categories</NAME>
 <RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, AppstreamCategory** value, int value_length1 
+AppstreamAppInfo* self, gchar** value, int value_length1 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_get_mimetypes</NAME>
@@ -362,7 +472,7 @@ AppstreamSearchQuery* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_search_query_set_categories_from_string</NAME>
-<RETURNS>gboolean  </RETURNS>
+<RETURNS>void  </RETURNS>
 AppstreamSearchQuery* self, const gchar* categories_str 
 </FUNCTION>
 <FUNCTION>
@@ -377,13 +487,13 @@ AppstreamSearchQuery* self, const gchar* value
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_search_query_get_categories</NAME>
-<RETURNS>AppstreamCategory ** </RETURNS>
+<RETURNS>gchar ** </RETURNS>
 AppstreamSearchQuery* self, int* result_length1 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_search_query_set_categories</NAME>
 <RETURNS>void  </RETURNS>
-AppstreamSearchQuery* self, AppstreamCategory** value, int value_length1 
+AppstreamSearchQuery* self, gchar** value, int value_length1 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_get_type</NAME>
@@ -402,7 +512,7 @@ GType object_type
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_open</NAME>
-<RETURNS>void  </RETURNS>
+<RETURNS>gboolean  </RETURNS>
 AppstreamDatabase* self 
 </FUNCTION>
 <FUNCTION>
@@ -412,23 +522,38 @@ AppstreamDatabase* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_get_all_applications</NAME>
-<RETURNS>GArray * </RETURNS>
+<RETURNS>GPtrArray * </RETURNS>
 AppstreamDatabase* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_find_applications</NAME>
-<RETURNS>GArray * </RETURNS>
+<RETURNS>GPtrArray * </RETURNS>
 AppstreamDatabase* self, AppstreamSearchQuery* query 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_find_applications_by_str</NAME>
-<RETURNS>GArray * </RETURNS>
+<RETURNS>GPtrArray * </RETURNS>
 AppstreamDatabase* self, const gchar* search_str, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_refresh</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamDatabase* self, GAsyncReadyCallback _callback_, gpointer _user_data_ 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_database_refresh_finish</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamDatabase* self, GAsyncResult* _res_, GError** error 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_get_database_path</NAME>
 <RETURNS>const gchar * </RETURNS>
 AppstreamDatabase* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_category_new</NAME>
@@ -441,8 +566,18 @@ void
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_id</NAME>
-<RETURNS>const gchar * </RETURNS>
+<NAME>appstream_category_add_subcategory</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamCategory* self, AppstreamCategory* cat 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_remove_subcategory</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamCategory* self, AppstreamCategory* cat 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_has_subcategory</NAME>
+<RETURNS>gboolean  </RETURNS>
 AppstreamCategory* self 
 </FUNCTION>
 <FUNCTION>
@@ -467,17 +602,22 @@ AppstreamCategory* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_category_get_included</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamCategory* self, int* result_length1 
+<RETURNS>GList * </RETURNS>
+AppstreamCategory* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_category_get_excluded</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamCategory* self, int* result_length1 
+<RETURNS>GList * </RETURNS>
+AppstreamCategory* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_category_get_level</NAME>
 <RETURNS>gint  </RETURNS>
+AppstreamCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_category_get_subcategories</NAME>
+<RETURNS>GList * </RETURNS>
 AppstreamCategory* self 
 </FUNCTION>
 <FUNCTION>
@@ -537,16 +677,62 @@ GType object_type, const gchar* menu_file
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_menu_parser_parse</NAME>
-<RETURNS>AppstreamCategory ** </RETURNS>
-AppstreamMenuParser* self, int* result_length1 
+<RETURNS>GList * </RETURNS>
+AppstreamMenuParser* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_get_update_category_data</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamMenuParser* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_menu_parser_set_update_category_data</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamMenuParser* self, gboolean value 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_get_system_categories</NAME>
-<RETURNS>AppstreamCategory ** </RETURNS>
-int* result_length1 
+<RETURNS>GList * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_new</NAME>
+<RETURNS>AppstreamScreenshotService * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_construct</NAME>
+<RETURNS>AppstreamScreenshotService * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_get_thumbnail_url</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamScreenshotService* self, const gchar* package_name 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_get_screenshot_url</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamScreenshotService* self, const gchar* package_name 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_service_get_base_url</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamScreenshotService* self 
 </FUNCTION>
 <STRUCT>
+<NAME>AppstreamMenuParserPrivate</NAME>
+</STRUCT>
+<STRUCT>
 <NAME>AppstreamSearchQueryPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamScreenshotServicePrivate</NAME>
 </STRUCT>
 <STRUCT>
 <NAME>AppstreamCategoryPrivate</NAME>
@@ -558,5 +744,5 @@ int* result_length1
 <NAME>AppstreamAppInfoPrivate</NAME>
 </STRUCT>
 <STRUCT>
-<NAME>AppstreamMenuParserPrivate</NAME>
+<NAME>AppstreamDistroDetailsPrivate</NAME>
 </STRUCT>

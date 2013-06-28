@@ -23,17 +23,39 @@ using Appstream;
 
 private string datadir;
 
+/* NOTE: All these tests are not really a testsuite, but quickly test at least a few things.
+ * writing a good testsuite would be nice, but given the amount of code in libappstream and
+ * the effort to do it sane (we need a virtual environment with PackageKit running!) I assume it's
+ * not worth it.
+ */
+
 void msg (string s) {
 	stdout.printf (s + "\n");
 }
 
 void test_menuparser () {
 	var parser = new MenuParser ();
-	Category[] menu_dirs = parser.parse();
-	assert (menu_dirs.length > 4);
+	List<Category> menu_dirs = parser.parse();
+	assert (menu_dirs.length () > 4);
+
+	menu_dirs.foreach ((cat) => {
+		stdout.printf ("Category: %s\nExc:%s\nInc: %s\nSubcat: %s\n", cat.name,
+			       Utils.string_list_to_string (cat.excluded),
+			       Utils.string_list_to_string (cat.included),
+			       Utils.category_list_to_string (cat.subcategories));
+	});
 
 	var query = new SearchQuery ();
-	query.categories = menu_dirs;
+	query.categories = {"science", "internet"};
+}
+
+void test_screenshotservice () {
+	var screenshot_srv = new ScreenshotService ();
+	string url = screenshot_srv.get_thumbnail_url ("ardour");
+
+	msg ("Url: %s".printf (url));
+	assert (url.has_prefix ("http://") == true);
+	assert (url.has_suffix ("ardour") == true);
 }
 
 int main (string[] args) {
@@ -47,6 +69,7 @@ int main (string[] args) {
 	Test.init (ref args);
 
 	test_menuparser ();
+	test_screenshotservice ();
 
 	Test.run ();
 	return 0;

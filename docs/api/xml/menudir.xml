@@ -14,32 +14,41 @@
 </refmeta>
 <refnamediv>
 <refname>AppstreamCategory</refname>
-<refpurpose></refpurpose>
+<refpurpose>Description of an XDG Menu category</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id="appstream-AppstreamCategory.synopsis" role="synopsis">
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>#define             <link linkend="APPSTREAM-TYPE-CATEGORY:CAPS">APPSTREAM_TYPE_CATEGORY</link>
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-category-add-subcategory">appstream_category_add_subcategory</link>  (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *cat</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-category-remove-subcategory">appstream_category_remove_subcategory</link>
+                                                        (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *cat</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-category-has-subcategory">appstream_category_has_subcategory</link>  (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 <link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> * <link linkend="appstream-category-new">appstream_category_new</link>              (<parameter><type>void</type></parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-category-get-id">appstream_category_get_id</link>           (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-category-get-name">appstream_category_get_name</link>         (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-category-get-summary">appstream_category_get_summary</link>      (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-category-get-icon">appstream_category_get_icon</link>         (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-category-get-directory">appstream_category_get_directory</link>    (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
-<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-category-get-included">appstream_category_get_included</link>     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
-<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-category-get-excluded">appstream_category_get_excluded</link>     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="appstream-category-get-included">appstream_category_get_included</link>     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="appstream-category-get-excluded">appstream_category_get_excluded</link>     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 <link linkend="gint"><returnvalue>gint</returnvalue></link>                <link linkend="appstream-category-get-level">appstream_category_get_level</link>        (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="appstream-category-get-subcategories">appstream_category_get_subcategories</link>
+                                                        (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);
 struct              <link linkend="AppstreamCategory">AppstreamCategory</link>;
 struct              <link linkend="AppstreamCategoryClass">AppstreamCategoryClass</link>;
 #define             <link linkend="APPSTREAM-TYPE-MENU-PARSER:CAPS">APPSTREAM_TYPE_MENU_PARSER</link>
-<link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** <link linkend="appstream-menu-parser-parse">appstream_menu_parser_parse</link>        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="appstream-menu-parser-parse">appstream_menu_parser_parse</link>         (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>);
 <link linkend="AppstreamMenuParser"><returnvalue>AppstreamMenuParser</returnvalue></link> * <link linkend="appstream-menu-parser-new">appstream_menu_parser_new</link>         (<parameter><type>void</type></parameter>);
 <link linkend="AppstreamMenuParser"><returnvalue>AppstreamMenuParser</returnvalue></link> * <link linkend="appstream-menu-parser-new-from-file">appstream_menu_parser_new_from_file</link>
                                                         (<parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-menu-parser-get-update-category-data">appstream_menu_parser_get_update_category_data</link>
+                                                        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-menu-parser-set-update-category-data">appstream_menu_parser_set_update_category_data</link>
+                                                        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gboolean"><type>gboolean</type></link> value</parameter>);
 struct              <link linkend="AppstreamMenuParser">AppstreamMenuParser</link>;
 <link linkend="gpointer"><returnvalue>gpointer</returnvalue></link>            <link linkend="appstream-menu-parser-ref">appstream_menu_parser_ref</link>           (<parameter><link linkend="gpointer"><type>gpointer</type></link> instance</parameter>);
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-menu-parser-unref">appstream_menu_parser_unref</link>         (<parameter><link linkend="gpointer"><type>gpointer</type></link> instance</parameter>);
@@ -54,7 +63,7 @@ struct              <link linkend="AppstreamMenuParser">AppstreamMenuParser</lin
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-value-take-menu-parser">appstream_value_take_menu_parser</link>    (<parameter><link linkend="GValue"><type>GValue</type></link> *value</parameter>,
                                                          <parameter><link linkend="gpointer"><type>gpointer</type></link> v_object</parameter>);
 struct              <link linkend="AppstreamMenuParserClass">AppstreamMenuParserClass</link>;
-<link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** <link linkend="appstream-get-system-categories">appstream_get_system_categories</link>    (<parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="appstream-get-system-categories">appstream_get_system_categories</link>     (<parameter><type>void</type></parameter>);
 </synopsis>
 </refsynopsisdiv>
 
@@ -72,22 +81,43 @@ struct              <link linkend="AppstreamMenuParserClass">AppstreamMenuParser
 <para>
 The type for <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link>.
 </para></refsect2>
+<refsect2 id="appstream-category-add-subcategory" role="function">
+<title>appstream_category_add_subcategory ()</title>
+<indexterm zone="appstream-category-add-subcategory"><primary sortas="category_add_subcategory">appstream_category_add_subcategory</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_category_add_subcategory  (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *cat</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>cat</parameter>&#160;:</term>
+<listitem><simpara>&nbsp;</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-category-remove-subcategory" role="function">
+<title>appstream_category_remove_subcategory ()</title>
+<indexterm zone="appstream-category-remove-subcategory"><primary sortas="category_remove_subcategory">appstream_category_remove_subcategory</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_category_remove_subcategory
+                                                        (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *cat</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>cat</parameter>&#160;:</term>
+<listitem><simpara>&nbsp;</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-category-has-subcategory" role="function">
+<title>appstream_category_has_subcategory ()</title>
+<indexterm zone="appstream-category-has-subcategory"><primary sortas="category_has_subcategory">appstream_category_has_subcategory</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_category_has_subcategory  (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if this category has any subcategory</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="appstream-category-new" role="function">
 <title>appstream_category_new ()</title>
 <indexterm zone="appstream-category-new"><primary sortas="category_new">appstream_category_new</primary></indexterm>
 <programlisting><link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> * appstream_category_new              (<parameter><type>void</type></parameter>);</programlisting>
 </refsect2>
-<refsect2 id="appstream-category-get-id" role="function">
-<title>appstream_category_get_id ()</title>
-<indexterm zone="appstream-category-get-id"><primary sortas="category_get_id">appstream_category_get_id</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_category_get_id           (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);</programlisting>
-<para>
-Get and return the current value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property.
-</para><variablelist role="params">
-<varlistentry><term><parameter>self</parameter>&#160;:</term>
-<listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property</simpara></listitem></varlistentry>
-</variablelist></refsect2>
 <refsect2 id="appstream-category-get-name" role="function">
 <title>appstream_category_get_name ()</title>
 <indexterm zone="appstream-category-get-name"><primary sortas="category_get_name">appstream_category_get_name</primary></indexterm>
@@ -135,8 +165,7 @@ Get and return the current value of the <link linkend="AppstreamCategory--direct
 <refsect2 id="appstream-category-get-included" role="function">
 <title>appstream_category_get_included ()</title>
 <indexterm zone="appstream-category-get-included"><primary sortas="category_get_included">appstream_category_get_included</primary></indexterm>
-<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_category_get_included     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             appstream_category_get_included     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);</programlisting>
 <para>
 Get and return the current value of the <link linkend="AppstreamCategory--included"><type>"included"</type></link> property.
 </para><variablelist role="params">
@@ -147,8 +176,7 @@ Get and return the current value of the <link linkend="AppstreamCategory--includ
 <refsect2 id="appstream-category-get-excluded" role="function">
 <title>appstream_category_get_excluded ()</title>
 <indexterm zone="appstream-category-get-excluded"><primary sortas="category_get_excluded">appstream_category_get_excluded</primary></indexterm>
-<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_category_get_excluded     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             appstream_category_get_excluded     (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);</programlisting>
 <para>
 Get and return the current value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property.
 </para><variablelist role="params">
@@ -167,6 +195,18 @@ Get and return the current value of the <link linkend="AppstreamCategory--level"
 <listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query</simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamCategory--level"><type>"level"</type></link> property</simpara></listitem></varlistentry>
 </variablelist></refsect2>
+<refsect2 id="appstream-category-get-subcategories" role="function">
+<title>appstream_category_get_subcategories ()</title>
+<indexterm zone="appstream-category-get-subcategories"><primary sortas="category_get_subcategories">appstream_category_get_subcategories</primary></indexterm>
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             appstream_category_get_subcategories
+                                                        (<parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamCategory--subcategories"><type>"subcategories"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamCategory--subcategories"><type>"subcategories"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="AppstreamCategory" role="struct">
 <title>struct AppstreamCategory</title>
 <indexterm zone="AppstreamCategory"><primary sortas="Category">AppstreamCategory</primary></indexterm>
@@ -175,7 +215,9 @@ Get and return the current value of the <link linkend="AppstreamCategory--level"
 	AppstreamCategoryPrivate * priv;
 };
 </programlisting>
-</refsect2>
+<para>
+Description of an XDG Menu category
+</para></refsect2>
 <refsect2 id="AppstreamCategoryClass" role="struct">
 <title>struct AppstreamCategoryClass</title>
 <indexterm zone="AppstreamCategoryClass"><primary sortas="CategoryClass">AppstreamCategoryClass</primary></indexterm>
@@ -201,24 +243,58 @@ The type for <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type
 <refsect2 id="appstream-menu-parser-parse" role="function">
 <title>appstream_menu_parser_parse ()</title>
 <indexterm zone="appstream-menu-parser-parse"><primary sortas="menu_parser_parse">appstream_menu_parser_parse</primary></indexterm>
-<programlisting><link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** appstream_menu_parser_parse        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>,
-                                                         <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
-<variablelist role="params">
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             appstream_menu_parser_parse         (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>);</programlisting>
+<para>
+Parse the menu file
+</para><variablelist role="params">
 <varlistentry><term><parameter>self</parameter>&#160;:</term>
 <listitem><simpara>the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>. <emphasis role="annotation">[<acronym>array</acronym> length=result_length1]</emphasis></simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>GList of Category objects found in the Menu, or NULL if there was an error</simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="appstream-menu-parser-new" role="function">
 <title>appstream_menu_parser_new ()</title>
 <indexterm zone="appstream-menu-parser-new"><primary sortas="menu_parser_new">appstream_menu_parser_new</primary></indexterm>
 <programlisting><link linkend="AppstreamMenuParser"><returnvalue>AppstreamMenuParser</returnvalue></link> * appstream_menu_parser_new         (<parameter><type>void</type></parameter>);</programlisting>
-</refsect2>
+<para>
+Create a new MenuParser for the generic AppStream categories list
+</para></refsect2>
 <refsect2 id="appstream-menu-parser-new-from-file" role="function">
 <title>appstream_menu_parser_new_from_file ()</title>
 <indexterm zone="appstream-menu-parser-new-from-file"><primary sortas="menu_parser_new_from_file">appstream_menu_parser_new_from_file</primary></indexterm>
 <programlisting><link linkend="AppstreamMenuParser"><returnvalue>AppstreamMenuParser</returnvalue></link> * appstream_menu_parser_new_from_file
                                                         (<parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);</programlisting>
-</refsect2>
+<para>
+Create a new MenuParser for an arbitrary menu file
+</para><variablelist role="params">
+<varlistentry><term><parameter>menu_file</parameter>&#160;:</term>
+<listitem><simpara>&nbsp;</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-menu-parser-get-update-category-data" role="function">
+<title>appstream_menu_parser_get_update_category_data ()</title>
+<indexterm zone="appstream-menu-parser-get-update-category-data"><primary sortas="menu_parser_get_update_category_data">appstream_menu_parser_get_update_category_data</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_menu_parser_get_update_category_data
+                                                        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-menu-parser-set-update-category-data" role="function">
+<title>appstream_menu_parser_set_update_category_data ()</title>
+<indexterm zone="appstream-menu-parser-set-update-category-data"><primary sortas="menu_parser_set_update_category_data">appstream_menu_parser_set_update_category_data</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_menu_parser_set_update_category_data
+                                                        (<parameter><link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gboolean"><type>gboolean</type></link> value</parameter>);</programlisting>
+<para>
+Set the value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property to <parameter>value</parameter>.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance to modify</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>value</parameter>&#160;:</term>
+<listitem><simpara>the new value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="AppstreamMenuParser" role="struct">
 <title>struct AppstreamMenuParser</title>
 <indexterm zone="AppstreamMenuParser"><primary sortas="MenuParser">AppstreamMenuParser</primary></indexterm>
@@ -228,7 +304,9 @@ The type for <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type
 	AppstreamMenuParserPrivate * priv;
 };
 </programlisting>
-</refsect2>
+<para>
+Parser for XDG Menu files
+</para></refsect2>
 <refsect2 id="appstream-menu-parser-ref" role="function">
 <title>appstream_menu_parser_ref ()</title>
 <indexterm zone="appstream-menu-parser-ref"><primary sortas="menu_parser_ref">appstream_menu_parser_ref</primary></indexterm>
@@ -342,11 +420,12 @@ The class structure for <link linkend="APPSTREAM-TYPE-MENU-PARSER:CAPS"><literal
 <refsect2 id="appstream-get-system-categories" role="function">
 <title>appstream_get_system_categories ()</title>
 <indexterm zone="appstream-get-system-categories"><primary sortas="get_system_categories">appstream_get_system_categories</primary></indexterm>
-<programlisting><link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** appstream_get_system_categories    (<parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
-<variablelist role="params">
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             appstream_get_system_categories     (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+Get a GList of the default AppStream categories
+</para><variablelist role="params">
 <varlistentry><term><parameter>self</parameter>&#160;:</term>
 <listitem><simpara>the (null) instance</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>. <emphasis role="annotation">[<acronym>array</acronym> length=result_length1]</emphasis></simpara></listitem></varlistentry>
 </variablelist></refsect2>
 
 </refsect1>

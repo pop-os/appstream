@@ -1,6 +1,6 @@
 /**
  * SECTION:database
- * @short_description: Class to access the AppStream application database
+ * @short_description: Class describing a query on the AppStream application database
  */
 /**
  * APPSTREAM_TYPE_SEARCH_QUERY:
@@ -10,17 +10,25 @@
 /**
  * appstream_search_query_get_search_all_categories:
  * @self: the <link linkend="AppstreamSearchQuery"><type>AppstreamSearchQuery</type></link> instance
+ * 
+ * Returns: TRUE if we search in all categories 
  */
 /**
  * appstream_search_query_set_search_all_categories:
  * @self: the <link linkend="AppstreamSearchQuery"><type>AppstreamSearchQuery</type></link> instance
+ * 
+ * Shortcut to set that we should search in all categories
  */
 /**
  * appstream_search_query_set_categories_from_string:
  * @self: the <link linkend="AppstreamSearchQuery"><type>AppstreamSearchQuery</type></link> instance
+ * @categories_str: (in): &nbsp;.  Comma-separated list of category-names 
+ * 
+ * Set the categories list from a string
  */
 /**
  * appstream_search_query_new:
+ * @term: &nbsp;
  */
 /**
  * AppstreamSearchQuery:search-term:
@@ -31,6 +39,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamSearchQuery--search-term"><type>"search-term"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamSearchQuery--search-term"><type>"search-term"</type></link> property
  */
 /**
@@ -39,6 +49,8 @@
  * @value: the new value of the <link linkend="AppstreamSearchQuery--search-term"><type>"search-term"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamSearchQuery--search-term"><type>"search-term"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamSearchQuery:categories:
@@ -51,6 +63,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamSearchQuery--categories"><type>"categories"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamSearchQuery--categories"><type>"categories"</type></link> property
  */
 /**
@@ -59,9 +73,13 @@
  * @value: the new value of the <link linkend="AppstreamSearchQuery--categories"><type>"categories"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamSearchQuery--categories"><type>"categories"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamSearchQuery:
+ * 
+ * Class describing a query on the AppStream application database
  */
 /**
  * AppstreamSearchQueryClass:
@@ -81,6 +99,8 @@
 /**
  * appstream_database_db_exists:
  * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
+ * 
+ * Returns: TRUE if the application database exists 
  */
 /**
  * appstream_database_get_all_applications:
@@ -89,10 +109,35 @@
 /**
  * appstream_database_find_applications:
  * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
+ * @query: &nbsp;
  */
 /**
  * appstream_database_find_applications_by_str:
  * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
+ * @search_str: &nbsp;
+ * @categories_str: &nbsp;
+ */
+/**
+ * appstream_database_refresh:
+ * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
+ * @_callback_: (scope async): callback to call when the request is satisfied
+ * @_user_data_: (closure): the data to pass to @_callback_ function
+ * 
+ * Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
+ * 
+ * <emphasis>See also</emphasis>: <link linkend="appstream-database-refresh-finish"><function>appstream_database_refresh_finish()</function></link>
+ */
+/**
+ * appstream_database_refresh_finish:
+ * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
+ * @_res_: a <link linkend="GAsyncResult"><type>GAsyncResult</type></link>
+ * @error: (error-domains GIOErrorEnum): location to store the error occuring, or %NULL to ignore
+ * 
+ * Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
+ * 
+ * <emphasis>See also</emphasis>: <link linkend="appstream-database-refresh"><function>appstream_database_refresh()</function></link>
+ * 
+ * Returns: TRUE if refresh was successfull. 
  */
 /**
  * appstream_database_new:
@@ -106,6 +151,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamDatabase--database-path"><type>"database-path"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamDatabase--database-path"><type>"database-path"</type></link> property
  */
 /**
@@ -114,6 +161,24 @@
  * @value: the new value of the <link linkend="AppstreamDatabase--database-path"><type>"database-path"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamDatabase--database-path"><type>"database-path"</type></link> property to @value.
+ * 
+ * 
+ */
+/**
+ * AppstreamDatabase::error-code:
+ * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
+ * @error_details: &nbsp;
+ */
+/**
+ * AppstreamDatabase::finished:
+ * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
+ * @action_name: &nbsp;
+ * @success: &nbsp;
+ */
+/**
+ * AppstreamDatabase::authorized:
+ * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
+ * @success: &nbsp;
  */
 /**
  * AppstreamDatabase:

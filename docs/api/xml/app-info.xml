@@ -14,7 +14,7 @@
 </refmeta>
 <refnamediv>
 <refname>AppstreamAppInfo</refname>
-<refpurpose></refpurpose>
+<refpurpose>Class to store data describing an application in AppStream</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv id="appstream-AppstreamAppInfo.synopsis" role="synopsis">
@@ -23,7 +23,7 @@
 <synopsis>#define             <link linkend="APPSTREAM-TYPE-APP-INFO:CAPS">APPSTREAM_TYPE_APP_INFO</link>
 <link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-app-info-is-valid">appstream_app_info_is_valid</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
 <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="appstream-app-info-to-string">appstream_app_info_to_string</link>        (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
-<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="appstream-app-info-set-categories-from-str">appstream_app_info_set_categories_from_str</link>
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-categories-from-str">appstream_app_info_set_categories_from_str</link>
                                                         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
 <link linkend="AppstreamAppInfo"><returnvalue>AppstreamAppInfo</returnvalue></link> *  <link linkend="appstream-app-info-new">appstream_app_info_new</link>              (<parameter><type>void</type></parameter>);
@@ -58,10 +58,10 @@ const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <lin
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-icon">appstream_app_info_get_icon</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-icon">appstream_app_info_set_icon</link>         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
-<link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** <link linkend="appstream-app-info-get-categories">appstream_app_info_get_categories</link>  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-app-info-get-categories">appstream_app_info_get_categories</link>   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-categories">appstream_app_info_set_categories</link>   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> **value</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);
 <link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-app-info-get-mimetypes">appstream_app_info_get_mimetypes</link>    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);
@@ -91,7 +91,9 @@ The type for <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></lin
 <title>appstream_app_info_is_valid ()</title>
 <indexterm zone="appstream-app-info-is-valid"><primary sortas="app_info_is_valid">appstream_app_info_is_valid</primary></indexterm>
 <programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_app_info_is_valid         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
-<variablelist role="params">
+<para>
+Check if the essential properties of this AppInfo instance are populated with useful data.
+</para><variablelist role="params">
 <varlistentry><term><parameter>self</parameter>&#160;:</term>
 <listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
 </variablelist></refsect2>
@@ -106,12 +108,16 @@ The type for <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></lin
 <refsect2 id="appstream-app-info-set-categories-from-str" role="function">
 <title>appstream_app_info_set_categories_from_str ()</title>
 <indexterm zone="appstream-app-info-set-categories-from-str"><primary sortas="app_info_set_categories_from_str">appstream_app_info_set_categories_from_str</primary></indexterm>
-<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            appstream_app_info_set_categories_from_str
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_categories_from_str
                                                         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
-<variablelist role="params">
+<para>
+Set the categories list from a string
+</para><variablelist role="params">
 <varlistentry><term><parameter>self</parameter>&#160;:</term>
 <listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>categories_str</parameter>&#160;:</term>
+<listitem><simpara>&nbsp;.  Comma-separated list of category-names. <emphasis role="annotation">[<acronym>in</acronym>]</emphasis></simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="appstream-app-info-new" role="function">
 <title>appstream_app_info_new ()</title>
@@ -341,7 +347,7 @@ Set the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type><
 <refsect2 id="appstream-app-info-get-categories" role="function">
 <title>appstream_app_info_get_categories ()</title>
 <indexterm zone="appstream-app-info-get-categories"><primary sortas="app_info_get_categories">appstream_app_info_get_categories</primary></indexterm>
-<programlisting><link linkend="AppstreamCategory"><returnvalue>AppstreamCategory</returnvalue></link> ** appstream_app_info_get_categories  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_app_info_get_categories   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> *result_length1</parameter>);</programlisting>
 <para>
 Get and return the current value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property.
@@ -354,7 +360,7 @@ Get and return the current value of the <link linkend="AppstreamAppInfo--categor
 <title>appstream_app_info_set_categories ()</title>
 <indexterm zone="appstream-app-info-set-categories"><primary sortas="app_info_set_categories">appstream_app_info_set_categories</primary></indexterm>
 <programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_set_categories   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> **value</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);</programlisting>
 <para>
 Set the value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property to <parameter>value</parameter>.
@@ -398,7 +404,9 @@ Set the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetype
 	AppstreamAppInfoPrivate * priv;
 };
 </programlisting>
-</refsect2>
+<para>
+Class to store data describing an application in AppStream
+</para></refsect2>
 <refsect2 id="AppstreamAppInfoClass" role="struct">
 <title>struct AppstreamAppInfoClass</title>
 <indexterm zone="AppstreamAppInfoClass"><primary sortas="AppInfoClass">AppstreamAppInfoClass</primary></indexterm>
