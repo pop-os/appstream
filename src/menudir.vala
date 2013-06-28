@@ -1,7 +1,6 @@
 /* menudir.vala
  *
- * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
- * Copyright (C) 2012 Stephen Smally
+ * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -23,33 +22,47 @@ using GLib;
 
 namespace Appstream {
 
+/**
+ * Description of an XDG Menu category
+ */
 public class Category : Object {
-	public string id { get; internal set; }
 	public string name { get; internal set; }
 	public string summary { get; private set; }
-	public string icon { get; private set; }
+	public string icon { get; internal set; }
 	public string directory { get; internal set; }
-	public string[] included { get; internal set; }
-	public string[] excluded { get; internal set; }
+
+	private List<string> _included;
+	private List<string> _excluded;
+
+	public List<string> included { get { return _included; } }
+	public List<string> excluded { get { return _excluded; } }
+
 	public int level { get; internal set; }
 
+	private List<Category> subcats;
+	public List<Category> subcategories { get { return subcats; } }
+
 	public Category () {
-		included = {};
-		excluded = {};
+		_included = new List<string> ();
+		_excluded = new List<string> ();
+
+		subcats = new List<Category> ();
 	}
 
-	internal void complete (KeyFile file) {
+	internal void complete () {
 		if (directory == null) {
-			debug ("no directory set for category %s (%s)", name, id);
+			debug ("no directory set for category %s", name);
 			return;
 		}
+		var file = new KeyFile ();
 
 		summary = "";
 		icon = "applications-other";
 		try {
 			file.load_from_file ("/usr/share/desktop-directories/%s".printf (directory), 0);
 			name = file.get_string ("Desktop Entry", "Name");
-			summary = file.get_string ("Desktop Entry", "Comment");
+			if (file.has_key ("Desktop Entry", "Comment"))
+				summary = file.get_string ("Desktop Entry", "Comment");
 			icon = file.get_string ("Desktop Entry", "Icon");
 			if (summary == null) {
 				summary = "";
@@ -61,114 +74,154 @@ public class Category : Object {
 			debug ("error retrieving data for %s: %s\n", directory, e.message);
 		}
 	}
+
+	public void add_subcategory (Category cat) {
+		subcats.append (cat);
+	}
+
+	public void remove_subcategory (Category cat) {
+		subcats.remove (cat);
+	}
+
+	/**
+	 * @return TRUE if this category has any subcategory
+	 */
+	public bool has_subcategory () {
+		return subcats.length () > 0;
+	}
 }
 
+/**
+ * Parser for XDG Menu files
+ */
 public class MenuParser {
-
-	private const MarkupParser parser = {
-		opening_item, // when an element opens
-		closing_item,  // when an element closes
-		get_text, // when text is found
-		null, // when comments are found
-		null  // when errors occur
-	};
-
 	private string menu_file;
-	private MarkupParseContext context;
-	private Category[] dirlist;
-	private Category[] dirs_level;
-	private int level = 0;
-	private string last_item;
-	private bool include = true;
-	private KeyFile file;
+	public bool update_category_data { get; set; }
 
+	/**
+	 * Create a new MenuParser for the generic AppStream categories list
+	 */
 	public MenuParser () {
 		this.from_file (Config.DATADIR + "/app-info/categories.xml");
 	}
 
+	/**
+	 * Create a new MenuParser for an arbitrary menu file
+	 */
 	public MenuParser.from_file (string menu_file) {
-		context = new MarkupParseContext(
-			parser, // the structure with the callbacks
-			0,	// MarkupParseFlags
-			this,   // extra argument for the callbacks, methods in this case
-			null   // when the parsing ends
-		);
-
-		dirlist = {};
-		dirs_level = {};
+		update_category_data = true;
 		this.menu_file = menu_file;
-		file = new KeyFile();
 	}
 
-	public Category[] parse () {
-		string file;
-		FileUtils.get_contents (menu_file, out file, null);
-		context.parse (file, file.length);
+	/**
+	 * Parse the menu file
+	 *
+	 * @return GList of Category objects found in the Menu, or NULL if there was an error
+	 */
+	public List<Category>? parse () {
+		var category_list = new List<Category> ();
 
-		return dirlist;
+		// Parse the document from path
+		Xml.Doc* xdoc;
+		xdoc = Xml.Parser.parse_file (menu_file);
+		if (xdoc == null) {
+			warning (_("File %s not found or permission denied!"), menu_file);
+			return null;
+		}
+
+		// Get the root node
+		Xml.Node* root = xdoc->get_root_element ();
+		if ((root == null) || (root->name != "Menu")) {
+			warning (_("XDG Menu XML file '%s' is damaged."), menu_file);
+			return null;
+		}
+
+		for (Xml.Node* iter = root->children; iter != null; iter = iter->next) {
+			// Spaces between tags are also nodes, discard them
+			if (iter->type != Xml.ElementType.ELEMENT_NODE)
+				continue;
+			if (iter->name == "Menu") {
+				// parse menu entry
+				category_list.append (parse_menu_enry (iter));
+			}
+		}
+
+		if (update_category_data) {
+			// complete the missing information from desktop-directories folder
+			category_list.foreach ((cat) => {
+				cat.complete ();
+			});
+		}
+
+		return category_list;
 	}
 
-	private void opening_item (MarkupParseContext context, string name, string[] attr, string[] vals) throws MarkupError {
-		last_item = name;
-		switch (name) {
-			case "Menu":
-				Category tmp = new Category();
-				dirs_level[level] = tmp;
-				dirlist += tmp;
-				dirs_level[level].level = level;
-				level ++;
-				break;
-			case "Not":
-				include = false;
-				break;
+	private void extend_category_name_list (Xml.Node *nd, List<string> list) {
+		for (Xml.Node* iter = nd->children; iter != null; iter = iter->next) {
+			if (iter->type != Xml.ElementType.ELEMENT_NODE)
+				continue;
+			if (iter->name == "Category")
+				list.append (iter->get_content ());
 		}
 	}
 
-	private void closing_item (MarkupParseContext context, string name) throws MarkupError {
-		switch (name) {
-			case "Menu":
-				level --;
-				dirs_level[level].complete (file);
-				break;
-			case "Not":
-				include = true;
-				break;
-		}
-	}
-
-	private bool check_whitespaces (string str) {
-		return (str.strip() == "" ? true : false);
-	}
-
-	private void get_text (MarkupParseContext context, string text, size_t text_len) throws MarkupError {
-		if (check_whitespaces (text)) { return; }
-		switch (last_item) {
-			case "Name":
-				dirs_level[level-1].name = text;
-				dirs_level[level-1].id = text;
-				break;
-			case "Directory":
-				dirs_level[level-1].directory = text;
-				break;
-			case "Category":
-				Category mdir = dirs_level[level-1];
-				if (include) {
-					string[] tmp = mdir.included;
-					tmp += text;
-					mdir.included = tmp;
-				} else {
-					string[] tmp = mdir.excluded;
-					tmp += text;
-					mdir.excluded = tmp;
+	private void parse_category_entry (Xml.Node *nd, Category cat) {
+		for (Xml.Node* iter = nd->children; iter != null; iter = iter->next) {
+			if (iter->type != Xml.ElementType.ELEMENT_NODE)
+				continue;
+			if (iter->name == "And") {
+				extend_category_name_list (iter, cat.included);
+				// check for "Not" elements
+				for (Xml.Node* not_iter = iter->children; not_iter != null; not_iter = not_iter->next) {
+					if (not_iter->name == "Not")
+						extend_category_name_list (not_iter, cat.excluded);
 				}
-				break;
+			} else if (iter->name == "Or") {
+				extend_category_name_list (iter, cat.included);
+			}
 		}
 	}
+
+	private Category parse_menu_enry (Xml.Node* nd) {
+		var cat = new Category ();
+
+		for (Xml.Node* iter = nd->children; iter != null; iter = iter->next) {
+			// Spaces between tags are also nodes, discard them
+			if (iter->type != Xml.ElementType.ELEMENT_NODE) {
+				continue;
+			}
+			switch (iter->name) {
+				case "Name":
+					// we don't want a localized name (indicated through a language property)
+					if (iter->properties == null)
+						cat.name = iter->get_content ();
+					break;
+				case "Directory": cat.directory = iter->get_content ();
+					break;
+				case "Icon": cat.icon = iter->get_content ();
+					break;
+				case "Categories":
+					parse_category_entry (iter, cat);
+					break;
+				case "Menu":
+					// we have a submenu!
+					cat.add_subcategory (parse_menu_enry (iter));
+					break;
+				default: break;
+			}
+		}
+
+		return cat;
+	}
+
 }
 
-public static Category[] get_system_categories () {
+/**
+ * Get a GList of the default AppStream categories
+ */
+public static List<Category> get_system_categories () {
 	var parser = new MenuParser ();
-	Category[] system_cats = parser.parse ();
+	List<Category> system_cats = parser.parse ();
 
 	return system_cats;
 }

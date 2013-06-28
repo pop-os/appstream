@@ -1,13 +1,13 @@
-# CMakeLists for the Update-AppStream-Index Project
-project(appstream-core)
+# CMakeLists for the AppStream Project
+project(appstream)
 
 cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
-set(AS_VERSION_MINOR  "2")
-set(AS_VERSION_PATCH  "0")
+set(AS_VERSION_MINOR  "3")
+set(AS_VERSION_PATCH  "1")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "0")
 
@@ -72,7 +72,7 @@ set(INSTALL_DIR_BIN bin CACHE PATH "Installation directory for executables")
 set(INSTALL_DIR_LIB lib/${CMAKE_LIBRARY_ARCHITECTURE} CACHE PATH "Installation directory for libraries")
 set(INSTALL_DIR_LIBEXEC "${INSTALL_DIR_LIB}/appstream" CACHE PATH "Installation directory for executables use by a library")
 set(INSTALL_DIR_INC include CACHE PATH "Installation directory for headers")
-set(INSTALL_DIR_SYSCONF etc CACHE PATH "Installation directory for system configuration files")
+set(INSTALL_DIR_SYSCONF /etc CACHE PATH "Installation directory for system configuration files")
 
 #
 # Configure files
@@ -118,7 +118,7 @@ include(${VALA_USE_FILE})
 ensure_vala_version("0.16" MINIMUM)
 
 add_subdirectory(src)
-add_subdirectory(uai)
+add_subdirectory(client)
 add_subdirectory(data)
 add_subdirectory(po)
 add_subdirectory(docs)

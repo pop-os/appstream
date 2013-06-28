@@ -1,6 +1,6 @@
 /* database.vala -- Access the AppStream database
  *
- * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -23,6 +23,15 @@ using Appstream.Utils;
 
 namespace Appstream {
 
+[DBus (name = "org.freedesktop.AppStream")]
+private interface UAIService : Object {
+	public abstract async bool refresh () throws IOError;
+
+	public signal void error_code (string error_details);
+	public signal void finished (string action_name, bool success);
+	public signal void authorized (bool success);
+}
+
 /** TRANSLATORS: List of "grey-listed" words sperated with ";"
  * Do not translate this list directly. Instead,
  * provide a list of words in your language that people are likely
@@ -31,30 +40,39 @@ namespace Appstream {
  */
 private static const string SEARCH_GREYLIST_STR = _("app;application;package;program;programme;suite;tool");
 
+/**
+ * Class describing a query on the AppStream application database
+ */
 public class SearchQuery : Object {
 	public string search_term { get; set; }
-	public Category[] categories { get; set; }
+	public string[] categories { get; set; }
 
 	public SearchQuery (string term = "") {
 		search_term = term;
 	}
 
+	/**
+	 * @return TRUE if we search in all categories
+	 */
 	public bool get_search_all_categories () {
 		return (categories.length <= 0);
 	}
 
+	/**
+	 * Shortcut to set that we should search in all categories
+	 */
 	public void set_search_all_categories () {
 		categories = {};
 	}
 
-	public bool set_categories_from_string (string categories_str) {
-		Category[]? catlist = Utils.categories_from_str (categories_str, get_system_categories ());
-		if (catlist == null)
-			return false;
-
-		categories = catlist;
-
-		return true;
+	/**
+	 * Set the categories list from a string
+	 *
+	 * @param categories_str Comma-separated list of category-names
+	 */
+	public void set_categories_from_string (string categories_str) {
+		string[] cats = categories_str.split (",");
+		categories = cats;
 	}
 
 	internal void sanitize_search_term () {
@@ -92,17 +110,26 @@ public class Database : Object {
 
 	public string database_path { get; internal set; }
 
+	public signal void error_code (string error_details);
+	public signal void finished (string action_name, bool success);
+	public signal void authorized (bool success);
+
 	public Database () {
 		db = new ASXapian.DatabaseRead ();
 		opened_ = false;
 		database_path = SOFTWARE_CENTER_DATABASE_PATH;
 	}
 
-	public virtual void open () {
-		db.open (database_path);
-		opened_ = true;
+	public virtual bool open () {
+		bool ret = db.open (database_path);
+		opened_ = ret;
+
+		return ret;
 	}
 
+	/**
+	 * @return TRUE if the application database exists
+	 */
 	public bool db_exists () {
 		if (FileUtils.test (database_path, FileTest.IS_DIR))
 			return true;
@@ -110,22 +137,22 @@ public class Database : Object {
 			return false;
 	}
 
-	public Array<Appstream.AppInfo>? get_all_applications () {
+	public PtrArray? get_all_applications () {
 		if (!opened_)
 			return null;
-		Array<Appstream.AppInfo> appArray = db.get_all_applications ();
+		PtrArray appArray = db.get_all_applications ();
 		return appArray;
 	}
 
-	public Array<Appstream.AppInfo>? find_applications (SearchQuery query) {
+	public PtrArray? find_applications (SearchQuery query) {
 		if (!opened_)
 			return null;
 
-		Array<Appstream.AppInfo> appArray = db.find_applications (query);
+		PtrArray appArray = db.find_applications (query);
 		return appArray;
 	}
 
-	public Array<Appstream.AppInfo>? find_applications_by_str (string search_str, string? categories_str = null) {
+	public PtrArray? find_applications_by_str (string search_str, string? categories_str = null) {
 		var query = new SearchQuery (search_str);
 		if (categories_str == null)
 			query.set_search_all_categories ();
@@ -133,6 +160,40 @@ public class Database : Object {
 			query.set_categories_from_string (categories_str);
 
 		return find_applications (query);
+	}
+
+	/**
+	 * Make a DBus call telling the system to refresh the internal database
+	 * of available applications.
+	 * AppStream uses the metadata provided by your distributor to regenerate the
+	 * database.
+	 *
+	 * @return TRUE if refresh was successfull.
+	 */
+	public async bool refresh () throws IOError {
+		UAIService uaisv = null;
+		try {
+			uaisv = Bus.get_proxy_sync (BusType.SYSTEM, "org.freedesktop.AppStream",
+								"/org/freedesktop/appstream");
+
+		} catch (IOError e) {
+			throw e;
+		}
+
+		/* Connecting signals */
+		uaisv.finished.connect((action, success) => {
+			this.finished(action, success);
+		});
+
+		uaisv.error_code.connect((error_details) => {
+			this.error_code(error_details);
+		});
+
+		uaisv.authorized.connect((success) => {
+			this.authorized(success);
+		});
+
+		return yield uaisv.refresh();
 	}
 
 }
@@ -147,11 +208,15 @@ internal class DatabaseWrite : Database {
 	public DatabaseWrite () {
 		base ();
 		db_w = new ASXapian.DatabaseWrite ();
+		// ensure db directory exists
+		touch_dir (SOFTWARE_CENTER_DATABASE_PATH);
 	}
 
-	public override void open () {
-		base.open ();
-		db_w.init (database_path);
+	public override bool open () {
+		bool ret = db_w.init (database_path);
+		ret = base.open ();
+
+		return ret;
 	}
 
 	public bool rebuild (Array<AppInfo> appList) {

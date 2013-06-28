@@ -1,4 +1,4 @@
-/* uai-client.vala -- Simple client for the Update-AppStream-Index DBus service
+/* uai.vala -- Main file for update-appstream-index
  *
  * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
  *
@@ -19,24 +19,21 @@
  */
 
 using GLib;
+using Config;
 
-[DBus (name = "org.freedesktop.AppStream")]
-interface UAIService : Object {
-	public abstract async bool refresh () throws IOError;
+namespace Uai {
 
-	public signal void error_code (string error_details);
-	public signal void finished (string action_name, bool success);
-	public signal void authorized (bool success);
-}
+private static string CURRENT_DB_PATH;
 
-private class UaiClient : Object {
+private class Main : Object {
 	// Cmdln options
 	private static bool o_show_version = false;
 	private static bool o_verbose_mode = false;
-	private static bool o_refresh = false;
-	private static bool o_no_wait = false;
+	private static string o_database_path;
 
 	private MainLoop loop;
+	private Uai.Engine engine;
+	private uint exit_idle_time;
 
 	public int exit_code { get; set; }
 
@@ -45,16 +42,14 @@ private class UaiClient : Object {
 		N_("Show the application's version"), null },
 		{ "verbose", 0, 0, OptionArg.NONE, ref o_verbose_mode,
 			N_("Enable verbose mode"), null },
-		{ "refresh", 'v', 0, OptionArg.NONE, ref o_refresh,
-		N_("Refresh the AppStream application cache"), null },
-		{ "nowait", 'v', 0, OptionArg.NONE, ref o_no_wait,
-		N_("Don't wait for actions to complete'"), null },
+		{ "cachepath", 0, 0, OptionArg.FILENAME, ref o_database_path,
+			N_("Path to AppStream cache directory"), N_("DIRECTORY") },
 		{ null }
 	};
 
-	public UaiClient (string[] args) {
+	public Main (string[] args) {
 		exit_code = 0;
-		var opt_context = new OptionContext ("- Update-AppStream-Index client tool.");
+		var opt_context = new OptionContext ("- maintain AppStream application index.");
 		opt_context.set_help_enabled (true);
 		opt_context.add_main_entries (options, null);
 		try {
@@ -74,12 +69,35 @@ private class UaiClient : Object {
 			loop.quit ();
 	}
 
+	private void on_bus_aquired (DBusConnection conn) {
+		try {
+			conn.register_object ("/org/freedesktop/appstream", engine);
+		} catch (IOError e) {
+			stderr.printf ("Could not register service\n");
+			exit_code = 6;
+			quit_loop ();
+		}
+	}
+
+	private bool main_timeout_check_cb () {
+		uint idle;
+		idle = engine.get_idle_time_seconds ();
+		debug ("idle is %u", idle);
+		if (idle > exit_idle_time) {
+			warning ("exit!!");
+			quit_loop ();
+			return false;
+		}
+
+		return true;
+	}
+
 	public void run () {
 		if (exit_code > 0)
 			return;
 
 		if (o_show_version) {
-			stdout.printf ("AppStream-index client tool version: %s\n", Config.VERSION);
+			stdout.printf ("update-appstream-index version: %s\n", Config.VERSION);
 			return;
 		}
 
@@ -87,68 +105,51 @@ private class UaiClient : Object {
 		if (o_verbose_mode)
 			Environment.set_variable ("G_MESSAGES_DEBUG", "all", true);
 
+		if (Utils.str_empty (o_database_path))
+			CURRENT_DB_PATH = "";
+		else
+			CURRENT_DB_PATH = o_database_path;
 
-		UAIService uaisv = null;
-		try {
-			uaisv = Bus.get_proxy_sync (BusType.SYSTEM, "org.freedesktop.AppStream",
-								"/org/freedesktop/appstream");
-
-		} catch (IOError e) {
-			stderr.printf ("%s\n", e.message);
-			exit_code = 1;
-			return;
-		}
-
-		if (o_refresh) {
-			try {
-				/* Connecting to 'finished' signal */
-				uaisv.finished.connect((action, success) => {
-					if (action != "refresh")
-						return;
-
-					if (success)
-						stdout.printf ("%s\n", _("Successfully rebuilt the app-info cache."));
-					else
-						stdout.printf ("%s\n", _("Unable to rebuild the app-info cache."));
-					quit_loop ();
-				});
-
-				uaisv.error_code.connect((error_details) => {
-					stderr.printf ("%s\n", error_details);
-				});
-
-				uaisv.authorized.connect((success) => {
-					// return immediately without waiting for action to complete if user has set --nowait
-					if (o_no_wait)
+		Bus.own_name (BusType.SYSTEM, "org.freedesktop.AppStream", BusNameOwnerFlags.NONE,
+					on_bus_aquired,
+					() => {},
+					() => {
+						stderr.printf ("Could not aquire name\n");
+						exit_code = 4;
 						quit_loop ();
-				});
+					});
 
-				if (o_no_wait)
-					stdout.printf ("%s\n", _("Triggered app-info cache rebuild."));
-				else
-					stdout.printf ("%s\n", _("Rebuilding app-info cache..."));
+		if (exit_code == 0)
+			stdout.printf ("Running Update-AppStream-Index service...\n");
 
-				uaisv.refresh ();
+		engine = new Uai.Engine ();
+		engine.init ();
 
-			} catch (IOError e) {
-				stderr.printf ("%s\n", e.message);
-			}
-		} else {
-			stderr.printf ("No command specified.\n");
-			return;
+		// TODO
+		// Hardcode it for now, make it a setting later
+		exit_idle_time = 24;
+
+		// only poll when we are alive
+		uint timer_id;
+		if ((exit_idle_time != 0) && (exit_code == 0)) {
+			timer_id = Timeout.add_seconds (5, main_timeout_check_cb);
+			// FIXME: Vala bug - not present in Vapi, instead broken MainContext.set_name_by_id()
+			// Source.set_name_by_id (timer_id, "[UaiMain] main poll");
 		}
 
-		loop.run();
+		// run main loop until quit
+		if (exit_code == 0)
+			loop.run ();
 	}
 
 	static int main (string[] args) {
-		// Bind locale
+		// Bind UAI locale
 		Intl.setlocale(LocaleCategory.ALL,"");
 		Intl.bindtextdomain(Config.GETTEXT_PACKAGE, Config.LOCALEDIR);
 		Intl.bind_textdomain_codeset(Config.GETTEXT_PACKAGE, "UTF-8");
 		Intl.textdomain(Config.GETTEXT_PACKAGE);
 
-		var main = new UaiClient (args);
+		var main = new Uai.Main (args);
 
 		// Run the application
 		main.run ();
@@ -158,3 +159,5 @@ private class UaiClient : Object {
 	}
 
 }
+
+} // End of namespace: Uai

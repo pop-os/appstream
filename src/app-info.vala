@@ -23,6 +23,9 @@ using Appstream.Utils;
 
 namespace Appstream {
 
+/**
+ * Class to store data describing an application in AppStream
+ */
 public class AppInfo : Object {
 	public string pkgname { get; set; }
 	private string _name;
@@ -43,10 +46,10 @@ public class AppInfo : Object {
 	public string[] keywords { get; set; } // Localized!
 	public string url { get; set; }
 	public string desktop_file { get; set; }
-
 	public string icon { get; set; }
-	public Category[] categories { get; set; }
 
+
+	public string[] categories { get; set; }
 	public string[] mimetypes { get; set; }
 
 
@@ -59,9 +62,13 @@ public class AppInfo : Object {
 		url = "";
 		desktop_file = "";
 		icon = "";
-		categories = {};
+		categories = {null};
 	}
 
+	/**
+	 * Check if the essential properties of this AppInfo instance are
+	 * populated with useful data.
+	 */
 	public bool is_valid () {
 		if ((pkgname != "") && (desktop_file != "") && (name != "") && (name_original != ""))
 			return true;
@@ -74,14 +81,14 @@ public class AppInfo : Object {
 		return res;
 	}
 
-	public bool set_categories_from_str (string categories_str) {
-		Category[]? catlist = Utils.categories_from_str (categories_str, get_system_categories ());
-		if (catlist == null)
-			return false;
-
-		categories = catlist;
-
-		return true;
+	/**
+	 * Set the categories list from a string
+	 *
+	 * @param categories_str Comma-separated list of category-names
+	 */
+	public void set_categories_from_str (string categories_str) {
+		string[] cats = categories_str.split (",");
+		categories = cats;
 	}
 
 }

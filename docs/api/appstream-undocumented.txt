@@ -1,10 +1,9 @@
-53% symbol docs coverage.
-60 symbols documented.
-24 symbols incomplete.
-53 not documented.
+63% symbol docs coverage.
+91 symbols documented.
+16 symbols incomplete.
+54 not documented.
 
 
-APPSTREAM_ICON_PATH
 AppstreamAppInfo (<items>)
 AppstreamAppInfo:categories
 AppstreamAppInfo:description
@@ -21,53 +20,59 @@ AppstreamCategory (<items>)
 AppstreamCategory:directory
 AppstreamCategory:excluded
 AppstreamCategory:icon
-AppstreamCategory:id
 AppstreamCategory:included
 AppstreamCategory:level
 AppstreamCategory:name
+AppstreamCategory:subcategories
 AppstreamCategory:summary
 AppstreamDatabase (<items>)
+AppstreamDatabase::authorized
+AppstreamDatabase::error-code
+AppstreamDatabase::finished
 AppstreamDatabase:database-path
+AppstreamDistroDetails (<items>)
+AppstreamDistroDetails:distro-id
+AppstreamDistroDetails:distro-name
+AppstreamDistroDetails:distro-version
+AppstreamDistroDetails:icon-repository-path
 AppstreamMenuParser (<items>)
+AppstreamMenuParser:update-category-data
 AppstreamMenuParserClass (finalize)
+AppstreamScreenshotService (<items>)
+AppstreamScreenshotService:base-url
 AppstreamSearchQuery (<items>)
 AppstreamSearchQuery:categories
 AppstreamSearchQuery:search-term
 appstream_app_info_get_categories (result_length1)
 appstream_app_info_get_keywords (result_length1)
 appstream_app_info_get_mimetypes (result_length1)
-appstream_app_info_is_valid
 appstream_app_info_new
 appstream_app_info_set_categories (value_length1)
-appstream_app_info_set_categories_from_str (categories_str)
 appstream_app_info_set_keywords (value_length1)
 appstream_app_info_set_mimetypes (value_length1)
 appstream_app_info_to_string
-appstream_category_get_excluded (result_length1)
-appstream_category_get_included (result_length1)
+appstream_category_add_subcategory
+appstream_category_has_subcategory
 appstream_category_new
+appstream_category_remove_subcategory
 appstream_database_db_exists
-appstream_database_find_applications (query)
-appstream_database_find_applications_by_str (categories_str, search_str)
+appstream_database_find_applications
+appstream_database_find_applications_by_str
 appstream_database_get_all_applications
 appstream_database_new
 appstream_database_open
-appstream_get_system_categories (result_length1)
-appstream_menu_parser_new
-appstream_menu_parser_new_from_file (menu_file)
-appstream_menu_parser_parse (result_length1)
+appstream_distro_details_config_distro_get_bool
+appstream_distro_details_config_distro_get_str
+appstream_distro_details_new
+appstream_screenshot_service_new
 appstream_search_query_get_categories (result_length1)
 appstream_search_query_get_search_all_categories
-appstream_search_query_new (term)
+appstream_search_query_new
 appstream_search_query_set_categories (value_length1)
-appstream_search_query_set_categories_from_string (categories_str)
-appstream_search_query_set_search_all_categories
 
 
 app-info:Long_Description
-app-info:Short_Description
 database:Long_Description
 menudir:Long_Description
-menudir:Short_Description
+screenshot-service:Long_Description
 settings:Long_Description
-settings:Short_Description

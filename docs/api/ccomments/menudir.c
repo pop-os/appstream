@@ -1,28 +1,30 @@
 /**
+ * SECTION:menudir
+ * @short_description: Description of an XDG Menu category
+ */
+/**
  * APPSTREAM_TYPE_CATEGORY:
  * 
  * The type for <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link>.
  */
 /**
+ * appstream_category_add_subcategory:
+ * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance
+ * @cat: &nbsp;
+ */
+/**
+ * appstream_category_remove_subcategory:
+ * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance
+ * @cat: &nbsp;
+ */
+/**
+ * appstream_category_has_subcategory:
+ * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance
+ * 
+ * Returns: TRUE if this category has any subcategory 
+ */
+/**
  * appstream_category_new:
- */
-/**
- * AppstreamCategory:id:
- */
-/**
- * appstream_category_get_id:
- * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query
- * 
- * Get and return the current value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property.
- * 
- * Returns: the value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property
- */
-/**
- * appstream_category_set_id:
- * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to modify
- * @value: the new value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property
- * 
- * Set the value of the <link linkend="AppstreamCategory--id"><type>"id"</type></link> property to @value.
  */
 /**
  * AppstreamCategory:name:
@@ -33,6 +35,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--name"><type>"name"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamCategory--name"><type>"name"</type></link> property
  */
 /**
@@ -41,6 +45,8 @@
  * @value: the new value of the <link linkend="AppstreamCategory--name"><type>"name"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamCategory--name"><type>"name"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamCategory:summary:
@@ -50,6 +56,8 @@
  * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--summary"><type>"summary"</type></link> property.
+ * 
+ * 
  * 
  * Returns: the value of the <link linkend="AppstreamCategory--summary"><type>"summary"</type></link> property
  */
@@ -62,7 +70,18 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--icon"><type>"icon"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamCategory--icon"><type>"icon"</type></link> property
+ */
+/**
+ * appstream_category_set_icon:
+ * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to modify
+ * @value: the new value of the <link linkend="AppstreamCategory--icon"><type>"icon"</type></link> property
+ * 
+ * Set the value of the <link linkend="AppstreamCategory--icon"><type>"icon"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamCategory:directory:
@@ -73,6 +92,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--directory"><type>"directory"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamCategory--directory"><type>"directory"</type></link> property
  */
 /**
@@ -81,11 +102,11 @@
  * @value: the new value of the <link linkend="AppstreamCategory--directory"><type>"directory"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamCategory--directory"><type>"directory"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamCategory:included:
- * @result_length1: return location for the length of the property's value
- * @value_length1: length of the property's new value
  */
 /**
  * appstream_category_get_included:
@@ -93,19 +114,12 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--included"><type>"included"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamCategory--included"><type>"included"</type></link> property
  */
 /**
- * appstream_category_set_included:
- * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to modify
- * @value: the new value of the <link linkend="AppstreamCategory--included"><type>"included"</type></link> property
- * 
- * Set the value of the <link linkend="AppstreamCategory--included"><type>"included"</type></link> property to @value.
- */
-/**
  * AppstreamCategory:excluded:
- * @result_length1: return location for the length of the property's value
- * @value_length1: length of the property's new value
  */
 /**
  * appstream_category_get_excluded:
@@ -113,14 +127,9 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property.
  * 
- * Returns: the value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property
- */
-/**
- * appstream_category_set_excluded:
- * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to modify
- * @value: the new value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property
  * 
- * Set the value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property to @value.
+ * 
+ * Returns: the value of the <link linkend="AppstreamCategory--excluded"><type>"excluded"</type></link> property
  */
 /**
  * AppstreamCategory:level:
@@ -131,6 +140,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamCategory--level"><type>"level"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamCategory--level"><type>"level"</type></link> property
  */
 /**
@@ -139,9 +150,26 @@
  * @value: the new value of the <link linkend="AppstreamCategory--level"><type>"level"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamCategory--level"><type>"level"</type></link> property to @value.
+ * 
+ * 
+ */
+/**
+ * AppstreamCategory:subcategories:
+ */
+/**
+ * appstream_category_get_subcategories:
+ * @self: the <link linkend="AppstreamCategory"><type>AppstreamCategory</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamCategory--subcategories"><type>"subcategories"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamCategory--subcategories"><type>"subcategories"</type></link> property
  */
 /**
  * AppstreamCategory:
+ * 
+ * Description of an XDG Menu category
  */
 /**
  * AppstreamCategoryClass:
@@ -158,16 +186,47 @@
  * appstream_menu_parser_parse:
  * @self: the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance
  * 
- * Returns: (array length=result_length1): 
+ * Parse the menu file
+ * 
+ * Returns: GList of Category objects found in the Menu, or NULL if there was an error 
  */
 /**
  * appstream_menu_parser_new:
+ * 
+ * Create a new MenuParser for the generic AppStream categories list
  */
 /**
  * appstream_menu_parser_new_from_file:
+ * @menu_file: &nbsp;
+ * 
+ * Create a new MenuParser for an arbitrary menu file
+ */
+/**
+ * AppstreamMenuParser:update-category-data:
+ */
+/**
+ * appstream_menu_parser_get_update_category_data:
+ * @self: the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property
+ */
+/**
+ * appstream_menu_parser_set_update_category_data:
+ * @self: the <link linkend="AppstreamMenuParser"><type>AppstreamMenuParser</type></link> instance to modify
+ * @value: the new value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property
+ * 
+ * Set the value of the <link linkend="AppstreamMenuParser--update-category-data"><type>"update-category-data"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamMenuParser:
+ * 
+ * Parser for XDG Menu files
  */
 /**
  * appstream_menu_parser_ref:
@@ -233,5 +292,5 @@
  * appstream_get_system_categories:
  * @self: the (null) instance
  * 
- * Returns: (array length=result_length1): 
+ * Get a GList of the default AppStream categories
  */

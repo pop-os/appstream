@@ -1,4 +1,8 @@
 /**
+ * SECTION:app-info
+ * @short_description: Class to store data describing an application in AppStream
+ */
+/**
  * APPSTREAM_TYPE_APP_INFO:
  * 
  * The type for <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link>.
@@ -6,6 +10,8 @@
 /**
  * appstream_app_info_is_valid:
  * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance
+ * 
+ * Check if the essential properties of this AppInfo instance are populated with useful data.
  */
 /**
  * appstream_app_info_to_string:
@@ -14,6 +20,9 @@
 /**
  * appstream_app_info_set_categories_from_str:
  * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance
+ * @categories_str: (in): &nbsp;.  Comma-separated list of category-names 
+ * 
+ * Set the categories list from a string
  */
 /**
  * appstream_app_info_new:
@@ -27,6 +36,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property
  */
 /**
@@ -35,6 +46,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--pkgname"><type>"pkgname"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:name:
@@ -45,6 +58,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property
  */
 /**
@@ -53,6 +68,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--name"><type>"name"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:name-original:
@@ -63,6 +80,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property
  */
 /**
@@ -71,6 +90,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--name-original"><type>"name-original"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:summary:
@@ -81,6 +102,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property
  */
 /**
@@ -89,6 +112,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--summary"><type>"summary"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:description:
@@ -99,6 +124,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property
  */
 /**
@@ -107,6 +134,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--description"><type>"description"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:keywords:
@@ -119,6 +148,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property
  */
 /**
@@ -127,6 +158,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--keywords"><type>"keywords"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:url:
@@ -137,6 +170,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property
  */
 /**
@@ -145,6 +180,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:desktop-file:
@@ -155,6 +192,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
  */
 /**
@@ -163,6 +202,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:icon:
@@ -173,6 +214,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property
  */
 /**
@@ -181,6 +224,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:categories:
@@ -193,6 +238,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property
  */
 /**
@@ -201,6 +248,8 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--categories"><type>"categories"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:mimetypes:
@@ -213,6 +262,8 @@
  * 
  * Get and return the current value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property.
  * 
+ * 
+ * 
  * Returns: the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property
  */
 /**
@@ -221,9 +272,13 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property to @value.
+ * 
+ * 
  */
 /**
  * AppstreamAppInfo:
+ * 
+ * Class to store data describing an application in AppStream
  */
 /**
  * AppstreamAppInfoClass:

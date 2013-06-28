@@ -6,19 +6,19 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="LibAppStream Reference Manual">
 <link rel="up" href="ch01.html" title="appstream API Reference">
-<link rel="prev" href="appstream-settings.html" title="settings">
-<link rel="next" href="appstream-AppstreamSearchQuery.html" title="AppstreamSearchQuery">
+<link rel="prev" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">
+<link rel="next" href="appstream-AppstreamCategory.html" title="AppstreamCategory">
 <meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="appstream-settings.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="appstream-AppstreamDistroDetails.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">LibAppStream Reference Manual</th>
-<td><a accesskey="n" href="appstream-AppstreamSearchQuery.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="appstream-AppstreamCategory.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
 </tr>
 <tr><td colspan="5" class="shortcuts">
 <a href="#appstream-AppstreamAppInfo.synopsis" class="shortcut">Top</a>
@@ -31,7 +31,7 @@
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle"><a name="appstream-AppstreamAppInfo.top_of_page"></a>AppstreamAppInfo</span></h2>
-<p>AppstreamAppInfo</p>
+<p>AppstreamAppInfo — Class to store data describing an application in AppStream</p>
 </td>
 <td valign="top" align="right"></td>
 </tr></table></div>
@@ -40,7 +40,7 @@
 <pre class="synopsis">#define             <a class="link" href="appstream-AppstreamAppInfo.html#APPSTREAM-TYPE-APP-INFO:CAPS" title="APPSTREAM_TYPE_APP_INFO">APPSTREAM_TYPE_APP_INFO</a>
 <a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-is-valid" title="appstream_app_info_is_valid ()">appstream_app_info_is_valid</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-to-string" title="appstream_app_info_to_string ()">appstream_app_info_to_string</a>        (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-categories-from-str" title="appstream_app_info_set_categories_from_str ()">appstream_app_info_set_categories_from_str</a>
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-categories-from-str" title="appstream_app_info_set_categories_from_str ()">appstream_app_info_set_categories_from_str</a>
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
 <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="returnvalue">AppstreamAppInfo</span></a> *  <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-new" title="appstream_app_info_new ()">appstream_app_info_new</a>              (<em class="parameter"><code><span class="type">void</span></code></em>);
@@ -75,10 +75,10 @@ const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gc
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-icon" title="appstream_app_info_get_icon ()">appstream_app_info_get_icon</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-icon" title="appstream_app_info_set_icon ()">appstream_app_info_set_icon</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
-<a class="link" href="appstream-AppstreamCategory.html#AppstreamCategory" title="struct AppstreamCategory"><span class="returnvalue">AppstreamCategory</span></a> ** <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-categories" title="appstream_app_info_get_categories ()">appstream_app_info_get_categories</a>  (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-categories" title="appstream_app_info_get_categories ()">appstream_app_info_get_categories</a>   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-categories" title="appstream_app_info_set_categories ()">appstream_app_info_set_categories</a>   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="appstream-AppstreamCategory.html#AppstreamCategory" title="struct AppstreamCategory"><span class="type">AppstreamCategory</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-mimetypes" title="appstream_app_info_get_mimetypes ()">appstream_app_info_get_mimetypes</a>    (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);
@@ -106,6 +106,9 @@ The type for <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppI
 <div class="refsect2">
 <a name="appstream-app-info-is-valid"></a><h3>appstream_app_info_is_valid ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_app_info_is_valid         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Check if the essential properties of this AppInfo instance are populated with useful data.
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
 <tbody><tr>
@@ -129,15 +132,25 @@ The type for <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppI
 <hr>
 <div class="refsect2">
 <a name="appstream-app-info-set-categories-from-str"></a><h3>appstream_app_info_set_categories_from_str ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_app_info_set_categories_from_str
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_categories_from_str
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<p>
+Set the categories list from a string
+</p>
 <div class="variablelist"><table border="0">
 <col align="left" valign="top">
-<tbody><tr>
+<tbody>
+<tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
 <td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance</td>
-</tr></tbody>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>categories_str</code></em> :</span></p></td>
+<td> .  Comma-separated list of category-names. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
 </table></div>
 </div>
 <hr>
@@ -539,7 +552,7 @@ Set the value of the <span class="type">"icon"</span> property to <em class="par
 <hr>
 <div class="refsect2">
 <a name="appstream-app-info-get-categories"></a><h3>appstream_app_info_get_categories ()</h3>
-<pre class="programlisting"><a class="link" href="appstream-AppstreamCategory.html#AppstreamCategory" title="struct AppstreamCategory"><span class="returnvalue">AppstreamCategory</span></a> ** appstream_app_info_get_categories  (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_app_info_get_categories   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);</pre>
 <p>
 Get and return the current value of the <span class="type">"categories"</span> property.
@@ -562,7 +575,7 @@ Get and return the current value of the <span class="type">"categories"</span> p
 <div class="refsect2">
 <a name="appstream-app-info-set-categories"></a><h3>appstream_app_info_set_categories ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_categories   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="appstream-AppstreamCategory.html#AppstreamCategory" title="struct AppstreamCategory"><span class="type">AppstreamCategory</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);</pre>
 <p>
 Set the value of the <span class="type">"categories"</span> property to <em class="parameter"><code>value</code></em>.
@@ -634,6 +647,9 @@ Set the value of the <span class="type">"mimetypes"</span> property to <em class
 	AppstreamAppInfoPrivate * priv;
 };
 </pre>
+<p>
+Class to store data describing an application in AppStream
+</p>
 </div>
 <hr>
 <div class="refsect2">

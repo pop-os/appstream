@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
 <link rel="home" href="index.html" title="LibAppStream Reference Manual">
 <link rel="up" href="index.html" title="LibAppStream Reference Manual">
-<link rel="prev" href="appstream-AppstreamCategory.html" title="AppstreamCategory">
+<link rel="prev" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">
 <link rel="next" href="deprecated-api-index.html" title="Index of deprecated API">
 <meta name="generator" content="GTK-Doc V1.18 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -14,7 +14,7 @@
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
 <table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
 <tr valign="middle">
-<td><a accesskey="p" href="appstream-AppstreamCategory.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="appstream-AppstreamScreenshotService.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
 <td> </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
 <th width="100%" align="center">LibAppStream Reference Manual</th>
@@ -28,8 +28,6 @@
                    <a class="shortcut" href="#idxD">D</a>
                       | 
                    <a class="shortcut" href="#idxG">G</a>
-                      | 
-                   <a class="shortcut" href="#idxI">I</a>
                       | 
                    <a class="shortcut" href="#idxM">M</a>
                       | 
@@ -168,6 +166,10 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-category-add-subcategory" title="appstream_category_add_subcategory ()">appstream_category_add_subcategory</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-category-get-directory" title="appstream_category_get_directory ()">appstream_category_get_directory</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
@@ -177,10 +179,6 @@
 <dd></dd>
 <dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-category-get-icon" title="appstream_category_get_icon ()">appstream_category_get_icon</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="appstream-AppstreamCategory.html#appstream-category-get-id" title="appstream_category_get_id ()">appstream_category_get_id</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -196,11 +194,23 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-category-get-subcategories" title="appstream_category_get_subcategories ()">appstream_category_get_subcategories</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-category-get-summary" title="appstream_category_get_summary ()">appstream_category_get_summary</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-category-has-subcategory" title="appstream_category_has_subcategory ()">appstream_category_has_subcategory</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-category-new" title="appstream_category_new ()">appstream_category_new</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-category-remove-subcategory" title="appstream_category_remove_subcategory ()">appstream_category_remove_subcategory</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
 <a name="idxD"></a><h3 class="title">D</h3>
@@ -240,14 +250,53 @@
 <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-open" title="appstream_database_open ()">appstream_database_open</a>, function in <a class="link" href="appstream-AppstreamSearchQuery.html" title="AppstreamSearchQuery">AppstreamSearchQuery</a>
 </dt>
 <dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh" title="appstream_database_refresh ()">appstream_database_refresh</a>, function in <a class="link" href="appstream-AppstreamSearchQuery.html" title="AppstreamSearchQuery">AppstreamSearchQuery</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish" title="appstream_database_refresh_finish ()">appstream_database_refresh_finish</a>, function in <a class="link" href="appstream-AppstreamSearchQuery.html" title="AppstreamSearchQuery">AppstreamSearchQuery</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails">AppstreamDistroDetails</a>, struct in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetailsClass" title="struct AppstreamDistroDetailsClass">AppstreamDistroDetailsClass</a>, struct in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-bool" title="appstream_distro_details_config_distro_get_bool ()">appstream_distro_details_config_distro_get_bool</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-str" title="appstream_distro_details_config_distro_get_str ()">appstream_distro_details_config_distro_get_str</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-id" title="appstream_distro_details_get_distro_id ()">appstream_distro_details_get_distro_id</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-name" title="appstream_distro_details_get_distro_name ()">appstream_distro_details_get_distro_name</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-version" title="appstream_distro_details_get_distro_version ()">appstream_distro_details_get_distro_version</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-path" title="appstream_distro_details_get_icon_repository_path ()">appstream_distro_details_get_icon_repository_path</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-new" title="appstream_distro_details_new ()">appstream_distro_details_new</a>, function in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
 <a name="idxG"></a><h3 class="title">G</h3>
 <dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-get-system-categories" title="appstream_get_system_categories ()">appstream_get_system_categories</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
-</dt>
-<dd></dd>
-<a name="idxI"></a><h3 class="title">I</h3>
-<dt>
-<a class="link" href="appstream-settings.html#APPSTREAM-ICON-PATH:CAPS" title="APPSTREAM_ICON_PATH">APPSTREAM_ICON_PATH</a>, macro in <a class="link" href="appstream-settings.html" title="settings">settings</a>
 </dt>
 <dd></dd>
 <a name="idxM"></a><h3 class="title">M</h3>
@@ -257,6 +306,10 @@
 <dd></dd>
 <dt>
 <a class="link" href="appstream-AppstreamCategory.html#AppstreamMenuParserClass" title="struct AppstreamMenuParserClass">AppstreamMenuParserClass</a>, struct in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-menu-parser-get-update-category-data" title="appstream_menu_parser_get_update_category_data ()">appstream_menu_parser_get_update_category_data</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -276,6 +329,10 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-AppstreamCategory.html#appstream-menu-parser-set-update-category-data" title="appstream_menu_parser_set_update_category_data ()">appstream_menu_parser_set_update_category_data</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-AppstreamCategory.html#appstream-menu-parser-unref" title="appstream_menu_parser_unref ()">appstream_menu_parser_unref</a>, function in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
 </dt>
 <dd></dd>
@@ -285,6 +342,30 @@
 </dt>
 <dd></dd>
 <a name="idxS"></a><h3 class="title">S</h3>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#AppstreamScreenshotService" title="struct AppstreamScreenshotService">AppstreamScreenshotService</a>, struct in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#AppstreamScreenshotServiceClass" title="struct AppstreamScreenshotServiceClass">AppstreamScreenshotServiceClass</a>, struct in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#appstream-screenshot-service-get-base-url" title="appstream_screenshot_service_get_base_url ()">appstream_screenshot_service_get_base_url</a>, function in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#appstream-screenshot-service-get-screenshot-url" title="appstream_screenshot_service_get_screenshot_url ()">appstream_screenshot_service_get_screenshot_url</a>, function in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#appstream-screenshot-service-get-thumbnail-url" title="appstream_screenshot_service_get_thumbnail_url ()">appstream_screenshot_service_get_thumbnail_url</a>, function in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#appstream-screenshot-service-new" title="appstream_screenshot_service_new ()">appstream_screenshot_service_new</a>, function in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
+</dt>
+<dd></dd>
 <dt>
 <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery">AppstreamSearchQuery</a>, struct in <a class="link" href="appstream-AppstreamSearchQuery.html" title="AppstreamSearchQuery">AppstreamSearchQuery</a>
 </dt>
@@ -339,7 +420,15 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" title="APPSTREAM_TYPE_DISTRO_DETAILS">APPSTREAM_TYPE_DISTRO_DETAILS</a>, macro in <a class="link" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">AppstreamDistroDetails</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-AppstreamCategory.html#APPSTREAM-TYPE-MENU-PARSER:CAPS" title="APPSTREAM_TYPE_MENU_PARSER">APPSTREAM_TYPE_MENU_PARSER</a>, macro in <a class="link" href="appstream-AppstreamCategory.html" title="AppstreamCategory">AppstreamCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-AppstreamScreenshotService.html#APPSTREAM-TYPE-SCREENSHOT-SERVICE:CAPS" title="APPSTREAM_TYPE_SCREENSHOT_SERVICE">APPSTREAM_TYPE_SCREENSHOT_SERVICE</a>, macro in <a class="link" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">AppstreamScreenshotService</a>
 </dt>
 <dd></dd>
 <dt>

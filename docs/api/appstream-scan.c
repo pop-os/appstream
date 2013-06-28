@@ -7,13 +7,15 @@
 extern GType appstream_app_info_get_type (void);
 extern GType appstream_category_get_type (void);
 extern GType appstream_database_get_type (void);
+extern GType appstream_distro_details_get_type (void);
 extern GType appstream_menu_parser_get_type (void);
+extern GType appstream_screenshot_service_get_type (void);
 extern GType appstream_search_query_get_type (void);
 
 #ifdef GTK_IS_WIDGET_CLASS
 #include <gtk/gtk.h>
 #endif
-GType object_types[6];
+GType object_types[8];
 
 static GType *
 get_object_types (void)
@@ -23,7 +25,9 @@ get_object_types (void)
     object_types[i++] = appstream_app_info_get_type ();
     object_types[i++] = appstream_category_get_type ();
     object_types[i++] = appstream_database_get_type ();
+    object_types[i++] = appstream_distro_details_get_type ();
     object_types[i++] = appstream_menu_parser_get_type ();
+    object_types[i++] = appstream_screenshot_service_get_type ();
     object_types[i++] = appstream_search_query_get_type ();
     object_types[i] = 0;
 
@@ -386,7 +390,7 @@ output_object_hierarchy (void)
   FILE *fp;
   gint i,j;
   GType root, type;
-  GType root_types[6] = { G_TYPE_INVALID, };
+  GType root_types[8] = { G_TYPE_INVALID, };
 
   fp = fopen (hierarchy_filename, "w");
   if (fp == NULL)

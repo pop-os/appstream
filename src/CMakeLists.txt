@@ -7,16 +7,23 @@ find_package(GLIB2 2.28 REQUIRED)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
 find_package(Xapian 1.2 REQUIRED)
 find_package(GI REQUIRED)
+find_package(LibXml2 REQUIRED)
+find_library(M_LIB m)
+pkg_check_modules(POLKIT REQUIRED polkit-gobject-1>=0.104)
 
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
 
 set(AS_VERSION_LIBS "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
+
+# include the daemon
+add_subdirectory(uai-service)
 
 set(APPSTREAM_LIB_SOURCES settings.vala
 		utils.vala
 		app-info.vala
 		database.vala
 		menudir.vala
+		screenshot-service.vala
 )
 
 set(ASLIB_XAP_SOURCES xapian/database-common.hpp
@@ -33,11 +40,12 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
 		    ${CMAKE_BINARY_DIR}/src
 		    ${GLIB2_INCLUDE_DIR}
 		    ${GIO2_INCLUDE_DIR}
+		    ${LIBXML2_INCLUDE_DIR}
 		    ${XAPIAN_INCLUDE_DIR}
 )
 
 vala_precompile(aslib-precomp ASLIB_SRC_C ${APPSTREAM_LIB_SOURCES}
-			PACKAGES config gio-2.0 posix as-xapian
+			PACKAGES config gio-2.0 posix libxml-2.0 as-xapian
 			VAPI_DIRS ${CMAKE_SOURCE_DIR}/vapi
 				${CMAKE_CURRENT_SOURCE_DIR}/xapian
 			GENERATE_INTERNAL_HEADER appstream_internal.h
@@ -73,12 +81,13 @@ add_library(appstream SHARED ${ASLIB_SRC_C} ${ASLIB_XAP_SOURCES})
 set_target_properties(appstream PROPERTIES VERSION ${AS_VERSION} SOVERSION ${APPSTREAM_LIB_API_LEVEL})
 
 add_dependencies(appstream aslib-precomp)
-add_dependencies (appstream header_internal_fix)
-add_dependencies (appstream gir-compile)
+add_dependencies(appstream header_internal_fix)
+add_dependencies(appstream gir-compile)
 
 target_link_libraries(appstream
 		${GLIB2_LIBRARIES}
 		${GIO2_LIBRARIES}
+		${LIBXML2_LIBRARIES}
 		${XAPIAN_LIBRARIES}
 )
 

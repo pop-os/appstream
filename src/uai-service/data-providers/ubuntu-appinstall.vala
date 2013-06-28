@@ -27,7 +27,7 @@ namespace Uai.Provider {
 private static const string UBUNTU_APPINSTALL_DIR = "/usr/share/app-install";
 
 private class UbuntuAppinstall : Uai.DataProvider {
-	private Category[] system_categories;
+	private List<Category> system_categories;
 
 	public UbuntuAppinstall () {
 		// cache this for performance reasons
@@ -73,7 +73,7 @@ private class UbuntuAppinstall : Uai.DataProvider {
 
 		string categories = desktop_file_get_str (desktopFile, "Categories");
 		string[] cats_strv = categories.split (";");
-		app.categories = Appstream.Utils.categories_from_strv (cats_strv, system_categories);
+		app.categories = cats_strv;
 
 		string mimetypes = desktop_file_get_str (desktopFile, "MimeType");
 		if (!Utils.str_empty (mimetypes)) {
@@ -82,11 +82,12 @@ private class UbuntuAppinstall : Uai.DataProvider {
 
 		// TODO: Add remaining items, e.g. keywords, ...
 
-		stdout.printf ("%s", app.to_string ());
-		if (app.is_valid ())
+		if (app.is_valid ()) {
+			// stdout.printf ("Found: %s\n", app.to_string ());
 			emit_application (app);
-		else
-			log_warning ("Invalid application found: %s". printf (app.to_string ()));
+		} else {
+			log_warning ("Invalid application found: %s\n". printf (app.to_string ()));
+		}
 
 	}
 
