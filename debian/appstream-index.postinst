@@ -2,7 +2,9 @@
 # postinst script for appstream-index
 set -e
 
-appstream-index --refresh --nowait
+# Disabled for now, due to installation issues.
+# Manual cache refreshes will be removed in upcoming releases anyway.
+#appstream-index --refresh --nowait
 
 #DEBHELPER#
 
