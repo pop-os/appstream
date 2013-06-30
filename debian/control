@@ -20,7 +20,8 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
 
 Package: appstream-index
 Architecture: any
-Depends: policykit-1,
+Depends: libappstream0 (>= ${binary:Version}),
+         policykit-1,
          ${misc:Depends},
          ${shlibs:Depends}
 Suggests: packagekit (>= 0.8.4)
