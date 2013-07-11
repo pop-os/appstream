@@ -1,8 +1,16 @@
+appstream (0.3.1-3) unstable; urgency=low
+
+  * Tighten dependency on libappstream0 (Closes: #714513)
+  * Add AppStream app-info dir to trigger
+  * Install missing config file
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 11 Jul 2013 18:15:25 +0200
+
 appstream (0.3.1-2) unstable; urgency=low
 
   * Don't automatically refresh cache after installation (Closes: #703513)
 
- -- Matthias Klumpp <mak@debian.org>  Sat, 29 Jun 2013 21:28:51 +0200
+ -- Matthias Klumpp <mak@debian.org>  Sat, 29 Jun 2013 21:28:52 +0200
 
 appstream (0.3.1-1) unstable; urgency=low
 
