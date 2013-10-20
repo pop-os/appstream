@@ -22,18 +22,16 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
 Package: appstream-index
 Architecture: any
 Depends: libappstream0 (>= ${binary:Version}),
-         policykit-1,
+         packagekit (>= 0.8.10),
          ${misc:Depends},
          ${shlibs:Depends}
-Suggests: packagekit (>= 0.8.4)
 Recommends: app-install-data
-Description: Generator for application index
- AppStream is an initiative of cross-distro collaboration,
- which aims at creating an unified software metadata database,
- and also a centralized OCS (Open Collaboration Services)
- user-contributed content database.
- The AppStream database allows people to write application-centric
- software management tools easily.
+Description: Application index generator
+ AppStream is a cross-distributional effort for building application-
+ management tools.
+ It provides specifications for an unified application metadata database,
+ screenshot services and various other things needed to create user-friendly
+ application-centers.
  .
  This package provides tools to generate, maintain and
  access the AppStream database of installed applications.
@@ -46,16 +44,15 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (= ${binary:Version})
-Description: Library to acess the AppStream database
- AppStream is an initiative of cross-distro collaboration,
- which aims at creating an unified software metadata database,
- and also a centralized OCS (Open Collaboration Services)
- user-contributed content database.
- The AppStream database allows people to write application-centric
- software management tools easily.
+Description: Library to access AppStream services
+ AppStream is a cross-distributional effort for building application-
+ management tools.
+ It provides specifications for an unified application metadata database,
+ screenshot services and various other things needed to create user-friendly
+ application-centers.
  .
- This package contains a GObject-based library to access the
- database of installed applications.
+ This package contains a GObject-based library to access AppStream
+ services, like the application metadata database.
 
 Package: libappstream-dev
 Architecture: any
@@ -63,16 +60,15 @@ Section: libdevel
 Depends: libappstream0 (= ${binary:Version}),
          libglib2.0-dev (>= 2.28),
          ${misc:Depends}
-Description: Library to acess the AppStream database (development files)
- AppStream is an initiative of cross-distro collaboration,
- which aims at creating an unified software metadata database,
- and also a centralized OCS (Open Collaboration Services)
- user-contributed content database.
- The AppStream database allows people to write application-centric
- software management tools easily.
+Description: Library to access AppStream services (development files)
+ AppStream is a cross-distributional effort for building application-
+ management tools.
+ It provides specifications for an unified application metadata database,
+ screenshot services and various other things needed to create user-friendly
+ application-centers.
  .
  This package contains development files necessary to develop
- software-manager which use the AppStream library.
+ application-management tools which use the AppStream library.
 
 Package: gir1.2-appstream
 Architecture: any
@@ -81,12 +77,11 @@ Depends: gir1.2-freedesktop (>= 1.32),
          gir1.2-glib-2.0 (>= 1.32),
          libappstream0 (= ${binary:Version}),
          ${misc:Depends}
-Description: Library to acess the AppStream database (introspection data)
- AppStream is an initiative of cross-distro collaboration,
- which aims at creating an unified software metadata database,
- and also a centralized OCS (Open Collaboration Services)
- user-contributed content database.
- The AppStream database allows people to write application-centric
- software management tools easily.
+Description: Library to access AppStream services (introspection data)
+ AppStream is a cross-distributional effort for building application-
+ management tools.
+ It provides specifications for an unified application metadata database,
+ screenshot services and various other things needed to create user-friendly
+ application-centers.
  .
  This package contains introspection data for the AppStream library.
