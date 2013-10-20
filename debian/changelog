@@ -1,3 +1,12 @@
+appstream (0.4.0-1) unstable; urgency=low
+
+  * New upstream release: 0.4.0
+  * Update descriptions
+  * Install pc-file into multiarch libdir
+  * Touch AppStream dirs after update, so we schedule a cache rebuild
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 20 Oct 2013 18:40:26 +0200
+
 appstream (0.3.1-3) unstable; urgency=low
 
   * Tighten dependency on libappstream0 (Closes: #714513)
