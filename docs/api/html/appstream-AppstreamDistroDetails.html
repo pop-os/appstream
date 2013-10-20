@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>AppstreamDistroDetails</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="LibAppStream Reference Manual">
 <link rel="up" href="ch01.html" title="appstream API Reference">
 <link rel="prev" href="ch01.html" title="appstream API Reference">
 <link rel="next" href="appstream-AppstreamAppInfo.html" title="AppstreamAppInfo">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -38,6 +38,8 @@
 <div class="refsynopsisdiv">
 <a name="appstream-AppstreamDistroDetails.synopsis"></a><h2>Synopsis</h2>
 <pre class="synopsis">#define             <a class="link" href="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" title="APPSTREAM_TYPE_DISTRO_DETAILS">APPSTREAM_TYPE_DISTRO_DETAILS</a>
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-paths" title="appstream_distro_details_get_icon_repository_paths ()">appstream_distro_details_get_icon_repository_paths</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-str" title="appstream_distro_details_config_distro_get_str ()">appstream_distro_details_config_distro_get_str</a>
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
@@ -50,8 +52,6 @@ const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gc
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-name" title="appstream_distro_details_get_distro_name ()">appstream_distro_details_get_distro_name</a>
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-version" title="appstream_distro_details_get_distro_version ()">appstream_distro_details_get_distro_version</a>
-                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
-const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-path" title="appstream_distro_details_get_icon_repository_path ()">appstream_distro_details_get_icon_repository_path</a>
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
 struct              <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails">AppstreamDistroDetails</a>;
 struct              <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetailsClass" title="struct AppstreamDistroDetailsClass">AppstreamDistroDetailsClass</a>;
@@ -72,12 +72,41 @@ The type for <a class="link" href="appstream-AppstreamDistroDetails.html#Appstre
 </div>
 <hr>
 <div class="refsect2">
+<a name="appstream-distro-details-get-icon-repository-paths"></a><h3>appstream_distro_details_get_icon_repository_paths ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_distro_details_get_icon_repository_paths
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
+<p>
+Returns list of icon-paths for software-center applications to use. Icons of software (even if it is not installed) are stored in these locations.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>A NULL-terminated array of paths. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=result_length1]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="appstream-distro-details-config-distro-get-str"></a><h3>appstream_distro_details_config_distro_get_str ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             appstream_distro_details_config_distro_get_str
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -96,8 +125,11 @@ The type for <a class="link" href="appstream-AppstreamDistroDetails.html#Appstre
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_distro_details_config_distro_get_bool
                                                         (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -123,8 +155,11 @@ The type for <a class="link" href="appstream-AppstreamDistroDetails.html#Appstre
 <p>
 Get and return the current value of the <span class="type">"distro-id"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -145,8 +180,11 @@ Get and return the current value of the <span class="type">"distro-id"</span> pr
 <p>
 Get and return the current value of the <span class="type">"distro-name"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -167,8 +205,11 @@ Get and return the current value of the <span class="type">"distro-name"</span> 
 <p>
 Get and return the current value of the <span class="type">"distro-version"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -177,28 +218,6 @@ Get and return the current value of the <span class="type">"distro-version"</spa
 <tr>
 <td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
 <td>the value of the <span class="type">"distro-version"</span> property</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="appstream-distro-details-get-icon-repository-path"></a><h3>appstream_distro_details_get_icon_repository_path ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_distro_details_get_icon_repository_path
-                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
-<p>
-Get and return the current value of the <span class="type">"icon-repository-path"</span> property.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
-<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance to query</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the value of the <span class="type">"icon-repository-path"</span> property</td>
 </tr>
 </tbody>
 </table></div>
@@ -225,8 +244,11 @@ Get details about the AppStream settings for the current distribution
 <p>
 The class structure for <a class="link" href="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" title="APPSTREAM_TYPE_DISTRO_DETAILS"><code class="literal">APPSTREAM_TYPE_DISTRO_DETAILS</code></a>. All the fields in this structure are private and should never be accessed directly.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamDistroDetailsClass.parent-class"></a>parent_class</code></em>;</span></p></td>
 <td>the parent class structure</td>
@@ -237,6 +259,6 @@ The class structure for <a class="link" href="appstream-AppstreamDistroDetails.h
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

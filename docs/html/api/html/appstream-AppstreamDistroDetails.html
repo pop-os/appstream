@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AppstreamDistroDetails</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="appstream API Reference">
+<link rel="prev" href="ch01.html" title="appstream API Reference">
+<link rel="next" href="appstream-AppstreamAppInfo.html" title="AppstreamAppInfo">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="ch01.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="appstream-AppstreamAppInfo.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AppstreamDistroDetails.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AppstreamDistroDetails.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AppstreamDistroDetails"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AppstreamDistroDetails.top_of_page"></a>AppstreamDistroDetails</span></h2>
+<p>AppstreamDistroDetails — Get details about the AppStream settings for the current distribution</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AppstreamDistroDetails.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" title="APPSTREAM_TYPE_DISTRO_DETAILS">APPSTREAM_TYPE_DISTRO_DETAILS</a>
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-str" title="appstream_distro_details_config_distro_get_str ()">appstream_distro_details_config_distro_get_str</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-bool" title="appstream_distro_details_config_distro_get_bool ()">appstream_distro_details_config_distro_get_bool</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);
+<a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="returnvalue">AppstreamDistroDetails</span></a> * <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-new" title="appstream_distro_details_new ()">appstream_distro_details_new</a>   (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-id" title="appstream_distro_details_get_distro_id ()">appstream_distro_details_get_distro_id</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-name" title="appstream_distro_details_get_distro_name ()">appstream_distro_details_get_distro_name</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-version" title="appstream_distro_details_get_distro_version ()">appstream_distro_details_get_distro_version</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-path" title="appstream_distro_details_get_icon_repository_path ()">appstream_distro_details_get_icon_repository_path</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);
+struct              <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails">AppstreamDistroDetails</a>;
+struct              <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetailsClass" title="struct AppstreamDistroDetailsClass">AppstreamDistroDetailsClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamDistroDetails.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamDistroDetails.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="APPSTREAM-TYPE-DISTRO-DETAILS:CAPS"></a><h3>APPSTREAM_TYPE_DISTRO_DETAILS</h3>
+<pre class="programlisting">#define APPSTREAM_TYPE_DISTRO_DETAILS (appstream_distro_details_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-config-distro-get-str"></a><h3>appstream_distro_details_config_distro_get_str ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             appstream_distro_details_config_distro_get_str
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-config-distro-get-bool"></a><h3>appstream_distro_details_config_distro_get_bool ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_distro_details_config_distro_get_bool
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>key</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-new"></a><h3>appstream_distro_details_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="returnvalue">AppstreamDistroDetails</span></a> * appstream_distro_details_new   (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-get-distro-id"></a><h3>appstream_distro_details_get_distro_id ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_distro_details_get_distro_id
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"distro-id"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"distro-id"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-get-distro-name"></a><h3>appstream_distro_details_get_distro_name ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_distro_details_get_distro_name
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"distro-name"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"distro-name"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-get-distro-version"></a><h3>appstream_distro_details_get_distro_version ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_distro_details_get_distro_version
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"distro-version"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"distro-version"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-distro-details-get-icon-repository-path"></a><h3>appstream_distro_details_get_icon_repository_path ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_distro_details_get_icon_repository_path
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"icon-repository-path"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails" title="struct AppstreamDistroDetails"><span class="type">AppstreamDistroDetails</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"icon-repository-path"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamDistroDetails"></a><h3>struct AppstreamDistroDetails</h3>
+<pre class="programlisting">struct AppstreamDistroDetails {
+	GObject parent_instance;
+	AppstreamDistroDetailsPrivate * priv;
+};
+</pre>
+<p>
+Get details about the AppStream settings for the current distribution
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamDistroDetailsClass"></a><h3>struct AppstreamDistroDetailsClass</h3>
+<pre class="programlisting">struct AppstreamDistroDetailsClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" title="APPSTREAM_TYPE_DISTRO_DETAILS"><code class="literal">APPSTREAM_TYPE_DISTRO_DETAILS</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamDistroDetailsClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

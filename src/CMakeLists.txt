@@ -3,27 +3,31 @@
 find_package(Vala REQUIRED)
 include("${VALA_USE_FILE}")
 
-find_package(GLIB2 2.28 REQUIRED)
+find_package(GLIB2 2.36 REQUIRED)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
 find_package(Xapian 1.2 REQUIRED)
 find_package(GI REQUIRED)
 find_package(LibXml2 REQUIRED)
 find_library(M_LIB m)
-pkg_check_modules(POLKIT REQUIRED polkit-gobject-1>=0.104)
 
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
 
 set(AS_VERSION_LIBS "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
 
-# include the daemon
-add_subdirectory(uai-service)
-
 set(APPSTREAM_LIB_SOURCES settings.vala
+		# utils
 		utils.vala
+		# public API
 		app-info.vala
 		database.vala
 		menudir.vala
 		screenshot-service.vala
+		# internal stuff to build the database
+		database-builder.vala
+		data-provider.vala
+		data-providers/appstream-xml.vala
+		data-providers/debian-dep11.vala
+		data-providers/ubuntu-appinstall.vala
 )
 
 set(ASLIB_XAP_SOURCES xapian/database-common.hpp
@@ -44,6 +48,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
 		    ${XAPIAN_INCLUDE_DIR}
 )
 
+add_definitions("-DI_KNOW_THE_PACKAGEKIT_GLIB2_API_IS_SUBJECT_TO_CHANGE"
+	"-DI_KNOW_THE_PACKAGEKIT_PLUGIN_API_IS_SUBJECT_TO_CHANGE"
+)
+
 vala_precompile(aslib-precomp ASLIB_SRC_C ${APPSTREAM_LIB_SOURCES}
 			PACKAGES config gio-2.0 posix libxml-2.0 as-xapian
 			VAPI_DIRS ${CMAKE_SOURCE_DIR}/vapi
@@ -55,6 +63,11 @@ vala_precompile(aslib-precomp ASLIB_SRC_C ${APPSTREAM_LIB_SOURCES}
 				--library appstream
 				--internal-vapi=appstream_internal.vapi.orig
 )
+
+# ensure that the GI compiler has been found (apparently, the automatic tests fail on some machines)
+if (INTROSPECTION_COMPILER STREQUAL "")
+  message(FATAL_ERROR "GObject-Introspection was not found! Please install it to continue.")
+endif()
 
 find_program (SED_TOOL NAMES sed)
 if (NOT SED_TOOL)
@@ -100,3 +113,5 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc DESTINATION lib/pkgconfig
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/AppStream-${AS_VERSION_LIBS}.gir DESTINATION share/gir-1.0/)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/AppStream-${AS_VERSION_LIBS}.typelib DESTINATION lib/girepository-1.0/)
 
+# include the PackageKit plugin
+add_subdirectory(pk-plugin)

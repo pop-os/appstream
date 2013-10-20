@@ -57,11 +57,11 @@ get_object_types (void)
  */
 
 /* The output files */
-const gchar *signals_filename = "/home/matthias/Development/AppStream-Core/docs/api/appstream.signals.new";
-const gchar *hierarchy_filename = "/home/matthias/Development/AppStream-Core/docs/api/appstream.hierarchy.new";
-const gchar *interfaces_filename = "/home/matthias/Development/AppStream-Core/docs/api/appstream.interfaces.new";
-const gchar *prerequisites_filename = "/home/matthias/Development/AppStream-Core/docs/api/appstream.prerequisites.new";
-const gchar *args_filename = "/home/matthias/Development/AppStream-Core/docs/api/appstream.args.new";
+const gchar *signals_filename = "/home/matthias/Development/AppStream/docs/api/appstream.signals.new";
+const gchar *hierarchy_filename = "/home/matthias/Development/AppStream/docs/api/appstream.hierarchy.new";
+const gchar *interfaces_filename = "/home/matthias/Development/AppStream/docs/api/appstream.interfaces.new";
+const gchar *prerequisites_filename = "/home/matthias/Development/AppStream/docs/api/appstream.prerequisites.new";
+const gchar *args_filename = "/home/matthias/Development/AppStream/docs/api/appstream.args.new";
 
 
 static void output_signals (void);
@@ -91,10 +91,10 @@ static void output_object_args (FILE *fp, GType object_type);
 int
 main (int argc, char *argv[])
 {
-  #ifndef GLIB_VERSION_2_36
-    g_type_init();
-#endif
-    g_type_class_ref(G_TYPE_OBJECT);
+  #if !GLIB_CHECK_VERSION(2,35,0)
+  g_type_init();
+  #endif
+  g_type_class_ref(G_TYPE_OBJECT);
 
   get_object_types ();
 
@@ -625,8 +625,6 @@ describe_signed_constant (gsize size, gint64 value)
           desc = g_strdup ("G_MAXINT");
         else if (value == G_MININT)
           desc = g_strdup ("G_MININT");
-        else if (value == (gint64)G_MAXUINT)
-          desc = g_strdup ("G_MAXUINT");
       }
       break;
     case 4:
@@ -635,15 +633,11 @@ describe_signed_constant (gsize size, gint64 value)
           desc = g_strdup ("G_MAXINT");
         else if (value == G_MININT)
           desc = g_strdup ("G_MININT");
-        else if (value == (gint64)G_MAXUINT)
-          desc = g_strdup ("G_MAXUINT");
       }
       if (value == G_MAXLONG)
         desc = g_strdup ("G_MAXLONG");
       else if (value == G_MINLONG)
         desc = g_strdup ("G_MINLONG");
-      else if (value == (gint64)G_MAXULONG)
-        desc = g_strdup ("G_MAXULONG");
       break;
     case 8:
       if (value == G_MAXINT64)

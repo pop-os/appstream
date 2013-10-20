@@ -6,9 +6,7 @@ include("${VALA_USE_FILE}")
 
 find_package(GLIB2 REQUIRED)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
-find_package(LibXml2 REQUIRED)
 find_library(M_LIB m)
-pkg_check_modules(POLKIT REQUIRED polkit-gobject-1>=0.104)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 		    ${CMAKE_BINARY_DIR}
@@ -19,8 +17,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}
 
 # Add the appstream-index client tool
 vala_add_executable (appstream-index appstream-index.vala
-				PACKAGES config gio-2.0 posix appstream_internal
+				PACKAGES config appstream gio-2.0 posix
 				VAPI_DIRS ${CMAKE_SOURCE_DIR}/vapi ${CMAKE_BINARY_DIR}/src
+				COMPILE_FLAGS ${VALA_COMPILE_FLAGS}
+					--pkg appstream # somehow we need to explicitly define that, PACKAGES directive does not always work
 )
 
 target_link_libraries(appstream-index

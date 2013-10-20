@@ -276,6 +276,11 @@ void
 GType object_type 
 </FUNCTION>
 <FUNCTION>
+<NAME>appstream_distro_details_get_icon_repository_paths</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamDistroDetails* self 
+</FUNCTION>
+<FUNCTION>
 <NAME>appstream_distro_details_config_distro_get_str</NAME>
 <RETURNS>gchar * </RETURNS>
 AppstreamDistroDetails* self, const gchar* key 
@@ -297,11 +302,6 @@ AppstreamDistroDetails* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_distro_details_get_distro_version</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamDistroDetails* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_distro_details_get_icon_repository_path</NAME>
 <RETURNS>const gchar * </RETURNS>
 AppstreamDistroDetails* self 
 </FUNCTION>
@@ -342,6 +342,16 @@ AppstreamAppInfo* self
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_set_pkgname</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_desktop_file</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_desktop_file</NAME>
 <RETURNS>void  </RETURNS>
 AppstreamAppInfo* self, const gchar* value 
 </FUNCTION>
@@ -396,32 +406,32 @@ AppstreamAppInfo* self, int* result_length1
 AppstreamAppInfo* self, gchar** value, int value_length1 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_get_url</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_url</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_desktop_file</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_desktop_file</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
 <NAME>appstream_app_info_get_icon</NAME>
 <RETURNS>const gchar * </RETURNS>
 AppstreamAppInfo* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_set_icon</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_icon_url</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_icon_url</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_homepage</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamAppInfo* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_set_homepage</NAME>
 <RETURNS>void  </RETURNS>
 AppstreamAppInfo* self, const gchar* value 
 </FUNCTION>
@@ -534,16 +544,6 @@ AppstreamDatabase* self, AppstreamSearchQuery* query
 <NAME>appstream_database_find_applications_by_str</NAME>
 <RETURNS>GPtrArray * </RETURNS>
 AppstreamDatabase* self, const gchar* search_str, const gchar* categories_str 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_database_refresh</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamDatabase* self, GAsyncReadyCallback _callback_, gpointer _user_data_ 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_database_refresh_finish</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamDatabase* self, GAsyncResult* _res_, GError** error 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_database_get_database_path</NAME>

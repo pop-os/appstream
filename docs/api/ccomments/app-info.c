@@ -50,6 +50,28 @@
  * 
  */
 /**
+ * AppstreamAppInfo:desktop-file:
+ */
+/**
+ * appstream_app_info_get_desktop_file:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
+ */
+/**
+ * appstream_app_info_set_desktop_file:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify
+ * @value: the new value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
+ * 
+ * Set the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property to @value.
+ * 
+ * 
+ */
+/**
  * AppstreamAppInfo:name:
  */
 /**
@@ -162,50 +184,6 @@
  * 
  */
 /**
- * AppstreamAppInfo:url:
- */
-/**
- * appstream_app_info_get_url:
- * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
- * 
- * Get and return the current value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property.
- * 
- * 
- * 
- * Returns: the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property
- */
-/**
- * appstream_app_info_set_url:
- * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify
- * @value: the new value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property
- * 
- * Set the value of the <link linkend="AppstreamAppInfo--url"><type>"url"</type></link> property to @value.
- * 
- * 
- */
-/**
- * AppstreamAppInfo:desktop-file:
- */
-/**
- * appstream_app_info_get_desktop_file:
- * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
- * 
- * Get and return the current value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property.
- * 
- * 
- * 
- * Returns: the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
- */
-/**
- * appstream_app_info_set_desktop_file:
- * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify
- * @value: the new value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property
- * 
- * Set the value of the <link linkend="AppstreamAppInfo--desktop-file"><type>"desktop-file"</type></link> property to @value.
- * 
- * 
- */
-/**
  * AppstreamAppInfo:icon:
  */
 /**
@@ -224,6 +202,50 @@
  * @value: the new value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property
  * 
  * Set the value of the <link linkend="AppstreamAppInfo--icon"><type>"icon"</type></link> property to @value.
+ * 
+ * 
+ */
+/**
+ * AppstreamAppInfo:icon-url:
+ */
+/**
+ * appstream_app_info_get_icon_url:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamAppInfo--icon-url"><type>"icon-url"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamAppInfo--icon-url"><type>"icon-url"</type></link> property
+ */
+/**
+ * appstream_app_info_set_icon_url:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify
+ * @value: the new value of the <link linkend="AppstreamAppInfo--icon-url"><type>"icon-url"</type></link> property
+ * 
+ * Set the value of the <link linkend="AppstreamAppInfo--icon-url"><type>"icon-url"</type></link> property to @value.
+ * 
+ * 
+ */
+/**
+ * AppstreamAppInfo:homepage:
+ */
+/**
+ * appstream_app_info_get_homepage:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamAppInfo--homepage"><type>"homepage"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamAppInfo--homepage"><type>"homepage"</type></link> property
+ */
+/**
+ * appstream_app_info_set_homepage:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify
+ * @value: the new value of the <link linkend="AppstreamAppInfo--homepage"><type>"homepage"</type></link> property
+ * 
+ * Set the value of the <link linkend="AppstreamAppInfo--homepage"><type>"homepage"</type></link> property to @value.
  * 
  * 
  */
