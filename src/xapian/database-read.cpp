@@ -1,7 +1,7 @@
 /* database-read.cpp
  *
- * Copyright (C) 2012-2013 Matthias Klumpp
- * Copyright (C) 2009 Michael Vogt
+ * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2009 Michael Vogt <mvo@debian.org>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -53,7 +53,6 @@ DatabaseRead::open (const gchar *dbPath)
 	try {
 		m_xapianDB = Xapian::Database (m_dbPath);
 	} catch (const Xapian::Error &error) {
-		cout << "ERROR!" << endl;
 		g_warning ("Exception: %s", error.get_msg ().c_str ());
 		return false;
 	}
@@ -73,39 +72,41 @@ DatabaseRead::docToAppInfo (Xapian::Document doc)
 	AppstreamAppInfo *app = appstream_app_info_new ();
 
 	// Application name
-	string appName = doc.get_value (APPNAME);
+	string appName = doc.get_value (XapianValues::APPNAME);
 	appstream_app_info_set_name (app, appName.c_str ());
 
 	// Package name
-	string pkgName = doc.get_value (PKGNAME);;
+	string pkgName = doc.get_value (XapianValues::PKGNAME);;
 	appstream_app_info_set_pkgname (app, pkgName.c_str ());
 
 	// Untranslated application name
-	string appname_orig = doc.get_value (APPNAME_UNTRANSLATED);
+	string appname_orig = doc.get_value (XapianValues::APPNAME_UNTRANSLATED);
 	appstream_app_info_set_name_original (app, appname_orig.c_str ());
 
 	// Desktop file
-	string desktopFile = doc.get_value (DESKTOP_FILE);
+	string desktopFile = doc.get_value (XapianValues::DESKTOP_FILE);
 	appstream_app_info_set_desktop_file (app, desktopFile.c_str ());
 
 	// URL
-	string appUrl = doc.get_value (SUPPORT_SITE_URL);
-	appstream_app_info_set_url (app, appUrl.c_str ());
+	string appUrl = doc.get_value (XapianValues::URL_HOMEPAGE);
+	appstream_app_info_set_homepage (app, appUrl.c_str ());
 
-	// Application stock icon
-	string appIconName = doc.get_value (ICON);
-	appstream_app_info_set_icon (app, appIconName.c_str ());
+	// Application icon
+	string appIcon = doc.get_value (XapianValues::ICON);
+	appstream_app_info_set_icon (app, appIcon.c_str ());
+	appIcon = doc.get_value (XapianValues::ICON_URL);
+	appstream_app_info_set_icon_url (app, appIcon.c_str ());
 
 	// Summary
-	string appSummary = doc.get_value (SUMMARY);
+	string appSummary = doc.get_value (XapianValues::SUMMARY);
 	appstream_app_info_set_summary (app, appSummary.c_str ());
 
 	// Long description
-	string appDescription = doc.get_value (SC_DESCRIPTION);
+	string appDescription = doc.get_value (XapianValues::DESCRIPTION);
 	appstream_app_info_set_description (app, appDescription.c_str ());
 
 	// Categories
-	string categories_string = doc.get_value (CATEGORIES);
+	string categories_string = doc.get_value (XapianValues::CATEGORIES);
 	appstream_app_info_set_categories_from_str (app, categories_string.c_str ());
 
 	// TODO

@@ -118,28 +118,6 @@
  * @categories_str: &nbsp;
  */
 /**
- * appstream_database_refresh:
- * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
- * @_callback_: (scope async): callback to call when the request is satisfied
- * @_user_data_: (closure): the data to pass to @_callback_ function
- * 
- * Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
- * 
- * <emphasis>See also</emphasis>: <link linkend="appstream-database-refresh-finish"><function>appstream_database_refresh_finish()</function></link>
- */
-/**
- * appstream_database_refresh_finish:
- * @self: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance
- * @_res_: a <link linkend="GAsyncResult"><type>GAsyncResult</type></link>
- * @error: (error-domains GIOErrorEnum): location to store the error occuring, or %NULL to ignore
- * 
- * Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
- * 
- * <emphasis>See also</emphasis>: <link linkend="appstream-database-refresh"><function>appstream_database_refresh()</function></link>
- * 
- * Returns: TRUE if refresh was successfull. 
- */
-/**
  * appstream_database_new:
  */
 /**

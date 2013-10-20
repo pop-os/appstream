@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AppstreamSearchQuery</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="appstream API Reference">
+<link rel="prev" href="appstream-AppstreamCategory.html" title="AppstreamCategory">
+<link rel="next" href="appstream-AppstreamScreenshotService.html" title="AppstreamScreenshotService">
+<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-AppstreamCategory.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="appstream-AppstreamScreenshotService.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AppstreamSearchQuery.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AppstreamSearchQuery.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AppstreamSearchQuery"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AppstreamSearchQuery.top_of_page"></a>AppstreamSearchQuery</span></h2>
+<p>AppstreamSearchQuery — Class describing a query on the AppStream application database</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AppstreamSearchQuery.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AppstreamSearchQuery.html#APPSTREAM-TYPE-SEARCH-QUERY:CAPS" title="APPSTREAM_TYPE_SEARCH_QUERY">APPSTREAM_TYPE_SEARCH_QUERY</a>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-get-search-all-categories" title="appstream_search_query_get_search_all_categories ()">appstream_search_query_get_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-set-search-all-categories" title="appstream_search_query_set_search_all_categories ()">appstream_search_query_set_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-set-categories-from-string" title="appstream_search_query_set_categories_from_string ()">appstream_search_query_set_categories_from_string</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
+<a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="returnvalue">AppstreamSearchQuery</span></a> * <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-new" title="appstream_search_query_new ()">appstream_search_query_new</a>       (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-get-search-term" title="appstream_search_query_get_search_term ()">appstream_search_query_get_search_term</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-set-search-term" title="appstream_search_query_set_search_term ()">appstream_search_query_set_search_term</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-get-categories" title="appstream_search_query_get_categories ()">appstream_search_query_get_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-search-query-set-categories" title="appstream_search_query_set_categories ()">appstream_search_query_set_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);
+struct              <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery">AppstreamSearchQuery</a>;
+struct              <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQueryClass" title="struct AppstreamSearchQueryClass">AppstreamSearchQueryClass</a>;
+#define             <a class="link" href="appstream-AppstreamSearchQuery.html#APPSTREAM-TYPE-DATABASE:CAPS" title="APPSTREAM_TYPE_DATABASE">APPSTREAM_TYPE_DATABASE</a>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-open" title="appstream_database_open ()">appstream_database_open</a>             (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-db-exists" title="appstream_database_db_exists ()">appstream_database_db_exists</a>        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-get-all-applications" title="appstream_database_get_all_applications ()">appstream_database_get_all_applications</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-find-applications" title="appstream_database_find_applications ()">appstream_database_find_applications</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *query</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-find-applications-by-str" title="appstream_database_find_applications_by_str ()">appstream_database_find_applications_by_str</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh" title="appstream_database_refresh ()">appstream_database_refresh</a>          (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> _callback_</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> _user_data_</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish" title="appstream_database_refresh_finish ()">appstream_database_refresh_finish</a>   (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *_res_</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);
+<a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="returnvalue">AppstreamDatabase</span></a> * <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-new" title="appstream_database_new ()">appstream_database_new</a>              (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-get-database-path" title="appstream_database_get_database_path ()">appstream_database_get_database_path</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);
+struct              <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase">AppstreamDatabase</a>;
+struct              <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabaseClass" title="struct AppstreamDatabaseClass">AppstreamDatabaseClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamSearchQuery.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamSearchQuery.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="APPSTREAM-TYPE-SEARCH-QUERY:CAPS"></a><h3>APPSTREAM_TYPE_SEARCH_QUERY</h3>
+<pre class="programlisting">#define APPSTREAM_TYPE_SEARCH_QUERY (appstream_search_query_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-get-search-all-categories"></a><h3>appstream_search_query_get_search_all_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_search_query_get_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if we search in all categories</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-set-search-all-categories"></a><h3>appstream_search_query_set_search_all_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_search_query_set_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+Shortcut to set that we should search in all categories
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-set-categories-from-string"></a><h3>appstream_search_query_set_categories_from_string ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_search_query_set_categories_from_string
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<p>
+Set the categories list from a string
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>categories_str</code></em> :</span></p></td>
+<td> .  Comma-separated list of category-names. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-new"></a><h3>appstream_search_query_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="returnvalue">AppstreamSearchQuery</span></a> * appstream_search_query_new       (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>term</code></em> :</span></p></td>
+<td> </td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-get-search-term"></a><h3>appstream_search_query_get_search_term ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_search_query_get_search_term
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"search-term"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"search-term"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-set-search-term"></a><h3>appstream_search_query_set_search_term ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_search_query_set_search_term
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"search-term"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"search-term"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-get-categories"></a><h3>appstream_search_query_get_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_search_query_get_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"categories"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"categories"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-search-query-set-categories"></a><h3>appstream_search_query_set_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_search_query_set_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"categories"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"categories"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamSearchQuery"></a><h3>struct AppstreamSearchQuery</h3>
+<pre class="programlisting">struct AppstreamSearchQuery {
+	GObject parent_instance;
+	AppstreamSearchQueryPrivate * priv;
+};
+</pre>
+<p>
+Class describing a query on the AppStream application database
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamSearchQueryClass"></a><h3>struct AppstreamSearchQueryClass</h3>
+<pre class="programlisting">struct AppstreamSearchQueryClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AppstreamSearchQuery.html#APPSTREAM-TYPE-SEARCH-QUERY:CAPS" title="APPSTREAM_TYPE_SEARCH_QUERY"><code class="literal">APPSTREAM_TYPE_SEARCH_QUERY</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamSearchQueryClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="APPSTREAM-TYPE-DATABASE:CAPS"></a><h3>APPSTREAM_TYPE_DATABASE</h3>
+<pre class="programlisting">#define APPSTREAM_TYPE_DATABASE (appstream_database_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-open"></a><h3>appstream_database_open ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_database_open             (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-db-exists"></a><h3>appstream_database_db_exists ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_database_db_exists        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if the application database exists</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-get-all-applications"></a><h3>appstream_database_get_all_applications ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         appstream_database_get_all_applications
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-find-applications"></a><h3>appstream_database_find_applications ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         appstream_database_find_applications
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamSearchQuery" title="struct AppstreamSearchQuery"><span class="type">AppstreamSearchQuery</span></a> *query</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>query</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-find-applications-by-str"></a><h3>appstream_database_find_applications_by_str ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         appstream_database_find_applications_by_str
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>search_str</code></em> :</span></p></td>
+<td> </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>categories_str</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-refresh"></a><h3>appstream_database_refresh ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_database_refresh          (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> _callback_</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> _user_data_</code></em>);</pre>
+<p>
+Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
+</p>
+<p>
+<span class="emphasis"><em>See also</em></span>: <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish" title="appstream_database_refresh_finish ()"><code class="function"><a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish" title="appstream_database_refresh_finish ()"><code class="function">appstream_database_refresh_finish()</code></a></code></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>_callback_</code></em> :</span></p></td>
+<td>callback to call when the request is satisfied. <span class="annotation">[<acronym title="The callback is valid until first called."><span class="acronym">scope async</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>_user_data_</code></em> :</span></p></td>
+<td>the data to pass to <em class="parameter"><code>_callback_</code></em> function. <span class="annotation">[<acronym title="This parameter is a 'user_data', for callbacks; many bindings can pass NULL here."><span class="acronym">closure</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-refresh-finish"></a><h3>appstream_database_refresh_finish ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_database_refresh_finish   (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a> *_res_</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>
+Make a DBus call telling the system to refresh the internal database of available applications. AppStream uses the metadata provided by your distributor to regenerate the database.
+</p>
+<p>
+<span class="emphasis"><em>See also</em></span>: <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh" title="appstream_database_refresh ()"><code class="function"><a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-refresh" title="appstream_database_refresh ()"><code class="function">appstream_database_refresh()</code></a></code></a>
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>_res_</code></em> :</span></p></td>
+<td>a <a href="../gio/GAsyncResult.html"><span class="type">GAsyncResult</span></a>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>error</code></em> :</span></p></td>
+<td>location to store the error occuring, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> to ignore. <span class="annotation">[<acronym title="Typed errors. Similar to throws in Java."><span class="acronym">error-domains</span></acronym> GIOErrorEnum]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if refresh was successfull.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-new"></a><h3>appstream_database_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="returnvalue">AppstreamDatabase</span></a> * appstream_database_new              (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-database-get-database-path"></a><h3>appstream_database_get_database_path ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_database_get_database_path
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"database-path"</span> property.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamSearchQuery.html#AppstreamDatabase" title="struct AppstreamDatabase"><span class="type">AppstreamDatabase</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"database-path"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamDatabase"></a><h3>struct AppstreamDatabase</h3>
+<pre class="programlisting">struct AppstreamDatabase {
+	GObject parent_instance;
+	AppstreamDatabasePrivate * priv;
+};
+</pre>
+<p>
+Class to access the AppStream application database
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamDatabaseClass"></a><h3>struct AppstreamDatabaseClass</h3>
+<pre class="programlisting">struct AppstreamDatabaseClass {
+	GObjectClass parent_class;
+	gboolean (*open) (AppstreamDatabase* self);
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AppstreamSearchQuery.html#APPSTREAM-TYPE-DATABASE:CAPS" title="APPSTREAM_TYPE_DATABASE"><code class="literal">APPSTREAM_TYPE_DATABASE</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0">
+<col align="left" valign="top">
+<tbody>
+<tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamDatabaseClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="AppstreamDatabaseClass.open"></a>open</code></em> ()</span></p></td>
+<td>virtual method called by <a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-open" title="appstream_database_open ()"><code class="function"><a class="link" href="appstream-AppstreamSearchQuery.html#appstream-database-open" title="appstream_database_open ()"><code class="function">appstream_database_open()</code></a></code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.18</div>
+</body>
+</html>

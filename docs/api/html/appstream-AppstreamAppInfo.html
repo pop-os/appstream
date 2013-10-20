@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>AppstreamAppInfo</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.76.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="LibAppStream Reference Manual">
 <link rel="up" href="ch01.html" title="appstream API Reference">
 <link rel="prev" href="appstream-AppstreamDistroDetails.html" title="AppstreamDistroDetails">
 <link rel="next" href="appstream-AppstreamCategory.html" title="AppstreamCategory">
-<meta name="generator" content="GTK-Doc V1.18 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -47,6 +47,9 @@
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-pkgname" title="appstream_app_info_get_pkgname ()">appstream_app_info_get_pkgname</a>      (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-pkgname" title="appstream_app_info_set_pkgname ()">appstream_app_info_set_pkgname</a>      (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file" title="appstream_app_info_get_desktop_file ()">appstream_app_info_get_desktop_file</a> (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file" title="appstream_app_info_set_desktop_file ()">appstream_app_info_set_desktop_file</a> (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-name" title="appstream_app_info_get_name ()">appstream_app_info_get_name</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-name" title="appstream_app_info_set_name ()">appstream_app_info_set_name</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
@@ -66,14 +69,14 @@ const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gc
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-keywords" title="appstream_app_info_set_keywords ()">appstream_app_info_set_keywords</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);
-const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-url" title="appstream_app_info_get_url ()">appstream_app_info_get_url</a>          (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-url" title="appstream_app_info_set_url ()">appstream_app_info_set_url</a>          (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
-const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file" title="appstream_app_info_get_desktop_file ()">appstream_app_info_get_desktop_file</a> (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file" title="appstream_app_info_set_desktop_file ()">appstream_app_info_set_desktop_file</a> (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
 const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-icon" title="appstream_app_info_get_icon ()">appstream_app_info_get_icon</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
 <span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-icon" title="appstream_app_info_set_icon ()">appstream_app_info_set_icon</a>         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-icon-url" title="appstream_app_info_get_icon_url ()">appstream_app_info_get_icon_url</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-icon-url" title="appstream_app_info_set_icon_url ()">appstream_app_info_set_icon_url</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-homepage" title="appstream_app_info_get_homepage ()">appstream_app_info_get_homepage</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-set-homepage" title="appstream_app_info_set_homepage ()">appstream_app_info_set_homepage</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamAppInfo.html#appstream-app-info-get-categories" title="appstream_app_info_get_categories ()">appstream_app_info_get_categories</a>   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);
@@ -109,8 +112,11 @@ The type for <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppI
 <p>
 Check if the essential properties of this AppInfo instance are populated with useful data.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
 <td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance</td>
@@ -121,8 +127,11 @@ Check if the essential properties of this AppInfo instance are populated with us
 <div class="refsect2">
 <a name="appstream-app-info-to-string"></a><h3>appstream_app_info_to_string ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             appstream_app_info_to_string        (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
 <td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance</td>
@@ -138,8 +147,11 @@ Check if the essential properties of this AppInfo instance are populated with us
 <p>
 Set the categories list from a string
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -165,8 +177,11 @@ Set the categories list from a string
 <p>
 Get and return the current value of the <span class="type">"pkgname"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -187,8 +202,11 @@ Get and return the current value of the <span class="type">"pkgname"</span> prop
 <p>
 Set the value of the <span class="type">"pkgname"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -203,13 +221,65 @@ Set the value of the <span class="type">"pkgname"</span> property to <em class="
 </div>
 <hr>
 <div class="refsect2">
+<a name="appstream-app-info-get-desktop-file"></a><h3>appstream_app_info_get_desktop_file ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_desktop_file (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"desktop-file"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"desktop-file"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-app-info-set-desktop-file"></a><h3>appstream_app_info_set_desktop_file ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_desktop_file (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"desktop-file"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"desktop-file"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="appstream-app-info-get-name"></a><h3>appstream_app_info_get_name ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_name         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
 <p>
 Get and return the current value of the <span class="type">"name"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -230,8 +300,11 @@ Get and return the current value of the <span class="type">"name"</span> propert
 <p>
 Set the value of the <span class="type">"name"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -252,8 +325,11 @@ Set the value of the <span class="type">"name"</span> property to <em class="par
 <p>
 Get and return the current value of the <span class="type">"name-original"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -275,8 +351,11 @@ Get and return the current value of the <span class="type">"name-original"</span
 <p>
 Set the value of the <span class="type">"name-original"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -296,8 +375,11 @@ Set the value of the <span class="type">"name-original"</span> property to <em c
 <p>
 Get and return the current value of the <span class="type">"summary"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -318,8 +400,11 @@ Get and return the current value of the <span class="type">"summary"</span> prop
 <p>
 Set the value of the <span class="type">"summary"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -339,8 +424,11 @@ Set the value of the <span class="type">"summary"</span> property to <em class="
 <p>
 Get and return the current value of the <span class="type">"description"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -361,8 +449,11 @@ Get and return the current value of the <span class="type">"description"</span> 
 <p>
 Set the value of the <span class="type">"description"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -383,8 +474,11 @@ Set the value of the <span class="type">"description"</span> property to <em cla
 <p>
 Get and return the current value of the <span class="type">"keywords"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -406,8 +500,11 @@ Get and return the current value of the <span class="type">"keywords"</span> pro
 <p>
 Set the value of the <span class="type">"keywords"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -422,99 +519,16 @@ Set the value of the <span class="type">"keywords"</span> property to <em class=
 </div>
 <hr>
 <div class="refsect2">
-<a name="appstream-app-info-get-url"></a><h3>appstream_app_info_get_url ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_url          (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
-<p>
-Get and return the current value of the <span class="type">"url"</span> property.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
-<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to query</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the value of the <span class="type">"url"</span> property</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="appstream-app-info-set-url"></a><h3>appstream_app_info_set_url ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_url          (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-Set the value of the <span class="type">"url"</span> property to <em class="parameter"><code>value</code></em>.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
-<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to modify</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td>the new value of the <span class="type">"url"</span> property</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="appstream-app-info-get-desktop-file"></a><h3>appstream_app_info_get_desktop_file ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_desktop_file (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
-<p>
-Get and return the current value of the <span class="type">"desktop-file"</span> property.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
-<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to query</td>
-</tr>
-<tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>the value of the <span class="type">"desktop-file"</span> property</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="appstream-app-info-set-desktop-file"></a><h3>appstream_app_info_set_desktop_file ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_desktop_file (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-Set the value of the <span class="type">"desktop-file"</span> property to <em class="parameter"><code>value</code></em>.
-</p>
-<div class="variablelist"><table border="0">
-<col align="left" valign="top">
-<tbody>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
-<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to modify</td>
-</tr>
-<tr>
-<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
-<td>the new value of the <span class="type">"desktop-file"</span> property</td>
-</tr>
-</tbody>
-</table></div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="appstream-app-info-get-icon"></a><h3>appstream_app_info_get_icon ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_icon         (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
 <p>
 Get and return the current value of the <span class="type">"icon"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -535,8 +549,11 @@ Get and return the current value of the <span class="type">"icon"</span> propert
 <p>
 Set the value of the <span class="type">"icon"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -551,14 +568,115 @@ Set the value of the <span class="type">"icon"</span> property to <em class="par
 </div>
 <hr>
 <div class="refsect2">
+<a name="appstream-app-info-get-icon-url"></a><h3>appstream_app_info_get_icon_url ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_icon_url     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"icon-url"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"icon-url"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-app-info-set-icon-url"></a><h3>appstream_app_info_set_icon_url ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_icon_url     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"icon-url"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"icon-url"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-app-info-get-homepage"></a><h3>appstream_app_info_get_homepage ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_app_info_get_homepage     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"homepage"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"homepage"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-app-info-set-homepage"></a><h3>appstream_app_info_set_homepage ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_app_info_set_homepage     (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"homepage"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"homepage"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="appstream-app-info-get-categories"></a><h3>appstream_app_info_get_categories ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_app_info_get_categories   (<em class="parameter"><code><a class="link" href="appstream-AppstreamAppInfo.html#AppstreamAppInfo" title="struct AppstreamAppInfo"><span class="type">AppstreamAppInfo</span></a> *self</code></em>,
                                                          <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);</pre>
 <p>
 Get and return the current value of the <span class="type">"categories"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -580,8 +698,11 @@ Get and return the current value of the <span class="type">"categories"</span> p
 <p>
 Set the value of the <span class="type">"categories"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -602,8 +723,11 @@ Set the value of the <span class="type">"categories"</span> property to <em clas
 <p>
 Get and return the current value of the <span class="type">"mimetypes"</span> property.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -625,8 +749,11 @@ Get and return the current value of the <span class="type">"mimetypes"</span> pr
 <p>
 Set the value of the <span class="type">"mimetypes"</span> property to <em class="parameter"><code>value</code></em>.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody>
 <tr>
 <td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
@@ -661,8 +788,11 @@ Class to store data describing an application in AppStream
 <p>
 The class structure for <a class="link" href="appstream-AppstreamAppInfo.html#APPSTREAM-TYPE-APP-INFO:CAPS" title="APPSTREAM_TYPE_APP_INFO"><code class="literal">APPSTREAM_TYPE_APP_INFO</code></a>. All the fields in this structure are private and should never be accessed directly.
 </p>
-<div class="variablelist"><table border="0">
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
 <col align="left" valign="top">
+<col>
+</colgroup>
 <tbody><tr>
 <td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamAppInfoClass.parent-class"></a>parent_class</code></em>;</span></p></td>
 <td>the parent class structure</td>
@@ -673,6 +803,6 @@ The class structure for <a class="link" href="appstream-AppstreamAppInfo.html#AP
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.18</div>
+          Generated by GTK-Doc V1.19</div>
 </body>
 </html>

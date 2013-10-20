@@ -21,6 +21,8 @@
 <title role="synopsis.title">Synopsis</title>
 
 <synopsis>#define             <link linkend="APPSTREAM-TYPE-DISTRO-DETAILS:CAPS">APPSTREAM_TYPE_DISTRO_DETAILS</link>
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="appstream-distro-details-get-icon-repository-paths">appstream_distro_details_get_icon_repository_paths</link>
+                                                        (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);
 <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="appstream-distro-details-config-distro-get-str">appstream_distro_details_config_distro_get_str</link>
                                                         (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>,
                                                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *key</parameter>);
@@ -33,8 +35,6 @@ const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <lin
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-distro-details-get-distro-name">appstream_distro_details_get_distro_name</link>
                                                         (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-distro-details-get-distro-version">appstream_distro_details_get_distro_version</link>
-                                                        (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-distro-details-get-icon-repository-path">appstream_distro_details_get_icon_repository_path</link>
                                                         (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);
 struct              <link linkend="AppstreamDistroDetails">AppstreamDistroDetails</link>;
 struct              <link linkend="AppstreamDistroDetailsClass">AppstreamDistroDetailsClass</link>;
@@ -55,6 +55,18 @@ struct              <link linkend="AppstreamDistroDetailsClass">AppstreamDistroD
 <para>
 The type for <link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link>.
 </para></refsect2>
+<refsect2 id="appstream-distro-details-get-icon-repository-paths" role="function">
+<title>appstream_distro_details_get_icon_repository_paths ()</title>
+<indexterm zone="appstream-distro-details-get-icon-repository-paths"><primary sortas="distro_details_get_icon_repository_paths">appstream_distro_details_get_icon_repository_paths</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            appstream_distro_details_get_icon_repository_paths
+                                                        (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);</programlisting>
+<para>
+Returns list of icon-paths for software-center applications to use. Icons of software (even if it is not installed) are stored in these locations.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>A NULL-terminated array of paths. <emphasis role="annotation">[<acronym>array</acronym> length=result_length1]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
 <refsect2 id="appstream-distro-details-config-distro-get-str" role="function">
 <title>appstream_distro_details_config_distro_get_str ()</title>
 <indexterm zone="appstream-distro-details-config-distro-get-str"><primary sortas="distro_details_config_distro_get_str">appstream_distro_details_config_distro_get_str</primary></indexterm>
@@ -119,18 +131,6 @@ Get and return the current value of the <link linkend="AppstreamDistroDetails--d
 <varlistentry><term><parameter>self</parameter>&#160;:</term>
 <listitem><simpara>the <link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> instance to query</simpara></listitem></varlistentry>
 <varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamDistroDetails--distro-version"><type>"distro-version"</type></link> property</simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="appstream-distro-details-get-icon-repository-path" role="function">
-<title>appstream_distro_details_get_icon_repository_path ()</title>
-<indexterm zone="appstream-distro-details-get-icon-repository-path"><primary sortas="distro_details_get_icon_repository_path">appstream_distro_details_get_icon_repository_path</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       appstream_distro_details_get_icon_repository_path
-                                                        (<parameter><link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> *self</parameter>);</programlisting>
-<para>
-Get and return the current value of the <link linkend="AppstreamDistroDetails--icon-repository-path"><type>"icon-repository-path"</type></link> property.
-</para><variablelist role="params">
-<varlistentry><term><parameter>self</parameter>&#160;:</term>
-<listitem><simpara>the <link linkend="AppstreamDistroDetails"><type>AppstreamDistroDetails</type></link> instance to query</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamDistroDetails--icon-repository-path"><type>"icon-repository-path"</type></link> property</simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="AppstreamDistroDetails" role="struct">
 <title>struct AppstreamDistroDetails</title>

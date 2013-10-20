@@ -7,11 +7,11 @@
 
 <glossary id="annotation-glossary">
   <title>Annotation Glossary</title>
-<glossdiv><title>S</title>
+<glossdiv><title>A</title>
     <glossentry>
-      <glossterm><anchor id="annotation-glossterm-scope async"/>scope async</glossterm>
+      <glossterm><anchor id="annotation-glossterm-array"/>array</glossterm>
       <glossdef>
-        <para>The callback is valid until first called.</para>
+        <para>Parameter points to an array of items.</para>
       </glossdef>
     </glossentry>
 </glossdiv>
@@ -20,22 +20,6 @@
       <glossterm><anchor id="annotation-glossterm-in"/>in</glossterm>
       <glossdef>
         <para>Parameter for input. Default is <acronym>transfer none</acronym>.</para>
-      </glossdef>
-    </glossentry>
-</glossdiv>
-<glossdiv><title>C</title>
-    <glossentry>
-      <glossterm><anchor id="annotation-glossterm-closure"/>closure</glossterm>
-      <glossdef>
-        <para>This parameter is a 'user_data', for callbacks; many bindings can pass NULL here.</para>
-      </glossdef>
-    </glossentry>
-</glossdiv>
-<glossdiv><title>E</title>
-    <glossentry>
-      <glossterm><anchor id="annotation-glossterm-error-domains"/>error-domains</glossterm>
-      <glossdef>
-        <para>Typed errors. Similar to throws in Java.</para>
       </glossdef>
     </glossentry>
 </glossdiv>

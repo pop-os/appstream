@@ -1,16 +1,16 @@
-<ONLINE href="http://www.freedesktop.org/software/appstream/apidoc/index.html">
+<ONLINE href="http://www.freedesktop.org/software/appstream/docs/api/html">
 <ANCHOR id="appstream-AppstreamDistroDetails" href="appstream/appstream-AppstreamDistroDetails.html">
 <ANCHOR id="appstream-AppstreamDistroDetails.synopsis" href="appstream/appstream-AppstreamDistroDetails.html#appstream-AppstreamDistroDetails.synopsis">
 <ANCHOR id="appstream-AppstreamDistroDetails.description" href="appstream/appstream-AppstreamDistroDetails.html#appstream-AppstreamDistroDetails.description">
 <ANCHOR id="appstream-AppstreamDistroDetails.details" href="appstream/appstream-AppstreamDistroDetails.html#appstream-AppstreamDistroDetails.details">
 <ANCHOR id="APPSTREAM-TYPE-DISTRO-DETAILS:CAPS" href="appstream/appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS">
+<ANCHOR id="appstream-distro-details-get-icon-repository-paths" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-paths">
 <ANCHOR id="appstream-distro-details-config-distro-get-str" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-str">
 <ANCHOR id="appstream-distro-details-config-distro-get-bool" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-bool">
 <ANCHOR id="appstream-distro-details-new" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-new">
 <ANCHOR id="appstream-distro-details-get-distro-id" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-id">
 <ANCHOR id="appstream-distro-details-get-distro-name" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-name">
 <ANCHOR id="appstream-distro-details-get-distro-version" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-version">
-<ANCHOR id="appstream-distro-details-get-icon-repository-path" href="appstream/appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-path">
 <ANCHOR id="AppstreamDistroDetails" href="appstream/appstream-AppstreamDistroDetails.html#AppstreamDistroDetails">
 <ANCHOR id="AppstreamDistroDetailsClass" href="appstream/appstream-AppstreamDistroDetails.html#AppstreamDistroDetailsClass">
 <ANCHOR id="appstream-AppstreamAppInfo" href="appstream/appstream-AppstreamAppInfo.html">
@@ -24,6 +24,8 @@
 <ANCHOR id="appstream-app-info-new" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-new">
 <ANCHOR id="appstream-app-info-get-pkgname" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-pkgname">
 <ANCHOR id="appstream-app-info-set-pkgname" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-pkgname">
+<ANCHOR id="appstream-app-info-get-desktop-file" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file">
+<ANCHOR id="appstream-app-info-set-desktop-file" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file">
 <ANCHOR id="appstream-app-info-get-name" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-name">
 <ANCHOR id="appstream-app-info-set-name" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-name">
 <ANCHOR id="appstream-app-info-get-name-original" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-name-original">
@@ -34,12 +36,12 @@
 <ANCHOR id="appstream-app-info-set-description" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-description">
 <ANCHOR id="appstream-app-info-get-keywords" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-keywords">
 <ANCHOR id="appstream-app-info-set-keywords" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-keywords">
-<ANCHOR id="appstream-app-info-get-url" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-url">
-<ANCHOR id="appstream-app-info-set-url" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-url">
-<ANCHOR id="appstream-app-info-get-desktop-file" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file">
-<ANCHOR id="appstream-app-info-set-desktop-file" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file">
 <ANCHOR id="appstream-app-info-get-icon" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-icon">
 <ANCHOR id="appstream-app-info-set-icon" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-icon">
+<ANCHOR id="appstream-app-info-get-icon-url" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-icon-url">
+<ANCHOR id="appstream-app-info-set-icon-url" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-icon-url">
+<ANCHOR id="appstream-app-info-get-homepage" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-homepage">
+<ANCHOR id="appstream-app-info-set-homepage" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-homepage">
 <ANCHOR id="appstream-app-info-get-categories" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-categories">
 <ANCHOR id="appstream-app-info-set-categories" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-set-categories">
 <ANCHOR id="appstream-app-info-get-mimetypes" href="appstream/appstream-AppstreamAppInfo.html#appstream-app-info-get-mimetypes">
@@ -101,8 +103,6 @@
 <ANCHOR id="appstream-database-get-all-applications" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-get-all-applications">
 <ANCHOR id="appstream-database-find-applications" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-find-applications">
 <ANCHOR id="appstream-database-find-applications-by-str" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-find-applications-by-str">
-<ANCHOR id="appstream-database-refresh" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-refresh">
-<ANCHOR id="appstream-database-refresh-finish" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish">
 <ANCHOR id="appstream-database-new" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-new">
 <ANCHOR id="appstream-database-get-database-path" href="appstream/appstream-AppstreamSearchQuery.html#appstream-database-get-database-path">
 <ANCHOR id="AppstreamDatabase" href="appstream/appstream-AppstreamSearchQuery.html#AppstreamDatabase">
@@ -118,8 +118,6 @@
 <ANCHOR id="appstream-screenshot-service-get-base-url" href="appstream/appstream-AppstreamScreenshotService.html#appstream-screenshot-service-get-base-url">
 <ANCHOR id="AppstreamScreenshotService" href="appstream/appstream-AppstreamScreenshotService.html#AppstreamScreenshotService">
 <ANCHOR id="AppstreamScreenshotServiceClass" href="appstream/appstream-AppstreamScreenshotService.html#AppstreamScreenshotServiceClass">
-<ANCHOR id="annotation-glossterm-scope async" href="appstream/annotation-glossary.html#annotation-glossterm-scope async">
+<ANCHOR id="annotation-glossterm-array" href="appstream/annotation-glossary.html#annotation-glossterm-array">
 <ANCHOR id="annotation-glossterm-in" href="appstream/annotation-glossary.html#annotation-glossterm-in">
-<ANCHOR id="annotation-glossterm-closure" href="appstream/annotation-glossary.html#annotation-glossterm-closure">
-<ANCHOR id="annotation-glossterm-error-domains" href="appstream/annotation-glossary.html#annotation-glossterm-error-domains">
 <ANCHOR id="annotation-glossterm-transfer none" href="appstream/annotation-glossary.html#annotation-glossterm-transfer none">

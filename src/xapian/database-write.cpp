@@ -34,7 +34,6 @@ using namespace AppStream;
 DatabaseWrite::DatabaseWrite () :
     m_rwXapianDB(0)
 {
-
 }
 
 DatabaseWrite::~DatabaseWrite ()
@@ -45,15 +44,14 @@ DatabaseWrite::~DatabaseWrite ()
 }
 
 bool
-DatabaseWrite::init (const gchar *dbPath)
+DatabaseWrite::initialize (const gchar *dbPath)
 {
-	m_dbPath = dbPath;
+	m_dbPath = string(dbPath);
 
 	try {
 		m_rwXapianDB = new Xapian::WritableDatabase (m_dbPath,
 							    Xapian::DB_CREATE_OR_OPEN);
 	} catch (const Xapian::Error &error) {
-		cout << "ERROR!" << endl;
 		g_warning ("Exception: %s", error.get_msg ().c_str ());
 		return false;
 	}
@@ -115,7 +113,7 @@ DatabaseWrite::rebuild (GArray *apps)
 
 		// Package name
 		string pkgname = appstream_app_info_get_pkgname (app);
-		doc.add_value (PKGNAME, pkgname);
+		doc.add_value (XapianValues::PKGNAME, pkgname);
 		doc.add_term("AP" + pkgname);
 		if (pkgname.find ("-") != string::npos) {
 			// we need this to work around xapian oddness
@@ -128,29 +126,30 @@ DatabaseWrite::rebuild (GArray *apps)
 
 		// Untranslated application name
 		string appNameGeneric = appstream_app_info_get_name_original (app);
-		doc.add_value (APPNAME_UNTRANSLATED, appNameGeneric);
+		doc.add_value (XapianValues::APPNAME_UNTRANSLATED, appNameGeneric);
 		term_generator.index_text_without_positions (appNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
 
 		// Application name
 		string appName = appstream_app_info_get_name (app);
-		doc.add_value (APPNAME, appName);
+		doc.add_value (XapianValues::APPNAME, appName);
 
 		// Desktop file
-		doc.add_value (DESKTOP_FILE, appstream_app_info_get_desktop_file (app));
+		doc.add_value (XapianValues::DESKTOP_FILE, appstream_app_info_get_desktop_file (app));
 
 		// URL
-		doc.add_value (SUPPORT_SITE_URL, appstream_app_info_get_url (app));
+		doc.add_value (XapianValues::URL_HOMEPAGE, appstream_app_info_get_homepage (app));
 
-		// Application stock icon
-		doc.add_value (ICON, appstream_app_info_get_icon (app));
+		// Application icon
+		doc.add_value (XapianValues::ICON, appstream_app_info_get_icon (app));
+		doc.add_value (XapianValues::ICON_URL, appstream_app_info_get_icon_url (app));
 
 		// Summary
 		string appSummary = appstream_app_info_get_summary (app);
-		doc.add_value (SUMMARY, appSummary);
+		doc.add_value (XapianValues::SUMMARY, appSummary);
 		term_generator.index_text_without_positions (appSummary, WEIGHT_DESKTOP_SUMMARY);
 
 		// Long description
-		doc.add_value (SC_DESCRIPTION, appstream_app_info_get_description (app));
+		doc.add_value (XapianValues::DESCRIPTION, appstream_app_info_get_description (app));
 
 		// Categories
 		int length = 0;
@@ -167,7 +166,7 @@ DatabaseWrite::rebuild (GArray *apps)
 			doc.add_term ("AC" + tmp);
 			categories_string += cat + ";";
 		}
-		doc.add_value (CATEGORIES, categories_string);
+		doc.add_value (XapianValues::CATEGORIES, categories_string);
 
 		// Add our keywords (with high priority)
 		length = 0;
