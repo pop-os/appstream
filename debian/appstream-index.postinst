@@ -1,0 +1,13 @@
+#!/bin/sh
+# postinst script for appstream-index
+set -e
+
+# Update timestamps on AppStream data directories,
+# so a rebuild is triggered as soon as possible.
+touch -c /usr/share/app-info/xmls
+touch -c /var/cache/app-info/xmls
+touch -c /usr/share/app-install
+
+#DEBHELPER#
+
+exit 0
