@@ -47,6 +47,30 @@
 #define APPSTREAM_APP_INFO_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
 </MACRO>
 <MACRO>
+<NAME>APPSTREAM_TYPE_SCREENSHOT</NAME>
+#define APPSTREAM_TYPE_SCREENSHOT (appstream_screenshot_get_type ())
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT</NAME>
+#define APPSTREAM_SCREENSHOT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshot))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT_CLASS</NAME>
+#define APPSTREAM_SCREENSHOT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshotClass))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SCREENSHOT</NAME>
+#define APPSTREAM_IS_SCREENSHOT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SCREENSHOT))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_IS_SCREENSHOT_CLASS</NAME>
+#define APPSTREAM_IS_SCREENSHOT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SCREENSHOT))
+</MACRO>
+<MACRO>
+<NAME>APPSTREAM_SCREENSHOT_GET_CLASS</NAME>
+#define APPSTREAM_SCREENSHOT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshotClass))
+</MACRO>
+<MACRO>
 <NAME>APPSTREAM_TYPE_SEARCH_QUERY</NAME>
 #define APPSTREAM_TYPE_SEARCH_QUERY (appstream_search_query_get_type ())
 </MACRO>
@@ -248,6 +272,21 @@ struct _AppstreamMenuParserClass {
 };
 </STRUCT>
 <STRUCT>
+<NAME>AppstreamScreenshot</NAME>
+struct _AppstreamScreenshot {
+	GObject parent_instance;
+	AppstreamScreenshotPrivate * priv;
+	GHashTable* urls;
+	GHashTable* thumbnail_urls;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamScreenshotClass</NAME>
+struct _AppstreamScreenshotClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<STRUCT>
 <NAME>AppstreamScreenshotService</NAME>
 struct _AppstreamScreenshotService {
 	GObject parent_instance;
@@ -334,6 +373,16 @@ AppstreamAppInfo* self
 <NAME>appstream_app_info_set_categories_from_str</NAME>
 <RETURNS>void  </RETURNS>
 AppstreamAppInfo* self, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_type</NAME>
+<RETURNS>GType  </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_add_screenshot</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamAppInfo* self, AppstreamScreenshot* sshot 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_app_info_get_pkgname</NAME>
@@ -454,6 +503,11 @@ AppstreamAppInfo* self, int* result_length1
 <NAME>appstream_app_info_set_mimetypes</NAME>
 <RETURNS>void  </RETURNS>
 AppstreamAppInfo* self, gchar** value, int value_length1 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_app_info_get_screenshots</NAME>
+<RETURNS>GPtrArray * </RETURNS>
+AppstreamAppInfo* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>appstream_search_query_get_type</NAME>
@@ -696,6 +750,71 @@ AppstreamMenuParser* self, gboolean value
 void 
 </FUNCTION>
 <FUNCTION>
+<NAME>appstream_screenshot_new</NAME>
+<RETURNS>AppstreamScreenshot * </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_construct</NAME>
+<RETURNS>AppstreamScreenshot * </RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_url_for_size</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamScreenshot* self, const gchar* size_id 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_thumbnail_url_for_size</NAME>
+<RETURNS>gchar * </RETURNS>
+AppstreamScreenshot* self, const gchar* size_id 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_available_sizes</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamScreenshot* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_available_thumbnail_sizes</NAME>
+<RETURNS>gchar ** </RETURNS>
+AppstreamScreenshot* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_add_url</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamScreenshot* self, const gchar* size_id, const gchar* url 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_add_thumbnail_url</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamScreenshot* self, const gchar* size_id, const gchar* url 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_is_default</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamScreenshot* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_set_default</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamScreenshot* self, gboolean b 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_is_valid</NAME>
+<RETURNS>gboolean  </RETURNS>
+AppstreamScreenshot* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_get_caption</NAME>
+<RETURNS>const gchar * </RETURNS>
+AppstreamScreenshot* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>appstream_screenshot_set_caption</NAME>
+<RETURNS>void  </RETURNS>
+AppstreamScreenshot* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
 <NAME>appstream_screenshot_service_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
@@ -745,4 +864,7 @@ AppstreamScreenshotService* self
 </STRUCT>
 <STRUCT>
 <NAME>AppstreamDistroDetailsPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AppstreamScreenshotPrivate</NAME>
 </STRUCT>

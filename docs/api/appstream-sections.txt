@@ -29,6 +29,7 @@ APPSTREAM_TYPE_APP_INFO
 appstream_app_info_is_valid
 appstream_app_info_to_string
 appstream_app_info_set_categories_from_str
+appstream_app_info_add_screenshot
 appstream_app_info_new
 appstream_app_info_get_pkgname
 appstream_app_info_set_pkgname
@@ -54,6 +55,7 @@ appstream_app_info_get_categories
 appstream_app_info_set_categories
 appstream_app_info_get_mimetypes
 appstream_app_info_set_mimetypes
+appstream_app_info_get_screenshots
 AppstreamAppInfo
 AppstreamAppInfoClass
 <SUBSECTION Standard>
@@ -188,4 +190,33 @@ appstream_category_construct
 appstream_menu_parser_construct_from_file
 AppstreamMenuParserPrivate
 appstream_menu_parser_construct
+</SECTION>
+<SECTION>
+<FILE>screenshot</FILE>
+<TITLE>AppstreamScreenshot</TITLE>
+APPSTREAM_TYPE_SCREENSHOT
+appstream_screenshot_get_url_for_size
+appstream_screenshot_get_thumbnail_url_for_size
+appstream_screenshot_get_available_sizes
+appstream_screenshot_get_available_thumbnail_sizes
+appstream_screenshot_add_url
+appstream_screenshot_add_thumbnail_url
+appstream_screenshot_is_default
+appstream_screenshot_set_default
+appstream_screenshot_is_valid
+appstream_screenshot_new
+appstream_screenshot_get_caption
+appstream_screenshot_set_caption
+AppstreamScreenshot
+AppstreamScreenshotClass
+<SUBSECTION Standard>
+APPSTREAM_IS_SCREENSHOT
+APPSTREAM_IS_SCREENSHOT_CLASS
+APPSTREAM_SCREENSHOT
+APPSTREAM_SCREENSHOT_CLASS
+APPSTREAM_SCREENSHOT_GET_CLASS
+appstream_screenshot_get_type
+<SUBSECTION Private>
+AppstreamScreenshotPrivate
+appstream_screenshot_construct
 </SECTION>

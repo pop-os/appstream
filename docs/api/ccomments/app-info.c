@@ -25,6 +25,11 @@
  * Set the categories list from a string
  */
 /**
+ * appstream_app_info_add_screenshot:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance
+ * @sshot: &nbsp;
+ */
+/**
  * appstream_app_info_new:
  */
 /**
@@ -296,6 +301,19 @@
  * Set the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property to @value.
  * 
  * 
+ */
+/**
+ * AppstreamAppInfo:screenshots:
+ */
+/**
+ * appstream_app_info_get_screenshots:
+ * @self: the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query
+ * 
+ * Get and return the current value of the <link linkend="AppstreamAppInfo--screenshots"><type>"screenshots"</type></link> property.
+ * 
+ * 
+ * 
+ * Returns: the value of the <link linkend="AppstreamAppInfo--screenshots"><type>"screenshots"</type></link> property
  */
 /**
  * AppstreamAppInfo:

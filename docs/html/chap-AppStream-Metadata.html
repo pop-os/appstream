@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 2. Application Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 2.8" /><meta name="package" content="AppStream-AppStream-0.4-en-US-1-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-AppStream-Metadata-AppData.html" title="2.2. AppData XML files" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img src="Common_Content/images/image_left.png" alt="Product Site" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img src="Common_Content/images/image_right.png" alt="Documentation Site" /></a></p><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-Metadata-AppData.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" id="chap-AppStream-Metadata" lang="en-US"><div class="titlepage"><div><div><h2 class="title">Chapter 2. Application Metadata</h2></div></div></div><div class="toc"><dl><dt><span class="section"><a href="chap-AppStream-Metadata.html#sect-AppStream-Metadata-ASXML">2.1. AppStream XML files</a></span></dt><dt><span class="section"><a href="sect-AppStream-Metadata-AppData.html">2.2. AppData XML files</a></span></dt></dl></div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 2. Application Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.4.1-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-AppStream-Metadata-AppData.html" title="2.2. AppData XML files" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-Metadata-AppData.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chap-AppStream-Metadata"></a>Chapter 2. Application Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-AppStream-Metadata.html#sect-AppStream-Metadata-ASXML">2.1. AppStream XML files</a></span></dt><dt><span class="section"><a href="sect-AppStream-Metadata-AppData.html">2.2. AppData XML files</a></span></dt></dl></div><div class="para">
 		AppStream uses it's own XML metadata to describe applications. This chapter contains information about it.
-	</div><div xml:lang="en-US" class="section" id="sect-AppStream-Metadata-ASXML" lang="en-US"><div class="titlepage"><div><div><h2 class="title" id="sect-AppStream-Metadata-ASXML">2.1. AppStream XML files</h2></div></div></div><div class="section" id="spec-asxml-introduction"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-introduction">2.1.1. Introduction</h3></div></div></div><div class="para">
+	</div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-AppStream-Metadata-ASXML"></a>2.1. AppStream XML files</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-introduction"></a>2.1.1. Introduction</h3></div></div></div><div class="para">
 			AppStream XML files are small textfiles describing all available applications in the distribution's package repositories. The XML files might be compressed with GZip.
-		</div></div><div class="section" id="spec-asxml-filenaming"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-filenaming">2.1.2. File naming and location</h3></div></div></div><div class="para">
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-filenaming"></a>2.1.2. File naming and location</h3></div></div></div><div class="para">
 			The XML files must have an unique name, which is usually the distribution's name and version, combined with the name of the repository/origin. For example in Debian 8 (Jessie), the filename for the main repository component would be <code class="filename">debian-jessie-main.xml.gz</code>. For Fedora 20 (Heisenbug) updates it would be <code class="filename">fedora-20-updates.xml.gz</code>. 3rd-party repositories use a vendor name and repository-name combination, for example Ubuntu PPAs might get <code class="filename">ppa-ubuntu12.04-username-foobar.xml</code>.
 		</div><div class="para">
 			There are two valid locations to store AppStream XML data. <code class="filename">/usr/share/app-info/xmls</code> stores all AppStream data which has been installed via software packages, while <code class="filename">/var/cache/app-info/xmls</code> stores application data which was downloaded by the package manager or placed there by other tools (e.g. Listaller). The XML files can either be plain files or be compressed with gzip. It is always a good idea to compress the files, because they tend to become quite large.
-		</div></div><div class="section" id="spec-asxml-structure"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-structure">2.1.3. XML structure</h3></div></div></div><div class="para">
-			The XML starts with an <code class="code">&lt;applications&gt;</code> tag as root element. It has all the <code class="code">&lt;application&gt;</code> elements as children. Data to fill the application elements is usually taken from their <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> and package data. However, if an application ships AppData files (see <a class="xref" href="sect-AppStream-Metadata-AppData.html">Section 2.2, “AppData XML files”</a>), values defined there should override data from any other source. The <code class="code">&lt;application&gt;</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code>, <code class="literal">summary</code>, <code class="literal">pkgname</code> and <code class="literal">icon</code> tag. All possible tags are:
-		</div><div class="variablelist"><dl><dt class="varlistentry"><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;id type="desktop"&gt;</code> tag is the same name as the installed .desktop file for the application. Additional identifiers are possible later, but right now <code class="literal">desktop</code> is the only supported type.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;pkgname/&gt;</span></dt><dd><div class="para">
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-structure"></a>2.1.3. XML structure</h3></div></div></div><div class="para">
+			The XML starts with an <code class="code">&lt;applications&gt;
+</code> tag as root element. It has all the <code class="code">&lt;application&gt;
+</code> elements as children. Data to fill the application elements is usually taken from their <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> and package data. However, if an application ships AppData files (see <a class="xref" href="sect-AppStream-Metadata-AppData.html">Section 2.2, “AppData XML files”</a>), values defined there should override data from any other source. The <code class="code">&lt;application&gt;
+</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code>, <code class="literal">summary</code>, <code class="literal">pkgname</code> and <code class="literal">icon</code> tag. All possible tags are:
+		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;id type="desktop"&gt;
+</code> tag is the same name as the installed .desktop file for the application. Additional identifiers are possible later, but right now <code class="literal">desktop</code> is the only supported type.
+					</div></dd><dt><span class="term">&lt;pkgname/&gt;</span></dt><dd><div class="para">
 						The name of the package which needs to be installed in order to provide this application.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
 						The application name defined in the application's <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop file</a>.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;project_license&gt;</code> tag is indicating the license of your project/application. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 
+					</div></dd><dt><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;project_license&gt;
+</code> tag is indicating the license of your project/application. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 
 						<div class="itemizedlist"><ul><li class="listitem"><div class="para">
 									GPL-2
 								</div></li><li class="listitem"><div class="para">
@@ -31,9 +36,9 @@
 						 A full list of recognized licenses and their identifiers can be found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. For SPDX compatibility, versions with trailing dot-zeroes are considered to be equivalent to versions without (e.g., "2.0.0" is considered equal to "2.0" and "2").
 					</div><div class="para">
 						Although the license tag is not mandatory, it is recommended to include it.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
 						A short summary of the purpose and function of this application. Usually taken from the Desktop file, if the application does not ship an AppData file.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
 						A long description of the application. It is usually taken from the package descriptions or application's AppData files. The description might use markup. Right now, only paragraph, ordered list and unordered list are supported. An example description element might look like this: 
 <pre class="programlisting">
 <span class="perl_Keyword">&lt;description&gt;</span>
@@ -54,14 +59,18 @@
  <span class="perl_Keyword">&lt;/description&gt;</span>
 </pre>
 
-					</div></dd><dt class="varlistentry"><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
+						Defines URLs for this application.
+					</div><div class="para">
 						Links of type <code class="literal">homepage</code> should be a link to the upstream homepage for the application. It is planned to allow links to application's FAQ and forums later.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;project_group/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;project_group&gt;</code> tag identifies a project with a specific upstream umbrella project. Known values include <code class="literal">GNOME, KDE, XFCE, LXDE, Mozilla</code> and <code class="literal">MATE</code>, although other umbrella projects like <code class="literal">Yorba</code> would make sense too.
-					</div><div class="note"><div class="admonition_header"><h2>Note</h2></div><div class="admonition"><div class="para">
+					</div></dd><dt><span class="term">&lt;project_group/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;project_group&gt;
+</code> tag identifies a project with a specific upstream umbrella project. Known values include <code class="literal">GNOME, KDE, XFCE, LXDE, Mozilla</code> and <code class="literal">MATE</code>, although other umbrella projects like <code class="literal">Yorba</code> would make sense too.
+					</div><div class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
 							Applications should only identify with an umbrella project if you use all their infrastructure and policies, for instance string freezes dates, bugtracker and source control instance.
-						</div></div></div></dd><dt class="varlistentry"><span class="term">&lt;icon/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;icon&gt;</code> tag describes the application's icon. It can be of the type <code class="literal">stock</code>, <code class="literal">cached</code>, <code class="literal">local</code>, or <code class="literal">url</code>.
+						</div></div></div></dd><dt><span class="term">&lt;icon/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;icon&gt;
+</code> tag describes the application's icon. It can be of the type <code class="literal">stock</code>, <code class="literal">cached</code>, <code class="literal">local</code>, or <code class="literal">url</code>.
 					</div><div class="para">
 						<code class="literal">stock</code> icons are loaded from stock. The icon name should never include any file-extension or path.
 					</div><div class="para">
@@ -78,43 +87,58 @@
 <span class="perl_Keyword">&lt;icon</span><span class="perl_Others"> type=</span><span class="perl_String">"local"</span><span class="perl_Keyword">&gt;</span>/usr/share/pixmaps/foobar.png<span class="perl_Keyword">&lt;/icon&gt;</span>
 <span class="perl_Keyword">&lt;icon</span><span class="perl_Others"> type=</span><span class="perl_String">"remote"</span><span class="perl_Keyword">&gt;</span>http://example.com/icons/foobar.png<span class="perl_Keyword">&lt;/icon&gt;</span>
 </pre><div class="para">
-						Multiple <code class="code">&lt;icon/&gt;</code> tags might be combined for one application, e.g. to define a <code class="literal">stock</code> icon and a <code class="literal">cached</code> icon. Software-Centers should always prefer the stock icon, if it is available, and fall back to the other icon types if they can not find it. The <span class="emphasis"><em>libappstream</em></span> library makes it easy to do that, if you are not accessing the Xapian database manually.
+						Multiple <code class="code">&lt;icon/&gt;
+</code> tags might be combined for one application, e.g. to define a <code class="literal">stock</code> icon and a <code class="literal">cached</code> icon. Software-Centers should always prefer the stock icon, if it is available, and fall back to the other icon types if they can not find it. The <span class="emphasis"><em>libappstream</em></span> library makes it easy to do that, if you are not accessing the Xapian database manually.
 					</div><div class="para">
 						The AppStream Xapian database generator will prefer <code class="literal">cached</code> over <code class="literal">local</code> over <code class="literal">remote</code> icons when setting the non-stock icon for the application.
-					</div></dd><dt class="varlistentry"><span class="term">&lt;mimetypes/&gt;</span></dt><dd><div class="para">
-						This tag can contain one or more <code class="code">&lt;mimetype&gt;</code> tags, describing the mime types this application supports. The data can usually be fetched from the Desktop files. Example:
+					</div></dd><dt><span class="term">&lt;mimetypes/&gt;</span></dt><dd><div class="para">
+						This tag can contain one or more <code class="code">&lt;mimetype&gt;
+</code> tags, describing the mime types this application supports. The data can usually be fetched from the Desktop files. Example:
 					</div><pre class="programlisting">
 <span class="perl_Keyword">&lt;mimetypes&gt;</span>
     <span class="perl_Keyword">&lt;mimetype&gt;</span>text/html<span class="perl_Keyword">&lt;/mimetype&gt;</span>
     <span class="perl_Keyword">&lt;mimetype&gt;</span>image/jpeg<span class="perl_Keyword">&lt;/mimetype&gt;</span>
     <span class="perl_Keyword">&lt;mimetype&gt;</span>application/rss+xml<span class="perl_Keyword">&lt;/mimetype&gt;</span>
  <span class="perl_Keyword">&lt;/mimetypes&gt;</span>
-</pre></dd><dt class="varlistentry"><span class="term">&lt;appcategories/&gt;</span></dt><dd><div class="para">
-						This tag can contain one or more <code class="code">&lt;appcategory&gt;</code> tags, describing the categories this application is in. This data is usually taken from Desktop files, a list of categories can be found in the <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</a>. Example:
+</pre></dd><dt><span class="term">&lt;categories/&gt;</span></dt><dd><div class="para">
+						This tag can contain one or more <code class="code">&lt;category&gt;
+</code> tags, describing the categories this application is in. This data is usually taken from Desktop files, a list of categories can be found in the <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</a>. Example:
 					</div><pre class="programlisting">
-<span class="perl_Keyword">&lt;appcategories&gt;</span>
-    <span class="perl_Keyword">&lt;appcategory&gt;</span>GNOME<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-    <span class="perl_Keyword">&lt;appcategory&gt;</span>GTK<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-    <span class="perl_Keyword">&lt;appcategory&gt;</span>Network<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-    <span class="perl_Keyword">&lt;appcategory&gt;</span>Telephony<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-<span class="perl_Keyword">&lt;/appcategories&gt;</span>
-</pre></dd><dt class="varlistentry"><span class="term">&lt;keywords/&gt;</span></dt><dd><div class="para">
-						This tag can contain one or more <code class="code">&lt;keyword&gt;</code> tags, describing keywords for the application, to make it easier to find in a software center. The data is taken from Desktop files. Example:
+<span class="perl_Keyword">&lt;categories&gt;</span>
+    <span class="perl_Keyword">&lt;category&gt;</span>GNOME<span class="perl_Keyword">&lt;/category&gt;</span>
+    <span class="perl_Keyword">&lt;category&gt;</span>GTK<span class="perl_Keyword">&lt;/category&gt;</span>
+    <span class="perl_Keyword">&lt;category&gt;</span>Network<span class="perl_Keyword">&lt;/category&gt;</span>
+    <span class="perl_Keyword">&lt;category&gt;</span>Telephony<span class="perl_Keyword">&lt;/category&gt;</span>
+<span class="perl_Keyword">&lt;/categories&gt;</span>
+</pre><div class="note"><div class="admonition_header"><p><strong>Deprecated Tags</strong></p></div><div class="admonition"><div class="para">
+							The tag <code class="code">&lt;appcategories&gt;
+</code> with its <code class="code">&lt;appcategory&gt;
+</code> child elements is deprecated API. AppStream parsers should handle these tags just like the <code class="literal">category</code> tags, there is no difference except for the name.
+						</div></div></div></dd><dt><span class="term">&lt;keywords/&gt;</span></dt><dd><div class="para">
+						This tag can contain one or more <code class="code">&lt;keyword&gt;
+</code> tags, describing keywords for the application, to make it easier to find in a software center. The data is taken from Desktop files. Example:
 					</div><pre class="programlisting">
 <span class="perl_Keyword">&lt;keywords&gt;</span>
   <span class="perl_Keyword">&lt;keyword&gt;</span>IDE<span class="perl_Keyword">&lt;/keyword&gt;</span>
   <span class="perl_Keyword">&lt;keyword&gt;</span>development<span class="perl_Keyword">&lt;/keyword&gt;</span>
   <span class="perl_Keyword">&lt;keyword&gt;</span>programming<span class="perl_Keyword">&lt;/keyword&gt;</span>
 <span class="perl_Keyword">&lt;/keywords&gt;</span>
-</pre></dd><dt class="varlistentry"><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
-						This tag can contain one or more <code class="code">&lt;screenshot&gt;</code> tags, describing screenshots which are available for the application. A screenshot tag my have the attribute <code class="code">type="default"</code>, marking it as the application's default screenshot, which primarily represents it in a software center.
+</pre></dd><dt><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
+						This tag can contain one or more <code class="code">&lt;screenshot&gt;
+</code> tags, describing screenshots which are available for the application. A screenshot tag my have the attribute <code class="code">type="default"</code>, marking it as the application's default screenshot, which primarily represents it in a software center.
 					</div><div class="para">
-						Every <code class="code">&lt;screenshot&gt;</code> is defined by several images of different sizes. All images should have their width and hight set as arguments. Also, one of the images shoukd be marked as <code class="code">type="source"</code>, indicating that it is the unscaled version of the screenshot. Images of <code class="code">type="thumbnail"</code> define thumbnails of the screenshot.
+						Every <code class="code">&lt;screenshot&gt;
+</code> is defined by several images of different sizes. All images should have their width and hight set as arguments. Also, one of the images shoukd be marked as <code class="code">type="source"</code>, indicating that it is the unscaled version of the screenshot. Images of <code class="code">type="thumbnail"</code> define thumbnails of the screenshot.
+					</div><div class="para">
+						Optionally, a screenshot can contain a <code class="code">&lt;caption&gt;
+</code> tag, describing the screenshot's caption. This is usually what the user can see on the image shown. The tag is translatable.
 					</div><div class="para">
 						Every image should have a full remote url set, usually pointing to a cache of images maintained by the distributor. Example:
 					</div><pre class="programlisting">
 <span class="perl_Keyword">&lt;screenshots&gt;</span>
   <span class="perl_Keyword">&lt;screenshot</span><span class="perl_Others"> type=</span><span class="perl_String">"default"</span><span class="perl_Keyword">&gt;</span>
+    <span class="perl_Keyword">&lt;caption&gt;</span>Foobar showing kitchen-sink functionality<span class="perl_Keyword">&lt;/caption&gt;</span>
+    <span class="perl_Keyword">&lt;caption</span><span class="perl_Others"> xml:lang=</span><span class="perl_String">"si"</span><span class="perl_Keyword">&gt;</span>Foobar shoeewing kischän-sünk funzionality<span class="perl_Keyword">&lt;/caption&gt;</span>
     <span class="perl_Keyword">&lt;image</span><span class="perl_Others"> type=</span><span class="perl_String">"source"</span><span class="perl_Others"> width=</span><span class="perl_String">"800"</span><span class="perl_Others"> height=</span><span class="perl_String">"600"</span><span class="perl_Keyword">&gt;</span>http://www.example.org/en_US/main.png<span class="perl_Keyword">&lt;/image&gt;</span>
     <span class="perl_Keyword">&lt;image</span><span class="perl_Others"> type=</span><span class="perl_String">"thumbnail"</span><span class="perl_Others"> width=</span><span class="perl_String">"200"</span><span class="perl_Others"> height=</span><span class="perl_String">"150"</span><span class="perl_Keyword">&gt;</span>http://www.example.org/en_US/main-small.png<span class="perl_Keyword">&lt;/image&gt;</span>
   <span class="perl_Keyword">&lt;/screenshot&gt;</span>
@@ -122,15 +146,17 @@
      ....
   <span class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span class="perl_Keyword">&lt;/screenshots&gt;</span>
-</pre></dd><dt class="varlistentry"><span class="term">&lt;compulsory_for_desktop/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;compulsory_for_desktop&gt;</code> tag indicates that the application which the data belongs to is essential for the functionality of the defined desktop environment. Examples for compulsory applications are the <code class="literal">GNOME-Shell</code> by the GNOME-Project, or the <code class="literal">Plasma-Desktop</code> by KDE, as well as things like <code class="literal">iBus</code> or the desktop login manager.
+</pre></dd><dt><span class="term">&lt;compulsory_for_desktop/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;compulsory_for_desktop&gt;
+</code> tag indicates that the application which the data belongs to is essential for the functionality of the defined desktop environment. Examples for compulsory applications are the <code class="literal">GNOME-Shell</code> by the GNOME-Project, or the <code class="literal">Plasma-Desktop</code> by KDE, as well as things like <code class="literal">iBus</code> or the desktop login manager.
 					</div><div class="para">
 						Software centers are expected to detect the running desktop environment and disable uninstallation for compulsory components of that desktop, so users will not be able to damage their currently running, primary desktop environment.
 					</div><div class="para">
-						Multiple occurrences of the <code class="code">&lt;compulsory_for_desktop&gt;</code> tag are allowed, so a project can be essential for many desktops. The distributor decides which applications should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
+						Multiple occurrences of the <code class="code">&lt;compulsory_for_desktop&gt;
+</code> tag are allowed, so a project can be essential for many desktops. The distributor decides which applications should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
 					</div><div class="para">
 						A list of all allowed values for this tag is defined in the <a href="http://standards.freedesktop.org/menu-spec/latest/apb.html">XDG Menu Specification</a>. Software center applications will only recognize these values.
-					</div></dd></dl></div></div><div class="section" id="spec-asxml-example"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-example">2.1.4. Example file</h3></div></div></div><div class="para">
+					</div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-example"></a>2.1.4. Example file</h3></div></div></div><div class="para">
 			This is an example AppStream metadata file:
 		</div><pre class="programlisting">
 <span class="perl_Keyword">&lt;?xml</span> version="1.0"<span class="perl_Keyword">?&gt;</span>
@@ -151,10 +177,10 @@
         <span class="perl_Keyword">&lt;/keywords&gt;</span>
         <span class="perl_Keyword">&lt;icon</span><span class="perl_Others"> type=</span><span class="perl_String">"stock"</span><span class="perl_Keyword">&gt;</span>web-browser<span class="perl_Keyword">&lt;/icon&gt;</span>
         <span class="perl_Keyword">&lt;icon</span><span class="perl_Others"> type=</span><span class="perl_String">"cached"</span><span class="perl_Keyword">&gt;</span>firefox.png<span class="perl_Keyword">&lt;/icon&gt;</span>
-        <span class="perl_Keyword">&lt;appcategories&gt;</span>
-            <span class="perl_Keyword">&lt;appcategory&gt;</span>network<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-            <span class="perl_Keyword">&lt;appcategory&gt;</span>web<span class="perl_Keyword">&lt;/appcategory&gt;</span>
-        <span class="perl_Keyword">&lt;/appcategories&gt;</span>
+        <span class="perl_Keyword">&lt;categories&gt;</span>
+            <span class="perl_Keyword">&lt;category&gt;</span>network<span class="perl_Keyword">&lt;/category&gt;</span>
+            <span class="perl_Keyword">&lt;category&gt;</span>web<span class="perl_Keyword">&lt;/category&gt;</span>
+        <span class="perl_Keyword">&lt;/categories&gt;</span>
         <span class="perl_Keyword">&lt;mimetypes&gt;</span>
             <span class="perl_Keyword">&lt;mimetype&gt;</span>text/html<span class="perl_Keyword">&lt;/mimetype&gt;</span>
             <span class="perl_Keyword">&lt;mimetype&gt;</span>text/xml<span class="perl_Keyword">&lt;/mimetype&gt;</span>
