@@ -143,22 +143,6 @@
  * 
  */
 /**
- * AppstreamDatabase::error-code:
- * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
- * @error_details: &nbsp;
- */
-/**
- * AppstreamDatabase::finished:
- * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
- * @action_name: &nbsp;
- * @success: &nbsp;
- */
-/**
- * AppstreamDatabase::authorized:
- * @database: the <link linkend="AppstreamDatabase"><type>AppstreamDatabase</type></link> instance that received the signal
- * @success: &nbsp;
- */
-/**
  * AppstreamDatabase:
  * 
  * Class to access the AppStream application database

@@ -1,6 +1,6 @@
 /* test-database-read.vala
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012-2014 Matthias Klumpp
  *
  * Licensed under the GNU General Public License Version 3
  *
@@ -28,9 +28,11 @@ void msg (string s) {
 }
 
 void print_apparray (PtrArray appArray) {
+	stdout.printf ("----\n");
 	for (uint i = 0; i < appArray.len; i++) {
 		stdout.printf ("  - %s\n", ((Appstream.AppInfo) appArray.index (i)).to_string ());
 	}
+	stdout.printf ("----\n");
 }
 
 void test_database () {
@@ -49,7 +51,7 @@ void test_database () {
 	var query = new SearchQuery ("firefox");
 	apps = db.find_applications (query);
 	print_apparray (apps);
-	assert (apps.len > 4);
+	assert (apps.len >= 3);
 
 	query = new SearchQuery ("");
 	query.set_categories_from_string ("science");
@@ -57,7 +59,7 @@ void test_database () {
 	print_apparray (apps);
 	assert (apps.len > 40);
 
-	query = new SearchQuery ("protein");
+	query = new SearchQuery ("chemistry");
 	query.set_categories_from_string ("science");
 	apps = db.find_applications (query);
 	print_apparray (apps);

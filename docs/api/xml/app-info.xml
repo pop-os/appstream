@@ -26,6 +26,8 @@
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-categories-from-str">appstream_app_info_set_categories_from_str</link>
                                                         (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-add-screenshot">appstream_app_info_add_screenshot</link>   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamScreenshot"><type>AppstreamScreenshot</type></link> *sshot</parameter>);
 <link linkend="AppstreamAppInfo"><returnvalue>AppstreamAppInfo</returnvalue></link> *  <link linkend="appstream-app-info-new">appstream_app_info_new</link>              (<parameter><type>void</type></parameter>);
 const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="appstream-app-info-get-pkgname">appstream_app_info_get_pkgname</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-pkgname">appstream_app_info_set_pkgname</link>      (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
@@ -71,6 +73,7 @@ const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <lin
 <link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="appstream-app-info-set-mimetypes">appstream_app_info_set_mimetypes</link>    (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
                                                          <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
                                                          <parameter><link linkend="int"><type>int</type></link> value_length1</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="appstream-app-info-get-screenshots">appstream_app_info_get_screenshots</link>  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);
 struct              <link linkend="AppstreamAppInfo">AppstreamAppInfo</link>;
 struct              <link linkend="AppstreamAppInfoClass">AppstreamAppInfoClass</link>;
 </synopsis>
@@ -121,6 +124,17 @@ Set the categories list from a string
 <listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
 <varlistentry><term><parameter>categories_str</parameter>&#160;:</term>
 <listitem><simpara>&nbsp;.  Comma-separated list of category-names. <emphasis role="annotation">[<acronym>in</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-add-screenshot" role="function">
+<title>appstream_app_info_add_screenshot ()</title>
+<indexterm zone="appstream-app-info-add-screenshot"><primary sortas="app_info_add_screenshot">appstream_app_info_add_screenshot</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                appstream_app_info_add_screenshot   (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AppstreamScreenshot"><type>AppstreamScreenshot</type></link> *sshot</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sshot</parameter>&#160;:</term>
+<listitem><simpara>&nbsp;</simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="appstream-app-info-new" role="function">
 <title>appstream_app_info_new ()</title>
@@ -422,6 +436,17 @@ Set the value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetype
 <listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to modify</simpara></listitem></varlistentry>
 <varlistentry><term><parameter>value</parameter>&#160;:</term>
 <listitem><simpara>the new value of the <link linkend="AppstreamAppInfo--mimetypes"><type>"mimetypes"</type></link> property</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="appstream-app-info-get-screenshots" role="function">
+<title>appstream_app_info_get_screenshots ()</title>
+<indexterm zone="appstream-app-info-get-screenshots"><primary sortas="app_info_get_screenshots">appstream_app_info_get_screenshots</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         appstream_app_info_get_screenshots  (<parameter><link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> *self</parameter>);</programlisting>
+<para>
+Get and return the current value of the <link linkend="AppstreamAppInfo--screenshots"><type>"screenshots"</type></link> property.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AppstreamAppInfo"><type>AppstreamAppInfo</type></link> instance to query</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the <link linkend="AppstreamAppInfo--screenshots"><type>"screenshots"</type></link> property</simpara></listitem></varlistentry>
 </variablelist></refsect2>
 <refsect2 id="AppstreamAppInfo" role="struct">
 <title>struct AppstreamAppInfo</title>

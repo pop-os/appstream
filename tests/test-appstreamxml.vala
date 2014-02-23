@@ -1,6 +1,6 @@
 /* test-appstreamxml.vala
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012-2014 Matthias Klumpp
  *
  * Licensed under the GNU General Public License Version 3
  *
@@ -34,6 +34,32 @@ void test_appstream_parser () {
 	asxml.process_compressed_file (File.new_for_path (Path.build_filename (datadir, "appdata.xml.gz", null)));
 }
 
+void test_screenshot_handling () {
+	var asxml = new Provider.AppstreamXML ();
+	Appstream.AppInfo? app = null;
+	asxml.application.connect ( (newApp) => {
+		app = newApp;
+	});
+
+	asxml.process_file (File.new_for_path (Path.build_filename (datadir, "appstream-test2.xml", null)));
+	assert (app != null);
+
+	string xml_data = app.dump_screenshot_data_xml ();
+	debug (xml_data);
+
+	// dirty...
+	app.screenshots.remove_range (0, app.screenshots.len);
+
+	app.load_screenshots_from_internal_xml (xml_data);
+	for (uint i = 0; i < app.screenshots.len; i++) {
+			Screenshot sshot = (Screenshot) app.screenshots.index (i);
+			assert (sshot.urls.size () == 1);
+			assert (sshot.thumbnail_urls.size () == 1);
+			debug (sshot.caption);
+	}
+	assert (app.screenshots.len > 0);
+}
+
 int main (string[] args) {
 	msg ("=== Running AppStream-XML Tests ===");
 	datadir = args[1];
@@ -45,6 +71,7 @@ int main (string[] args) {
 	Test.init (ref args);
 
 	test_appstream_parser ();
+	test_screenshot_handling ();
 
 	Test.run ();
 	return 0;

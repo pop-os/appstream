@@ -1,7 +1,7 @@
 63% symbol docs coverage.
-91 symbols documented.
-16 symbols incomplete.
-54 not documented.
+103 symbols documented.
+17 symbols incomplete.
+60 not documented.
 
 
 AppstreamAppInfo (<items>)
@@ -16,6 +16,7 @@ AppstreamAppInfo:mimetypes
 AppstreamAppInfo:name
 AppstreamAppInfo:name-original
 AppstreamAppInfo:pkgname
+AppstreamAppInfo:screenshots
 AppstreamAppInfo:summary
 AppstreamCategory (<items>)
 AppstreamCategory:directory
@@ -27,9 +28,6 @@ AppstreamCategory:name
 AppstreamCategory:subcategories
 AppstreamCategory:summary
 AppstreamDatabase (<items>)
-AppstreamDatabase::authorized
-AppstreamDatabase::error-code
-AppstreamDatabase::finished
 AppstreamDatabase:database-path
 AppstreamDistroDetails (<items>)
 AppstreamDistroDetails:distro-id
@@ -38,11 +36,14 @@ AppstreamDistroDetails:distro-version
 AppstreamMenuParser (<items>)
 AppstreamMenuParser:update-category-data
 AppstreamMenuParserClass (finalize)
+AppstreamScreenshot (<items>)
+AppstreamScreenshot:caption
 AppstreamScreenshotService (<items>)
 AppstreamScreenshotService:base-url
 AppstreamSearchQuery (<items>)
 AppstreamSearchQuery:categories
 AppstreamSearchQuery:search-term
+appstream_app_info_add_screenshot
 appstream_app_info_get_categories (result_length1)
 appstream_app_info_get_keywords (result_length1)
 appstream_app_info_get_mimetypes (result_length1)
@@ -64,7 +65,12 @@ appstream_database_open
 appstream_distro_details_config_distro_get_bool
 appstream_distro_details_config_distro_get_str
 appstream_distro_details_new
+appstream_screenshot_add_thumbnail_url
+appstream_screenshot_add_url
+appstream_screenshot_is_default
+appstream_screenshot_new
 appstream_screenshot_service_new
+appstream_screenshot_set_default
 appstream_search_query_get_categories (result_length1)
 appstream_search_query_get_search_all_categories
 appstream_search_query_new
@@ -75,4 +81,5 @@ app-info:Long_Description
 database:Long_Description
 menudir:Long_Description
 screenshot-service:Long_Description
+screenshot:Long_Description
 settings:Long_Description

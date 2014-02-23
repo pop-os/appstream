@@ -2,9 +2,10 @@
 <!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
 <book xmlns="http://www.devhelp.net/book" title="LibAppStream Reference Manual" link="index.html" author="" name="appstream" version="2" language="c">
   <chapters>
-    <sub name="appstream API Reference" link="ch01.html">
+    <sub name="AppStream API Reference" link="ch01.html">
       <sub name="AppstreamDistroDetails" link="appstream-AppstreamDistroDetails.html"/>
       <sub name="AppstreamAppInfo" link="appstream-AppstreamAppInfo.html"/>
+      <sub name="AppstreamScreenshot" link="appstream-AppstreamScreenshot.html"/>
       <sub name="AppstreamCategory" link="appstream-AppstreamCategory.html"/>
       <sub name="AppstreamSearchQuery" link="appstream-AppstreamSearchQuery.html"/>
       <sub name="AppstreamScreenshotService" link="appstream-AppstreamScreenshotService.html"/>
@@ -13,27 +14,30 @@
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstream-index" link="re06.html"/>
+      <sub name="appstream-index" link="re07.html"/>
     </sub>
   </chapters>
   <functions>
     <keyword type="macro" name="APPSTREAM_TYPE_DISTRO_DETAILS" link="appstream-AppstreamDistroDetails.html#APPSTREAM-TYPE-DISTRO-DETAILS:CAPS"/>
+    <keyword type="function" name="appstream_distro_details_get_icon_repository_paths ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-paths"/>
     <keyword type="function" name="appstream_distro_details_config_distro_get_str ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-str"/>
     <keyword type="function" name="appstream_distro_details_config_distro_get_bool ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-config-distro-get-bool"/>
     <keyword type="function" name="appstream_distro_details_new ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-new"/>
     <keyword type="function" name="appstream_distro_details_get_distro_id ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-id"/>
     <keyword type="function" name="appstream_distro_details_get_distro_name ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-name"/>
     <keyword type="function" name="appstream_distro_details_get_distro_version ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-distro-version"/>
-    <keyword type="function" name="appstream_distro_details_get_icon_repository_path ()" link="appstream-AppstreamDistroDetails.html#appstream-distro-details-get-icon-repository-path"/>
     <keyword type="struct" name="struct AppstreamDistroDetails" link="appstream-AppstreamDistroDetails.html#AppstreamDistroDetails"/>
     <keyword type="struct" name="struct AppstreamDistroDetailsClass" link="appstream-AppstreamDistroDetails.html#AppstreamDistroDetailsClass"/>
     <keyword type="macro" name="APPSTREAM_TYPE_APP_INFO" link="appstream-AppstreamAppInfo.html#APPSTREAM-TYPE-APP-INFO:CAPS"/>
     <keyword type="function" name="appstream_app_info_is_valid ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-is-valid"/>
     <keyword type="function" name="appstream_app_info_to_string ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-to-string"/>
     <keyword type="function" name="appstream_app_info_set_categories_from_str ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-categories-from-str"/>
+    <keyword type="function" name="appstream_app_info_add_screenshot ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-add-screenshot"/>
     <keyword type="function" name="appstream_app_info_new ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-new"/>
     <keyword type="function" name="appstream_app_info_get_pkgname ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-pkgname"/>
     <keyword type="function" name="appstream_app_info_set_pkgname ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-pkgname"/>
+    <keyword type="function" name="appstream_app_info_get_desktop_file ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file"/>
+    <keyword type="function" name="appstream_app_info_set_desktop_file ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file"/>
     <keyword type="function" name="appstream_app_info_get_name ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-name"/>
     <keyword type="function" name="appstream_app_info_set_name ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-name"/>
     <keyword type="function" name="appstream_app_info_get_name_original ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-name-original"/>
@@ -44,18 +48,34 @@
     <keyword type="function" name="appstream_app_info_set_description ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-description"/>
     <keyword type="function" name="appstream_app_info_get_keywords ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-keywords"/>
     <keyword type="function" name="appstream_app_info_set_keywords ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-keywords"/>
-    <keyword type="function" name="appstream_app_info_get_url ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-url"/>
-    <keyword type="function" name="appstream_app_info_set_url ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-url"/>
-    <keyword type="function" name="appstream_app_info_get_desktop_file ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-desktop-file"/>
-    <keyword type="function" name="appstream_app_info_set_desktop_file ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-desktop-file"/>
     <keyword type="function" name="appstream_app_info_get_icon ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-icon"/>
     <keyword type="function" name="appstream_app_info_set_icon ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-icon"/>
+    <keyword type="function" name="appstream_app_info_get_icon_url ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-icon-url"/>
+    <keyword type="function" name="appstream_app_info_set_icon_url ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-icon-url"/>
+    <keyword type="function" name="appstream_app_info_get_homepage ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-homepage"/>
+    <keyword type="function" name="appstream_app_info_set_homepage ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-homepage"/>
     <keyword type="function" name="appstream_app_info_get_categories ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-categories"/>
     <keyword type="function" name="appstream_app_info_set_categories ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-categories"/>
     <keyword type="function" name="appstream_app_info_get_mimetypes ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-mimetypes"/>
     <keyword type="function" name="appstream_app_info_set_mimetypes ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-set-mimetypes"/>
+    <keyword type="function" name="appstream_app_info_get_screenshots ()" link="appstream-AppstreamAppInfo.html#appstream-app-info-get-screenshots"/>
     <keyword type="struct" name="struct AppstreamAppInfo" link="appstream-AppstreamAppInfo.html#AppstreamAppInfo"/>
     <keyword type="struct" name="struct AppstreamAppInfoClass" link="appstream-AppstreamAppInfo.html#AppstreamAppInfoClass"/>
+    <keyword type="macro" name="APPSTREAM_TYPE_SCREENSHOT" link="appstream-AppstreamScreenshot.html#APPSTREAM-TYPE-SCREENSHOT:CAPS"/>
+    <keyword type="function" name="appstream_screenshot_get_url_for_size ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-get-url-for-size"/>
+    <keyword type="function" name="appstream_screenshot_get_thumbnail_url_for_size ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-get-thumbnail-url-for-size"/>
+    <keyword type="function" name="appstream_screenshot_get_available_sizes ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-get-available-sizes"/>
+    <keyword type="function" name="appstream_screenshot_get_available_thumbnail_sizes ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-get-available-thumbnail-sizes"/>
+    <keyword type="function" name="appstream_screenshot_add_url ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-add-url"/>
+    <keyword type="function" name="appstream_screenshot_add_thumbnail_url ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-add-thumbnail-url"/>
+    <keyword type="function" name="appstream_screenshot_is_default ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-is-default"/>
+    <keyword type="function" name="appstream_screenshot_set_default ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-set-default"/>
+    <keyword type="function" name="appstream_screenshot_is_valid ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-is-valid"/>
+    <keyword type="function" name="appstream_screenshot_new ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-new"/>
+    <keyword type="function" name="appstream_screenshot_get_caption ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-get-caption"/>
+    <keyword type="function" name="appstream_screenshot_set_caption ()" link="appstream-AppstreamScreenshot.html#appstream-screenshot-set-caption"/>
+    <keyword type="struct" name="struct AppstreamScreenshot" link="appstream-AppstreamScreenshot.html#AppstreamScreenshot"/>
+    <keyword type="struct" name="struct AppstreamScreenshotClass" link="appstream-AppstreamScreenshot.html#AppstreamScreenshotClass"/>
     <keyword type="macro" name="APPSTREAM_TYPE_CATEGORY" link="appstream-AppstreamCategory.html#APPSTREAM-TYPE-CATEGORY:CAPS"/>
     <keyword type="function" name="appstream_category_add_subcategory ()" link="appstream-AppstreamCategory.html#appstream-category-add-subcategory"/>
     <keyword type="function" name="appstream_category_remove_subcategory ()" link="appstream-AppstreamCategory.html#appstream-category-remove-subcategory"/>
@@ -103,8 +123,6 @@
     <keyword type="function" name="appstream_database_get_all_applications ()" link="appstream-AppstreamSearchQuery.html#appstream-database-get-all-applications"/>
     <keyword type="function" name="appstream_database_find_applications ()" link="appstream-AppstreamSearchQuery.html#appstream-database-find-applications"/>
     <keyword type="function" name="appstream_database_find_applications_by_str ()" link="appstream-AppstreamSearchQuery.html#appstream-database-find-applications-by-str"/>
-    <keyword type="function" name="appstream_database_refresh ()" link="appstream-AppstreamSearchQuery.html#appstream-database-refresh"/>
-    <keyword type="function" name="appstream_database_refresh_finish ()" link="appstream-AppstreamSearchQuery.html#appstream-database-refresh-finish"/>
     <keyword type="function" name="appstream_database_new ()" link="appstream-AppstreamSearchQuery.html#appstream-database-new"/>
     <keyword type="function" name="appstream_database_get_database_path ()" link="appstream-AppstreamSearchQuery.html#appstream-database-get-database-path"/>
     <keyword type="struct" name="struct AppstreamDatabase" link="appstream-AppstreamSearchQuery.html#AppstreamDatabase"/>

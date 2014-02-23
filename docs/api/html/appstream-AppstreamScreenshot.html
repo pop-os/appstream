@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AppstreamScreenshot</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="appstream-AppstreamAppInfo.html" title="AppstreamAppInfo">
+<link rel="next" href="appstream-AppstreamCategory.html" title="AppstreamCategory">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-AppstreamAppInfo.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="appstream-AppstreamCategory.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AppstreamScreenshot.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AppstreamScreenshot.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AppstreamScreenshot"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AppstreamScreenshot.top_of_page"></a>AppstreamScreenshot</span></h2>
+<p>AppstreamScreenshot — Class to store data describing a screenshot</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AppstreamScreenshot.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AppstreamScreenshot.html#APPSTREAM-TYPE-SCREENSHOT:CAPS" title="APPSTREAM_TYPE_SCREENSHOT">APPSTREAM_TYPE_SCREENSHOT</a>
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-get-url-for-size" title="appstream_screenshot_get_url_for_size ()">appstream_screenshot_get_url_for_size</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-get-thumbnail-url-for-size" title="appstream_screenshot_get_thumbnail_url_for_size ()">appstream_screenshot_get_thumbnail_url_for_size</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-get-available-sizes" title="appstream_screenshot_get_available_sizes ()">appstream_screenshot_get_available_sizes</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-get-available-thumbnail-sizes" title="appstream_screenshot_get_available_thumbnail_sizes ()">appstream_screenshot_get_available_thumbnail_sizes</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-add-url" title="appstream_screenshot_add_url ()">appstream_screenshot_add_url</a>        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-add-thumbnail-url" title="appstream_screenshot_add_thumbnail_url ()">appstream_screenshot_add_thumbnail_url</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-is-default" title="appstream_screenshot_is_default ()">appstream_screenshot_is_default</a>     (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-set-default" title="appstream_screenshot_set_default ()">appstream_screenshot_set_default</a>    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> b</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-is-valid" title="appstream_screenshot_is_valid ()">appstream_screenshot_is_valid</a>       (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);
+<a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="returnvalue">AppstreamScreenshot</span></a> * <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-new" title="appstream_screenshot_new ()">appstream_screenshot_new</a>          (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-get-caption" title="appstream_screenshot_get_caption ()">appstream_screenshot_get_caption</a>    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AppstreamScreenshot.html#appstream-screenshot-set-caption" title="appstream_screenshot_set_caption ()">appstream_screenshot_set_caption</a>    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+struct              <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot">AppstreamScreenshot</a>;
+struct              <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshotClass" title="struct AppstreamScreenshotClass">AppstreamScreenshotClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamScreenshot.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AppstreamScreenshot.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="APPSTREAM-TYPE-SCREENSHOT:CAPS"></a><h3>APPSTREAM_TYPE_SCREENSHOT</h3>
+<pre class="programlisting">#define APPSTREAM_TYPE_SCREENSHOT (appstream_screenshot_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-get-url-for-size"></a><h3>appstream_screenshot_get_url_for_size ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             appstream_screenshot_get_url_for_size
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>);</pre>
+<p>
+Returns a screenshot url for the given size. Returns NULL if no url exists for the given size.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size_id</code></em> :</span></p></td>
+<td> .  a screenshot size, like "800x600", "1400x1600" etc. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>url of the screenshot as string</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-get-thumbnail-url-for-size"></a><h3>appstream_screenshot_get_thumbnail_url_for_size ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             appstream_screenshot_get_thumbnail_url_for_size
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>);</pre>
+<p>
+Returns a thumbnail url for the given size. Returns NULL if no url exists for the given size.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size_id</code></em> :</span></p></td>
+<td> .  a thumbnail size, like "800x600", "1400x1600" etc. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>url of the thumbnail image as string</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-get-available-sizes"></a><h3>appstream_screenshot_get_available_sizes ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_screenshot_get_available_sizes
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);</pre>
+<p>
+Returns a list of available screenshot sizes.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>zero-terminated string array of available sizes. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=result_length1]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-get-available-thumbnail-sizes"></a><h3>appstream_screenshot_get_available_thumbnail_sizes ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            appstream_screenshot_get_available_thumbnail_sizes
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);</pre>
+<p>
+Returns a list of available thumbnail sizes.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>zero-terminated string array of available sizes. <span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> length=result_length1]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-add-url"></a><h3>appstream_screenshot_add_url ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_screenshot_add_url        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size_id</code></em> :</span></p></td>
+<td> </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-add-thumbnail-url"></a><h3>appstream_screenshot_add_thumbnail_url ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_screenshot_add_thumbnail_url
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *size_id</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>size_id</code></em> :</span></p></td>
+<td> </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-is-default"></a><h3>appstream_screenshot_is_default ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_screenshot_is_default     (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if the screenshot is the default screenshot for this application</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-set-default"></a><h3>appstream_screenshot_set_default ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_screenshot_set_default    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> b</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>b</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-is-valid"></a><h3>appstream_screenshot_is_valid ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            appstream_screenshot_is_valid       (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);</pre>
+<p>
+Sanity check to see if we have a valid screenshot object here.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-new"></a><h3>appstream_screenshot_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="returnvalue">AppstreamScreenshot</span></a> * appstream_screenshot_new          (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-get-caption"></a><h3>appstream_screenshot_get_caption ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       appstream_screenshot_get_caption    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"caption"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"caption"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="appstream-screenshot-set-caption"></a><h3>appstream_screenshot_set_caption ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                appstream_screenshot_set_caption    (<em class="parameter"><code><a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"caption"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AppstreamScreenshot.html#AppstreamScreenshot" title="struct AppstreamScreenshot"><span class="type">AppstreamScreenshot</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"caption"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamScreenshot"></a><h3>struct AppstreamScreenshot</h3>
+<pre class="programlisting">struct AppstreamScreenshot {
+	GObject parent_instance;
+	AppstreamScreenshotPrivate * priv;
+	GHashTable* urls;
+	GHashTable* thumbnail_urls;
+};
+</pre>
+<p>
+Class to store data describing a screenshot
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AppstreamScreenshotClass"></a><h3>struct AppstreamScreenshotClass</h3>
+<pre class="programlisting">struct AppstreamScreenshotClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AppstreamScreenshot.html#APPSTREAM-TYPE-SCREENSHOT:CAPS" title="APPSTREAM_TYPE_SCREENSHOT"><code class="literal">APPSTREAM_TYPE_SCREENSHOT</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AppstreamScreenshotClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

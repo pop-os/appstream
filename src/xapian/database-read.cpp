@@ -1,6 +1,6 @@
 /* database-read.cpp
  *
- * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2009 Michael Vogt <mvo@debian.org>
  *
  * Licensed under the GNU Lesser General Public License Version 3
@@ -108,6 +108,10 @@ DatabaseRead::docToAppInfo (Xapian::Document doc)
 	// Categories
 	string categories_string = doc.get_value (XapianValues::CATEGORIES);
 	appstream_app_info_set_categories_from_str (app, categories_string.c_str ());
+
+	// Screenshot data
+	string screenshot_xml = doc.get_value (XapianValues::SCREENSHOT_DATA);
+	appstream_app_info_load_screenshots_from_internal_xml (app, screenshot_xml.c_str ());
 
 	// TODO
 
@@ -260,7 +264,7 @@ GPtrArray*
 DatabaseRead::findApplications (AppstreamSearchQuery *asQuery)
 {
 	// Create new array to store the app-info objects
-	GPtrArray *appArray = g_ptr_array_new ();
+	GPtrArray *appArray = g_ptr_array_new_with_free_func (g_object_unref);
 
 	Xapian::Query query = queryListFromSearchEntry (asQuery);
 	query.serialise ();
@@ -273,7 +277,7 @@ DatabaseRead::findApplications (AppstreamSearchQuery *asQuery)
 		Xapian::Document doc = it.get_document ();
 
 		AppstreamAppInfo *app = docToAppInfo (doc);
-		g_ptr_array_add (appArray, app);
+		g_ptr_array_add (appArray, g_object_ref (app));
 	}
 
 	return appArray;
@@ -283,7 +287,7 @@ GPtrArray*
 DatabaseRead::getAllApplications ()
 {
 	// Create new array to store the app-info objects
-	GPtrArray *appArray = g_ptr_array_new ();
+	GPtrArray *appArray = g_ptr_array_new_with_free_func (g_object_unref);
 
 	// Iterate through all Xapian documents
 	Xapian::PostingIterator it = m_xapianDB.postlist_begin (string());
@@ -292,7 +296,7 @@ DatabaseRead::getAllApplications ()
 
 		Xapian::Document doc = m_xapianDB.get_document (did);
 		AppstreamAppInfo *app = docToAppInfo (doc);
-		g_ptr_array_add (appArray, app);
+		g_ptr_array_add (appArray, g_object_ref (app));
 
 		++it;
 	}

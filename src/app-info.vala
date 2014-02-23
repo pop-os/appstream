@@ -1,6 +1,6 @@
 /* app-info.vala
  *
- * Copyright (C) 2012 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -56,6 +56,14 @@ public class AppInfo : Object {
 	public string[] categories { get; set; }
 	public string[] mimetypes { get; set; }
 
+	/**
+	 * Array of Screenshot objects which describe
+	 * screenshots for this application.
+	 */
+	private PtrArray _screenshots; // we need to duplicate this to work around a codegen issue in newer Vala versions
+	public PtrArray screenshots {
+		get { return _screenshots; }
+	}
 
 	public AppInfo () {
 		pkgname = "";
@@ -68,6 +76,7 @@ public class AppInfo : Object {
 		icon = "";
 		icon_url = "";
 		categories = {null};
+		_screenshots = new PtrArray.with_free_func (GLib.Object.unref);
 	}
 
 	/**
@@ -96,6 +105,101 @@ public class AppInfo : Object {
 		categories = cats;
 	}
 
+	public void add_screenshot (Screenshot sshot) {
+		// we need to manually refcount the object when adding it to the array (GPtrArray does not auto-ref stuff)
+		screenshots.add (sshot.ref ());
+	}
+
+	/**
+	 * Internal function to create XML which gets stored in the AppStream database
+	 * for screenshots
+	 */
+	internal string dump_screenshot_data_xml () {
+		if (screenshots.len == 0)
+			return "";
+
+		Xml.Doc* doc = new Xml.Doc ();
+
+		Xml.Node* root = new Xml.Node (null, "screenshots");
+		doc->set_root_element (root);
+
+		for (uint i = 0; i < screenshots.len; i++) {
+			Screenshot sshot = (Screenshot) screenshots.index (i);
+
+			Xml.Node* subnode = root->new_text_child (null, "screenshot", "");
+			if (sshot.is_default ())
+				subnode->new_prop ("type", "default");
+
+			if (sshot.caption != "") {
+				Xml.Node* n_caption = subnode->new_text_child (null, "caption", sshot.caption);
+				subnode->add_child (n_caption);
+			}
+
+			sshot.thumbnail_urls.for_each ( (key, val) => {
+				Xml.Node* n_image = subnode->new_text_child (null, "image", val);
+				n_image->new_prop ("type", "thumbnail");
+				n_image->new_prop ("size", key);
+				subnode->add_child (n_image);
+			});
+			sshot.urls.for_each ( (key, val) => {
+				Xml.Node* n_image = subnode->new_text_child (null, "image", val);
+				n_image->new_prop ("type", "source");
+				n_image->new_prop ("size", key);
+				subnode->add_child (n_image);
+			});
+		}
+
+		string xmlstr;
+		doc->dump_memory (out xmlstr);
+		delete doc;
+
+		return xmlstr;
+	}
+
+	/**
+	 * Internal function to load the screenshot list
+	 * using the database-internal XML data.
+	 */
+	internal void load_screenshots_from_internal_xml (string xmldata) {
+		if (str_empty (xmldata))
+			return;
+		Xml.Doc* doc = Xml.Parser.parse_doc (xmldata);
+		Xml.Node* root = doc->get_root_element ();
+		if (root == null) {
+			delete doc;
+			return;
+		}
+
+		for (Xml.Node* iter = root->children; iter != null; iter = iter->next) {
+			if (iter->name == "screenshot") {
+				var sshot = new Screenshot ();
+				if (iter->get_prop ("type") == "default")
+					sshot.set_default (true);
+				for (Xml.Node* iter2 = iter->children; iter2 != null; iter2 = iter2->next) {
+					string node_name = iter2->name;
+					string? content = iter2->get_content ();
+					switch (node_name) {
+						case "image":	if (content != null) {
+											string? size_str = iter2->get_prop ("size");
+											// discard invalid elements
+											if (str_empty (size_str))
+												break;
+											if (iter2->get_prop ("type") == "thumbnail")
+												sshot.add_thumbnail_url (size_str, content);
+											else
+												sshot.add_url (size_str, content);
+										}
+						break;
+						case "caption":	if (content != null) {
+											sshot.caption = content;
+										}
+						break;
+					}
+				}
+				add_screenshot (sshot);
+			}
+		}
+	}
 }
 
 } // End of namespace: Appstream
