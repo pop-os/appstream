@@ -2,11 +2,9 @@
 # postinst script for appstream-index
 set -e
 
-# Update timestamps on AppStream data directories,
-# so a rebuild is triggered as soon as possible.
-touch -c /usr/share/app-info/xmls
-touch -c /var/cache/app-info/xmls
-touch -c /usr/share/app-install
+# Removing the watchfile will trigger a database update
+# as soon as possible.
+rm -rf /var/cache/app-info/cache.watch
 
 #DEBHELPER#
 
