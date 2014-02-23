@@ -1,7 +1,10 @@
-appstream (0.5-1) UNRELEASED; urgency=low
+appstream (0.5-1) unstable; urgency=low
 
   * New upstream release: 0.5
   * Simplify rebuild-trigger in postinst script
+  * Remove obsolete config-file (Closes: #727121)
+  * Tighten dependency on GLib
+  * Drop all patches: Applied upstream
 
  -- Matthias Klumpp <mak@debian.org>  Sun, 23 Feb 2014 20:34:26 +0100
 
