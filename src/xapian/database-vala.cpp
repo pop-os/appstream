@@ -1,6 +1,6 @@
 /* database-vala.cpp
  *
- * Copyright (C) 2012 Matthias Klumpp
+ * Copyright (C) 2012-2014 Matthias Klumpp
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -37,14 +37,14 @@ const gchar *xa_database_read_get_schema_version (XADatabaseRead *db)
 	return realDbRead (db)->getSchemaVersion ().c_str ();
 };
 
-GPtrArray *xa_database_read_get_all_applications (XADatabaseRead *db)
+GPtrArray *xa_database_read_get_all_components (XADatabaseRead *db)
 {
-	return realDbRead (db)->getAllApplications ();
+	return realDbRead (db)->getAllComponents ();
 };
 
-GPtrArray *xa_database_read_find_applications (XADatabaseRead *db, AppstreamSearchQuery *query)
+GPtrArray *xa_database_read_find_components (XADatabaseRead *db, AsSearchQuery *query)
 {
-	return realDbRead (db)->findApplications (query);
+	return realDbRead (db)->findComponents (query);
 };
 
 /* methods for database write access */
@@ -57,12 +57,12 @@ gboolean xa_database_write_initialize (XADatabaseWrite *db, const gchar *db_path
 	return realDbWrite (db)->initialize (db_path);
 };
 
-gboolean xa_database_write_add_application (XADatabaseWrite *db, AppstreamAppInfo *app)
+gboolean xa_database_write_add_component (XADatabaseWrite *db, AsComponent *cpt)
 {
-	return realDbWrite (db)->addApplication (app);
+	return realDbWrite (db)->addComponent (cpt);
 };
 
-gboolean xa_database_write_rebuild (XADatabaseWrite *db, GArray *apps)
+gboolean xa_database_write_rebuild (XADatabaseWrite *db, GList *cpt_list)
 {
-	return realDbWrite (db)->rebuild (apps);
+	return realDbWrite (db)->rebuild (cpt_list);
 };

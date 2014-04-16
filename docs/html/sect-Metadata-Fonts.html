@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.3. Fonts</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.6-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Meta Information" /><link rel="prev" href="sect-Metadata-Application.html" title="2.2. Applications (AppData)" /><link rel="next" href="sect-Metadata-InputMethod.html" title="2.4. Input Methods" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-Application.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-InputMethod.html"><strong>Next</strong></a></li></ul><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Fonts"></a>2.3. Fonts</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-fontdata-introduction"></a>2.3.1. Introduction</h3></div></div></div><div class="para">
+			It is a nice feature for a software center to allows users the installation of additional fonts. This meta-info specification describes how metadata about fonts should be structured.
+		</div><div class="para">
+			Font packages can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>.
+		</div><div class="para">
+			Font metadata files can - just likle all other metainfo files - be translated. See the section about translation for more information about that.
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-fontdata-example"></a>2.3.2. Example file</h3></div></div></div><div class="para">
+			The font meta-info file should look like this:
+		</div><pre class="programlisting">
+<span class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span class="perl_Keyword">?&gt;</span>
+<span class="perl_Keyword">&lt;component</span><span class="perl_Others"> type=</span><span class="perl_String">"font"</span><span class="perl_Keyword">&gt;</span>
+  <span class="perl_Keyword">&lt;id&gt;</span>LinLibertine_M.otf<span class="perl_Keyword">&lt;/id&gt;</span>
+  <span class="perl_Keyword">&lt;metadata_licence&gt;</span>CC0<span class="perl_Keyword">&lt;/metadata_licence&gt;</span>
+  <span class="perl_Keyword">&lt;name&gt;</span>Libertine<span class="perl_Keyword">&lt;/name&gt;</span>
+  <span class="perl_Keyword">&lt;summary&gt;</span>Linux Libertine Open fonts<span class="perl_Keyword">&lt;/summary&gt;</span>
+  <span class="perl_Keyword">&lt;font_classifier&gt;</span>Mono<span class="perl_Keyword">&lt;/font_classifier&gt;</span>
+  <span class="perl_Keyword">&lt;font_parent&gt;</span>Libertine<span class="perl_Keyword">&lt;/font_parent&gt;</span>
+<span class="perl_Keyword">&lt;/component&gt;</span>
+</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-fontdata-filespec"></a>2.3.3. File specification</h3></div></div></div><div class="para">
+			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">font</code>. This clearly identified this metainfo document as describing a font.
+		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
+						For fonts, the <code class="literal">%{id}</code> is the same name as the installed font file.
+					</div></dd><dt><span class="term">&lt;metadata_licence/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;metadata_licence/&gt;</code> tag is required. See <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> for a description of this tag.
+					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
+						Set a name for your font.
+					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
+						A short description of the font described in this metainfo file.
+					</div></dd><dt><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
+						Add a long description of your font. Some rules apply (will soon be split out to a "description guidelines" section).
+					</div><div class="para">
+						Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time.
+					</div></dd><dt><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
+						A screenshot presents your font to the outside world, and could be seen by hundreds or thousands of people.
+					</div><div class="para">
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Additionally, the <code class="code">&lt;screenshot/&gt;</code> tags should define the width and height of the referenced screenshot as properties. The value of these tags is a direct URL to a screenshot uploaded to a public location on the web.
+					</div></dd><dt><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
+						This is a recommended tag for links of type <code class="code">homepage</code>. Links of type <code class="code">homepage</code> should be a link to the upstream homepage for the application. See See <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> for a description of this tag.
+					</div></dd><dt><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
+						This tag is described for generic components at <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> in detail.
+					</div><div class="para">
+						You can add one or more children of type <code class="code">&lt;font/&gt;</code> to make the font filenames and names known to the system. If this tag is not present, the <code class="literal">name</code> and <code class="literal">id</code> tag values will be used by the distribution's Appstream-generator to recreate this tag, so it's not required to add it.
+					</div></dd><dt><span class="term">&lt;font_classifier/&gt;</span></dt><dd><div class="para">
+						Define a description of the font face to caption it when compared against other fonts in the same family.
+					</div><div class="para">
+						Some commonly used values are, for example:
+					</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+								Mono
+							</div></li><li class="listitem"><div class="para">
+								Mono Extra Light
+							</div></li><li class="listitem"><div class="para">
+								Outline
+							</div></li><li class="listitem"><div class="para">
+								Sans
+							</div></li><li class="listitem"><div class="para">
+								Serif
+							</div></li><li class="listitem"><div class="para">
+								Condensed
+							</div></li><li class="listitem"><div class="para">
+								...
+							</div></li></ul></div></dd><dt><span class="term">&lt;font_parent/&gt;</span></dt><dd><div class="para">
+						The name of the font package this particular font is part of. This is a required tag.
+					</div></dd></dl></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Application.html"><strong>Prev</strong>2.2. Applications (AppData)</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-InputMethod.html"><strong>Next</strong>2.4. Input Methods</a></li></ul></body></html>

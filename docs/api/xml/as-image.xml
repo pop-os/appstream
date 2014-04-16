@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsImage">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsImage.top_of_page">AsImage</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsImage</refname>
+<refpurpose>Object representing a single image used in a screenshot.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsImage.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>struct              <link linkend="AsImage-struct">AsImage</link>;
+struct              <link linkend="AsImageClass">AsImageClass</link>;
+enum                <link linkend="AsImageKind">AsImageKind</link>;
+<link linkend="AsImage"><returnvalue>AsImage</returnvalue></link> *           <link linkend="as-image-new">as_image_new</link>                        (<parameter><type>void</type></parameter>);
+<link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>         <link linkend="as-image-kind-from-string">as_image_kind_from_string</link>           (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-image-kind-to-string">as_image_kind_to_string</link>             (<parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-image-get-url">as_image_get_url</link>                    (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);
+<link linkend="guint"><returnvalue>guint</returnvalue></link>               <link linkend="as-image-get-width">as_image_get_width</link>                  (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);
+<link linkend="guint"><returnvalue>guint</returnvalue></link>               <link linkend="as-image-get-height">as_image_get_height</link>                 (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);
+<link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>         <link linkend="as-image-get-kind">as_image_get_kind</link>                   (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-image-set-url">as_image_set_url</link>                    (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-image-set-width">as_image_set_width</link>                  (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="guint"><type>guint</type></link> width</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-image-set-height">as_image_set_height</link>                 (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="guint"><type>guint</type></link> height</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-image-set-kind">as_image_set_kind</link>                   (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsImage.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsImage
+</synopsis>
+
+</refsect1>
+
+<refsect1 id="AsImage.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+Screenshot may have multiple versions of an image in different resolutions
+or aspect ratios. This object allows access to the location and size of a
+single image.
+</para>
+<para>
+See also: <link linkend="AsScreenshot"><type>AsScreenshot</type></link>
+</para>
+</refsect1>
+<refsect1 id="AsImage.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsImage-struct" role="struct">
+<title>struct AsImage</title>
+<indexterm zone="AsImage-struct"><primary>AsImage</primary></indexterm>
+<programlisting>struct AsImage;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsImageClass" role="struct">
+<title>struct AsImageClass</title>
+<indexterm zone="AsImageClass"><primary>AsImageClass</primary></indexterm>
+<programlisting>struct AsImageClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsImageKind" role="enum">
+<title>enum AsImageKind</title>
+<indexterm zone="AsImageKind"><primary>AsImageKind</primary></indexterm>
+<programlisting>typedef enum {
+	AS_IMAGE_KIND_UNKNOWN,
+	AS_IMAGE_KIND_SOURCE,
+	AS_IMAGE_KIND_THUMBNAIL,
+} AsImageKind;
+</programlisting>
+<para>
+The image type.
+</para><variablelist role="enum">
+<varlistentry id="AS-IMAGE-KIND-UNKNOWN:CAPS" role="constant">
+<term><literal>AS_IMAGE_KIND_UNKNOWN</literal></term>
+<listitem><simpara>Type invalid or not known
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-IMAGE-KIND-SOURCE:CAPS" role="constant">
+<term><literal>AS_IMAGE_KIND_SOURCE</literal></term>
+<listitem><simpara>The source image at full resolution
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-IMAGE-KIND-THUMBNAIL:CAPS" role="constant">
+<term><literal>AS_IMAGE_KIND_THUMBNAIL</literal></term>
+<listitem><simpara>A thumbnail at reduced resolution
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-new" role="function">
+<title>as_image_new ()</title>
+<indexterm zone="as-image-new"><primary>as_image_new</primary></indexterm>
+<programlisting><link linkend="AsImage"><returnvalue>AsImage</returnvalue></link> *           as_image_new                        (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsImage"><type>AsImage</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-kind-from-string" role="function">
+<title>as_image_kind_from_string ()</title>
+<indexterm zone="as-image-kind-from-string"><primary>as_image_kind_from_string</primary></indexterm>
+<programlisting><link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>         as_image_kind_from_string           (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
+<para>
+Converts the text representation to an enumerated value.
+</para><variablelist role="params">
+<varlistentry><term><parameter>kind</parameter>&#160;:</term>
+<listitem><simpara>the string.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsImageKind"><type>AsImageKind</type></link>, or <link linkend="AS-IMAGE-KIND-UNKNOWN:CAPS"><literal>AS_IMAGE_KIND_UNKNOWN</literal></link> for unknown. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-kind-to-string" role="function">
+<title>as_image_kind_to_string ()</title>
+<indexterm zone="as-image-kind-to-string"><primary>as_image_kind_to_string</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_image_kind_to_string             (<parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);</programlisting>
+<para>
+Converts the enumerated value to an text representation.
+</para><variablelist role="params">
+<varlistentry><term><parameter>kind</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AsImageKind"><type>AsImageKind</type></link>.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>string version of <parameter>kind</parameter></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-get-url" role="function">
+<title>as_image_get_url ()</title>
+<indexterm zone="as-image-get-url"><primary>as_image_get_url</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_image_get_url                    (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
+<para>
+Gets the full qualified URL for the image, usually pointing at some mirror.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>URL</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-get-width" role="function">
+<title>as_image_get_width ()</title>
+<indexterm zone="as-image-get-width"><primary>as_image_get_width</primary></indexterm>
+<programlisting><link linkend="guint"><returnvalue>guint</returnvalue></link>               as_image_get_width                  (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
+<para>
+Gets the image width.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>width in pixels</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-get-height" role="function">
+<title>as_image_get_height ()</title>
+<indexterm zone="as-image-get-height"><primary>as_image_get_height</primary></indexterm>
+<programlisting><link linkend="guint"><returnvalue>guint</returnvalue></link>               as_image_get_height                 (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
+<para>
+Gets the image height.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>height in pixels</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-get-kind" role="function">
+<title>as_image_get_kind ()</title>
+<indexterm zone="as-image-get-kind"><primary>as_image_get_kind</primary></indexterm>
+<programlisting><link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>         as_image_get_kind                   (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
+<para>
+Gets the image kind.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the <link linkend="AsImageKind"><type>AsImageKind</type></link></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-set-url" role="function">
+<title>as_image_set_url ()</title>
+<indexterm zone="as-image-set-url"><primary>as_image_set_url</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_image_set_url                    (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);</programlisting>
+<para>
+Sets the fully-qualified mirror URL to use for the image.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>url</parameter>&#160;:</term>
+<listitem><simpara>the URL.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-set-width" role="function">
+<title>as_image_set_width ()</title>
+<indexterm zone="as-image-set-width"><primary>as_image_set_width</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_image_set_width                  (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="guint"><type>guint</type></link> width</parameter>);</programlisting>
+<para>
+Sets the image width.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>width</parameter>&#160;:</term>
+<listitem><simpara>the width in pixels.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-set-height" role="function">
+<title>as_image_set_height ()</title>
+<indexterm zone="as-image-set-height"><primary>as_image_set_height</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_image_set_height                 (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="guint"><type>guint</type></link> height</parameter>);</programlisting>
+<para>
+Sets the image height.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>height</parameter>&#160;:</term>
+<listitem><simpara>the height in pixels.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-image-set-kind" role="function">
+<title>as_image_set_kind ()</title>
+<indexterm zone="as-image-set-kind"><primary>as_image_set_kind</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_image_set_kind                   (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                                                         <parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);</programlisting>
+<para>
+Sets the image kind.
+</para><variablelist role="params">
+<varlistentry><term><parameter>image</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>kind</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AsImageKind"><type>AsImageKind</type></link>, e.g. <link linkend="AS-IMAGE-KIND-THUMBNAIL:CAPS"><literal>AS_IMAGE_KIND_THUMBNAIL</literal></link>.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+
+</refentry>

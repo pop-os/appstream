@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsSearchQuery</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="appstream-AsCategory.html" title="AsCategory">
+<link rel="next" href="appstream-AsScreenshotService.html" title="AsScreenshotService">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-AsCategory.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="appstream-AsScreenshotService.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AsSearchQuery.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AsSearchQuery.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AsSearchQuery"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AsSearchQuery.top_of_page"></a>AsSearchQuery</span></h2>
+<p>AsSearchQuery — Class describing a query on the AppStream application database</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AsSearchQuery.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AsSearchQuery.html#AS-TYPE-SEARCH-QUERY:CAPS" title="AS_TYPE_SEARCH_QUERY">AS_TYPE_SEARCH_QUERY</a>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AsSearchQuery.html#as-search-query-get-search-all-categories" title="as_search_query_get_search_all_categories ()">as_search_query_get_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AsSearchQuery.html#as-search-query-set-search-all-categories" title="as_search_query_set_search_all_categories ()">as_search_query_set_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AsSearchQuery.html#as-search-query-set-categories-from-string" title="as_search_query_set_categories_from_string ()">as_search_query_set_categories_from_string</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
+<a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     <a class="link" href="appstream-AsSearchQuery.html#as-search-query-new" title="as_search_query_new ()">as_search_query_new</a>                 (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AsSearchQuery.html#as-search-query-get-search-term" title="as_search_query_get_search_term ()">as_search_query_get_search_term</a>     (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AsSearchQuery.html#as-search-query-set-search-term" title="as_search_query_set_search_term ()">as_search_query_set_search_term</a>     (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="appstream-AsSearchQuery.html#as-search-query-get-categories" title="as_search_query_get_categories ()">as_search_query_get_categories</a>      (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AsSearchQuery.html#as-search-query-set-categories" title="as_search_query_set_categories ()">as_search_query_set_categories</a>      (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);
+struct              <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery">AsSearchQuery</a>;
+struct              <a class="link" href="appstream-AsSearchQuery.html#AsSearchQueryClass" title="struct AsSearchQueryClass">AsSearchQueryClass</a>;
+#define             <a class="link" href="appstream-AsSearchQuery.html#AS-TYPE-DATABASE:CAPS" title="AS_TYPE_DATABASE">AS_TYPE_DATABASE</a>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AsSearchQuery.html#as-database-open" title="as_database_open ()">as_database_open</a>                    (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AsSearchQuery.html#as-database-db-exists" title="as_database_db_exists ()">as_database_db_exists</a>               (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AsSearchQuery.html#as-database-get-all-applications" title="as_database_get_all_applications ()">as_database_get_all_applications</a>    (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AsSearchQuery.html#as-database-find-applications" title="as_database_find_applications ()">as_database_find_applications</a>       (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *query</code></em>);
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="appstream-AsSearchQuery.html#as-database-find-applications-by-str" title="as_database_find_applications_by_str ()">as_database_find_applications_by_str</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
+<a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        <a class="link" href="appstream-AsSearchQuery.html#as-database-new" title="as_database_new ()">as_database_new</a>                     (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AsSearchQuery.html#as-database-get-database-path" title="as_database_get_database_path ()">as_database_get_database_path</a>       (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
+struct              <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase">AsDatabase</a>;
+struct              <a class="link" href="appstream-AsSearchQuery.html#AsDatabaseClass" title="struct AsDatabaseClass">AsDatabaseClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AsSearchQuery.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AsSearchQuery.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AS-TYPE-SEARCH-QUERY:CAPS"></a><h3>AS_TYPE_SEARCH_QUERY</h3>
+<pre class="programlisting">#define AS_TYPE_SEARCH_QUERY (as_search_query_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-search-all-categories"></a><h3>as_search_query_get_search_all_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_search_query_get_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if we search in all categories</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-search-all-categories"></a><h3>as_search_query_set_search_all_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+Shortcut to set that we should search in all categories
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-categories-from-string"></a><h3>as_search_query_set_categories_from_string ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_categories_from_string
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<p>
+Set the categories list from a string
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>categories_str</code></em> :</span></p></td>
+<td> .  Comma-separated list of category-names. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-new"></a><h3>as_search_query_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     as_search_query_new                 (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>term</code></em> :</span></p></td>
+<td> </td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-search-term"></a><h3>as_search_query_get_search_term ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_search_query_get_search_term     (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"search-term"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"search-term"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-search-term"></a><h3>as_search_query_set_search_term ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_search_term     (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"search-term"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"search-term"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-categories"></a><h3>as_search_query_get_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            as_search_query_get_categories      (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> *result_length1</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"categories"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"categories"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-categories"></a><h3>as_search_query_set_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_categories      (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>,
+                                                         <em class="parameter"><code><span class="type">int</span> value_length1</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"categories"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"categories"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsSearchQuery"></a><h3>struct AsSearchQuery</h3>
+<pre class="programlisting">struct AsSearchQuery {
+	GObject parent_instance;
+	AsSearchQueryPrivate * priv;
+};
+</pre>
+<p>
+Class describing a query on the AppStream application database
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsSearchQueryClass"></a><h3>struct AsSearchQueryClass</h3>
+<pre class="programlisting">struct AsSearchQueryClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AsSearchQuery.html#AS-TYPE-SEARCH-QUERY:CAPS" title="AS_TYPE_SEARCH_QUERY"><code class="literal">AS_TYPE_SEARCH_QUERY</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AsSearchQueryClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AS-TYPE-DATABASE:CAPS"></a><h3>AS_TYPE_DATABASE</h3>
+<pre class="programlisting">#define AS_TYPE_DATABASE (as_database_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-open"></a><h3>as_database_open ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_database_open                    (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-db-exists"></a><h3>as_database_db_exists ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_database_db_exists               (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if the application database exists</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-get-all-applications"></a><h3>as_database_get_all_applications ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_get_all_applications    (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-find-applications"></a><h3>as_database_find_applications ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_find_applications       (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsSearchQuery" title="struct AsSearchQuery"><span class="type">AsSearchQuery</span></a> *query</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>query</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-find-applications-by-str"></a><h3>as_database_find_applications_by_str ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_find_applications_by_str
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>search_str</code></em> :</span></p></td>
+<td> </td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>categories_str</code></em> :</span></p></td>
+<td> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-new"></a><h3>as_database_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        as_database_new                     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-get-database-path"></a><h3>as_database_get_database_path ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_database_get_database_path       (<em class="parameter"><code><a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"database-path"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsSearchQuery.html#AsDatabase" title="struct AsDatabase"><span class="type">AsDatabase</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"database-path"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsDatabase"></a><h3>struct AsDatabase</h3>
+<pre class="programlisting">struct AsDatabase {
+	GObject parent_instance;
+	AsDatabasePrivate * priv;
+};
+</pre>
+<p>
+Class to access the AppStream application database
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsDatabaseClass"></a><h3>struct AsDatabaseClass</h3>
+<pre class="programlisting">struct AsDatabaseClass {
+	GObjectClass parent_class;
+	gboolean (*open) (AsDatabase* self);
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AsSearchQuery.html#AS-TYPE-DATABASE:CAPS" title="AS_TYPE_DATABASE"><code class="literal">AS_TYPE_DATABASE</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AsDatabaseClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="structfield"><code><a name="AsDatabaseClass.open"></a>open</code></em> ()</span></p></td>
+<td>virtual method called by <a class="link" href="appstream-AsSearchQuery.html#as-database-open" title="as_database_open ()"><code class="function">as_database_open()</code></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

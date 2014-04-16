@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-AsProviderUbuntuAppinstall">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-AsProviderUbuntuAppinstall.top_of_page">AsProviderUbuntuAppinstall</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsProviderUbuntuAppinstall</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="appstream-AsProviderUbuntuAppinstall.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>struct              <link linkend="AsProviderUbuntuAppinstall">AsProviderUbuntuAppinstall</link>;
+struct              <link linkend="AsProviderUbuntuAppinstallClass">AsProviderUbuntuAppinstallClass</link>;
+<link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * <link linkend="as-provider-ubuntu-appinstall-new">as_provider_ubuntu_appinstall_new</link>
+                                                        (<parameter><type>void</type></parameter>);
+<link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * <link linkend="as-provider-ubuntu-appinstall-construct">as_provider_ubuntu_appinstall_construct</link>
+                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+</synopsis>
+</refsynopsisdiv>
+
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsProviderUbuntuAppinstall" role="struct">
+<title>struct AsProviderUbuntuAppinstall</title>
+<indexterm zone="AsProviderUbuntuAppinstall"><primary>AsProviderUbuntuAppinstall</primary></indexterm>
+<programlisting>struct AsProviderUbuntuAppinstall {
+	AsDataProvider parent_instance;
+	AsProviderUbuntuAppinstallPrivate * priv;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsProviderUbuntuAppinstallClass" role="struct">
+<title>struct AsProviderUbuntuAppinstallClass</title>
+<indexterm zone="AsProviderUbuntuAppinstallClass"><primary>AsProviderUbuntuAppinstallClass</primary></indexterm>
+<programlisting>struct AsProviderUbuntuAppinstallClass {
+	AsDataProviderClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-ubuntu-appinstall-new" role="function">
+<title>as_provider_ubuntu_appinstall_new ()</title>
+<indexterm zone="as-provider-ubuntu-appinstall-new"><primary>as_provider_ubuntu_appinstall_new</primary></indexterm>
+<programlisting><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * as_provider_ubuntu_appinstall_new
+                                                        (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-ubuntu-appinstall-construct" role="function">
+<title>as_provider_ubuntu_appinstall_construct ()</title>
+<indexterm zone="as-provider-ubuntu-appinstall-construct"><primary>as_provider_ubuntu_appinstall_construct</primary></indexterm>
+<programlisting><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * as_provider_ubuntu_appinstall_construct
+                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+
+</refentry>

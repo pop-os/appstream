@@ -1,0 +1,532 @@
+<!-- ##### SECTION Title ##### -->
+AsComponent
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### STRUCT AsComponent ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG AsComponent:categories ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:description ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:homepage ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:icon ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:icon-url ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:idname ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:keywords ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:kind ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:mimetypes ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:name-original ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:pkgname ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:project-license ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:screenshots ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:summary ##### -->
+<para>
+
+</para>
+
+<!-- ##### STRUCT AsComponentClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
+<!-- ##### ENUM AsComponentKind ##### -->
+<para>
+
+</para>
+
+@AS_COMPONENT_KIND_UNKNOWN: 
+@AS_COMPONENT_KIND_GENERIC: 
+@AS_COMPONENT_KIND_DESKTOP_APP: 
+@AS_COMPONENT_KIND_FONT: 
+@AS_COMPONENT_KIND_CODEC: 
+@AS_COMPONENT_KIND_INPUTMETHOD: 
+@AS_COMPONENT_KIND_LAST: 
+
+<!-- ##### FUNCTION as_component_kind_to_string ##### -->
+<para>
+
+</para>
+
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_kind_from_string ##### -->
+<para>
+
+</para>
+
+@kind_str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_construct ##### -->
+<para>
+
+</para>
+
+@object_type: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_is_valid ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_to_string ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_provides_item ##### -->
+<para>
+
+</para>
+
+@self: 
+@kind: 
+@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_kind ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_pkgname ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_idname ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_name ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_name_original ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_project_license ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_project_group ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_compulsory_for_desktops ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_summary ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_categories ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_screenshots ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_description ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_keywords ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_icon ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_icon_url ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_homepage ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_mimetypes ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_provided_items ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_releases ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_screenshot ##### -->
+<para>
+
+</para>
+
+@self: 
+@sshot: 
+
+
+<!-- ##### FUNCTION as_component_add_release ##### -->
+<para>
+
+</para>
+
+@self: 
+@release: 
+
+
+<!-- ##### FUNCTION as_component_set_categories_from_str ##### -->
+<para>
+
+</para>
+
+@self: 
+@categories_str: 
+
+
+<!-- ##### FUNCTION as_component_set_kind ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_name ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_keywords ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_mimetypes ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_compulsory_for_desktops ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_pkgname ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_idname ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_name_original ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_summary ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_description ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_homepage ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_icon ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_icon_url ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_project_license ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_project_group ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_categories ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+

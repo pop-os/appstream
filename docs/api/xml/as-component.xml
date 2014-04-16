@@ -1,0 +1,653 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsComponent">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsComponent.top_of_page">AsComponent</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsComponent</refname>
+<refpurpose>Object representing a software component</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsComponent.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+<anchor id="AsComponentKind"/>
+<synopsis>
+#include &lt;appstream.h&gt;
+
+struct              <link linkend="AsComponent-struct">AsComponent</link>;
+struct              <link linkend="AsComponentClass">AsComponentClass</link>;
+enum                <link linkend="AsComponentKind-enum">AsComponentKind</link>;
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-kind-to-string">as_component_kind_to_string</link>         (<parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>);
+<link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>     <link linkend="as-component-kind-from-string">as_component_kind_from_string</link>       (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);
+<link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link> *       <link linkend="as-component-new">as_component_new</link>                    (<parameter><type>void</type></parameter>);
+<link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link> *       <link linkend="as-component-construct">as_component_construct</link>              (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-component-is-valid">as_component_is_valid</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="as-component-to-string">as_component_to_string</link>              (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-component-provides-item">as_component_provides_item</link>          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>     <link linkend="as-component-get-kind">as_component_get_kind</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-pkgname">as_component_get_pkgname</link>            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-idname">as_component_get_idname</link>             (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-name">as_component_get_name</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-name-original">as_component_get_name_original</link>      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-project-license">as_component_get_project_license</link>    (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-project-group">as_component_get_project_group</link>      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-component-get-compulsory-for-desktops">as_component_get_compulsory_for_desktops</link>
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-summary">as_component_get_summary</link>            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-component-get-categories">as_component_get_categories</link>         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-component-get-screenshots">as_component_get_screenshots</link>        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-description">as_component_get_description</link>        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-component-get-keywords">as_component_get_keywords</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-icon">as_component_get_icon</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-icon-url">as_component_get_icon_url</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-component-get-homepage">as_component_get_homepage</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-component-get-mimetypes">as_component_get_mimetypes</link>          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-component-get-provided-items">as_component_get_provided_items</link>     (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-component-get-releases">as_component_get_releases</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-add-screenshot">as_component_add_screenshot</link>         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *sshot</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-add-release">as_component_add_release</link>            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-categories-from-str">as_component_set_categories_from_str</link>
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-kind">as_component_set_kind</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-name">as_component_set_name</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-keywords">as_component_set_keywords</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-mimetypes">as_component_set_mimetypes</link>          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-compulsory-for-desktops">as_component_set_compulsory_for_desktops</link>
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-pkgname">as_component_set_pkgname</link>            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-idname">as_component_set_idname</link>             (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-name-original">as_component_set_name_original</link>      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-summary">as_component_set_summary</link>            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-description">as_component_set_description</link>        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-homepage">as_component_set_homepage</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-icon">as_component_set_icon</link>               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-icon-url">as_component_set_icon_url</link>           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-project-license">as_component_set_project_license</link>    (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-project-group">as_component_set_project_group</link>      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-component-set-categories">as_component_set_categories</link>         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsComponent.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsComponent
+</synopsis>
+<synopsis>
+  <link linkend="GEnum">GEnum</link>
+   +----AsComponentKind
+</synopsis>
+
+</refsect1>
+<refsect1 id="AsComponent.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="AsComponent--categories">categories</link>&quot;               <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write
+  &quot;<link linkend="AsComponent--description">description</link>&quot;              <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--homepage">homepage</link>&quot;                 <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--icon">icon</link>&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--icon-url">icon-url</link>&quot;                 <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--idname">idname</link>&quot;                   <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--keywords">keywords</link>&quot;                 <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write
+  &quot;<link linkend="AsComponent--kind">kind</link>&quot;                     <link linkend="AsComponentKind"><type>AsComponentKind</type></link>       : Read / Write
+  &quot;<link linkend="AsComponent--mimetypes">mimetypes</link>&quot;                <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write
+  &quot;<link linkend="AsComponent--name">name</link>&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--name-original">name-original</link>&quot;            <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--pkgname">pkgname</link>&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--project-license">project-license</link>&quot;          <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+  &quot;<link linkend="AsComponent--screenshots">screenshots</link>&quot;              <link linkend="GPtrArray"><type>GPtrArray</type></link>*            : Read
+  &quot;<link linkend="AsComponent--summary">summary</link>&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="AsComponent.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+This object represents an Appstream software component which is associated
+to a package in the distribution's repositories.
+A component can be anything, ranging from an application to a font, a codec or
+even a non-visual software project providing libraries and python-modules for
+other applications to use.
+</para>
+<para>
+The type of the component is stored as <link linkend="AsComponentKind"><type>AsComponentKind</type></link> and can be queried to
+find out which kind of component we're dealing with.
+</para>
+<para>
+See also: <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link>, <link linkend="AsDatabase"><type>AsDatabase</type></link>
+</para>
+</refsect1>
+<refsect1 id="AsComponent.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsComponent-struct" role="struct">
+<title>struct AsComponent</title>
+<indexterm zone="AsComponent-struct"><primary>AsComponent</primary></indexterm>
+<programlisting>struct AsComponent;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsComponentClass" role="struct">
+<title>struct AsComponentClass</title>
+<indexterm zone="AsComponentClass"><primary>AsComponentClass</primary></indexterm>
+<programlisting>struct AsComponentClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsComponentKind-enum" role="enum">
+<title>enum AsComponentKind</title>
+<indexterm zone="AsComponentKind-enum"><primary>AsComponentKind</primary></indexterm>
+<programlisting>typedef enum {
+	AS_COMPONENT_KIND_UNKNOWN,
+	AS_COMPONENT_KIND_GENERIC,
+	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_FONT,
+	AS_COMPONENT_KIND_CODEC,
+	AS_COMPONENT_KIND_INPUTMETHOD,
+	AS_COMPONENT_KIND_LAST
+} AsComponentKind;
+</programlisting>
+<para>
+</para><variablelist role="enum">
+<varlistentry id="AS-COMPONENT-KIND-UNKNOWN:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_UNKNOWN</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-GENERIC:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_GENERIC</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-DESKTOP-APP:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_DESKTOP_APP</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-FONT:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_FONT</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-CODEC:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_CODEC</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-INPUTMETHOD:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_INPUTMETHOD</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+<varlistentry id="AS-COMPONENT-KIND-LAST:CAPS" role="constant">
+<term><literal>AS_COMPONENT_KIND_LAST</literal></term>
+<listitem><simpara>
+</simpara></listitem>
+</varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-kind-to-string" role="function">
+<title>as_component_kind_to_string ()</title>
+<indexterm zone="as-component-kind-to-string"><primary>as_component_kind_to_string</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_kind_to_string         (<parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>);</programlisting>
+<para>
+Converts the enumerated value to an text representation.
+</para><variablelist role="params">
+<varlistentry><term><parameter>kind</parameter>&#160;:</term>
+<listitem><simpara>the <link linkend="AsComponentKind"><type>AsComponentKind</type></link>.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>string version of <parameter>kind</parameter></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-kind-from-string" role="function">
+<title>as_component_kind_from_string ()</title>
+<indexterm zone="as-component-kind-from-string"><primary>as_component_kind_from_string</primary></indexterm>
+<programlisting><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>     as_component_kind_from_string       (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>
+Converts the text representation to an enumerated value.
+</para><variablelist role="params">
+<varlistentry><term><parameter>kind_str</parameter>&#160;:</term>
+<listitem><simpara>the string.</simpara></listitem></varlistentry>
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsComponentKind"><type>AsComponentKind</type></link> or <link linkend="AS-COMPONENT-KIND-UNKNOWN:CAPS"><literal>AS_COMPONENT_KIND_UNKNOWN</literal></link> for unknown</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-new" role="function">
+<title>as_component_new ()</title>
+<indexterm zone="as-component-new"><primary>as_component_new</primary></indexterm>
+<programlisting><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link> *       as_component_new                    (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsComponent"><type>AsComponent</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsComponent"><type>AsComponent</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-construct" role="function">
+<title>as_component_construct ()</title>
+<indexterm zone="as-component-construct"><primary>as_component_construct</primary></indexterm>
+<programlisting><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link> *       as_component_construct              (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-is-valid" role="function">
+<title>as_component_is_valid ()</title>
+<indexterm zone="as-component-is-valid"><primary>as_component_is_valid</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_component_is_valid               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Check if the essential properties of this Component are
+populated with useful data.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if the component data was validated successfully.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-to-string" role="function">
+<title>as_component_to_string ()</title>
+<indexterm zone="as-component-to-string"><primary>as_component_to_string</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             as_component_to_string              (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Returns a string identifying this component.
+(useful for debugging)
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>A descriptive string. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-provides-item" role="function">
+<title>as_component_provides_item ()</title>
+<indexterm zone="as-component-provides-item"><primary>as_component_provides_item</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_component_provides_item          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Checks if this component provides an item of the specified type
+</para>
+<para>
+<parameter>self</parameter> a valid <link linkend="AsComponent"><type>AsComponent</type></link>
+<parameter>kind</parameter> the kind of the provides-item
+<parameter>value</parameter> the value of the provides-item
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara><link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if an item was found</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-get-kind" role="function">
+<title>as_component_get_kind ()</title>
+<indexterm zone="as-component-get-kind"><primary>as_component_get_kind</primary></indexterm>
+<programlisting><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>     as_component_get_kind               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-pkgname" role="function">
+<title>as_component_get_pkgname ()</title>
+<indexterm zone="as-component-get-pkgname"><primary>as_component_get_pkgname</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_pkgname            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-idname" role="function">
+<title>as_component_get_idname ()</title>
+<indexterm zone="as-component-get-idname"><primary>as_component_get_idname</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_idname             (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-name" role="function">
+<title>as_component_get_name ()</title>
+<indexterm zone="as-component-get-name"><primary>as_component_get_name</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_name               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-name-original" role="function">
+<title>as_component_get_name_original ()</title>
+<indexterm zone="as-component-get-name-original"><primary>as_component_get_name_original</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_name_original      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-project-license" role="function">
+<title>as_component_get_project_license ()</title>
+<indexterm zone="as-component-get-project-license"><primary>as_component_get_project_license</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_project_license    (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Get the license of the project this component belongs to.
+</para></refsect2>
+<refsect2 id="as-component-get-project-group" role="function">
+<title>as_component_get_project_group ()</title>
+<indexterm zone="as-component-get-project-group"><primary>as_component_get_project_group</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_project_group      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Get the component's project group.
+</para></refsect2>
+<refsect2 id="as-component-get-compulsory-for-desktops" role="function">
+<title>as_component_get_compulsory_for_desktops ()</title>
+<indexterm zone="as-component-get-compulsory-for-desktops"><primary>as_component_get_compulsory_for_desktops</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_component_get_compulsory_for_desktops
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>A list of desktops where this component is compulsory. <emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-get-summary" role="function">
+<title>as_component_get_summary ()</title>
+<indexterm zone="as-component-get-summary"><primary>as_component_get_summary</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_summary            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-categories" role="function">
+<title>as_component_get_categories ()</title>
+<indexterm zone="as-component-get-categories"><primary>as_component_get_categories</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_component_get_categories         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-screenshots" role="function">
+<title>as_component_get_screenshots ()</title>
+<indexterm zone="as-component-get-screenshots"><primary>as_component_get_screenshots</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_component_get_screenshots        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Get a list of associated screenshots.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an array of <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instances. <emphasis role="annotation">[<acronym>element-type</acronym> AsScreenshot][<acronym>transfer none</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-get-description" role="function">
+<title>as_component_get_description ()</title>
+<indexterm zone="as-component-get-description"><primary>as_component_get_description</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_description        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-keywords" role="function">
+<title>as_component_get_keywords ()</title>
+<indexterm zone="as-component-get-keywords"><primary>as_component_get_keywords</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_component_get_keywords           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-icon" role="function">
+<title>as_component_get_icon ()</title>
+<indexterm zone="as-component-get-icon"><primary>as_component_get_icon</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_icon               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-icon-url" role="function">
+<title>as_component_get_icon_url ()</title>
+<indexterm zone="as-component-get-icon-url"><primary>as_component_get_icon_url</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_icon_url           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-homepage" role="function">
+<title>as_component_get_homepage ()</title>
+<indexterm zone="as-component-get-homepage"><primary>as_component_get_homepage</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_component_get_homepage           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-mimetypes" role="function">
+<title>as_component_get_mimetypes ()</title>
+<indexterm zone="as-component-get-mimetypes"><primary>as_component_get_mimetypes</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_component_get_mimetypes          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-get-provided-items" role="function">
+<title>as_component_get_provided_items ()</title>
+<indexterm zone="as-component-get-provided-items"><primary>as_component_get_provided_items</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_component_get_provided_items     (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Get an array of the provides-items this component is
+associated with.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>A list of desktops where this component is compulsory. <emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-get-releases" role="function">
+<title>as_component_get_releases ()</title>
+<indexterm zone="as-component-get-releases"><primary>as_component_get_releases</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_component_get_releases           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>);</programlisting>
+<para>
+Get an array of the <link linkend="AsRelease"><type>AsRelease</type></link> items this component
+provides.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>A list of releases. <emphasis role="annotation">[<acronym>element-type</acronym> AsRelease][<acronym>transfer none</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-add-screenshot" role="function">
+<title>as_component_add_screenshot ()</title>
+<indexterm zone="as-component-add-screenshot"><primary>as_component_add_screenshot</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_add_screenshot         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *sshot</parameter>);</programlisting>
+<para>
+Add an <link linkend="AsScreenshot"><type>AsScreenshot</type></link> to this component.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>sshot</parameter>&#160;:</term>
+<listitem><simpara>The <link linkend="AsScreenshot"><type>AsScreenshot</type></link> to add</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-add-release" role="function">
+<title>as_component_add_release ()</title>
+<indexterm zone="as-component-add-release"><primary>as_component_add_release</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_add_release            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>
+Add an <link linkend="AsRelease"><type>AsRelease</type></link> to this component.
+</para><variablelist role="params">
+<varlistentry><term><parameter>self</parameter>&#160;:</term>
+<listitem><simpara>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>release</parameter>&#160;:</term>
+<listitem><simpara>The <link linkend="AsRelease"><type>AsRelease</type></link> to add</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-component-set-categories-from-str" role="function">
+<title>as_component_set_categories_from_str ()</title>
+<indexterm zone="as-component-set-categories-from-str"><primary>as_component_set_categories_from_str</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_categories_from_str
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
+<para>
+Set the categories list from a string
+</para>
+<para>
+<parameter>self</parameter> a valid <link linkend="AsComponent"><type>AsComponent</type></link> instance
+<parameter>categories_str</parameter> Comma-separated list of category-names
+</para></refsect2>
+<refsect2 id="as-component-set-kind" role="function">
+<title>as_component_set_kind ()</title>
+<indexterm zone="as-component-set-kind"><primary>as_component_set_kind</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_kind               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-name" role="function">
+<title>as_component_set_name ()</title>
+<indexterm zone="as-component-set-name"><primary>as_component_set_name</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_name               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-keywords" role="function">
+<title>as_component_set_keywords ()</title>
+<indexterm zone="as-component-set-keywords"><primary>as_component_set_keywords</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_keywords           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-mimetypes" role="function">
+<title>as_component_set_mimetypes ()</title>
+<indexterm zone="as-component-set-mimetypes"><primary>as_component_set_mimetypes</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_mimetypes          (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-compulsory-for-desktops" role="function">
+<title>as_component_set_compulsory_for_desktops ()</title>
+<indexterm zone="as-component-set-compulsory-for-desktops"><primary>as_component_set_compulsory_for_desktops</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_compulsory_for_desktops
+                                                        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+Set a list of desktops where this component is compulsory.
+</para></refsect2>
+<refsect2 id="as-component-set-pkgname" role="function">
+<title>as_component_set_pkgname ()</title>
+<indexterm zone="as-component-set-pkgname"><primary>as_component_set_pkgname</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_pkgname            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-idname" role="function">
+<title>as_component_set_idname ()</title>
+<indexterm zone="as-component-set-idname"><primary>as_component_set_idname</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_idname             (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-name-original" role="function">
+<title>as_component_set_name_original ()</title>
+<indexterm zone="as-component-set-name-original"><primary>as_component_set_name_original</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_name_original      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-summary" role="function">
+<title>as_component_set_summary ()</title>
+<indexterm zone="as-component-set-summary"><primary>as_component_set_summary</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_summary            (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-description" role="function">
+<title>as_component_set_description ()</title>
+<indexterm zone="as-component-set-description"><primary>as_component_set_description</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_description        (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-homepage" role="function">
+<title>as_component_set_homepage ()</title>
+<indexterm zone="as-component-set-homepage"><primary>as_component_set_homepage</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_homepage           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-icon" role="function">
+<title>as_component_set_icon ()</title>
+<indexterm zone="as-component-set-icon"><primary>as_component_set_icon</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_icon               (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-icon-url" role="function">
+<title>as_component_set_icon_url ()</title>
+<indexterm zone="as-component-set-icon-url"><primary>as_component_set_icon_url</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_icon_url           (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-component-set-project-license" role="function">
+<title>as_component_set_project_license ()</title>
+<indexterm zone="as-component-set-project-license"><primary>as_component_set_project_license</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_project_license    (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the project license.
+</para></refsect2>
+<refsect2 id="as-component-set-project-group" role="function">
+<title>as_component_set_project_group ()</title>
+<indexterm zone="as-component-set-project-group"><primary>as_component_set_project_group</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_project_group      (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+Set the component's project group.
+</para></refsect2>
+<refsect2 id="as-component-set-categories" role="function">
+<title>as_component_set_categories ()</title>
+<indexterm zone="as-component-set-categories"><primary>as_component_set_categories</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_component_set_categories         (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+<refsect1 id="AsComponent.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="AsComponent--categories" role="property"><title>The <literal>&quot;categories&quot;</literal> property</title>
+<indexterm zone="AsComponent--categories"><primary>AsComponent:categories</primary></indexterm>
+<programlisting>  &quot;categories&quot;               <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write</programlisting>
+<para>categories.</para></refsect2>
+<refsect2 id="AsComponent--description" role="property"><title>The <literal>&quot;description&quot;</literal> property</title>
+<indexterm zone="AsComponent--description"><primary>AsComponent:description</primary></indexterm>
+<programlisting>  &quot;description&quot;              <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>description.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--homepage" role="property"><title>The <literal>&quot;homepage&quot;</literal> property</title>
+<indexterm zone="AsComponent--homepage"><primary>AsComponent:homepage</primary></indexterm>
+<programlisting>  &quot;homepage&quot;                 <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>homepage.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--icon" role="property"><title>The <literal>&quot;icon&quot;</literal> property</title>
+<indexterm zone="AsComponent--icon"><primary>AsComponent:icon</primary></indexterm>
+<programlisting>  &quot;icon&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>icon.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--icon-url" role="property"><title>The <literal>&quot;icon-url&quot;</literal> property</title>
+<indexterm zone="AsComponent--icon-url"><primary>AsComponent:icon-url</primary></indexterm>
+<programlisting>  &quot;icon-url&quot;                 <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>icon-url.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--idname" role="property"><title>The <literal>&quot;idname&quot;</literal> property</title>
+<indexterm zone="AsComponent--idname"><primary>AsComponent:idname</primary></indexterm>
+<programlisting>  &quot;idname&quot;                   <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>idname.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--keywords" role="property"><title>The <literal>&quot;keywords&quot;</literal> property</title>
+<indexterm zone="AsComponent--keywords"><primary>AsComponent:keywords</primary></indexterm>
+<programlisting>  &quot;keywords&quot;                 <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write</programlisting>
+<para>keywords.</para></refsect2>
+<refsect2 id="AsComponent--kind" role="property"><title>The <literal>&quot;kind&quot;</literal> property</title>
+<indexterm zone="AsComponent--kind"><primary>AsComponent:kind</primary></indexterm>
+<programlisting>  &quot;kind&quot;                     <link linkend="AsComponentKind"><type>AsComponentKind</type></link>       : Read / Write</programlisting>
+<para>kind.</para><para>Default value: AS_COMPONENT_KIND_UNKNOWN</para>
+</refsect2>
+<refsect2 id="AsComponent--mimetypes" role="property"><title>The <literal>&quot;mimetypes&quot;</literal> property</title>
+<indexterm zone="AsComponent--mimetypes"><primary>AsComponent:mimetypes</primary></indexterm>
+<programlisting>  &quot;mimetypes&quot;                <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write</programlisting>
+<para>mimetypes.</para></refsect2>
+<refsect2 id="AsComponent--name" role="property"><title>The <literal>&quot;name&quot;</literal> property</title>
+<indexterm zone="AsComponent--name"><primary>AsComponent:name</primary></indexterm>
+<programlisting>  &quot;name&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>name.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--name-original" role="property"><title>The <literal>&quot;name-original&quot;</literal> property</title>
+<indexterm zone="AsComponent--name-original"><primary>AsComponent:name-original</primary></indexterm>
+<programlisting>  &quot;name-original&quot;            <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>name-original.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--pkgname" role="property"><title>The <literal>&quot;pkgname&quot;</literal> property</title>
+<indexterm zone="AsComponent--pkgname"><primary>AsComponent:pkgname</primary></indexterm>
+<programlisting>  &quot;pkgname&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>pkgname.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--project-license" role="property"><title>The <literal>&quot;project-license&quot;</literal> property</title>
+<indexterm zone="AsComponent--project-license"><primary>AsComponent:project-license</primary></indexterm>
+<programlisting>  &quot;project-license&quot;          <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>project-license.</para><para>Default value: NULL</para>
+</refsect2>
+<refsect2 id="AsComponent--screenshots" role="property"><title>The <literal>&quot;screenshots&quot;</literal> property</title>
+<indexterm zone="AsComponent--screenshots"><primary>AsComponent:screenshots</primary></indexterm>
+<programlisting>  &quot;screenshots&quot;              <link linkend="GPtrArray"><type>GPtrArray</type></link>*            : Read</programlisting>
+<para>screenshots.</para></refsect2>
+<refsect2 id="AsComponent--summary" role="property"><title>The <literal>&quot;summary&quot;</literal> property</title>
+<indexterm zone="AsComponent--summary"><primary>AsComponent:summary</primary></indexterm>
+<programlisting>  &quot;summary&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>summary.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

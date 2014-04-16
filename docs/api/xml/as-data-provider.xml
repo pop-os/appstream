@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsDataProvider">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsDataProvider.top_of_page">AsDataProvider</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsDataProvider</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsDataProvider.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>struct              <link linkend="AsDataProvider-struct">AsDataProvider</link>;
+struct              <link linkend="AsDataProviderClass">AsDataProviderClass</link>;
+<link linkend="AsDataProvider"><returnvalue>AsDataProvider</returnvalue></link> *    <link linkend="as-data-provider-construct">as_data_provider_construct</link>          (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-data-provider-emit-application">as_data_provider_emit_application</link>   (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-data-provider-execute">as_data_provider_execute</link>            (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-data-provider-log-error">as_data_provider_log_error</link>          (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *msg</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-data-provider-log-warning">as_data_provider_log_warning</link>        (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *msg</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-data-provider-get-watch-files">as_data_provider_get_watch_files</link>    (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-data-provider-set-watch-files">as_data_provider_set_watch_files</link>    (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsDataProvider.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsDataProvider
+         +----<link linkend="AsProviderAppstreamXML">AsProviderAppstreamXML</link>
+         +----<link linkend="AsProviderDEP11">AsProviderDEP11</link>
+</synopsis>
+
+</refsect1>
+<refsect1 id="AsDataProvider.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="AsDataProvider--watch-files">watch-files</link>&quot;              <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write
+</synopsis>
+</refsect1>
+<refsect1 id="AsDataProvider.signals" role="signal_proto">
+<title role="signal_proto.title">Signals</title>
+<synopsis>
+  &quot;<link linkend="AsDataProvider-application">application</link>&quot;                                    : <link linkend="G-SIGNAL-RUN-LAST:CAPS"><literal>Run Last</literal></link>
+</synopsis>
+</refsect1>
+
+<refsect1 id="AsDataProvider.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+<refsect1 id="AsDataProvider.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsDataProvider-struct" role="struct">
+<title>struct AsDataProvider</title>
+<indexterm zone="AsDataProvider-struct"><primary>AsDataProvider</primary></indexterm>
+<programlisting>struct AsDataProvider;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsDataProviderClass" role="struct">
+<title>struct AsDataProviderClass</title>
+<indexterm zone="AsDataProviderClass"><primary>AsDataProviderClass</primary></indexterm>
+<programlisting>struct AsDataProviderClass {
+	GObjectClass parent_class;
+	gboolean (*execute) (AsDataProvider* self);
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-construct" role="function">
+<title>as_data_provider_construct ()</title>
+<indexterm zone="as-data-provider-construct"><primary>as_data_provider_construct</primary></indexterm>
+<programlisting><link linkend="AsDataProvider"><returnvalue>AsDataProvider</returnvalue></link> *    as_data_provider_construct          (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-emit-application" role="function">
+<title>as_data_provider_emit_application ()</title>
+<indexterm zone="as-data-provider-emit-application"><primary>as_data_provider_emit_application</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_data_provider_emit_application   (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-execute" role="function">
+<title>as_data_provider_execute ()</title>
+<indexterm zone="as-data-provider-execute"><primary>as_data_provider_execute</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_data_provider_execute            (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-log-error" role="function">
+<title>as_data_provider_log_error ()</title>
+<indexterm zone="as-data-provider-log-error"><primary>as_data_provider_log_error</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_data_provider_log_error          (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *msg</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-log-warning" role="function">
+<title>as_data_provider_log_warning ()</title>
+<indexterm zone="as-data-provider-log-warning"><primary>as_data_provider_log_warning</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_data_provider_log_warning        (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *msg</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-get-watch-files" role="function">
+<title>as_data_provider_get_watch_files ()</title>
+<indexterm zone="as-data-provider-get-watch-files"><primary>as_data_provider_get_watch_files</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_data_provider_get_watch_files    (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-data-provider-set-watch-files" role="function">
+<title>as_data_provider_set_watch_files ()</title>
+<indexterm zone="as-data-provider-set-watch-files"><primary>as_data_provider_set_watch_files</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_data_provider_set_watch_files    (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+<refsect1 id="AsDataProvider.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="AsDataProvider--watch-files" role="property"><title>The <literal>&quot;watch-files&quot;</literal> property</title>
+<indexterm zone="AsDataProvider--watch-files"><primary>AsDataProvider:watch-files</primary></indexterm>
+<programlisting>  &quot;watch-files&quot;              <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write</programlisting>
+<para>watch-files.</para></refsect2>
+
+</refsect1>
+<refsect1 id="AsDataProvider.signal-details" role="signals">
+<title role="signals.title">Signal Details</title>
+<refsect2 id="AsDataProvider-application" role="signal"><title>The <literal>&quot;application&quot;</literal> signal</title>
+<indexterm zone="AsDataProvider-application"><primary>AsDataProvider::application</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                user_function                      (<link linkend="AsDataProvider"><type>AsDataProvider</type></link> *asdataprovider,
+                                                        <link linkend="AsComponent"><type>AsComponent</type></link>    *arg1,
+                                                        <link linkend="gpointer"><type>gpointer</type></link>        user_data)           : <link linkend="G-SIGNAL-RUN-LAST:CAPS"><literal>Run Last</literal></link></programlisting>
+<para>
+</para><variablelist role="params">
+<varlistentry><term><parameter>asdataprovider</parameter>&#160;:</term>
+<listitem><simpara>the object which received the signal.</simpara></listitem></varlistentry>
+<varlistentry><term><parameter>user_data</parameter>&#160;:</term>
+<listitem><simpara>user data set when the signal handler was connected.</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+</refsect1>
+
+</refentry>

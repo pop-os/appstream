@@ -30,8 +30,8 @@ extern "C" {
 typedef struct XADatabaseRead XADatabaseRead;
 typedef struct XADatabaseWrite XADatabaseWrite;
 
-typedef struct _AppstreamSearchQuery AppstreamSearchQuery;
-typedef struct _AppstreamAppInfo AppstreamAppInfo;
+typedef struct _AsSearchQuery AsSearchQuery;
+typedef struct _AsComponent AsComponent;
 
 /* methods for database read access */
 
@@ -40,8 +40,8 @@ void xa_database_read_free (XADatabaseRead *db);
 
 gboolean xa_database_read_open (XADatabaseRead *db, const gchar *db_path);
 const gchar *xa_database_read_get_schema_version (XADatabaseRead *db);
-GPtrArray *xa_database_read_get_all_applications (XADatabaseRead *db);
-GPtrArray *xa_database_read_find_applications (XADatabaseRead *db, AppstreamSearchQuery *query);
+GPtrArray *xa_database_read_get_all_components (XADatabaseRead *db);
+GPtrArray *xa_database_read_find_components (XADatabaseRead *db, AsSearchQuery *query);
 
 /* methods for database write access */
 
@@ -49,8 +49,8 @@ XADatabaseWrite *xa_database_write_new ();
 void xa_database_write_free (XADatabaseWrite *db);
 
 gboolean xa_database_write_initialize (XADatabaseWrite *db, const gchar *db_path);
-gboolean xa_database_write_add_application (XADatabaseWrite *db, AppstreamAppInfo *app);
-gboolean xa_database_write_rebuild (XADatabaseWrite *db, GArray *apps);
+gboolean xa_database_write_add_component (XADatabaseWrite *db, AsComponent *cpt);
+gboolean xa_database_write_rebuild (XADatabaseWrite *db, GList *cpt_list);
 
 #ifdef __cplusplus
 };

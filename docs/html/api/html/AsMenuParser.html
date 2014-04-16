@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsMenuParser</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsDistroDetails.html" title="AsDistroDetails">
+<link rel="next" href="AsCategory.html" title="AsCategory">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="AsDistroDetails.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="AsCategory.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#AsMenuParser.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#AsMenuParser.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#AsMenuParser.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#AsMenuParser.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="AsMenuParser"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsMenuParser.top_of_page"></a>AsMenuParser</span></h2>
+<p>AsMenuParser — Parser for XDG menu files designed for software-centers</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="AsMenuParser.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;appstream.h&gt;
+
+struct              <a class="link" href="AsMenuParser.html#AsMenuParser-struct" title="struct AsMenuParser">AsMenuParser</a>;
+struct              <a class="link" href="AsMenuParser.html#AsMenuParserClass" title="struct AsMenuParserClass">AsMenuParserClass</a>;
+<a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      <a class="link" href="AsMenuParser.html#as-menu-parser-new" title="as_menu_parser_new ()">as_menu_parser_new</a>                  (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      <a class="link" href="AsMenuParser.html#as-menu-parser-construct" title="as_menu_parser_construct ()">as_menu_parser_construct</a>            (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);
+<a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      <a class="link" href="AsMenuParser.html#as-menu-parser-new-from-file" title="as_menu_parser_new_from_file ()">as_menu_parser_new_from_file</a>        (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *menu_file</code></em>);
+<a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      <a class="link" href="AsMenuParser.html#as-menu-parser-construct-from-file" title="as_menu_parser_construct_from_file ()">as_menu_parser_construct_from_file</a>  (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *menu_file</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsMenuParser.html#as-menu-parser-set-update-category-data" title="as_menu_parser_set_update_category_data ()">as_menu_parser_set_update_category_data</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="AsMenuParser.html#as-menu-parser-parse" title="as_menu_parser_parse ()">as_menu_parser_parse</a>                (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="AsMenuParser.html#as-menu-parser-get-update-category-data" title="as_menu_parser_get_update_category_data ()">as_menu_parser_get_update_category_data</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>);
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="AsMenuParser.html#as-get-system-categories" title="as_get_system_categories ()">as_get_system_categories</a>            (<em class="parameter"><code><span class="type">void</span></code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsMenuParser.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----AsMenuParser
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsMenuParser.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="AsMenuParser.html#AsMenuParser--update-category-data" title='The "update-category-data" property'>update-category-data</a>"     <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsMenuParser.description"></a><h2>Description</h2>
+<p>
+This object parses an XDG menu file and returns a set of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> objects which
+can be used by software-centers to group the applications they show.
+By default, it loads a common set of categories from an internal menu file.
+A custom menu file may be specified using the alternative class constructor.
+</p>
+<p>
+See also: <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="AsMenuParser.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsMenuParser-struct"></a><h3>struct AsMenuParser</h3>
+<pre class="programlisting">struct AsMenuParser;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsMenuParserClass"></a><h3>struct AsMenuParserClass</h3>
+<pre class="programlisting">struct AsMenuParserClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-new"></a><h3>as_menu_parser_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      as_menu_parser_new                  (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-construct"></a><h3>as_menu_parser_construct ()</h3>
+<pre class="programlisting"><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      as_menu_parser_construct            (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-new-from-file"></a><h3>as_menu_parser_new_from_file ()</h3>
+<pre class="programlisting"><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      as_menu_parser_new_from_file        (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *menu_file</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> with a custom XDG menu file.
+</p>
+<p>
+<em class="parameter"><code>menu_file</code></em> a custom XDG menu XML file
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-construct-from-file"></a><h3>as_menu_parser_construct_from_file ()</h3>
+<pre class="programlisting"><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *      as_menu_parser_construct_from_file  (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *menu_file</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-set-update-category-data"></a><h3>as_menu_parser_set_update_category_data ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_menu_parser_set_update_category_data
+                                                        (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-parse"></a><h3>as_menu_parser_parse ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             as_menu_parser_parse                (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-menu-parser-get-update-category-data"></a><h3>as_menu_parser_get_update_category_data ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_menu_parser_get_update_category_data
+                                                        (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-get-system-categories"></a><h3>as_get_system_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             as_get_system_categories            (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="AsMenuParser.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="AsMenuParser--update-category-data"></a><h3>The <code class="literal">"update-category-data"</code> property</h3>
+<pre class="programlisting">  "update-category-data"     <a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a>              : Read / Write</pre>
+<p>update-category-data.</p>
+<p>Default value: FALSE</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

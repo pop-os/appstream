@@ -1,0 +1,347 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsCategory</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsMenuParser.html" title="AsMenuParser">
+<link rel="next" href="object-tree.html" title="Object Hierarchy">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="AsMenuParser.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="object-tree.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#AsCategory.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#AsCategory.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#AsCategory.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#AsCategory.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="AsCategory"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsCategory.top_of_page"></a>AsCategory</span></h2>
+<p>AsCategory — Representation of a XDG category</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="AsCategory.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;appstream.h&gt;
+
+struct              <a class="link" href="AsCategory.html#AsCategory-struct" title="struct AsCategory">AsCategory</a>;
+struct              <a class="link" href="AsCategory.html#AsCategoryClass" title="struct AsCategoryClass">AsCategoryClass</a>;
+<a class="link" href="AsCategory.html" title="AsCategory"><span class="returnvalue">AsCategory</span></a> *        <a class="link" href="AsCategory.html#as-category-new" title="as_category_new ()">as_category_new</a>                     (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="AsCategory.html" title="AsCategory"><span class="returnvalue">AsCategory</span></a> *        <a class="link" href="AsCategory.html#as-category-construct" title="as_category_construct ()">as_category_construct</a>               (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-complete" title="as_category_complete ()">as_category_complete</a>                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsCategory.html#as-category-get-directory" title="as_category_get_directory ()">as_category_get_directory</a>           (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsCategory.html#as-category-get-name" title="as_category_get_name ()">as_category_get_name</a>                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-set-icon" title="as_category_set_icon ()">as_category_set_icon</a>                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-set-name" title="as_category_set_name ()">as_category_set_name</a>                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsCategory.html#as-category-get-summary" title="as_category_get_summary ()">as_category_get_summary</a>             (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsCategory.html#as-category-get-icon" title="as_category_get_icon ()">as_category_get_icon</a>                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-add-subcategory" title="as_category_add_subcategory ()">as_category_add_subcategory</a>         (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-remove-subcategory" title="as_category_remove_subcategory ()">as_category_remove_subcategory</a>      (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="AsCategory.html#as-category-has-subcategory" title="as_category_has_subcategory ()">as_category_has_subcategory</a>         (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-set-directory" title="as_category_set_directory ()">as_category_set_directory</a>           (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="AsCategory.html#as-category-get-included" title="as_category_get_included ()">as_category_get_included</a>            (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="AsCategory.html#as-category-get-excluded" title="as_category_get_excluded ()">as_category_get_excluded</a>            (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                <a class="link" href="AsCategory.html#as-category-get-level" title="as_category_get_level ()">as_category_get_level</a>               (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsCategory.html#as-category-set-level" title="as_category_set_level ()">as_category_set_level</a>               (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>);
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             <a class="link" href="AsCategory.html#as-category-get-subcategories" title="as_category_get_subcategories ()">as_category_get_subcategories</a>       (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsCategory.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----AsCategory
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsCategory.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="AsCategory.html#AsCategory--directory" title='The "directory" property'>directory</a>"                <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="AsCategory.html#AsCategory--excluded" title='The "excluded" property'>excluded</a>"                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read
+  "<a class="link" href="AsCategory.html#AsCategory--icon" title='The "icon" property'>icon</a>"                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="AsCategory.html#AsCategory--included" title='The "included" property'>included</a>"                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read
+  "<a class="link" href="AsCategory.html#AsCategory--level" title='The "level" property'>level</a>"                    <a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write
+  "<a class="link" href="AsCategory.html#AsCategory--name" title='The "name" property'>name</a>"                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+  "<a class="link" href="AsCategory.html#AsCategory--subcategories" title='The "subcategories" property'>subcategories</a>"            <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read
+  "<a class="link" href="AsCategory.html#AsCategory--summary" title='The "summary" property'>summary</a>"                  <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsCategory.description"></a><h2>Description</h2>
+<p>
+This object represents an XDG category, as defined at:
+http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html<span class="type">category-registry</span>
+</p>
+<p>
+The <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> object does not support all aspects of a menu. It's main purpose
+is to be used in software-centers to show information about application-groups,
+which are use to thematically group applications.
+</p>
+<p>
+You can use <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> to get a set of supported default categories.
+</p>
+<p>
+See also: <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="AsCategory.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsCategory-struct"></a><h3>struct AsCategory</h3>
+<pre class="programlisting">struct AsCategory;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategoryClass"></a><h3>struct AsCategoryClass</h3>
+<pre class="programlisting">struct AsCategoryClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-new"></a><h3>as_category_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsCategory.html" title="AsCategory"><span class="returnvalue">AsCategory</span></a> *        as_category_new                     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>an <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-construct"></a><h3>as_category_construct ()</h3>
+<pre class="programlisting"><a class="link" href="AsCategory.html" title="AsCategory"><span class="returnvalue">AsCategory</span></a> *        as_category_construct               (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-complete"></a><h3>as_category_complete ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_complete                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-directory"></a><h3>as_category_get_directory ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_category_get_directory           (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-name"></a><h3>as_category_get_name ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_category_get_name                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-set-icon"></a><h3>as_category_set_icon ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_set_icon                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-set-name"></a><h3>as_category_set_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_set_name                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-summary"></a><h3>as_category_get_summary ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_category_get_summary             (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-icon"></a><h3>as_category_get_icon ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_category_get_icon                (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-add-subcategory"></a><h3>as_category_add_subcategory ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_add_subcategory         (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-remove-subcategory"></a><h3>as_category_remove_subcategory ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_remove_subcategory      (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-has-subcategory"></a><h3>as_category_has_subcategory ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_category_has_subcategory         (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+Test for sub-categories.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if this category has any subcategory</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-set-directory"></a><h3>as_category_set_directory ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_set_directory           (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-included"></a><h3>as_category_get_included ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             as_category_get_included            (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-excluded"></a><h3>as_category_get_excluded ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             as_category_get_excluded            (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-level"></a><h3>as_category_get_level ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>                as_category_get_level               (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-set-level"></a><h3>as_category_set_level ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_category_set_level               (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-subcategories"></a><h3>as_category_get_subcategories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *             as_category_get_subcategories       (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="AsCategory.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="AsCategory--directory"></a><h3>The <code class="literal">"directory"</code> property</h3>
+<pre class="programlisting">  "directory"                <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>directory.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--excluded"></a><h3>The <code class="literal">"excluded"</code> property</h3>
+<pre class="programlisting">  "excluded"                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read</pre>
+<p>excluded.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--icon"></a><h3>The <code class="literal">"icon"</code> property</h3>
+<pre class="programlisting">  "icon"                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>icon.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--included"></a><h3>The <code class="literal">"included"</code> property</h3>
+<pre class="programlisting">  "included"                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read</pre>
+<p>included.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--level"></a><h3>The <code class="literal">"level"</code> property</h3>
+<pre class="programlisting">  "level"                    <a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a>                  : Read / Write</pre>
+<p>level.</p>
+<p>Default value: 0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--name"></a><h3>The <code class="literal">"name"</code> property</h3>
+<pre class="programlisting">  "name"                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>name.</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--subcategories"></a><h3>The <code class="literal">"subcategories"</code> property</h3>
+<pre class="programlisting">  "subcategories"            <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a>              : Read</pre>
+<p>subcategories.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsCategory--summary"></a><h3>The <code class="literal">"summary"</code> property</h3>
+<pre class="programlisting">  "summary"                  <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read</pre>
+<p>summary.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

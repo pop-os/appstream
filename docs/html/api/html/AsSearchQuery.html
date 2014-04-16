@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsSearchQuery</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsImage.html" title="AsImage">
+<link rel="next" href="AsDatabase.html" title="AsDatabase">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="AsImage.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="AsDatabase.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#AsSearchQuery.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#AsSearchQuery.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#AsSearchQuery.object-hierarchy" class="shortcut">Object Hierarchy</a>
+                   | 
+                  <a href="#AsSearchQuery.properties" class="shortcut">Properties</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="AsSearchQuery"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsSearchQuery.top_of_page"></a>AsSearchQuery</span></h2>
+<p>AsSearchQuery — An Appstream database search query</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="AsSearchQuery.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;appstream.h&gt;
+
+struct              <a class="link" href="AsSearchQuery.html#AsSearchQuery-struct" title="struct AsSearchQuery">AsSearchQuery</a>;
+struct              <a class="link" href="AsSearchQuery.html#AsSearchQueryClass" title="struct AsSearchQueryClass">AsSearchQueryClass</a>;
+<a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     <a class="link" href="AsSearchQuery.html#as-search-query-new" title="as_search_query_new ()">as_search_query_new</a>                 (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);
+<a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     <a class="link" href="AsSearchQuery.html#as-search-query-construct" title="as_search_query_construct ()">as_search_query_construct</a>           (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsSearchQuery.html#as-search-query-set-search-term" title="as_search_query_set_search_term ()">as_search_query_set_search_term</a>     (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="AsSearchQuery.html#as-search-query-get-search-all-categories" title="as_search_query_get_search_all_categories ()">as_search_query_get_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            <a class="link" href="AsSearchQuery.html#as-search-query-get-categories" title="as_search_query_get_categories ()">as_search_query_get_categories</a>      (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsSearchQuery.html#as-search-query-set-search-all-categories" title="as_search_query_set_search_all_categories ()">as_search_query_set_search_all_categories</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsSearchQuery.html#as-search-query-set-categories" title="as_search_query_set_categories ()">as_search_query_set_categories</a>      (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsSearchQuery.html#as-search-query-set-categories-from-string" title="as_search_query_set_categories_from_string ()">as_search_query_set_categories_from_string</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsSearchQuery.html#as-search-query-sanitize-search-term" title="as_search_query_sanitize_search_term ()">as_search_query_sanitize_search_term</a>
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsSearchQuery.html#as-search-query-get-search-term" title="as_search_query_get_search_term ()">as_search_query_get_search_term</a>     (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsSearchQuery.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----AsSearchQuery
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsSearchQuery.properties"></a><h2>Properties</h2>
+<pre class="synopsis">
+  "<a class="link" href="AsSearchQuery.html#AsSearchQuery--categories" title='The "categories" property'>categories</a>"               <a href="../gobject/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write
+  "<a class="link" href="AsSearchQuery.html#AsSearchQuery--search-term" title='The "search-term" property'>search-term</a>"              <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsSearchQuery.description"></a><h2>Description</h2>
+<p>
+This object defines a search run in the Appstream components database.
+It contains a string to search for, as well as information which
+categories should be searched.
+It also applies some sanity checks and improvements to the entered search string.
+</p>
+<p>
+See also: <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="AsSearchQuery.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsSearchQuery-struct"></a><h3>struct AsSearchQuery</h3>
+<pre class="programlisting">struct AsSearchQuery;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsSearchQueryClass"></a><h3>struct AsSearchQueryClass</h3>
+<pre class="programlisting">struct AsSearchQueryClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-new"></a><h3>as_search_query_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     as_search_query_new                 (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>an <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-construct"></a><h3>as_search_query_construct ()</h3>
+<pre class="programlisting"><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *     as_search_query_construct           (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-search-term"></a><h3>as_search_query_set_search_term ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_search_term     (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-search-all-categories"></a><h3>as_search_query_get_search_all_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_search_query_get_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>TRUE if we search in all categories</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-categories"></a><h3>as_search_query_get_categories ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **            as_search_query_get_categories      (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-search-all-categories"></a><h3>as_search_query_set_search_all_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_search_all_categories
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-categories"></a><h3>as_search_query_set_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_categories      (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-set-categories-from-string"></a><h3>as_search_query_set_categories_from_string ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_set_categories_from_string
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<p>
+Set the categories list from a string
+</p>
+<p>
+<em class="parameter"><code>categories_str</code></em> Semicolon-separated list of category-names
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-sanitize-search-term"></a><h3>as_search_query_sanitize_search_term ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_search_query_sanitize_search_term
+                                                        (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-search-query-get-search-term"></a><h3>as_search_query_get_search_term ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_search_query_get_search_term     (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
+<p>
+</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="AsSearchQuery.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="AsSearchQuery--categories"></a><h3>The <code class="literal">"categories"</code> property</h3>
+<pre class="programlisting">  "categories"               <a href="../gobject/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a>                 : Read / Write</pre>
+<p>categories.</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsSearchQuery--search-term"></a><h3>The <code class="literal">"search-term"</code> property</h3>
+<pre class="programlisting">  "search-term"              <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<p>search-term.</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

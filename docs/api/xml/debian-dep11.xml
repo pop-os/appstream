@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsProviderDEP11">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsProviderDEP11.top_of_page">AsProviderDEP11</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsProviderDEP11</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsProviderDEP11.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>#define             <link linkend="AS-PROVIDER-DE-P11:CAPS">AS_PROVIDER_DE_P11</link>                  (obj)
+#define             <link linkend="AS-PROVIDER-DE-P11-CLASS:CAPS">AS_PROVIDER_DE_P11_CLASS</link>            (klass)
+struct              <link linkend="AsProviderDEP11-struct">AsProviderDEP11</link>;
+struct              <link linkend="AsProviderDEP11Class">AsProviderDEP11Class</link>;
+<link linkend="AsProviderDEP11"><returnvalue>AsProviderDEP11</returnvalue></link> *   <link linkend="as-provider-dep11-new">as_provider_dep11_new</link>               (<parameter><type>void</type></parameter>);
+<link linkend="AsProviderDEP11"><returnvalue>AsProviderDEP11</returnvalue></link> *   <link linkend="as-provider-dep11-construct">as_provider_dep11_construct</link>         (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsProviderDEP11.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="AsDataProvider">AsDataProvider</link>
+         +----AsProviderDEP11
+</synopsis>
+
+</refsect1>
+
+<refsect1 id="AsProviderDEP11.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+<refsect1 id="AsProviderDEP11.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AS-PROVIDER-DE-P11:CAPS" role="macro">
+<title>AS_PROVIDER_DE_P11()</title>
+<indexterm zone="AS-PROVIDER-DE-P11:CAPS"><primary>AS_PROVIDER_DE_P11</primary></indexterm>
+<programlisting>#define AS_PROVIDER_DE_P11(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11))
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AS-PROVIDER-DE-P11-CLASS:CAPS" role="macro">
+<title>AS_PROVIDER_DE_P11_CLASS()</title>
+<indexterm zone="AS-PROVIDER-DE-P11-CLASS:CAPS"><primary>AS_PROVIDER_DE_P11_CLASS</primary></indexterm>
+<programlisting>#define AS_PROVIDER_DE_P11_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsProviderDEP11-struct" role="struct">
+<title>struct AsProviderDEP11</title>
+<indexterm zone="AsProviderDEP11-struct"><primary>AsProviderDEP11</primary></indexterm>
+<programlisting>struct AsProviderDEP11;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsProviderDEP11Class" role="struct">
+<title>struct AsProviderDEP11Class</title>
+<indexterm zone="AsProviderDEP11Class"><primary>AsProviderDEP11Class</primary></indexterm>
+<programlisting>struct AsProviderDEP11Class {
+	AsDataProviderClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-dep11-new" role="function">
+<title>as_provider_dep11_new ()</title>
+<indexterm zone="as-provider-dep11-new"><primary>as_provider_dep11_new</primary></indexterm>
+<programlisting><link linkend="AsProviderDEP11"><returnvalue>AsProviderDEP11</returnvalue></link> *   as_provider_dep11_new               (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-dep11-construct" role="function">
+<title>as_provider_dep11_construct ()</title>
+<indexterm zone="as-provider-dep11-construct"><primary>as_provider_dep11_construct</primary></indexterm>
+<programlisting><link linkend="AsProviderDEP11"><returnvalue>AsProviderDEP11</returnvalue></link> *   as_provider_dep11_construct         (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+
+</refentry>

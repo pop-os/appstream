@@ -1,0 +1,182 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "AppStream.ent">
+%BOOK_ENTITIES;
+]>
+
+<section id="sect-Metadata-Fonts">
+	<title>Fonts</title>
+
+	<section id="spec-fontdata-introduction">
+		<title>Introduction</title>
+		<para>
+			It is a nice feature for a software center to allows users the installation of additional fonts.
+			This meta-info specification describes how metadata about fonts should be structured.
+		</para>
+		<para>
+			Font packages can ship one or more files in <filename>/usr/share/appdata/%{id}.metainfo.xml</filename>.
+		</para>
+		<para>
+			Font metadata files can - just likle all other metainfo files - be translated. See the section about translation for more information about that.
+		</para>
+	</section>
+
+	<section id="spec-fontdata-example">
+		<title>Example file</title>
+		<para>
+			The font meta-info file should look like this:
+		</para>
+		<programlisting language="XML">
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<component type="font">
+  <id>LinLibertine_M.otf</id>
+  <metadata_license>CC0</metadata_license>
+  <name>Libertine</name>
+  <summary>Linux Libertine Open fonts</summary>
+  <font_classifier>Mono</font_classifier>
+  <font_parent>Libertine</font_parent>
+</component>]]></programlisting>
+	</section>
+
+	<section id="spec-fontdata-filespec">
+		<title>File specification</title>
+		<para>
+			Note that the XML root must have the <literal>type</literal> property set to <code>font</code>.
+			This clearly identified this metainfo document as describing a font.
+		</para>
+
+		<variablelist>
+			<varlistentry>
+			<term>&lt;id/&gt;</term>
+			<listitem>
+				<para>
+					For fonts, the <literal>%{id}</literal> is the same name as the installed font file.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;metadata_license/&gt;</term>
+			<listitem>
+				<para>
+					The <code>&lt;metadata_license/&gt;</code> tag is required. See <xref linkend="sect-Metadata-GenericComponent"/> for a description of this tag.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;name/&gt;</term>
+			<listitem>
+				<para>
+					Set a name for your font.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;summary/&gt;</term>
+			<listitem>
+				<para>
+					A short description of the font described in this metainfo file.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;description/&gt;</term>
+			<listitem>
+				<para>
+					Add a long description of your font. Some rules apply (will soon be split out to a "description guidelines" section).
+				</para>
+				<para>
+					Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;screenshots/&gt;</term>
+			<listitem>
+				<para>
+					A screenshot presents your font to the outside world, and could be seen by hundreds or thousands of people.
+				</para>
+				<para>
+					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property
+					<code>type="default"</code> to indicate the application's primary screenshot. Additionally, the <code>&lt;screenshot/&gt;</code> tags should define the width and height
+					of the referenced screenshot as properties. The value of these tags is a direct URL to a screenshot uploaded to a public location on the web.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;url/&gt;</term>
+			<listitem>
+				<para>
+					This is a recommended tag for links of type <code>homepage</code>.
+					Links of type <code>homepage</code> should be a link to the upstream homepage for the application.
+					See See <xref linkend="sect-Metadata-GenericComponent"/> for a description of this tag.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;provides/&gt;</term>
+			<listitem>
+				<para>
+					This tag is described for generic components at <xref linkend="sect-Metadata-GenericComponent"/> in detail.
+				</para>
+				<para>
+					You can add one or more children of type <code>&lt;font/&gt;</code> to make the font filenames and names known to the system.
+					If this tag is not present, the <literal>name</literal> and <literal>id</literal> tag values will be used by the
+					distribution's Appstream-generator to recreate this tag, so it's not required to add it.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;font_classifier/&gt;</term>
+			<listitem>
+				<para>
+					Define a description of the font face to caption it when compared against other fonts in the same family.
+				</para>
+				<para>
+					Some commonly used values are, for example:
+				</para>
+				<itemizedlist>
+					<listitem>
+						<para>Mono</para>
+					</listitem>
+					<listitem>
+						<para>Mono Extra Light</para>
+					</listitem>
+					<listitem>
+						<para>Outline</para>
+					</listitem>
+					<listitem>
+						<para>Sans</para>
+					</listitem>
+					<listitem>
+						<para>Serif</para>
+					</listitem>
+					<listitem>
+						<para>Condensed</para>
+					</listitem>
+					<listitem>
+						<para>...</para>
+					</listitem>
+				</itemizedlist>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;font_parent/&gt;</term>
+			<listitem>
+				<para>
+					The name of the font package this particular font is part of. This is a required tag.
+				</para>
+			</listitem>
+			</varlistentry>
+		</variablelist>
+
+	</section>
+</section>

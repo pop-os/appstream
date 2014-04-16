@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsProviderAppstreamXML">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsProviderAppstreamXML.top_of_page">AsProviderAppstreamXML</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsProviderAppstreamXML</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsProviderAppstreamXML.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>struct              <link linkend="AsProviderAppstreamXML-struct">AsProviderAppstreamXML</link>;
+struct              <link linkend="AsProviderAppstreamXMLClass">AsProviderAppstreamXMLClass</link>;
+<link linkend="AsProviderAppstreamXML"><returnvalue>AsProviderAppstreamXML</returnvalue></link> * <link linkend="as-provider-appstream-xml-new">as_provider_appstream_xml_new</link>  (<parameter><type>void</type></parameter>);
+<link linkend="AsProviderAppstreamXML"><returnvalue>AsProviderAppstreamXML</returnvalue></link> * <link linkend="as-provider-appstream-xml-construct">as_provider_appstream_xml_construct</link>
+                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-provider-appstream-xml-process-compressed-file">as_provider_appstream_xml_process_compressed_file</link>
+                                                        (<parameter><link linkend="AsProviderAppstreamXML"><type>AsProviderAppstreamXML</type></link> *self</parameter>,
+                                                         <parameter><link linkend="GFile"><type>GFile</type></link> *infile</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-provider-appstream-xml-process-file">as_provider_appstream_xml_process_file</link>
+                                                        (<parameter><link linkend="AsProviderAppstreamXML"><type>AsProviderAppstreamXML</type></link> *self</parameter>,
+                                                         <parameter><link linkend="GFile"><type>GFile</type></link> *infile</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsProviderAppstreamXML.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----<link linkend="AsDataProvider">AsDataProvider</link>
+         +----AsProviderAppstreamXML
+</synopsis>
+
+</refsect1>
+
+<refsect1 id="AsProviderAppstreamXML.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+</refsect1>
+<refsect1 id="AsProviderAppstreamXML.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsProviderAppstreamXML-struct" role="struct">
+<title>struct AsProviderAppstreamXML</title>
+<indexterm zone="AsProviderAppstreamXML-struct"><primary>AsProviderAppstreamXML</primary></indexterm>
+<programlisting>struct AsProviderAppstreamXML;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsProviderAppstreamXMLClass" role="struct">
+<title>struct AsProviderAppstreamXMLClass</title>
+<indexterm zone="AsProviderAppstreamXMLClass"><primary>AsProviderAppstreamXMLClass</primary></indexterm>
+<programlisting>struct AsProviderAppstreamXMLClass {
+	AsDataProviderClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-appstream-xml-new" role="function">
+<title>as_provider_appstream_xml_new ()</title>
+<indexterm zone="as-provider-appstream-xml-new"><primary>as_provider_appstream_xml_new</primary></indexterm>
+<programlisting><link linkend="AsProviderAppstreamXML"><returnvalue>AsProviderAppstreamXML</returnvalue></link> * as_provider_appstream_xml_new  (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-appstream-xml-construct" role="function">
+<title>as_provider_appstream_xml_construct ()</title>
+<indexterm zone="as-provider-appstream-xml-construct"><primary>as_provider_appstream_xml_construct</primary></indexterm>
+<programlisting><link linkend="AsProviderAppstreamXML"><returnvalue>AsProviderAppstreamXML</returnvalue></link> * as_provider_appstream_xml_construct
+                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-appstream-xml-process-compressed-file" role="function">
+<title>as_provider_appstream_xml_process_compressed_file ()</title>
+<indexterm zone="as-provider-appstream-xml-process-compressed-file"><primary>as_provider_appstream_xml_process_compressed_file</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_provider_appstream_xml_process_compressed_file
+                                                        (<parameter><link linkend="AsProviderAppstreamXML"><type>AsProviderAppstreamXML</type></link> *self</parameter>,
+                                                         <parameter><link linkend="GFile"><type>GFile</type></link> *infile</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-provider-appstream-xml-process-file" role="function">
+<title>as_provider_appstream_xml_process_file ()</title>
+<indexterm zone="as-provider-appstream-xml-process-file"><primary>as_provider_appstream_xml_process_file</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_provider_appstream_xml_process_file
+                                                        (<parameter><link linkend="AsProviderAppstreamXML"><type>AsProviderAppstreamXML</type></link> *self</parameter>,
+                                                         <parameter><link linkend="GFile"><type>GFile</type></link> *infile</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+
+</refentry>
