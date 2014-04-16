@@ -1,0 +1,40 @@
+From 868a6af776d1b91b0475e49ff4385d958e2a8bb3 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Wed, 16 Apr 2014 21:12:05 +0200
+Subject: [PATCH] Fix libappstream pkgconfig
+
+---
+ src/CMakeLists.txt  |    2 +-
+ src/appstream.pc.in |    4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 9eb14c5..8b8f2de 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -126,7 +126,7 @@ gir_add_introspections(INTROSPECTION_GIRS)
+ ####
+ 
+ install(TARGETS appstream DESTINATION ${INSTALL_DIR_LIB})
+-install(FILES ${LIBAPPSTREAM_PUBLIC_HEADERS} DESTINATION include)
++install(FILES ${LIBAPPSTREAM_PUBLIC_HEADERS} DESTINATION include/Appstream)
+ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc DESTINATION ${INSTALL_DIR_LIB}/pkgconfig/)
+ 
+ #install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.vapi DESTINATION share/vala/vapi)
+diff --git a/src/appstream.pc.in b/src/appstream.pc.in
+index 65ead56..bb17d83 100644
+--- a/src/appstream.pc.in
++++ b/src/appstream.pc.in
+@@ -1,7 +1,7 @@
+-prefix=@PREFIX@
++prefix=@PREFIXDIR@
+ exec_prefix=${prefix}
+ libdir=${prefix}/@CMAKE_INSTALL_LIBDIR@
+-includedir=${prefix}/include
++includedir=${prefix}/include/Appstream
+ 
+ Name: appstream
+ Description: Access the AppStream component database
+-- 
+1.7.1
+
