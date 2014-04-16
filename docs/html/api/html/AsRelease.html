@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsRelease</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="appstream-as-provides.html" title="as-provides">
+<link rel="next" href="AsScreenshot.html" title="AsScreenshot">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-as-provides.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="AsScreenshot.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#AsRelease.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#AsRelease.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#AsRelease.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="AsRelease"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsRelease.top_of_page"></a>AsRelease</span></h2>
+<p>AsRelease — Object representing a single upstream release</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="AsRelease.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;appstream.h&gt;
+
+struct              <a class="link" href="AsRelease.html#AsRelease-struct" title="struct AsRelease">AsRelease</a>;
+struct              <a class="link" href="AsRelease.html#AsReleaseClass" title="struct AsReleaseClass">AsReleaseClass</a>;
+<a class="link" href="AsRelease.html" title="AsRelease"><span class="returnvalue">AsRelease</span></a> *         <a class="link" href="AsRelease.html#as-release-new" title="as_release_new ()">as_release_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsRelease.html#as-release-get-version" title="as_release_get_version ()">as_release_get_version</a>              (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);
+<span class="returnvalue">guint64</span>             <a class="link" href="AsRelease.html#as-release-get-timestamp" title="as_release_get_timestamp ()">as_release_get_timestamp</a>            (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsRelease.html#as-release-get-description" title="as_release_get_description ()">as_release_get_description</a>          (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsRelease.html#as-release-set-version" title="as_release_set_version ()">as_release_set_version</a>              (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *version</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsRelease.html#as-release-set-timestamp" title="as_release_set_timestamp ()">as_release_set_timestamp</a>            (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> timestamp</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsRelease.html#as-release-set-description" title="as_release_set_description ()">as_release_set_description</a>          (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *description</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsRelease.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----AsRelease
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsRelease.description"></a><h2>Description</h2>
+<p>
+This object represents a single upstream release, typically a minor update.
+Releases can contain a localized description of paragraph and list elements
+and also have a version number and timestamp.
+</p>
+<p>
+Releases can be automatically generated by parsing upstream ChangeLogs or
+.spec files, or can be populated using MetaInfo files.
+</p>
+<p>
+See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="AsRelease.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsRelease-struct"></a><h3>struct AsRelease</h3>
+<pre class="programlisting">struct AsRelease;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsReleaseClass"></a><h3>struct AsReleaseClass</h3>
+<pre class="programlisting">struct AsReleaseClass {
+	GObjectClass		parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-new"></a><h3>as_release_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsRelease.html" title="AsRelease"><span class="returnvalue">AsRelease</span></a> *         as_release_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-get-version"></a><h3>as_release_get_version ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_release_get_version              (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
+<p>
+Gets the release version.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> for not set or invalid</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-get-timestamp"></a><h3>as_release_get_timestamp ()</h3>
+<pre class="programlisting"><span class="returnvalue">guint64</span>             as_release_get_timestamp            (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
+<p>
+Gets the release timestamp.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>timestamp, or 0 for unset</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-get-description"></a><h3>as_release_get_description ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_release_get_description          (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
+<p>
+Gets the release description markup for a given locale.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>markup, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> for not set or invalid</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-set-version"></a><h3>as_release_set_version ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_release_set_version              (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *version</code></em>);</pre>
+<p>
+Sets the release version.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>version</code></em> :</span></p></td>
+<td>the version string.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-set-timestamp"></a><h3>as_release_set_timestamp ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_release_set_timestamp            (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code><span class="type">guint64</span> timestamp</code></em>);</pre>
+<p>
+Sets the release timestamp.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>timestamp</code></em> :</span></p></td>
+<td>the timestamp value.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-release-set-description"></a><h3>as_release_set_description ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_release_set_description          (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *description</code></em>);</pre>
+<p>
+Sets the description release markup.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>release</code></em> :</span></p></td>
+<td>a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>description</code></em> :</span></p></td>
+<td>the description markup.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

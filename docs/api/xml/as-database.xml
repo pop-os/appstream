@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsDatabase">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsDatabase.top_of_page">AsDatabase</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsDatabase</refname>
+<refpurpose>Read-only access to the Appstream component database</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsDatabase.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#include &lt;appstream.h&gt;
+
+struct              <link linkend="AsDatabase-struct">AsDatabase</link>;
+struct              <link linkend="AsDatabaseClass">AsDatabaseClass</link>;
+<link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link> *        <link linkend="as-database-new">as_database_new</link>                     (<parameter><type>void</type></parameter>);
+<link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link> *        <link linkend="as-database-construct">as_database_construct</link>               (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-database-set-database-path">as_database_set_database_path</link>       (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-database-open">as_database_open</link>                    (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-database-get-database-path">as_database_get_database_path</link>       (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-database-db-exists">as_database_db_exists</link>               (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-database-get-all-components">as_database_get_all_components</link>      (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-database-find-components">as_database_find_components</link>         (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *query</parameter>);
+<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-database-find-components-by-str">as_database_find_components_by_str</link>  (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *search_str</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsDatabase.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsDatabase
+</synopsis>
+
+</refsect1>
+<refsect1 id="AsDatabase.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="AsDatabase--database-path">database-path</link>&quot;            <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="AsDatabase.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+This object provides access to the Appstream Xapian database of available software components.
+You can search for components using various criteria, as well as getting some information
+about the data provided by this Appstream database.
+</para>
+<para>
+See also: <link linkend="AsComponent"><type>AsComponent</type></link>, <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link>
+</para>
+</refsect1>
+<refsect1 id="AsDatabase.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsDatabase-struct" role="struct">
+<title>struct AsDatabase</title>
+<indexterm zone="AsDatabase-struct"><primary>AsDatabase</primary></indexterm>
+<programlisting>struct AsDatabase;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsDatabaseClass" role="struct">
+<title>struct AsDatabaseClass</title>
+<indexterm zone="AsDatabaseClass"><primary>AsDatabaseClass</primary></indexterm>
+<programlisting>struct AsDatabaseClass {
+	GObjectClass parent_class;
+	gboolean (*open) (AsDatabase* self);
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-database-new" role="function">
+<title>as_database_new ()</title>
+<indexterm zone="as-database-new"><primary>as_database_new</primary></indexterm>
+<programlisting><link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link> *        as_database_new                     (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsDatabase"><type>AsDatabase</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsDatabase"><type>AsDatabase</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-database-construct" role="function">
+<title>as_database_construct ()</title>
+<indexterm zone="as-database-construct"><primary>as_database_construct</primary></indexterm>
+<programlisting><link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link> *        as_database_construct               (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-database-set-database-path" role="function">
+<title>as_database_set_database_path ()</title>
+<indexterm zone="as-database-set-database-path"><primary>as_database_set_database_path</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_database_set_database_path       (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-database-open" role="function">
+<title>as_database_open ()</title>
+<indexterm zone="as-database-open"><primary>as_database_open</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_database_open                    (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-database-get-database-path" role="function">
+<title>as_database_get_database_path ()</title>
+<indexterm zone="as-database-get-database-path"><primary>as_database_get_database_path</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_database_get_database_path       (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-database-db-exists" role="function">
+<title>as_database_db_exists ()</title>
+<indexterm zone="as-database-db-exists"><primary>as_database_db_exists</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_database_db_exists               (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if the application database exists</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-database-get-all-components" role="function">
+<title>as_database_get_all_components ()</title>
+<indexterm zone="as-database-get-all-components"><primary>as_database_get_all_components</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_database_get_all_components      (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+<para>
+Dump a list of all components found in the database.
+</para>
+<para>
+<parameter>self</parameter> a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects. <emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-database-find-components" role="function">
+<title>as_database_find_components ()</title>
+<indexterm zone="as-database-find-components"><primary>as_database_find_components</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_database_find_components         (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *query</parameter>);</programlisting>
+<para>
+Find components in the Appstream database.
+</para>
+<para>
+<parameter>self</parameter> a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance
+<parameter>query</parameter> a <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link>
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. <emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-database-find-components-by-str" role="function">
+<title>as_database_find_components_by_str ()</title>
+<indexterm zone="as-database-find-components-by-str"><primary>as_database_find_components_by_str</primary></indexterm>
+<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_database_find_components_by_str  (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *search_str</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
+<para>
+Find components in the Appstream database by searching for a simple string.
+</para>
+<para>
+<parameter>self</parameter> a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance
+<parameter>search_str</parameter> the string to search for
+<parameter>categories_str</parameter>: (allow-none): a comma-separated list of category names, or NULL to search in all categories
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. <emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+
+</refsect1>
+<refsect1 id="AsDatabase.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="AsDatabase--database-path" role="property"><title>The <literal>&quot;database-path&quot;</literal> property</title>
+<indexterm zone="AsDatabase--database-path"><primary>AsDatabase:database-path</primary></indexterm>
+<programlisting>  &quot;database-path&quot;            <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>database-path.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

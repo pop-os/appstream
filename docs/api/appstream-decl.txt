@@ -1,870 +1,1540 @@
 <MACRO>
-<NAME>APPSTREAM_TYPE_DISTRO_DETAILS</NAME>
-#define APPSTREAM_TYPE_DISTRO_DETAILS (appstream_distro_details_get_type ())
+<NAME>AS_TYPE_DISTRO_DETAILS</NAME>
+#define AS_TYPE_DISTRO_DETAILS (as_distro_details_get_type ())
 </MACRO>
 <MACRO>
-<NAME>APPSTREAM_DISTRO_DETAILS</NAME>
-#define APPSTREAM_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetails))
+<NAME>AS_DISTRO_DETAILS</NAME>
+#define AS_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DISTRO_DETAILS, AsDistroDetails))
 </MACRO>
 <MACRO>
-<NAME>APPSTREAM_DISTRO_DETAILS_CLASS</NAME>
-#define APPSTREAM_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetailsClass))
+<NAME>AS_DISTRO_DETAILS_CLASS</NAME>
+#define AS_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DISTRO_DETAILS, AsDistroDetailsClass))
 </MACRO>
 <MACRO>
-<NAME>APPSTREAM_IS_DISTRO_DETAILS</NAME>
-#define APPSTREAM_IS_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_DISTRO_DETAILS))
+<NAME>AS_IS_DISTRO_DETAILS</NAME>
+#define AS_IS_DISTRO_DETAILS(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DISTRO_DETAILS))
 </MACRO>
 <MACRO>
-<NAME>APPSTREAM_IS_DISTRO_DETAILS_CLASS</NAME>
-#define APPSTREAM_IS_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_DISTRO_DETAILS))
+<NAME>AS_IS_DISTRO_DETAILS_CLASS</NAME>
+#define AS_IS_DISTRO_DETAILS_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DISTRO_DETAILS))
 </MACRO>
 <MACRO>
-<NAME>APPSTREAM_DISTRO_DETAILS_GET_CLASS</NAME>
-#define APPSTREAM_DISTRO_DETAILS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_DISTRO_DETAILS, AppstreamDistroDetailsClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_APP_INFO</NAME>
-#define APPSTREAM_TYPE_APP_INFO (appstream_app_info_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_APP_INFO</NAME>
-#define APPSTREAM_APP_INFO(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfo))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_APP_INFO_CLASS</NAME>
-#define APPSTREAM_APP_INFO_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_APP_INFO</NAME>
-#define APPSTREAM_IS_APP_INFO(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_APP_INFO))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_APP_INFO_CLASS</NAME>
-#define APPSTREAM_IS_APP_INFO_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_APP_INFO))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_APP_INFO_GET_CLASS</NAME>
-#define APPSTREAM_APP_INFO_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_APP_INFO, AppstreamAppInfoClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_SCREENSHOT</NAME>
-#define APPSTREAM_TYPE_SCREENSHOT (appstream_screenshot_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT</NAME>
-#define APPSTREAM_SCREENSHOT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshot))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT_CLASS</NAME>
-#define APPSTREAM_SCREENSHOT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshotClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SCREENSHOT</NAME>
-#define APPSTREAM_IS_SCREENSHOT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SCREENSHOT))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SCREENSHOT_CLASS</NAME>
-#define APPSTREAM_IS_SCREENSHOT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SCREENSHOT))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT_GET_CLASS</NAME>
-#define APPSTREAM_SCREENSHOT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SCREENSHOT, AppstreamScreenshotClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_SEARCH_QUERY</NAME>
-#define APPSTREAM_TYPE_SEARCH_QUERY (appstream_search_query_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SEARCH_QUERY</NAME>
-#define APPSTREAM_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQuery))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SEARCH_QUERY_CLASS</NAME>
-#define APPSTREAM_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQueryClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SEARCH_QUERY</NAME>
-#define APPSTREAM_IS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SEARCH_QUERY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SEARCH_QUERY_CLASS</NAME>
-#define APPSTREAM_IS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SEARCH_QUERY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SEARCH_QUERY_GET_CLASS</NAME>
-#define APPSTREAM_SEARCH_QUERY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SEARCH_QUERY, AppstreamSearchQueryClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_DATABASE</NAME>
-#define APPSTREAM_TYPE_DATABASE (appstream_database_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_DATABASE</NAME>
-#define APPSTREAM_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_DATABASE, AppstreamDatabase))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_DATABASE_CLASS</NAME>
-#define APPSTREAM_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_DATABASE, AppstreamDatabaseClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_DATABASE</NAME>
-#define APPSTREAM_IS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_DATABASE))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_DATABASE_CLASS</NAME>
-#define APPSTREAM_IS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_DATABASE))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_DATABASE_GET_CLASS</NAME>
-#define APPSTREAM_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_DATABASE, AppstreamDatabaseClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_CATEGORY</NAME>
-#define APPSTREAM_TYPE_CATEGORY (appstream_category_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY</NAME>
-#define APPSTREAM_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategory))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY_CLASS</NAME>
-#define APPSTREAM_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_CATEGORY</NAME>
-#define APPSTREAM_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_CATEGORY_CLASS</NAME>
-#define APPSTREAM_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_CATEGORY_GET_CLASS</NAME>
-#define APPSTREAM_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_CATEGORY, AppstreamCategoryClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_MENU_PARSER</NAME>
-#define APPSTREAM_TYPE_MENU_PARSER (appstream_menu_parser_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_MENU_PARSER</NAME>
-#define APPSTREAM_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParser))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_MENU_PARSER_CLASS</NAME>
-#define APPSTREAM_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParserClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_MENU_PARSER</NAME>
-#define APPSTREAM_IS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_MENU_PARSER))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_MENU_PARSER_CLASS</NAME>
-#define APPSTREAM_IS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_MENU_PARSER))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_MENU_PARSER_GET_CLASS</NAME>
-#define APPSTREAM_MENU_PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_MENU_PARSER, AppstreamMenuParserClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_TYPE_SCREENSHOT_SERVICE</NAME>
-#define APPSTREAM_TYPE_SCREENSHOT_SERVICE (appstream_screenshot_service_get_type ())
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT_SERVICE</NAME>
-#define APPSTREAM_SCREENSHOT_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotService))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT_SERVICE_CLASS</NAME>
-#define APPSTREAM_SCREENSHOT_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotServiceClass))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SCREENSHOT_SERVICE</NAME>
-#define APPSTREAM_IS_SCREENSHOT_SERVICE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_IS_SCREENSHOT_SERVICE_CLASS</NAME>
-#define APPSTREAM_IS_SCREENSHOT_SERVICE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), APPSTREAM_TYPE_SCREENSHOT_SERVICE))
-</MACRO>
-<MACRO>
-<NAME>APPSTREAM_SCREENSHOT_SERVICE_GET_CLASS</NAME>
-#define APPSTREAM_SCREENSHOT_SERVICE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), APPSTREAM_TYPE_SCREENSHOT_SERVICE, AppstreamScreenshotServiceClass))
+<NAME>AS_DISTRO_DETAILS_GET_CLASS</NAME>
+#define AS_DISTRO_DETAILS_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DISTRO_DETAILS, AsDistroDetailsClass))
 </MACRO>
 <STRUCT>
-<NAME>AppstreamDistroDetails</NAME>
-struct _AppstreamDistroDetails {
+<NAME>AsDistroDetails</NAME>
+struct _AsDistroDetails
+{
 	GObject parent_instance;
-	AppstreamDistroDetailsPrivate * priv;
+	AsDistroDetailsPrivate * priv;
 };
 </STRUCT>
 <STRUCT>
-<NAME>AppstreamDistroDetailsClass</NAME>
-struct _AppstreamDistroDetailsClass {
+<NAME>AsDistroDetailsClass</NAME>
+struct _AsDistroDetailsClass
+{
 	GObjectClass parent_class;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamAppInfo</NAME>
-struct _AppstreamAppInfo {
-	GObject parent_instance;
-	AppstreamAppInfoPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamAppInfoClass</NAME>
-struct _AppstreamAppInfoClass {
-	GObjectClass parent_class;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamSearchQuery</NAME>
-struct _AppstreamSearchQuery {
-	GObject parent_instance;
-	AppstreamSearchQueryPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamSearchQueryClass</NAME>
-struct _AppstreamSearchQueryClass {
-	GObjectClass parent_class;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamDatabase</NAME>
-struct _AppstreamDatabase {
-	GObject parent_instance;
-	AppstreamDatabasePrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamDatabaseClass</NAME>
-struct _AppstreamDatabaseClass {
-	GObjectClass parent_class;
-	gboolean (*open) (AppstreamDatabase* self);
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamCategory</NAME>
-struct _AppstreamCategory {
-	GObject parent_instance;
-	AppstreamCategoryPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamCategoryClass</NAME>
-struct _AppstreamCategoryClass {
-	GObjectClass parent_class;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamMenuParser</NAME>
-struct _AppstreamMenuParser {
-	GTypeInstance parent_instance;
-	volatile int ref_count;
-	AppstreamMenuParserPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamMenuParserClass</NAME>
-struct _AppstreamMenuParserClass {
-	GTypeClass parent_class;
-	void (*finalize) (AppstreamMenuParser *self);
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshot</NAME>
-struct _AppstreamScreenshot {
-	GObject parent_instance;
-	AppstreamScreenshotPrivate * priv;
-	GHashTable* urls;
-	GHashTable* thumbnail_urls;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshotClass</NAME>
-struct _AppstreamScreenshotClass {
-	GObjectClass parent_class;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshotService</NAME>
-struct _AppstreamScreenshotService {
-	GObject parent_instance;
-	AppstreamScreenshotServicePrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshotServiceClass</NAME>
-struct _AppstreamScreenshotServiceClass {
-	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <FUNCTION>
-<NAME>appstream_distro_details_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<NAME>as_distro_details_get_type</NAME>
+<RETURNS>GType 					</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_new</NAME>
-<RETURNS>AppstreamDistroDetails * </RETURNS>
+<NAME>as_distro_details_new</NAME>
+<RETURNS>AsDistroDetails *		</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_construct</NAME>
-<RETURNS>AppstreamDistroDetails * </RETURNS>
+<NAME>as_distro_details_construct</NAME>
+<RETURNS>AsDistroDetails *		</RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_get_icon_repository_paths</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamDistroDetails* self 
+<NAME>as_distro_details_get_icon_repository_paths</NAME>
+<RETURNS>gchar **					</RETURNS>
+AsDistroDetails* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_config_distro_get_str</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamDistroDetails* self, const gchar* key 
+<NAME>as_distro_details_config_distro_get_str</NAME>
+<RETURNS>gchar *					</RETURNS>
+AsDistroDetails* self, const gchar* key 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_config_distro_get_bool</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamDistroDetails* self, const gchar* key 
+<NAME>as_distro_details_get_distro_id</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsDistroDetails* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_get_distro_id</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamDistroDetails* self 
+<NAME>as_distro_details_config_distro_get_bool</NAME>
+<RETURNS>gboolean 				</RETURNS>
+AsDistroDetails* self, const gchar* key 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_get_distro_name</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamDistroDetails* self 
+<NAME>as_distro_details_get_distro_name</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsDistroDetails* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_distro_details_get_distro_version</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamDistroDetails* self 
+<NAME>as_distro_details_get_distro_version</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsDistroDetails* self 
+</FUNCTION>
+<STRUCT>
+<NAME>AsDistroDetailsPrivate</NAME>
+</STRUCT>
+<ENUM>
+<NAME>AsProvidesKind</NAME>
+typedef enum  {
+	AS_PROVIDES_KIND_UNKNOWN,
+	AS_PROVIDES_KIND_LIBRARY,
+	AS_PROVIDES_KIND_BINARY,
+	AS_PROVIDES_KIND_FONT,
+	AS_PROVIDES_KIND_MODALIAS,
+	AS_PROVIDES_KIND_FIRMWARE,
+	AS_PROVIDES_KIND_PYTHON2,
+	AS_PROVIDES_KIND_PYTHON3,
+	AS_PROVIDES_KIND_LAST
+} AsProvidesKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_provides_kind_to_string</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsProvidesKind kind 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_get_type</NAME>
+<NAME>as_provides_kind_from_string</NAME>
+<RETURNS>AsProvidesKind 		</RETURNS>
+const gchar *kind_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provides_item_create</NAME>
+<RETURNS>gchar *				</RETURNS>
+AsProvidesKind kind, const gchar *value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provides_item_get_kind</NAME>
+<RETURNS>AsProvidesKind 		</RETURNS>
+const gchar *item 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provides_item_get_value</NAME>
+<RETURNS>gchar *				</RETURNS>
+const gchar *item 
+</FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_BUILDER</NAME>
+#define AS_TYPE_BUILDER (as_builder_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_BUILDER</NAME>
+#define AS_BUILDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_BUILDER, AsBuilder))
+</MACRO>
+<MACRO>
+<NAME>AS_BUILDER_CLASS</NAME>
+#define AS_BUILDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_BUILDER, AsBuilderClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_BUILDER</NAME>
+#define AS_IS_BUILDER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_BUILDER))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_BUILDER_CLASS</NAME>
+#define AS_IS_BUILDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_BUILDER))
+</MACRO>
+<MACRO>
+<NAME>AS_BUILDER_GET_CLASS</NAME>
+#define AS_BUILDER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_BUILDER, AsBuilderClass))
+</MACRO>
+<STRUCT>
+<NAME>AsBuilder</NAME>
+struct _AsBuilder {
+	GObject parent_instance;
+	AsBuilderPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsBuilderClass</NAME>
+struct _AsBuilderClass {
+	GObjectClass parent_class;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_builder_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_new</NAME>
-<RETURNS>AppstreamAppInfo * </RETURNS>
+<NAME>as_builder_new</NAME>
+<RETURNS>AsBuilder *		</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_construct</NAME>
-<RETURNS>AppstreamAppInfo * </RETURNS>
+<NAME>as_builder_construct</NAME>
+<RETURNS>AsBuilder *		</RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_is_valid</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamAppInfo* self 
+<NAME>as_builder_new_path</NAME>
+<RETURNS>AsBuilder *		</RETURNS>
+const gchar* dbpath 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_to_string</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamAppInfo* self 
+<NAME>as_builder_construct_path</NAME>
+<RETURNS>AsBuilder *		</RETURNS>
+GType object_type, const gchar* dbpath 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_set_categories_from_str</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* categories_str 
+<NAME>as_builder_initialize</NAME>
+<RETURNS>void 			</RETURNS>
+AsBuilder* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<NAME>as_builder_refresh_cache</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsBuilder* self, gboolean force 
+</FUNCTION>
+<STRUCT>
+<NAME>AsBuilderPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_COMPONENT_KIND</NAME>
+#define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_TYPE_COMPONENT</NAME>
+#define AS_TYPE_COMPONENT (as_component_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_COMPONENT</NAME>
+#define AS_COMPONENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_COMPONENT, AsComponent))
+</MACRO>
+<MACRO>
+<NAME>AS_COMPONENT_CLASS</NAME>
+#define AS_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_COMPONENT, AsComponentClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_COMPONENT</NAME>
+#define AS_IS_COMPONENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_COMPONENT))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_COMPONENT_CLASS</NAME>
+#define AS_IS_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_COMPONENT))
+</MACRO>
+<MACRO>
+<NAME>AS_COMPONENT_GET_CLASS</NAME>
+#define AS_COMPONENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_COMPONENT, AsComponentClass))
+</MACRO>
+<STRUCT>
+<NAME>AsComponent</NAME>
+struct _AsComponent
+{
+	GObject parent_instance;
+	AsComponentPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsComponentClass</NAME>
+struct _AsComponentClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsComponentKind</NAME>
+typedef enum  {
+	AS_COMPONENT_KIND_UNKNOWN,
+	AS_COMPONENT_KIND_GENERIC,
+	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_FONT,
+	AS_COMPONENT_KIND_CODEC,
+	AS_COMPONENT_KIND_INPUTMETHOD,
+	AS_COMPONENT_KIND_LAST
+} AsComponentKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_component_kind_get_type</NAME>
+<RETURNS>GType 				</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_add_screenshot</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, AppstreamScreenshot* sshot 
+<NAME>as_component_kind_to_string</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponentKind kind 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_get_pkgname</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
+<NAME>as_component_kind_from_string</NAME>
+<RETURNS>AsComponentKind 		</RETURNS>
+const gchar *kind_str 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_app_info_set_pkgname</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_desktop_file</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_desktop_file</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_name</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_name</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_name_original</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_name_original</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_summary</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_summary</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_description</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_description</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_keywords</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamAppInfo* self, int* result_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_keywords</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, gchar** value, int value_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_icon</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_icon</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_icon_url</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_icon_url</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_homepage</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_homepage</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_categories</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamAppInfo* self, int* result_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_categories</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, gchar** value, int value_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_mimetypes</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamAppInfo* self, int* result_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_set_mimetypes</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamAppInfo* self, gchar** value, int value_length1 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_app_info_get_screenshots</NAME>
-<RETURNS>GPtrArray * </RETURNS>
-AppstreamAppInfo* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_search_query_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<NAME>as_component_get_type</NAME>
+<RETURNS>GType 				</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_new</NAME>
-<RETURNS>AppstreamSearchQuery * </RETURNS>
+<NAME>as_component_new</NAME>
+<RETURNS>AsComponent *		</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_construct</NAME>
+<RETURNS>AsComponent *		</RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_is_valid</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_to_string</NAME>
+<RETURNS>gchar * 				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_provides_item</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsComponent *self, AsProvidesKind kind, const gchar *value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_kind</NAME>
+<RETURNS>AsComponentKind 		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_pkgname</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_idname</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_name</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_name_original</NAME>
+<RETURNS>const gchar * 		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_project_license</NAME>
+<RETURNS>const gchar * 		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_project_group</NAME>
+<RETURNS>const gchar * 		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_compulsory_for_desktops</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_summary</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_categories</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_screenshots</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_description</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_keywords</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_icon</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_icon_url</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_homepage</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_mimetypes</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_provided_items</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_releases</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_screenshot</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, AsScreenshot* sshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_release</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, AsRelease* release 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_categories_from_str</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_kind</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, AsComponentKind value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_name</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_keywords</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_mimetypes</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_compulsory_for_desktops</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_pkgname</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_idname</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_name_original</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_summary</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_description</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_homepage</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_icon</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_icon_url</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_project_license</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_project_group</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_categories</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<STRUCT>
+<NAME>AsComponentPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_SCREENSHOT</NAME>
+#define AS_TYPE_SCREENSHOT		(as_screenshot_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_SCREENSHOT</NAME>
+#define AS_SCREENSHOT(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_SCREENSHOT, AsScreenshot))
+</MACRO>
+<MACRO>
+<NAME>AS_SCREENSHOT_CLASS</NAME>
+#define AS_SCREENSHOT_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_SCREENSHOT, AsScreenshotClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_SCREENSHOT</NAME>
+#define AS_IS_SCREENSHOT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_SCREENSHOT))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_SCREENSHOT_CLASS</NAME>
+#define AS_IS_SCREENSHOT_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_SCREENSHOT))
+</MACRO>
+<MACRO>
+<NAME>AS_SCREENSHOT_GET_CLASS</NAME>
+#define AS_SCREENSHOT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_SCREENSHOT, AsScreenshotClass))
+</MACRO>
+<STRUCT>
+<NAME>AsScreenshot</NAME>
+struct _AsScreenshot
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsScreenshotClass</NAME>
+struct _AsScreenshotClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsScreenshotKind</NAME>
+typedef enum {
+	AS_SCREENSHOT_KIND_UNKNOWN,
+	AS_SCREENSHOT_KIND_NORMAL,
+	AS_SCREENSHOT_KIND_DEFAULT,
+	/*< private >*/
+	AS_SCREENSHOT_KIND_LAST
+} AsScreenshotKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_screenshot_get_type</NAME>
+<RETURNS>GType 		 	</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_new</NAME>
+<RETURNS>AsScreenshot 	*</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_kind_from_string</NAME>
+<RETURNS>AsScreenshotKind 	</RETURNS>
+const gchar	*kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_kind_to_string</NAME>
+<RETURNS>const gchar 			*</RETURNS>
+AsScreenshotKind kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_is_valid</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsScreenshot *sshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_get_kind</NAME>
+<RETURNS>AsScreenshotKind 	</RETURNS>
+AsScreenshot	*screenshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_get_caption</NAME>
+<RETURNS>const gchar 			*</RETURNS>
+AsScreenshot	*screenshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_get_images</NAME>
+<RETURNS>GPtrArray 			*</RETURNS>
+AsScreenshot	*screenshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_kind</NAME>
+<RETURNS>void 		 </RETURNS>
+AsScreenshot *screenshot, AsScreenshotKind kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_caption</NAME>
+<RETURNS>void 		 </RETURNS>
+AsScreenshot *screenshot, const gchar *caption 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_add_image</NAME>
+<RETURNS>void 		 </RETURNS>
+AsScreenshot *screenshot, AsImage *image 
+</FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_IMAGE</NAME>
+#define AS_TYPE_IMAGE		(as_image_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_IMAGE</NAME>
+#define AS_IMAGE(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_IMAGE, AsImage))
+</MACRO>
+<MACRO>
+<NAME>AS_IMAGE_CLASS</NAME>
+#define AS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_IMAGE, AsImageClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_IMAGE</NAME>
+#define AS_IS_IMAGE(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_IMAGE))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_IMAGE_CLASS</NAME>
+#define AS_IS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_IMAGE))
+</MACRO>
+<MACRO>
+<NAME>AS_IMAGE_GET_CLASS</NAME>
+#define AS_IMAGE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_IMAGE, AsImageClass))
+</MACRO>
+<STRUCT>
+<NAME>AsImage</NAME>
+struct _AsImage
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsImageClass</NAME>
+struct _AsImageClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsImageKind</NAME>
+typedef enum {
+	AS_IMAGE_KIND_UNKNOWN,
+	AS_IMAGE_KIND_SOURCE,
+	AS_IMAGE_KIND_THUMBNAIL,
+	/*< private >*/
+	AS_IMAGE_KIND_LAST
+} AsImageKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_image_get_type</NAME>
+<RETURNS>GType 		 </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_new</NAME>
+<RETURNS>AsImage 		*</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_kind_from_string</NAME>
+<RETURNS>AsImageKind 	 </RETURNS>
+const gchar	*kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_kind_to_string</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsImageKind	 kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_get_url</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsImage *image 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_get_width</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsImage *image 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_get_height</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsImage *image 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_get_kind</NAME>
+<RETURNS>AsImageKind 	 </RETURNS>
+AsImage *image 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_url</NAME>
+<RETURNS>void 		 </RETURNS>
+AsImage *image, const gchar *url 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_width</NAME>
+<RETURNS>void 		 </RETURNS>
+AsImage *image, guint width 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_height</NAME>
+<RETURNS>void 		 </RETURNS>
+AsImage *image, guint height 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_kind</NAME>
+<RETURNS>void 		 </RETURNS>
+AsImage *image, AsImageKind kind 
+</FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_CATEGORY</NAME>
+#define AS_TYPE_CATEGORY (as_category_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_CATEGORY</NAME>
+#define AS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_CATEGORY, AsCategory))
+</MACRO>
+<MACRO>
+<NAME>AS_CATEGORY_CLASS</NAME>
+#define AS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_CATEGORY, AsCategoryClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_CATEGORY</NAME>
+#define AS_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_CATEGORY_CLASS</NAME>
+#define AS_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_CATEGORY))
+</MACRO>
+<MACRO>
+<NAME>AS_CATEGORY_GET_CLASS</NAME>
+#define AS_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_CATEGORY, AsCategoryClass))
+</MACRO>
+<STRUCT>
+<NAME>AsCategory</NAME>
+struct _AsCategory
+{
+	GObject parent_instance;
+	AsCategoryPrivate *priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsCategoryClass</NAME>
+struct _AsCategoryClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_category_get_type</NAME>
+<RETURNS>GType 					</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_new</NAME>
+<RETURNS>AsCategory *				</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_construct</NAME>
+<RETURNS>AsCategory *				</RETURNS>
+GType object_type 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_complete</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_directory</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_name</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_icon</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_name</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_summary</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_icon</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_add_subcategory</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, AsCategory* cat 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_remove_subcategory</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, AsCategory* cat 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_has_subcategory</NAME>
+<RETURNS>gboolean 				</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_directory</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_included</NAME>
+<RETURNS>GList *					</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_excluded</NAME>
+<RETURNS>GList *					</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_level</NAME>
+<RETURNS>gint 					</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_level</NAME>
+<RETURNS>void 					</RETURNS>
+AsCategory* self, gint value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_subcategories</NAME>
+<RETURNS>GList *					</RETURNS>
+AsCategory* self 
+</FUNCTION>
+<STRUCT>
+<NAME>AsCategoryPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_SEARCH_QUERY</NAME>
+#define AS_TYPE_SEARCH_QUERY (as_search_query_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_SEARCH_QUERY</NAME>
+#define AS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_SEARCH_QUERY, AsSearchQuery))
+</MACRO>
+<MACRO>
+<NAME>AS_SEARCH_QUERY_CLASS</NAME>
+#define AS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_SEARCH_QUERY, AsSearchQueryClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_SEARCH_QUERY</NAME>
+#define AS_IS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_SEARCH_QUERY))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_SEARCH_QUERY_CLASS</NAME>
+#define AS_IS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_SEARCH_QUERY))
+</MACRO>
+<MACRO>
+<NAME>AS_SEARCH_QUERY_GET_CLASS</NAME>
+#define AS_SEARCH_QUERY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_SEARCH_QUERY, AsSearchQueryClass))
+</MACRO>
+<STRUCT>
+<NAME>AsSearchQuery</NAME>
+struct _AsSearchQuery
+{
+	GObject parent_instance;
+	AsSearchQueryPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsSearchQueryClass</NAME>
+struct _AsSearchQueryClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_search_query_get_type</NAME>
+<RETURNS>GType 					</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_search_query_new</NAME>
+<RETURNS>AsSearchQuery *			</RETURNS>
 const gchar* term 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_construct</NAME>
-<RETURNS>AppstreamSearchQuery * </RETURNS>
+<NAME>as_search_query_construct</NAME>
+<RETURNS>AsSearchQuery *			</RETURNS>
 GType object_type, const gchar* term 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_get_search_all_categories</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamSearchQuery* self 
+<NAME>as_search_query_set_search_term</NAME>
+<RETURNS>void 					</RETURNS>
+AsSearchQuery* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_set_search_all_categories</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamSearchQuery* self 
+<NAME>as_search_query_get_search_all_categories</NAME>
+<RETURNS>gboolean 				</RETURNS>
+AsSearchQuery* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_set_categories_from_string</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamSearchQuery* self, const gchar* categories_str 
+<NAME>as_search_query_get_categories</NAME>
+<RETURNS>gchar **					</RETURNS>
+AsSearchQuery* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_get_search_term</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamSearchQuery* self 
+<NAME>as_search_query_set_search_all_categories</NAME>
+<RETURNS>void 					</RETURNS>
+AsSearchQuery* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_set_search_term</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamSearchQuery* self, const gchar* value 
+<NAME>as_search_query_set_categories</NAME>
+<RETURNS>void 					</RETURNS>
+AsSearchQuery* self, gchar** value 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_get_categories</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamSearchQuery* self, int* result_length1 
+<NAME>as_search_query_set_categories_from_string</NAME>
+<RETURNS>void 					</RETURNS>
+AsSearchQuery* self, const gchar* categories_str 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_search_query_set_categories</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamSearchQuery* self, gchar** value, int value_length1 
+<NAME>as_search_query_sanitize_search_term</NAME>
+<RETURNS>void 					</RETURNS>
+AsSearchQuery* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_get_type</NAME>
+<NAME>as_search_query_get_search_term</NAME>
+<RETURNS>const gchar *			</RETURNS>
+AsSearchQuery* self 
+</FUNCTION>
+<STRUCT>
+<NAME>AsSearchQueryPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_DATA_PROVIDER</NAME>
+#define AS_TYPE_DATA_PROVIDER (as_data_provider_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_DATA_PROVIDER</NAME>
+#define AS_DATA_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DATA_PROVIDER, AsDataProvider))
+</MACRO>
+<MACRO>
+<NAME>AS_DATA_PROVIDER_CLASS</NAME>
+#define AS_DATA_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DATA_PROVIDER, AsDataProviderClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DATA_PROVIDER</NAME>
+#define AS_IS_DATA_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DATA_PROVIDER))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DATA_PROVIDER_CLASS</NAME>
+#define AS_IS_DATA_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DATA_PROVIDER))
+</MACRO>
+<MACRO>
+<NAME>AS_DATA_PROVIDER_GET_CLASS</NAME>
+#define AS_DATA_PROVIDER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DATA_PROVIDER, AsDataProviderClass))
+</MACRO>
+<STRUCT>
+<NAME>AsDataProvider</NAME>
+struct _AsDataProvider
+{
+	GObject parent_instance;
+	AsDataProviderPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsDataProviderClass</NAME>
+struct _AsDataProviderClass
+{
+	GObjectClass parent_class;
+	gboolean (*execute) (AsDataProvider* self);
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_data_provider_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_new</NAME>
-<RETURNS>AppstreamDatabase * </RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_database_construct</NAME>
-<RETURNS>AppstreamDatabase * </RETURNS>
+<NAME>as_data_provider_construct</NAME>
+<RETURNS>AsDataProvider *		</RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_open</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamDatabase* self 
+<NAME>as_data_provider_emit_application</NAME>
+<RETURNS>void 				</RETURNS>
+AsDataProvider* self, AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_db_exists</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamDatabase* self 
+<NAME>as_data_provider_execute</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsDataProvider* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_get_all_applications</NAME>
-<RETURNS>GPtrArray * </RETURNS>
-AppstreamDatabase* self 
+<NAME>as_data_provider_log_error</NAME>
+<RETURNS>void 				</RETURNS>
+AsDataProvider* self, const gchar* msg 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_find_applications</NAME>
-<RETURNS>GPtrArray * </RETURNS>
-AppstreamDatabase* self, AppstreamSearchQuery* query 
+<NAME>as_data_provider_log_warning</NAME>
+<RETURNS>void 				</RETURNS>
+AsDataProvider* self, const gchar* msg 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_find_applications_by_str</NAME>
-<RETURNS>GPtrArray * </RETURNS>
-AppstreamDatabase* self, const gchar* search_str, const gchar* categories_str 
+<NAME>as_data_provider_get_watch_files</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsDataProvider* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_database_get_database_path</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamDatabase* self 
+<NAME>as_data_provider_set_watch_files</NAME>
+<RETURNS>void 				</RETURNS>
+AsDataProvider* self, gchar** value 
+</FUNCTION>
+<STRUCT>
+<NAME>AsDataProviderPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_RELEASE</NAME>
+#define AS_TYPE_RELEASE			(as_release_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_RELEASE</NAME>
+#define AS_RELEASE(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_RELEASE, AsRelease))
+</MACRO>
+<MACRO>
+<NAME>AS_RELEASE_CLASS</NAME>
+#define AS_RELEASE_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_RELEASE, AsReleaseClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_RELEASE</NAME>
+#define AS_IS_RELEASE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_RELEASE))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_RELEASE_CLASS</NAME>
+#define AS_IS_RELEASE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_RELEASE))
+</MACRO>
+<MACRO>
+<NAME>AS_RELEASE_GET_CLASS</NAME>
+#define AS_RELEASE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_RELEASE, AsReleaseClass))
+</MACRO>
+<STRUCT>
+<NAME>AsRelease</NAME>
+struct _AsRelease
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsReleaseClass</NAME>
+struct _AsReleaseClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_release_get_type</NAME>
+<RETURNS>GType 		 </RETURNS>
+void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_type</NAME>
+<NAME>as_release_new</NAME>
+<RETURNS>AsRelease 	*</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_get_version</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsRelease	*release 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_get_timestamp</NAME>
+<RETURNS>guint64 		 </RETURNS>
+AsRelease	*release 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_get_description</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsRelease	*release 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_version</NAME>
+<RETURNS>void 		 </RETURNS>
+AsRelease	*release, const gchar *version 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_timestamp</NAME>
+<RETURNS>void 		 </RETURNS>
+AsRelease	*release, guint64	 timestamp 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_description</NAME>
+<RETURNS>void 		 </RETURNS>
+AsRelease	*release, const gchar	*description 
+</FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_DATABASE</NAME>
+#define AS_TYPE_DATABASE (as_database_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_DATABASE</NAME>
+#define AS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DATABASE, AsDatabase))
+</MACRO>
+<MACRO>
+<NAME>AS_DATABASE_CLASS</NAME>
+#define AS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DATABASE, AsDatabaseClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DATABASE</NAME>
+#define AS_IS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DATABASE))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DATABASE_CLASS</NAME>
+#define AS_IS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DATABASE))
+</MACRO>
+<MACRO>
+<NAME>AS_DATABASE_GET_CLASS</NAME>
+#define AS_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DATABASE, AsDatabaseClass))
+</MACRO>
+<STRUCT>
+<NAME>AsDatabase</NAME>
+struct _AsDatabase
+{
+	GObject parent_instance;
+	AsDatabasePrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsDatabaseClass</NAME>
+struct _AsDatabaseClass
+{
+	GObjectClass parent_class;
+	gboolean (*open) (AsDatabase* self);
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_database_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_new</NAME>
-<RETURNS>AppstreamCategory * </RETURNS>
+<NAME>as_database_new</NAME>
+<RETURNS>AsDatabase *			</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_construct</NAME>
-<RETURNS>AppstreamCategory * </RETURNS>
+<NAME>as_database_construct</NAME>
+<RETURNS>AsDatabase *			</RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_add_subcategory</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamCategory* self, AppstreamCategory* cat 
+<NAME>as_database_set_database_path</NAME>
+<RETURNS>void 				</RETURNS>
+AsDatabase* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_remove_subcategory</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamCategory* self, AppstreamCategory* cat 
+<NAME>as_database_open</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsDatabase* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_has_subcategory</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamCategory* self 
+<NAME>as_database_get_database_path</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsDatabase* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_name</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamCategory* self 
+<NAME>as_database_db_exists</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsDatabase* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_summary</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamCategory* self 
+<NAME>as_database_get_all_components</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsDatabase* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_icon</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamCategory* self 
+<NAME>as_database_find_components</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsDatabase* self, AsSearchQuery* query 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_category_get_directory</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamCategory* self 
+<NAME>as_database_find_components_by_str</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsDatabase* self, const gchar* search_str, const gchar* categories_str 
 </FUNCTION>
+<STRUCT>
+<NAME>AsDatabasePrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_MENU_PARSER</NAME>
+#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_MENU_PARSER</NAME>
+#define AS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_MENU_PARSER, AsMenuParser))
+</MACRO>
+<MACRO>
+<NAME>AS_MENU_PARSER_CLASS</NAME>
+#define AS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_MENU_PARSER, AsMenuParserClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_MENU_PARSER</NAME>
+#define AS_IS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_MENU_PARSER))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_MENU_PARSER_CLASS</NAME>
+#define AS_IS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_MENU_PARSER))
+</MACRO>
+<MACRO>
+<NAME>AS_MENU_PARSER_GET_CLASS</NAME>
+#define AS_MENU_PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_MENU_PARSER, AsMenuParserClass))
+</MACRO>
+<STRUCT>
+<NAME>AsMenuParser</NAME>
+struct _AsMenuParser
+{
+	GObject parent_instance;
+	AsMenuParserPrivate *priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsMenuParserClass</NAME>
+struct _AsMenuParserClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
 <FUNCTION>
-<NAME>appstream_category_get_included</NAME>
-<RETURNS>GList * </RETURNS>
-AppstreamCategory* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_category_get_excluded</NAME>
-<RETURNS>GList * </RETURNS>
-AppstreamCategory* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_category_get_level</NAME>
-<RETURNS>gint  </RETURNS>
-AppstreamCategory* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_category_get_subcategories</NAME>
-<RETURNS>GList * </RETURNS>
-AppstreamCategory* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_menu_parser_ref</NAME>
-<RETURNS>gpointer  </RETURNS>
-gpointer instance 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_menu_parser_unref</NAME>
-<RETURNS>void  </RETURNS>
-gpointer instance 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_param_spec_menu_parser</NAME>
-<RETURNS>GParamSpec * </RETURNS>
-const gchar* name, const gchar* nick, const gchar* blurb, GType object_type, GParamFlags flags 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_value_set_menu_parser</NAME>
-<RETURNS>void  </RETURNS>
-GValue* value, gpointer v_object 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_value_take_menu_parser</NAME>
-<RETURNS>void  </RETURNS>
-GValue* value, gpointer v_object 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_value_get_menu_parser</NAME>
-<RETURNS>gpointer  </RETURNS>
-const GValue* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_menu_parser_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<NAME>as_menu_parser_get_type</NAME>
+<RETURNS>GType 					</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_new</NAME>
-<RETURNS>AppstreamMenuParser * </RETURNS>
+<NAME>as_menu_parser_new</NAME>
+<RETURNS>AsMenuParser *			</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_construct</NAME>
-<RETURNS>AppstreamMenuParser * </RETURNS>
+<NAME>as_menu_parser_construct</NAME>
+<RETURNS>AsMenuParser *			</RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_new_from_file</NAME>
-<RETURNS>AppstreamMenuParser * </RETURNS>
+<NAME>as_menu_parser_new_from_file</NAME>
+<RETURNS>AsMenuParser *			</RETURNS>
 const gchar* menu_file 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_construct_from_file</NAME>
-<RETURNS>AppstreamMenuParser * </RETURNS>
+<NAME>as_menu_parser_construct_from_file</NAME>
+<RETURNS>AsMenuParser *			</RETURNS>
 GType object_type, const gchar* menu_file 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_parse</NAME>
-<RETURNS>GList * </RETURNS>
-AppstreamMenuParser* self 
+<NAME>as_menu_parser_set_update_category_data</NAME>
+<RETURNS>void 					</RETURNS>
+AsMenuParser* self, gboolean value 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_get_update_category_data</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamMenuParser* self 
+<NAME>as_menu_parser_parse</NAME>
+<RETURNS>GList *					</RETURNS>
+AsMenuParser* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_menu_parser_set_update_category_data</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamMenuParser* self, gboolean value 
+<NAME>as_menu_parser_get_update_category_data</NAME>
+<RETURNS>gboolean 				</RETURNS>
+AsMenuParser* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_get_system_categories</NAME>
-<RETURNS>GList * </RETURNS>
+<NAME>as_get_system_categories</NAME>
+<RETURNS>GList *					</RETURNS>
+void 
+</FUNCTION>
+<STRUCT>
+<NAME>AsMenuParserPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_PROVIDER_TYPE_DEP11</NAME>
+#define AS_PROVIDER_TYPE_DEP11 (as_provider_dep11_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_DE_P11</NAME>
+#define AS_PROVIDER_DE_P11(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_DE_P11_CLASS</NAME>
+#define AS_PROVIDER_DE_P11_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_DEP11</NAME>
+#define AS_PROVIDER_IS_DEP11(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_DEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_DEP11_CLASS</NAME>
+#define AS_PROVIDER_IS_DEP11_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_DEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_DEP11_GET_CLASS</NAME>
+#define AS_PROVIDER_DEP11_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
+</MACRO>
+<STRUCT>
+<NAME>AsProviderDEP11</NAME>
+struct _AsProviderDEP11 {
+	AsDataProvider parent_instance;
+	AsProviderDEP11Private * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsProviderDEP11Class</NAME>
+struct _AsProviderDEP11Class {
+	AsDataProviderClass parent_class;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_provider_dep11_get_type</NAME>
+<RETURNS>GType 					</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_new</NAME>
-<RETURNS>AppstreamScreenshot * </RETURNS>
+<NAME>as_provider_dep11_new</NAME>
+<RETURNS>AsProviderDEP11 *		</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_construct</NAME>
-<RETURNS>AppstreamScreenshot * </RETURNS>
+<NAME>as_provider_dep11_construct</NAME>
+<RETURNS>AsProviderDEP11 *		</RETURNS>
 GType object_type 
 </FUNCTION>
+<STRUCT>
+<NAME>AsProviderDEP11Private</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_PROVIDER_TYPE_APPSTREAM_XML</NAME>
+#define AS_PROVIDER_TYPE_APPSTREAM_XML (as_provider_appstream_xml_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_APPSTREAM_XML</NAME>
+#define AS_PROVIDER_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXML))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_APPSTREAM_XML_CLASS</NAME>
+#define AS_PROVIDER_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXMLClass))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_APPSTREAM_XML</NAME>
+#define AS_PROVIDER_IS_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_APPSTREAM_XML_CLASS</NAME>
+#define AS_PROVIDER_IS_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_APPSTREAM_XML))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_APPSTREAM_XML_GET_CLASS</NAME>
+#define AS_PROVIDER_APPSTREAM_XML_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXMLClass))
+</MACRO>
+<STRUCT>
+<NAME>AsProviderAppstreamXML</NAME>
+struct _AsProviderAppstreamXML {
+	AsDataProvider parent_instance;
+	AsProviderAppstreamXMLPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsProviderAppstreamXMLClass</NAME>
+struct _AsProviderAppstreamXMLClass {
+	AsDataProviderClass parent_class;
+};
+</STRUCT>
 <FUNCTION>
-<NAME>appstream_screenshot_get_url_for_size</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamScreenshot* self, const gchar* size_id 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_get_thumbnail_url_for_size</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamScreenshot* self, const gchar* size_id 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_get_available_sizes</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamScreenshot* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_get_available_thumbnail_sizes</NAME>
-<RETURNS>gchar ** </RETURNS>
-AppstreamScreenshot* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_add_url</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamScreenshot* self, const gchar* size_id, const gchar* url 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_add_thumbnail_url</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamScreenshot* self, const gchar* size_id, const gchar* url 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_is_default</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamScreenshot* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_set_default</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamScreenshot* self, gboolean b 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_is_valid</NAME>
-<RETURNS>gboolean  </RETURNS>
-AppstreamScreenshot* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_get_caption</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamScreenshot* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_set_caption</NAME>
-<RETURNS>void  </RETURNS>
-AppstreamScreenshot* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>appstream_screenshot_service_get_type</NAME>
+<NAME>as_provider_appstream_xml_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_service_new</NAME>
-<RETURNS>AppstreamScreenshotService * </RETURNS>
+<NAME>as_provider_appstream_xml_new</NAME>
+<RETURNS>AsProviderAppstreamXML * </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_service_construct</NAME>
-<RETURNS>AppstreamScreenshotService * </RETURNS>
+<NAME>as_provider_appstream_xml_construct</NAME>
+<RETURNS>AsProviderAppstreamXML * </RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_service_get_thumbnail_url</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamScreenshotService* self, const gchar* package_name 
+<NAME>as_provider_appstream_xml_process_compressed_file</NAME>
+<RETURNS>gboolean  </RETURNS>
+AsProviderAppstreamXML* self, GFile* infile 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_service_get_screenshot_url</NAME>
-<RETURNS>gchar * </RETURNS>
-AppstreamScreenshotService* self, const gchar* package_name 
+<NAME>as_provider_appstream_xml_process_file</NAME>
+<RETURNS>gboolean  </RETURNS>
+AsProviderAppstreamXML* self, GFile* infile 
+</FUNCTION>
+<STRUCT>
+<NAME>AsProviderAppstreamXMLPrivate</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_PROVIDER_TYPE_UBUNTU_APPINSTALL</NAME>
+#define AS_PROVIDER_TYPE_UBUNTU_APPINSTALL (as_provider_ubuntu_appinstall_get_type ())
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_UBUNTU_APPINSTALL</NAME>
+#define AS_PROVIDER_UBUNTU_APPINSTALL(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstall))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_UBUNTU_APPINSTALL_CLASS</NAME>
+#define AS_PROVIDER_UBUNTU_APPINSTALL_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstallClass))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_UBUNTU_APPINSTALL</NAME>
+#define AS_PROVIDER_IS_UBUNTU_APPINSTALL(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS</NAME>
+#define AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL))
+</MACRO>
+<MACRO>
+<NAME>AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS</NAME>
+#define AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstallClass))
+</MACRO>
+<STRUCT>
+<NAME>AsProviderUbuntuAppinstall</NAME>
+struct _AsProviderUbuntuAppinstall {
+	AsDataProvider parent_instance;
+	AsProviderUbuntuAppinstallPrivate * priv;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsProviderUbuntuAppinstallClass</NAME>
+struct _AsProviderUbuntuAppinstallClass {
+	AsDataProviderClass parent_class;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_provider_ubuntu_appinstall_new</NAME>
+<RETURNS>AsProviderUbuntuAppinstall *				</RETURNS>
+void 
 </FUNCTION>
 <FUNCTION>
-<NAME>appstream_screenshot_service_get_base_url</NAME>
-<RETURNS>const gchar * </RETURNS>
-AppstreamScreenshotService* self 
+<NAME>as_provider_ubuntu_appinstall_construct</NAME>
+<RETURNS>AsProviderUbuntuAppinstall *				</RETURNS>
+GType object_type 
 </FUNCTION>
 <STRUCT>
-<NAME>AppstreamMenuParserPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamSearchQueryPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshotServicePrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamCategoryPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamDatabasePrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamAppInfoPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamDistroDetailsPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>AppstreamScreenshotPrivate</NAME>
+<NAME>AsProviderUbuntuAppinstallPrivate</NAME>
 </STRUCT>

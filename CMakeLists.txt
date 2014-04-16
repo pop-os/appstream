@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
-set(AS_VERSION_MINOR  "5")
+set(AS_VERSION_MINOR  "6")
 set(AS_VERSION_PATCH  "0")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "0")
@@ -25,14 +25,17 @@ option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" OFF)
 option(PROVIDER_UBUNTU_APPINSTALL "Enable AppInstall data provider" OFF)
 option(L18N "Enable localization" ON)
 option(TESTS "Enable Unit Tests" OFF)
-
-set(VALA_COMPILE_FLAGS "--target-glib=2.36")
+option(MAINTAINER "Enable maintainer mode" OFF)
 
 if(PROVIDER_DEBIAN_DEP11)
-	set(VALA_COMPILE_FLAGS ${VALA_COMPILE_FLAGS} "--define=DEBIAN_DEP11")
+	add_definitions ("-DDEBIAN_DEP11")
 endif()
 if(PROVIDER_UBUNTU_APPINSTALL)
-	set(VALA_COMPILE_FLAGS ${VALA_COMPILE_FLAGS} "--define=UBUNTU_APPINSTALL")
+	add_definitions ("-DUBUNTU_APPINSTALL")
+endif()
+
+if(MAINTAINER)
+	add_definitions ("-Wall" "-Werror")
 endif()
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -48,9 +51,7 @@ add_definitions(-DCMAKE_INSTALL_LIBDIR="\"${CMAKE_INSTALL_LIBDIR}\"")
 set(CMAKE_INSTALL_LIBDIR "lib/${CMAKE_LIBRARY_ARCHITECTURE}" CACHE PATH "Output directory for libraries")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/data/cmake/)
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/data/cmake/vala)
-
-message(STATUS "Compiling AppStream core modules version ${AS_VERSION}")
+message(STATUS "Compiling AppStream version ${AS_VERSION}")
 
 add_custom_target(distclean
   "make clean"
@@ -102,19 +103,13 @@ if (DISABLE_MAINTAINER_CFLAGS)
 endif (DISABLE_MAINTAINER_CFLAGS)
 add_definitions(${MAINTAINER_CFLAGS})
 
-# we do always enable this to never run into the missing-include-trap with Vala again
+# we do always enable this to never run into the missing-include-trap again
 add_definitions("-Werror=implicit-function-declaration")
 
 # Required to include config.h before all other units
 add_definitions ("--include config.h")
 
-#
-# Validate Vala version
-#
 find_package(PkgConfig REQUIRED)
-find_package(Vala REQUIRED)
-include(${VALA_USE_FILE})
-ensure_vala_version("0.16" MINIMUM)
 
 add_subdirectory(src)
 add_subdirectory(client)

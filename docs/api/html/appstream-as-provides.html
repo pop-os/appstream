@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>as-provides</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsComponent.html" title="AsComponent">
+<link rel="next" href="AsRelease.html" title="AsRelease">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="AsComponent.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="AsRelease.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-as-provides.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-as-provides.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-as-provides"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-as-provides.top_of_page"></a>as-provides</span></h2>
+<p>as-provides — Description of the provides-types of components</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-as-provides.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">
+#include &lt;appstream.h&gt;
+
+enum                <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind">AsProvidesKind</a>;
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-as-provides.html#as-provides-kind-to-string" title="as_provides_kind_to_string ()">as_provides_kind_to_string</a>          (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>);
+<a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>      <a class="link" href="appstream-as-provides.html#as-provides-kind-from-string" title="as_provides_kind_from_string ()">as_provides_kind_from_string</a>        (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind_str</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-as-provides.html#as-provides-item-create" title="as_provides_item_create ()">as_provides_item_create</a>             (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+<a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>      <a class="link" href="appstream-as-provides.html#as-provides-item-get-kind" title="as_provides_item_get_kind ()">as_provides_item_get_kind</a>           (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-as-provides.html#as-provides-item-get-value" title="as_provides_item_get_value ()">as_provides_item_get_value</a>          (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-as-provides.description"></a><h2>Description</h2>
+<p>
+Components can provide various items, like libraries, Python-modules,
+firmware, binaries, etc.
+Functions to work with these items are provided here.
+</p>
+<p>
+See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="appstream-as-provides.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsProvidesKind"></a><h3>enum AsProvidesKind</h3>
+<pre class="programlisting">typedef enum {
+	AS_PROVIDES_KIND_UNKNOWN,
+	AS_PROVIDES_KIND_LIBRARY,
+	AS_PROVIDES_KIND_BINARY,
+	AS_PROVIDES_KIND_FONT,
+	AS_PROVIDES_KIND_MODALIAS,
+	AS_PROVIDES_KIND_FIRMWARE,
+	AS_PROVIDES_KIND_PYTHON2,
+	AS_PROVIDES_KIND_PYTHON3,
+	AS_PROVIDES_KIND_LAST
+} AsProvidesKind;
+</pre>
+<p>
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-UNKNOWN:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_UNKNOWN</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-LIBRARY:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_LIBRARY</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-BINARY:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_BINARY</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-FONT:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_FONT</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-MODALIAS:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_MODALIAS</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-FIRMWARE:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_FIRMWARE</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-PYTHON2:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_PYTHON2</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-PYTHON3:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_PYTHON3</code></span></p></td>
+<td>
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-PROVIDES-KIND-LAST:CAPS"></a><span class="term"><code class="literal">AS_PROVIDES_KIND_LAST</code></span></p></td>
+<td>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-provides-kind-to-string"></a><h3>as_provides_kind_to_string ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_provides_kind_to_string          (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>);</pre>
+<p>
+Converts the enumerated value to an text representation.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a>.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string version of <em class="parameter"><code>kind</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-provides-kind-from-string"></a><h3>as_provides_kind_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>      as_provides_kind_from_string        (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind_str</code></em>);</pre>
+<p>
+Converts the text representation to an enumerated value.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind_str</code></em> :</span></p></td>
+<td>the string.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> or <a class="link" href="appstream-as-provides.html#AS-PROVIDES-KIND-UNKNOWN:CAPS"><code class="literal">AS_PROVIDES_KIND_UNKNOWN</code></a> for unknown</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-provides-item-create"></a><h3>as_provides_item_create ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             as_provides_item_create             (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Creates a new provides-item string, which
+consists of a type-part describing the items type, and a name-part,
+containing the name of the item. Both are separated by a semicolon,
+so an item of type KIND_LIBRARY and name libappstream.so.0 will become
+"lib;libappstream.so.0"
+</p>
+<p>
+<em class="parameter"><code>kind</code></em> a <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> describing the type of the item string
+<em class="parameter"><code>value</code></em> the name of the item as string
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a new provides-item string. Free with g_free</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-provides-item-get-kind"></a><h3>as_provides_item_get_kind ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>      as_provides_item_get_kind           (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);</pre>
+<p>
+Returns the type (kind) of a provides-item string
+as <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a>
+</p>
+<p>
+<em class="parameter"><code>item</code></em> a valid provides-item string
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the kind of the given item</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-provides-item-get-value"></a><h3>as_provides_item_get_value ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             as_provides_item_get_value          (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);</pre>
+<p>
+Returns the value (name) of a provides-item string
+</p>
+<p>
+<em class="parameter"><code>item</code></em> a valid provides-item string
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the given item, or NULL if the item was invalid</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

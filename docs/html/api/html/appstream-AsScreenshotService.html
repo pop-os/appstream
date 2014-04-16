@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsScreenshotService</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="appstream-AsSearchQuery.html" title="AsSearchQuery">
+<link rel="next" href="api-index-full.html" title="API Index">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-AsSearchQuery.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="api-index-full.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AsScreenshotService.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AsScreenshotService.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AsScreenshotService"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AsScreenshotService.top_of_page"></a>AsScreenshotService</span></h2>
+<p>AsScreenshotService — Get access to a package screenshot service which matches the current distribution.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AsScreenshotService.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AsScreenshotService.html#AS-TYPE-SCREENSHOT-SERVICE:CAPS" title="AS_TYPE_SCREENSHOT_SERVICE">AS_TYPE_SCREENSHOT_SERVICE</a>
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AsScreenshotService.html#as-screenshot-service-get-thumbnail-url" title="as_screenshot_service_get_thumbnail_url ()">as_screenshot_service_get_thumbnail_url</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_name</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AsScreenshotService.html#as-screenshot-service-get-screenshot-url" title="as_screenshot_service_get_screenshot_url ()">as_screenshot_service_get_screenshot_url</a>
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_name</code></em>);
+<a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="returnvalue">AsScreenshotService</span></a> * <a class="link" href="appstream-AsScreenshotService.html#as-screenshot-service-new" title="as_screenshot_service_new ()">as_screenshot_service_new</a>         (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AsScreenshotService.html#as-screenshot-service-get-base-url" title="as_screenshot_service_get_base_url ()">as_screenshot_service_get_base_url</a>  (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>);
+struct              <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService">AsScreenshotService</a>;
+struct              <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotServiceClass" title="struct AsScreenshotServiceClass">AsScreenshotServiceClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AsScreenshotService.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AsScreenshotService.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AS-TYPE-SCREENSHOT-SERVICE:CAPS"></a><h3>AS_TYPE_SCREENSHOT_SERVICE</h3>
+<pre class="programlisting">#define AS_TYPE_SCREENSHOT_SERVICE (as_screenshot_service_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-screenshot-service-get-thumbnail-url"></a><h3>as_screenshot_service_get_thumbnail_url ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             as_screenshot_service_get_thumbnail_url
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_name</code></em>);</pre>
+<p>
+Get the url of a screenshot thumbnail for the package.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package_name</code></em> :</span></p></td>
+<td> .  The name of the package which the screenshot belongs to. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-screenshot-service-get-screenshot-url"></a><h3>as_screenshot_service_get_screenshot_url ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             as_screenshot_service_get_screenshot_url
+                                                        (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *package_name</code></em>);</pre>
+<p>
+Get the url of a screenshot for the package.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> instance</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>package_name</code></em> :</span></p></td>
+<td> .  The name of the package which the screenshot belongs to. <span class="annotation">[<acronym title="Parameter for input. Default is transfer none."><span class="acronym">in</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-screenshot-service-new"></a><h3>as_screenshot_service_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="returnvalue">AsScreenshotService</span></a> * as_screenshot_service_new         (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-screenshot-service-get-base-url"></a><h3>as_screenshot_service_get_base_url ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_screenshot_service_get_base_url  (<em class="parameter"><code><a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"base-url"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsScreenshotService.html#AsScreenshotService" title="struct AsScreenshotService"><span class="type">AsScreenshotService</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"base-url"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsScreenshotService"></a><h3>struct AsScreenshotService</h3>
+<pre class="programlisting">struct AsScreenshotService {
+	GObject parent_instance;
+	AsScreenshotServicePrivate * priv;
+};
+</pre>
+<p>
+Get access to a package screenshot service which matches the current distribution.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsScreenshotServiceClass"></a><h3>struct AsScreenshotServiceClass</h3>
+<pre class="programlisting">struct AsScreenshotServiceClass {
+	GObjectClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AsScreenshotService.html#AS-TYPE-SCREENSHOT-SERVICE:CAPS" title="AS_TYPE_SCREENSHOT_SERVICE"><code class="literal">AS_TYPE_SCREENSHOT_SERVICE</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><a href="../gobject/gobject-The-Base-Object-Type.html#GObjectClass"><span class="type">GObjectClass</span></a> <em class="structfield"><code><a name="AsScreenshotServiceClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

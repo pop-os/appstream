@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsAppInfo</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="appstream-AsDistroDetails.html" title="AsDistroDetails">
+<link rel="next" href="appstream-AsScreenshot.html" title="AsScreenshot">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="appstream-AsDistroDetails.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="appstream-AsScreenshot.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#appstream-AsAppInfo.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#appstream-AsAppInfo.description" class="shortcut">Description</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="appstream-AsAppInfo"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="appstream-AsAppInfo.top_of_page"></a>AsAppInfo</span></h2>
+<p>AsAppInfo — Class to store data describing an application in AppStream</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="appstream-AsAppInfo.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">#define             <a class="link" href="appstream-AsAppInfo.html#AS-TYPE-APP-INFO:CAPS" title="AS_TYPE_APP_INFO">AS_TYPE_APP_INFO</a>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="appstream-AsAppInfo.html#as-appinfo-is-valid" title="as_appinfo_is_valid ()">as_appinfo_is_valid</a>                 (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             <a class="link" href="appstream-AsAppInfo.html#as-appinfo-to-string" title="as_appinfo_to_string ()">as_appinfo_to_string</a>                (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);
+<a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="returnvalue">AsAppInfo</span></a> *         <a class="link" href="appstream-AsAppInfo.html#as-appinfo-new" title="as_appinfo_new ()">as_appinfo_new</a>                      (<em class="parameter"><code><span class="type">void</span></code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="appstream-AsAppInfo.html#as-appinfo-get-desktop-file" title="as_appinfo_get_desktop_file ()">as_appinfo_get_desktop_file</a>         (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="appstream-AsAppInfo.html#as-appinfo-set-desktop-file" title="as_appinfo_set_desktop_file ()">as_appinfo_set_desktop_file</a>         (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
+struct              <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo">AsAppInfo</a>;
+struct              <a class="link" href="appstream-AsAppInfo.html#AsAppInfoClass" title="struct AsAppInfoClass">AsAppInfoClass</a>;
+</pre>
+</div>
+<div class="refsect1">
+<a name="appstream-AsAppInfo.description"></a><h2>Description</h2>
+</div>
+<div class="refsect1">
+<a name="appstream-AsAppInfo.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AS-TYPE-APP-INFO:CAPS"></a><h3>AS_TYPE_APP_INFO</h3>
+<pre class="programlisting">#define AS_TYPE_APP_INFO (as_app_info_get_type ())
+</pre>
+<p>
+The type for <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a>.
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-appinfo-is-valid"></a><h3>as_appinfo_is_valid ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_appinfo_is_valid                 (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Check if the essential properties of this AppInfo instance are populated with useful data.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-appinfo-to-string"></a><h3>as_appinfo_to_string ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *             as_appinfo_to_string                (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);</pre>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> instance</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-appinfo-new"></a><h3>as_appinfo_new ()</h3>
+<pre class="programlisting"><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="returnvalue">AsAppInfo</span></a> *         as_appinfo_new                      (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-appinfo-get-desktop-file"></a><h3>as_appinfo_get_desktop_file ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_appinfo_get_desktop_file         (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>);</pre>
+<p>
+Get and return the current value of the <span class="type">"desktop-file"</span> property.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> instance to query</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the value of the <span class="type">"desktop-file"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-appinfo-set-desktop-file"></a><h3>as_appinfo_set_desktop_file ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_appinfo_set_desktop_file         (<em class="parameter"><code><a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> *self</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+Set the value of the <span class="type">"desktop-file"</span> property to <em class="parameter"><code>value</code></em>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>self</code></em> :</span></p></td>
+<td>the <a class="link" href="appstream-AsAppInfo.html#AsAppInfo" title="struct AsAppInfo"><span class="type">AsAppInfo</span></a> instance to modify</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>value</code></em> :</span></p></td>
+<td>the new value of the <span class="type">"desktop-file"</span> property</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsAppInfo"></a><h3>struct AsAppInfo</h3>
+<pre class="programlisting">struct AsAppInfo {
+	AsComponent parent_instance;
+	AsAppInfoPrivate * priv;
+};
+</pre>
+<p>
+Class to store data describing an application in AppStream
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsAppInfoClass"></a><h3>struct AsAppInfoClass</h3>
+<pre class="programlisting">struct AsAppInfoClass {
+	AsComponentClass parent_class;
+};
+</pre>
+<p>
+The class structure for <a class="link" href="appstream-AsAppInfo.html#AS-TYPE-APP-INFO:CAPS" title="AS_TYPE_APP_INFO"><code class="literal">AS_TYPE_APP_INFO</code></a>. All the fields in this structure are private and should never be accessed directly.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="type">AsComponentClass</span> <em class="structfield"><code><a name="AsAppInfoClass.parent-class"></a>parent_class</code></em>;</span></p></td>
+<td>the parent class structure</td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>

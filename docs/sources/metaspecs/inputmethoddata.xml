@@ -1,0 +1,147 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "AppStream.ent">
+%BOOK_ENTITIES;
+]>
+
+<section id="sect-Metadata-InputMethod">
+	<title>Input Methods</title>
+
+	<section id="spec-imdata-introduction">
+		<title>Introduction</title>
+		<para>
+			It is a nice feature for a software center to allows users the installation of additional input-methods.
+			This meta-info specification describes how metadata about input-methods should be structured.
+		</para>
+		<para>
+			Software components providing an input-method can ship one or more files in
+			<filename>/usr/share/appdata/%{id}.metainfo.xml</filename>.
+		</para>
+		<para>
+			Input-method metadata files can - just likle all other metainfo files - be translated. See the section about translation for more information about that.
+		</para>
+	</section>
+
+	<section id="spec-imdata-example">
+		<title>Example file</title>
+		<para>
+			The input-method meta-info file should look like this:
+		</para>
+		<programlisting language="XML">
+<![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<component type="inputmethod">
+  <id>mathwriter-ibus.db</id>
+  <metadata_license>CC0</metadata_license>
+  <name>Mathwriter</name>
+  <summary>Math symbols input method</summary>
+  <description>
+    <p>
+      The input method is designed for entering mathematical symbols.
+    </p>
+    <p>
+      Input methods are typing systems allowing users to input complex languages.
+      They are necessary because these contain too many characters to simply be laid
+      out on a traditional keyboard.
+    </p>
+  </description>
+  <url type="homepage">https://github.com/mike-fabian/ibus-table-others</url>
+</component>]]></programlisting>
+	</section>
+
+	<section id="spec-imdata-filespec">
+		<title>File specification</title>
+		<para>
+			Note that the XML root must have the <literal>type</literal> property set to <code>inputmethod</code>.
+			This clearly identified this metainfo document as describing an input-method instead of a generic software-component.
+		</para>
+
+		<variablelist>
+			<varlistentry>
+			<term>&lt;id/&gt;</term>
+			<listitem>
+				<para>
+					For input-methods, the <literal>%{id}</literal> is the same name as the input-method's database filename.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;metadata_license/&gt;</term>
+			<listitem>
+				<para>
+					The <code>&lt;metadata_license/&gt;</code> tag is required. See <xref linkend="sect-Metadata-GenericComponent"/> for a description of this tag.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;name/&gt;</term>
+			<listitem>
+				<para>
+					Set a name for your input-method.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;summary/&gt;</term>
+			<listitem>
+				<para>
+					A short description of the input-method described in this metainfo file.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;description/&gt;</term>
+			<listitem>
+				<para>
+					Add a long description of the input-method.
+				</para>
+				<para>
+					Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;screenshots/&gt;</term>
+			<listitem>
+				<para>
+					A screenshot may be included, showing the input-method in use in an application.
+				</para>
+				<para>
+					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property
+					<code>type="default"</code> to indicate the application's primary screenshot. Additionally, the <code>&lt;screenshot/&gt;</code> tags should define the width and height
+					of the referenced screenshot as properties. The value of these tags is a direct URL to a screenshot uploaded to a public location on the web.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;url/&gt;</term>
+			<listitem>
+				<para>
+					This is a recommended tag for links of type <code>homepage</code>.
+					Links of type <code>homepage</code> should be a link to the upstream homepage for the application.
+					See See <xref linkend="sect-Metadata-GenericComponent"/> for a description of this tag.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>&lt;provides/&gt;</term>
+			<listitem>
+				<para>
+					This tag is described for generic components at <xref linkend="sect-Metadata-GenericComponent"/> in detail.
+				</para>
+				<para>
+					You can add one or more children of type <code>&lt;library/&gt;</code> in case you publish some additional shared libraries.
+					If not, and there are no public binaries involved, you may omit the <literal>provides</literal> tag for input-methods.
+				</para>
+			</listitem>
+			</varlistentry>
+		</variablelist>
+
+	</section>
+</section>

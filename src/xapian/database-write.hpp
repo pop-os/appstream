@@ -25,7 +25,7 @@
 #include <string>
 #include <xapian.h>
 #include <glib.h>
-#include "appstream_internal.h"
+#include "../as-component.h"
 
 using namespace std;
 
@@ -40,8 +40,8 @@ public:
 
 	bool initialize (const gchar *dbPath);
 
-	bool addApplication (AppstreamAppInfo *app);
-	bool rebuild (GArray *apps);
+	bool addComponent (AsComponent *cpt);
+	bool rebuild (GList *cpt_list);
 
 private:
 	Xapian::WritableDatabase *m_rwXapianDB;

@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsSearchQuery">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsSearchQuery.top_of_page">AsSearchQuery</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsSearchQuery</refname>
+<refpurpose>An Appstream database search query</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsSearchQuery.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#include &lt;appstream.h&gt;
+
+struct              <link linkend="AsSearchQuery-struct">AsSearchQuery</link>;
+struct              <link linkend="AsSearchQueryClass">AsSearchQueryClass</link>;
+<link linkend="AsSearchQuery"><returnvalue>AsSearchQuery</returnvalue></link> *     <link linkend="as-search-query-new">as_search_query_new</link>                 (<parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>);
+<link linkend="AsSearchQuery"><returnvalue>AsSearchQuery</returnvalue></link> *     <link linkend="as-search-query-construct">as_search_query_construct</link>           (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-search-query-set-search-term">as_search_query_set_search_term</link>     (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-search-query-get-search-all-categories">as_search_query_get_search_all_categories</link>
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);
+<link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            <link linkend="as-search-query-get-categories">as_search_query_get_categories</link>      (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-search-query-set-search-all-categories">as_search_query_set_search_all_categories</link>
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-search-query-set-categories">as_search_query_set_categories</link>      (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-search-query-set-categories-from-string">as_search_query_set_categories_from_string</link>
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-search-query-sanitize-search-term">as_search_query_sanitize_search_term</link>
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);
+const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-search-query-get-search-term">as_search_query_get_search_term</link>     (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsSearchQuery.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsSearchQuery
+</synopsis>
+
+</refsect1>
+<refsect1 id="AsSearchQuery.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="AsSearchQuery--categories">categories</link>&quot;               <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write
+  &quot;<link linkend="AsSearchQuery--search-term">search-term</link>&quot;              <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="AsSearchQuery.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+This object defines a search run in the Appstream components database.
+It contains a string to search for, as well as information which
+categories should be searched.
+It also applies some sanity checks and improvements to the entered search string.
+</para>
+<para>
+See also: <link linkend="AsDatabase"><type>AsDatabase</type></link>
+</para>
+</refsect1>
+<refsect1 id="AsSearchQuery.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsSearchQuery-struct" role="struct">
+<title>struct AsSearchQuery</title>
+<indexterm zone="AsSearchQuery-struct"><primary>AsSearchQuery</primary></indexterm>
+<programlisting>struct AsSearchQuery;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsSearchQueryClass" role="struct">
+<title>struct AsSearchQueryClass</title>
+<indexterm zone="AsSearchQueryClass"><primary>AsSearchQueryClass</primary></indexterm>
+<programlisting>struct AsSearchQueryClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-new" role="function">
+<title>as_search_query_new ()</title>
+<indexterm zone="as-search-query-new"><primary>as_search_query_new</primary></indexterm>
+<programlisting><link linkend="AsSearchQuery"><returnvalue>AsSearchQuery</returnvalue></link> *     as_search_query_new                 (<parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-search-query-construct" role="function">
+<title>as_search_query_construct ()</title>
+<indexterm zone="as-search-query-construct"><primary>as_search_query_construct</primary></indexterm>
+<programlisting><link linkend="AsSearchQuery"><returnvalue>AsSearchQuery</returnvalue></link> *     as_search_query_construct           (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-set-search-term" role="function">
+<title>as_search_query_set_search_term ()</title>
+<indexterm zone="as-search-query-set-search-term"><primary>as_search_query_set_search_term</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_search_query_set_search_term     (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-get-search-all-categories" role="function">
+<title>as_search_query_get_search_all_categories ()</title>
+<indexterm zone="as-search-query-get-search-all-categories"><primary>as_search_query_get_search_all_categories</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_search_query_get_search_all_categories
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if we search in all categories</simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-search-query-get-categories" role="function">
+<title>as_search_query_get_categories ()</title>
+<indexterm zone="as-search-query-get-categories"><primary>as_search_query_get_categories</primary></indexterm>
+<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> **            as_search_query_get_categories      (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-set-search-all-categories" role="function">
+<title>as_search_query_set_search_all_categories ()</title>
+<indexterm zone="as-search-query-set-search-all-categories"><primary>as_search_query_set_search_all_categories</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_search_query_set_search_all_categories
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-set-categories" role="function">
+<title>as_search_query_set_categories ()</title>
+<indexterm zone="as-search-query-set-categories"><primary>as_search_query_set_categories</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_search_query_set_categories      (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-set-categories-from-string" role="function">
+<title>as_search_query_set_categories_from_string ()</title>
+<indexterm zone="as-search-query-set-categories-from-string"><primary>as_search_query_set_categories_from_string</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_search_query_set_categories_from_string
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
+<para>
+Set the categories list from a string
+</para>
+<para>
+<parameter>categories_str</parameter> Semicolon-separated list of category-names
+</para></refsect2>
+<refsect2 id="as-search-query-sanitize-search-term" role="function">
+<title>as_search_query_sanitize_search_term ()</title>
+<indexterm zone="as-search-query-sanitize-search-term"><primary>as_search_query_sanitize_search_term</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_search_query_sanitize_search_term
+                                                        (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-search-query-get-search-term" role="function">
+<title>as_search_query_get_search_term ()</title>
+<indexterm zone="as-search-query-get-search-term"><primary>as_search_query_get_search_term</primary></indexterm>
+<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_search_query_get_search_term     (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+<refsect1 id="AsSearchQuery.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="AsSearchQuery--categories" role="property"><title>The <literal>&quot;categories&quot;</literal> property</title>
+<indexterm zone="AsSearchQuery--categories"><primary>AsSearchQuery:categories</primary></indexterm>
+<programlisting>  &quot;categories&quot;               <link linkend="GStrv"><type>GStrv</type></link>                 : Read / Write</programlisting>
+<para>categories.</para></refsect2>
+<refsect2 id="AsSearchQuery--search-term" role="property"><title>The <literal>&quot;search-term&quot;</literal> property</title>
+<indexterm zone="AsSearchQuery--search-term"><primary>AsSearchQuery:search-term</primary></indexterm>
+<programlisting>  &quot;search-term&quot;              <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
+<para>search-term.</para><para>Default value: NULL</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

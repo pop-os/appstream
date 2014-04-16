@@ -29,9 +29,12 @@
 #include <glib/gstdio.h>
 
 #include "database-common.hpp"
+#include "../as-utils.h"
+#include "../as-component-private.h"
+#include "../as-settings-private.h"
 
 using namespace std;
-using namespace AppStream;
+using namespace Appstream;
 
 DatabaseWrite::DatabaseWrite () :
     m_rwXapianDB(0)
@@ -62,25 +65,25 @@ DatabaseWrite::initialize (const gchar *dbPath)
 }
 
 bool
-DatabaseWrite::rebuild (GArray *apps)
+DatabaseWrite::rebuild (GList *cpt_list)
 {
 	string old_path = m_dbPath + "_old";
 	string rebuild_path = m_dbPath + "_rb";
 
 	// Create the rebuild directory
-	if (!appstream_utils_touch_dir (rebuild_path.c_str ()))
+	if (!as_utils_touch_dir (rebuild_path.c_str ()))
 		return false;
 
 	// check if old unrequired version of db still exists on filesystem
 	if (g_file_test (old_path.c_str (), G_FILE_TEST_EXISTS)) {
 		g_warning ("Existing xapian old db was not previously cleaned: '%s'.", old_path.c_str ());
-		appstream_utils_delete_dir_recursive (old_path.c_str ());
+		as_utils_delete_dir_recursive (old_path.c_str ());
 	}
 
 	// check if old unrequired version of db still exists on filesystem
 	if (g_file_test (rebuild_path.c_str (), G_FILE_TEST_EXISTS)) {
 		cout << "Removing old rebuild-dir from previous database rebuild." << endl;
-		appstream_utils_delete_dir_recursive (rebuild_path.c_str ());
+		as_utils_delete_dir_recursive (rebuild_path.c_str ());
 	}
 
 	Xapian::WritableDatabase db (rebuild_path, Xapian::DB_CREATE_OR_OVERWRITE);
@@ -104,18 +107,18 @@ DatabaseWrite::rebuild (GArray *apps)
 		// Ignore
 	}
 
-	for (guint i=0; i < apps->len; i++) {
-		AppstreamAppInfo *app = g_array_index (apps, AppstreamAppInfo*, i);
+	for (GList *list = cpt_list; list != NULL; list = list->next) {
+		AsComponent *cpt = (AsComponent*) list->data;
 
 		Xapian::Document doc;
 		term_generator.set_document (doc);
 
-		g_debug ("Adding application: %s", appstream_app_info_to_string (app));
+		//! g_debug ("Adding component: %s", as_component_to_string (cpt));
 
-		doc.set_data (appstream_app_info_get_name (app));
+		doc.set_data (as_component_get_name (cpt));
 
 		// Package name
-		string pkgname = appstream_app_info_get_pkgname (app);
+		string pkgname = as_component_get_pkgname (cpt);
 		doc.add_value (XapianValues::PKGNAME, pkgname);
 		doc.add_term("AP" + pkgname);
 		if (pkgname.find ("-") != string::npos) {
@@ -127,40 +130,44 @@ DatabaseWrite::rebuild (GArray *apps)
 		// add packagename as meta-data too
 		term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
 
-		// Untranslated application name
-		string appNameGeneric = appstream_app_info_get_name_original (app);
-		doc.add_value (XapianValues::APPNAME_UNTRANSLATED, appNameGeneric);
-		term_generator.index_text_without_positions (appNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
+		// Untranslated component name
+		string cptNameGeneric = as_component_get_name_original (cpt);
+		doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
+		term_generator.index_text_without_positions (cptNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
 
-		// Application name
-		string appName = appstream_app_info_get_name (app);
-		doc.add_value (XapianValues::APPNAME, appName);
+		// Component name
+		string cptName = as_component_get_name (cpt);
+		doc.add_value (XapianValues::CPTNAME, cptName);
 
-		// Desktop file
-		doc.add_value (XapianValues::DESKTOP_FILE, appstream_app_info_get_desktop_file (app));
+		// Type identifier
+		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
+		doc.add_value (XapianValues::TYPE, type_str);
+
+		// Identifier
+		doc.add_value (XapianValues::IDENTIFIER, as_component_get_idname (cpt));
 
 		// URL
-		doc.add_value (XapianValues::URL_HOMEPAGE, appstream_app_info_get_homepage (app));
+		doc.add_value (XapianValues::URL_HOMEPAGE, as_component_get_homepage (cpt));
 
 		// Application icon
-		doc.add_value (XapianValues::ICON, appstream_app_info_get_icon (app));
-		doc.add_value (XapianValues::ICON_URL, appstream_app_info_get_icon_url (app));
+		doc.add_value (XapianValues::ICON, as_component_get_icon (cpt));
+		doc.add_value (XapianValues::ICON_URL, as_component_get_icon_url (cpt));
 
 		// Summary
-		string appSummary = appstream_app_info_get_summary (app);
-		doc.add_value (XapianValues::SUMMARY, appSummary);
-		term_generator.index_text_without_positions (appSummary, WEIGHT_DESKTOP_SUMMARY);
+		string cptSummary = as_component_get_summary (cpt);
+		doc.add_value (XapianValues::SUMMARY, cptSummary);
+		term_generator.index_text_without_positions (cptSummary, WEIGHT_DESKTOP_SUMMARY);
 
 		// Long description
-		string description = appstream_app_info_get_description (app);
+		string description = as_component_get_description (cpt);
 		doc.add_value (XapianValues::DESCRIPTION, description);
 		term_generator.index_text_without_positions (description, WEIGHT_DESKTOP_SUMMARY);
 
 		// Categories
-		int length = 0;
-		gchar **categories = appstream_app_info_get_categories (app, &length);
-		string categories_string = "";
-		for (uint i=0; i < length; i++) {
+		gchar **categories = as_component_get_categories (cpt);
+
+		string categories_str = "";
+		for (uint i = 0; categories[i] != NULL; i++) {
 			if (categories[i] == NULL)
 				continue;
 
@@ -169,23 +176,51 @@ DatabaseWrite::rebuild (GArray *apps)
 			transform (tmp.begin (), tmp.end (),
 					tmp.begin (), ::tolower);
 			doc.add_term ("AC" + tmp);
-			categories_string += cat + ";";
+			categories_str += cat + ";";
 		}
-		doc.add_value (XapianValues::CATEGORIES, categories_string);
+		doc.add_value (XapianValues::CATEGORIES, categories_str);
 
 		// Add our keywords (with high priority)
-		length = 0;
-		gchar **keywords = appstream_app_info_get_keywords (app, &length);
-		for (uint i=0; i < length; i++) {
-			if (keywords[i] == NULL)
-				continue;
+		gchar **keywords = as_component_get_keywords (cpt);
+		if (keywords != NULL) {
+			for (uint i = 0; keywords[i] != NULL; i++) {
+				if (keywords[i] == NULL)
+					continue;
 
-			string kword = keywords[i];
-			term_generator.index_text_without_positions (kword, WEIGHT_DESKTOP_KEYWORD);
+				string kword = keywords[i];
+				term_generator.index_text_without_positions (kword, WEIGHT_DESKTOP_KEYWORD);
+			}
 		}
 
+		// Data of provided items
+		gchar **provides_items = as_ptr_array_to_strv (as_component_get_provided_items (cpt));
+		gchar *provides_items_str = g_strjoinv ("\n", provides_items);
+		doc.add_value (XapianValues::PROVIDED_ITEMS, string(provides_items_str));
+		g_strfreev (provides_items);
+		g_free (provides_items_str);
+
 		// Add screenshot information (XML data)
-		doc.add_value (XapianValues::SCREENSHOT_DATA, appstream_app_info_dump_screenshot_data_xml (app));
+		doc.add_value (XapianValues::SCREENSHOT_DATA, as_component_dump_screenshot_data_xml (cpt));
+
+		// Add compulsory-for-desktop information
+		gchar **compulsory = as_component_get_compulsory_for_desktops (cpt);
+		string compulsory_str;
+		if (compulsory != NULL) {
+			gchar *str;
+			str = g_strjoinv (";", compulsory);
+			compulsory_str = string(str);
+			g_free (str);
+		}
+		doc.add_value (XapianValues::COMPULSORY_FOR, compulsory_str);
+
+		// Add project-license
+		doc.add_value (XapianValues::LICENSE, as_component_get_project_license (cpt));
+
+		// Add project group
+		doc.add_value (XapianValues::PROJECT_GROUP, as_component_get_project_group (cpt));
+
+		// Add releases information (XML data)
+		doc.add_value (XapianValues::RELEASES_DATA, as_component_dump_releases_data_xml (cpt));
 
 		// TODO: Look at the SC Xapian database - there are still some values and terms missing!
 
@@ -197,7 +232,7 @@ DatabaseWrite::rebuild (GArray *apps)
 		db.add_document (doc);
 	}
 
-	db.set_metadata("db-schema-version", APPSTREAM_DB_SCHEMA_VERSION);
+	db.set_metadata("db-schema-version", AS_DB_SCHEMA_VERSION);
 	db.commit ();
 
 	if (g_rename (m_dbPath.c_str (), old_path.c_str ()) < 0) {
@@ -208,13 +243,13 @@ DatabaseWrite::rebuild (GArray *apps)
 		g_critical ("Error while moving rebuilt database.");
 		return false;
 	}
-	appstream_utils_delete_dir_recursive (old_path.c_str ());
+	as_utils_delete_dir_recursive (old_path.c_str ());
 
 	return true;
 }
 
 bool
-DatabaseWrite::addApplication (AppstreamAppInfo *app)
+DatabaseWrite::addComponent (AsComponent *cpt)
 {
 	// TODO
 	return false;

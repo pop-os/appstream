@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsMenuParser">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsMenuParser.top_of_page">AsMenuParser</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsMenuParser</refname>
+<refpurpose>Parser for XDG menu files designed for software-centers</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv id="AsMenuParser.synopsis" role="synopsis">
+<title role="synopsis.title">Synopsis</title>
+
+<synopsis>
+#include &lt;appstream.h&gt;
+
+struct              <link linkend="AsMenuParser-struct">AsMenuParser</link>;
+struct              <link linkend="AsMenuParserClass">AsMenuParserClass</link>;
+<link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      <link linkend="as-menu-parser-new">as_menu_parser_new</link>                  (<parameter><type>void</type></parameter>);
+<link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      <link linkend="as-menu-parser-construct">as_menu_parser_construct</link>            (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
+<link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      <link linkend="as-menu-parser-new-from-file">as_menu_parser_new_from_file</link>        (<parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);
+<link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      <link linkend="as-menu-parser-construct-from-file">as_menu_parser_construct_from_file</link>  (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);
+<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-menu-parser-set-update-category-data">as_menu_parser_set_update_category_data</link>
+                                                        (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gboolean"><type>gboolean</type></link> value</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="as-menu-parser-parse">as_menu_parser_parse</link>                (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>);
+<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-menu-parser-get-update-category-data">as_menu_parser_get_update_category_data</link>
+                                                        (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>);
+<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="as-get-system-categories">as_get_system_categories</link>            (<parameter><type>void</type></parameter>);
+</synopsis>
+</refsynopsisdiv>
+<refsect1 id="AsMenuParser.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<synopsis>
+  <link linkend="GObject">GObject</link>
+   +----AsMenuParser
+</synopsis>
+
+</refsect1>
+<refsect1 id="AsMenuParser.properties" role="properties">
+<title role="properties.title">Properties</title>
+<synopsis>
+  &quot;<link linkend="AsMenuParser--update-category-data">update-category-data</link>&quot;     <link linkend="gboolean"><type>gboolean</type></link>              : Read / Write
+</synopsis>
+</refsect1>
+
+<refsect1 id="AsMenuParser.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+This object parses an XDG menu file and returns a set of <link linkend="AsCategory"><type>AsCategory</type></link> objects which
+can be used by software-centers to group the applications they show.
+By default, it loads a common set of categories from an internal menu file.
+A custom menu file may be specified using the alternative class constructor.
+</para>
+<para>
+See also: <link linkend="AsCategory"><type>AsCategory</type></link>
+</para>
+</refsect1>
+<refsect1 id="AsMenuParser.details" role="details">
+<title role="details.title">Details</title>
+<refsect2 id="AsMenuParser-struct" role="struct">
+<title>struct AsMenuParser</title>
+<indexterm zone="AsMenuParser-struct"><primary>AsMenuParser</primary></indexterm>
+<programlisting>struct AsMenuParser;</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="AsMenuParserClass" role="struct">
+<title>struct AsMenuParserClass</title>
+<indexterm zone="AsMenuParserClass"><primary>AsMenuParserClass</primary></indexterm>
+<programlisting>struct AsMenuParserClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-menu-parser-new" role="function">
+<title>as_menu_parser_new ()</title>
+<indexterm zone="as-menu-parser-new"><primary>as_menu_parser_new</primary></indexterm>
+<programlisting><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      as_menu_parser_new                  (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsMenuParser"><type>AsMenuParser</type></link>.
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsMenuParser"><type>AsMenuParser</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-menu-parser-construct" role="function">
+<title>as_menu_parser_construct ()</title>
+<indexterm zone="as-menu-parser-construct"><primary>as_menu_parser_construct</primary></indexterm>
+<programlisting><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      as_menu_parser_construct            (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-menu-parser-new-from-file" role="function">
+<title>as_menu_parser_new_from_file ()</title>
+<indexterm zone="as-menu-parser-new-from-file"><primary>as_menu_parser_new_from_file</primary></indexterm>
+<programlisting><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      as_menu_parser_new_from_file        (<parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);</programlisting>
+<para>
+Creates a new <link linkend="AsMenuParser"><type>AsMenuParser</type></link> with a custom XDG menu file.
+</para>
+<para>
+<parameter>menu_file</parameter> a custom XDG menu XML file
+</para><variablelist role="params">
+<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsMenuParser"><type>AsMenuParser</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
+</variablelist></refsect2>
+<refsect2 id="as-menu-parser-construct-from-file" role="function">
+<title>as_menu_parser_construct_from_file ()</title>
+<indexterm zone="as-menu-parser-construct-from-file"><primary>as_menu_parser_construct_from_file</primary></indexterm>
+<programlisting><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link> *      as_menu_parser_construct_from_file  (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>,
+                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-menu-parser-set-update-category-data" role="function">
+<title>as_menu_parser_set_update_category_data ()</title>
+<indexterm zone="as-menu-parser-set-update-category-data"><primary>as_menu_parser_set_update_category_data</primary></indexterm>
+<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_menu_parser_set_update_category_data
+                                                        (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>,
+                                                         <parameter><link linkend="gboolean"><type>gboolean</type></link> value</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-menu-parser-parse" role="function">
+<title>as_menu_parser_parse ()</title>
+<indexterm zone="as-menu-parser-parse"><primary>as_menu_parser_parse</primary></indexterm>
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             as_menu_parser_parse                (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-menu-parser-get-update-category-data" role="function">
+<title>as_menu_parser_get_update_category_data ()</title>
+<indexterm zone="as-menu-parser-get-update-category-data"><primary>as_menu_parser_get_update_category_data</primary></indexterm>
+<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_menu_parser_get_update_category_data
+                                                        (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *self</parameter>);</programlisting>
+<para>
+</para></refsect2>
+<refsect2 id="as-get-system-categories" role="function">
+<title>as_get_system_categories ()</title>
+<indexterm zone="as-get-system-categories"><primary>as_get_system_categories</primary></indexterm>
+<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             as_get_system_categories            (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para></refsect2>
+
+</refsect1>
+<refsect1 id="AsMenuParser.property-details" role="property_details">
+<title role="property_details.title">Property Details</title>
+<refsect2 id="AsMenuParser--update-category-data" role="property"><title>The <literal>&quot;update-category-data&quot;</literal> property</title>
+<indexterm zone="AsMenuParser--update-category-data"><primary>AsMenuParser:update-category-data</primary></indexterm>
+<programlisting>  &quot;update-category-data&quot;     <link linkend="gboolean"><type>gboolean</type></link>              : Read / Write</programlisting>
+<para>update-category-data.</para><para>Default value: FALSE</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

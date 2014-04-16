@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AsImage</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsScreenshot.html" title="AsScreenshot">
+<link rel="next" href="AsSearchQuery.html" title="AsSearchQuery">
+<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
+<tr valign="middle">
+<td><a accesskey="p" href="AsScreenshot.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
+<th width="100%" align="center">LibAppStream Reference Manual</th>
+<td><a accesskey="n" href="AsSearchQuery.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
+</tr>
+<tr><td colspan="5" class="shortcuts">
+<a href="#AsImage.synopsis" class="shortcut">Top</a>
+                   | 
+                  <a href="#AsImage.description" class="shortcut">Description</a>
+                   | 
+                  <a href="#AsImage.object-hierarchy" class="shortcut">Object Hierarchy</a>
+</td></tr>
+</table>
+<div class="refentry">
+<a name="AsImage"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsImage.top_of_page"></a>AsImage</span></h2>
+<p>AsImage — Object representing a single image used in a screenshot.</p>
+</td>
+<td valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsynopsisdiv">
+<a name="AsImage.synopsis"></a><h2>Synopsis</h2>
+<pre class="synopsis">struct              <a class="link" href="AsImage.html#AsImage-struct" title="struct AsImage">AsImage</a>;
+struct              <a class="link" href="AsImage.html#AsImageClass" title="struct AsImageClass">AsImageClass</a>;
+enum                <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind">AsImageKind</a>;
+<a class="link" href="AsImage.html" title="AsImage"><span class="returnvalue">AsImage</span></a> *           <a class="link" href="AsImage.html#as-image-new" title="as_image_new ()">as_image_new</a>                        (<em class="parameter"><code><span class="type">void</span></code></em>);
+<a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>         <a class="link" href="AsImage.html#as-image-kind-from-string" title="as_image_kind_from_string ()">as_image_kind_from_string</a>           (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsImage.html#as-image-kind-to-string" title="as_image_kind_to_string ()">as_image_kind_to_string</a>             (<em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);
+const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsImage.html#as-image-get-url" title="as_image_get_url ()">as_image_get_url</a>                    (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);
+<a href="../glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="AsImage.html#as-image-get-width" title="as_image_get_width ()">as_image_get_width</a>                  (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);
+<a href="../glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               <a class="link" href="AsImage.html#as-image-get-height" title="as_image_get_height ()">as_image_get_height</a>                 (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);
+<a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>         <a class="link" href="AsImage.html#as-image-get-kind" title="as_image_get_kind ()">as_image_get_kind</a>                   (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsImage.html#as-image-set-url" title="as_image_set_url ()">as_image_set_url</a>                    (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsImage.html#as-image-set-width" title="as_image_set_width ()">as_image_set_width</a>                  (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> width</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsImage.html#as-image-set-height" title="as_image_set_height ()">as_image_set_height</a>                 (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> height</code></em>);
+<span class="returnvalue">void</span>                <a class="link" href="AsImage.html#as-image-set-kind" title="as_image_set_kind ()">as_image_set_kind</a>                   (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsImage.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="synopsis">
+  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+   +----AsImage
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsImage.description"></a><h2>Description</h2>
+<p>
+Screenshot may have multiple versions of an image in different resolutions
+or aspect ratios. This object allows access to the location and size of a
+single image.
+</p>
+<p>
+See also: <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a>
+</p>
+</div>
+<div class="refsect1">
+<a name="AsImage.details"></a><h2>Details</h2>
+<div class="refsect2">
+<a name="AsImage-struct"></a><h3>struct AsImage</h3>
+<pre class="programlisting">struct AsImage;</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsImageClass"></a><h3>struct AsImageClass</h3>
+<pre class="programlisting">struct AsImageClass {
+	GObjectClass		parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsImageKind"></a><h3>enum AsImageKind</h3>
+<pre class="programlisting">typedef enum {
+	AS_IMAGE_KIND_UNKNOWN,
+	AS_IMAGE_KIND_SOURCE,
+	AS_IMAGE_KIND_THUMBNAIL,
+} AsImageKind;
+</pre>
+<p>
+The image type.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><a name="AS-IMAGE-KIND-UNKNOWN:CAPS"></a><span class="term"><code class="literal">AS_IMAGE_KIND_UNKNOWN</code></span></p></td>
+<td>Type invalid or not known
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-IMAGE-KIND-SOURCE:CAPS"></a><span class="term"><code class="literal">AS_IMAGE_KIND_SOURCE</code></span></p></td>
+<td>The source image at full resolution
+</td>
+</tr>
+<tr>
+<td><p><a name="AS-IMAGE-KIND-THUMBNAIL:CAPS"></a><span class="term"><code class="literal">AS_IMAGE_KIND_THUMBNAIL</code></span></p></td>
+<td>A thumbnail at reduced resolution
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-new"></a><h3>as_image_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsImage.html" title="AsImage"><span class="returnvalue">AsImage</span></a> *           as_image_new                        (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>
+Creates a new <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a>.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody><tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr></tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-kind-from-string"></a><h3>as_image_kind_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>         as_image_kind_from_string           (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind</code></em>);</pre>
+<p>
+Converts the text representation to an enumerated value.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind</code></em> :</span></p></td>
+<td>the string.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>a <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a>, or <a class="link" href="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"><code class="literal">AS_IMAGE_KIND_UNKNOWN</code></a> for unknown. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-kind-to-string"></a><h3>as_image_kind_to_string ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_image_kind_to_string             (<em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);</pre>
+<p>
+Converts the enumerated value to an text representation.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind</code></em> :</span></p></td>
+<td>the <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a>.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>string version of <em class="parameter"><code>kind</code></em>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-get-url"></a><h3>as_image_get_url ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_image_get_url                    (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
+<p>
+Gets the full qualified URL for the image, usually pointing at some mirror.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>URL</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-get-width"></a><h3>as_image_get_width ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               as_image_get_width                  (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
+<p>
+Gets the image width.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>width in pixels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-get-height"></a><h3>as_image_get_height ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#guint"><span class="returnvalue">guint</span></a>               as_image_get_height                 (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
+<p>
+Gets the image height.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>height in pixels</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-get-kind"></a><h3>as_image_get_kind ()</h3>
+<pre class="programlisting"><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>         as_image_get_kind                   (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
+<p>
+Gets the image kind.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
+<td>the <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-set-url"></a><h3>as_image_set_url ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_image_set_url                    (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);</pre>
+<p>
+Sets the fully-qualified mirror URL to use for the image.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>url</code></em> :</span></p></td>
+<td>the URL.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-set-width"></a><h3>as_image_set_width ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_image_set_width                  (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> width</code></em>);</pre>
+<p>
+Sets the image width.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>width</code></em> :</span></p></td>
+<td>the width in pixels.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-set-height"></a><h3>as_image_set_height ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_image_set_height                 (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> height</code></em>);</pre>
+<p>
+Sets the image height.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>height</code></em> :</span></p></td>
+<td>the height in pixels.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-image-set-kind"></a><h3>as_image_set_kind ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>                as_image_set_kind                   (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>,
+                                                         <em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);</pre>
+<p>
+Sets the image kind.
+</p>
+<div class="variablelist"><table border="0" class="variablelist">
+<colgroup>
+<col align="left" valign="top">
+<col>
+</colgroup>
+<tbody>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>image</code></em> :</span></p></td>
+<td>a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> instance.</td>
+</tr>
+<tr>
+<td><p><span class="term"><em class="parameter"><code>kind</code></em> :</span></p></td>
+<td>the <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a>, e.g. <a class="link" href="AsImage.html#AS-IMAGE-KIND-THUMBNAIL:CAPS"><code class="literal">AS_IMAGE_KIND_THUMBNAIL</code></a>.</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.19</div>
+</body>
+</html>
