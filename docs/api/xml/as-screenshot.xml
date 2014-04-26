@@ -17,204 +17,321 @@
 <refpurpose>Object representing a single screenshot</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id="AsScreenshot.synopsis" role="synopsis">
-<title role="synopsis.title">Synopsis</title>
+<refsect1 id="AsScreenshot.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsScreenshot"><returnvalue>AsScreenshot</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-new">as_screenshot_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-kind-from-string">as_screenshot_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-kind-to-string">as_screenshot_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-is-valid">as_screenshot_is_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-set-kind">as_screenshot_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-set-caption">as_screenshot_set_caption</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-screenshot-add-image">as_screenshot_add_image</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
-<synopsis>struct              <link linkend="AsScreenshot-struct">AsScreenshot</link>;
-struct              <link linkend="AsScreenshotClass">AsScreenshotClass</link>;
-enum                <link linkend="AsScreenshotKind">AsScreenshotKind</link>;
-<link linkend="AsScreenshot"><returnvalue>AsScreenshot</returnvalue></link> *      <link linkend="as-screenshot-new">as_screenshot_new</link>                   (<parameter><type>void</type></parameter>);
-<link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>    <link linkend="as-screenshot-kind-from-string">as_screenshot_kind_from_string</link>      (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-screenshot-kind-to-string">as_screenshot_kind_to_string</link>        (<parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);
-<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-screenshot-is-valid">as_screenshot_is_valid</link>              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *sshot</parameter>);
-<link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>    <link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>           (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);
-<link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         <link linkend="as-screenshot-get-images">as_screenshot_get_images</link>            (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-screenshot-set-kind">as_screenshot_set_kind</link>              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-screenshot-set-caption">as_screenshot_set_caption</link>           (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *caption</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-screenshot-add-image">as_screenshot_add_image</link>             (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);
-</synopsis>
-</refsynopsisdiv>
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsScreenshot.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsScreenshotKind">AsScreenshotKind</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
 <refsect1 id="AsScreenshot.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
-<synopsis>
-  <link linkend="GObject">GObject</link>
-   +----AsScreenshot
-</synopsis>
-
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsScreenshot
+</screen>
 </refsect1>
+
 
 <refsect1 id="AsScreenshot.description" role="desc">
 <title role="desc.title">Description</title>
-<para>
-Screenshots have a localized caption and also contain a number of images
-of different resolution.
-</para>
-<para>
-See also: <link linkend="AsImage"><type>AsImage</type></link>
-</para>
+<para>Screenshots have a localized caption and also contain a number of images
+of different resolution.</para>
+<para>See also: <link linkend="AsImage"><type>AsImage</type></link></para>
+
 </refsect1>
-<refsect1 id="AsScreenshot.details" role="details">
-<title role="details.title">Details</title>
-<refsect2 id="AsScreenshot-struct" role="struct">
-<title>struct AsScreenshot</title>
-<indexterm zone="AsScreenshot-struct"><primary>AsScreenshot</primary></indexterm>
-<programlisting>struct AsScreenshot;</programlisting>
-<para>
-</para></refsect2>
-<refsect2 id="AsScreenshotClass" role="struct">
-<title>struct AsScreenshotClass</title>
-<indexterm zone="AsScreenshotClass"><primary>AsScreenshotClass</primary></indexterm>
-<programlisting>struct AsScreenshotClass {
-	GObjectClass		parent_class;
-};
-</programlisting>
-<para>
-</para></refsect2>
+<refsect1 id="AsScreenshot.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-screenshot-new" role="function">
+<title>as_screenshot_new&#160;()</title>
+<indexterm zone="as-screenshot-new"><primary>as_screenshot_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsScreenshot"><returnvalue>AsScreenshot</returnvalue></link>&#160;*
+as_screenshot_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsScreenshot"><type>AsScreenshot</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsScreenshot"><type>AsScreenshot</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-kind-from-string" role="function">
+<title>as_screenshot_kind_from_string&#160;()</title>
+<indexterm zone="as-screenshot-kind-from-string"><primary>as_screenshot_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>
+as_screenshot_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsScreenshotKind"><literal>AsScreenshotKind</literal></link>, or
+<link linkend="AS-SCREENSHOT-KIND-UNKNOWN:CAPS"><literal>AS_SCREENSHOT_KIND_UNKNOWN</literal></link> if not known. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-kind-to-string" role="function">
+<title>as_screenshot_kind_to_string&#160;()</title>
+<indexterm zone="as-screenshot-kind-to-string"><primary>as_screenshot_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_screenshot_kind_to_string (<parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-is-valid" role="function">
+<title>as_screenshot_is_valid&#160;()</title>
+<indexterm zone="as-screenshot-is-valid"><primary>as_screenshot_is_valid</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_screenshot_is_valid (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Performs a quick validation on this screenshot</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> TRUE if the screenshot is a complete <link linkend="AsScreenshot"><type>AsScreenshot</type></link></para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-get-kind" role="function">
+<title>as_screenshot_get_kind&#160;()</title>
+<indexterm zone="as-screenshot-get-kind"><primary>as_screenshot_get_kind</primary></indexterm>
+<programlisting language="C"><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>
+as_screenshot_get_kind (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Gets the screenshot kind.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link></para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-get-caption" role="function">
+<title>as_screenshot_get_caption&#160;()</title>
+<indexterm zone="as-screenshot-get-caption"><primary>as_screenshot_get_caption</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_screenshot_get_caption (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Gets the image caption</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> the caption</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-get-images" role="function">
+<title>as_screenshot_get_images&#160;()</title>
+<indexterm zone="as-screenshot-get-images"><primary>as_screenshot_get_images</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_screenshot_get_images (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Gets the image sizes included in the screenshot.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> an array. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsImage][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-set-kind" role="function">
+<title>as_screenshot_set_kind&#160;()</title>
+<indexterm zone="as-screenshot-set-kind"><primary>as_screenshot_set_kind</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_screenshot_set_kind (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
+                        <parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);</programlisting>
+<para>Sets the screenshot kind.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-set-caption" role="function">
+<title>as_screenshot_set_caption&#160;()</title>
+<indexterm zone="as-screenshot-set-caption"><primary>as_screenshot_set_caption</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_screenshot_set_caption (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *caption</parameter>);</programlisting>
+<para>Sets a caption on the screenshot</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>caption</para></entry>
+<entry role="parameter_description"><para>the caption text.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-screenshot-add-image" role="function">
+<title>as_screenshot_add_image&#160;()</title>
+<indexterm zone="as-screenshot-add-image"><primary>as_screenshot_add_image</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_screenshot_add_image (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
+                         <parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
+<para>Adds an image to the screenshot.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>image</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsScreenshot.other_details" role="details">
+<title role="details.title">Types and Values</title>
 <refsect2 id="AsScreenshotKind" role="enum">
 <title>enum AsScreenshotKind</title>
 <indexterm zone="AsScreenshotKind"><primary>AsScreenshotKind</primary></indexterm>
-<programlisting>typedef enum {
-	AS_SCREENSHOT_KIND_UNKNOWN,
-	AS_SCREENSHOT_KIND_NORMAL,
-	AS_SCREENSHOT_KIND_DEFAULT,
-} AsScreenshotKind;
-</programlisting>
-<para>
-The screenshot type.
-</para><variablelist role="enum">
-<varlistentry id="AS-SCREENSHOT-KIND-UNKNOWN:CAPS" role="constant">
-<term><literal>AS_SCREENSHOT_KIND_UNKNOWN</literal></term>
-<listitem><simpara>Type invalid or not known
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-SCREENSHOT-KIND-NORMAL:CAPS" role="constant">
-<term><literal>AS_SCREENSHOT_KIND_NORMAL</literal></term>
-<listitem><simpara>Optional screenshot
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-SCREENSHOT-KIND-DEFAULT:CAPS" role="constant">
-<term><literal>AS_SCREENSHOT_KIND_DEFAULT</literal></term>
-<listitem><simpara>Screenshot to show by default
-</simpara></listitem>
-</varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-new" role="function">
-<title>as_screenshot_new ()</title>
-<indexterm zone="as-screenshot-new"><primary>as_screenshot_new</primary></indexterm>
-<programlisting><link linkend="AsScreenshot"><returnvalue>AsScreenshot</returnvalue></link> *      as_screenshot_new                   (<parameter><type>void</type></parameter>);</programlisting>
-<para>
-Creates a new <link linkend="AsScreenshot"><type>AsScreenshot</type></link>.
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-kind-from-string" role="function">
-<title>as_screenshot_kind_from_string ()</title>
-<indexterm zone="as-screenshot-kind-from-string"><primary>as_screenshot_kind_from_string</primary></indexterm>
-<programlisting><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>    as_screenshot_kind_from_string      (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
-<para>
-Converts the text representation to an enumerated value.
-</para><variablelist role="params">
-<varlistentry><term><parameter>kind</parameter>&#160;:</term>
-<listitem><simpara>the string.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsScreenshotKind"><literal>AsScreenshotKind</literal></link>, or
-<link linkend="AS-SCREENSHOT-KIND-UNKNOWN:CAPS"><literal>AS_SCREENSHOT_KIND_UNKNOWN</literal></link> if not known. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-kind-to-string" role="function">
-<title>as_screenshot_kind_to_string ()</title>
-<indexterm zone="as-screenshot-kind-to-string"><primary>as_screenshot_kind_to_string</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_screenshot_kind_to_string        (<parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);</programlisting>
-<para>
-Converts the enumerated value to an text representation.
-</para><variablelist role="params">
-<varlistentry><term><parameter>kind</parameter>&#160;:</term>
-<listitem><simpara>the <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link>.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>string version of <parameter>kind</parameter></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-is-valid" role="function">
-<title>as_screenshot_is_valid ()</title>
-<indexterm zone="as-screenshot-is-valid"><primary>as_screenshot_is_valid</primary></indexterm>
-<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_screenshot_is_valid              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *sshot</parameter>);</programlisting>
-<para>
-Performs a quick validation on this screenshot
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if the screenshot is a complete <link linkend="AsScreenshot"><type>AsScreenshot</type></link></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-get-kind" role="function">
-<title>as_screenshot_get_kind ()</title>
-<indexterm zone="as-screenshot-get-kind"><primary>as_screenshot_get_kind</primary></indexterm>
-<programlisting><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>    as_screenshot_get_kind              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
-<para>
-Gets the screenshot kind.
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-get-caption" role="function">
-<title>as_screenshot_get_caption ()</title>
-<indexterm zone="as-screenshot-get-caption"><primary>as_screenshot_get_caption</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_screenshot_get_caption           (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
-<para>
-Gets the image caption
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the caption</simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-get-images" role="function">
-<title>as_screenshot_get_images ()</title>
-<indexterm zone="as-screenshot-get-images"><primary>as_screenshot_get_images</primary></indexterm>
-<programlisting><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link> *         as_screenshot_get_images            (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
-<para>
-Gets the image sizes included in the screenshot.
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an array. <emphasis role="annotation">[<acronym>element-type</acronym> AsImage][<acronym>transfer none</acronym>]</emphasis></simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-set-kind" role="function">
-<title>as_screenshot_set_kind ()</title>
-<indexterm zone="as-screenshot-set-kind"><primary>as_screenshot_set_kind</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_screenshot_set_kind              (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter><link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link> kind</parameter>);</programlisting>
-<para>
-Sets the screenshot kind.
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>kind</parameter>&#160;:</term>
-<listitem><simpara>the <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link>.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-set-caption" role="function">
-<title>as_screenshot_set_caption ()</title>
-<indexterm zone="as-screenshot-set-caption"><primary>as_screenshot_set_caption</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_screenshot_set_caption           (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *caption</parameter>);</programlisting>
-<para>
-Sets a caption on the screenshot
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>caption</parameter>&#160;:</term>
-<listitem><simpara>the caption text.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
-<refsect2 id="as-screenshot-add-image" role="function">
-<title>as_screenshot_add_image ()</title>
-<indexterm zone="as-screenshot-add-image"><primary>as_screenshot_add_image</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_screenshot_add_image             (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>,
-                                                         <parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
-<para>
-Adds an image to the screenshot.
-</para><variablelist role="params">
-<varlistentry><term><parameter>screenshot</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>image</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsImage"><type>AsImage</type></link> instance.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<para>The screenshot type.</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-UNKNOWN:CAPS">AS_SCREENSHOT_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Type invalid or not known</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-NORMAL:CAPS">AS_SCREENSHOT_KIND_NORMAL</para></entry>
+<entry role="enum_member_description"><para>Optional screenshot</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-DEFAULT:CAPS">AS_SCREENSHOT_KIND_DEFAULT</para></entry>
+<entry role="enum_member_description"><para>Screenshot to show by default</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 

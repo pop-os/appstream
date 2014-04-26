@@ -17,257 +17,335 @@
 <refpurpose>Representation of a XDG category</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id="AsCategory.synopsis" role="synopsis">
-<title role="synopsis.title">Synopsis</title>
+<refsect1 id="AsCategory.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-new">as_category_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-construct">as_category_construct</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-complete">as_category_complete</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-directory">as_category_get_directory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-name">as_category_get_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-icon">as_category_set_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-name">as_category_set_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-summary">as_category_get_summary</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-icon">as_category_get_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-add-subcategory">as_category_add_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-remove-subcategory">as_category_remove_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-has-subcategory">as_category_has_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-directory">as_category_set_directory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-included">as_category_get_included</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-excluded">as_category_get_excluded</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-get-level">as_category_get_level</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-level">as_category_set_level</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-subcategories">as_category_get_subcategories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
-<synopsis>
-#include &lt;appstream.h&gt;
-
-struct              <link linkend="AsCategory-struct">AsCategory</link>;
-struct              <link linkend="AsCategoryClass">AsCategoryClass</link>;
-<link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link> *        <link linkend="as-category-new">as_category_new</link>                     (<parameter><type>void</type></parameter>);
-<link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link> *        <link linkend="as-category-construct">as_category_construct</link>               (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-complete">as_category_complete</link>                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-category-get-directory">as_category_get_directory</link>           (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-category-get-name">as_category_get_name</link>                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-set-icon">as_category_set_icon</link>                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-set-name">as_category_set_name</link>                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-category-get-summary">as_category_get_summary</link>             (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-category-get-icon">as_category_get_icon</link>                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-add-subcategory">as_category_add_subcategory</link>         (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-remove-subcategory">as_category_remove_subcategory</link>      (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);
-<link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            <link linkend="as-category-has-subcategory">as_category_has_subcategory</link>         (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-set-directory">as_category_set_directory</link>           (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
-<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="as-category-get-included">as_category_get_included</link>            (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="as-category-get-excluded">as_category_get_excluded</link>            (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="gint"><returnvalue>gint</returnvalue></link>                <link linkend="as-category-get-level">as_category_get_level</link>               (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-category-set-level">as_category_set_level</link>               (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="gint"><type>gint</type></link> value</parameter>);
-<link linkend="GList"><returnvalue>GList</returnvalue></link> *             <link linkend="as-category-get-subcategories">as_category_get_subcategories</link>       (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);
-</synopsis>
-</refsynopsisdiv>
-<refsect1 id="AsCategory.object-hierarchy" role="object_hierarchy">
-<title role="object_hierarchy.title">Object Hierarchy</title>
-<synopsis>
-  <link linkend="GObject">GObject</link>
-   +----AsCategory
-</synopsis>
-
+</tbody>
+</tgroup>
+</informaltable>
 </refsect1>
 <refsect1 id="AsCategory.properties" role="properties">
 <title role="properties.title">Properties</title>
-<synopsis>
-  &quot;<link linkend="AsCategory--directory">directory</link>&quot;                <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
-  &quot;<link linkend="AsCategory--excluded">excluded</link>&quot;                 <link linkend="gpointer"><type>gpointer</type></link>              : Read
-  &quot;<link linkend="AsCategory--icon">icon</link>&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
-  &quot;<link linkend="AsCategory--included">included</link>&quot;                 <link linkend="gpointer"><type>gpointer</type></link>              : Read
-  &quot;<link linkend="AsCategory--level">level</link>&quot;                    <link linkend="gint"><type>gint</type></link>                  : Read / Write
-  &quot;<link linkend="AsCategory--name">name</link>&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write
-  &quot;<link linkend="AsCategory--subcategories">subcategories</link>&quot;            <link linkend="gpointer"><type>gpointer</type></link>              : Read
-  &quot;<link linkend="AsCategory--summary">summary</link>&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read
-</synopsis>
+<informaltable frame="none">
+<tgroup cols="3">
+<colspec colname="properties_type" colwidth="150px"/>
+<colspec colname="properties_name" colwidth="300px"/>
+<colspec colname="properties_flags" colwidth="200px"/>
+<tbody>
+<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--directory">directory</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="gpointer"><type>gpointer</type></link></entry><entry role="property_name"><link linkend="AsCategory--excluded">excluded</link></entry><entry role="property_flags">Read</entry></row>
+<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--icon">icon</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="gpointer"><type>gpointer</type></link></entry><entry role="property_name"><link linkend="AsCategory--included">included</link></entry><entry role="property_flags">Read</entry></row>
+<row><entry role="property_type"><link linkend="gint"><type>gint</type></link></entry><entry role="property_name"><link linkend="AsCategory--level">level</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--name">name</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="gpointer"><type>gpointer</type></link></entry><entry role="property_name"><link linkend="AsCategory--subcategories">subcategories</link></entry><entry role="property_flags">Read</entry></row>
+<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--summary">summary</link></entry><entry role="property_flags">Read</entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
 </refsect1>
+<refsect1 id="AsCategory.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsCategory
+</screen>
+</refsect1>
+
+<refsect1 id="AsCategory.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
 
 <refsect1 id="AsCategory.description" role="desc">
 <title role="desc.title">Description</title>
-<para>
-This object represents an XDG category, as defined at:
-http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html<link linkend="category-registry"><type>category-registry</type></link>
-</para>
-<para>
-The <link linkend="AsCategory"><type>AsCategory</type></link> object does not support all aspects of a menu. It's main purpose
+<para>This object represents an XDG category, as defined at:
+http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html<link linkend="category-registry"><type>category-registry</type></link></para>
+<para>The <link linkend="AsCategory"><type>AsCategory</type></link> object does not support all aspects of a menu. It's main purpose
 is to be used in software-centers to show information about application-groups,
-which are use to thematically group applications.
-</para>
-<para>
-You can use <link linkend="AsMenuParser"><type>AsMenuParser</type></link> to get a set of supported default categories.
-</para>
-<para>
-See also: <link linkend="AsMenuParser"><type>AsMenuParser</type></link>
-</para>
+which are use to thematically group applications.</para>
+<para>You can use <link linkend="AsMenuParser"><type>AsMenuParser</type></link> to get a set of supported default categories.</para>
+<para>See also: <link linkend="AsMenuParser"><type>AsMenuParser</type></link></para>
+
 </refsect1>
-<refsect1 id="AsCategory.details" role="details">
-<title role="details.title">Details</title>
-<refsect2 id="AsCategory-struct" role="struct">
-<title>struct AsCategory</title>
-<indexterm zone="AsCategory-struct"><primary>AsCategory</primary></indexterm>
-<programlisting>struct AsCategory;</programlisting>
-<para>
-</para></refsect2>
-<refsect2 id="AsCategoryClass" role="struct">
-<title>struct AsCategoryClass</title>
-<indexterm zone="AsCategoryClass"><primary>AsCategoryClass</primary></indexterm>
-<programlisting>struct AsCategoryClass {
-	GObjectClass parent_class;
-};
-</programlisting>
-<para>
-</para></refsect2>
+<refsect1 id="AsCategory.functions_details" role="details">
+<title role="details.title">Functions</title>
 <refsect2 id="as-category-new" role="function">
-<title>as_category_new ()</title>
+<title>as_category_new&#160;()</title>
 <indexterm zone="as-category-new"><primary>as_category_new</primary></indexterm>
-<programlisting><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link> *        as_category_new                     (<parameter><type>void</type></parameter>);</programlisting>
-<para>
-Creates a new <link linkend="AsCategory"><type>AsCategory</type></link>.
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>an <link linkend="AsCategory"><type>AsCategory</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
+as_category_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsCategory"><type>AsCategory</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a new <link linkend="AsCategory"><type>AsCategory</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-construct" role="function">
-<title>as_category_construct ()</title>
+<title>as_category_construct&#160;()</title>
 <indexterm zone="as-category-construct"><primary>as_category_construct</primary></indexterm>
-<programlisting><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link> *        as_category_construct               (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
-<para>
-</para></refsect2>
+<programlisting language="C"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
+as_category_construct (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>Construct a new <link linkend="AsCategory"><type>AsCategory</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a new <link linkend="AsCategory"><type>AsCategory</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-complete" role="function">
-<title>as_category_complete ()</title>
+<title>as_category_complete&#160;()</title>
 <indexterm zone="as-category-complete"><primary>as_category_complete</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_complete                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_complete (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-get-directory" role="function">
-<title>as_category_get_directory ()</title>
+<title>as_category_get_directory&#160;()</title>
 <indexterm zone="as-category-get-directory"><primary>as_category_get_directory</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_category_get_directory           (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-get-name" role="function">
-<title>as_category_get_name ()</title>
+<title>as_category_get_name&#160;()</title>
 <indexterm zone="as-category-get-name"><primary>as_category_get_name</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_category_get_name                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-set-icon" role="function">
-<title>as_category_set_icon ()</title>
+<title>as_category_set_icon&#160;()</title>
 <indexterm zone="as-category-set-icon"><primary>as_category_set_icon</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_set_icon                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-set-name" role="function">
-<title>as_category_set_name ()</title>
+<title>as_category_set_name&#160;()</title>
 <indexterm zone="as-category-set-name"><primary>as_category_set_name</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_set_name                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-get-summary" role="function">
-<title>as_category_get_summary ()</title>
+<title>as_category_get_summary&#160;()</title>
 <indexterm zone="as-category-get-summary"><primary>as_category_get_summary</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_category_get_summary             (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_summary (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-get-icon" role="function">
-<title>as_category_get_icon ()</title>
+<title>as_category_get_icon&#160;()</title>
 <indexterm zone="as-category-get-icon"><primary>as_category_get_icon</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_category_get_icon                (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-add-subcategory" role="function">
-<title>as_category_add_subcategory ()</title>
+<title>as_category_add_subcategory&#160;()</title>
 <indexterm zone="as-category-add-subcategory"><primary>as_category_add_subcategory</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_add_subcategory         (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_add_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                             <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-remove-subcategory" role="function">
-<title>as_category_remove_subcategory ()</title>
+<title>as_category_remove_subcategory&#160;()</title>
 <indexterm zone="as-category-remove-subcategory"><primary>as_category_remove_subcategory</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_remove_subcategory      (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_remove_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                                <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-has-subcategory" role="function">
-<title>as_category_has_subcategory ()</title>
+<title>as_category_has_subcategory&#160;()</title>
 <indexterm zone="as-category-has-subcategory"><primary>as_category_has_subcategory</primary></indexterm>
-<programlisting><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>            as_category_has_subcategory         (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-Test for sub-categories.
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>TRUE if this category has any subcategory</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_category_has_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<para>Test for sub-categories.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> TRUE if this category has any subcategory</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-set-directory" role="function">
-<title>as_category_set_directory ()</title>
+<title>as_category_set_directory&#160;()</title>
 <indexterm zone="as-category-set-directory"><primary>as_category_set_directory</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_set_directory           (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-get-included" role="function">
-<title>as_category_get_included ()</title>
+<title>as_category_get_included&#160;()</title>
 <indexterm zone="as-category-get-included"><primary>as_category_get_included</primary></indexterm>
-<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             as_category_get_included            (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para></refsect2>
+<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+as_category_get_included (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> an array of category names. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-get-excluded" role="function">
-<title>as_category_get_excluded ()</title>
+<title>as_category_get_excluded&#160;()</title>
 <indexterm zone="as-category-get-excluded"><primary>as_category_get_excluded</primary></indexterm>
-<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             as_category_get_excluded            (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para></refsect2>
+<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+as_category_get_excluded (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> an array of category names. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-get-level" role="function">
-<title>as_category_get_level ()</title>
+<title>as_category_get_level&#160;()</title>
 <indexterm zone="as-category-get-level"><primary>as_category_get_level</primary></indexterm>
-<programlisting><link linkend="gint"><returnvalue>gint</returnvalue></link>                as_category_get_level               (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<programlisting language="C"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+as_category_get_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-category-set-level" role="function">
-<title>as_category_set_level ()</title>
+<title>as_category_set_level&#160;()</title>
 <indexterm zone="as-category-set-level"><primary>as_category_set_level</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_category_set_level               (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                                         <parameter><link linkend="gint"><type>gint</type></link> value</parameter>);</programlisting>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+                       <parameter><link linkend="gint"><type>gint</type></link> value</parameter>);</programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="as-category-get-subcategories" role="function">
-<title>as_category_get_subcategories ()</title>
+<title>as_category_get_subcategories&#160;()</title>
 <indexterm zone="as-category-get-subcategories"><primary>as_category_get_subcategories</primary></indexterm>
-<programlisting><link linkend="GList"><returnvalue>GList</returnvalue></link> *             as_category_get_subcategories       (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para></refsect2>
+<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+as_category_get_subcategories (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> an array of category names. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsCategory.other_details" role="details">
+<title role="details.title">Types and Values</title>
 
 </refsect1>
 <refsect1 id="AsCategory.property-details" role="property_details">
 <title role="property_details.title">Property Details</title>
-<refsect2 id="AsCategory--directory" role="property"><title>The <literal>&quot;directory&quot;</literal> property</title>
+<refsect2 id="AsCategory--directory" role="property"><title>The <literal>“directory”</literal> property</title>
 <indexterm zone="AsCategory--directory"><primary>AsCategory:directory</primary></indexterm>
-<programlisting>  &quot;directory&quot;                <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
-<para>directory.</para><para>Default value: NULL</para>
+<programlisting>  “directory”                <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
+<para>directory.</para><para>Flags: Read / Write</para>
+<para>Default value: NULL</para>
 </refsect2>
-<refsect2 id="AsCategory--excluded" role="property"><title>The <literal>&quot;excluded&quot;</literal> property</title>
+<refsect2 id="AsCategory--excluded" role="property"><title>The <literal>“excluded”</literal> property</title>
 <indexterm zone="AsCategory--excluded"><primary>AsCategory:excluded</primary></indexterm>
-<programlisting>  &quot;excluded&quot;                 <link linkend="gpointer"><type>gpointer</type></link>              : Read</programlisting>
-<para>excluded.</para></refsect2>
-<refsect2 id="AsCategory--icon" role="property"><title>The <literal>&quot;icon&quot;</literal> property</title>
+<programlisting>  “excluded”                 <link linkend="gpointer"><type>gpointer</type></link></programlisting>
+<para>excluded.</para><para>Flags: Read</para>
+</refsect2>
+<refsect2 id="AsCategory--icon" role="property"><title>The <literal>“icon”</literal> property</title>
 <indexterm zone="AsCategory--icon"><primary>AsCategory:icon</primary></indexterm>
-<programlisting>  &quot;icon&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
-<para>icon.</para><para>Default value: NULL</para>
+<programlisting>  “icon”                     <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
+<para>icon.</para><para>Flags: Read / Write</para>
+<para>Default value: NULL</para>
 </refsect2>
-<refsect2 id="AsCategory--included" role="property"><title>The <literal>&quot;included&quot;</literal> property</title>
+<refsect2 id="AsCategory--included" role="property"><title>The <literal>“included”</literal> property</title>
 <indexterm zone="AsCategory--included"><primary>AsCategory:included</primary></indexterm>
-<programlisting>  &quot;included&quot;                 <link linkend="gpointer"><type>gpointer</type></link>              : Read</programlisting>
-<para>included.</para></refsect2>
-<refsect2 id="AsCategory--level" role="property"><title>The <literal>&quot;level&quot;</literal> property</title>
+<programlisting>  “included”                 <link linkend="gpointer"><type>gpointer</type></link></programlisting>
+<para>included.</para><para>Flags: Read</para>
+</refsect2>
+<refsect2 id="AsCategory--level" role="property"><title>The <literal>“level”</literal> property</title>
 <indexterm zone="AsCategory--level"><primary>AsCategory:level</primary></indexterm>
-<programlisting>  &quot;level&quot;                    <link linkend="gint"><type>gint</type></link>                  : Read / Write</programlisting>
-<para>level.</para><para>Default value: 0</para>
+<programlisting>  “level”                    <link linkend="gint"><type>gint</type></link></programlisting>
+<para>level.</para><para>Flags: Read / Write</para>
+<para>Default value: 0</para>
 </refsect2>
-<refsect2 id="AsCategory--name" role="property"><title>The <literal>&quot;name&quot;</literal> property</title>
+<refsect2 id="AsCategory--name" role="property"><title>The <literal>“name”</literal> property</title>
 <indexterm zone="AsCategory--name"><primary>AsCategory:name</primary></indexterm>
-<programlisting>  &quot;name&quot;                     <link linkend="gchar"><type>gchar</type></link>*                : Read / Write</programlisting>
-<para>name.</para><para>Default value: NULL</para>
+<programlisting>  “name”                     <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
+<para>name.</para><para>Flags: Read / Write</para>
+<para>Default value: NULL</para>
 </refsect2>
-<refsect2 id="AsCategory--subcategories" role="property"><title>The <literal>&quot;subcategories&quot;</literal> property</title>
+<refsect2 id="AsCategory--subcategories" role="property"><title>The <literal>“subcategories”</literal> property</title>
 <indexterm zone="AsCategory--subcategories"><primary>AsCategory:subcategories</primary></indexterm>
-<programlisting>  &quot;subcategories&quot;            <link linkend="gpointer"><type>gpointer</type></link>              : Read</programlisting>
-<para>subcategories.</para></refsect2>
-<refsect2 id="AsCategory--summary" role="property"><title>The <literal>&quot;summary&quot;</literal> property</title>
+<programlisting>  “subcategories”            <link linkend="gpointer"><type>gpointer</type></link></programlisting>
+<para>subcategories.</para><para>Flags: Read</para>
+</refsect2>
+<refsect2 id="AsCategory--summary" role="property"><title>The <literal>“summary”</literal> property</title>
 <indexterm zone="AsCategory--summary"><primary>AsCategory:summary</primary></indexterm>
-<programlisting>  &quot;summary&quot;                  <link linkend="gchar"><type>gchar</type></link>*                : Read</programlisting>
-<para>summary.</para><para>Default value: NULL</para>
+<programlisting>  “summary”                  <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
+<para>summary.</para><para>Flags: Read</para>
+<para>Default value: NULL</para>
 </refsect2>
 
 </refsect1>

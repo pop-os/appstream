@@ -16,7 +16,7 @@ if (DOCUMENTATION)
 	find_program (PUBLICAN publican)
 	mark_as_advanced (PUBLICAN)
 	if (PUBLICAN STREQUAL "")
-		message (FATAL_ERROR "Publican was not found! Please install the it to continue!")
+		message (FATAL_ERROR "Publican was not found. Please install it to continue!")
 	endif (PUBLICAN STREQUAL "")
 
 	# we need to assemble our documentation build-directory before we can built it
@@ -25,7 +25,7 @@ if (DOCUMENTATION)
 		DEPENDS "publican.cfg"
 			"sources/"
 			"${CMAKE_BINARY_DIR}/docbuild/"
-			"${CMAKE_BINARY_DIR}/src/libappstream.so"
+			appstream
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 		VERBATIM
 	)

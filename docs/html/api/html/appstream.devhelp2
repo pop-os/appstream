@@ -4,7 +4,6 @@
   <chapters>
     <sub name="AppStream API Reference" link="ch01.html">
       <sub name="AsComponent" link="AsComponent.html"/>
-      <sub name="as-provides" link="appstream-as-provides.html"/>
       <sub name="AsRelease" link="AsRelease.html"/>
       <sub name="AsScreenshot" link="AsScreenshot.html"/>
       <sub name="AsImage" link="AsImage.html"/>
@@ -13,6 +12,7 @@
       <sub name="AsDistroDetails" link="AsDistroDetails.html"/>
       <sub name="AsMenuParser" link="AsMenuParser.html"/>
       <sub name="AsCategory" link="AsCategory.html"/>
+      <sub name="as-provides" link="appstream-as-provides.html"/>
     </sub>
     <sub name="Object Hierarchy" link="object-tree.html"/>
     <sub name="API Index" link="api-index-full.html"/>
@@ -23,210 +23,171 @@
     </sub>
   </chapters>
   <functions>
-    <keyword type="struct" name="struct AsComponent" link="AsComponent.html#AsComponent-struct"/>
-    <keyword type="struct" name="struct AsComponentClass" link="AsComponent.html#AsComponentClass"/>
-    <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind-enum"/>
-    <keyword type="function" name="as_component_kind_to_string ()" link="AsComponent.html#as-component-kind-to-string"/>
-    <keyword type="function" name="as_component_kind_from_string ()" link="AsComponent.html#as-component-kind-from-string"/>
-    <keyword type="function" name="as_component_new ()" link="AsComponent.html#as-component-new"/>
-    <keyword type="function" name="as_component_construct ()" link="AsComponent.html#as-component-construct"/>
-    <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
-    <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
-    <keyword type="function" name="as_component_provides_item ()" link="AsComponent.html#as-component-provides-item"/>
-    <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
-    <keyword type="function" name="as_component_get_pkgname ()" link="AsComponent.html#as-component-get-pkgname"/>
-    <keyword type="function" name="as_component_get_idname ()" link="AsComponent.html#as-component-get-idname"/>
-    <keyword type="function" name="as_component_get_name ()" link="AsComponent.html#as-component-get-name"/>
-    <keyword type="function" name="as_component_get_name_original ()" link="AsComponent.html#as-component-get-name-original"/>
-    <keyword type="function" name="as_component_get_project_license ()" link="AsComponent.html#as-component-get-project-license"/>
-    <keyword type="function" name="as_component_get_project_group ()" link="AsComponent.html#as-component-get-project-group"/>
-    <keyword type="function" name="as_component_get_compulsory_for_desktops ()" link="AsComponent.html#as-component-get-compulsory-for-desktops"/>
-    <keyword type="function" name="as_component_get_summary ()" link="AsComponent.html#as-component-get-summary"/>
-    <keyword type="function" name="as_component_get_categories ()" link="AsComponent.html#as-component-get-categories"/>
-    <keyword type="function" name="as_component_get_screenshots ()" link="AsComponent.html#as-component-get-screenshots"/>
-    <keyword type="function" name="as_component_get_description ()" link="AsComponent.html#as-component-get-description"/>
-    <keyword type="function" name="as_component_get_keywords ()" link="AsComponent.html#as-component-get-keywords"/>
-    <keyword type="function" name="as_component_get_icon ()" link="AsComponent.html#as-component-get-icon"/>
-    <keyword type="function" name="as_component_get_icon_url ()" link="AsComponent.html#as-component-get-icon-url"/>
-    <keyword type="function" name="as_component_get_homepage ()" link="AsComponent.html#as-component-get-homepage"/>
-    <keyword type="function" name="as_component_get_mimetypes ()" link="AsComponent.html#as-component-get-mimetypes"/>
-    <keyword type="function" name="as_component_get_provided_items ()" link="AsComponent.html#as-component-get-provided-items"/>
-    <keyword type="function" name="as_component_get_releases ()" link="AsComponent.html#as-component-get-releases"/>
-    <keyword type="function" name="as_component_add_screenshot ()" link="AsComponent.html#as-component-add-screenshot"/>
-    <keyword type="function" name="as_component_add_release ()" link="AsComponent.html#as-component-add-release"/>
-    <keyword type="function" name="as_component_set_categories_from_str ()" link="AsComponent.html#as-component-set-categories-from-str"/>
-    <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
-    <keyword type="function" name="as_component_set_name ()" link="AsComponent.html#as-component-set-name"/>
-    <keyword type="function" name="as_component_set_keywords ()" link="AsComponent.html#as-component-set-keywords"/>
-    <keyword type="function" name="as_component_set_mimetypes ()" link="AsComponent.html#as-component-set-mimetypes"/>
-    <keyword type="function" name="as_component_set_compulsory_for_desktops ()" link="AsComponent.html#as-component-set-compulsory-for-desktops"/>
-    <keyword type="function" name="as_component_set_pkgname ()" link="AsComponent.html#as-component-set-pkgname"/>
-    <keyword type="function" name="as_component_set_idname ()" link="AsComponent.html#as-component-set-idname"/>
-    <keyword type="function" name="as_component_set_name_original ()" link="AsComponent.html#as-component-set-name-original"/>
-    <keyword type="function" name="as_component_set_summary ()" link="AsComponent.html#as-component-set-summary"/>
-    <keyword type="function" name="as_component_set_description ()" link="AsComponent.html#as-component-set-description"/>
-    <keyword type="function" name="as_component_set_homepage ()" link="AsComponent.html#as-component-set-homepage"/>
-    <keyword type="function" name="as_component_set_icon ()" link="AsComponent.html#as-component-set-icon"/>
-    <keyword type="function" name="as_component_set_icon_url ()" link="AsComponent.html#as-component-set-icon-url"/>
-    <keyword type="function" name="as_component_set_project_license ()" link="AsComponent.html#as-component-set-project-license"/>
-    <keyword type="function" name="as_component_set_project_group ()" link="AsComponent.html#as-component-set-project-group"/>
-    <keyword type="function" name="as_component_set_categories ()" link="AsComponent.html#as-component-set-categories"/>
-    <keyword type="property" name="The &quot;categories&quot; property" link="AsComponent.html#AsComponent--categories"/>
-    <keyword type="property" name="The &quot;description&quot; property" link="AsComponent.html#AsComponent--description"/>
-    <keyword type="property" name="The &quot;homepage&quot; property" link="AsComponent.html#AsComponent--homepage"/>
-    <keyword type="property" name="The &quot;icon&quot; property" link="AsComponent.html#AsComponent--icon"/>
-    <keyword type="property" name="The &quot;icon-url&quot; property" link="AsComponent.html#AsComponent--icon-url"/>
-    <keyword type="property" name="The &quot;idname&quot; property" link="AsComponent.html#AsComponent--idname"/>
-    <keyword type="property" name="The &quot;keywords&quot; property" link="AsComponent.html#AsComponent--keywords"/>
-    <keyword type="property" name="The &quot;kind&quot; property" link="AsComponent.html#AsComponent--kind"/>
-    <keyword type="property" name="The &quot;mimetypes&quot; property" link="AsComponent.html#AsComponent--mimetypes"/>
-    <keyword type="property" name="The &quot;name&quot; property" link="AsComponent.html#AsComponent--name"/>
-    <keyword type="property" name="The &quot;name-original&quot; property" link="AsComponent.html#AsComponent--name-original"/>
-    <keyword type="property" name="The &quot;pkgname&quot; property" link="AsComponent.html#AsComponent--pkgname"/>
-    <keyword type="property" name="The &quot;project-license&quot; property" link="AsComponent.html#AsComponent--project-license"/>
-    <keyword type="property" name="The &quot;screenshots&quot; property" link="AsComponent.html#AsComponent--screenshots"/>
-    <keyword type="property" name="The &quot;summary&quot; property" link="AsComponent.html#AsComponent--summary"/>
-    <keyword type="enum" name="enum AsProvidesKind" link="appstream-as-provides.html#AsProvidesKind"/>
-    <keyword type="function" name="as_provides_kind_to_string ()" link="appstream-as-provides.html#as-provides-kind-to-string"/>
-    <keyword type="function" name="as_provides_kind_from_string ()" link="appstream-as-provides.html#as-provides-kind-from-string"/>
-    <keyword type="function" name="as_provides_item_create ()" link="appstream-as-provides.html#as-provides-item-create"/>
-    <keyword type="function" name="as_provides_item_get_kind ()" link="appstream-as-provides.html#as-provides-item-get-kind"/>
-    <keyword type="function" name="as_provides_item_get_value ()" link="appstream-as-provides.html#as-provides-item-get-value"/>
-    <keyword type="struct" name="struct AsRelease" link="AsRelease.html#AsRelease-struct"/>
-    <keyword type="struct" name="struct AsReleaseClass" link="AsRelease.html#AsReleaseClass"/>
-    <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
-    <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
-    <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
-    <keyword type="function" name="as_release_get_description ()" link="AsRelease.html#as-release-get-description"/>
-    <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
-    <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
-    <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
-    <keyword type="struct" name="struct AsScreenshot" link="AsScreenshot.html#AsScreenshot-struct"/>
-    <keyword type="struct" name="struct AsScreenshotClass" link="AsScreenshot.html#AsScreenshotClass"/>
+    <keyword type="function" name="as_component_kind_to_string ()" link="AsComponent.html#as-component-kind-to-string"/>
+    <keyword type="function" name="as_component_kind_from_string ()" link="AsComponent.html#as-component-kind-from-string"/>
+    <keyword type="function" name="as_component_new ()" link="AsComponent.html#as-component-new"/>
+    <keyword type="function" name="as_component_construct ()" link="AsComponent.html#as-component-construct"/>
+    <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
+    <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
+    <keyword type="function" name="as_component_provides_item ()" link="AsComponent.html#as-component-provides-item"/>
+    <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
+    <keyword type="function" name="as_component_get_pkgname ()" link="AsComponent.html#as-component-get-pkgname"/>
+    <keyword type="function" name="as_component_get_idname ()" link="AsComponent.html#as-component-get-idname"/>
+    <keyword type="function" name="as_component_get_name ()" link="AsComponent.html#as-component-get-name"/>
+    <keyword type="function" name="as_component_get_name_original ()" link="AsComponent.html#as-component-get-name-original"/>
+    <keyword type="function" name="as_component_get_project_license ()" link="AsComponent.html#as-component-get-project-license"/>
+    <keyword type="function" name="as_component_get_project_group ()" link="AsComponent.html#as-component-get-project-group"/>
+    <keyword type="function" name="as_component_get_compulsory_for_desktops ()" link="AsComponent.html#as-component-get-compulsory-for-desktops"/>
+    <keyword type="function" name="as_component_get_summary ()" link="AsComponent.html#as-component-get-summary"/>
+    <keyword type="function" name="as_component_get_categories ()" link="AsComponent.html#as-component-get-categories"/>
+    <keyword type="function" name="as_component_get_screenshots ()" link="AsComponent.html#as-component-get-screenshots"/>
+    <keyword type="function" name="as_component_get_description ()" link="AsComponent.html#as-component-get-description"/>
+    <keyword type="function" name="as_component_get_keywords ()" link="AsComponent.html#as-component-get-keywords"/>
+    <keyword type="function" name="as_component_get_icon ()" link="AsComponent.html#as-component-get-icon"/>
+    <keyword type="function" name="as_component_get_icon_url ()" link="AsComponent.html#as-component-get-icon-url"/>
+    <keyword type="function" name="as_component_get_homepage ()" link="AsComponent.html#as-component-get-homepage"/>
+    <keyword type="function" name="as_component_get_mimetypes ()" link="AsComponent.html#as-component-get-mimetypes"/>
+    <keyword type="function" name="as_component_get_provided_items ()" link="AsComponent.html#as-component-get-provided-items"/>
+    <keyword type="function" name="as_component_get_releases ()" link="AsComponent.html#as-component-get-releases"/>
+    <keyword type="function" name="as_component_add_screenshot ()" link="AsComponent.html#as-component-add-screenshot"/>
+    <keyword type="function" name="as_component_add_release ()" link="AsComponent.html#as-component-add-release"/>
+    <keyword type="function" name="as_component_set_categories_from_str ()" link="AsComponent.html#as-component-set-categories-from-str"/>
+    <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
+    <keyword type="function" name="as_component_set_name ()" link="AsComponent.html#as-component-set-name"/>
+    <keyword type="function" name="as_component_set_keywords ()" link="AsComponent.html#as-component-set-keywords"/>
+    <keyword type="function" name="as_component_set_mimetypes ()" link="AsComponent.html#as-component-set-mimetypes"/>
+    <keyword type="function" name="as_component_set_compulsory_for_desktops ()" link="AsComponent.html#as-component-set-compulsory-for-desktops"/>
+    <keyword type="function" name="as_component_set_pkgname ()" link="AsComponent.html#as-component-set-pkgname"/>
+    <keyword type="function" name="as_component_set_idname ()" link="AsComponent.html#as-component-set-idname"/>
+    <keyword type="function" name="as_component_set_name_original ()" link="AsComponent.html#as-component-set-name-original"/>
+    <keyword type="function" name="as_component_set_summary ()" link="AsComponent.html#as-component-set-summary"/>
+    <keyword type="function" name="as_component_set_description ()" link="AsComponent.html#as-component-set-description"/>
+    <keyword type="function" name="as_component_set_homepage ()" link="AsComponent.html#as-component-set-homepage"/>
+    <keyword type="function" name="as_component_set_icon ()" link="AsComponent.html#as-component-set-icon"/>
+    <keyword type="function" name="as_component_set_icon_url ()" link="AsComponent.html#as-component-set-icon-url"/>
+    <keyword type="function" name="as_component_set_project_license ()" link="AsComponent.html#as-component-set-project-license"/>
+    <keyword type="function" name="as_component_set_project_group ()" link="AsComponent.html#as-component-set-project-group"/>
+    <keyword type="function" name="as_component_set_categories ()" link="AsComponent.html#as-component-set-categories"/>
+    <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
+    <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
+    <keyword type="property" name="The “homepage” property" link="AsComponent.html#AsComponent--homepage"/>
+    <keyword type="property" name="The “icon” property" link="AsComponent.html#AsComponent--icon"/>
+    <keyword type="property" name="The “icon-url” property" link="AsComponent.html#AsComponent--icon-url"/>
+    <keyword type="property" name="The “idname” property" link="AsComponent.html#AsComponent--idname"/>
+    <keyword type="property" name="The “keywords” property" link="AsComponent.html#AsComponent--keywords"/>
+    <keyword type="property" name="The “kind” property" link="AsComponent.html#AsComponent--kind"/>
+    <keyword type="property" name="The “mimetypes” property" link="AsComponent.html#AsComponent--mimetypes"/>
+    <keyword type="property" name="The “name” property" link="AsComponent.html#AsComponent--name"/>
+    <keyword type="property" name="The “name-original” property" link="AsComponent.html#AsComponent--name-original"/>
+    <keyword type="property" name="The “pkgname” property" link="AsComponent.html#AsComponent--pkgname"/>
+    <keyword type="property" name="The “project-license” property" link="AsComponent.html#AsComponent--project-license"/>
+    <keyword type="property" name="The “screenshots” property" link="AsComponent.html#AsComponent--screenshots"/>
+    <keyword type="property" name="The “summary” property" link="AsComponent.html#AsComponent--summary"/>
+    <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
+    <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
+    <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
+    <keyword type="function" name="as_release_get_description ()" link="AsRelease.html#as-release-get-description"/>
+    <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
+    <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
+    <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
+    <keyword type="function" name="as_screenshot_new ()" link="AsScreenshot.html#as-screenshot-new"/>
+    <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
+    <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
+    <keyword type="function" name="as_screenshot_is_valid ()" link="AsScreenshot.html#as-screenshot-is-valid"/>
+    <keyword type="function" name="as_screenshot_get_kind ()" link="AsScreenshot.html#as-screenshot-get-kind"/>
+    <keyword type="function" name="as_screenshot_get_caption ()" link="AsScreenshot.html#as-screenshot-get-caption"/>
+    <keyword type="function" name="as_screenshot_get_images ()" link="AsScreenshot.html#as-screenshot-get-images"/>
+    <keyword type="function" name="as_screenshot_set_kind ()" link="AsScreenshot.html#as-screenshot-set-kind"/>
+    <keyword type="function" name="as_screenshot_set_caption ()" link="AsScreenshot.html#as-screenshot-set-caption"/>
+    <keyword type="function" name="as_screenshot_add_image ()" link="AsScreenshot.html#as-screenshot-add-image"/>
     <keyword type="enum" name="enum AsScreenshotKind" link="AsScreenshot.html#AsScreenshotKind"/>
-    <keyword type="function" name="as_screenshot_new ()" link="AsScreenshot.html#as-screenshot-new"/>
-    <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
-    <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
-    <keyword type="function" name="as_screenshot_is_valid ()" link="AsScreenshot.html#as-screenshot-is-valid"/>
-    <keyword type="function" name="as_screenshot_get_kind ()" link="AsScreenshot.html#as-screenshot-get-kind"/>
-    <keyword type="function" name="as_screenshot_get_caption ()" link="AsScreenshot.html#as-screenshot-get-caption"/>
-    <keyword type="function" name="as_screenshot_get_images ()" link="AsScreenshot.html#as-screenshot-get-images"/>
-    <keyword type="function" name="as_screenshot_set_kind ()" link="AsScreenshot.html#as-screenshot-set-kind"/>
-    <keyword type="function" name="as_screenshot_set_caption ()" link="AsScreenshot.html#as-screenshot-set-caption"/>
-    <keyword type="function" name="as_screenshot_add_image ()" link="AsScreenshot.html#as-screenshot-add-image"/>
-    <keyword type="struct" name="struct AsImage" link="AsImage.html#AsImage-struct"/>
-    <keyword type="struct" name="struct AsImageClass" link="AsImage.html#AsImageClass"/>
+    <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
+    <keyword type="function" name="as_image_kind_from_string ()" link="AsImage.html#as-image-kind-from-string"/>
+    <keyword type="function" name="as_image_kind_to_string ()" link="AsImage.html#as-image-kind-to-string"/>
+    <keyword type="function" name="as_image_get_url ()" link="AsImage.html#as-image-get-url"/>
+    <keyword type="function" name="as_image_get_width ()" link="AsImage.html#as-image-get-width"/>
+    <keyword type="function" name="as_image_get_height ()" link="AsImage.html#as-image-get-height"/>
+    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
+    <keyword type="function" name="as_image_set_url ()" link="AsImage.html#as-image-set-url"/>
+    <keyword type="function" name="as_image_set_width ()" link="AsImage.html#as-image-set-width"/>
+    <keyword type="function" name="as_image_set_height ()" link="AsImage.html#as-image-set-height"/>
+    <keyword type="function" name="as_image_set_kind ()" link="AsImage.html#as-image-set-kind"/>
     <keyword type="enum" name="enum AsImageKind" link="AsImage.html#AsImageKind"/>
-    <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
-    <keyword type="function" name="as_image_kind_from_string ()" link="AsImage.html#as-image-kind-from-string"/>
-    <keyword type="function" name="as_image_kind_to_string ()" link="AsImage.html#as-image-kind-to-string"/>
-    <keyword type="function" name="as_image_get_url ()" link="AsImage.html#as-image-get-url"/>
-    <keyword type="function" name="as_image_get_width ()" link="AsImage.html#as-image-get-width"/>
-    <keyword type="function" name="as_image_get_height ()" link="AsImage.html#as-image-get-height"/>
-    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
-    <keyword type="function" name="as_image_set_url ()" link="AsImage.html#as-image-set-url"/>
-    <keyword type="function" name="as_image_set_width ()" link="AsImage.html#as-image-set-width"/>
-    <keyword type="function" name="as_image_set_height ()" link="AsImage.html#as-image-set-height"/>
-    <keyword type="function" name="as_image_set_kind ()" link="AsImage.html#as-image-set-kind"/>
-    <keyword type="struct" name="struct AsSearchQuery" link="AsSearchQuery.html#AsSearchQuery-struct"/>
-    <keyword type="struct" name="struct AsSearchQueryClass" link="AsSearchQuery.html#AsSearchQueryClass"/>
-    <keyword type="function" name="as_search_query_new ()" link="AsSearchQuery.html#as-search-query-new"/>
-    <keyword type="function" name="as_search_query_construct ()" link="AsSearchQuery.html#as-search-query-construct"/>
-    <keyword type="function" name="as_search_query_set_search_term ()" link="AsSearchQuery.html#as-search-query-set-search-term"/>
-    <keyword type="function" name="as_search_query_get_search_all_categories ()" link="AsSearchQuery.html#as-search-query-get-search-all-categories"/>
-    <keyword type="function" name="as_search_query_get_categories ()" link="AsSearchQuery.html#as-search-query-get-categories"/>
-    <keyword type="function" name="as_search_query_set_search_all_categories ()" link="AsSearchQuery.html#as-search-query-set-search-all-categories"/>
-    <keyword type="function" name="as_search_query_set_categories ()" link="AsSearchQuery.html#as-search-query-set-categories"/>
-    <keyword type="function" name="as_search_query_set_categories_from_string ()" link="AsSearchQuery.html#as-search-query-set-categories-from-string"/>
-    <keyword type="function" name="as_search_query_sanitize_search_term ()" link="AsSearchQuery.html#as-search-query-sanitize-search-term"/>
-    <keyword type="function" name="as_search_query_get_search_term ()" link="AsSearchQuery.html#as-search-query-get-search-term"/>
-    <keyword type="property" name="The &quot;categories&quot; property" link="AsSearchQuery.html#AsSearchQuery--categories"/>
-    <keyword type="property" name="The &quot;search-term&quot; property" link="AsSearchQuery.html#AsSearchQuery--search-term"/>
-    <keyword type="struct" name="struct AsDatabase" link="AsDatabase.html#AsDatabase-struct"/>
-    <keyword type="struct" name="struct AsDatabaseClass" link="AsDatabase.html#AsDatabaseClass"/>
-    <keyword type="function" name="as_database_new ()" link="AsDatabase.html#as-database-new"/>
-    <keyword type="function" name="as_database_construct ()" link="AsDatabase.html#as-database-construct"/>
-    <keyword type="function" name="as_database_set_database_path ()" link="AsDatabase.html#as-database-set-database-path"/>
-    <keyword type="function" name="as_database_open ()" link="AsDatabase.html#as-database-open"/>
-    <keyword type="function" name="as_database_get_database_path ()" link="AsDatabase.html#as-database-get-database-path"/>
-    <keyword type="function" name="as_database_db_exists ()" link="AsDatabase.html#as-database-db-exists"/>
-    <keyword type="function" name="as_database_get_all_components ()" link="AsDatabase.html#as-database-get-all-components"/>
-    <keyword type="function" name="as_database_find_components ()" link="AsDatabase.html#as-database-find-components"/>
-    <keyword type="function" name="as_database_find_components_by_str ()" link="AsDatabase.html#as-database-find-components-by-str"/>
-    <keyword type="property" name="The &quot;database-path&quot; property" link="AsDatabase.html#AsDatabase--database-path"/>
-    <keyword type="struct" name="struct AsDistroDetails" link="AsDistroDetails.html#AsDistroDetails-struct"/>
-    <keyword type="struct" name="struct AsDistroDetailsClass" link="AsDistroDetails.html#AsDistroDetailsClass"/>
-    <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
-    <keyword type="function" name="as_distro_details_construct ()" link="AsDistroDetails.html#as-distro-details-construct"/>
-    <keyword type="function" name="as_distro_details_get_icon_repository_paths ()" link="AsDistroDetails.html#as-distro-details-get-icon-repository-paths"/>
-    <keyword type="function" name="as_distro_details_config_distro_get_str ()" link="AsDistroDetails.html#as-distro-details-config-distro-get-str"/>
-    <keyword type="function" name="as_distro_details_get_distro_id ()" link="AsDistroDetails.html#as-distro-details-get-distro-id"/>
-    <keyword type="function" name="as_distro_details_config_distro_get_bool ()" link="AsDistroDetails.html#as-distro-details-config-distro-get-bool"/>
-    <keyword type="function" name="as_distro_details_get_distro_name ()" link="AsDistroDetails.html#as-distro-details-get-distro-name"/>
-    <keyword type="function" name="as_distro_details_get_distro_version ()" link="AsDistroDetails.html#as-distro-details-get-distro-version"/>
-    <keyword type="property" name="The &quot;distro-id&quot; property" link="AsDistroDetails.html#AsDistroDetails--distro-id"/>
-    <keyword type="property" name="The &quot;distro-name&quot; property" link="AsDistroDetails.html#AsDistroDetails--distro-name"/>
-    <keyword type="property" name="The &quot;distro-version&quot; property" link="AsDistroDetails.html#AsDistroDetails--distro-version"/>
-    <keyword type="struct" name="struct AsMenuParser" link="AsMenuParser.html#AsMenuParser-struct"/>
-    <keyword type="struct" name="struct AsMenuParserClass" link="AsMenuParser.html#AsMenuParserClass"/>
-    <keyword type="function" name="as_menu_parser_new ()" link="AsMenuParser.html#as-menu-parser-new"/>
-    <keyword type="function" name="as_menu_parser_construct ()" link="AsMenuParser.html#as-menu-parser-construct"/>
-    <keyword type="function" name="as_menu_parser_new_from_file ()" link="AsMenuParser.html#as-menu-parser-new-from-file"/>
-    <keyword type="function" name="as_menu_parser_construct_from_file ()" link="AsMenuParser.html#as-menu-parser-construct-from-file"/>
-    <keyword type="function" name="as_menu_parser_set_update_category_data ()" link="AsMenuParser.html#as-menu-parser-set-update-category-data"/>
-    <keyword type="function" name="as_menu_parser_parse ()" link="AsMenuParser.html#as-menu-parser-parse"/>
-    <keyword type="function" name="as_menu_parser_get_update_category_data ()" link="AsMenuParser.html#as-menu-parser-get-update-category-data"/>
-    <keyword type="function" name="as_get_system_categories ()" link="AsMenuParser.html#as-get-system-categories"/>
-    <keyword type="property" name="The &quot;update-category-data&quot; property" link="AsMenuParser.html#AsMenuParser--update-category-data"/>
-    <keyword type="struct" name="struct AsCategory" link="AsCategory.html#AsCategory-struct"/>
-    <keyword type="struct" name="struct AsCategoryClass" link="AsCategory.html#AsCategoryClass"/>
-    <keyword type="function" name="as_category_new ()" link="AsCategory.html#as-category-new"/>
-    <keyword type="function" name="as_category_construct ()" link="AsCategory.html#as-category-construct"/>
-    <keyword type="function" name="as_category_complete ()" link="AsCategory.html#as-category-complete"/>
-    <keyword type="function" name="as_category_get_directory ()" link="AsCategory.html#as-category-get-directory"/>
-    <keyword type="function" name="as_category_get_name ()" link="AsCategory.html#as-category-get-name"/>
-    <keyword type="function" name="as_category_set_icon ()" link="AsCategory.html#as-category-set-icon"/>
-    <keyword type="function" name="as_category_set_name ()" link="AsCategory.html#as-category-set-name"/>
-    <keyword type="function" name="as_category_get_summary ()" link="AsCategory.html#as-category-get-summary"/>
-    <keyword type="function" name="as_category_get_icon ()" link="AsCategory.html#as-category-get-icon"/>
-    <keyword type="function" name="as_category_add_subcategory ()" link="AsCategory.html#as-category-add-subcategory"/>
-    <keyword type="function" name="as_category_remove_subcategory ()" link="AsCategory.html#as-category-remove-subcategory"/>
-    <keyword type="function" name="as_category_has_subcategory ()" link="AsCategory.html#as-category-has-subcategory"/>
-    <keyword type="function" name="as_category_set_directory ()" link="AsCategory.html#as-category-set-directory"/>
-    <keyword type="function" name="as_category_get_included ()" link="AsCategory.html#as-category-get-included"/>
-    <keyword type="function" name="as_category_get_excluded ()" link="AsCategory.html#as-category-get-excluded"/>
-    <keyword type="function" name="as_category_get_level ()" link="AsCategory.html#as-category-get-level"/>
-    <keyword type="function" name="as_category_set_level ()" link="AsCategory.html#as-category-set-level"/>
-    <keyword type="function" name="as_category_get_subcategories ()" link="AsCategory.html#as-category-get-subcategories"/>
-    <keyword type="property" name="The &quot;directory&quot; property" link="AsCategory.html#AsCategory--directory"/>
-    <keyword type="property" name="The &quot;excluded&quot; property" link="AsCategory.html#AsCategory--excluded"/>
-    <keyword type="property" name="The &quot;icon&quot; property" link="AsCategory.html#AsCategory--icon"/>
-    <keyword type="property" name="The &quot;included&quot; property" link="AsCategory.html#AsCategory--included"/>
-    <keyword type="property" name="The &quot;level&quot; property" link="AsCategory.html#AsCategory--level"/>
-    <keyword type="property" name="The &quot;name&quot; property" link="AsCategory.html#AsCategory--name"/>
-    <keyword type="property" name="The &quot;subcategories&quot; property" link="AsCategory.html#AsCategory--subcategories"/>
-    <keyword type="property" name="The &quot;summary&quot; property" link="AsCategory.html#AsCategory--summary"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_UNKNOWN" link="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_GENERIC" link="AsComponent.html#AS-COMPONENT-KIND-GENERIC:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_DESKTOP_APP" link="AsComponent.html#AS-COMPONENT-KIND-DESKTOP-APP:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_FONT" link="AsComponent.html#AS-COMPONENT-KIND-FONT:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_CODEC" link="AsComponent.html#AS-COMPONENT-KIND-CODEC:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_INPUTMETHOD" link="AsComponent.html#AS-COMPONENT-KIND-INPUTMETHOD:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_LAST" link="AsComponent.html#AS-COMPONENT-KIND-LAST:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_UNKNOWN" link="appstream-as-provides.html#AS-PROVIDES-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_LIBRARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-LIBRARY:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_BINARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-BINARY:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_FONT" link="appstream-as-provides.html#AS-PROVIDES-KIND-FONT:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_MODALIAS" link="appstream-as-provides.html#AS-PROVIDES-KIND-MODALIAS:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_FIRMWARE" link="appstream-as-provides.html#AS-PROVIDES-KIND-FIRMWARE:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_PYTHON2" link="appstream-as-provides.html#AS-PROVIDES-KIND-PYTHON2:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_PYTHON3" link="appstream-as-provides.html#AS-PROVIDES-KIND-PYTHON3:CAPS"/>
-    <keyword type="constant" name="AS_PROVIDES_KIND_LAST" link="appstream-as-provides.html#AS-PROVIDES-KIND-LAST:CAPS"/>
-    <keyword type="constant" name="AS_SCREENSHOT_KIND_UNKNOWN" link="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_SCREENSHOT_KIND_NORMAL" link="AsScreenshot.html#AS-SCREENSHOT-KIND-NORMAL:CAPS"/>
-    <keyword type="constant" name="AS_SCREENSHOT_KIND_DEFAULT" link="AsScreenshot.html#AS-SCREENSHOT-KIND-DEFAULT:CAPS"/>
-    <keyword type="constant" name="AS_IMAGE_KIND_UNKNOWN" link="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_IMAGE_KIND_SOURCE" link="AsImage.html#AS-IMAGE-KIND-SOURCE:CAPS"/>
-    <keyword type="constant" name="AS_IMAGE_KIND_THUMBNAIL" link="AsImage.html#AS-IMAGE-KIND-THUMBNAIL:CAPS"/>
+    <keyword type="function" name="as_search_query_new ()" link="AsSearchQuery.html#as-search-query-new"/>
+    <keyword type="function" name="as_search_query_construct ()" link="AsSearchQuery.html#as-search-query-construct"/>
+    <keyword type="function" name="as_search_query_set_search_term ()" link="AsSearchQuery.html#as-search-query-set-search-term"/>
+    <keyword type="function" name="as_search_query_get_search_all_categories ()" link="AsSearchQuery.html#as-search-query-get-search-all-categories"/>
+    <keyword type="function" name="as_search_query_get_categories ()" link="AsSearchQuery.html#as-search-query-get-categories"/>
+    <keyword type="function" name="as_search_query_set_search_all_categories ()" link="AsSearchQuery.html#as-search-query-set-search-all-categories"/>
+    <keyword type="function" name="as_search_query_set_categories ()" link="AsSearchQuery.html#as-search-query-set-categories"/>
+    <keyword type="function" name="as_search_query_set_categories_from_string ()" link="AsSearchQuery.html#as-search-query-set-categories-from-string"/>
+    <keyword type="function" name="as_search_query_sanitize_search_term ()" link="AsSearchQuery.html#as-search-query-sanitize-search-term"/>
+    <keyword type="function" name="as_search_query_get_search_term ()" link="AsSearchQuery.html#as-search-query-get-search-term"/>
+    <keyword type="property" name="The “categories” property" link="AsSearchQuery.html#AsSearchQuery--categories"/>
+    <keyword type="property" name="The “search-term” property" link="AsSearchQuery.html#AsSearchQuery--search-term"/>
+    <keyword type="function" name="as_database_new ()" link="AsDatabase.html#as-database-new"/>
+    <keyword type="function" name="as_database_construct ()" link="AsDatabase.html#as-database-construct"/>
+    <keyword type="function" name="as_database_set_database_path ()" link="AsDatabase.html#as-database-set-database-path"/>
+    <keyword type="function" name="as_database_open ()" link="AsDatabase.html#as-database-open"/>
+    <keyword type="function" name="as_database_get_database_path ()" link="AsDatabase.html#as-database-get-database-path"/>
+    <keyword type="function" name="as_database_db_exists ()" link="AsDatabase.html#as-database-db-exists"/>
+    <keyword type="function" name="as_database_get_all_components ()" link="AsDatabase.html#as-database-get-all-components"/>
+    <keyword type="function" name="as_database_find_components ()" link="AsDatabase.html#as-database-find-components"/>
+    <keyword type="function" name="as_database_find_components_by_str ()" link="AsDatabase.html#as-database-find-components-by-str"/>
+    <keyword type="function" name="as_database_get_component_by_id ()" link="AsDatabase.html#as-database-get-component-by-id"/>
+    <keyword type="function" name="as_database_get_components_by_provides ()" link="AsDatabase.html#as-database-get-components-by-provides"/>
+    <keyword type="property" name="The “database-path” property" link="AsDatabase.html#AsDatabase--database-path"/>
+    <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
+    <keyword type="function" name="as_distro_details_construct ()" link="AsDistroDetails.html#as-distro-details-construct"/>
+    <keyword type="function" name="as_distro_details_get_icon_repository_paths ()" link="AsDistroDetails.html#as-distro-details-get-icon-repository-paths"/>
+    <keyword type="function" name="as_distro_details_config_distro_get_str ()" link="AsDistroDetails.html#as-distro-details-config-distro-get-str"/>
+    <keyword type="function" name="as_distro_details_get_distro_id ()" link="AsDistroDetails.html#as-distro-details-get-distro-id"/>
+    <keyword type="function" name="as_distro_details_config_distro_get_bool ()" link="AsDistroDetails.html#as-distro-details-config-distro-get-bool"/>
+    <keyword type="function" name="as_distro_details_get_distro_name ()" link="AsDistroDetails.html#as-distro-details-get-distro-name"/>
+    <keyword type="function" name="as_distro_details_get_distro_version ()" link="AsDistroDetails.html#as-distro-details-get-distro-version"/>
+    <keyword type="property" name="The “distro-id” property" link="AsDistroDetails.html#AsDistroDetails--distro-id"/>
+    <keyword type="property" name="The “distro-name” property" link="AsDistroDetails.html#AsDistroDetails--distro-name"/>
+    <keyword type="property" name="The “distro-version” property" link="AsDistroDetails.html#AsDistroDetails--distro-version"/>
+    <keyword type="function" name="as_menu_parser_new ()" link="AsMenuParser.html#as-menu-parser-new"/>
+    <keyword type="function" name="as_menu_parser_construct ()" link="AsMenuParser.html#as-menu-parser-construct"/>
+    <keyword type="function" name="as_menu_parser_new_from_file ()" link="AsMenuParser.html#as-menu-parser-new-from-file"/>
+    <keyword type="function" name="as_menu_parser_construct_from_file ()" link="AsMenuParser.html#as-menu-parser-construct-from-file"/>
+    <keyword type="function" name="as_menu_parser_set_update_category_data ()" link="AsMenuParser.html#as-menu-parser-set-update-category-data"/>
+    <keyword type="function" name="as_menu_parser_parse ()" link="AsMenuParser.html#as-menu-parser-parse"/>
+    <keyword type="function" name="as_menu_parser_get_update_category_data ()" link="AsMenuParser.html#as-menu-parser-get-update-category-data"/>
+    <keyword type="function" name="as_get_system_categories ()" link="AsMenuParser.html#as-get-system-categories"/>
+    <keyword type="property" name="The “update-category-data” property" link="AsMenuParser.html#AsMenuParser--update-category-data"/>
+    <keyword type="function" name="as_category_new ()" link="AsCategory.html#as-category-new"/>
+    <keyword type="function" name="as_category_construct ()" link="AsCategory.html#as-category-construct"/>
+    <keyword type="function" name="as_category_complete ()" link="AsCategory.html#as-category-complete"/>
+    <keyword type="function" name="as_category_get_directory ()" link="AsCategory.html#as-category-get-directory"/>
+    <keyword type="function" name="as_category_get_name ()" link="AsCategory.html#as-category-get-name"/>
+    <keyword type="function" name="as_category_set_icon ()" link="AsCategory.html#as-category-set-icon"/>
+    <keyword type="function" name="as_category_set_name ()" link="AsCategory.html#as-category-set-name"/>
+    <keyword type="function" name="as_category_get_summary ()" link="AsCategory.html#as-category-get-summary"/>
+    <keyword type="function" name="as_category_get_icon ()" link="AsCategory.html#as-category-get-icon"/>
+    <keyword type="function" name="as_category_add_subcategory ()" link="AsCategory.html#as-category-add-subcategory"/>
+    <keyword type="function" name="as_category_remove_subcategory ()" link="AsCategory.html#as-category-remove-subcategory"/>
+    <keyword type="function" name="as_category_has_subcategory ()" link="AsCategory.html#as-category-has-subcategory"/>
+    <keyword type="function" name="as_category_set_directory ()" link="AsCategory.html#as-category-set-directory"/>
+    <keyword type="function" name="as_category_get_included ()" link="AsCategory.html#as-category-get-included"/>
+    <keyword type="function" name="as_category_get_excluded ()" link="AsCategory.html#as-category-get-excluded"/>
+    <keyword type="function" name="as_category_get_level ()" link="AsCategory.html#as-category-get-level"/>
+    <keyword type="function" name="as_category_set_level ()" link="AsCategory.html#as-category-set-level"/>
+    <keyword type="function" name="as_category_get_subcategories ()" link="AsCategory.html#as-category-get-subcategories"/>
+    <keyword type="property" name="The “directory” property" link="AsCategory.html#AsCategory--directory"/>
+    <keyword type="property" name="The “excluded” property" link="AsCategory.html#AsCategory--excluded"/>
+    <keyword type="property" name="The “icon” property" link="AsCategory.html#AsCategory--icon"/>
+    <keyword type="property" name="The “included” property" link="AsCategory.html#AsCategory--included"/>
+    <keyword type="property" name="The “level” property" link="AsCategory.html#AsCategory--level"/>
+    <keyword type="property" name="The “name” property" link="AsCategory.html#AsCategory--name"/>
+    <keyword type="property" name="The “subcategories” property" link="AsCategory.html#AsCategory--subcategories"/>
+    <keyword type="property" name="The “summary” property" link="AsCategory.html#AsCategory--summary"/>
+    <keyword type="function" name="as_provides_kind_to_string ()" link="appstream-as-provides.html#as-provides-kind-to-string"/>
+    <keyword type="function" name="as_provides_kind_from_string ()" link="appstream-as-provides.html#as-provides-kind-from-string"/>
+    <keyword type="function" name="as_provides_item_create ()" link="appstream-as-provides.html#as-provides-item-create"/>
+    <keyword type="function" name="as_provides_item_get_kind ()" link="appstream-as-provides.html#as-provides-item-get-kind"/>
+    <keyword type="function" name="as_provides_item_get_value ()" link="appstream-as-provides.html#as-provides-item-get-value"/>
+    <keyword type="enum" name="enum AsProvidesKind" link="appstream-as-provides.html#AsProvidesKind"/>
   </functions>
 </book>

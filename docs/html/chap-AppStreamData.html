@@ -16,16 +16,21 @@
 		</div><div class="para">
 			All child elements of the <code class="code">&lt;components&gt;</code> element, no matter of which type they are, must at least have an <code class="literal">id</code>, <code class="literal">name</code>, <code class="literal">summary</code> and <code class="literal">pkgname</code> tag. For applications, a <code class="literal">icon</code> tag is also required.
 		</div><div class="para">
-			The <code class="code">&lt;components&gt;</code> root node must have two properties: <code class="literal">version</code> declaring the AppStream spec version this file is based on (currently 0.6) and <code class="literal">origin</code> defining the repository-id this AppStream XML file belongs to. This usually matches the filename without extension (see the explanation on how to pick a good filename above).
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-tags"></a>3.1.4. Valid tags for all component types</h3></div></div></div><div class="para">
+			The <code class="code">&lt;components&gt;</code> root node has these properties, where the first two are required:
+		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">version</span></dt><dd><div class="para">
+						This property declares the AppStream spec version this file is based on (currently 0.6). The property is required.
+					</div></dd><dt><span class="term">origin</span></dt><dd><div class="para">
+						Defines the repository-id this AppStream XML file belongs to. This usually matches the filename without extension (see the explanation on how to pick a good filename above). It is also used to associate the right cached icons with AppStream metadata. This property is required.
+					</div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-tags"></a>3.1.4. Valid tags for all component types</h3></div></div></div><div class="para">
 			These tags can be applied to every component type (application, component, font, inputmethod) which is described in the AppStream metadata.
+		</div><div class="para">
+			Additionally to the <code class="literal">type</code> property, every <code class="literal">&lt;component/&gt;</code> tag in AppStream distro data may have a <code class="literal">priority</code> property, defining the priority of this specific metadata over other metadata from different AppStream XML files (e.g. from a different repository) which have the same component-id. The value of this tag is an integer, if the property is missing, a value of <code class="code">"0"</code> is assumed.
 		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;id type="desktop"&gt;
-</code> tag is the same name as the installed .desktop file for the application. Additional identifiers are possible later, but right now <code class="literal">desktop</code> is the only supported type.
+						The <code class="code">&lt;id/&gt;</code> tag is the same name as the installed .desktop file for the application. Additional identifiers are possible later, but right now <code class="literal">desktop</code> is the only supported type.
 					</div></dd><dt><span class="term">&lt;pkgname/&gt;</span></dt><dd><div class="para">
 						The name of the package which needs to be installed in order to provide this application.
 					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
-						The application name defined in the application's <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop file</a>.
+						The application name defined in the application's <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">desktop file</a>.
 					</div></dd><dt><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;project_license&gt;
 </code> tag is indicating the license of your project/application. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 

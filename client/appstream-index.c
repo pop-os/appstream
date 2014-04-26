@@ -59,19 +59,17 @@ struct _ASClientPrivate {
 
 
 static gpointer as_client_parent_class = NULL;
-static gboolean as_client_o_show_version;
 static gboolean as_client_o_show_version = FALSE;
-static gboolean as_client_o_verbose_mode;
 static gboolean as_client_o_verbose_mode = FALSE;
-static gboolean as_client_o_no_color;
 static gboolean as_client_o_no_color = FALSE;
-static gboolean as_client_o_refresh;
 static gboolean as_client_o_refresh = FALSE;
-static gboolean as_client_o_force;
 static gboolean as_client_o_force = FALSE;
-static gchar* as_client_o_search;
 static gchar* as_client_o_search = NULL;
 static gboolean as_client_o_details = FALSE;
+static gchar* as_client_o_get_id = NULL;
+static gboolean as_client_o_what_provides = FALSE;
+static gchar* as_client_o_type = NULL;
+static gchar* as_client_o_value = NULL;
 
 GType as_client_get_type (void) G_GNUC_CONST;
 #define AS_CLIENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), TYPE_AS_CLIENT, ASClientPrivate))
@@ -84,23 +82,27 @@ gint as_client_get_exit_code (ASClient* self);
 
 static void as_client_finalize (GObject* obj);
 
-static const GOptionEntry AS_CLIENT_options[8] = {
-	{"version", 'v', 0, G_OPTION_ARG_NONE, &as_client_o_show_version, "Show the application's version", NULL},
-	{"verbose", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_verbose_mode, "Enable verbose mode", NULL},
-	{"no-color", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_no_color, "Don't show colored output", NULL},
-	{"refresh", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_refresh, "Rebuild the component information cache", NULL},
-	{"force", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_force, "Enforce a cache refresh", NULL},
-	{"search", 's', 0, G_OPTION_ARG_STRING, &as_client_o_search, "Search the component database", NULL},
-	{"details", 0, 0, G_OPTION_ARG_NONE, &as_client_o_details, "Print detailed output about found components", NULL},
-	{NULL}
-};
-
 ASClient*
 as_client_construct (GType object_type, gchar** args, int argc)
 {
 	ASClient * self;
 	GOptionContext* opt_context;
 	GError * error = NULL;
+
+	const GOptionEntry AS_CLIENT_options[] = {
+		{ "version", 0, 0, G_OPTION_ARG_NONE, &as_client_o_show_version, _("Show the application's version"), NULL },
+		{ "verbose", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_verbose_mode, _("Enable verbose mode"), NULL },
+		{ "no-color", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_no_color, _("Don't show colored output"), NULL },
+		{ "refresh", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_refresh, _("Rebuild the component information cache"), NULL },
+		{ "force", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_force, _("Enforce a cache refresh"), NULL },
+		{ "search", 's', 0, G_OPTION_ARG_STRING, &as_client_o_search, _("Search the component database"), NULL },
+		{ "details", 0, 0, G_OPTION_ARG_NONE, &as_client_o_details, _("Print detailed output about found components"), NULL },
+		{ "get", 0, 0, G_OPTION_ARG_STRING, &as_client_o_get_id, _("Get component by id"), NULL },
+		{ "what-provides", 0, 0, G_OPTION_ARG_NONE, &as_client_o_what_provides, _("Get components which provide the given item"), NULL },
+		{ "type", 't', 0, G_OPTION_ARG_STRING, &as_client_o_type, _("Select a provides type (e.g. lib, bin, python3, ...)"), NULL },
+		{ "value", 'v', 0, G_OPTION_ARG_STRING, &as_client_o_value, _("Select a value for the provides-item which needs to be found"), NULL },
+		{ NULL }
+	};
 
 	self = (ASClient*) g_object_new (object_type, NULL);
 	as_client_set_exit_code (self, 0);
@@ -121,8 +123,6 @@ as_client_construct (GType object_type, gchar** args, int argc)
 		goto out;
 	}
 
-	self->priv->loop = g_main_loop_new (NULL, FALSE);
-
 out:
 	g_option_context_free (opt_context);
 	return self;
@@ -134,18 +134,6 @@ as_client_new (gchar** args, int argc)
 {
 	return as_client_construct (TYPE_AS_CLIENT, args, argc);
 }
-
-#if 0
-static void
-as_client_quit_loop (ASClient* self)
-{
-	g_return_if_fail (self != NULL);
-
-	if (g_main_loop_is_running (self->priv->loop)) {
-		g_main_loop_quit (self->priv->loop);
-	}
-}
-#endif
 
 static gchar*
 format_long_output (const gchar *str)
@@ -162,11 +150,10 @@ format_long_output (const gchar *str)
 }
 
 static void
-as_client_print_key_value (ASClient* self, const gchar* key, const gchar* val, gboolean highlight)
+as_print_key_value (const gchar* key, const gchar* val, gboolean highlight)
 {
 	gchar *str;
 	gchar *fmtval;
-	g_return_if_fail (self != NULL);
 	g_return_if_fail (key != NULL);
 	g_return_if_fail (val != NULL);
 
@@ -192,10 +179,78 @@ as_client_print_key_value (ASClient* self, const gchar* key, const gchar* val, g
 
 
 static void
-as_client_print_separator (ASClient* self)
+as_print_separator ()
 {
-	g_return_if_fail (self != NULL);
 	fprintf (stdout, "%c[%dm%s\n%c[%dm", 0x1B, 36, "----", 0x1B, 0);
+}
+
+static void
+as_print_component (AsComponent *cpt)
+{
+	gchar *short_idline;
+	guint j;
+
+	short_idline = g_strdup_printf ("%s [%s]",
+							as_component_get_idname (cpt),
+							as_component_kind_to_string (as_component_get_kind (cpt)));
+
+	as_print_key_value (_("Identifier"), short_idline, FALSE);
+	as_print_key_value (_("Name"), as_component_get_name (cpt), FALSE);
+	as_print_key_value (_("Summary"), as_component_get_summary (cpt), FALSE);
+	as_print_key_value (_("Package"), as_component_get_pkgname (cpt), FALSE);
+	as_print_key_value (_("Homepage"), as_component_get_homepage (cpt), FALSE);
+	as_print_key_value (_("Icon"), as_component_get_icon_url (cpt), FALSE);
+	g_free (short_idline);
+	short_idline = NULL;
+
+	if (as_client_o_details) {
+		GPtrArray *sshot_array;
+		GPtrArray *imgs = NULL;
+		AsScreenshot *sshot;
+		AsImage *img;
+		gchar *str;
+		gchar **strv;
+
+		/* long description */
+		as_print_key_value (_("Description"), as_component_get_description (cpt), FALSE);
+
+		/* some simple screenshot information */
+		sshot_array = as_component_get_screenshots (cpt);
+
+		/* find default screenshot, if possible */
+		sshot = NULL;
+		for (j = 0; j < sshot_array->len; j++) {
+			sshot = (AsScreenshot*) g_ptr_array_index (sshot_array, j);
+			if (as_screenshot_get_kind (sshot) == AS_SCREENSHOT_KIND_DEFAULT)
+				break;
+		}
+
+		if (sshot != NULL) {
+			/* get the first source image and display it's url */
+			imgs = as_screenshot_get_images (sshot);
+			for (j = 0; j < imgs->len; j++) {
+				img = (AsImage*) g_ptr_array_index (imgs, j);
+				if (as_image_get_kind (img) == AS_IMAGE_KIND_SOURCE) {
+					as_print_key_value ("Sample Screenshot URL", as_image_get_url (img), FALSE);
+					break;
+				}
+			}
+		}
+
+		/* project group */
+		as_print_key_value (_("Project Group"), as_component_get_project_group (cpt), FALSE);
+
+		/* license */
+		as_print_key_value (_("License"), as_component_get_project_license (cpt), FALSE);
+
+		/* desktop-compulsority */
+		strv = as_component_get_compulsory_for_desktops (cpt);
+		if (strv != NULL) {
+			str = g_strjoinv (", ", strv);
+			as_print_key_value (_("Compulsory for"), str, FALSE);
+			g_free (str);
+		}
+	}
 }
 
 void
@@ -223,90 +278,29 @@ as_client_run (ASClient* self)
 	db = as_database_new ();
 	if (as_client_o_search != NULL) {
 		GPtrArray* cpt_list = NULL;
+		/* search for stuff */
 
 		as_database_open (db);
 		cpt_list = as_database_find_components_by_str (db, as_client_o_search, NULL);
 		if (cpt_list == NULL) {
-			fprintf (stderr, "Unable to find application matching %s!\n", as_client_o_search);
+			fprintf (stderr, "Unable to find component matching %s!\n", as_client_o_search);
 			as_client_set_exit_code (self, 4);
 			goto out;
 		}
 
 		if (cpt_list->len == 0) {
-			fprintf (stdout, "No application matching '%s' found.\n", as_client_o_search);
+			fprintf (stdout, "No component matching '%s' found.\n", as_client_o_search);
 			g_ptr_array_unref (cpt_list);
 			goto out;
 		}
 
 		for (i = 0; i < cpt_list->len; i++) {
 			AsComponent *cpt;
-			gchar *short_idline;
-			guint j;
 			cpt = (AsComponent*) g_ptr_array_index (cpt_list, i);
 
-			short_idline = g_strdup_printf ("%s [%s]",
-							as_component_get_idname (cpt),
-							as_component_kind_to_string (as_component_get_kind (cpt)));
+			as_print_component (cpt);
 
-			as_client_print_key_value (self, "Identifier", short_idline, FALSE);
-			as_client_print_key_value (self, "Name", as_component_get_name (cpt), FALSE);
-			as_client_print_key_value (self, "Summary", as_component_get_summary (cpt), FALSE);
-			as_client_print_key_value (self, "Package", as_component_get_pkgname (cpt), FALSE);
-			as_client_print_key_value (self, "Homepage", as_component_get_homepage (cpt), FALSE);
-			as_client_print_key_value (self, "Icon", as_component_get_icon_url (cpt), FALSE);
-			g_free (short_idline);
-			short_idline = NULL;
-
-			if (as_client_o_details) {
-				GPtrArray *sshot_array;
-				GPtrArray *imgs = NULL;
-				AsScreenshot *sshot;
-				AsImage *img;
-				gchar *str;
-				gchar **strv;
-
-				/* long description */
-				as_client_print_key_value (self, "Description", as_component_get_description (cpt), FALSE);
-
-				/* some simple screenshot information */
-				sshot_array = as_component_get_screenshots (cpt);
-
-				/* find default screenshot, if possible */
-				sshot = NULL;
-				for (j = 0; j < sshot_array->len; j++) {
-					sshot = (AsScreenshot*) g_ptr_array_index (sshot_array, j);
-					if (as_screenshot_get_kind (sshot) == AS_SCREENSHOT_KIND_DEFAULT)
-						break;
-				}
-
-				if (sshot != NULL) {
-					/* get the first source image and display it's url */
-					imgs = as_screenshot_get_images (sshot);
-					for (j = 0; j < imgs->len; j++) {
-						img = (AsImage*) g_ptr_array_index (imgs, j);
-						if (as_image_get_kind (img) == AS_IMAGE_KIND_SOURCE) {
-							as_client_print_key_value (self, "Sample Screenshot URL", as_image_get_url (img), FALSE);
-							break;
-						}
-					}
-				}
-
-				/* project group */
-				as_client_print_key_value (self, "Project Group", as_component_get_project_group (cpt), FALSE);
-
-				/* license */
-				as_client_print_key_value (self, "License", as_component_get_project_license (cpt), FALSE);
-
-				/* desktop-compulsority */
-				strv = as_component_get_compulsory_for_desktops (cpt);
-				if (strv != NULL) {
-					str = g_strjoinv (", ", strv);
-					as_client_print_key_value (self, "Compulsory for", str, FALSE);
-					g_free (str);
-				}
-			}
-
-			as_client_print_separator (self);
+			as_print_separator ();
 		}
 		g_ptr_array_unref (cpt_list);
 
@@ -322,6 +316,63 @@ as_client_run (ASClient* self)
 		as_builder_initialize (builder);
 		as_builder_refresh_cache (builder, as_client_o_force);
 		g_object_unref (builder);
+	} else if (as_client_o_get_id != NULL) {
+		AsComponent *cpt;
+		/* get component by id */
+
+		as_database_open (db);
+		cpt = as_database_get_component_by_id (db, as_client_o_get_id);
+		if (cpt == NULL) {
+			fprintf (stderr, "Unable to find component with id %s!\n", as_client_o_get_id);
+			as_client_set_exit_code (self, 4);
+			goto out;
+		}
+		as_print_component (cpt);
+		g_object_unref (cpt);
+	} else if (as_client_o_what_provides) {
+		GPtrArray* cpt_list = NULL;
+		AsProvidesKind kind;
+		/* get component providing an item */
+
+		if (as_client_o_value == NULL) {
+			fprintf (stderr, "No value for the provides-item to search for defined.\n");
+			as_client_set_exit_code (self, 1);
+			goto out;
+		}
+
+		kind = as_provides_kind_from_string (as_client_o_type);
+		if (kind == AS_PROVIDES_KIND_UNKNOWN) {
+			uint i;
+			fprintf (stderr, "Invalid type for provides-item selected. Valid values are:\n");
+			for (i = 1; i < AS_PROVIDES_KIND_LAST; i++)
+				fprintf (stdout, " * %s\n", as_provides_kind_to_string (i));
+			as_client_set_exit_code (self, 5);
+			goto out;
+		}
+
+		as_database_open (db);
+		cpt_list = as_database_get_components_by_provides (db, kind, as_client_o_value, "");
+		if (cpt_list == NULL) {
+			fprintf (stderr, "Unable to find component providing '%s:%s'!\n", as_client_o_type, as_client_o_value);
+			as_client_set_exit_code (self, 4);
+			goto out;
+		}
+
+		if (cpt_list->len == 0) {
+			fprintf (stdout, "No component providing '%s:%s' found.\n", as_client_o_type, as_client_o_value);
+			g_ptr_array_unref (cpt_list);
+			goto out;
+		}
+
+		for (i = 0; i < cpt_list->len; i++) {
+			AsComponent *cpt;
+			cpt = (AsComponent*) g_ptr_array_index (cpt_list, i);
+
+			as_print_component (cpt);
+
+			as_print_separator ();
+		}
+		g_ptr_array_unref (cpt_list);
 	} else {
 		fprintf (stderr, "No command specified.\n");
 		goto out;
@@ -387,9 +438,6 @@ as_client_instance_init (ASClient * self)
 
 static void as_client_finalize (GObject* obj)
 {
-	ASClient * self;
-	self = G_TYPE_CHECK_INSTANCE_CAST (obj, TYPE_AS_CLIENT, ASClient);
-	g_main_loop_unref (self->priv->loop);
 	G_OBJECT_CLASS (as_client_parent_class)->finalize (obj);
 }
 

@@ -7,6 +7,7 @@ as_provider_appstream_xml_new
 as_provider_appstream_xml_construct
 as_provider_appstream_xml_process_compressed_file
 as_provider_appstream_xml_process_file
+AsProviderAppstreamXMLPrivate
 <SUBSECTION Standard>
 AS_PROVIDER_APPSTREAM_XML
 AS_PROVIDER_APPSTREAM_XML_CLASS
@@ -14,15 +15,12 @@ AS_PROVIDER_APPSTREAM_XML_GET_CLASS
 AS_PROVIDER_IS_APPSTREAM_XML
 AS_PROVIDER_IS_APPSTREAM_XML_CLASS
 AS_PROVIDER_TYPE_APPSTREAM_XML
-AsProviderAppstreamXMLPrivate
 as_provider_appstream_xml_get_type
 </SECTION>
 
 <SECTION>
 <FILE>as-category</FILE>
 <TITLE>AsCategory</TITLE>
-AsCategory
-AsCategoryClass
 as_category_new
 as_category_construct
 as_category_complete
@@ -48,6 +46,8 @@ AS_CATEGORY_GET_CLASS
 AS_IS_CATEGORY
 AS_IS_CATEGORY_CLASS
 AS_TYPE_CATEGORY
+AsCategory
+AsCategoryClass
 AsCategoryPrivate
 as_category_get_type
 </SECTION>
@@ -55,9 +55,6 @@ as_category_get_type
 <SECTION>
 <FILE>as-component</FILE>
 <TITLE>AsComponent</TITLE>
-AsComponent
-AsComponentClass
-AsComponentKind
 as_component_kind_to_string
 as_component_kind_from_string
 as_component_new
@@ -111,6 +108,9 @@ AS_IS_COMPONENT
 AS_IS_COMPONENT_CLASS
 AS_TYPE_COMPONENT
 AS_TYPE_COMPONENT_KIND
+AsComponent
+AsComponentClass
+AsComponentKind
 AsComponentPrivate
 as_component_get_type
 as_component_kind_get_type
@@ -119,8 +119,6 @@ as_component_kind_get_type
 <SECTION>
 <FILE>as-data-provider</FILE>
 <TITLE>AsDataProvider</TITLE>
-AsDataProvider
-AsDataProviderClass
 as_data_provider_construct
 as_data_provider_emit_application
 as_data_provider_execute
@@ -135,6 +133,8 @@ AS_DATA_PROVIDER_GET_CLASS
 AS_IS_DATA_PROVIDER
 AS_IS_DATA_PROVIDER_CLASS
 AS_TYPE_DATA_PROVIDER
+AsDataProvider
+AsDataProviderClass
 AsDataProviderPrivate
 as_data_provider_get_type
 </SECTION>
@@ -142,8 +142,6 @@ as_data_provider_get_type
 <SECTION>
 <FILE>as-database</FILE>
 <TITLE>AsDatabase</TITLE>
-AsDatabase
-AsDatabaseClass
 as_database_new
 as_database_construct
 as_database_set_database_path
@@ -153,6 +151,8 @@ as_database_db_exists
 as_database_get_all_components
 as_database_find_components
 as_database_find_components_by_str
+as_database_get_component_by_id
+as_database_get_components_by_provides
 <SUBSECTION Standard>
 AS_DATABASE
 AS_DATABASE_CLASS
@@ -160,6 +160,8 @@ AS_DATABASE_GET_CLASS
 AS_IS_DATABASE
 AS_IS_DATABASE_CLASS
 AS_TYPE_DATABASE
+AsDatabase
+AsDatabaseClass
 AsDatabasePrivate
 as_database_get_type
 </SECTION>
@@ -167,8 +169,6 @@ as_database_get_type
 <SECTION>
 <FILE>as-database-builder</FILE>
 <TITLE>AsBuilder</TITLE>
-AsBuilder
-AsBuilderClass
 as_builder_new
 as_builder_construct
 as_builder_new_path
@@ -182,6 +182,8 @@ AS_BUILDER_GET_CLASS
 AS_IS_BUILDER
 AS_IS_BUILDER_CLASS
 AS_TYPE_BUILDER
+AsBuilder
+AsBuilderClass
 AsBuilderPrivate
 as_builder_get_type
 </SECTION>
@@ -189,8 +191,6 @@ as_builder_get_type
 <SECTION>
 <FILE>as-distro-details</FILE>
 <TITLE>AsDistroDetails</TITLE>
-AsDistroDetails
-AsDistroDetailsClass
 as_distro_details_new
 as_distro_details_construct
 as_distro_details_get_icon_repository_paths
@@ -206,6 +206,8 @@ AS_DISTRO_DETAILS_GET_CLASS
 AS_IS_DISTRO_DETAILS
 AS_IS_DISTRO_DETAILS_CLASS
 AS_TYPE_DISTRO_DETAILS
+AsDistroDetails
+AsDistroDetailsClass
 AsDistroDetailsPrivate
 as_distro_details_get_type
 </SECTION>
@@ -213,8 +215,6 @@ as_distro_details_get_type
 <SECTION>
 <FILE>as-image</FILE>
 <TITLE>AsImage</TITLE>
-AsImage
-AsImageClass
 AsImageKind
 as_image_new
 as_image_kind_from_string
@@ -234,14 +234,14 @@ AS_IMAGE_GET_CLASS
 AS_IS_IMAGE
 AS_IS_IMAGE_CLASS
 AS_TYPE_IMAGE
+AsImage
+AsImageClass
 as_image_get_type
 </SECTION>
 
 <SECTION>
 <FILE>as-menu-parser</FILE>
 <TITLE>AsMenuParser</TITLE>
-AsMenuParser
-AsMenuParserClass
 as_menu_parser_new
 as_menu_parser_construct
 as_menu_parser_new_from_file
@@ -257,8 +257,41 @@ AS_MENU_PARSER
 AS_MENU_PARSER_CLASS
 AS_MENU_PARSER_GET_CLASS
 AS_TYPE_MENU_PARSER
+AsMenuParser
+AsMenuParserClass
 AsMenuParserPrivate
 as_menu_parser_get_type
+</SECTION>
+
+<SECTION>
+<FILE>as-metadata</FILE>
+<TITLE>AsMetadata</TITLE>
+AsMetadataError
+AS_METADATA_ERROR
+as_metadata_new
+as_metadata_error_quark
+as_metadata_parse_file
+as_metadata_parse_data
+as_metadata_set_locale
+as_metadata_get_locale
+<SUBSECTION Standard>
+AS_IS_METADATA
+AS_IS_METADATA_CLASS
+AS_METADATA
+AS_METADATA_CLASS
+AS_METADATA_GET_CLASS
+AS_TYPE_METADATA
+AsMetadata
+AsMetadataClass
+as_metadata_get_type
+</SECTION>
+
+<SECTION>
+<FILE>as-metadata-private</FILE>
+AsParserMode
+as_metadata_parse_component_node
+as_metadata_set_parser_mode
+as_metadata_get_parser_mode
 </SECTION>
 
 <SECTION>
@@ -274,8 +307,6 @@ as_provides_item_get_value
 <SECTION>
 <FILE>as-release</FILE>
 <TITLE>AsRelease</TITLE>
-AsRelease
-AsReleaseClass
 as_release_new
 as_release_get_version
 as_release_get_timestamp
@@ -290,14 +321,14 @@ AS_RELEASE
 AS_RELEASE_CLASS
 AS_RELEASE_GET_CLASS
 AS_TYPE_RELEASE
+AsRelease
+AsReleaseClass
 as_release_get_type
 </SECTION>
 
 <SECTION>
 <FILE>as-screenshot</FILE>
 <TITLE>AsScreenshot</TITLE>
-AsScreenshot
-AsScreenshotClass
 AsScreenshotKind
 as_screenshot_new
 as_screenshot_kind_from_string
@@ -316,14 +347,14 @@ AS_SCREENSHOT
 AS_SCREENSHOT_CLASS
 AS_SCREENSHOT_GET_CLASS
 AS_TYPE_SCREENSHOT
+AsScreenshot
+AsScreenshotClass
 as_screenshot_get_type
 </SECTION>
 
 <SECTION>
 <FILE>as-search-query</FILE>
 <TITLE>AsSearchQuery</TITLE>
-AsSearchQuery
-AsSearchQueryClass
 as_search_query_new
 as_search_query_construct
 as_search_query_set_search_term
@@ -341,6 +372,8 @@ AS_SEARCH_QUERY
 AS_SEARCH_QUERY_CLASS
 AS_SEARCH_QUERY_GET_CLASS
 AS_TYPE_SEARCH_QUERY
+AsSearchQuery
+AsSearchQueryClass
 AsSearchQueryPrivate
 as_search_query_get_type
 </SECTION>
@@ -354,12 +387,12 @@ AsProviderDEP11
 AsProviderDEP11Class
 as_provider_dep11_new
 as_provider_dep11_construct
+AsProviderDEP11Private
 <SUBSECTION Standard>
 AS_PROVIDER_DEP11_GET_CLASS
 AS_PROVIDER_IS_DEP11
 AS_PROVIDER_IS_DEP11_CLASS
 AS_PROVIDER_TYPE_DEP11
-AsProviderDEP11Private
 as_provider_dep11_get_type
 </SECTION>
 
@@ -370,6 +403,7 @@ AsProviderUbuntuAppinstall
 AsProviderUbuntuAppinstallClass
 as_provider_ubuntu_appinstall_new
 as_provider_ubuntu_appinstall_construct
+AsProviderUbuntuAppinstallPrivate
 <SUBSECTION Standard>
 AS_PROVIDER_IS_UBUNTU_APPINSTALL
 AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS
@@ -377,6 +411,5 @@ AS_PROVIDER_TYPE_UBUNTU_APPINSTALL
 AS_PROVIDER_UBUNTU_APPINSTALL
 AS_PROVIDER_UBUNTU_APPINSTALL_CLASS
 AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS
-AsProviderUbuntuAppinstallPrivate
 </SECTION>
 

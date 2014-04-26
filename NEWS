@@ -1,4 +1,36 @@
-Version 0.6
+Version 0.6.1
+~~~~~~~~~~~~~~
+Released: 2014-04-24
+
+Features:
+ * Make AsMetadata handle (almost) all XML parsing (Matthias Klumpp)
+ * Add function to parse upstream metadata in AsMetadata (Matthias Klumpp)
+ * Add methods to set/get locale used for metadata parsing (Matthias Klumpp)
+ * Add function to load metadata from memory (Matthias Klumpp)
+ * Implement a parser mode to abstract away differences in AS metadata (Matthias Klumpp)
+ * Auto-generate Vala API file, if desired (Matthias Klumpp)
+ * Add functions to get a component by it's ID (Matthias Klumpp)
+ * Index terms for provided items (Matthias Klumpp)
+ * Allow fetching components by the items they provide (Matthias Klumpp)
+ * Parse AppStream data in /var/lib/app-info/xmls (Matthias Klumpp)
+ * Implement priority property (Matthias Klumpp)
+
+Specification:
+ * spec: Add priority property for components in distro-metadata (Matthias Klumpp)
+
+Bugfixes:
+ * Fix libappstream pkgconfig (Matthias Klumpp)
+ * Make data-providers emit "component" signal (instead of "application") (Matthias Klumpp)
+ * Make translation possible again (Matthias Klumpp)
+ * Handle lib directory suffix on distributions like Fedora (Rex Dieter)
+ * docs: Fix examples to use the <releases/> tag correctly (Matthias Klumpp)
+ * Print error if compiled with -DVAPI, but no vapigen was found (Matthias Klumpp)
+ * Improve documentation and annotations (Matthias Klumpp)
+ * Improve API for provides-tests (Matthias Klumpp)
+ * Implement strict parsing of the description tag in upstream metadata (Matthias Klumpp)
+ * docs: Fix the section on 3rd-party screenshot services (Matthias Klumpp)
+
+Version 0.6.0
 ~~~~~~~~~~~~~~
 Released: 2014-04-16
 
@@ -8,51 +40,51 @@ Notes:
  at the documentation for the new Appstream XML specification.
 
 Features:
- * Add new AsComponent class
- * Rewrote libappstream in plain C
- * client: Add option for detailed output
- * Use "kind" instead of "ctype" for component types
- * Implement compulsory-for-desktop
- * Some refactoring, additions and improvements
- * Correctly handle component types according to the 0.6 spec
- * Bring back thumbnail support for ss.d.n services
- * client: Improve screenshot url display
- * Implement support for <provides/>
- * Implement support for <release/>
- * Some API future-proofing
- * Add helper to generate Vala VAPI file
+ * Add new AsComponent class (Matthias Klumpp)
+ * Rewrote libappstream in plain C (Matthias Klumpp)
+ * client: Add option for detailed output (Matthias Klumpp)
+ * Use "kind" instead of "ctype" for component types (Matthias Klumpp)
+ * Implement compulsory-for-desktop (Matthias Klumpp)
+ * Some refactoring, additions and improvements (Matthias Klumpp)
+ * Correctly handle component types according to the 0.6 spec (Matthias Klumpp)
+ * Bring back thumbnail support for ss.d.n services (Matthias Klumpp)
+ * client: Improve screenshot url display (Matthias Klumpp)
+ * Implement support for <provides/> (Matthias Klumpp)
+ * Implement support for <release/> (Matthias Klumpp)
+ * Some API future-proofing (Matthias Klumpp)
+ * Add helper to generate Vala VAPI file (Matthias Klumpp)
 
 Specification:
- * docs: Initial documentation on components and lots of restructuring
- * docs: Add FontData meta-info spec
- * docs: Add description of input-method metainfo
- * docs: Some changes on ASXML for component-support
- * docs: Clarify font classifier
- * spec: Don't use specialized tags, everything is a component. Kill <id/> types
- * spec: All upstream meta-info goes to /usr/share/appdata now
- * specs: Update Appstream example XML for latest changes
- * specs: Add new <architectures/> tag to Appstream distro spec
- * spec: Add "origin" property for components tag
- * spec: Define icon repository
- * spec: Component-type is "desktop" for apps now
- * spec: Add <releases/> parent for release tags
- * spec: Allow more url types
- * spec: Clarify how the description tag should be translated
- * spec: Hide fonts for now - the spec is not yet ready
- * spec: Add component type for codecs
- * specs: Update project mission statement
- * spec: Use metadata_license instead of the BE version
- * spec: Add note on multiarch-support
+ * docs: Initial documentation on components and lots of restructuring (Matthias Klumpp)
+ * docs: Add FontData meta-info spec (Matthias Klumpp)
+ * docs: Add description of input-method metainfo (Matthias Klumpp)
+ * docs: Some changes on ASXML for component-support (Matthias Klumpp)
+ * docs: Clarify font classifier (Matthias Klumpp)
+ * spec: Don't use specialized tags, everything is a component. Kill <id/> types (Matthias Klumpp)
+ * spec: All upstream meta-info goes to /usr/share/appdata now (Matthias Klumpp)
+ * specs: Update Appstream example XML for latest changes (Matthias Klumpp)
+ * specs: Add new <architectures/> tag to Appstream distro spec (Matthias Klumpp)
+ * spec: Add "origin" property for components tag (Matthias Klumpp)
+ * spec: Define icon repository (Matthias Klumpp)
+ * spec: Component-type is "desktop" for apps now (Matthias Klumpp)
+ * spec: Add <releases/> parent for release tags (Matthias Klumpp)
+ * spec: Allow more url types (Matthias Klumpp)
+ * spec: Clarify how the description tag should be translated (Matthias Klumpp)
+ * spec: Hide fonts for now - the spec is not yet ready (Matthias Klumpp)
+ * spec: Add component type for codecs (Matthias Klumpp)
+ * specs: Update project mission statement (Matthias Klumpp)
+ * spec: Use metadata_license instead of the BE version (Matthias Klumpp)
+ * spec: Add note on multiarch-support (Matthias Klumpp)
 
 
 Bugfixes:
- * Make parallel compilation possible
- * Allow compiling with -Wall -Werror
- * Prevent identifier collisions in the database
- * Some fixes for the introspection build process
- * Some basic fixes for the XSD schemes
+ * Make parallel compilation possible (Matthias Klumpp)
+ * Allow compiling with -Wall -Werror (Matthias Klumpp)
+ * Prevent identifier collisions in the database (Matthias Klumpp)
+ * Some fixes for the introspection build process (Matthias Klumpp)
+ * Some basic fixes for the XSD schemes (Matthias Klumpp)
 
-Version 0.5
+Version 0.5.0
 ~~~~~~~~~~~~~~
 Released: 2014-02-23
 
@@ -80,7 +112,7 @@ Bugfixes:
  * Fix some memory leaks (Matthias Klumpp)
  * Fix some strange vala compile issue with newer valac versions (Matthias Klumpp)
 
-Version 0.4
+Version 0.4.0
 ~~~~~~~~~~~~~~
 Released: 2013-10-20
 
@@ -163,7 +195,7 @@ Bugfixes:
  * docs: Build C API documentation (Matthias Klumpp)
  * Print better message if category dir is null (Matthias Klumpp)
 
-Version 0.1
+Version 0.1.0
 ~~~~~~~~~~~~~~
 Released: 2012-10-02
 

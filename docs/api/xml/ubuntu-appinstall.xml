@@ -17,58 +17,109 @@
 <refpurpose></refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id="appstream-AsProviderUbuntuAppinstall.synopsis" role="synopsis">
-<title role="synopsis.title">Synopsis</title>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provider-ubuntu-appinstall-new">as_provider_ubuntu_appinstall_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provider-ubuntu-appinstall-construct">as_provider_ubuntu_appinstall_construct</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
-<synopsis>struct              <link linkend="AsProviderUbuntuAppinstall">AsProviderUbuntuAppinstall</link>;
-struct              <link linkend="AsProviderUbuntuAppinstallClass">AsProviderUbuntuAppinstallClass</link>;
-<link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * <link linkend="as-provider-ubuntu-appinstall-new">as_provider_ubuntu_appinstall_new</link>
-                                                        (<parameter><type>void</type></parameter>);
-<link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * <link linkend="as-provider-ubuntu-appinstall-construct">as_provider_ubuntu_appinstall_construct</link>
-                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);
-</synopsis>
-</refsynopsisdiv>
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsProviderUbuntuAppinstall">AsProviderUbuntuAppinstall</link></entry></row>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsProviderUbuntuAppinstallClass">AsProviderUbuntuAppinstallClass</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsProviderUbuntuAppinstallPrivate">AsProviderUbuntuAppinstallPrivate</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>
+</screen>
+</refsect1>
+
 
 <refsect1 id="appstream-AsProviderUbuntuAppinstall.description" role="desc">
 <title role="desc.title">Description</title>
 <para>
 </para>
+
 </refsect1>
-<refsect1 id="appstream-AsProviderUbuntuAppinstall.details" role="details">
-<title role="details.title">Details</title>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-provider-ubuntu-appinstall-new" role="function">
+<title>as_provider_ubuntu_appinstall_new&#160;()</title>
+<indexterm zone="as-provider-ubuntu-appinstall-new"><primary>as_provider_ubuntu_appinstall_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link>&#160;*
+as_provider_ubuntu_appinstall_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-provider-ubuntu-appinstall-construct" role="function">
+<title>as_provider_ubuntu_appinstall_construct&#160;()</title>
+<indexterm zone="as-provider-ubuntu-appinstall-construct"><primary>as_provider_ubuntu_appinstall_construct</primary></indexterm>
+<programlisting language="C"><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link>&#160;*
+as_provider_ubuntu_appinstall_construct
+                               (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-AsProviderUbuntuAppinstall.other_details" role="details">
+<title role="details.title">Types and Values</title>
 <refsect2 id="AsProviderUbuntuAppinstall" role="struct">
 <title>struct AsProviderUbuntuAppinstall</title>
 <indexterm zone="AsProviderUbuntuAppinstall"><primary>AsProviderUbuntuAppinstall</primary></indexterm>
-<programlisting>struct AsProviderUbuntuAppinstall {
+<programlisting language="C">struct AsProviderUbuntuAppinstall {
 	AsDataProvider parent_instance;
 	AsProviderUbuntuAppinstallPrivate * priv;
 };
 </programlisting>
 <para>
-</para></refsect2>
+</para>
+</refsect2>
 <refsect2 id="AsProviderUbuntuAppinstallClass" role="struct">
 <title>struct AsProviderUbuntuAppinstallClass</title>
 <indexterm zone="AsProviderUbuntuAppinstallClass"><primary>AsProviderUbuntuAppinstallClass</primary></indexterm>
-<programlisting>struct AsProviderUbuntuAppinstallClass {
+<programlisting language="C">struct AsProviderUbuntuAppinstallClass {
 	AsDataProviderClass parent_class;
 };
 </programlisting>
 <para>
-</para></refsect2>
-<refsect2 id="as-provider-ubuntu-appinstall-new" role="function">
-<title>as_provider_ubuntu_appinstall_new ()</title>
-<indexterm zone="as-provider-ubuntu-appinstall-new"><primary>as_provider_ubuntu_appinstall_new</primary></indexterm>
-<programlisting><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * as_provider_ubuntu_appinstall_new
-                                                        (<parameter><type>void</type></parameter>);</programlisting>
+</para>
+</refsect2>
+<refsect2 id="AsProviderUbuntuAppinstallPrivate" role="struct">
+<title>AsProviderUbuntuAppinstallPrivate</title>
+<indexterm zone="AsProviderUbuntuAppinstallPrivate"><primary>AsProviderUbuntuAppinstallPrivate</primary></indexterm>
+<programlisting language="C">typedef struct _AsProviderUbuntuAppinstallPrivate AsProviderUbuntuAppinstallPrivate;</programlisting>
 <para>
-</para></refsect2>
-<refsect2 id="as-provider-ubuntu-appinstall-construct" role="function">
-<title>as_provider_ubuntu_appinstall_construct ()</title>
-<indexterm zone="as-provider-ubuntu-appinstall-construct"><primary>as_provider_ubuntu_appinstall_construct</primary></indexterm>
-<programlisting><link linkend="AsProviderUbuntuAppinstall"><returnvalue>AsProviderUbuntuAppinstall</returnvalue></link> * as_provider_ubuntu_appinstall_construct
-                                                        (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
-<para>
-</para></refsect2>
+</para>
+</refsect2>
 
 </refsect1>
 

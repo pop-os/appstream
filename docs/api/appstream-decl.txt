@@ -121,7 +121,7 @@ const gchar *kind_str
 <FUNCTION>
 <NAME>as_provides_item_create</NAME>
 <RETURNS>gchar *				</RETURNS>
-AsProvidesKind kind, const gchar *value 
+AsProvidesKind kind, const gchar *value, const gchar *data 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_provides_item_get_kind</NAME>
@@ -208,6 +208,29 @@ AsBuilder* self, gboolean force
 <STRUCT>
 <NAME>AsBuilderPrivate</NAME>
 </STRUCT>
+<ENUM>
+<NAME>AsParserMode</NAME>
+typedef enum {
+	AS_PARSER_MODE_UPSTREAM,
+	AS_PARSER_MODE_DISTRO,
+	AS_PARSER_MODE_LAST
+} AsParserMode;
+</ENUM>
+<FUNCTION>
+<NAME>as_metadata_parse_component_node</NAME>
+<RETURNS>AsComponent *	</RETURNS>
+AsMetadata* metad, xmlNode* node, GError **error 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_parser_mode</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, AsParserMode mode 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_parser_mode</NAME>
+<RETURNS>AsParserMode 	</RETURNS>
+AsMetadata *metad 
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_COMPONENT_KIND</NAME>
 #define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
@@ -590,7 +613,7 @@ AsScreenshotKind kind
 <FUNCTION>
 <NAME>as_screenshot_is_valid</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsScreenshot *sshot 
+AsScreenshot *screenshot 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_get_kind</NAME>
@@ -1084,6 +1107,99 @@ AsDataProvider* self, gchar** value
 <NAME>AsDataProviderPrivate</NAME>
 </STRUCT>
 <MACRO>
+<NAME>AS_TYPE_METADATA</NAME>
+#define AS_TYPE_METADATA			(as_metadata_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_METADATA</NAME>
+#define AS_METADATA(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_METADATA, AsMetadata))
+</MACRO>
+<MACRO>
+<NAME>AS_METADATA_CLASS</NAME>
+#define AS_METADATA_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_METADATA, AsMetadataClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_METADATA</NAME>
+#define AS_IS_METADATA(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_METADATA))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_METADATA_CLASS</NAME>
+#define AS_IS_METADATA_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_METADATA))
+</MACRO>
+<MACRO>
+<NAME>AS_METADATA_GET_CLASS</NAME>
+#define AS_METADATA_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_METADATA, AsMetadataClass))
+</MACRO>
+<STRUCT>
+<NAME>AsMetadata</NAME>
+struct _AsMetadata
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsMetadataClass</NAME>
+struct _AsMetadataClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsMetadataError</NAME>
+typedef enum {
+	AS_METADATA_ERROR_FAILED,
+	AS_METADATA_ERROR_LAST
+} AsMetadataError;
+</ENUM>
+<MACRO>
+<NAME>AS_METADATA_ERROR</NAME>
+#define	AS_METADATA_ERROR				as_metadata_error_quark ()
+</MACRO>
+<FUNCTION>
+<NAME>as_metadata_get_type</NAME>
+<RETURNS>GType 		 	</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_new</NAME>
+<RETURNS>AsMetadata *		</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_error_quark</NAME>
+<RETURNS>GQuark 			</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_parse_file</NAME>
+<RETURNS>AsComponent *	</RETURNS>
+AsMetadata* metad, GFile* infile, GError **error 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_parse_data</NAME>
+<RETURNS>AsComponent *	</RETURNS>
+AsMetadata* metad, const gchar *data, GError **error 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_locale</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *locale 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_locale</NAME>
+<RETURNS>const gchar *	</RETURNS>
+AsMetadata *metad 
+</FUNCTION>
+<MACRO>
 <NAME>AS_TYPE_RELEASE</NAME>
 #define AS_TYPE_RELEASE			(as_release_get_type())
 </MACRO>
@@ -1268,6 +1384,16 @@ AsDatabase* self, AsSearchQuery* query
 <NAME>as_database_find_components_by_str</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
 AsDatabase* self, const gchar* search_str, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_database_get_component_by_id</NAME>
+<RETURNS>AsComponent *		</RETURNS>
+AsDatabase *self, const gchar *idname 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_database_get_components_by_provides</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsDatabase* self, AsProvidesKind kind, const gchar *value, const gchar *data 
 </FUNCTION>
 <STRUCT>
 <NAME>AsDatabasePrivate</NAME>

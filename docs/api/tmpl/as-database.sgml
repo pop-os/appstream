@@ -22,25 +22,6 @@ AsDatabase
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### STRUCT AsDatabase ##### -->
-<para>
-
-</para>
-
-
-<!-- ##### ARG AsDatabase:database-path ##### -->
-<para>
-
-</para>
-
-<!-- ##### STRUCT AsDatabaseClass ##### -->
-<para>
-
-</para>
-
-@parent_class: 
-@open: 
-
 <!-- ##### FUNCTION as_database_new ##### -->
 <para>
 
@@ -122,6 +103,28 @@ AsDatabase
 @self: 
 @search_str: 
 @categories_str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_database_get_component_by_id ##### -->
+<para>
+
+</para>
+
+@self: 
+@idname: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_database_get_components_by_provides ##### -->
+<para>
+
+</para>
+
+@self: 
+@kind: 
+@value: 
+@data: 
 @Returns: 
 
 

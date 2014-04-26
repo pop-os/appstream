@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "6")
-set(AS_VERSION_PATCH  "0")
+set(AS_VERSION_PATCH  "1")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "0")
 
@@ -24,6 +24,7 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" OFF)
 option(PROVIDER_UBUNTU_APPINSTALL "Enable AppInstall data provider" OFF)
 option(L18N "Enable localization" ON)
+option(VAPI "Create and install a Vala API file" OFF)
 option(TESTS "Enable Unit Tests" OFF)
 option(MAINTAINER "Enable maintainer mode" OFF)
 
@@ -66,7 +67,7 @@ find_package (Gettext REQUIRED)
 # Default paths
 #
 set(INSTALL_DIR_BIN bin CACHE PATH "Installation directory for executables")
-set(INSTALL_DIR_LIB lib/${CMAKE_LIBRARY_ARCHITECTURE} CACHE PATH "Installation directory for libraries")
+set(INSTALL_DIR_LIB lib${LIB_SUFFIX}/${CMAKE_LIBRARY_ARCHITECTURE} CACHE PATH "Installation directory for libraries")
 set(INSTALL_DIR_LIBEXEC "${INSTALL_DIR_LIB}/appstream" CACHE PATH "Installation directory for executables use by a library")
 set(INSTALL_DIR_INC include CACHE PATH "Installation directory for headers")
 set(INSTALL_DIR_SYSCONF /etc CACHE PATH "Installation directory for system configuration files")

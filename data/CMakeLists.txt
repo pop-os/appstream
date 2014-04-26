@@ -16,3 +16,7 @@ install(FILES appstream.conf
 install(FILES categories.xml
 	DESTINATION share/app-info/
 )
+
+if(VAPI)
+	add_subdirectory(vapi)
+endif()
