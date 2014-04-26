@@ -17,148 +17,207 @@
 <refpurpose>Object representing a single upstream release</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id="AsRelease.synopsis" role="synopsis">
-<title role="synopsis.title">Synopsis</title>
+<refsect1 id="AsRelease.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-release-new">as_release_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-release-get-version">as_release_get_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-get-timestamp">as_release_get_timestamp</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-release-get-description">as_release_get_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-version">as_release_set_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-description">as_release_set_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
-<synopsis>
-#include &lt;appstream.h&gt;
-
-struct              <link linkend="AsRelease-struct">AsRelease</link>;
-struct              <link linkend="AsReleaseClass">AsReleaseClass</link>;
-<link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link> *         <link linkend="as-release-new">as_release_new</link>                      (<parameter><type>void</type></parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-release-get-version">as_release_get_version</link>              (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);
-<link linkend="guint64"><returnvalue>guint64</returnvalue></link>             <link linkend="as-release-get-timestamp">as_release_get_timestamp</link>            (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-release-get-description">as_release_get_description</link>          (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-release-set-version">as_release_set_version</link>              (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *version</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-release-set-timestamp">as_release_set_timestamp</link>            (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter><link linkend="guint64"><type>guint64</type></link> timestamp</parameter>);
-<link linkend="void"><returnvalue>void</returnvalue></link>                <link linkend="as-release-set-description">as_release_set_description</link>          (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *description</parameter>);
-</synopsis>
-</refsynopsisdiv>
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
 <refsect1 id="AsRelease.object-hierarchy" role="object_hierarchy">
 <title role="object_hierarchy.title">Object Hierarchy</title>
-<synopsis>
-  <link linkend="GObject">GObject</link>
-   +----AsRelease
-</synopsis>
-
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsRelease
+</screen>
 </refsect1>
+
+<refsect1 id="AsRelease.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
 
 <refsect1 id="AsRelease.description" role="desc">
 <title role="desc.title">Description</title>
-<para>
-This object represents a single upstream release, typically a minor update.
+<para>This object represents a single upstream release, typically a minor update.
 Releases can contain a localized description of paragraph and list elements
-and also have a version number and timestamp.
-</para>
-<para>
-Releases can be automatically generated by parsing upstream ChangeLogs or
-.spec files, or can be populated using MetaInfo files.
-</para>
-<para>
-See also: <link linkend="AsComponent"><type>AsComponent</type></link>
-</para>
+and also have a version number and timestamp.</para>
+<para>Releases can be automatically generated by parsing upstream ChangeLogs or
+.spec files, or can be populated using MetaInfo files.</para>
+<para>See also: <link linkend="AsComponent"><type>AsComponent</type></link></para>
+
 </refsect1>
-<refsect1 id="AsRelease.details" role="details">
-<title role="details.title">Details</title>
-<refsect2 id="AsRelease-struct" role="struct">
-<title>struct AsRelease</title>
-<indexterm zone="AsRelease-struct"><primary>AsRelease</primary></indexterm>
-<programlisting>struct AsRelease;</programlisting>
-<para>
-</para></refsect2>
-<refsect2 id="AsReleaseClass" role="struct">
-<title>struct AsReleaseClass</title>
-<indexterm zone="AsReleaseClass"><primary>AsReleaseClass</primary></indexterm>
-<programlisting>struct AsReleaseClass {
-	GObjectClass		parent_class;
-};
-</programlisting>
-<para>
-</para></refsect2>
+<refsect1 id="AsRelease.functions_details" role="details">
+<title role="details.title">Functions</title>
 <refsect2 id="as-release-new" role="function">
-<title>as_release_new ()</title>
+<title>as_release_new&#160;()</title>
 <indexterm zone="as-release-new"><primary>as_release_new</primary></indexterm>
-<programlisting><link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link> *         as_release_new                      (<parameter><type>void</type></parameter>);</programlisting>
-<para>
-Creates a new <link linkend="AsRelease"><type>AsRelease</type></link>.
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link>. <emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link>&#160;*
+as_release_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsRelease"><type>AsRelease</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsRelease"><type>AsRelease</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-release-get-version" role="function">
-<title>as_release_get_version ()</title>
+<title>as_release_get_version&#160;()</title>
 <indexterm zone="as-release-get-version"><primary>as_release_get_version</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_release_get_version              (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
-<para>
-Gets the release version.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_release_get_version (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the release version.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-release-get-timestamp" role="function">
-<title>as_release_get_timestamp ()</title>
+<title>as_release_get_timestamp&#160;()</title>
 <indexterm zone="as-release-get-timestamp"><primary>as_release_get_timestamp</primary></indexterm>
-<programlisting><link linkend="guint64"><returnvalue>guint64</returnvalue></link>             as_release_get_timestamp            (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
-<para>
-Gets the release timestamp.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>timestamp, or 0 for unset</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
+as_release_get_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the release timestamp.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> timestamp, or 0 for unset</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-release-get-description" role="function">
-<title>as_release_get_description ()</title>
+<title>as_release_get_description&#160;()</title>
 <indexterm zone="as-release-get-description"><primary>as_release_get_description</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_release_get_description          (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
-<para>
-Gets the release description markup for a given locale.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>markup, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_release_get_description (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the release description markup for a given locale.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> markup, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-release-set-version" role="function">
-<title>as_release_set_version ()</title>
+<title>as_release_set_version&#160;()</title>
 <indexterm zone="as-release-set-version"><primary>as_release_set_version</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_release_set_version              (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *version</parameter>);</programlisting>
-<para>
-Sets the release version.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>version</parameter>&#160;:</term>
-<listitem><simpara>the version string.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_version (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *version</parameter>);</programlisting>
+<para>Sets the release version.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>version</para></entry>
+<entry role="parameter_description"><para>the version string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-release-set-timestamp" role="function">
-<title>as_release_set_timestamp ()</title>
+<title>as_release_set_timestamp&#160;()</title>
 <indexterm zone="as-release-set-timestamp"><primary>as_release_set_timestamp</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_release_set_timestamp            (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter><link linkend="guint64"><type>guint64</type></link> timestamp</parameter>);</programlisting>
-<para>
-Sets the release timestamp.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>timestamp</parameter>&#160;:</term>
-<listitem><simpara>the timestamp value.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                          <parameter><link linkend="guint64"><type>guint64</type></link> timestamp</parameter>);</programlisting>
+<para>Sets the release timestamp.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>timestamp</para></entry>
+<entry role="parameter_description"><para>the timestamp value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-release-set-description" role="function">
-<title>as_release_set_description ()</title>
+<title>as_release_set_description&#160;()</title>
 <indexterm zone="as-release-set-description"><primary>as_release_set_description</primary></indexterm>
-<programlisting><link linkend="void"><returnvalue>void</returnvalue></link>                as_release_set_description          (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *description</parameter>);</programlisting>
-<para>
-Sets the description release markup.
-</para><variablelist role="params">
-<varlistentry><term><parameter>release</parameter>&#160;:</term>
-<listitem><simpara>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</simpara></listitem></varlistentry>
-<varlistentry><term><parameter>description</parameter>&#160;:</term>
-<listitem><simpara>the description markup.</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_description (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *description</parameter>);</programlisting>
+<para>Sets the description release markup.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>description</para></entry>
+<entry role="parameter_description"><para>the description markup.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsRelease.other_details" role="details">
+<title role="details.title">Types and Values</title>
 
 </refsect1>
 

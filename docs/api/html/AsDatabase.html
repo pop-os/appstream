@@ -2,34 +2,28 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>AsDatabase</title>
+<title>LibAppStream Reference Manual: AsDatabase</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="LibAppStream Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsSearchQuery.html" title="AsSearchQuery">
 <link rel="next" href="AsDistroDetails.html" title="AsDistroDetails">
-<meta name="generator" content="GTK-Doc V1.19 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="2">
-<tr valign="middle">
-<td><a accesskey="p" href="AsSearchQuery.html"><img src="left.png" width="24" height="24" border="0" alt="Prev"></a></td>
-<td><a accesskey="u" href="ch01.html"><img src="up.png" width="24" height="24" border="0" alt="Up"></a></td>
-<td><a accesskey="h" href="index.html"><img src="home.png" width="24" height="24" border="0" alt="Home"></a></td>
-<th width="100%" align="center">LibAppStream Reference Manual</th>
-<td><a accesskey="n" href="AsDistroDetails.html"><img src="right.png" width="24" height="24" border="0" alt="Next"></a></td>
-</tr>
-<tr><td colspan="5" class="shortcuts">
-<a href="#AsDatabase.synopsis" class="shortcut">Top</a>
-                   | 
-                  <a href="#AsDatabase.description" class="shortcut">Description</a>
-                   | 
-                  <a href="#AsDatabase.object-hierarchy" class="shortcut">Object Hierarchy</a>
-                   | 
-                  <a href="#AsDatabase.properties" class="shortcut">Properties</a>
-</td></tr>
-</table>
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
+                  <a href="#AsDatabase.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
+                  <a href="#AsDatabase.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties"> <span class="dim">|</span> 
+                  <a href="#AsDatabase.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="AsSearchQuery.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="AsDistroDetails.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
 <div class="refentry">
 <a name="AsDatabase"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
@@ -37,221 +31,318 @@
 <h2><span class="refentrytitle"><a name="AsDatabase.top_of_page"></a>AsDatabase</span></h2>
 <p>AsDatabase — Read-only access to the Appstream component database</p>
 </td>
-<td valign="top" align="right"></td>
+<td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
-<div class="refsynopsisdiv">
-<a name="AsDatabase.synopsis"></a><h2>Synopsis</h2>
-<pre class="synopsis">
-#include &lt;appstream.h&gt;
-
-struct              <a class="link" href="AsDatabase.html#AsDatabase-struct" title="struct AsDatabase">AsDatabase</a>;
-struct              <a class="link" href="AsDatabase.html#AsDatabaseClass" title="struct AsDatabaseClass">AsDatabaseClass</a>;
-<a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        <a class="link" href="AsDatabase.html#as-database-new" title="as_database_new ()">as_database_new</a>                     (<em class="parameter"><code><span class="type">void</span></code></em>);
-<a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        <a class="link" href="AsDatabase.html#as-database-construct" title="as_database_construct ()">as_database_construct</a>               (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);
-<span class="returnvalue">void</span>                <a class="link" href="AsDatabase.html#as-database-set-database-path" title="as_database_set_database_path ()">as_database_set_database_path</a>       (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="AsDatabase.html#as-database-open" title="as_database_open ()">as_database_open</a>                    (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
-const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       <a class="link" href="AsDatabase.html#as-database-get-database-path" title="as_database_get_database_path ()">as_database_get_database_path</a>       (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            <a class="link" href="AsDatabase.html#as-database-db-exists" title="as_database_db_exists ()">as_database_db_exists</a>               (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="AsDatabase.html#as-database-get-all-components" title="as_database_get_all_components ()">as_database_get_all_components</a>      (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="AsDatabase.html#as-database-find-components" title="as_database_find_components ()">as_database_find_components</a>         (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *query</code></em>);
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         <a class="link" href="AsDatabase.html#as-database-find-components-by-str" title="as_database_find_components_by_str ()">as_database_find_components_by_str</a>  (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);
-</pre>
-</div>
 <div class="refsect1">
-<a name="AsDatabase.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="synopsis">
-  <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
-   +----AsDatabase
-</pre>
+<a name="AsDatabase.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-new" title="as_database_new ()">as_database_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-construct" title="as_database_construct ()">as_database_construct</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-set-database-path" title="as_database_set_database_path ()">as_database_set_database_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-open" title="as_database_open ()">as_database_open</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-get-database-path" title="as_database_get_database_path ()">as_database_get_database_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-db-exists" title="as_database_db_exists ()">as_database_db_exists</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-get-all-components" title="as_database_get_all_components ()">as_database_get_all_components</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-find-components" title="as_database_find_components ()">as_database_find_components</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-find-components-by-str" title="as_database_find_components_by_str ()">as_database_find_components_by_str</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-get-component-by-id" title="as_database_get_component_by_id ()">as_database_get_component_by_id</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsDatabase.html#as-database-get-components-by-provides" title="as_database_get_components_by_provides ()">as_database_get_components_by_provides</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <div class="refsect1">
 <a name="AsDatabase.properties"></a><h2>Properties</h2>
-<pre class="synopsis">
-  "<a class="link" href="AsDatabase.html#AsDatabase--database-path" title='The "database-path" property'>database-path</a>"            <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody><tr>
+<td class="property_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="AsDatabase.html#AsDatabase--database-path" title="The “database-path” property">database-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="AsDatabase.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> AsDatabase
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsDatabase.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;appstream.h&gt;
 </pre>
 </div>
 <div class="refsect1">
 <a name="AsDatabase.description"></a><h2>Description</h2>
-<p>
-This object provides access to the Appstream Xapian database of available software components.
+<p>This object provides access to the Appstream Xapian database of available software components.
 You can search for components using various criteria, as well as getting some information
-about the data provided by this Appstream database.
-</p>
-<p>
-See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>, <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>
-</p>
+about the data provided by this Appstream database.</p>
+<p>See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>, <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a></p>
 </div>
 <div class="refsect1">
-<a name="AsDatabase.details"></a><h2>Details</h2>
+<a name="AsDatabase.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AsDatabase-struct"></a><h3>struct AsDatabase</h3>
-<pre class="programlisting">struct AsDatabase;</pre>
+<a name="as-database-new"></a><h3>as_database_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
+as_database_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>Creates a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>.</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.2.5"></a><h4>Returns</h4>
+<p> a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-construct"></a><h3>as_database_construct ()</h3>
+<pre class="programlisting"><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
+as_database_construct (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
+<p>Construct a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>.</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.3.5"></a><h4>Returns</h4>
+<p> a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-database-set-database-path"></a><h3>as_database_set_database_path ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_database_set_database_path (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                               <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
 <p>
 </p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsDatabaseClass"></a><h3>struct AsDatabaseClass</h3>
-<pre class="programlisting">struct AsDatabaseClass {
-	GObjectClass parent_class;
-	gboolean (*open) (AsDatabase* self);
-};
-</pre>
+<a name="as-database-open"></a><h3>as_database_open ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+as_database_open (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
 <p>
 </p>
+<div class="refsect3">
+<a name="id-1.2.7.8.5.5"></a><h4>Returns</h4>
+<p></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-new"></a><h3>as_database_new ()</h3>
-<pre class="programlisting"><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        as_database_new                     (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<a name="as-database-get-database-path"></a><h3>as_database_get_database_path ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_database_get_database_path (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
 <p>
-Creates a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>.
 </p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>an <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>. <span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
+<div class="refsect3">
+<a name="id-1.2.7.8.6.5"></a><h4>Returns</h4>
+<p></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-construct"></a><h3>as_database_construct ()</h3>
-<pre class="programlisting"><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *        as_database_construct               (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
-<p>
-</p>
+<a name="as-database-db-exists"></a><h3>as_database_db_exists ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+as_database_db_exists (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<div class="refsect3">
+<a name="id-1.2.7.8.7.4"></a><h4>Returns</h4>
+<p> TRUE if the application database exists</p>
+<p></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-set-database-path"></a><h3>as_database_set_database_path ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>                as_database_set_database_path       (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
+<a name="as-database-get-all-components"></a><h3>as_database_get_all_components ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+as_database_get_all_components (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
+<p>Dump a list of all components found in the database.</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.8.6"></a><h4>Returns</h4>
+<p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-open"></a><h3>as_database_open ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_database_open                    (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
-<p>
-</p>
+<a name="as-database-find-components"></a><h3>as_database_find_components ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+as_database_find_components (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                             <em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *query</code></em>);</pre>
+<p>Find components in the Appstream database.</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
+<em class="parameter"><code>query</code></em>
+ a <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a></p>
+<div class="refsect3">
+<a name="id-1.2.7.8.9.6"></a><h4>Returns</h4>
+<p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-get-database-path"></a><h3>as_database_get_database_path ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *       as_database_get_database_path       (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
-<p>
-</p>
+<a name="as-database-find-components-by-str"></a><h3>as_database_find_components_by_str ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+as_database_find_components_by_str (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                    <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
+                                    <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
+<p>Find components in the Appstream database by searching for a simple string.</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
+<em class="parameter"><code>search_str</code></em>
+ the string to search for
+<em class="parameter"><code>categories_str</code></em>
+ (allow-none) (default NULL): a comma-separated list of category names, or NULL to search in all categories</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.10.6"></a><h4>Returns</h4>
+<p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-db-exists"></a><h3>as_database_db_exists ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>            as_database_db_exists               (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>TRUE if the application database exists</td>
-</tr></tbody>
-</table></div>
+<a name="as-database-get-component-by-id"></a><h3>as_database_get_component_by_id ()</h3>
+<pre class="programlisting"><a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+as_database_get_component_by_id (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *idname</code></em>);</pre>
+<p>Get a component by it's ID</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
+<em class="parameter"><code>idname</code></em>
+ the ID of the component</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.11.6"></a><h4>Returns</h4>
+<p> an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> or NULL if none was found. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-database-get-all-components"></a><h3>as_database_get_all_components ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_get_all_components      (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>);</pre>
-<p>
-Dump a list of all components found in the database.
-</p>
-<p>
-<em class="parameter"><code>self</code></em> a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
+<a name="as-database-get-components-by-provides"></a><h3>as_database_get_components_by_provides ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+as_database_get_components_by_provides
+                               (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
+                                <em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
+                                <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>,
+                                <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>);</pre>
+<p>Find components in the Appstream database.</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
+<em class="parameter"><code>kind</code></em>
+ an <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a>
+<em class="parameter"><code>value</code></em>
+ a value of the selected provides kind
+<em class="parameter"><code>data</code></em>
+ (allow-none) (default NULL): additional provides data</p>
+<div class="refsect3">
+<a name="id-1.2.7.8.12.6"></a><h4>Returns</h4>
+<p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found, NULL on error. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
-<hr>
-<div class="refsect2">
-<a name="as-database-find-components"></a><h3>as_database_find_components ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_find_components         (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *query</code></em>);</pre>
-<p>
-Find components in the Appstream database.
-</p>
-<p>
-<em class="parameter"><code>self</code></em> a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
-<em class="parameter"><code>query</code></em> a <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
 </div>
-<hr>
-<div class="refsect2">
-<a name="as-database-find-components-by-str"></a><h3>as_database_find_components_by_str ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *         as_database_find_components_by_str  (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *self</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *search_str</code></em>,
-                                                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
-<p>
-Find components in the Appstream database by searching for a simple string.
-</p>
-<p>
-<em class="parameter"><code>self</code></em> a valid <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> instance
-<em class="parameter"><code>search_str</code></em> the string to search for
-<em class="parameter"><code>categories_str</code></em>: (allow-none): a comma-separated list of category names, or NULL to search in all categories
-</p>
-<div class="variablelist"><table border="0" class="variablelist">
-<colgroup>
-<col align="left" valign="top">
-<col>
-</colgroup>
-<tbody><tr>
-<td><p><span class="term"><span class="emphasis"><em>Returns</em></span> :</span></p></td>
-<td>an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found. <span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span>
-</td>
-</tr></tbody>
-</table></div>
 </div>
+<div class="refsect1">
+<a name="AsDatabase.other_details"></a><h2>Types and Values</h2>
 </div>
 <div class="refsect1">
 <a name="AsDatabase.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="AsDatabase--database-path"></a><h3>The <code class="literal">"database-path"</code> property</h3>
-<pre class="programlisting">  "database-path"            <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a>*                : Read / Write</pre>
+<a name="AsDatabase--database-path"></a><h3>The <code class="literal">“database-path”</code> property</h3>
+<pre class="programlisting">  “database-path”            <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p>database-path.</p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 </div>
 </div>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.19</div>
+          Generated by GTK-Doc V1.20</div>
 </body>
 </html>

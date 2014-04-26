@@ -14,166 +14,215 @@
 </refmeta>
 <refnamediv>
 <refname>as-provides</refname>
-<refpurpose>Description of the provides-types of components</refpurpose>
+<refpurpose>Description of the provides-types in components</refpurpose>
 </refnamediv>
 
-<refsynopsisdiv id="appstream-as-provides.synopsis" role="synopsis">
-<title role="synopsis.title">Synopsis</title>
+<refsect1 id="appstream-as-provides.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provides-kind-to-string">as_provides_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provides-kind-from-string">as_provides_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provides-item-create">as_provides_item_create</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provides-item-get-kind">as_provides_item_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provides-item-get-value">as_provides_item_get_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
-<synopsis>
-#include &lt;appstream.h&gt;
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-as-provides.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsProvidesKind">AsProvidesKind</link></entry></row>
 
-enum                <link linkend="AsProvidesKind">AsProvidesKind</link>;
-const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       <link linkend="as-provides-kind-to-string">as_provides_kind_to_string</link>          (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>);
-<link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>      <link linkend="as-provides-kind-from-string">as_provides_kind_from_string</link>        (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);
-<link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="as-provides-item-create">as_provides_item_create</link>             (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);
-<link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>      <link linkend="as-provides-item-get-kind">as_provides_item_get_kind</link>           (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);
-<link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             <link linkend="as-provides-item-get-value">as_provides_item_get_value</link>          (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);
-</synopsis>
-</refsynopsisdiv>
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-as-provides.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>
+</screen>
+</refsect1>
+
+<refsect1 id="appstream-as-provides.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
 
 <refsect1 id="appstream-as-provides.description" role="desc">
 <title role="desc.title">Description</title>
-<para>
-Components can provide various items, like libraries, Python-modules,
+<para>Components can provide various items, like libraries, Python-modules,
 firmware, binaries, etc.
-Functions to work with these items are provided here.
-</para>
-<para>
-See also: <link linkend="AsComponent"><type>AsComponent</type></link>
-</para>
+Functions to work with these items are provided here.</para>
+<para>See also: <link linkend="AsComponent"><type>AsComponent</type></link></para>
+
 </refsect1>
-<refsect1 id="appstream-as-provides.details" role="details">
-<title role="details.title">Details</title>
-<refsect2 id="AsProvidesKind" role="enum">
-<title>enum AsProvidesKind</title>
-<indexterm zone="AsProvidesKind"><primary>AsProvidesKind</primary></indexterm>
-<programlisting>typedef enum {
-	AS_PROVIDES_KIND_UNKNOWN,
-	AS_PROVIDES_KIND_LIBRARY,
-	AS_PROVIDES_KIND_BINARY,
-	AS_PROVIDES_KIND_FONT,
-	AS_PROVIDES_KIND_MODALIAS,
-	AS_PROVIDES_KIND_FIRMWARE,
-	AS_PROVIDES_KIND_PYTHON2,
-	AS_PROVIDES_KIND_PYTHON3,
-	AS_PROVIDES_KIND_LAST
-} AsProvidesKind;
-</programlisting>
-<para>
-</para><variablelist role="enum">
-<varlistentry id="AS-PROVIDES-KIND-UNKNOWN:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_UNKNOWN</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-LIBRARY:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_LIBRARY</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-BINARY:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_BINARY</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-FONT:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_FONT</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-MODALIAS:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_MODALIAS</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-FIRMWARE:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_FIRMWARE</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-PYTHON2:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_PYTHON2</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-PYTHON3:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_PYTHON3</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-<varlistentry id="AS-PROVIDES-KIND-LAST:CAPS" role="constant">
-<term><literal>AS_PROVIDES_KIND_LAST</literal></term>
-<listitem><simpara>
-</simpara></listitem>
-</varlistentry>
-</variablelist></refsect2>
+<refsect1 id="appstream-as-provides.functions_details" role="details">
+<title role="details.title">Functions</title>
 <refsect2 id="as-provides-kind-to-string" role="function">
-<title>as_provides_kind_to_string ()</title>
+<title>as_provides_kind_to_string&#160;()</title>
 <indexterm zone="as-provides-kind-to-string"><primary>as_provides_kind_to_string</primary></indexterm>
-<programlisting>const <link linkend="gchar"><returnvalue>gchar</returnvalue></link> *       as_provides_kind_to_string          (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>);</programlisting>
-<para>
-Converts the enumerated value to an text representation.
-</para><variablelist role="params">
-<varlistentry><term><parameter>kind</parameter>&#160;:</term>
-<listitem><simpara>the <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link>.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>string version of <parameter>kind</parameter></simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_provides_kind_to_string (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-provides-kind-from-string" role="function">
-<title>as_provides_kind_from_string ()</title>
+<title>as_provides_kind_from_string&#160;()</title>
 <indexterm zone="as-provides-kind-from-string"><primary>as_provides_kind_from_string</primary></indexterm>
-<programlisting><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>      as_provides_kind_from_string        (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
-<para>
-Converts the text representation to an enumerated value.
-</para><variablelist role="params">
-<varlistentry><term><parameter>kind_str</parameter>&#160;:</term>
-<listitem><simpara>the string.</simpara></listitem></varlistentry>
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> or <link linkend="AS-PROVIDES-KIND-UNKNOWN:CAPS"><literal>AS_PROVIDES_KIND_UNKNOWN</literal></link> for unknown</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>
+as_provides_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> or <link linkend="AS-PROVIDES-KIND-UNKNOWN:CAPS"><literal>AS_PROVIDES_KIND_UNKNOWN</literal></link> for unknown</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-provides-item-create" role="function">
-<title>as_provides_item_create ()</title>
+<title>as_provides_item_create&#160;()</title>
 <indexterm zone="as-provides-item-create"><primary>as_provides_item_create</primary></indexterm>
-<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             as_provides_item_create             (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
-                                                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-Creates a new provides-item string, which
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_provides_item_create (<parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>);</programlisting>
+<para>Creates a new provides-item string, which
 consists of a type-part describing the items type, and a name-part,
 containing the name of the item. Both are separated by a semicolon,
 so an item of type KIND_LIBRARY and name libappstream.so.0 will become
-"lib;libappstream.so.0"
-</para>
-<para>
-<parameter>kind</parameter> a <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> describing the type of the item string
-<parameter>value</parameter> the name of the item as string
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>a new provides-item string. Free with g_free</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+"lib;libappstream.so.0"</para>
+<para><parameter>kind</parameter>
+ a <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> describing the type of the item string
+<parameter>value</parameter>
+ the name of the item as string
+<parameter>data</parameter>
+ (allow-none) (default NULL): additional data associated with this item</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a new provides-item string. Free with g_free</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-provides-item-get-kind" role="function">
-<title>as_provides_item_get_kind ()</title>
+<title>as_provides_item_get_kind&#160;()</title>
 <indexterm zone="as-provides-item-get-kind"><primary>as_provides_item_get_kind</primary></indexterm>
-<programlisting><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>      as_provides_item_get_kind           (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
-<para>
-Returns the type (kind) of a provides-item string
-as <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link>
-</para>
-<para>
-<parameter>item</parameter> a valid provides-item string
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the kind of the given item</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<programlisting language="C"><link linkend="AsProvidesKind"><returnvalue>AsProvidesKind</returnvalue></link>
+as_provides_item_get_kind (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
+<para>Returns the type (kind) of a provides-item string
+as <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link></para>
+<para><parameter>item</parameter>
+ a valid provides-item string</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> the kind of the given item</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-provides-item-get-value" role="function">
-<title>as_provides_item_get_value ()</title>
+<title>as_provides_item_get_value&#160;()</title>
 <indexterm zone="as-provides-item-get-value"><primary>as_provides_item_get_value</primary></indexterm>
-<programlisting><link linkend="gchar"><returnvalue>gchar</returnvalue></link> *             as_provides_item_get_value          (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_provides_item_get_value (<parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
+<para>Returns the value (name) of a provides-item string</para>
+<para><parameter>item</parameter>
+ a valid provides-item string</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> the value of the given item, or NULL if the item was invalid</para>
+<para></para>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-provides.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AsProvidesKind" role="enum">
+<title>enum AsProvidesKind</title>
+<indexterm zone="AsProvidesKind"><primary>AsProvidesKind</primary></indexterm>
 <para>
-Returns the value (name) of a provides-item string
 </para>
-<para>
-<parameter>item</parameter> a valid provides-item string
-</para><variablelist role="params">
-<varlistentry><term><emphasis>Returns</emphasis>&#160;:</term><listitem><simpara>the value of the given item, or NULL if the item was invalid</simpara></listitem></varlistentry>
-</variablelist></refsect2>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-UNKNOWN:CAPS">AS_PROVIDES_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-LIBRARY:CAPS">AS_PROVIDES_KIND_LIBRARY</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-BINARY:CAPS">AS_PROVIDES_KIND_BINARY</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-FONT:CAPS">AS_PROVIDES_KIND_FONT</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-MODALIAS:CAPS">AS_PROVIDES_KIND_MODALIAS</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-FIRMWARE:CAPS">AS_PROVIDES_KIND_FIRMWARE</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-PYTHON2:CAPS">AS_PROVIDES_KIND_PYTHON2</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-PYTHON3:CAPS">AS_PROVIDES_KIND_PYTHON3</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-LAST:CAPS">AS_PROVIDES_KIND_LAST</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 

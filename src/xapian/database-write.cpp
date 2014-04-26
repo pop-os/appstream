@@ -130,6 +130,12 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		// add packagename as meta-data too
 		term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
 
+		// Identifier
+		string idname = as_component_get_idname (cpt);
+		doc.add_value (XapianValues::IDENTIFIER, idname);
+		doc.add_term("AI" + idname);
+		term_generator.index_text_without_positions (idname, WEIGHT_PKGNAME);
+
 		// Untranslated component name
 		string cptNameGeneric = as_component_get_name_original (cpt);
 		doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
@@ -142,9 +148,6 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		// Type identifier
 		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
 		doc.add_value (XapianValues::TYPE, type_str);
-
-		// Identifier
-		doc.add_value (XapianValues::IDENTIFIER, as_component_get_idname (cpt));
 
 		// URL
 		doc.add_value (XapianValues::URL_HOMEPAGE, as_component_get_homepage (cpt));
@@ -194,10 +197,16 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 		// Data of provided items
 		gchar **provides_items = as_ptr_array_to_strv (as_component_get_provided_items (cpt));
-		gchar *provides_items_str = g_strjoinv ("\n", provides_items);
-		doc.add_value (XapianValues::PROVIDED_ITEMS, string(provides_items_str));
+		if (provides_items != NULL) {
+			gchar *provides_items_str = g_strjoinv ("\n", provides_items);
+			doc.add_value (XapianValues::PROVIDED_ITEMS, string(provides_items_str));
+			for (uint i = 0; provides_items[i] != NULL; i++) {
+				string item = provides_items[i];
+				doc.add_term ("AX" + item);
+			}
+			g_free (provides_items_str);
+		}
 		g_strfreev (provides_items);
-		g_free (provides_items_str);
 
 		// Add screenshot information (XML data)
 		doc.add_value (XapianValues::SCREENSHOT_DATA, as_component_dump_screenshot_data_xml (cpt));

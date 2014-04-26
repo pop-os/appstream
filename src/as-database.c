@@ -62,6 +62,13 @@ enum  {
 static gboolean as_database_real_open (AsDatabase* self);
 static void as_database_finalize (GObject* obj);
 
+/**
+ * as_database_construct:
+ *
+ * Construct a new #AsDatabase.
+ *
+ * Returns: (transfer full): a new #AsDatabase
+ **/
 AsDatabase*
 as_database_construct (GType object_type)
 {
@@ -80,7 +87,7 @@ as_database_construct (GType object_type)
  *
  * Creates a new #AsDatabase.
  *
- * Returns: (transfer full): an #AsDatabase
+ * Returns: (transfer full): a new #AsDatabase
  **/
 AsDatabase*
 as_database_new (void)
@@ -174,7 +181,7 @@ as_database_find_components (AsDatabase* self, AsSearchQuery* query)
  *
  * @self a valid #AsDatabase instance
  * @search_str the string to search for
- * @categories_str: (allow-none): a comma-separated list of category names, or NULL to search in all categories
+ * @categories_str (allow-none) (default NULL): a comma-separated list of category names, or NULL to search in all categories
  *
  * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found
  */
@@ -197,6 +204,53 @@ as_database_find_components_by_str (AsDatabase* self, const gchar* search_str, c
 	return cpt_array;
 }
 
+/**
+ * as_database_get_component_by_id:
+ *
+ * Get a component by it's ID
+ *
+ * @self a valid #AsDatabase instance
+ * @idname the ID of the component
+ *
+ * Returns: (transfer full): an #AsComponent or NULL if none was found
+ **/
+AsComponent*
+as_database_get_component_by_id (AsDatabase *self, const gchar *idname)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (idname != NULL, NULL);
+
+	return xa_database_read_get_component_by_id (self->priv->db, idname);
+}
+
+/**
+ * as_database_get_components_by_provides:
+ *
+ * Find components in the Appstream database.
+ *
+ * @self a valid #AsDatabase instance
+ * @kind an #AsProvidesKind
+ * @value a value of the selected provides kind
+ * @data (allow-none) (default NULL): additional provides data
+ *
+ * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found, NULL on error
+ */
+GPtrArray*
+as_database_get_components_by_provides (AsDatabase* self, AsProvidesKind kind, const gchar *value, const gchar *data)
+{
+	GPtrArray* cpt_array;
+	gchar *provides_item;
+	g_return_val_if_fail (self != NULL, NULL);
+	g_return_val_if_fail (value != NULL, NULL);
+	if (!self->priv->opened)
+		return NULL;
+
+	provides_item = as_provides_item_create (kind, value, data);
+	cpt_array = xa_database_read_get_components_by_provides (self->priv->db, provides_item);
+	g_free (provides_item);
+
+	return cpt_array;
+}
 
 const gchar*
 as_database_get_database_path (AsDatabase* self)
@@ -281,6 +335,8 @@ as_database_finalize (GObject* obj)
 
 
 /**
+ * as_database_get_type:
+ *
  * Class to access the AppStream
  * application database
  */

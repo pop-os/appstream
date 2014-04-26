@@ -13,7 +13,7 @@ set(INTROSPECTION_SCANNER_ARGS "--identifier-prefix=As" "--symbol-prefix=as_" "-
 set(INTROSPECTION_COMPILER_ARGS "--includedir=${CMAKE_CURRENT_SOURCE_DIR}")
 
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
-set(AS_VERSION_LIBS "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
+set(AS_VERSION_BASE "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
 
 set(ASLIB_XAP_SOURCES xapian/database-common.hpp
 		xapian/database-read.hpp
@@ -32,6 +32,7 @@ set(LIBAPPSTREAM_SRC
 		data-providers/debian-dep11.c
 		data-providers/ubuntu-appinstall.c
 		# (mostly) public API
+		as-metadata.c
 		as-component.c
 		as-provides.c
 		as-database-builder.c
@@ -48,6 +49,7 @@ set(LIBAPPSTREAM_SRC
 
 set(LIBAPPSTREAM_PUBLIC_HEADERS
 		appstream.h
+		as-metadata.h
 		as-component.h
 		as-provides.h
 		as-search-query.h
@@ -66,6 +68,7 @@ set(LIBAPPSTREAM_PRIVATE_HEADERS
 		data-providers/appstream-xml.h
 		data-providers/debian-dep11.h
 		data-providers/ubuntu-appinstall.h
+		as-metadata-private.h
 		as-component-private.h
 		as-database-builder.h
 		as-database-write.h
@@ -126,12 +129,11 @@ gir_add_introspections(INTROSPECTION_GIRS)
 ####
 
 install(TARGETS appstream DESTINATION ${INSTALL_DIR_LIB})
-install(FILES ${LIBAPPSTREAM_PUBLIC_HEADERS} DESTINATION include)
+install(FILES ${LIBAPPSTREAM_PUBLIC_HEADERS} DESTINATION include/Appstream)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc DESTINATION ${INSTALL_DIR_LIB}/pkgconfig/)
 
-#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.vapi DESTINATION share/vala/vapi)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_LIBS}.gir DESTINATION share/gir-1.0/)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_LIBS}.typelib DESTINATION lib/girepository-1.0/)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_BASE}.gir DESTINATION share/gir-1.0/)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_BASE}.typelib DESTINATION lib${LIB_SUFFIX}/girepository-1.0/)
 
 # include the PackageKit plugin
 add_subdirectory(pk-plugin)

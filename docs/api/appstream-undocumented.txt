@@ -1,42 +1,25 @@
-46% symbol docs coverage.
-123 symbols documented.
-41 symbols incomplete.
-143 not documented.
+57% symbol docs coverage.
+160 symbols documented.
+42 symbols incomplete.
+120 not documented.
 
 
+AS_METADATA_ERROR
 AS_PROVIDER_DE_P11
 AS_PROVIDER_DE_P11_CLASS
-AsBuilder
-AsBuilderClass (<items>)
-AsCategory
-AsCategoryClass (<items>)
-AsComponent
-AsComponentClass (<items>)
-AsComponentKind (<items>)
-AsDataProvider
-AsDataProvider::application
-AsDataProviderClass (<items>)
-AsDatabase
-AsDatabaseClass (<items>)
-AsDistroDetails
-AsDistroDetailsClass (<items>)
-AsImage
-AsImageClass (<items>)
-AsMenuParser
-AsMenuParserClass (<items>)
+AsDataProvider::component
+AsMetadataError (AS_METADATA_ERROR_LAST)
+AsParserMode (AS_PARSER_MODE_LAST)
 AsProviderAppstreamXML
 AsProviderAppstreamXMLClass (<items>)
+AsProviderAppstreamXMLPrivate
 AsProviderDEP11
 AsProviderDEP11Class (<items>)
+AsProviderDEP11Private
 AsProviderUbuntuAppinstall (<items>)
 AsProviderUbuntuAppinstallClass (<items>)
+AsProviderUbuntuAppinstallPrivate
 AsProvidesKind (<items>)
-AsRelease
-AsReleaseClass (<items>)
-AsScreenshot
-AsScreenshotClass (<items>)
-AsSearchQuery
-AsSearchQueryClass (<items>)
 as_builder_construct
 as_builder_construct_path
 as_builder_initialize
@@ -44,7 +27,7 @@ as_builder_new_path (dbpath)
 as_builder_refresh_cache
 as_category_add_subcategory
 as_category_complete
-as_category_construct
+as_category_construct (object_type)
 as_category_get_directory
 as_category_get_excluded
 as_category_get_icon
@@ -59,7 +42,7 @@ as_category_set_directory
 as_category_set_icon
 as_category_set_level
 as_category_set_name
-as_component_construct
+as_component_construct (object_type)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
@@ -73,6 +56,7 @@ as_component_get_mimetypes
 as_component_get_name
 as_component_get_name_original
 as_component_get_pkgname
+as_component_get_priority
 as_component_get_project_group (self, Returns)
 as_component_get_project_license (self, Returns)
 as_component_get_provided_items (self)
@@ -90,7 +74,7 @@ as_component_set_icon
 as_component_set_icon_url
 as_component_set_idname
 as_component_set_keywords
-as_component_set_kind
+as_component_set_kind (self, value)
 as_component_set_mimetypes
 as_component_set_name
 as_component_set_name_original
@@ -106,31 +90,37 @@ as_data_provider_get_watch_files
 as_data_provider_log_error
 as_data_provider_log_warning
 as_data_provider_set_watch_files
-as_database_construct
+as_database_construct (object_type)
 as_database_db_exists
 as_database_find_components (self, query)
 as_database_find_components_by_str (self, search_str, categories_str)
 as_database_get_all_components (self)
+as_database_get_component_by_id (self, idname)
+as_database_get_components_by_provides (self, kind, value, data)
 as_database_get_database_path
 as_database_open
 as_database_set_database_path
 as_distro_details_config_distro_get_bool
 as_distro_details_config_distro_get_str
-as_distro_details_construct
+as_distro_details_construct (object_type)
 as_distro_details_get_distro_id
 as_distro_details_get_distro_name
 as_distro_details_get_distro_version
-as_distro_details_get_icon_repository_paths
-as_get_system_categories
+as_distro_details_get_icon_repository_paths (self)
 as_image_class_init
 as_image_finalize
 as_image_init
-as_menu_parser_construct
-as_menu_parser_construct_from_file
+as_menu_parser_construct (object_type)
+as_menu_parser_construct_from_file (object_type, menu_file)
 as_menu_parser_get_update_category_data
 as_menu_parser_new_from_file (menu_file)
-as_menu_parser_parse
+as_menu_parser_parse (self)
 as_menu_parser_set_update_category_data
+as_metadata_class_init
+as_metadata_error_quark
+as_metadata_finalize
+as_metadata_init
+as_metadata_parse_component_node
 as_provider_appstream_xml_construct
 as_provider_appstream_xml_new
 as_provider_appstream_xml_process_compressed_file
@@ -139,7 +129,7 @@ as_provider_dep11_construct
 as_provider_dep11_new
 as_provider_ubuntu_appinstall_construct
 as_provider_ubuntu_appinstall_new
-as_provides_item_create (kind, value)
+as_provides_item_create (kind, value, data)
 as_provides_item_get_kind (item)
 as_provides_item_get_value (item)
 as_release_class_init
@@ -148,8 +138,7 @@ as_release_init
 as_screenshot_class_init
 as_screenshot_finalize
 as_screenshot_init
-as_screenshot_is_valid (sshot)
-as_search_query_construct
+as_search_query_construct (object_type, term)
 as_search_query_get_categories
 as_search_query_get_search_all_categories
 as_search_query_get_search_term
@@ -157,7 +146,6 @@ as_search_query_new (term)
 as_search_query_sanitize_search_term
 as_search_query_set_categories
 as_search_query_set_categories_from_string (self, categories_str)
-as_search_query_set_search_all_categories
 as_search_query_set_search_term
 pk_plugin_get_description
 pk_plugin_initialize
@@ -170,6 +158,8 @@ as-data-provider:Long_Description
 as-data-provider:Short_Description
 as-database-builder:Long_Description
 as-database-builder:Short_Description
+as-metadata-private:Long_Description
+as-metadata-private:Short_Description
 debian-dep11:Long_Description
 debian-dep11:Short_Description
 ubuntu-appinstall:Short_Description
