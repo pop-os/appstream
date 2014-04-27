@@ -2,9 +2,8 @@
 # postinst script for appstream-index
 set -e
 
-# Removing the watchfile will trigger a database update
-# as soon as possible.
-rm -rf /var/cache/app-info/cache.watch
+# Force-upgrade the database, in case something has changed
+/usr/bin/appstream-index --refresh --force
 
 #DEBHELPER#
 
