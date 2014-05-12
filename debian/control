@@ -24,12 +24,14 @@ Depends: libappstream0 (>= ${binary:Version}),
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: app-install-data
-Description: Application index generator
- AppStream is a cross-distribution effort for building
- application-management tools.
- It provides specifications for an unified application metadata database,
- screenshot services and various other things needed to create user-friendly
- application-centers.
+Description: Software component index generator
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database,
+ screenshot services and various other things needed to make handling
+ of software smarter. Also, the AppStream data allows building
+ application-centric software management tools.
  .
  This package provides tools to generate, maintain and
  access the AppStream database of installed and available applications.
@@ -43,14 +45,14 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (= ${binary:Version})
 Description: Library to access AppStream services
- AppStream is a cross-distribution effort for building
- application-management tools.
- It provides specifications for an unified application metadata database,
- screenshot services and various other things needed to create user-friendly
- application-centers.
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
  .
  This package contains a GObject-based library to access AppStream
- services, like the application metadata database.
+ services, like the software component metadata database.
 
 Package: libappstream-dev
 Architecture: any
@@ -59,14 +61,14 @@ Depends: libappstream0 (= ${binary:Version}),
          libglib2.0-dev (>= 2.28),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
- AppStream is a cross-distribution effort for building
- application-management tools.
- It provides specifications for an unified application metadata database,
- screenshot services and various other things needed to create user-friendly
- application-centers.
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
  .
  This package contains development files necessary to develop
- application-management tools which use the AppStream library.
+ software-management tools which use the AppStream library.
 
 Package: gir1.2-appstream
 Architecture: any
@@ -76,10 +78,10 @@ Depends: gir1.2-freedesktop (>= 1.32),
          libappstream0 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
- AppStream is a cross-distribution effort for building
- application-management tools.
- It provides specifications for an unified application metadata database,
- screenshot services and various other things needed to create user-friendly
- application-centers.
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
  .
  This package contains introspection data for the AppStream library.
