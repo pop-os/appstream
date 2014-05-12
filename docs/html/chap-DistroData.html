@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 3. Distribution Appstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.6-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="sect-Metadata-InputMethod.html" title="2.4. Input Methods" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.2. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-InputMethod.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chap-AppStreamData"></a>Chapter 3. Distribution Appstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-AppStreamData.html#sect-AppStream-ASXML">3.1. AppStream XML files</a></span></dt><dt><span class="section"><a href="sect-AppStream-IconCache.html">3.2. Icon Cache</a></span></dt></dl></div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 3. Distribution Metadata and Services</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.6-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="sect-Metadata-InputMethod.html" title="2.4. Input Methods" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.2. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-InputMethod.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chap-DistroData"></a>Chapter 3. Distribution Metadata and Services</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-DistroData.html#sect-AppStream-ASXML">3.1. AppStream XML files</a></span></dt><dt><span class="section"><a href="sect-AppStream-IconCache.html">3.2. Icon Cache</a></span></dt></dl></div><div class="para">
 		AppStream provides an own Metadata format which gets shipped by the distributions and is read by the Xapian database generator or software centers directly.
 	</div><div class="para">
 		This chapter contains information about it.
@@ -12,7 +12,7 @@
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-general"></a>3.1.3. General XML structure</h3></div></div></div><div class="para">
 			The XML starts with an <code class="code">&lt;components&gt;</code> tag as root element. It has all the <code class="code">&lt;component&gt;</code>, <code class="code">&lt;application&gt;</code>, <code class="code">&lt;font&gt;</code> and <code class="code">&lt;inputmethod&gt;</code> elements as children.
 		</div><div class="para">
-			Data to fill the different component elements is usually taken from their <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> and package data. However, if an upstream project ships metainfo files (see <a class="xref" href="chap-Metadata.html">Chapter 2, <em>Upstream Meta Information</em></a>), values defined there should override data from any other source.
+			Data to fill the different component elements is usually taken from their <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> and package data. However, if an upstream project ships metainfo files (see <a class="xref" href="chap-Metadata.html">Chapter 2, <em>Upstream Metadata</em></a>), values defined there should override data from any other source.
 		</div><div class="para">
 			All child elements of the <code class="code">&lt;components&gt;</code> element, no matter of which type they are, must at least have an <code class="literal">id</code>, <code class="literal">name</code>, <code class="literal">summary</code> and <code class="literal">pkgname</code> tag. For applications, a <code class="literal">icon</code> tag is also required.
 		</div><div class="para">
@@ -35,17 +35,17 @@
 						The <code class="code">&lt;project_license&gt;
 </code> tag is indicating the license of your project/application. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 
 						<div class="itemizedlist"><ul><li class="listitem"><div class="para">
-									GPL-2
+									GPL-2.0
 								</div></li><li class="listitem"><div class="para">
-									LGPL-3+ and GPL-3+
+									LGPL-3.0+ and GPL-3.0+
 								</div></li><li class="listitem"><div class="para">
 									MIT
 								</div></li><li class="listitem"><div class="para">
-									CC-BY-SA-2
+									CC-BY-SA-2.0
 								</div></li><li class="listitem"><div class="para">
 									...
 								</div></li></ul></div>
-						 A full list of recognized licenses and their identifiers can be found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. For SPDX compatibility, versions with trailing dot-zeroes are considered to be equivalent to versions without (e.g., "2.0.0" is considered equal to "2.0" and "2").
+						 A full list of recognized licenses and their identifiers can be found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>.
 					</div><div class="para">
 						Although the license tag is not mandatory, it is recommended to include it.
 					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">

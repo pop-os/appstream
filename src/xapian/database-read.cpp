@@ -31,6 +31,7 @@
 #include "database-common.hpp"
 #include "../as-menu-parser.h"
 #include "../as-component-private.h"
+#include "../as-provides.h"
 
 using namespace std;
 using namespace Appstream;
@@ -79,7 +80,7 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 
 	// Identifier
 	string id_str = doc.get_value (XapianValues::IDENTIFIER);
-	as_component_set_idname (cpt, id_str.c_str ());
+	as_component_set_id (cpt, id_str.c_str ());
 
 	// Component name
 	string cptName = doc.get_value (XapianValues::CPTNAME);
@@ -93,9 +94,17 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	string appname_orig = doc.get_value (XapianValues::CPTNAME_UNTRANSLATED);
 	as_component_set_name_original (cpt, appname_orig.c_str ());
 
-	// URL
-	string appUrl = doc.get_value (XapianValues::URL_HOMEPAGE);
-	as_component_set_homepage (cpt, appUrl.c_str ());
+	// URLs
+	string urls_str = doc.get_value (XapianValues::URLS);
+	gchar **urls = g_strsplit (urls_str.c_str (), "\n", -1);
+	for (uint i = 0; urls[i] != NULL; i++) {
+		/* urls are stored in form of "type \n url" (so we just need one stringsplit here...) */
+		if (urls[i+1] == NULL)
+			break;
+		AsUrlKind ukind = as_url_kind_from_string (urls[i]);
+		if (ukind != AS_URL_KIND_UNKNOWN)
+			as_component_add_url (cpt, ukind, urls[i+1]);
+	}
 
 	// Application icon
 	string appIcon = doc.get_value (XapianValues::ICON);
@@ -393,14 +402,26 @@ DatabaseRead::getComponentById (const gchar *idname)
 }
 
 GPtrArray*
-DatabaseRead::getComponentsByProvides (const gchar *provides_item)
+DatabaseRead::getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data)
 {
 	// Create new array to store the AsComponent objects
 	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
 
-	Xapian::Query item_query = Xapian::Query (Xapian::Query::OP_OR,
+	Xapian::Query item_query;
+	if (kind == AS_PROVIDES_KIND_MIMETYPE) {
+		/* mimetypes are handled separately due to historical reasons */
+		item_query = Xapian::Query (Xapian::Query::OP_OR,
+						   Xapian::Query("AM" + string(value)),
+						   Xapian::Query ());
+	} else {
+		gchar *provides_item;
+		provides_item = as_provides_item_create (kind, value, data);
+		item_query = Xapian::Query (Xapian::Query::OP_OR,
 						   Xapian::Query("AX" + string(provides_item)),
 						   Xapian::Query ());
+		g_free (provides_item);
+	}
+
 	item_query.serialise ();
 
 	Xapian::Enquire enquire = Xapian::Enquire (m_xapianDB);

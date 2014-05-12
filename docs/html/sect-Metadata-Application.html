@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.2. Desktop Applications (AppData)</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.6-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Meta Information" /><link rel="prev" href="chap-Metadata.html" title="Chapter 2. Upstream Meta Information" /><link rel="next" href="sect-Metadata-Codec.html" title="2.3. Fonts" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong></a></li></ul><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Application"></a>2.2. Desktop Applications (AppData)</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-appdata-introduction"></a>2.2.1. Introduction</h3></div></div></div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.2. Desktop Applications (AppData)</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.6-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="prev" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="next" href="sect-Metadata-Codec.html" title="2.3. Codecs" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong></a></li></ul><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Application"></a>2.2. Desktop Applications (AppData)</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-appdata-introduction"></a>2.2.1. Introduction</h3></div></div></div><div class="para">
 			Every software center that exists allows the user to look at screenshots and a long description of the application before it is installed. For most users it allows them to answer the question <span class="quote">“<span class="quote">Do I want to install this application?</span>”</span>. Traditionally in Linux distributions, we have none of this data for the vast majority of our desktop user-installable applications. The packages-descriptions are describing all contents of a package, and not just a single application. They are also often written in a technical language and refer to other packages, which makes it hard for beginners to understand what the application they want to install really does. Additionally, if you are not using Debian or Ubuntu, the package descriptions are often untranslated. Also, packages do not provide some metadata users might be interested in before installing an application.
 		</div><div class="para">
-			To solve this, we have defined a new data file, which the upstream project can optionally translate using the same technique as <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> or GSetting schemas. The AppData specification is a subset of the AppStream metadata (see <a class="xref" href="chap-AppStreamData.html#sect-AppStream-ASXML">Section 3.1, “AppStream XML files”</a>) and extends the generic component metadata with fields specific for applications (see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>).
+			To solve this, we have defined a new data file, which the upstream project can optionally translate using the same technique as <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> or GSetting schemas. The AppData specification is a subset of the AppStream metadata (see <a class="xref" href="chap-DistroData.html#sect-AppStream-ASXML">Section 3.1, “AppStream XML files”</a>) and extends the generic component metadata with fields specific for applications (see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>).
 		</div><div class="para">
 			The AppData files override any values which are automatically fetched by the AppStream data generator. Applications can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.appdata.xml</code>.
 		</div><div class="para">
@@ -38,8 +38,13 @@
   <span class="perl_Keyword">&lt;/description&gt;</span>
 
   <span class="perl_Keyword">&lt;screenshots&gt;</span>
-    <span class="perl_Keyword">&lt;screenshot</span><span class="perl_Others"> type=</span><span class="perl_String">"default"</span><span class="perl_Others"> width=</span><span class="perl_String">"800"</span><span class="perl_Others"> height=</span><span class="perl_String">"600"</span><span class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/main.png<span class="perl_Keyword">&lt;/screenshot&gt;</span>
-    <span class="perl_Keyword">&lt;screenshot</span><span class="perl_Others"> width=</span><span class="perl_String">"800"</span><span class="perl_Others"> height=</span><span class="perl_String">"600"</span><span class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/preferences.png<span class="perl_Keyword">&lt;/screenshot&gt;</span>
+    <span class="perl_Keyword">&lt;screenshot</span><span class="perl_Others"> type=</span><span class="perl_String">"default"</span><span class="perl_Keyword">&gt;</span>
+      <span class="perl_Keyword">&lt;caption&gt;</span>The options dialog<span class="perl_Keyword">&lt;/caption&gt;</span>
+      <span class="perl_Keyword">&lt;image</span><span class="perl_Others"> width=</span><span class="perl_String">"800"</span><span class="perl_Others"> height=</span><span class="perl_String">"600"</span><span class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/main.png<span class="perl_Keyword">&lt;/image&gt;</span>
+    <span class="perl_Keyword">&lt;/screenshot&gt;</span>
+    <span class="perl_Keyword">&lt;screenshot&gt;</span>
+      <span class="perl_Keyword">&lt;image</span><span class="perl_Others"> width=</span><span class="perl_String">"800"</span><span class="perl_Others"> height=</span><span class="perl_String">"600"</span><span class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/preferences.png<span class="perl_Keyword">&lt;/image&gt;</span>
+    <span class="perl_Keyword">&lt;/screenshot&gt;</span>
   <span class="perl_Keyword">&lt;/screenshots&gt;</span>
 
   <span class="perl_Keyword">&lt;url</span><span class="perl_Others"> type=</span><span class="perl_String">"homepage"</span><span class="perl_Keyword">&gt;</span>http://www.gnome.org/projects/en_US/gnome-power-manager<span class="perl_Keyword">&lt;/url&gt;</span>
@@ -64,18 +69,8 @@
 						For applications, the <code class="literal">%{id}</code> is the same name as the installed .desktop file for the application.
 					</div></dd><dt><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;metadata_license/&gt;</code> tag is indicating the content licence that you are releasing the one AppData text file as. This is not typically the same as the project licence. By ommitting the licence value would probably mean your data would not be incorporated into the distribution metadata. Permissible licence codes include:
-					</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
-								CC0
-							</div></li><li class="listitem"><div class="para">
-								CC-BY
-							</div></li><li class="listitem"><div class="para">
-								CC-BY-SA
-							</div></li><li class="listitem"><div class="para">
-								GFDL
-							</div></li><li class="listitem"><div class="para">
-								MIT
-							</div></li></ul></div><div class="para">
-						The licence codes correspond to the identifiers found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. For SPDX compatibility, versions with trailing dot-zeroes are considered to be equivalent to versions without (e.g., "2.0.0" is considered equal to "2.0" and "2"). For instance, CC-BY-SA corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+					</div><div class="para">
+						The licence codes correspond to the identifiers found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. Take a look at <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> for more details about this tag.
 					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
 						While this tag is requited for a generic component, for an application metainfo file it is not necessary, but only recommended. You can omit this tag if you want the software center to have the same strings as defined in the XDG desktop file. In some cases it might be required to have a different name in the app-store, but most <code class="filename">appdata.xml</code> files will not need this.
 					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
@@ -110,10 +105,12 @@
 						Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time.
 					</div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
-					</div></dd><dt><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="spec-appdata-filespec-screenshots"></a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						A screenshot presents your application to the outside world, and could be seen by hundreds or thousands of people.
 					</div><div class="para">
-						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Additionally, the <code class="code">&lt;screenshot/&gt;</code> tags should define the width and height of the referenced screenshot as properties. The value of these tags is a direct URL to a screenshot uploaded to a public location on the web.
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+					</div><div class="para">
+						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more then 255 caracters!) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
 						Screenshots are an important part of how people choose which applications to install, so it's important to get them right. Consistent, good looking screenshots will make your application look more attractive and will expand your userbase. Consistent screenshots also provide a more predictable experience for people using the software center.
 					</div><div class="para">
@@ -152,6 +149,14 @@
 								Screenshots often need to feature content, such as images, documents, web pages or videos. Don’t show your application in an ‘empty’ state, and try and use high quality content which has positive associations and broad appeal.
 							</div></li><li class="listitem"><div class="para">
 								In general, you shouldn't include the mouse pointer in your screenshots.
+							</div></li></ul></div><div class="para">
+						Some advice for a good screenshot caption:
+					</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+								The caption should be short. Try not to use more than a few words to describe the image.
+							</div></li><li class="listitem"><div class="para">
+								Try not to state the obvious: "Main window displaying an image" is something the user can see on the screenshot already.
+							</div></li><li class="listitem"><div class="para">
+								Try not to repeat the application's name in the caption.
 							</div></li></ul></div></dd><dt><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
 						This is a recommended tag for links of type <code class="code">homepage</code>. Links of type <code class="code">homepage</code> should be a link to the upstream homepage for the application.
 					</div><div class="para">
@@ -159,11 +164,11 @@
 					</div></dd><dt><span class="term">&lt;project_group/&gt;</span></dt><dd><div class="para">
 						This tag is described for generic components at <a class="xref" href="chap-Metadata.html#spec-component-filespec">Section 2.1.3, “XML Specification”</a>. You should use it for your application if appropriate.
 					</div></dd><dt><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
-						This tag is described for generic components at <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> in detail.
+						This tag is described in detail for generic components at <a class="xref" href="chap-Metadata.html#spec-component-filespec-provides">&lt;provides/&gt;</a>.
 					</div><div class="para">
 						If your application ships a binary in a location in the default <code class="envar">PATH</code>, you should add at least a child of type <code class="code">&lt;binary/&gt;</code> to make that new executable known to the distribution.
 					</div></dd><dt><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
-						The application metainfo should at least provide one <code class="code">&lt;releases/&gt;</code> tag, which has one or more <code class="code">&lt;release/&gt;</code> childs to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a> .
+						The application metainfo should at least provide one <code class="code">&lt;releases/&gt;</code> tag, which has one or more <code class="code">&lt;release/&gt;</code> childs to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#spec-component-filespec-releases">&lt;releases/&gt;</a> .
 					</div><div class="para">
 						Additionally, the <code class="code">&lt;release/&gt;</code> might be described in a short manner using the <code class="code">&lt;description/&gt;</code> child tag, which should give brief information about what is new in the release, in a way which is understandable by non-technical users.
-					</div></dd></dl></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong>Chapter 2. Upstream Meta Information</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong>2.3. Fonts</a></li></ul></body></html>
+					</div></dd></dl></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong>Chapter 2. Upstream Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong>2.3. Codecs</a></li></ul></body></html>

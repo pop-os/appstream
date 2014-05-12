@@ -24,7 +24,7 @@
 #include <glib-object.h>
 #include <glib/gstdio.h>
 
-#include "../as-utils.h"
+#include "../as-utils-private.h"
 #include "../as-settings-private.h"
 #include "../as-metadata.h"
 #include "../as-metadata-private.h"
@@ -90,6 +90,7 @@ as_provider_appstream_xml_process_single_document (AsProviderAppstreamXML* self,
 	xmlNode* iter;
 	AsMetadata *metad;
 	AsComponent *cpt;
+	gchar *origin;
 	GError *error = NULL;
 
 	g_return_val_if_fail (self != NULL, FALSE);
@@ -115,13 +116,18 @@ as_provider_appstream_xml_process_single_document (AsProviderAppstreamXML* self,
 	metad = as_metadata_new ();
 	as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
 
+	/* set the proper origin of this data */
+	origin = (gchar*) xmlGetProp (root, (xmlChar*) "origin");
+	as_metadata_set_origin_id (metad, origin);
+	g_free (origin);
+
 	for (iter = root->children; iter != NULL; iter = iter->next) {
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 
 		if (g_strcmp0 ((gchar*) iter->name, "component") == 0) {
-			cpt = as_metadata_parse_component_node (metad, iter, &error);
+			cpt = as_metadata_parse_component_node (metad, iter, FALSE, &error);
 			if (error != NULL) {
 				as_data_provider_log_warning ((AsDataProvider*) metad, error->message);
 				g_error_free (error);

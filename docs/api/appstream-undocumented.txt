@@ -1,13 +1,16 @@
-57% symbol docs coverage.
-160 symbols documented.
-42 symbols incomplete.
-120 not documented.
+58% symbol docs coverage.
+197 symbols documented.
+54 symbols incomplete.
+142 not documented.
 
 
 AS_METADATA_ERROR
 AS_PROVIDER_DE_P11
 AS_PROVIDER_DE_P11_CLASS
+AsComponentKind (AS_COMPONENT_KIND_LAST)
 AsDataProvider::component
+AsImageKind (AS_IMAGE_KIND_LAST)
+AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
 AsParserMode (AS_PARSER_MODE_LAST)
 AsProviderAppstreamXML
@@ -19,7 +22,7 @@ AsProviderDEP11Private
 AsProviderUbuntuAppinstall (<items>)
 AsProviderUbuntuAppinstallClass (<items>)
 AsProviderUbuntuAppinstallPrivate
-AsProvidesKind (<items>)
+AsUrlKind (AS_URL_KIND_LAST)
 as_builder_construct
 as_builder_construct_path
 as_builder_initialize
@@ -42,14 +45,14 @@ as_category_set_directory
 as_category_set_icon
 as_category_set_level
 as_category_set_name
+as_component_add_provided_item (value)
 as_component_construct (object_type)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
-as_component_get_homepage
 as_component_get_icon
 as_component_get_icon_url
-as_component_get_idname
+as_component_get_id (self, Returns)
 as_component_get_keywords
 as_component_get_kind
 as_component_get_mimetypes
@@ -63,19 +66,19 @@ as_component_get_provided_items (self)
 as_component_get_releases (self)
 as_component_get_screenshots (self)
 as_component_get_summary
+as_component_has_category (self, category, Returns)
+as_component_is_compulsory_for_desktop (self, desktop)
 as_component_is_valid (self)
 as_component_provides_item (self, kind, value)
 as_component_set_categories
 as_component_set_categories_from_str (self, categories_str)
 as_component_set_compulsory_for_desktops (self, value)
 as_component_set_description
-as_component_set_homepage
 as_component_set_icon
 as_component_set_icon_url
-as_component_set_idname
+as_component_set_id (self, value)
 as_component_set_keywords
 as_component_set_kind (self, value)
-as_component_set_mimetypes
 as_component_set_name
 as_component_set_name_original
 as_component_set_pkgname
@@ -106,7 +109,6 @@ as_distro_details_construct (object_type)
 as_distro_details_get_distro_id
 as_distro_details_get_distro_name
 as_distro_details_get_distro_version
-as_distro_details_get_icon_repository_paths (self)
 as_image_class_init
 as_image_finalize
 as_image_init
@@ -146,11 +148,40 @@ as_search_query_new (term)
 as_search_query_sanitize_search_term
 as_search_query_set_categories
 as_search_query_set_categories_from_string (self, categories_str)
-as_search_query_set_search_term
+as_search_query_set_search_term (self, value)
+as_str_replace
+as_string_strip
+as_strv_dup
+as_utils_find_files
+as_utils_find_files_matching
+as_utils_is_root
+as_utils_touch_dir
+as_validator_add_issue
+as_validator_check_appear_once
+as_validator_check_children_quick
+as_validator_check_content
+as_validator_check_description_tag
+as_validator_check_nolocalized
+as_validator_check_type_property
+as_validator_class_init
+as_validator_clear_issues (validator)
+as_validator_finalize
+as_validator_get_issues (validator)
+as_validator_init
+as_validator_issue_class_init
+as_validator_issue_finalize
+as_validator_issue_init
+as_validator_validate_component_node
+as_validator_validate_data (validator, metadata, Returns)
+as_validator_validate_file (validator, metadata_file, Returns)
 pk_plugin_get_description
 pk_plugin_initialize
 pk_plugin_transaction_finished_end
 
+as_component_get_homepage
+as_component_get_idname
+as_component_set_homepage
+as_component_set_idname
 
 appstream-xml:Long_Description
 appstream-xml:Short_Description
@@ -158,8 +189,12 @@ as-data-provider:Long_Description
 as-data-provider:Short_Description
 as-database-builder:Long_Description
 as-database-builder:Short_Description
+as-enums:Long_Description
+as-enums:Short_Description
 as-metadata-private:Long_Description
 as-metadata-private:Short_Description
+as-utils-private:Long_Description
+as-utils-private:Short_Description
 debian-dep11:Long_Description
 debian-dep11:Short_Description
 ubuntu-appinstall:Short_Description

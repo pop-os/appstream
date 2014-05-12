@@ -28,8 +28,6 @@
 </entry><entry role="function_name"><link linkend="as-distro-details-new">as_distro_details_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsDistroDetails"><returnvalue>AsDistroDetails</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-distro-details-construct">as_distro_details_construct</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-</entry><entry role="function_name"><link linkend="as-distro-details-get-icon-repository-paths">as_distro_details_get_icon_repository_paths</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-distro-details-config-distro-get-str">as_distro_details_config_distro_get_str</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -40,6 +38,8 @@
 </entry><entry role="function_name"><link linkend="as-distro-details-get-distro-name">as_distro_details_get_distro_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-distro-details-get-distro-version">as_distro_details_get_distro_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+</entry><entry role="function_name"><link linkend="as-distro-details-get-icon-repository-paths">as_distro_details_get_icon_repository_paths</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -102,20 +102,6 @@ as_distro_details_construct (<parameter><link linkend="GType"><type>GType</type>
 <refsect3 role="returns">
 <title>Returns</title>
 <para> a new <link linkend="AsDistroDetails"><type>AsDistroDetails</type></link> instance. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-distro-details-get-icon-repository-paths" role="function">
-<title>as_distro_details_get_icon_repository_paths&#160;()</title>
-<indexterm zone="as-distro-details-get-icon-repository-paths"><primary>as_distro_details_get_icon_repository_paths</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-as_distro_details_get_icon_repository_paths
-                               (<parameter><link linkend="AsDistroDetails"><type>AsDistroDetails</type></link> *self</parameter>);</programlisting>
-<para>Returns list of icon-paths for software-center applications to use.
-Icons of software (even if it is not installed) are stored in these
-locations.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-<para> A NULL-terminated array of paths. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-distro-details-config-distro-get-str" role="function">
@@ -181,6 +167,20 @@ as_distro_details_get_distro_version (<parameter><link linkend="AsDistroDetails"
 <title>Returns</title>
 
 <para></para>
+</refsect3></refsect2>
+<refsect2 id="as-distro-details-get-icon-repository-paths" role="function">
+<title>as_distro_details_get_icon_repository_paths&#160;()</title>
+<indexterm zone="as-distro-details-get-icon-repository-paths"><primary>as_distro_details_get_icon_repository_paths</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+as_distro_details_get_icon_repository_paths
+                               (<parameter><type>void</type></parameter>);</programlisting>
+<para>Returns list of icon-paths for software-center applications to use.
+Icons of software (even if it is not installed) are stored in these
+locations.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> A NULL-terminated array of paths. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 
 </refsect1>

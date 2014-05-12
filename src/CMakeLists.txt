@@ -20,8 +20,8 @@ set(ASLIB_XAP_SOURCES xapian/database-common.hpp
 		xapian/database-read.cpp
 		xapian/database-write.hpp
 		xapian/database-write.cpp
-		xapian/database-vala.hpp
-		xapian/database-vala.cpp
+		xapian/database-cwrap.hpp
+		xapian/database-cwrap.cpp
 )
 
 set(LIBAPPSTREAM_SRC
@@ -34,6 +34,7 @@ set(LIBAPPSTREAM_SRC
 		# (mostly) public API
 		as-metadata.c
 		as-component.c
+		as-enums.c
 		as-provides.c
 		as-database-builder.c
 		as-search-query.c
@@ -45,12 +46,16 @@ set(LIBAPPSTREAM_SRC
 		as-screenshot.c
 		as-image.c
 		as-release.c
+		as-validator.c
+		as-validator-issue.c
 )
 
 set(LIBAPPSTREAM_PUBLIC_HEADERS
 		appstream.h
+		as-utils.h
 		as-metadata.h
 		as-component.h
+		as-enums.h
 		as-provides.h
 		as-search-query.h
 		as-database.h
@@ -60,10 +65,12 @@ set(LIBAPPSTREAM_PUBLIC_HEADERS
 		as-screenshot.h
 		as-image.h
 		as-release.h
+		as-validator.h
+		as-validator-issue.h
 )
 
 set(LIBAPPSTREAM_PRIVATE_HEADERS
-		as-utils.h
+		as-utils-private.h
 		as-data-provider.h
 		data-providers/appstream-xml.h
 		data-providers/debian-dep11.h
@@ -131,9 +138,6 @@ gir_add_introspections(INTROSPECTION_GIRS)
 install(TARGETS appstream DESTINATION ${INSTALL_DIR_LIB})
 install(FILES ${LIBAPPSTREAM_PUBLIC_HEADERS} DESTINATION include/Appstream)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc DESTINATION ${INSTALL_DIR_LIB}/pkgconfig/)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_BASE}.gir DESTINATION share/gir-1.0/)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/Appstream-${AS_VERSION_BASE}.typelib DESTINATION lib${LIB_SUFFIX}/girepository-1.0/)
 
 # include the PackageKit plugin
 add_subdirectory(pk-plugin)

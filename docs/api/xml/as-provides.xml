@@ -175,8 +175,7 @@ as_provides_item_get_value (<parameter>const <link linkend="gchar"><type>gchar</
 <refsect2 id="AsProvidesKind" role="enum">
 <title>enum AsProvidesKind</title>
 <indexterm zone="AsProvidesKind"><primary>AsProvidesKind</primary></indexterm>
-<para>
-</para>
+<para>Public interfaces components can provide.</para>
 <refsect3 role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
@@ -186,39 +185,48 @@ as_provides_item_get_value (<parameter>const <link linkend="gchar"><type>gchar</
 <colspec colname="enum_members_annotations" colwidth="200px"/>
 <tbody>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-UNKNOWN:CAPS">AS_PROVIDES_KIND_UNKNOWN</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>Unknown kind</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-LIBRARY:CAPS">AS_PROVIDES_KIND_LIBRARY</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A shared library</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-BINARY:CAPS">AS_PROVIDES_KIND_BINARY</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A binary installed into a directory in PATH</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-FONT:CAPS">AS_PROVIDES_KIND_FONT</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A font</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-MODALIAS:CAPS">AS_PROVIDES_KIND_MODALIAS</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A modalias</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-FIRMWARE:CAPS">AS_PROVIDES_KIND_FIRMWARE</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>Kernel firmware</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-PYTHON2:CAPS">AS_PROVIDES_KIND_PYTHON2</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A Python2 module</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-PYTHON3:CAPS">AS_PROVIDES_KIND_PYTHON3</para></entry>
-<entry role="enum_member_description"></entry>
+<entry role="enum_member_description"><para>A Python3 module</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-LAST:CAPS">AS_PROVIDES_KIND_LAST</para></entry>
-<entry role="enum_member_description"></entry>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-MIMETYPE:CAPS">AS_PROVIDES_KIND_MIMETYPE</para></entry>
+<entry role="enum_member_description"><para>Provides a handler for a mimetype</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 </tbody></tgroup></informaltable>

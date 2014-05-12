@@ -39,14 +39,18 @@
 #include "as-metadata-private.h"
 
 #include "as-utils.h"
+#include "as-utils-private.h"
 #include "as-component.h"
 #include "as-component-private.h"
+#include "as-distro-details.h"
 
 typedef struct _AsMetadataPrivate	AsMetadataPrivate;
 struct _AsMetadataPrivate
 {
-	gchar* locale;
+	gchar *locale;
 	AsParserMode mode;
+	gchar *origin_name;
+	gchar **icon_paths;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
@@ -66,6 +70,9 @@ as_metadata_finalize (GObject *object)
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	g_free (priv->locale);
+	g_strfreev (priv->icon_paths);
+	if (priv->origin_name != NULL)
+		g_free (priv->origin_name);
 
 	G_OBJECT_CLASS (as_metadata_parent_class)->finalize (object);
 }
@@ -77,10 +84,18 @@ static void
 as_metadata_init (AsMetadata *metad)
 {
 	const gchar * const *locale_names;
+	gchar *tmp;
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	locale_names = g_get_language_names ();
+	/* set active locale without UTF-8 suffix */
 	priv->locale = g_strdup (locale_names[0]);
+	tmp = g_strstr_len (priv->locale, -1, ".UTF-8");
+	if (tmp != NULL)
+		*tmp = '\0';
+
+	priv->origin_name = NULL;
+	priv->icon_paths = as_distro_details_get_icon_repository_paths ();
 
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
 }
@@ -229,11 +244,19 @@ as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* 
 			img = as_image_new ();
 
 			str = (gchar*) xmlGetProp (iter, (xmlChar*) "width");
-			width = g_ascii_strtoll (str, NULL, 10);
-			g_free (str);
+			if (str == NULL) {
+				width = 0;
+			} else {
+				width = g_ascii_strtoll (str, NULL, 10);
+				g_free (str);
+			}
 			str = (gchar*) xmlGetProp (iter, (xmlChar*) "height");
-			height = g_ascii_strtoll (str, NULL, 10);
-			g_free (str);
+			if (str == NULL) {
+				height = 0;
+			} else {
+				height = g_ascii_strtoll (str, NULL, 10);
+				g_free (str);
+			}
 			/* discard invalid elements */
 			if ((width == 0) || (height == 0)) {
 				g_free (content);
@@ -295,11 +318,11 @@ as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node)
 	xmlNode *iter;
 	gchar *content;
 	gchar *node_name;
-	gchar *description_text;
+	GString *str;
 	g_return_if_fail (metad != NULL);
 
+	str = g_string_new ("");
 	for (iter = node->children; iter != NULL; iter = iter->next) {
-		gchar *tmp;
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
@@ -312,14 +335,11 @@ as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node)
 		if (content == NULL)
 			continue;
 
-		tmp = g_strdup_printf ("%s\n<%s>%s</%s>", description_text, node_name, content, node_name);
-		g_free (description_text);
-		description_text = tmp;
-
+		g_string_append_printf (str, "\n<%s>%s</%s>", node_name, content, node_name);
 		g_free (content);
 	}
 
-	return description_text;
+	return g_string_free (str, FALSE);
 }
 
 static void
@@ -428,8 +448,71 @@ as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt
 	}
 }
 
+/**
+ * as_metadata_refine_component_icon:
+ *
+ * We use this method to ensure the "icon" and "icon_url" properties of
+ * a component are properly set, by finding the icons in default directories.
+ */
+static void
+as_metadata_refine_component_icon (AsMetadata *metad, AsComponent *cpt)
+{
+	const gchar *exensions[] = { "png",
+				     "svg",
+				     "svgz",
+				     "gif",
+				     "ico",
+				     "xcf",
+				     NULL };
+	gchar *tmp_icon_path;
+	const gchar *icon_url;
+	guint i, j;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	icon_url = as_component_get_icon_url (cpt);
+	if (g_str_has_prefix (icon_url, "/") ||
+		g_str_has_prefix (icon_url, "http://")) {
+		/* looks like this component already has a full icon path... */
+		return;
+	}
+	tmp_icon_path = NULL;
+
+	if (g_strcmp0 (icon_url, "") == 0) {
+		icon_url = as_component_get_icon (cpt);
+	}
+
+	/* search local icon path */
+	for (i = 0; priv->icon_paths[i] != NULL; i++) {
+		/* sometimes, the file already has an extension */
+		tmp_icon_path = g_strdup_printf ("%s/%s",
+					     priv->icon_paths[i],
+					     icon_url);
+		if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
+			goto out;
+		g_free (tmp_icon_path);
+
+		/* file not found, try extensions (we will not do this forever, better fix AppStream data!) */
+		for (j = 0; exensions[j] != NULL; j++) {
+			tmp_icon_path = g_strdup_printf ("%s/%s.%s",
+					     priv->icon_paths[i],
+					     icon_url,
+					     exensions[j]);
+			if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
+				goto out;
+			g_free (tmp_icon_path);
+			tmp_icon_path = NULL;
+		}
+	}
+
+out:
+	if (tmp_icon_path != NULL) {
+		as_component_set_icon_url (cpt, tmp_icon_path);
+		g_free (tmp_icon_path);
+	}
+}
+
 AsComponent*
-as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **error)
+as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
 {
 	AsComponent* cpt;
 	xmlNode *iter;
@@ -451,17 +534,12 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **err
 	cpttype = (gchar*) xmlGetProp (node, (xmlChar*) "type");
 	if ((cpttype == NULL) || (g_strcmp0 (cpttype, "generic") == 0)) {
 		as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
-	} else if (g_strcmp0 (cpttype, "desktop") == 0) {
-		as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
-	} else if (g_strcmp0 (cpttype, "font") == 0) {
-		as_component_set_kind (cpt, AS_COMPONENT_KIND_FONT);
-	} else if (g_strcmp0 (cpttype, "codec") == 0) {
-		as_component_set_kind (cpt, AS_COMPONENT_KIND_CODEC);
-	} else if (g_strcmp0 (cpttype, "inputmethod") == 0) {
-		as_component_set_kind (cpt, AS_COMPONENT_KIND_INPUTMETHOD);
 	} else {
-		as_component_set_kind (cpt, AS_COMPONENT_KIND_UNKNOWN);
-		g_debug ("An unknown component was found: %s", cpttype);
+		AsComponentKind ckind;
+		ckind = as_component_kind_from_string (cpttype);
+		as_component_set_kind (cpt, ckind);
+		if (ckind == AS_COMPONENT_KIND_UNKNOWN)
+			g_debug ("An unknown component was found: %s", cpttype);
 	}
 	g_free (cpttype);
 
@@ -484,7 +562,7 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **err
 		node_name = (const gchar*) iter->name;
 		content = as_metadata_parse_value (metad, iter, FALSE);
 		if (g_strcmp0 (node_name, "id") == 0) {
-				as_component_set_idname (cpt, content);
+				as_component_set_id (cpt, content);
 		} else if (g_strcmp0 (node_name, "pkgname") == 0) {
 			if (content != NULL)
 				as_component_set_pkgname (cpt, content);
@@ -530,8 +608,16 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **err
 				as_component_set_icon (cpt, content);
 			} else if (g_strcmp0 (prop, "cached") == 0) {
 				icon_url = as_component_get_icon_url (cpt);
-				if ((g_strcmp0 (icon_url, "") == 0) || (g_str_has_prefix (icon_url, "http://")))
-					as_component_set_icon_url (cpt, content);
+				if ((g_strcmp0 (icon_url, "") == 0) || (g_str_has_prefix (icon_url, "http://"))) {
+					gchar *icon_path_part;
+					/* prepend the origin, to have canonical paths later */
+					if (priv->origin_name == NULL)
+						icon_path_part = g_strdup (content);
+					else
+						icon_path_part = g_strdup_printf ("%s/%s", priv->origin_name, content);
+					as_component_set_icon_url (cpt, icon_path_part);
+					g_free (icon_path_part);
+				}
 			} else if (g_strcmp0 (prop, "local") == 0) {
 				as_component_set_icon_url (cpt, content);
 			} else if (g_strcmp0 (prop, "remote") == 0) {
@@ -541,12 +627,33 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **err
 			}
 		} else if (g_strcmp0 (node_name, "url") == 0) {
 			if (content != NULL) {
-				as_component_set_homepage (cpt, content);
+				gchar *urltype_str;
+				AsUrlKind url_kind;
+				urltype_str = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+				url_kind = as_url_kind_from_string (urltype_str);
+				if (url_kind != AS_URL_KIND_UNKNOWN)
+					as_component_add_url (cpt, url_kind, content);
+				g_free (urltype_str);
 			}
 		} else if (g_strcmp0 (node_name, "categories") == 0) {
 			gchar **cat_array;
 			cat_array = as_metadata_get_children_as_array (metad, iter, "category");
 			as_component_set_categories (cpt, cat_array);
+			g_strfreev (cat_array);
+		} else if (g_strcmp0 (node_name, "keywords") == 0) {
+			gchar **kw_array;
+			kw_array = as_metadata_get_children_as_array (metad, iter, "keyword");
+			as_component_set_keywords (cpt, kw_array);
+			g_strfreev (kw_array);
+		} else if (g_strcmp0 (node_name, "mimetypes") == 0) {
+			gchar **mime_array;
+			guint i;
+
+			mime_array = as_metadata_get_children_as_array (metad, iter, "mimetype");
+			for (i = 0; mime_array[i] != NULL; i++) {
+				as_component_add_provided_item (cpt, AS_PROVIDES_KIND_MIMETYPE, mime_array[i], "");
+			}
+			g_strfreev (mime_array);
 		} else if (g_strcmp0 (node_name, "provides") == 0) {
 			as_metadata_process_provides (metad, iter, cpt);
 		} else if (g_strcmp0 (node_name, "screenshots") == 0) {
@@ -572,7 +679,10 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, GError **err
 	g_ptr_array_unref (compulsory_for_desktops);
 	g_strfreev (strv);
 
-	if (as_component_is_valid (cpt)) {
+	if ((allow_invalid) || (as_component_is_valid (cpt))) {
+		/* find local icon on the filesystem */
+		as_metadata_refine_component_icon (metad, cpt);
+
 		return cpt;
 	} else {
 		gchar *cpt_str;
@@ -627,7 +737,7 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 		goto out;
 	}
 
-	cpt = as_metadata_parse_component_node (metad, root, error);
+	cpt = as_metadata_parse_component_node (metad, root, FALSE, error);
 
 out:
 	xmlFreeDoc (doc);
@@ -725,7 +835,7 @@ as_metadata_set_locale (AsMetadata *metad, const gchar *locale)
 
 /**
  * as_metadata_get_locale:
- * @metad: a #AsMezadata instance.
+ * @metad: a #AsMetadata instance.
  *
  * Gets the currently used locale.
  *
@@ -736,6 +846,21 @@ as_metadata_get_locale (AsMetadata *metad)
 {
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 	return priv->locale;
+}
+
+/**
+ * as_metadata_set_origin_id:
+ * @metad: a #AsMetadata instance.
+ * @origin: the origin of AppStream distro metadata.
+ *
+ * Internal method to set the origin of AppStream distro metadata
+ **/
+void
+as_metadata_set_origin_id (AsMetadata *metad, const gchar *origin)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	g_free (priv->origin_name);
+	priv->origin_name = g_strdup (origin);
 }
 
 /**

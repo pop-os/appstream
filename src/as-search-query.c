@@ -28,6 +28,7 @@
 #include <glib/gstdio.h>
 
 #include "as-utils.h"
+#include "as-utils-private.h"
 
 /**
  * SECTION:as-search-query
@@ -230,7 +231,12 @@ as_search_query_sanitize_search_term (AsSearchQuery* self)
 	g_strstrip (self->priv->search_term);
 }
 
-
+/**
+ * as_search_query_get_search_term:
+ * @self an instance of #AsSearchQuery
+ *
+ * Returns the search-term we currently use
+ */
 const gchar*
 as_search_query_get_search_term (AsSearchQuery* self)
 {
@@ -238,7 +244,15 @@ as_search_query_get_search_term (AsSearchQuery* self)
 	return self->priv->search_term;
 }
 
-
+/**
+ * as_search_query_set_search_term:
+ * @self an instance of #AsSearchQuery
+ * @value the string to search for
+ *
+ * Set the search-term we use for the search. Multiple terms may be
+ * comma-separated.
+ * You can use Xapian prefixes, such as "XP" to refine your search.
+ */
 void
 as_search_query_set_search_term (AsSearchQuery* self, const gchar* value)
 {

@@ -29,6 +29,7 @@
 #include <libxml/parser.h>
 
 #include "as-utils.h"
+#include "as-utils-private.h"
 
 /**
  * SECTION:as-component
@@ -50,7 +51,7 @@
 struct _AsComponentPrivate {
 	AsComponentKind kind;
 	gchar *pkgname;
-	gchar *idname;
+	gchar *id;
 	gchar *name;
 	gchar *name_original;
 	gchar *summary;
@@ -58,7 +59,6 @@ struct _AsComponentPrivate {
 	gchar **keywords;
 	gchar *icon;
 	gchar *icon_url;
-	gchar *homepage;
 	gchar **categories;
 	gchar **mimetypes;
 	gchar *project_license;
@@ -67,6 +67,7 @@ struct _AsComponentPrivate {
 	GPtrArray *screenshots; /* of AsScreenshot elements */
 	GPtrArray *provided_items; /* of utf8 */
 	GPtrArray *releases; /* of AsRelease */
+	GHashTable *urls; /* of key:utf8 */
 	int priority; /* used internally */
 };
 
@@ -78,7 +79,7 @@ enum  {
 	AS_COMPONENT_DUMMY_PROPERTY,
 	AS_COMPONENT_KIND,
 	AS_COMPONENT_PKGNAME,
-	AS_COMPONENT_IDNAME,
+	AS_COMPONENT_ID,
 	AS_COMPONENT_NAME,
 	AS_COMPONENT_NAME_ORIGINAL,
 	AS_COMPONENT_SUMMARY,
@@ -86,7 +87,7 @@ enum  {
 	AS_COMPONENT_KEYWORDS,
 	AS_COMPONENT_ICON,
 	AS_COMPONENT_ICON_URL,
-	AS_COMPONENT_HOMEPAGE,
+	AS_COMPONENT_URLS,
 	AS_COMPONENT_CATEGORIES,
 	AS_COMPONENT_MIMETYPES,
 	AS_COMPONENT_PROJECT_LICENSE,
@@ -110,7 +111,7 @@ as_component_kind_get_type (void)
 		static const GEnumValue values[] = {
 					{AS_COMPONENT_KIND_UNKNOWN, "AS_COMPONENT_KIND_UNKNOWN", "unknown"},
 					{AS_COMPONENT_KIND_GENERIC, "AS_COMPONENT_KIND_GENERIC", "generic"},
-					{AS_COMPONENT_KIND_DESKTOP_APP, "AS_COMPONENT_KIND_DESKTOP_APP", "desktop-app"},
+					{AS_COMPONENT_KIND_DESKTOP_APP, "AS_COMPONENT_KIND_DESKTOP_APP", "desktop"},
 					{AS_COMPONENT_KIND_FONT, "AS_COMPONENT_KIND_FONT", "font"},
 					{AS_COMPONENT_KIND_CODEC, "AS_COMPONENT_KIND_CODEC", "codec"},
 					{AS_COMPONENT_KIND_INPUTMETHOD, "AS_COMPONENT_KIND_INPUTMETHOD", "inputmethod"},
@@ -126,7 +127,7 @@ as_component_kind_get_type (void)
 
 /**
  * as_component_kind_to_string:
- * @kind: the #AsComponentKind.
+ * @kind: the %AsComponentKind.
  *
  * Converts the enumerated value to an text representation.
  *
@@ -138,7 +139,7 @@ as_component_kind_to_string (AsComponentKind kind)
 	if (kind == AS_COMPONENT_KIND_GENERIC)
 		return "generic";
 	if (kind == AS_COMPONENT_KIND_DESKTOP_APP)
-		return "desktop-app";
+		return "desktop";
 	if (kind == AS_COMPONENT_KIND_FONT)
 		return "font";
 	if (kind == AS_COMPONENT_KIND_CODEC)
@@ -161,7 +162,7 @@ as_component_kind_from_string (const gchar *kind_str)
 {
 	if (g_strcmp0 (kind_str, "generic") == 0)
 		return AS_COMPONENT_KIND_GENERIC;
-	if (g_strcmp0 (kind_str, "desktop-app") == 0)
+	if (g_strcmp0 (kind_str, "desktop") == 0)
 		return AS_COMPONENT_KIND_DESKTOP_APP;
 	if (g_strcmp0 (kind_str, "font") == 0)
 		return AS_COMPONENT_KIND_FONT;
@@ -186,11 +187,10 @@ as_component_construct (GType object_type)
 	gchar** strv;
 	self = (AsComponent*) g_object_new (object_type, NULL);
 	as_component_set_pkgname (self, "");
-	as_component_set_idname (self, "");
+	as_component_set_id (self, "");
 	as_component_set_name_original (self, "");
 	as_component_set_summary (self, "");
 	as_component_set_description (self, "");
-	as_component_set_homepage (self, "");
 	as_component_set_icon (self, "");
 	as_component_set_icon_url (self, "");
 	as_component_set_project_license (self, "");
@@ -203,6 +203,7 @@ as_component_construct (GType object_type)
 	self->priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
 	self->priv->provided_items = g_ptr_array_new_with_free_func (g_free);
 	self->priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
+	self->priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	as_component_set_priority (self, 0);
 
@@ -243,7 +244,7 @@ as_component_is_valid (AsComponent* self)
 		return FALSE;
 
 	if ((g_strcmp0 (self->priv->pkgname, "") != 0) &&
-		(g_strcmp0 (self->priv->idname, "") != 0) &&
+		(g_strcmp0 (self->priv->id, "") != 0) &&
 		(g_strcmp0 (self->priv->name, "") != 0) &&
 		(g_strcmp0 (self->priv->name_original, "") != 0)) {
 		ret = TRUE;
@@ -277,38 +278,17 @@ as_component_to_string (AsComponent* self)
 	switch (self->priv->kind) {
 		case AS_COMPONENT_KIND_DESKTOP_APP:
 		{
-			res = g_strdup_printf ("[DesktopApp::%s]> name: %s | package: %s | summary: %s", self->priv->idname, name, self->priv->pkgname, self->priv->summary);
+			res = g_strdup_printf ("[DesktopApp::%s]> name: %s | package: %s | summary: %s", self->priv->id, name, self->priv->pkgname, self->priv->summary);
 			break;
 		}
 		default:
 		{
-			res = g_strdup_printf ("[Component::%s]> name: %s | package: %s | summary: %s", self->priv->idname, name, self->priv->pkgname, self->priv->summary);
+			res = g_strdup_printf ("[Component::%s]> name: %s | package: %s | summary: %s", self->priv->id, name, self->priv->pkgname, self->priv->summary);
 			break;
 		}
 	}
 
 	return res;
-}
-
-/**
- * as_component_set_categories_from_str:
- *
- * Set the categories list from a string
- *
- * @self a valid #AsComponent instance
- * @categories_str Comma-separated list of category-names
- */
-void
-as_component_set_categories_from_str (AsComponent* self, const gchar* categories_str)
-{
-	gchar** cats = NULL;
-
-	g_return_if_fail (self != NULL);
-	g_return_if_fail (categories_str != NULL);
-
-	cats = g_strsplit (categories_str, ",", 0);
-	as_component_set_categories (self, cats);
-	g_strfreev (cats);
 }
 
 /**
@@ -345,6 +325,63 @@ as_component_add_release (AsComponent* self, AsRelease* release)
 
 	releases = as_component_get_releases (self);
 	g_ptr_array_add (releases, g_object_ref (release));
+}
+
+/**
+ * as_component_get_urls:
+ * @self: a #AsComponent instance.
+ *
+ * Gets the URLs set for the component.
+ *
+ * Returns: (transfer none): URLs
+ *
+ * Since: 0.6.2
+ **/
+GHashTable*
+as_component_get_urls (AsComponent *self)
+{
+	g_return_if_fail (self != NULL);
+	return self->priv->urls;
+}
+
+/**
+ * as_component_get_url:
+ * @self: a #AsComponent instance.
+ * @url_kind: the URL kind, e.g. %AS_URL_KIND_HOMEPAGE.
+ *
+ * Gets a URL.
+ *
+ * Returns: string, or %NULL if unset
+ *
+ * Since: 0.6.2
+ **/
+const gchar *
+as_component_get_url (AsComponent *self, AsUrlKind url_kind)
+{
+	g_return_if_fail (self != NULL);
+	return g_hash_table_lookup (self->priv->urls,
+				    as_url_kind_to_string (url_kind));
+}
+
+/**
+ * as_component_add_url:
+ * @self: a #AsComponent instance.
+ * @url_kind: the URL kind, e.g. %AS_URL_KIND_HOMEPAGE
+ * @url: the full URL.
+ *
+ * Adds some URL data to the component.
+ *
+ * Since: 0.6.2
+ **/
+void
+as_component_add_url (AsComponent *self,
+					  AsUrlKind url_kind,
+					  const gchar *url)
+{
+	g_return_if_fail (self != NULL);
+	g_hash_table_insert (self->priv->urls,
+			     g_strdup (as_url_kind_to_string (url_kind)),
+			     g_strdup (url));
 }
 
 static void
@@ -440,7 +477,7 @@ as_component_load_screenshots_from_internal_xml (AsComponent* self, const gchar*
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (xmldata != NULL);
 
-	if (as_utils_str_empty (xmldata)) {
+	if (as_str_empty (xmldata)) {
 		return;
 	}
 
@@ -653,7 +690,7 @@ as_component_load_releases_from_internal_xml (AsComponent* self, const gchar* xm
 	g_return_if_fail (self != NULL);
 	g_return_if_fail (xmldata != NULL);
 
-	if (as_utils_str_empty (xmldata)) {
+	if (as_str_empty (xmldata)) {
 		return;
 	}
 
@@ -777,28 +814,38 @@ as_component_set_pkgname (AsComponent* self, const gchar* value)
 	g_object_notify ((GObject *) self, "pkgname");
 }
 
+/**
+ * as_component_get_id:
+ *
+ * Set the unique identifier for this component.
+ */
 const gchar*
-as_component_get_idname (AsComponent* self)
+as_component_get_id (AsComponent* self)
 {
 	g_return_val_if_fail (self != NULL, NULL);
-	return self->priv->idname;
+	return self->priv->id;
 }
 
+/**
+ * as_component_set_id:
+ *
+ * Set the unique identifier for this component.
+ */
 void
-as_component_set_idname (AsComponent* self, const gchar* value)
+as_component_set_id (AsComponent* self, const gchar* value)
 {
 	g_return_if_fail (self != NULL);
 
-	g_free (self->priv->idname);
-	self->priv->idname = g_strdup (value);
-	g_object_notify ((GObject *) self, "idname");
+	g_free (self->priv->id);
+	self->priv->id = g_strdup (value);
+	g_object_notify ((GObject *) self, "id");
 }
 
 const gchar*
 as_component_get_name (AsComponent* self)
 {
 	g_return_val_if_fail (self != NULL, NULL);
-	if (as_utils_str_empty (self->priv->name)) {
+	if (as_str_empty (self->priv->name)) {
 		self->priv->name = g_strdup (self->priv->name_original);
 	}
 
@@ -927,28 +974,10 @@ as_component_set_icon_url (AsComponent* self, const gchar* value)
 	g_object_notify ((GObject *) self, "icon-url");
 }
 
-const gchar*
-as_component_get_homepage (AsComponent* self)
-{
-	g_return_val_if_fail (self != NULL, NULL);
-
-	return self->priv->homepage;
-}
-
-void
-as_component_set_homepage (AsComponent* self, const gchar* value)
-{
-	g_return_if_fail (self != NULL);
-
-	g_free (self->priv->homepage);
-	self->priv->homepage = g_strdup (value);
-	g_object_notify ((GObject *) self, "homepage");
-}
-
 /**
  * as_component_get_categories:
  *
- * Returns: (transfer full): String array of component names
+ * Returns: (transfer none): String array of categories
  */
 gchar**
 as_component_get_categories (AsComponent* self)
@@ -966,6 +995,49 @@ as_component_set_categories (AsComponent* self, gchar** value)
 	g_strfreev (self->priv->categories);
 	self->priv->categories = as_strv_dup (value);
 	g_object_notify ((GObject *) self, "categories");
+}
+
+/**
+ * as_component_set_categories_from_str:
+ *
+ * Set the categories list from a string
+ *
+ * @self a valid #AsComponent instance
+ * @categories_str Semicolon-separated list of category-names
+ */
+void
+as_component_set_categories_from_str (AsComponent* self, const gchar* categories_str)
+{
+	gchar** cats = NULL;
+
+	g_return_if_fail (self != NULL);
+	g_return_if_fail (categories_str != NULL);
+
+	cats = g_strsplit (categories_str, ";", 0);
+	as_component_set_categories (self, cats);
+	g_strfreev (cats);
+}
+
+/**
+ * as_component_has_category:
+ * @self an #AsComponent object
+ *
+ * Check if component is in the specified category.
+ **/
+gboolean
+as_component_has_category (AsComponent* self, const gchar* category)
+{
+	gchar **categories;
+	guint i;
+	g_return_val_if_fail (self != NULL, FALSE);
+
+	categories = self->priv->categories;
+	for (i = 0; categories[i] != NULL; i++) {
+		if (g_strcmp0 (categories[i], category) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 /**
@@ -1087,6 +1159,31 @@ as_component_set_compulsory_for_desktops (AsComponent* self, gchar** value)
 }
 
 /**
+ * as_component_is_compulsory_for_desktop:
+ * @self an #AsComponent object
+ * @desktop the desktop-id to test for
+ *
+ * Check if this component is compulsory for the given desktop.
+ *
+ * Returns: %TRUE if compulsory, %FALSE otherwise.
+ **/
+gboolean
+as_component_is_compulsory_for_desktop (AsComponent* self, const gchar* desktop)
+{
+	gchar **compulsory_for_desktops;
+	guint i;
+	g_return_val_if_fail (self != NULL, FALSE);
+
+	compulsory_for_desktops = self->priv->compulsory_for_desktops;
+	for (i = 0; compulsory_for_desktops[i] != NULL; i++) {
+		if (g_strcmp0 (compulsory_for_desktops[i], desktop) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+/**
  * as_component_get_provided_items:
  *
  * Get an array of the provides-items this component is
@@ -1100,6 +1197,24 @@ as_component_get_provided_items (AsComponent* self)
 	g_return_val_if_fail (self != NULL, NULL);
 
 	return self->priv->provided_items;
+}
+
+/**
+ * as_component_add_provided_item:
+ * @self: a #AsComponent instance.
+ * @kind: the kind of the provided item (e.g. %AS_PROVIDES_KIND_MIMETYPE)
+ * @data: additional data associated with this item, or %NULL.
+ *
+ * Adds a provided item to the component.
+ *
+ * Since: 0.6.2
+ **/
+void
+as_component_add_provided_item (AsComponent *self, AsProvidesKind kind, const gchar *value, const gchar *data)
+{
+	g_return_if_fail (self != NULL);
+	g_ptr_array_add (self->priv->provided_items,
+			     as_provides_item_create (kind, value, data));
 }
 
 /**
@@ -1158,7 +1273,7 @@ as_component_class_init (AsComponentClass * klass)
 	G_OBJECT_CLASS (klass)->finalize = as_component_finalize;
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_KIND, g_param_spec_enum ("kind", "kind", "kind", AS_TYPE_COMPONENT_KIND, 0, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PKGNAME, g_param_spec_string ("pkgname", "pkgname", "pkgname", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_IDNAME, g_param_spec_string ("idname", "idname", "idname", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ID, g_param_spec_string ("id", "id", "id", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_NAME, g_param_spec_string ("name", "name", "name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_NAME_ORIGINAL, g_param_spec_string ("name-original", "name-original", "name-original", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_SUMMARY, g_param_spec_string ("summary", "summary", "summary", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -1166,7 +1281,7 @@ as_component_class_init (AsComponentClass * klass)
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_KEYWORDS, g_param_spec_boxed ("keywords", "keywords", "keywords", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON, g_param_spec_string ("icon", "icon", "icon", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON_URL, g_param_spec_string ("icon-url", "icon-url", "icon-url", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_HOMEPAGE, g_param_spec_string ("homepage", "homepage", "homepage", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_URLS, g_param_spec_boxed ("urls", "urls", "urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_CATEGORIES, g_param_spec_boxed ("categories", "categories", "categories", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_MIMETYPES, g_param_spec_boxed ("mimetypes", "mimetypes", "mimetypes", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PROJECT_LICENSE, g_param_spec_string ("project-license", "project-license", "project-license", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -1187,14 +1302,13 @@ as_component_finalize (GObject* obj)
 	AsComponent *self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_TYPE_COMPONENT, AsComponent);
 	g_free (self->priv->pkgname);
-	g_free (self->priv->idname);
+	g_free (self->priv->id);
 	g_free (self->priv->name);
 	g_free (self->priv->name_original);
 	g_free (self->priv->summary);
 	g_free (self->priv->description);
 	g_free (self->priv->icon);
 	g_free (self->priv->icon_url);
-	g_free (self->priv->homepage);
 	g_free (self->priv->project_license);
 	g_free (self->priv->project_group);
 	g_strfreev (self->priv->keywords);
@@ -1204,6 +1318,7 @@ as_component_finalize (GObject* obj)
 	g_ptr_array_unref (self->priv->screenshots);
 	g_ptr_array_unref (self->priv->provided_items);
 	g_ptr_array_unref (self->priv->releases);
+	g_hash_table_unref (self->priv->urls);
 	G_OBJECT_CLASS (as_component_parent_class)->finalize (obj);
 }
 
@@ -1250,8 +1365,8 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 		case AS_COMPONENT_PKGNAME:
 			g_value_set_string (value, as_component_get_pkgname (self));
 			break;
-		case AS_COMPONENT_IDNAME:
-			g_value_set_string (value, as_component_get_idname (self));
+		case AS_COMPONENT_ID:
+			g_value_set_string (value, as_component_get_id (self));
 			break;
 		case AS_COMPONENT_NAME:
 			g_value_set_string (value, as_component_get_name (self));
@@ -1274,8 +1389,8 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 		case AS_COMPONENT_ICON_URL:
 			g_value_set_string (value, as_component_get_icon_url (self));
 			break;
-		case AS_COMPONENT_HOMEPAGE:
-			g_value_set_string (value, as_component_get_homepage (self));
+		case AS_COMPONENT_URLS:
+			g_value_set_boxed (value, as_component_get_urls (self));
 			break;
 		case AS_COMPONENT_CATEGORIES:
 			g_value_set_boxed (value, as_component_get_categories (self));
@@ -1308,8 +1423,8 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 		case AS_COMPONENT_PKGNAME:
 			as_component_set_pkgname (self, g_value_get_string (value));
 			break;
-		case AS_COMPONENT_IDNAME:
-			as_component_set_idname (self, g_value_get_string (value));
+		case AS_COMPONENT_ID:
+			as_component_set_id (self, g_value_get_string (value));
 			break;
 		case AS_COMPONENT_NAME:
 			as_component_set_name (self, g_value_get_string (value));
@@ -1332,9 +1447,6 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 		case AS_COMPONENT_ICON_URL:
 			as_component_set_icon_url (self, g_value_get_string (value));
 			break;
-		case AS_COMPONENT_HOMEPAGE:
-			as_component_set_homepage (self, g_value_get_string (value));
-			break;
 		case AS_COMPONENT_CATEGORIES:
 			as_component_set_categories (self, g_value_get_boxed (value));
 			break;
@@ -1348,4 +1460,57 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 			break;
 	}
+}
+
+/* --- DEPRECATED API --- */
+
+/**
+ * as_component_get_homepage:
+ *
+ * Deprecated: 0.6.2
+ */
+const gchar*
+as_component_get_homepage (AsComponent* self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	return as_component_get_url (self, AS_URL_KIND_HOMEPAGE);
+}
+
+/**
+ * as_component_set_homepage:
+ *
+ * Deprecated: 0.6.2
+ */
+void
+as_component_set_homepage (AsComponent* self, const gchar* value)
+{
+	g_return_if_fail (self != NULL);
+	as_component_add_url (self, AS_URL_KIND_HOMEPAGE, value);
+}
+
+/**
+ * as_component_get_idname:
+ *
+ * Deprecated: 0.6.2
+ */
+const gchar*
+as_component_get_idname (AsComponent* self)
+{
+	g_return_val_if_fail (self != NULL, NULL);
+	return self->priv->id;
+}
+
+/**
+ * as_component_set_idname:
+ *
+ * Deprecated: 0.6.2
+ */
+void
+as_component_set_idname (AsComponent* self, const gchar* value)
+{
+	g_return_if_fail (self != NULL);
+
+	g_free (self->priv->id);
+	self->priv->id = g_strdup (value);
+	g_object_notify ((GObject *) self, "id");
 }

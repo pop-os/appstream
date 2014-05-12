@@ -114,8 +114,9 @@ as_search_query_construct (<parameter><link linkend="GType"><type>GType</type></
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_search_query_set_search_term (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>,
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-</para>
+<para>Set the search-term we use for the search. Multiple terms may be
+comma-separated.
+You can use Xapian prefixes, such as "XP" to refine your search.</para>
 </refsect2>
 <refsect2 id="as-search-query-get-search-all-categories" role="function">
 <title>as_search_query_get_search_all_categories&#160;()</title>
@@ -191,11 +192,9 @@ as_search_query_sanitize_search_term (<parameter><link linkend="AsSearchQuery"><
 <indexterm zone="as-search-query-get-search-term"><primary>as_search_query_get_search_term</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_search_query_get_search_term (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
 <refsect3 role="returns">
 <title>Returns</title>
-
+<para>the search-term we currently use</para>
 <para></para>
 </refsect3></refsect2>
 

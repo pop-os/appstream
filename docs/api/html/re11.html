@@ -23,7 +23,7 @@
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle">appstream-index</span></h2>
-<p>appstream-index — Manage the AppStream application index</p>
+<p>appstream-index — Manage the AppStream component index</p>
 </td>
 <td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
@@ -37,13 +37,11 @@
 			This manual page documents briefly the <span class="command"><strong>appstream-index</strong></span> command.
 		</p>
 <p>
-			<span class="command"><strong>appstream-index</strong></span> manages the AppStream index. The AppStream application
+			<span class="command"><strong>appstream-index</strong></span> manages the AppStream index. The AppStream component
 			index contains a list of all available applications for your distribution, matched with their
 			native package names.
 			It is generated using either AppStream-XML, Debian-DEP-11 or Ubuntu AppInstall data, which is provided
 			by your distributor.
-			The database is managed using a small DBus-activated daemon.
-			This tool connects to the daemon and allows sending simple commands.
 		</p>
 <p>
 			For more information about the AppStream project and the other components which are part of it, take a look at
@@ -63,8 +61,53 @@
 <td><p>Display version number of appstream-index</p></td>
 </tr>
 <tr>
+<td><p><span class="term"><code class="option">--no-color</code></span></p></td>
+<td><p>Don't print colored output.</p></td>
+</tr>
+<tr>
+<td><p><span class="term"><code class="option">--refresh</code></span></p></td>
+<td>
+<p>
+						Trigger a database refresh, if necessary.
+						In case you want to force the database to be rebuilt, supply the <code class="option">--force</code> flag.
+					</p>
+<p>This command most be executed with root permission.</p>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><code class="option">--get <em class="replaceable"><code>ID</code></em></code></span></p></td>
+<td><p>Get a component by it's identifier.</p></td>
+</tr>
+<tr>
 <td><p><span class="term"><code class="option">-s</code>, </span><span class="term"><code class="option">--search <em class="replaceable"><code>TERM</code></em></code></span></p></td>
-<td><p>Search the AppStream application database for a given search term.</p></td>
+<td><p>Search the AppStream component database for a given search term.</p></td>
+</tr>
+<tr>
+<td><p><span class="term"><code class="option">--details</code></span></p></td>
+<td><p>Print out more information about a found component.</p></td>
+</tr>
+<tr>
+<td><p><span class="term"><code class="option">--what-provides</code></span></p></td>
+<td>
+<p>
+						Return components which provide a given item. An item type can be specified using the
+						<code class="option">-t <em class="replaceable"><code>TYPE</code></em></code> option, a value to search for has to be
+						supplied using the <code class="option">-v <em class="replaceable"><code>TERM</code></em></code> option.
+					</p>
+<p>Examples:</p>
+<p>
+						Get components which handle the "text/xml" mimetype.
+					</p>
+<p>
+						<span class="command"><strong>appstream-index</strong></span> --what-provides -t mimetype -v text/xml
+					</p>
+<p>
+						Get component which provides the "libfoo.so.2" library.
+					</p>
+<p>
+						<span class="command"><strong>appstream-index</strong></span> --what-provides -t lib -v libfoo.so.2
+					</p>
+</td>
 </tr>
 </tbody>
 </table></div>

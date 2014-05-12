@@ -7,7 +7,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "6")
-set(AS_VERSION_PATCH  "1")
+set(AS_VERSION_PATCH  "2")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "0")
 
@@ -113,7 +113,7 @@ add_definitions ("--include config.h")
 find_package(PkgConfig REQUIRED)
 
 add_subdirectory(src)
-add_subdirectory(client)
+add_subdirectory(tools)
 add_subdirectory(data)
 add_subdirectory(po)
 add_subdirectory(docs)
