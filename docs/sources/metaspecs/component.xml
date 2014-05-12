@@ -46,10 +46,11 @@
 		<important>
 			<title>Multiarch Support</title>
 			<para>
-				On multiarch-aware systems such as Debian: If a component ships a library, the meta-info file should be in the same package as the library itself.
-				To make the library packages co-installable, append the &lt;triplet&gt; to the meta-info filename. So <filename>appstream.metainfo.xml</filename> becomes
-				<filename>appstream_x86_64-linux-gnu.metainfo.xml</filename>. Upstream projects which ship components with libraries should adjust their buildsystem to install
-				a multi-arch compatible metainfo file by default.
+				On multiarch-aware systems such as Debian: If a component ships a library, the meta-info file should be in the same package as the library itself, or
+				in a package depending on that library.
+				To make the library packages co-installable, the metadata can be installed into <filename>/usr/share/appdata/&lt;triplet&gt;</filename>, for example
+				<filename>/usr/share/appdata/x86_64-linux-gnu/foobar.metainfo.xml</filename>.
+				Upstream projects which ship components with libraries should adjust their buildsystem to install a multi-arch compatible metainfo file by default.
 				Make use of the <literal>&lt;architectures/&gt;</literal> tag to indicate that the meta-info file is arch specific.
 			</para>
 		</important>
@@ -98,30 +99,58 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-component-filespec-url">
 				<term>&lt;url/&gt;</term>
 				<listitem>
 					<para>
-						Defines URLs for this component.
+						Defines URLs for this component.There are several different URL types allowed:
 					</para>
-					<para>
-						Links of type <literal>homepage</literal> should be a link to the upstream homepage for the component.
-					</para>
-					<para>
-						Links of type <literal>bugtracker</literal> should point to the software's bug tracking system, for users to report new bugs.
-					</para>
-					<para>
-						Links of type <literal>faq</literal> should link a FAQ page for this software, to answer some of the most-asked questions in
-						detail, something which you can not do in the component's description.
-					</para>
-					<para>
-						Links of type <literal>donation</literal> should point to a webpage showing information on how to donate to the described
-						software project.
-					</para>
+					<variablelist>
+						<varlistentry>
+							<term>homepage</term>
+							<listitem>
+								<para>Should be a link to the upstream homepage for the component.</para>
+							</listitem>
+						</varlistentry>
+
+						<varlistentry>
+							<term>bugtracker</term>
+							<listitem>
+								<para>Should point to the software's bug tracking system, for users to report new bugs.</para>
+							</listitem>
+						</varlistentry>
+
+						<varlistentry>
+							<term>faq</term>
+							<listitem>
+								<para>
+									Should link a FAQ page for this software, to answer some of the most-asked questions in
+									detail, something which you can not do in the component's description.
+								</para>
+							</listitem>
+						</varlistentry>
+
+						<varlistentry>
+							<term>help</term>
+							<listitem>
+								<para>Should provide a link to an online user's reference, a software manual or help page.</para>
+							</listitem>
+						</varlistentry>
+
+						<varlistentry>
+							<term>donation</term>
+							<listitem>
+								<para>
+									Links of this type should point to a webpage showing information on how to donate to
+									the described software project.
+								</para>
+							</listitem>
+						</varlistentry>
+					</variablelist>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-component-filespec-releases">
 				<term>&lt;releases/&gt;</term>
 				<listitem>
 					<para>
@@ -143,7 +172,7 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-component-filespec-provides">
 				<term>&lt;provides/&gt;</term>
 				<listitem>
 					<para>
@@ -244,7 +273,7 @@
 
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-component-filespec-project_group">
 			<term>&lt;project_group/&gt;</term>
 			<listitem>
 				<para>
@@ -259,7 +288,7 @@
 			</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-component-filespec-metadata_license">
 			<term>&lt;metadata_license/&gt;</term>
 			<listitem>
 				<para>
@@ -270,16 +299,16 @@
 				</para>
 				<itemizedlist>
 					<listitem>
-						<para>CC0</para>
+						<para>CC0-1.0</para>
 					</listitem>
 					<listitem>
-						<para>CC-BY</para>
+						<para>CC-BY-3.0</para>
 					</listitem>
 					<listitem>
-						<para>CC-BY-SA</para>
+						<para>CC-BY-SA-3.0</para>
 					</listitem>
 					<listitem>
-						<para>GFDL</para>
+						<para>GFDL-1.3</para>
 					</listitem>
 					<listitem>
 						<para>MIT</para>
@@ -287,9 +316,7 @@
 				</itemizedlist>
 				<para>
 					The licence codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
-					For SPDX compatibility, versions with trailing dot-zeroes are considered to be equivalent to versions without
-					(e.g., "2.0.0" is considered equal to "2.0" and "2").
-					For instance, CC-BY-SA corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+					For instance, CC-BY-SA-3.0 corresponds to http://creativecommons.org/licenses/by-sa/3.0/
 				</para>
 			</listitem>
 			</varlistentry>

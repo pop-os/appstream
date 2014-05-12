@@ -20,13 +20,9 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
 #include <glib/gi18n-lib.h>
 #include <config.h>
-#include <unistd.h>
-#include <sys/types.h>
 #include <locale.h>
 
 #include "appstream.h"
@@ -90,8 +86,8 @@ as_client_construct (GType object_type, gchar** args, int argc)
 	GError * error = NULL;
 
 	const GOptionEntry AS_CLIENT_options[] = {
-		{ "version", 0, 0, G_OPTION_ARG_NONE, &as_client_o_show_version, _("Show the application's version"), NULL },
-		{ "verbose", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_verbose_mode, _("Enable verbose mode"), NULL },
+		{ "version", 0, 0, G_OPTION_ARG_NONE, &as_client_o_show_version, _("Show the program version"), NULL },
+		{ "verbose", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_verbose_mode, _("Show extra debugging information"), NULL },
 		{ "no-color", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_no_color, _("Don't show colored output"), NULL },
 		{ "refresh", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_refresh, _("Rebuild the component information cache"), NULL },
 		{ "force", (gchar) 0, 0, G_OPTION_ARG_NONE, &as_client_o_force, _("Enforce a cache refresh"), NULL },
@@ -139,9 +135,23 @@ static gchar*
 format_long_output (const gchar *str)
 {
 	gchar *res;
+	gchar *str2;
 	gchar **strv;
+	guint i;
+	gboolean do_linebreak = FALSE;
 
-	strv = g_strsplit (str, "\n", -1);
+	str2 = g_strdup (str);
+	for (i = 0; str2[i] != '\0'; ++i) {
+		if ((i != 0) && ((i % 80) == 0))
+			do_linebreak = TRUE;
+		if ((do_linebreak) && (str2[i] == ' ')) {
+			do_linebreak = FALSE;
+			str2[i] = '\n';
+		}
+	}
+
+	strv = g_strsplit (str2, "\n", -1);
+	g_free (str2);
 
 	res = g_strjoinv ("\n  ", strv);
 	g_strfreev (strv);
@@ -155,9 +165,8 @@ as_print_key_value (const gchar* key, const gchar* val, gboolean highlight)
 	gchar *str;
 	gchar *fmtval;
 	g_return_if_fail (key != NULL);
-	g_return_if_fail (val != NULL);
 
-	if ((val == NULL) || (g_strcmp0 (val, "") == 0))
+	if (as_str_empty (val))
 		return;
 
 	if (strlen (val) > 120) {
@@ -191,14 +200,14 @@ as_print_component (AsComponent *cpt)
 	guint j;
 
 	short_idline = g_strdup_printf ("%s [%s]",
-							as_component_get_idname (cpt),
+							as_component_get_id (cpt),
 							as_component_kind_to_string (as_component_get_kind (cpt)));
 
 	as_print_key_value (_("Identifier"), short_idline, FALSE);
 	as_print_key_value (_("Name"), as_component_get_name (cpt), FALSE);
 	as_print_key_value (_("Summary"), as_component_get_summary (cpt), FALSE);
 	as_print_key_value (_("Package"), as_component_get_pkgname (cpt), FALSE);
-	as_print_key_value (_("Homepage"), as_component_get_homepage (cpt), FALSE);
+	as_print_key_value (_("Homepage"), as_component_get_url (cpt, AS_URL_KIND_HOMEPAGE), FALSE);
 	as_print_key_value (_("Icon"), as_component_get_icon_url (cpt), FALSE);
 	g_free (short_idline);
 	short_idline = NULL;
@@ -206,13 +215,16 @@ as_print_component (AsComponent *cpt)
 	if (as_client_o_details) {
 		GPtrArray *sshot_array;
 		GPtrArray *imgs = NULL;
+		GPtrArray *provided_items;
 		AsScreenshot *sshot;
 		AsImage *img;
 		gchar *str;
 		gchar **strv;
 
 		/* long description */
-		as_print_key_value (_("Description"), as_component_get_description (cpt), FALSE);
+		str = as_description_markup_convert_simple (as_component_get_description (cpt));
+		as_print_key_value (_("Description"), str, FALSE);
+		g_free (str);
 
 		/* some simple screenshot information */
 		sshot_array = as_component_get_screenshots (cpt);
@@ -243,6 +255,14 @@ as_print_component (AsComponent *cpt)
 		/* license */
 		as_print_key_value (_("License"), as_component_get_project_license (cpt), FALSE);
 
+		/* Categories */
+		strv = as_component_get_categories (cpt);
+		if (strv != NULL) {
+			str = g_strjoinv (", ", strv);
+			as_print_key_value (_("Categories"), str, FALSE);
+			g_free (str);
+		}
+
 		/* desktop-compulsority */
 		strv = as_component_get_compulsory_for_desktops (cpt);
 		if (strv != NULL) {
@@ -250,6 +270,16 @@ as_print_component (AsComponent *cpt)
 			as_print_key_value (_("Compulsory for"), str, FALSE);
 			g_free (str);
 		}
+
+		/* Provided Items */
+		provided_items = as_component_get_provided_items (cpt);
+		strv = as_ptr_array_to_strv (provided_items);
+		if (strv != NULL) {
+			str = g_strjoinv (" ", strv);
+			as_print_key_value (_("Provided Items"), str, FALSE);
+			g_free (str);
+		}
+		g_strfreev (strv);
 	}
 }
 

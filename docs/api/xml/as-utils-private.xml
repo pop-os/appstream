@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-utils-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-utils-private.top_of_page">as-utils-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-utils-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-utils-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-touch-dir">as_utils_touch_dir</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-delete-dir-recursive">as_utils_delete_dir_recursive</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-string-strip">as_string_strip</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-utils-categories-from-strv">as_utils_categories_from_strv</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-utils-categories-from-str">as_utils_categories_from_str</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-utils-find-files-matching">as_utils_find_files_matching</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-utils-find-files">as_utils_find_files</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-is-root">as_utils_is_root</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+</entry><entry role="function_name"><link linkend="as-strv-dup">as_strv_dup</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-str-replace">as_str_replace</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-as-utils-private.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>
+</screen>
+</refsect1>
+
+
+<refsect1 id="appstream-as-utils-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-utils-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-utils-touch-dir" role="function">
+<title>as_utils_touch_dir&#160;()</title>
+<indexterm zone="as-utils-touch-dir"><primary>as_utils_touch_dir</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_utils_touch_dir (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dirname</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-delete-dir-recursive" role="function">
+<title>as_utils_delete_dir_recursive&#160;()</title>
+<indexterm zone="as-utils-delete-dir-recursive"><primary>as_utils_delete_dir_recursive</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_utils_delete_dir_recursive (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dirname</parameter>);</programlisting>
+<para>Remove folder like rm -r does</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dirname</para></entry>
+<entry role="parameter_description"><para>Directory to remove</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> TRUE if operation was successful</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-string-strip" role="function">
+<title>as_string_strip&#160;()</title>
+<indexterm zone="as-string-strip"><primary>as_string_strip</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_string_strip (<parameter>const <link linkend="gchar"><type>gchar</type></link> *str</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-categories-from-strv" role="function">
+<title>as_utils_categories_from_strv&#160;()</title>
+<indexterm zone="as-utils-categories-from-strv"><primary>as_utils_categories_from_strv</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_utils_categories_from_strv (<parameter><link linkend="gchar"><type>gchar</type></link> **categories_strv</parameter>,
+                               <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *system_categories</parameter>);</programlisting>
+<para>Create a list of categories from string array</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>categories_strv</para></entry>
+<entry role="parameter_description"><para>a string array</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>system_categories</para></entry>
+<entry role="parameter_description"><para>list of <link linkend="AsCategory"><type>AsCategory</type></link> objects available on this system</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="GPtrArray"><type>GPtrArray</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objcts matching the strings in the array. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-categories-from-str" role="function">
+<title>as_utils_categories_from_str&#160;()</title>
+<indexterm zone="as-utils-categories-from-str"><primary>as_utils_categories_from_str</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_utils_categories_from_str (<parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>,
+                              <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *system_categories</parameter>);</programlisting>
+<para>Create a list of categories from semicolon-separated string</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>categories_str</para></entry>
+<entry role="parameter_description"><para>string with semicolon-separated categories</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>system_categories</para></entry>
+<entry role="parameter_description"><para>list of <link linkend="AsCategory"><type>AsCategory</type></link> objects available on this system</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="GPtrArray"><type>GPtrArray</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objcts matching the strings in the array. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-find-files-matching" role="function">
+<title>as_utils_find_files_matching&#160;()</title>
+<indexterm zone="as-utils-find-files-matching"><primary>as_utils_find_files_matching</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_utils_find_files_matching (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *pattern</parameter>,
+                              <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-find-files" role="function">
+<title>as_utils_find_files&#160;()</title>
+<indexterm zone="as-utils-find-files"><primary>as_utils_find_files</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_utils_find_files (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>,
+                     <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-utils-is-root" role="function">
+<title>as_utils_is_root&#160;()</title>
+<indexterm zone="as-utils-is-root"><primary>as_utils_is_root</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_utils_is_root (<parameter><type>void</type></parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-strv-dup" role="function">
+<title>as_strv_dup&#160;()</title>
+<indexterm zone="as-strv-dup"><primary>as_strv_dup</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+as_strv_dup (<parameter><link linkend="gchar"><type>gchar</type></link> **strv</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-str-replace" role="function">
+<title>as_str_replace&#160;()</title>
+<indexterm zone="as-str-replace"><primary>as_str_replace</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_str_replace (<parameter>const <link linkend="gchar"><type>gchar</type></link> *str</parameter>,
+                <parameter>const <link linkend="gchar"><type>gchar</type></link> *old_str</parameter>,
+                <parameter>const <link linkend="gchar"><type>gchar</type></link> *new_str</parameter>);</programlisting>
+<para>
+</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-utils-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

@@ -59,14 +59,6 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
-</td>
-<td class="function_name">
-<a class="link" href="AsDistroDetails.html#as-distro-details-get-icon-repository-paths" title="as_distro_details_get_icon_repository_paths ()">as_distro_details_get_icon_repository_paths</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
@@ -100,6 +92,14 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-distro-version" title="as_distro_details_get_distro_version ()">as_distro_details_get_distro_version</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
+</td>
+<td class="function_name">
+<a class="link" href="AsDistroDetails.html#as-distro-details-get-icon-repository-paths" title="as_distro_details_get_icon_repository_paths ()">as_distro_details_get_icon_repository_paths</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
@@ -181,21 +181,6 @@ as_distro_details_construct (<em class="parameter"><code><a href="../gobject/gob
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-distro-details-get-icon-repository-paths"></a><h3>as_distro_details_get_icon_repository_paths ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
-as_distro_details_get_icon_repository_paths
-                               (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *self</code></em>);</pre>
-<p>Returns list of icon-paths for software-center applications to use.
-Icons of software (even if it is not installed) are stored in these
-locations.</p>
-<div class="refsect3">
-<a name="id-1.2.8.8.4.5"></a><h4>Returns</h4>
-<p> A NULL-terminated array of paths. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-distro-details-config-distro-get-str"></a><h3>as_distro_details_config_distro_get_str ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_distro_details_config_distro_get_str
@@ -204,7 +189,7 @@ as_distro_details_config_distro_get_str
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.5.5"></a><h4>Returns</h4>
+<a name="id-1.2.8.8.4.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -216,7 +201,7 @@ as_distro_details_get_distro_id (<em class="parameter"><code><a class="link" hre
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.6.5"></a><h4>Returns</h4>
+<a name="id-1.2.8.8.5.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -230,7 +215,7 @@ as_distro_details_config_distro_get_bool
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.7.5"></a><h4>Returns</h4>
+<a name="id-1.2.8.8.6.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -242,7 +227,7 @@ as_distro_details_get_distro_name (<em class="parameter"><code><a class="link" h
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.8.5"></a><h4>Returns</h4>
+<a name="id-1.2.8.8.7.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -254,8 +239,23 @@ as_distro_details_get_distro_version (<em class="parameter"><code><a class="link
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.9.5"></a><h4>Returns</h4>
+<a name="id-1.2.8.8.8.5"></a><h4>Returns</h4>
 <p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-distro-details-get-icon-repository-paths"></a><h3>as_distro_details_get_icon_repository_paths ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
+as_distro_details_get_icon_repository_paths
+                               (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>Returns list of icon-paths for software-center applications to use.
+Icons of software (even if it is not installed) are stored in these
+locations.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.9.5"></a><h4>Returns</h4>
+<p> A NULL-terminated array of paths. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
 </div>

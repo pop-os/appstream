@@ -1,0 +1,114 @@
+<!-- ##### SECTION Title ##### -->
+AsValidatorIssue
+
+<!-- ##### SECTION Short_Description ##### -->
+
+
+<!-- ##### SECTION Long_Description ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION See_Also ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### SECTION Stability_Level ##### -->
+
+
+<!-- ##### SECTION Image ##### -->
+
+
+<!-- ##### ENUM AsIssueImportance ##### -->
+<para>
+
+</para>
+
+@AS_ISSUE_IMPORTANCE_UNKNOWN: 
+@AS_ISSUE_IMPORTANCE_ERROR: 
+@AS_ISSUE_IMPORTANCE_WARNING: 
+@AS_ISSUE_IMPORTANCE_INFO: 
+@AS_ISSUE_IMPORTANCE_PEDANTIC: 
+
+<!-- ##### ENUM AsIssueKind ##### -->
+<para>
+
+</para>
+
+@AS_ISSUE_KIND_UNKNOWN: 
+@AS_ISSUE_KIND_MARKUP_INVALID: 
+@AS_ISSUE_KIND_LEGACY: 
+@AS_ISSUE_KIND_TAG_DUPLICATED: 
+@AS_ISSUE_KIND_TAG_MISSING: 
+@AS_ISSUE_KIND_TAG_UNKNOWN: 
+@AS_ISSUE_KIND_PROPERTY_MISSING: 
+@AS_ISSUE_KIND_PROPERTY_INVALID: 
+@AS_ISSUE_KIND_VALUE_WRONG: 
+@AS_ISSUE_KIND_VALUE_ISSUE: 
+
+<!-- ##### FUNCTION as_validator_issue_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_kind ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_kind ##### -->
+<para>
+
+</para>
+
+@issue: 
+@kind: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_importance ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_importance ##### -->
+<para>
+
+</para>
+
+@issue: 
+@importance: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_message ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_message ##### -->
+<para>
+
+</para>
+
+@issue: 
+@message: 
+
+

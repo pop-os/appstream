@@ -30,6 +30,7 @@
 
 #include "database-common.hpp"
 #include "../as-utils.h"
+#include "../as-utils-private.h"
 #include "../as-component-private.h"
 #include "../as-settings-private.h"
 
@@ -64,6 +65,17 @@ DatabaseWrite::initialize (const gchar *dbPath)
 	return true;
 }
 
+static
+void url_hashtable_to_text (gchar *key, gchar *value, gchar **text)
+{
+	gchar *tmp;
+
+	tmp = g_strdup (*text);
+	g_free (*text);
+    *text = g_strdup_printf ("%s\n%s\n%s", tmp, key, value);
+	g_free (tmp);
+}
+
 bool
 DatabaseWrite::rebuild (GList *cpt_list)
 {
@@ -82,7 +94,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 	// check if old unrequired version of db still exists on filesystem
 	if (g_file_test (rebuild_path.c_str (), G_FILE_TEST_EXISTS)) {
-		cout << "Removing old rebuild-dir from previous database rebuild." << endl;
+		g_debug ("Removing old rebuild-dir from previous database rebuild.");
 		as_utils_delete_dir_recursive (rebuild_path.c_str ());
 	}
 
@@ -131,7 +143,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
 
 		// Identifier
-		string idname = as_component_get_idname (cpt);
+		string idname = as_component_get_id (cpt);
 		doc.add_value (XapianValues::IDENTIFIER, idname);
 		doc.add_term("AI" + idname);
 		term_generator.index_text_without_positions (idname, WEIGHT_PKGNAME);
@@ -149,8 +161,13 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
 		doc.add_value (XapianValues::TYPE, type_str);
 
-		// URL
-		doc.add_value (XapianValues::URL_HOMEPAGE, as_component_get_homepage (cpt));
+		// URLs
+		GHashTable *urls;
+		gchar *text = g_strdup ("");
+		urls = as_component_get_urls (cpt);
+		g_hash_table_foreach(urls, (GHFunc) url_hashtable_to_text, &text);
+		doc.add_value (XapianValues::URLS, text);
+		g_free (text);
 
 		// Application icon
 		doc.add_value (XapianValues::ICON, as_component_get_icon (cpt));
@@ -168,7 +185,6 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 		// Categories
 		gchar **categories = as_component_get_categories (cpt);
-
 		string categories_str = "";
 		for (uint i = 0; categories[i] != NULL; i++) {
 			if (categories[i] == NULL)
@@ -202,7 +218,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 			doc.add_value (XapianValues::PROVIDED_ITEMS, string(provides_items_str));
 			for (uint i = 0; provides_items[i] != NULL; i++) {
 				string item = provides_items[i];
-				doc.add_term ("AX" + item);
+				doc.add_term ("AE" + item);
 			}
 			g_free (provides_items_str);
 		}

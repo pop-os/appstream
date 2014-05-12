@@ -29,6 +29,7 @@
 #include "as-screenshot.h"
 #include "as-provides.h"
 #include "as-release.h"
+#include "as-enums.h"
 
 #define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
 
@@ -65,6 +66,17 @@ struct _AsComponentClass
 	void (*_as_reserved8)	(void);
 };
 
+/**
+ * AsComponentKind:
+ * @AS_COMPONENT_KIND_UNKNOWN:		Type invalid or not known
+ * @AS_COMPONENT_KIND_GENERIC:		A generic (= without specialized type) component
+ * @AS_COMPONENT_KIND_DESKTOP_APP:	An application with a .desktop-file
+ * @AS_COMPONENT_KIND_FONT:			A font
+ * @AS_COMPONENT_KIND_CODEC:		A multimedia codec
+ * @AS_COMPONENT_KIND_INPUTMETHOD:	An input-method provider
+ *
+ * The URL type.
+ **/
 typedef enum  {
 	AS_COMPONENT_KIND_UNKNOWN,
 	AS_COMPONENT_KIND_GENERIC,
@@ -89,63 +101,94 @@ gboolean			as_component_provides_item (AsComponent *self,
 												AsProvidesKind kind, const gchar *value);
 
 AsComponentKind		as_component_get_kind (AsComponent* self);
-const gchar*		as_component_get_pkgname (AsComponent* self);
-const gchar*		as_component_get_idname (AsComponent* self);
-const gchar*		as_component_get_name (AsComponent* self);
-const gchar* 		as_component_get_name_original (AsComponent* self);
-const gchar* 		as_component_get_project_license (AsComponent* self);
-const gchar* 		as_component_get_project_group (AsComponent* self);
-gchar**				as_component_get_compulsory_for_desktops (AsComponent* self);
-const gchar*		as_component_get_summary (AsComponent* self);
-gchar**				as_component_get_categories (AsComponent* self);
-GPtrArray*			as_component_get_screenshots (AsComponent* self);
-const gchar*		as_component_get_description (AsComponent* self);
-gchar**				as_component_get_keywords (AsComponent* self);
-const gchar*		as_component_get_icon (AsComponent* self);
-const gchar*		as_component_get_icon_url (AsComponent* self);
-const gchar*		as_component_get_homepage (AsComponent* self);
-gchar**				as_component_get_mimetypes (AsComponent* self);
-GPtrArray*			as_component_get_provided_items (AsComponent* self);
-GPtrArray*			as_component_get_releases (AsComponent* self);
-
-void				as_component_add_screenshot (AsComponent* self,
-												 AsScreenshot* sshot);
-void				as_component_add_release (AsComponent* self,
-												 AsRelease* release);
-void				as_component_set_categories_from_str (AsComponent* self,
-														  const gchar* categories_str);
 void				as_component_set_kind (AsComponent* self,
 										   AsComponentKind value);
-void				as_component_set_name (AsComponent* self,
-										   const gchar* value);
-void				as_component_set_keywords (AsComponent* self,
-											   gchar** value);
-void				as_component_set_mimetypes (AsComponent* self,
-												gchar** value);
-void				as_component_set_compulsory_for_desktops (AsComponent* self,
-															  gchar** value);
+
+const gchar*		as_component_get_id (AsComponent* self);
+void				as_component_set_id (AsComponent* self,
+											 const gchar* value);
+
+const gchar*		as_component_get_pkgname (AsComponent* self);
 void				as_component_set_pkgname (AsComponent* self,
 											  const gchar* value);
-void				as_component_set_idname (AsComponent* self,
-											 const gchar* value);
+
+const gchar*		as_component_get_name (AsComponent* self);
+void				as_component_set_name (AsComponent* self,
+										   const gchar* value);
+const gchar* 		as_component_get_name_original (AsComponent* self);
 void				as_component_set_name_original (AsComponent* self,
 													const gchar* value);
-void				as_component_set_summary (AsComponent* self,
-											  const gchar* value);
-void				as_component_set_description (AsComponent* self,
-												  const gchar* value);
-void				as_component_set_homepage (AsComponent* self,
-											   const gchar* value);
-void				as_component_set_icon (AsComponent* self,
-										   const gchar* value);
-void				as_component_set_icon_url (AsComponent* self,
-											   const gchar* value);
+
+const gchar* 		as_component_get_project_license (AsComponent* self);
 void				as_component_set_project_license (AsComponent* self,
 													  const gchar* value);
+
+const gchar* 		as_component_get_project_group (AsComponent* self);
 void				as_component_set_project_group (AsComponent* self,
 													const gchar* value);
+
+gchar**				as_component_get_compulsory_for_desktops (AsComponent* self);
+void				as_component_set_compulsory_for_desktops (AsComponent* self,
+															  gchar** value);
+gboolean			as_component_is_compulsory_for_desktop (AsComponent* self,
+															  const gchar* desktop);
+
+const gchar*		as_component_get_summary (AsComponent* self);
+void				as_component_set_summary (AsComponent* self,
+											  const gchar* value);
+
+gchar**				as_component_get_categories (AsComponent* self);
 void				as_component_set_categories (AsComponent* self,
 												 gchar** value);
+void				as_component_set_categories_from_str (AsComponent* self,
+												const gchar* categories_str);
+gboolean			as_component_has_category (AsComponent *self,
+												const gchar *category);
+
+GPtrArray*			as_component_get_screenshots (AsComponent* self);
+void				as_component_add_screenshot (AsComponent* self,
+												 AsScreenshot* sshot);
+
+const gchar*		as_component_get_description (AsComponent* self);
+void				as_component_set_description (AsComponent* self,
+												  const gchar* value);
+
+gchar**				as_component_get_keywords (AsComponent* self);
+void				as_component_set_keywords (AsComponent* self,
+											   gchar** value);
+
+const gchar*		as_component_get_icon (AsComponent* self);
+void				as_component_set_icon (AsComponent* self,
+										   const gchar* value);
+const gchar*		as_component_get_icon_url (AsComponent* self);
+void				as_component_set_icon_url (AsComponent* self,
+											   const gchar* value);
+
+GPtrArray*			as_component_get_provided_items (AsComponent* self);
+void				as_component_add_provided_item (AsComponent *self,
+										AsProvidesKind kind,
+										const gchar *value,
+										const gchar *data);
+
+GHashTable*			as_component_get_urls (AsComponent *self);
+const gchar*		as_component_get_url (AsComponent *self,
+										  AsUrlKind url_kind);
+void				as_component_add_url (AsComponent *self,
+										AsUrlKind url_kind,
+										const gchar *url);
+
+GPtrArray*			as_component_get_releases (AsComponent* self);
+void				as_component_add_release (AsComponent* self,
+												 AsRelease* release);
+
+/* deprecated */
+G_GNUC_DEPRECATED const gchar*		as_component_get_homepage (AsComponent* self);
+G_GNUC_DEPRECATED void				as_component_set_homepage (AsComponent* self,
+											   const gchar* value);
+
+G_GNUC_DEPRECATED const gchar*		as_component_get_idname (AsComponent* self);
+G_GNUC_DEPRECATED void				as_component_set_idname (AsComponent* self,
+											 const gchar* value);
 
 G_END_DECLS
 

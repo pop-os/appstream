@@ -1,6 +1,6 @@
-/* database-vala.hpp
+/* database-cwrap.hpp
  *
- * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 3
  *
@@ -18,8 +18,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DATABASE_VALA_H
-#define DATABASE_VALA_H
+#ifndef DATABASE_CWRAP_H
+#define DATABASE_CWRAP_H
 
 #include <glib.h>
 
@@ -47,7 +47,9 @@ GPtrArray			*xa_database_read_find_components (XADatabaseRead *db,
 AsComponent			*xa_database_read_get_component_by_id (XADatabaseRead *db,
 														   const gchar *idname);
 GPtrArray			*xa_database_read_get_components_by_provides (XADatabaseRead *db,
-													   const gchar *provides_item);
+													   AsProvidesKind kind,
+													   const gchar *value,
+													   const gchar *data);
 
 /* methods for database write access */
 
@@ -65,4 +67,4 @@ gboolean			xa_database_write_rebuild (XADatabaseWrite *db,
 };
 #endif
 
-#endif /* DATABASE_VALA_H */
+#endif /* DATABASE_CWRAP_H */

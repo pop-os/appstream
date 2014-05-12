@@ -27,6 +27,7 @@
 
 #include "../as-menu-parser.h"
 #include "../as-utils.h"
+#include "../as-utils-private.h"
 
 struct _AsProviderUbuntuAppinstallPrivate {
 	GList* system_categories;
@@ -106,7 +107,7 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 
 	gchar *desktop_file_name;
 	gchar **cats;
-	gchar **mimes;
+
 
 	dfile = g_key_file_new ();
 	g_key_file_load_from_file (dfile, fname, G_KEY_FILE_NONE, &error);
@@ -127,11 +128,11 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 	lines = g_strsplit (fname, ":", 2);
 	desktop_file_name = g_strdup (lines[1]);
 	g_strfreev (lines);
-	if (as_utils_str_empty (desktop_file_name)) {
+	if (as_str_empty (desktop_file_name)) {
 		g_free (desktop_file_name);
 		desktop_file_name = g_path_get_basename (fname);
 	}
-	as_component_set_idname (cpt, desktop_file_name);
+	as_component_set_id (cpt, desktop_file_name);
 	g_free (desktop_file_name);
 
 	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "X-AppInstall-Ignore");
@@ -169,9 +170,13 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 	g_strfreev (cats);
 
 	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "MimeType");
-	if (!as_utils_str_empty (str)) {
+	if (!as_str_empty (str)) {
+		guint i;
+		gchar **mimes;
 		mimes = g_strsplit (str, ";", 0);
-		as_component_set_mimetypes (cpt, mimes);
+		for (i = 0; mimes[i] != NULL; i++) {
+			as_component_add_provided_item (cpt, AS_PROVIDES_KIND_MIMETYPE, mimes[i], "");
+		}
 		g_strfreev (mimes);
 	}
 	g_free (str);

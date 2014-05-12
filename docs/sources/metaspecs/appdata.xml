@@ -74,8 +74,13 @@
   </description>
 
   <screenshots>
-    <screenshot type="default" width="800" height="600">http://www.hughsie.com/en_US/main.png</screenshot>
-    <screenshot width="800" height="600">http://www.hughsie.com/en_US/preferences.png</screenshot>
+    <screenshot type="default">
+      <caption>The options dialog</caption>
+      <image width="800" height="600">http://www.hughsie.com/en_US/main.png</image>
+    </screenshot>
+    <screenshot>
+      <image width="800" height="600">http://www.hughsie.com/en_US/preferences.png</image>
+    </screenshot>
   </screenshots>
 
   <url type="homepage">http://www.gnome.org/projects/en_US/gnome-power-manager</url>
@@ -119,28 +124,9 @@
 					probably mean your data would not be incorporated into the distribution metadata.
 					Permissible licence codes include:
 				</para>
-				<itemizedlist>
-					<listitem>
-						<para>CC0</para>
-					</listitem>
-					<listitem>
-						<para>CC-BY</para>
-					</listitem>
-					<listitem>
-						<para>CC-BY-SA</para>
-					</listitem>
-					<listitem>
-						<para>GFDL</para>
-					</listitem>
-					<listitem>
-						<para>MIT</para>
-					</listitem>
-				</itemizedlist>
 				<para>
 					The licence codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
-					For SPDX compatibility, versions with trailing dot-zeroes are considered to be equivalent to versions without
-					(e.g., "2.0.0" is considered equal to "2.0" and "2").
-					For instance, CC-BY-SA corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+					Take a look at <xref linkend="sect-Metadata-GenericComponent"/> for more details about this tag.
 				</para>
 			</listitem>
 			</varlistentry>
@@ -221,7 +207,7 @@
 			</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="spec-appdata-filespec-screenshots">
 			<term>&lt;screenshots/&gt;</term>
 			<listitem>
 				<para>
@@ -229,8 +215,13 @@
 				</para>
 				<para>
 					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property
-					<code>type="default"</code> to indicate the application's primary screenshot. Additionally, the <code>&lt;screenshot/&gt;</code> tags should define the width and height
-					of the referenced screenshot as properties. The value of these tags is a direct URL to a screenshot uploaded to a public location on the web.
+					<code>type="default"</code> to indicate the application's primary screenshot. Every <code>&lt;screenshot/&gt;</code> tag must have at least
+					one <code>&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties.
+					The value of the <code>&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+				</para>
+				<para>
+					Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a <code>&lt;caption/&gt;</code> child, defining a short (not more then 255 caracters!)
+					description of what the user can see on the referenced screenshot.
 				</para>
 				<para>
 					Screenshots are an important part of how people choose which applications to install, so it's important to get them right.
@@ -305,7 +296,9 @@
 				</para>
 				<itemizedlist>
 					<listitem>
-						<para>Each of your screenshots should focus on one thing and one thing only. Screenshot one window at a time, and avoid having overlapping windows or user interface elements.
+						<para>
+							Each of your screenshots should focus on one thing and one thing only. Screenshot one window at a time, and avoid having
+							overlapping windows or user interface elements.
 							This will make it much easier for people to understand what you are showing them.
 						</para>
 					</listitem>
@@ -314,12 +307,26 @@
 					</listitem>
 					<listitem>
 						<para>
-							Screenshots often need to feature content, such as images, documents, web pages or videos. Don’t show your application in an ‘empty’ state, and try and use high quality content
-							which has positive associations and broad appeal.
+							Screenshots often need to feature content, such as images, documents, web pages or videos. Don’t show your application in an ‘empty’
+							state, and try and use high quality content which has positive associations and broad appeal.
 						</para>
 					</listitem>
 					<listitem>
 						<para>In general, you shouldn't include the mouse pointer in your screenshots.</para>
+					</listitem>
+				</itemizedlist>
+				<para>
+					Some advice for a good screenshot caption:
+				</para>
+				<itemizedlist>
+					<listitem>
+						<para>The caption should be short. Try not to use more than a few words to describe the image.</para>
+					</listitem>
+					<listitem>
+						<para>Try not to state the obvious: "Main window displaying an image" is something the user can see on the screenshot already.</para>
+					</listitem>
+					<listitem>
+						<para>Try not to repeat the application's name in the caption.</para>
 					</listitem>
 				</itemizedlist>
 			</listitem>
@@ -351,7 +358,7 @@
 			<term>&lt;provides/&gt;</term>
 			<listitem>
 				<para>
-					This tag is described for generic components at <xref linkend="sect-Metadata-GenericComponent"/> in detail.
+					This tag is described in detail for generic components at <xref linkend="spec-component-filespec-provides"/>.
 				</para>
 				<para>
 					If your application ships a binary in a location in the default <envar>PATH</envar>, you should add at least a child of type
@@ -366,7 +373,7 @@
 				<para>
 					The application metainfo should at least provide one <code>&lt;releases/&gt;</code> tag,
 					which has one or more <code>&lt;release/&gt;</code> childs to define the version and release date of this
-					application. For details, see <xref linkend="sect-Metadata-GenericComponent"/> .
+					application. For details, see <xref linkend="spec-component-filespec-releases"/> .
 				</para>
 				<para>
 					Additionally, the <code>&lt;release/&gt;</code> might be described in a short manner using the <code>&lt;description/&gt;</code> child tag, which should give brief information about what is new

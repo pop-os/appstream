@@ -197,8 +197,9 @@ as_search_query_construct (<em class="parameter"><code><a href="../gobject/gobje
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_search_query_set_search_term (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
                                  <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
+<p>Set the search-term we use for the search. Multiple terms may be
+comma-separated.
+You can use Xapian prefixes, such as "XP" to refine your search.</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -279,10 +280,9 @@ as_search_query_sanitize_search_term (<em class="parameter"><code><a class="link
 <a name="as-search-query-get-search-term"></a><h3>as_search_query_get_search_term ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_search_query_get_search_term (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
-<p>
-</p>
 <div class="refsect3">
-<a name="id-1.2.6.8.11.5"></a><h4>Returns</h4>
+<a name="id-1.2.6.8.11.4"></a><h4>Returns</h4>
+<p>the search-term we currently use</p>
 <p></p>
 </div>
 </div>

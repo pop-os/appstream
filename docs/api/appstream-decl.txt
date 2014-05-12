@@ -62,11 +62,6 @@ void
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_distro_details_get_icon_repository_paths</NAME>
-<RETURNS>gchar **					</RETURNS>
-AsDistroDetails* self 
-</FUNCTION>
-<FUNCTION>
 <NAME>as_distro_details_config_distro_get_str</NAME>
 <RETURNS>gchar *					</RETURNS>
 AsDistroDetails* self, const gchar* key 
@@ -91,6 +86,11 @@ AsDistroDetails* self
 <RETURNS>const gchar *			</RETURNS>
 AsDistroDetails* self 
 </FUNCTION>
+<FUNCTION>
+<NAME>as_distro_details_get_icon_repository_paths</NAME>
+<RETURNS>gchar **					</RETURNS>
+void 
+</FUNCTION>
 <STRUCT>
 <NAME>AsDistroDetailsPrivate</NAME>
 </STRUCT>
@@ -105,6 +105,8 @@ typedef enum  {
 	AS_PROVIDES_KIND_FIRMWARE,
 	AS_PROVIDES_KIND_PYTHON2,
 	AS_PROVIDES_KIND_PYTHON3,
+	AS_PROVIDES_KIND_MIMETYPE,
+	/* < private > */
 	AS_PROVIDES_KIND_LAST
 } AsProvidesKind;
 </ENUM>
@@ -219,7 +221,7 @@ typedef enum {
 <FUNCTION>
 <NAME>as_metadata_parse_component_node</NAME>
 <RETURNS>AsComponent *	</RETURNS>
-AsMetadata* metad, xmlNode* node, GError **error 
+AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_set_parser_mode</NAME>
@@ -230,6 +232,11 @@ AsMetadata *metad, AsParserMode mode
 <NAME>as_metadata_get_parser_mode</NAME>
 <RETURNS>AsParserMode 	</RETURNS>
 AsMetadata *metad 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_origin_id</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *origin 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_COMPONENT_KIND</NAME>
@@ -346,14 +353,29 @@ AsComponent *self, AsProvidesKind kind, const gchar *value
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_set_kind</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, AsComponentKind value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_id</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_id</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_pkgname</NAME>
 <RETURNS>const gchar *		</RETURNS>
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_idname</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+<NAME>as_component_set_pkgname</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name</NAME>
@@ -361,9 +383,19 @@ AsComponent* self
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_set_name</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_name_original</NAME>
 <RETURNS>const gchar * 		</RETURNS>
 AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_name_original</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_license</NAME>
@@ -371,9 +403,19 @@ AsComponent* self
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_set_project_license</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_project_group</NAME>
 <RETURNS>const gchar * 		</RETURNS>
 AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_project_group</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_compulsory_for_desktops</NAME>
@@ -381,9 +423,24 @@ AsComponent* self
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_set_compulsory_for_desktops</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_is_compulsory_for_desktop</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsComponent* self, const gchar* desktop 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_summary</NAME>
 <RETURNS>const gchar *		</RETURNS>
 AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_summary</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
@@ -391,47 +448,22 @@ AsComponent* self
 AsComponent* self 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_set_categories</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_categories_from_str</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, const gchar* categories_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_has_category</NAME>
+<RETURNS>gboolean 			</RETURNS>
+AsComponent *self, const gchar *category 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_screenshots</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_description</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_keywords</NAME>
-<RETURNS>gchar **				</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_icon</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_icon_url</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_homepage</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_mimetypes</NAME>
-<RETURNS>gchar **				</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_provided_items</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
-AsComponent* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_releases</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
 AsComponent* self 
 </FUNCTION>
@@ -441,59 +473,9 @@ AsComponent* self
 AsComponent* self, AsScreenshot* sshot 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_add_release</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, AsRelease* release 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_categories_from_str</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* categories_str 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_kind</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, AsComponentKind value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_name</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_keywords</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_mimetypes</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_compulsory_for_desktops</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_pkgname</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_idname</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_name_original</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_summary</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+<NAME>as_component_get_description</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_description</NAME>
@@ -501,9 +483,19 @@ AsComponent* self, const gchar* value
 AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_homepage</NAME>
+<NAME>as_component_get_keywords</NAME>
+<RETURNS>gchar **				</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_keywords</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* self, gchar** value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_icon</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_icon</NAME>
@@ -511,24 +503,49 @@ AsComponent* self, const gchar* value
 AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_get_icon_url</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_set_icon_url</NAME>
 <RETURNS>void 				</RETURNS>
 AsComponent* self, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_project_license</NAME>
-<RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+<NAME>as_component_get_provided_items</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsComponent* self 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_project_group</NAME>
+<NAME>as_component_add_provided_item</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent *self, AsProvidesKind kind, const gchar *value, const gchar *data 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_categories</NAME>
+<NAME>as_component_get_urls</NAME>
+<RETURNS>GHashTable *			</RETURNS>
+AsComponent *self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_url</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent *self, AsUrlKind url_kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_url</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
+AsComponent *self, AsUrlKind url_kind, const gchar *url 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_releases</NAME>
+<RETURNS>GPtrArray *			</RETURNS>
+AsComponent* self 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_release</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent* self, AsRelease* release 
 </FUNCTION>
 <STRUCT>
 <NAME>AsComponentPrivate</NAME>
@@ -646,6 +663,199 @@ AsScreenshot *screenshot, const gchar *caption
 AsScreenshot *screenshot, AsImage *image 
 </FUNCTION>
 <MACRO>
+<NAME>AS_TYPE_VALIDATOR_ISSUE</NAME>
+#define AS_TYPE_VALIDATOR_ISSUE			(as_validator_issue_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR_ISSUE</NAME>
+#define AS_VALIDATOR_ISSUE(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssue))
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR_ISSUE_CLASS</NAME>
+#define AS_VALIDATOR_ISSUE_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssueClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_VALIDATOR_ISSUE</NAME>
+#define AS_IS_VALIDATOR_ISSUE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_VALIDATOR_ISSUE))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_VALIDATOR_ISSUE_CLASS</NAME>
+#define AS_IS_VALIDATOR_ISSUE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_VALIDATOR_ISSUE))
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR_ISSUE_GET_CLASS</NAME>
+#define AS_VALIDATOR_ISSUE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssueClass))
+</MACRO>
+<STRUCT>
+<NAME>AsValidatorIssue</NAME>
+struct _AsValidatorIssue
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsValidatorIssueClass</NAME>
+struct _AsValidatorIssueClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsIssueImportance</NAME>
+typedef enum {
+	AS_ISSUE_IMPORTANCE_UNKNOWN,
+	AS_ISSUE_IMPORTANCE_ERROR,
+	AS_ISSUE_IMPORTANCE_WARNING,
+	AS_ISSUE_IMPORTANCE_INFO,
+	AS_ISSUE_IMPORTANCE_PEDANTIC,
+	/*< private >*/
+	AS_ISSUE_IMPORTANCE_LAST
+} AsIssueImportance;
+</ENUM>
+<ENUM>
+<NAME>AsIssueKind</NAME>
+typedef enum {
+	AS_ISSUE_KIND_UNKNOWN,
+	AS_ISSUE_KIND_MARKUP_INVALID,
+	AS_ISSUE_KIND_LEGACY,
+	AS_ISSUE_KIND_TAG_DUPLICATED,
+	AS_ISSUE_KIND_TAG_MISSING,
+	AS_ISSUE_KIND_TAG_UNKNOWN,
+	AS_ISSUE_KIND_PROPERTY_MISSING,
+	AS_ISSUE_KIND_PROPERTY_INVALID,
+	AS_ISSUE_KIND_VALUE_WRONG,
+	AS_ISSUE_KIND_VALUE_ISSUE,
+	/*< private >*/
+	AS_ISSUE_KIND_LAST
+} AsIssueKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_validator_issue_get_type</NAME>
+<RETURNS>GType 		 		</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_new</NAME>
+<RETURNS>AsValidatorIssue *	</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_get_kind</NAME>
+<RETURNS>AsIssueKind 			</RETURNS>
+AsValidatorIssue *issue 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_set_kind</NAME>
+<RETURNS>void 				</RETURNS>
+AsValidatorIssue *issue, AsIssueKind kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_get_importance</NAME>
+<RETURNS>AsIssueImportance 	</RETURNS>
+AsValidatorIssue *issue 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_set_importance</NAME>
+<RETURNS>void  				</RETURNS>
+AsValidatorIssue *issue, AsIssueImportance importance 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_get_message</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsValidatorIssue	*issue 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_issue_set_message</NAME>
+<RETURNS>void 				</RETURNS>
+AsValidatorIssue	*issue, const gchar *message 
+</FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_VALIDATOR</NAME>
+#define AS_TYPE_VALIDATOR			(as_validator_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR</NAME>
+#define AS_VALIDATOR(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_VALIDATOR, AsValidator))
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR_CLASS</NAME>
+#define AS_VALIDATOR_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_VALIDATOR, AsValidatorClass))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_VALIDATOR</NAME>
+#define AS_IS_VALIDATOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_VALIDATOR))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_VALIDATOR_CLASS</NAME>
+#define AS_IS_VALIDATOR_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_VALIDATOR))
+</MACRO>
+<MACRO>
+<NAME>AS_VALIDATOR_GET_CLASS</NAME>
+#define AS_VALIDATOR_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_VALIDATOR, AsValidatorClass))
+</MACRO>
+<STRUCT>
+<NAME>AsValidator</NAME>
+struct _AsValidator
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsValidatorClass</NAME>
+struct _AsValidatorClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+	void (*_as_reserved7)	(void);
+	void (*_as_reserved8)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_validator_get_type</NAME>
+<RETURNS>GType 		 </RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_new</NAME>
+<RETURNS>AsValidator 	*</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_clear_issues</NAME>
+<RETURNS>void 		</RETURNS>
+AsValidator *validator 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_validate_file</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsValidator *validator, GFile* metadata_file 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_validate_data</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsValidator *validator, const gchar *metadata 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_validator_get_issues</NAME>
+<RETURNS>GList 		*</RETURNS>
+AsValidator *validator 
+</FUNCTION>
+<MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
 #define AS_TYPE_IMAGE		(as_image_get_type())
 </MACRO>
@@ -698,7 +908,6 @@ typedef enum {
 	AS_IMAGE_KIND_UNKNOWN,
 	AS_IMAGE_KIND_SOURCE,
 	AS_IMAGE_KIND_THUMBNAIL,
-	/*< private >*/
 	AS_IMAGE_KIND_LAST
 } AsImageKind;
 </ENUM>
@@ -1106,6 +1315,56 @@ AsDataProvider* self, gchar** value
 <STRUCT>
 <NAME>AsDataProviderPrivate</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_utils_touch_dir</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar* dirname 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_delete_dir_recursive</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar* dirname 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_string_strip</NAME>
+<RETURNS>gchar *			</RETURNS>
+const gchar* str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_categories_from_strv</NAME>
+<RETURNS>GPtrArray *		</RETURNS>
+gchar** categories_strv, GPtrArray* system_categories 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_categories_from_str</NAME>
+<RETURNS>GPtrArray *		</RETURNS>
+const gchar* categories_str, GPtrArray* system_categories 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_find_files_matching</NAME>
+<RETURNS>GPtrArray *		</RETURNS>
+const gchar* dir, const gchar* pattern, gboolean recursive 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_find_files</NAME>
+<RETURNS>GPtrArray *		</RETURNS>
+const gchar* dir, gboolean recursive 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_is_root</NAME>
+<RETURNS>gboolean 		</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_strv_dup</NAME>
+<RETURNS>gchar **			</RETURNS>
+gchar** strv 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_str_replace</NAME>
+<RETURNS>gchar *			</RETURNS>
+const gchar* str, const gchar* old_str, const gchar* new_str 
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_METADATA</NAME>
 #define AS_TYPE_METADATA			(as_metadata_get_type())
@@ -1198,6 +1457,28 @@ AsMetadata *metad, const gchar *locale
 <NAME>as_metadata_get_locale</NAME>
 <RETURNS>const gchar *	</RETURNS>
 AsMetadata *metad 
+</FUNCTION>
+<ENUM>
+<NAME>AsUrlKind</NAME>
+typedef enum {
+	AS_URL_KIND_UNKNOWN,
+	AS_URL_KIND_HOMEPAGE,
+	AS_URL_KIND_BUGTRACKER,
+	AS_URL_KIND_FAQ,
+	AS_URL_KIND_HELP,
+	AS_URL_KIND_DONATION,
+	AS_URL_KIND_LAST
+} AsUrlKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_url_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsUrlKind url_kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_url_kind_from_string</NAME>
+<RETURNS>AsUrlKind 		</RETURNS>
+const gchar *url_kind 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_RELEASE</NAME>

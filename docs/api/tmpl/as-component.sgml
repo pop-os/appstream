@@ -22,6 +22,19 @@ AsComponent
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### ENUM AsComponentKind ##### -->
+<para>
+
+</para>
+
+@AS_COMPONENT_KIND_UNKNOWN: 
+@AS_COMPONENT_KIND_GENERIC: 
+@AS_COMPONENT_KIND_DESKTOP_APP: 
+@AS_COMPONENT_KIND_FONT: 
+@AS_COMPONENT_KIND_CODEC: 
+@AS_COMPONENT_KIND_INPUTMETHOD: 
+@AS_COMPONENT_KIND_LAST: 
+
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
 
@@ -96,6 +109,33 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_kind ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_get_id ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_id ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_pkgname ##### -->
 <para>
 
@@ -105,13 +145,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_idname ##### -->
+<!-- ##### FUNCTION as_component_set_pkgname ##### -->
 <para>
 
 </para>
 
 @self: 
-@Returns: 
+@value: 
 
 
 <!-- ##### FUNCTION as_component_get_name ##### -->
@@ -123,6 +163,15 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_name ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_name_original ##### -->
 <para>
 
@@ -130,6 +179,15 @@ AsComponent
 
 @self: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_name_original ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
 
 
 <!-- ##### FUNCTION as_component_get_project_license ##### -->
@@ -141,6 +199,15 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_project_license ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_project_group ##### -->
 <para>
 
@@ -150,12 +217,40 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_project_group ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_compulsory_for_desktops ##### -->
 <para>
 
 </para>
 
 @self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_compulsory_for_desktops ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_is_compulsory_for_desktop ##### -->
+<para>
+
+</para>
+
+@self: 
+@desktop: 
 @Returns: 
 
 
@@ -168,6 +263,15 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_summary ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_categories ##### -->
 <para>
 
@@ -177,79 +281,35 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_set_categories ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_set_categories_from_str ##### -->
+<para>
+
+</para>
+
+@self: 
+@categories_str: 
+
+
+<!-- ##### FUNCTION as_component_has_category ##### -->
+<para>
+
+</para>
+
+@self: 
+@category: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_component_get_screenshots ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_description ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_keywords ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_icon ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_icon_url ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_homepage ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_mimetypes ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_provided_items ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_releases ##### -->
 <para>
 
 </para>
@@ -267,103 +327,13 @@ AsComponent
 @sshot: 
 
 
-<!-- ##### FUNCTION as_component_add_release ##### -->
+<!-- ##### FUNCTION as_component_get_description ##### -->
 <para>
 
 </para>
 
 @self: 
-@release: 
-
-
-<!-- ##### FUNCTION as_component_set_categories_from_str ##### -->
-<para>
-
-</para>
-
-@self: 
-@categories_str: 
-
-
-<!-- ##### FUNCTION as_component_set_kind ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_name ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_keywords ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_mimetypes ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_compulsory_for_desktops ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_pkgname ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_idname ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_name_original ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_set_summary ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_component_set_description ##### -->
@@ -375,13 +345,31 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_set_homepage ##### -->
+<!-- ##### FUNCTION as_component_get_keywords ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_keywords ##### -->
 <para>
 
 </para>
 
 @self: 
 @value: 
+
+
+<!-- ##### FUNCTION as_component_get_icon ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_component_set_icon ##### -->
@@ -393,6 +381,15 @@ AsComponent
 @value: 
 
 
+<!-- ##### FUNCTION as_component_get_icon_url ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_component_set_icon_url ##### -->
 <para>
 
@@ -402,30 +399,70 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_set_project_license ##### -->
+<!-- ##### FUNCTION as_component_get_provided_items ##### -->
 <para>
 
 </para>
 
 @self: 
-@value: 
+@Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_project_group ##### -->
+<!-- ##### FUNCTION as_component_add_provided_item ##### -->
 <para>
 
 </para>
 
 @self: 
+@kind: 
 @value: 
+@data: 
 
 
-<!-- ##### FUNCTION as_component_set_categories ##### -->
+<!-- ##### FUNCTION as_component_get_urls ##### -->
 <para>
 
 </para>
 
 @self: 
-@value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_url ##### -->
+<para>
+
+</para>
+
+@self: 
+@url_kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_url ##### -->
+<para>
+
+</para>
+
+@self: 
+@url_kind: 
+@url: 
+
+
+<!-- ##### FUNCTION as_component_get_releases ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_release ##### -->
+<para>
+
+</para>
+
+@self: 
+@release: 
 
 
