@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -33,7 +33,6 @@ GPtrArray*		as_utils_categories_from_str (const gchar* categories_str, GPtrArray
 GPtrArray*		as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean recursive);
 GPtrArray*		as_utils_find_files (const gchar* dir, gboolean recursive);
 gboolean		as_utils_is_root (void);
-gchar**			as_strv_dup (gchar** strv);
 gchar*			as_str_replace (const gchar* str, const gchar* old_str, const gchar* new_str);
 
 G_END_DECLS

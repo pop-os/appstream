@@ -33,6 +33,7 @@ AsComponent
 @AS_COMPONENT_KIND_FONT: 
 @AS_COMPONENT_KIND_CODEC: 
 @AS_COMPONENT_KIND_INPUTMETHOD: 
+@AS_COMPONENT_KIND_ADDON: 
 @AS_COMPONENT_KIND_LAST: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
@@ -89,17 +90,6 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_provides_item ##### -->
-<para>
-
-</para>
-
-@self: 
-@kind: 
-@value: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_component_get_kind ##### -->
 <para>
 
@@ -136,7 +126,7 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_get_pkgname ##### -->
+<!-- ##### FUNCTION as_component_get_pkgnames ##### -->
 <para>
 
 </para>
@@ -145,7 +135,7 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_pkgname ##### -->
+<!-- ##### FUNCTION as_component_set_pkgnames ##### -->
 <para>
 
 </para>
@@ -190,6 +180,42 @@ AsComponent
 @value: 
 
 
+<!-- ##### FUNCTION as_component_get_summary ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_summary ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_get_description ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_description ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_project_license ##### -->
 <para>
 
@@ -226,6 +252,24 @@ AsComponent
 @value: 
 
 
+<!-- ##### FUNCTION as_component_get_developer_name ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_developer_name ##### -->
+<para>
+
+</para>
+
+@self: 
+@value: 
+
+
 <!-- ##### FUNCTION as_component_get_compulsory_for_desktops ##### -->
 <para>
 
@@ -252,24 +296,6 @@ AsComponent
 @self: 
 @desktop: 
 @Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_summary ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_set_summary ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
 
 
 <!-- ##### FUNCTION as_component_get_categories ##### -->
@@ -325,24 +351,6 @@ AsComponent
 
 @self: 
 @sshot: 
-
-
-<!-- ##### FUNCTION as_component_get_description ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_set_description ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
 
 
 <!-- ##### FUNCTION as_component_get_keywords ##### -->
@@ -419,6 +427,17 @@ AsComponent
 @data: 
 
 
+<!-- ##### FUNCTION as_component_provides_item ##### -->
+<para>
+
+</para>
+
+@self: 
+@kind: 
+@value: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_component_get_urls ##### -->
 <para>
 
@@ -464,5 +483,52 @@ AsComponent
 
 @self: 
 @release: 
+
+
+<!-- ##### FUNCTION as_component_get_extends ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_extends ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@cpt_id: 
+
+
+<!-- ##### FUNCTION as_component_add_language ##### -->
+<para>
+
+</para>
+
+@self: 
+@locale: 
+@percentage: 
+
+
+<!-- ##### FUNCTION as_component_get_language ##### -->
+<para>
+
+</para>
+
+@self: 
+@locale: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_languages ##### -->
+<para>
+
+</para>
+
+@self: 
+@Returns: 
 
 

@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>LibAppStream Reference Manual: AsMenuParser</title>
+<title>AppStream Library Reference Manual: AsMenuParser</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsDistroDetails.html" title="AsDistroDetails">
 <link rel="next" href="AsCategory.html" title="AsCategory">
@@ -150,7 +150,7 @@ A custom menu file may be specified using the alternative class constructor.</p>
 as_menu_parser_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.2.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.2.5"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -162,7 +162,7 @@ as_menu_parser_new (<em class="parameter"><code><span class="type">void</span></
 as_menu_parser_construct (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
 <p>Create a new MenuParser for the generic AppStream categories list</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.3.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.3.5"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -176,7 +176,7 @@ as_menu_parser_new_from_file (<em class="parameter"><code>const <a href="../glib
 <p><em class="parameter"><code>menu_file</code></em>
  a custom XDG menu XML file</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.4.6"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.4.6"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -189,7 +189,7 @@ as_menu_parser_construct_from_file (<em class="parameter"><code><a href="../gobj
                                     <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *menu_file</code></em>);</pre>
 <p>Create a new MenuParser for an arbitrary menu file</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.5.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.5.5"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -211,7 +211,7 @@ as_menu_parser_set_update_category_data
 as_menu_parser_parse (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *self</code></em>);</pre>
 <p>Parse the menu file</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.7.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.7.5"></a><h4>Returns</h4>
 <p> <a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> objects found in the menu, or NULL if there was an error. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -225,7 +225,7 @@ as_menu_parser_get_update_category_data
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.9.8.8.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.8.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -236,7 +236,7 @@ as_menu_parser_get_update_category_data
 as_get_system_categories (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Get a GList of the default AppStream categories</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.9.5"></a><h4>Returns</h4>
+<a name="id-1.2.11.8.9.5"></a><h4>Returns</h4>
 <p> <a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="type">GList</span></a> of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> objects. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>

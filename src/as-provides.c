@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -63,6 +63,8 @@ as_provides_kind_to_string (AsProvidesKind kind)
 		return "python3";
 	if (kind == AS_PROVIDES_KIND_MIMETYPE)
 		return "mimetype";
+	if (kind == AS_PROVIDES_KIND_DBUS)
+		return "dbus";
 	return "unknown";
 }
 
@@ -93,6 +95,8 @@ as_provides_kind_from_string (const gchar *kind_str)
 		return AS_PROVIDES_KIND_PYTHON3;
 	if (g_strcmp0 (kind_str, "mimetype") == 0)
 		return AS_PROVIDES_KIND_MIMETYPE;
+	if (g_strcmp0 (kind_str, "dbus") == 0)
+		return AS_PROVIDES_KIND_DBUS;
 	return AS_PROVIDES_KIND_UNKNOWN;
 }
 
@@ -103,7 +107,11 @@ as_provides_kind_from_string (const gchar *kind_str)
  * consists of a type-part describing the items type, and a name-part,
  * containing the name of the item. Both are separated by a semicolon,
  * so an item of type KIND_LIBRARY and name libappstream.so.0 will become
- * "lib;libappstream.so.0"
+ * "lib;libappstream.so.0;"
+ * A provides-item might also contain a "data" part, describing additional
+ * information about it. For example, for a KIND_DBUS provides type,
+ * the item might look like: dbus;org.freedesktop.PackageKit;system
+ * (specifying that the service name is on the system bus)
  *
  * @kind a #AsProvidesKind describing the type of the item string
  * @value the name of the item as string
@@ -142,7 +150,7 @@ as_provides_item_get_kind (const gchar *item)
 
 	res = AS_PROVIDES_KIND_UNKNOWN;
 
-	parts = g_strsplit (item, ";", 1);
+	parts = g_strsplit (item, ";", 2);
 	/* return unknown if the item was not valid */
 	if (g_strv_length (parts) < 2)
 		goto out;
@@ -170,7 +178,7 @@ as_provides_item_get_value (const gchar *item)
 
 	res = NULL;
 
-	parts = g_strsplit (item, ";", 1);
+	parts = g_strsplit (item, ";", -1);
 	/* return unknown if the item was not valid */
 	if (g_strv_length (parts) < 2)
 		goto out;
@@ -180,4 +188,3 @@ out:
 	g_strfreev (parts);
 	return res;
 }
-

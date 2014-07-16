@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -22,11 +22,15 @@
 #define __APPSTREAM_H
 
 #define __APPSTREAM_H_INSIDE__
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <as-component.h>
 #include <as-enums.h>
 #include <as-provides.h>
 #include <as-metadata.h>
+#include <as-data-pool.h>
 #include <as-database.h>
 #include <as-search-query.h>
 #include <as-category.h>
@@ -40,6 +44,9 @@
 
 #include <as-utils.h>
 
+#ifdef __cplusplus
+};
+#endif
 #undef __APPSTREAM_H_INSIDE__
 
 #endif /* __APPSTREAM_H */

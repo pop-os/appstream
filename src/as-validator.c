@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -224,8 +224,9 @@ static void
 as_validator_check_nolocalized (AsValidator *validator, xmlNode* node, const gchar *node_path, AsComponent *cpt, const gchar *format)
 {
 	gchar *lang;
+
 	lang = (gchar*) xmlGetProp (node, (xmlChar*) "lang");
-	if (!as_str_empty (lang)) {
+	if (lang != NULL) {
 		as_validator_add_issue (validator,
 				cpt,
 				AS_ISSUE_IMPORTANCE_ERROR,
@@ -271,7 +272,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 		if (g_strcmp0 (node_name, "p") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_check_nolocalized (validator,
-									node,
+									iter,
 									"description/p",
 									cpt,
 									"The '%s' tag should not be localized in distro metadata. Localize the whole 'description' tag instead.");
@@ -288,7 +289,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 		} else if (g_strcmp0 (node_name, "ul") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_check_nolocalized (validator,
-									node,
+									iter,
 									"description/ul",
 									cpt,
 									"The '%s' tag should not be localized in distro metadata. Localize the whole 'description' tag instead.");
@@ -297,7 +298,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 		} else if (g_strcmp0 (node_name, "ol") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_check_nolocalized (validator,
-									node,
+									iter,
 									"description/ul",
 									cpt,
 									"The '%s' tag should not be localized in distro metadata. Localize the whole 'description' tag instead.");
@@ -320,15 +321,26 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
  * as_validator_check_appear_once:
  **/
 static void
-as_validator_check_appear_once (AsValidator *validator, const gchar *node_path, GHashTable *known_tags, AsComponent *cpt)
+as_validator_check_appear_once (AsValidator *validator, xmlNode *node, GHashTable *known_tags, AsComponent *cpt)
 {
-	if (g_hash_table_contains (known_tags, node_path)) {
+	gchar *lang;
+	const gchar *node_name;
+
+	/* localized tags may appear more than once, we only test the unlocalized versions */
+	lang = (gchar*) xmlGetProp (node, (xmlChar*) "lang");
+	if (lang != NULL) {
+		g_free (lang);
+		return;
+	}
+	node_name = (const gchar*) node->name;
+
+	if (g_hash_table_contains (known_tags, node_name)) {
 		as_validator_add_issue (validator,
 				cpt,
 				AS_ISSUE_IMPORTANCE_ERROR,
 				AS_ISSUE_KIND_TAG_DUPLICATED,
 				"The tag '%s' appears multiple times, while it should only be defined once per component.",
-				node_path);
+				node_name);
 	}
 }
 
@@ -375,17 +387,12 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 	for (iter = root->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
 		gchar *node_content;
+		gboolean tag_valid = TRUE;
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 		node_name = (const gchar*) iter->name;
 		node_content = (gchar*) xmlNodeGetContent (iter);
-
-		as_validator_check_content_empty (validator,
-								node_content,
-								node_name,
-								AS_ISSUE_IMPORTANCE_WARNING,
-								cpt);
 
 		if (g_strcmp0 (node_name, "id") == 0) {
 			gchar *prop;
@@ -410,12 +417,21 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 			}
 		} else if (g_strcmp0 (node_name, "metadata_license") == 0) {
 			metadata_license = g_strdup (node_content);
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "pkgname") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			if (g_hash_table_contains (found_tags, node_name)) {
+				as_validator_add_issue (validator,
+					cpt,
+					AS_ISSUE_IMPORTANCE_PEDANTIC,
+					AS_ISSUE_KIND_TAG_DUPLICATED,
+					"The 'pkgname' tag appears multiple times. You can maybe create a metapackage containing the data in order to get rid of defining multiple package names per component.");
+			}
 		} else if (g_strcmp0 (node_name, "name") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "summary") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "description") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_description_tag (validator, iter, cpt, mode);
 		} else if (g_strcmp0 (node_name, "icon") == 0) {
 			gchar *prop;
@@ -434,27 +450,43 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 			}
 			g_free (prop);
 		} else if (g_strcmp0 (node_name, "categories") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "category", cpt);
 		} else if (g_strcmp0 (node_name, "keywords") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "keyword", cpt);
 		} else if (g_strcmp0 (node_name, "mimetypes") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "mimetype", cpt);
 		} else if (g_strcmp0 (node_name, "provides") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			provides_found = TRUE;
 		} else if (g_strcmp0 (node_name, "screenshots") == 0) {
 			as_validator_check_children_quick (validator, iter, "screenshot", cpt);
 		} else if (g_strcmp0 (node_name, "project_license") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "project_group") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+		} else if (g_strcmp0 (node_name, "developer_name") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "compulsory_for_desktop") == 0) {
-			as_validator_check_appear_once (validator, node_name, found_tags, cpt);
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "releases") == 0) {
 			as_validator_check_children_quick (validator, iter, "release", cpt);
+		} else if ((g_strcmp0 (node_name, "languages") == 0) && (mode == AS_PARSER_MODE_DISTRO)) {
+			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+			as_validator_check_children_quick (validator, iter, "lang", cpt);
+		} else if (g_strcmp0 (node_name, "extends") == 0) {
+		} else if (g_strcmp0 (node_name, "update_contact") == 0) {
+			if (mode == AS_PARSER_MODE_DISTRO) {
+				as_validator_add_issue (validator,
+					cpt,
+					AS_ISSUE_IMPORTANCE_WARNING,
+					AS_ISSUE_KIND_TAG_NOT_ALLOWED,
+					"The 'update_contact' tag should not be included in distro AppStream XML.");
+			} else {
+				as_validator_check_appear_once (validator, iter, found_tags, cpt);
+			}
 		} else if (!g_str_has_prefix (node_name, "x-")) {
 			as_validator_add_issue (validator,
 				cpt,
@@ -462,9 +494,19 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 				AS_ISSUE_KIND_TAG_UNKNOWN,
 				"Found invalid tag: '%s'. Non-standard tags have to be prefixed with \"x-\".",
 				node_name);
+			tag_valid = FALSE;
+		}
+
+		if (tag_valid) {
+			as_validator_check_content_empty (validator,
+								node_content,
+								node_name,
+								AS_ISSUE_IMPORTANCE_WARNING,
+								cpt);
 		}
 
 		g_free (node_content);
+
 		g_hash_table_add (found_tags, g_strdup (node_name));
 	}
 
@@ -484,9 +526,25 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 	if ((!provides_found) && (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DESKTOP_APP)) {
 		as_validator_add_issue (validator,
 					cpt,
-					AS_ISSUE_IMPORTANCE_WARNING,
+					AS_ISSUE_IMPORTANCE_INFO,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"Component describes a desktop-application, but has no 'provides' tag. It should at least define a 'binary' as public interface.");
+	}
+
+	if (as_component_get_extends (cpt)->len > 0) {
+		if (as_component_get_kind (cpt) != AS_COMPONENT_KIND_ADDON)
+			as_validator_add_issue (validator,
+				cpt,
+				AS_ISSUE_IMPORTANCE_ERROR,
+				AS_ISSUE_KIND_TAG_NOT_ALLOWED,
+				"An 'extends' tag is specified, but the component is not an addon.");
+	} else {
+		if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON)
+			as_validator_add_issue (validator,
+				cpt,
+				AS_ISSUE_IMPORTANCE_ERROR,
+				AS_ISSUE_KIND_TAG_MISSING,
+				"The component is an addon, but no 'extends' tag was specified.");
 	}
 
 	if (cpt != NULL)

@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -25,7 +25,6 @@
 #include <glib/gstdio.h>
 
 #include "../as-utils-private.h"
-#include "../as-settings-private.h"
 #include "../as-metadata.h"
 #include "../as-metadata-private.h"
 #include "../as-menu-parser.h"
@@ -34,11 +33,6 @@ struct _AsProviderAppstreamXMLPrivate
 {
 	GList* system_categories;
 };
-
-const gchar* AS_APPSTREAM_XML_PATHS[4] = {AS_APPSTREAM_BASE_PATH "/xmls",
-										"/var/cache/app-info/xmls",
-										"/var/lib/app-info/xmls",
-										NULL};
 
 static gpointer as_provider_appstream_xml_parent_class = NULL;
 
@@ -50,27 +44,13 @@ static void			as_provider_appstream_xml_finalize (GObject* obj);
 AsProviderAppstreamXML*
 as_provider_appstream_xml_construct (GType object_type)
 {
-	AsProviderAppstreamXML * self = NULL;
+	AsProviderAppstreamXML *self = NULL;
 	GList *syscat;
-	guint i;
-	guint len;
-	gchar **wfiles;
 	self = (AsProviderAppstreamXML*) as_data_provider_construct (object_type);
 
-	/* cache this for performance reasons */
+	/* cache categories for performance reasons */
 	syscat = as_get_system_categories ();
 	self->priv->system_categories = syscat;
-
-	len = G_N_ELEMENTS (AS_APPSTREAM_XML_PATHS);
-	wfiles = g_new0 (gchar *, len + 1);
-	for (i = 0; i < len+1; i++) {
-		if (i < len)
-			wfiles[i] = g_strdup (AS_APPSTREAM_XML_PATHS[i]);
-		else
-			wfiles[i] = NULL;
-	}
-	as_data_provider_set_watch_files ((AsDataProvider*) self, wfiles);
-	g_strfreev (wfiles);
 
 	return self;
 }
@@ -98,18 +78,18 @@ as_provider_appstream_xml_process_single_document (AsProviderAppstreamXML* self,
 
 	doc = xmlParseDoc ((xmlChar*) xmldoc_str);
 	if (doc == NULL) {
-		fprintf (stderr, "Could not parse XML!");
+		fprintf (stderr, "%s\n", "Could not parse XML!");
 		return FALSE;
 	}
 
 	root = xmlDocGetRootElement (doc);
 	if (doc == NULL) {
-		fprintf (stderr, "The XML document is empty.");
+		fprintf (stderr, "%s\n", "The XML document is empty.");
 		return FALSE;
 	}
 
 	if (g_strcmp0 ((gchar*) root->name, "components") != 0) {
-		fprintf (stderr, "XML file does not contain valid AppStream data!");
+		fprintf (stderr, "%s\n", "XML file does not contain valid AppStream data!");
 		return FALSE;
 	}
 
@@ -149,7 +129,7 @@ as_provider_appstream_xml_process_compressed_file (AsProviderAppstreamXML* self,
 {
 	GFileInputStream* src_stream;
 	GMemoryOutputStream* mem_os;
-	GConverterOutputStream* conv_stream;
+	GInputStream *conv_stream;
 	GZlibDecompressor* zdecomp;
 	guint8* data;
 	gboolean ret;
@@ -160,10 +140,10 @@ as_provider_appstream_xml_process_compressed_file (AsProviderAppstreamXML* self,
 	src_stream = g_file_read (infile, NULL, NULL);
 	mem_os = (GMemoryOutputStream*) g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
 	zdecomp = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
-	conv_stream = (GConverterOutputStream*) g_converter_output_stream_new ((GOutputStream*) mem_os, (GConverter*) zdecomp);
+	conv_stream = g_converter_input_stream_new (G_INPUT_STREAM (src_stream), G_CONVERTER (zdecomp));
 	g_object_unref (zdecomp);
 
-	g_output_stream_splice ((GOutputStream*) conv_stream, (GInputStream*) src_stream, 0, NULL, NULL);
+	g_output_stream_splice ((GOutputStream*) mem_os, conv_stream, 0, NULL, NULL);
 	data = g_memory_output_stream_get_data (mem_os);
 	ret = as_provider_appstream_xml_process_single_document (self, (const gchar*) data);
 
@@ -172,7 +152,6 @@ as_provider_appstream_xml_process_compressed_file (AsProviderAppstreamXML* self,
 	g_object_unref (src_stream);
 	return ret;
 }
-
 
 gboolean
 as_provider_appstream_xml_process_file (AsProviderAppstreamXML* self, GFile* infile)
@@ -221,23 +200,24 @@ as_provider_appstream_xml_real_execute (AsDataProvider* base)
 	AsProviderAppstreamXML * self;
 	GPtrArray* xml_files;
 	guint i;
-	guint len;
-	gchar *path;
 	GFile *infile;
+	gchar **paths;
+	gboolean ret = TRUE;
+	const gchar *content_type;
 
 	self = (AsProviderAppstreamXML*) base;
 	xml_files = g_ptr_array_new_with_free_func (g_free);
 
-	len = G_N_ELEMENTS (AS_APPSTREAM_XML_PATHS);
-	for (i = 0; i < len; i++) {
+	paths = as_data_provider_get_watch_files (base);
+	if (paths == NULL)
+		return TRUE;
+	for (i = 0; paths[i] != NULL; i++) {
+		gchar *path;
 		GPtrArray *xmls;
 		guint j;
+		path = paths[i];
 
-		path = g_strdup (AS_APPSTREAM_XML_PATHS[i]);
-		if (path == NULL)
-			continue;
 		if (!g_file_test (path, G_FILE_TEST_EXISTS)) {
-			g_free (path);
 			continue;
 		}
 		xmls = as_utils_find_files_matching (path, "*.xml*", FALSE);
@@ -249,7 +229,6 @@ as_provider_appstream_xml_real_execute (AsDataProvider* base)
 			g_ptr_array_add (xml_files, g_strdup (val));
 		}
 
-		g_free (path);
 		g_ptr_array_unref (xmls);
 	}
 
@@ -258,8 +237,10 @@ as_provider_appstream_xml_real_execute (AsDataProvider* base)
 		return FALSE;
 	}
 
+	ret = TRUE;
 	for (i = 0; i < xml_files->len; i++) {
 		gchar *fname;
+		GFileInfo *info = NULL;
 		fname = (gchar*) g_ptr_array_index (xml_files, i);
 		infile = g_file_new_for_path (fname);
 		if (!g_file_query_exists (infile, NULL)) {
@@ -268,16 +249,33 @@ as_provider_appstream_xml_real_execute (AsDataProvider* base)
 			continue;
 		}
 
-		if (g_str_has_suffix (fname, ".xml")) {
-			as_provider_appstream_xml_process_file (self, infile);
-		} else if (g_str_has_suffix (fname, ".xml.gz")) {
-			as_provider_appstream_xml_process_compressed_file (self, infile);
+		info = g_file_query_info (infile,
+				G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				G_FILE_QUERY_INFO_NONE,
+				NULL, NULL);
+		if (info == NULL) {
+			g_debug ("No info for file '%s' found, file was skipped.", fname);
+			g_object_unref (infile);
+			continue;
 		}
+		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
+		if (g_strcmp0 (content_type, "application/xml") == 0) {
+			ret = as_provider_appstream_xml_process_file (self, infile);
+		} else if (g_strcmp0 (content_type, "application/gzip") == 0 ||
+				g_strcmp0 (content_type, "application/x-gzip") == 0) {
+			ret = as_provider_appstream_xml_process_compressed_file (self, infile);
+		} else {
+			g_warning ("Invalid file of type '%s' found. File '%s' was skipped.", content_type, fname);
+		}
+		g_object_unref (info);
 		g_object_unref (infile);
+
+		if (!ret)
+			break;
 	}
 	g_ptr_array_unref (xml_files);
 
-	return TRUE;
+	return ret;
 }
 
 static void
@@ -302,7 +300,7 @@ as_provider_appstream_xml_finalize (GObject* obj)
 {
 	AsProviderAppstreamXML * self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXML);
-	g_object_unref (self->priv->system_categories);
+	g_list_free (self->priv->system_categories);
 	G_OBJECT_CLASS (as_provider_appstream_xml_parent_class)->finalize (obj);
 }
 

@@ -3,11 +3,11 @@
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -21,6 +21,7 @@
 
 #include "as-utils.h"
 
+#include <config.h>
 #include <glib.h>
 #include <glib-object.h>
 #include <stdlib.h>
@@ -112,9 +113,6 @@ as_description_markup_convert_simple (const gchar *markup)
 					goto out;
 				}
 			}
-		} else {
-			/* only <p>, <ul> and <ol> is valid here */
-			/* we might catch that as proper GError later */
 		}
 	}
 
@@ -395,6 +393,12 @@ as_string_strip (const gchar* str)
 	return result;
 }
 
+/**
+ * as_ptr_array_to_strv:
+ * @array: (element-type utf8)
+ *
+ * Returns: (transfer full): strv of the string array
+ */
 gchar**
 as_ptr_array_to_strv (GPtrArray *array)
 {
@@ -412,22 +416,6 @@ as_ptr_array_to_strv (GPtrArray *array)
 	}
 
 	return value;
-}
-
-gchar**
-as_strv_dup (gchar** strv)
-{
-	gchar** result;
-	int i;
-	guint length;
-	length = g_strv_length (strv);
-	result = g_new0 (gchar*, length + 1);
-	for (i = 0; i < length; i++) {
-		gchar* _tmp0_ = NULL;
-		_tmp0_ = g_strdup (strv[i]);
-		result[i] = _tmp0_;
-	}
-	return result;
 }
 
 gchar*

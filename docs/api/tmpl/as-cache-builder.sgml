@@ -22,7 +22,14 @@ AsBuilder
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### FUNCTION as_builder_new ##### -->
+<!-- ##### MACRO AS_BUILDER_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION as_builder_error_quark ##### -->
 <para>
 
 </para>
@@ -31,12 +38,20 @@ AsBuilder
 @Returns: 
 
 
-<!-- ##### FUNCTION as_builder_construct ##### -->
+<!-- ##### ENUM AsNodeError ##### -->
 <para>
 
 </para>
 
-@object_type: 
+@AS_BUILDER_ERROR_FAILED: 
+@AS_BUILDER_ERROR_PARTIALLY_FAILED: 
+
+<!-- ##### FUNCTION as_builder_new ##### -->
+<para>
+
+</para>
+
+@void: 
 @Returns: 
 
 
@@ -49,22 +64,13 @@ AsBuilder
 @Returns: 
 
 
-<!-- ##### FUNCTION as_builder_construct_path ##### -->
-<para>
-
-</para>
-
-@object_type: 
-@dbpath: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_builder_initialize ##### -->
 <para>
 
 </para>
 
 @self: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_builder_refresh_cache ##### -->
@@ -74,6 +80,16 @@ AsBuilder
 
 @self: 
 @force: 
+@error: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_builder_set_data_source_directories ##### -->
+<para>
+
+</para>
+
+@self: 
+@dirs: 
 
 

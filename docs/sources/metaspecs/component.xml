@@ -43,6 +43,9 @@
 			Please note that the <filename>/usr/share/appdata/symbols</filename> directory is reserved for a possible future use for storing upstream-generated symbols files for
 			libraries.
 		</para>
+<!--
+		This is currently hidden, because we only want to re-add it to the spec in case it turns out to be really needed.
+		(was a workaround back in the days, before AppStream generators became smarter)
 		<important>
 			<title>Multiarch Support</title>
 			<para>
@@ -54,6 +57,7 @@
 				Make use of the <literal>&lt;architectures/&gt;</literal> tag to indicate that the meta-info file is arch specific.
 			</para>
 		</important>
+-->
 	</section>
 
 	<section id="spec-component-filespec">
@@ -67,7 +71,7 @@
 		</para>
 
 		<variablelist>
-			<varlistentry>
+			<varlistentry id="tag-id-generic">
 			<term>&lt;id/&gt;</term>
 			<listitem>
 				<para>
@@ -81,7 +85,40 @@
 			</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-metadata_license">
+			<term>&lt;metadata_license/&gt;</term>
+			<listitem>
+				<para>
+					The <code>&lt;metadata_license/&gt;</code> tag is indicating the content licence that you are releasing the one
+					Metainfo XML file as. This is not typically the same as the project licence. By ommitting the licence value would
+					probably mean your data would not be incorporated into the distribution metadata (so this is a required tag).
+					Permissible licence codes include:
+				</para>
+				<itemizedlist>
+					<listitem>
+						<para>CC0-1.0</para>
+					</listitem>
+					<listitem>
+						<para>CC-BY-3.0</para>
+					</listitem>
+					<listitem>
+						<para>CC-BY-SA-3.0</para>
+					</listitem>
+					<listitem>
+						<para>GFDL-1.3</para>
+					</listitem>
+					<listitem>
+						<para>MIT</para>
+					</listitem>
+				</itemizedlist>
+				<para>
+					The licence codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
+					For instance, CC-BY-SA-3.0 corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-name">
 				<term>&lt;name/&gt;</term>
 				<listitem>
 					<para>
@@ -90,7 +127,7 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-summary">
 				<term>&lt;summary/&gt;</term>
 				<listitem>
 					<para>
@@ -99,7 +136,23 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="spec-component-filespec-url">
+			<varlistentry id="tag-description">
+			<term>&lt;description/&gt;</term>
+			<listitem>
+				<para>
+					A long description of this component. Some markup can be used.
+				</para>
+				<para>
+					Do not assume the format is HTML. Only paragraph (p), ordered list (ol) and unordered list (ul) are supported at this time.
+				</para>
+				<para>
+					In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <literal>&lt;p/&gt;</literal> child
+					has a language property.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-url">
 				<term>&lt;url/&gt;</term>
 				<listitem>
 					<para>
@@ -150,7 +203,7 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="spec-component-filespec-releases">
+			<varlistentry id="tag-releases">
 				<term>&lt;releases/&gt;</term>
 				<listitem>
 					<para>
@@ -159,20 +212,20 @@
 						The <code>&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for
 						the current version must always be present.
 						A <literal>release</literal> tag can have the properties <literal>version</literal> and <literal>timestamp</literal> which contain the version number
-						and a release timestamp in form of YYYYMMDD.
+						and a release timestamp in form of a UNIX epoch.
 					</para>
 					<para>
 						Examples for a valid releases tag:
 					</para>
 					<programlisting language="XML">
 <![CDATA[<releases>
-  <release version="1.2" timestamp="20140412" />
-  <release version="1.0" timestamp="20120826" />
+  <release version="1.2" timestamp="1397253600" />
+  <release version="1.0" timestamp="1345932000" />
 </releases>]]></programlisting>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="spec-component-filespec-provides">
+			<varlistentry id="tag-provides">
 				<term>&lt;provides/&gt;</term>
 				<listitem>
 					<para>
@@ -268,12 +321,46 @@
 							</listitem>
 						</varlistentry>
 
+						<varlistentry>
+							<term>&lt;dbus/&gt;</term>
+							<listitem>
+								<para>
+									Contains the name of a DBus service as property. The type of the service must be specified using the <literal>type</literal> property
+									of this tag. Allowed values are <code>session</code> and <code>system</code>.
+								</para>
+								<para>
+									Example:
+								</para>
+								<programlisting language="XML"><![CDATA[<provides>
+  <dbus type="system">org.freedesktop.PackageKit</dbus>
+</provides>]]></programlisting>
+							</listitem>
+						</varlistentry>
+
 					</variablelist>
 				</listitem>
 
 			</varlistentry>
 
-			<varlistentry id="spec-component-filespec-project_group">
+			<varlistentry id="tag-mimetypes">
+				<term>&lt;mimetypes/&gt;</term>
+				<listitem>
+					<para>
+						This tag can contain one or more <code>&lt;mimetype/&gt;</code> children, describing the mime types this application supports.
+						This tag is especially useful for generic components and addon-type components. For applications, the metadata will automatically
+						be fetched from their .desktop files by the distribution's metadata generator.
+						Example:
+					</para>
+					<programlisting language="XML">
+<![CDATA[<mimetypes>
+    <mimetype>text/html</mimetype>
+    <mimetype>image/jpeg</mimetype>
+    <mimetype>application/rss+xml</mimetype>
+ </mimetypes>]]></programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-project_group">
 			<term>&lt;project_group/&gt;</term>
 			<listitem>
 				<para>
@@ -288,36 +375,88 @@
 			</listitem>
 			</varlistentry>
 
-			<varlistentry id="spec-component-filespec-metadata_license">
-			<term>&lt;metadata_license/&gt;</term>
+			<varlistentry id="tag-project_license">
+				<term>&lt;project_license/&gt;</term>
+				<listitem>
+					<para>
+						The <code>&lt;project_license/&gt;</code> tag is indicating the license of the component (application/library/addon/font/etc.) described in the metadata document.
+						It should be a string in SPDX format. Licenses may be combined using <emphasis>and</emphasis> and <emphasis>or</emphasis> logic.
+						Possible values include:
+						<itemizedlist>
+							<listitem><para>GPL-2.0</para></listitem>
+							<listitem><para>LGPL-3.0+ and GPL-3.0+</para></listitem>
+							<listitem><para>MIT</para></listitem>
+							<listitem><para>CC-BY-SA-2.0</para></listitem>
+							<listitem><para>...</para></listitem>
+						</itemizedlist>
+						A full list of recognized licenses and their identifiers can be found at the
+						<ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
+					</para>
+					<para>
+						Although the <literal>project_license</literal> tag is not mandatory, it is recommended to include it.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-developer_name">
+			<term>&lt;developer_name/&gt;</term>
 			<listitem>
 				<para>
-					The <code>&lt;metadata_license/&gt;</code> tag is indicating the content licence that you are releasing the one
-					Metainfo XML file as. This is not typically the same as the project licence. By ommitting the licence value would
-					probably mean your data would not be incorporated into the distribution metadata (so this is a required tag).
-					Permissible licence codes include:
+					The <code>&lt;developer_name/&gt;</code> tag is designed to represent the developers or project responsible for development of the project described in the metadata.
 				</para>
-				<itemizedlist>
-					<listitem>
-						<para>CC0-1.0</para>
-					</listitem>
-					<listitem>
-						<para>CC-BY-3.0</para>
-					</listitem>
-					<listitem>
-						<para>CC-BY-SA-3.0</para>
-					</listitem>
-					<listitem>
-						<para>GFDL-1.3</para>
-					</listitem>
-					<listitem>
-						<para>MIT</para>
-					</listitem>
-				</itemizedlist>
 				<para>
-					The licence codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
-					For instance, CC-BY-SA-3.0 corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+					Values might be for example "The GNOME Foundation" or "The KDE Community".
+					You must not include hyperlinks or emails in this field, if you want to link to the developer's homepage, use the <xref linkend="tag-url"/>-tag instead.
 				</para>
+				<para>
+					This tag is translatable.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-screenshots">
+			<term>&lt;screenshots/&gt;</term>
+			<listitem>
+				<para>
+					Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
+				</para>
+				<para>
+					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property
+					<code>type="default"</code> to indicate the application's primary screenshot. Every <code>&lt;screenshot/&gt;</code> tag must have at least
+					one <code>&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties.
+					The value of the <code>&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+				</para>
+				<para>
+					Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a <code>&lt;caption/&gt;</code> child, defining a short (not more then 255 caracters!)
+					description of what the user can see on the referenced screenshot.
+				</para>
+				<para>
+					Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620px.
+					They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other
+					images where a lossy format like JPEG may compress better.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-update_contact">
+			<term>&lt;update_contact/&gt;</term>
+			<listitem>
+				<para>
+					The <code>&lt;update_contact/&gt;</code> tag is an optional tag which can be added to provide an email address distributors can use to contact the project
+					about invalid or incomplete metadata, or in case the specification has changed, about old metadata. It can also be used to ask general questions in case of
+					an update of the component described in the metadata file.
+				</para>
+				<para>
+					The <code>&lt;update_contact/&gt;</code> tag must <emphasis>only be used by distributors</emphasis>. It is not included in the distribution-provided
+					AppStream XML file, and therefore not exposed to the end user via any kind of UI.
+				</para>
+				<para>
+					Upstream authors might decide to add an email address in cleartext, but spam protection using <code>_AT_</code> is also valid.
+				</para>
+				<para>
+					Example:
+				</para>
+				<programlisting language="XML"><![CDATA[<update_contact>developer_AT_example.com</update_contact>]]></programlisting>
 			</listitem>
 			</varlistentry>
 
@@ -343,6 +482,7 @@
   <releases>
     <release version="1.2" timestamp="1365768000" />
   </releases>
+  <developer_name>FooBar Team</developer_name>
 </component>]]>
 		</programlisting>
 

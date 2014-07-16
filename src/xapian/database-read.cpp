@@ -3,11 +3,11 @@
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2009 Michael Vogt <mvo@debian.org>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -73,6 +73,7 @@ AsComponent*
 DatabaseRead::docToComponent (Xapian::Document doc)
 {
 	AsComponent *cpt = as_component_new ();
+	string str;
 
 	// Component type/kind
 	string type_str = doc.get_value (XapianValues::TYPE);
@@ -87,17 +88,19 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_name (cpt, cptName.c_str ());
 
 	// Package name
-	string pkgName = doc.get_value (XapianValues::PKGNAME);;
-	as_component_set_pkgname (cpt, pkgName.c_str ());
+	string pkgNamesStr = doc.get_value (XapianValues::PKGNAME);
+	gchar **pkgs = g_strsplit (pkgNamesStr.c_str (), "\n", -1);
+	as_component_set_pkgnames (cpt, pkgs);
+	g_strfreev (pkgs);
 
 	// Untranslated application name
 	string appname_orig = doc.get_value (XapianValues::CPTNAME_UNTRANSLATED);
 	as_component_set_name_original (cpt, appname_orig.c_str ());
 
 	// URLs
-	string urls_str = doc.get_value (XapianValues::URLS);
-	gchar **urls = g_strsplit (urls_str.c_str (), "\n", -1);
-	for (uint i = 0; urls[i] != NULL; i++) {
+	str = doc.get_value (XapianValues::URLS);
+	gchar **urls = g_strsplit (str.c_str (), "\n", -1);
+	for (uint i = 0; urls[i] != NULL; i += 2) {
 		/* urls are stored in form of "type \n url" (so we just need one stringsplit here...) */
 		if (urls[i+1] == NULL)
 			break;
@@ -158,6 +161,18 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	string releases_xml = doc.get_value (XapianValues::RELEASES_DATA);
 	as_component_load_releases_from_internal_xml (cpt, releases_xml.c_str ());
 
+	// Languages
+	str = doc.get_value (XapianValues::LANGUAGES);
+	gchar **lang_data = g_strsplit (str.c_str (), "\n", -1);
+	for (uint i = 0; lang_data[i] != NULL; i += 2) {
+		gint64 percentage;
+		/* language information is stored in form of "locale \n <percentage:int>" (so we just need one stringsplit) */
+		if (lang_data[i+1] == NULL)
+			break;
+		percentage = g_ascii_strtoll (lang_data[i+1], NULL, 10);
+		as_component_add_language (cpt, lang_data[i], percentage);
+	}
+
 	// TODO: Read out keywords?
 
 	return cpt;
@@ -185,9 +200,8 @@ DatabaseRead::newAppStreamParser ()
         xapian_parser.set_database (m_xapianDB);
         xapian_parser.add_boolean_prefix ("pkg", "XP");
         xapian_parser.add_boolean_prefix ("pkg", "AP");
-        xapian_parser.add_boolean_prefix ("mime", "AM");
+        xapian_parser.add_boolean_prefix ("id", "AI");
         xapian_parser.add_boolean_prefix ("section", "XS");
-        xapian_parser.add_boolean_prefix ("origin", "XOC");
         xapian_parser.add_prefix ("pkg_wildcard", "XP");
         xapian_parser.add_prefix ("pkg_wildcard", "AP");
         xapian_parser.set_default_op (Xapian::Query::OP_AND);
@@ -404,23 +418,16 @@ DatabaseRead::getComponentById (const gchar *idname)
 GPtrArray*
 DatabaseRead::getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data)
 {
-	// Create new array to store the AsComponent objects
+	/* Create new array to store the AsComponent objects */
 	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
 
 	Xapian::Query item_query;
-	if (kind == AS_PROVIDES_KIND_MIMETYPE) {
-		/* mimetypes are handled separately due to historical reasons */
-		item_query = Xapian::Query (Xapian::Query::OP_OR,
-						   Xapian::Query("AM" + string(value)),
-						   Xapian::Query ());
-	} else {
-		gchar *provides_item;
-		provides_item = as_provides_item_create (kind, value, data);
-		item_query = Xapian::Query (Xapian::Query::OP_OR,
-						   Xapian::Query("AX" + string(provides_item)),
-						   Xapian::Query ());
-		g_free (provides_item);
-	}
+	gchar *provides_item;
+	provides_item = as_provides_item_create (kind, value, data);
+	item_query = Xapian::Query (Xapian::Query::OP_OR,
+					   Xapian::Query("AE" + string(provides_item)),
+					   Xapian::Query ());
+	g_free (provides_item);
 
 	item_query.serialise ();
 
@@ -431,3 +438,26 @@ DatabaseRead::getComponentsByProvides (AsProvidesKind kind, const gchar *value, 
 	return cptArray;
 }
 
+GPtrArray*
+DatabaseRead::getComponentsByKind (AsComponentKind kinds)
+{
+	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
+
+	Xapian::Query item_query = Xapian::Query();
+
+	for (guint i = 0; i < AS_COMPONENT_KIND_LAST;i++) {
+		if ((kinds & (1 << i)) > 0) {
+			item_query = Xapian::Query (Xapian::Query::OP_OR,
+					   Xapian::Query("AT" + string(as_component_kind_to_string ((AsComponentKind) (1 << i)))),
+					   item_query);
+		}
+	}
+
+	item_query.serialise ();
+
+	Xapian::Enquire enquire = Xapian::Enquire (m_xapianDB);
+	enquire.set_query (item_query);
+	appendSearchResults (enquire, cptArray);
+
+	return cptArray;
+}

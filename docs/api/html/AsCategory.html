@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>LibAppStream Reference Manual: AsCategory</title>
+<title>AppStream Library Reference Manual: AsCategory</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsMenuParser.html" title="AsMenuParser">
-<link rel="next" href="appstream-as-provides.html" title="as-provides">
+<link rel="next" href="appstream-as-enums.html" title="as-enums">
 <meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
@@ -22,7 +22,7 @@
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
 <td><a accesskey="p" href="AsMenuParser.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
-<td><a accesskey="n" href="appstream-as-provides.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="appstream-as-enums.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
 <a name="AsCategory"></a><div class="titlepage"></div>
@@ -269,7 +269,7 @@ which are use to thematically group applications.</p>
 as_category_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.10.8.2.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.2.5"></a><h4>Returns</h4>
 <p> a new <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -281,7 +281,7 @@ as_category_new (<em class="parameter"><code><span class="type">void</span></cod
 as_category_construct (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
 <p>Construct a new <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.10.8.3.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.3.5"></a><h4>Returns</h4>
 <p> a new <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -302,7 +302,7 @@ as_category_get_directory (<em class="parameter"><code><a class="link" href="AsC
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.10.8.5.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.5.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -314,7 +314,7 @@ as_category_get_name (<em class="parameter"><code><a class="link" href="AsCatego
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.10.8.6.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.6.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -344,7 +344,7 @@ as_category_get_summary (<em class="parameter"><code><a class="link" href="AsCat
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.10.8.9.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.9.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -356,7 +356,7 @@ as_category_get_icon (<em class="parameter"><code><a class="link" href="AsCatego
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.10.8.10.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.10.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -385,7 +385,7 @@ as_category_remove_subcategory (<em class="parameter"><code><a class="link" href
 as_category_has_subcategory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
 <p>Test for sub-categories.</p>
 <div class="refsect3">
-<a name="id-1.2.10.8.13.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.13.5"></a><h4>Returns</h4>
 <p> TRUE if this category has any subcategory</p>
 <p></p>
 </div>
@@ -405,7 +405,7 @@ as_category_set_directory (<em class="parameter"><code><a class="link" href="AsC
 <pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
 as_category_get_included (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.10.8.15.4"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.15.4"></a><h4>Returns</h4>
 <p> an array of category names. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -416,7 +416,7 @@ as_category_get_included (<em class="parameter"><code><a class="link" href="AsCa
 <pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
 as_category_get_excluded (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.10.8.16.4"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.16.4"></a><h4>Returns</h4>
 <p> an array of category names. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -429,7 +429,7 @@ as_category_get_level (<em class="parameter"><code><a class="link" href="AsCateg
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.10.8.17.5"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.17.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -448,7 +448,7 @@ as_category_set_level (<em class="parameter"><code><a class="link" href="AsCateg
 <pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
 as_category_get_subcategories (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.10.8.19.4"></a><h4>Returns</h4>
+<a name="id-1.2.12.8.19.4"></a><h4>Returns</h4>
 <p> an array of category names. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>

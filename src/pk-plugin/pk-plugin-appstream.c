@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2013 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -21,7 +21,7 @@
 #include <packagekit-glib2/packagekit.h>
 #include <plugin/packagekit-plugin.h>
 
-#include "../as-database-builder.h"
+#include "../as-cache-builder.h"
 
 struct PkPluginPrivate {
 	guint		dummy;
@@ -81,7 +81,7 @@ pk_plugin_transaction_finished_end (PkPlugin *plugin,
 	/* refresh the AppStream cache using the database builder */
 	builder = as_builder_new ();
 	as_builder_initialize (builder);
-	as_builder_refresh_cache (builder, FALSE);
+	as_builder_refresh_cache (builder, FALSE, NULL);
 
 	pk_backend_job_set_percentage (plugin->job, 100);
 	pk_backend_job_set_status (plugin->job, PK_STATUS_ENUM_FINISHED);

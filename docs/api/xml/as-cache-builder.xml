@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsBuilder">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsBuilder.top_of_page">AsBuilder</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsBuilder</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="AsBuilder.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="GQuark"><returnvalue>GQuark</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-builder-error-quark">as_builder_error_quark</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsBuilder"><returnvalue>AsBuilder</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-builder-new">as_builder_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsBuilder"><returnvalue>AsBuilder</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-builder-new-path">as_builder_new_path</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-builder-initialize">as_builder_initialize</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-builder-refresh-cache">as_builder_refresh_cache</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-builder-set-data-source-directories">as_builder_set_data_source_directories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsBuilder.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-BUILDER-ERROR:CAPS">AS_BUILDER_ERROR</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsNodeError">AsNodeError</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsBuilder.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsBuilder
+</screen>
+</refsect1>
+
+
+<refsect1 id="AsBuilder.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="AsBuilder.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-builder-error-quark" role="function">
+<title>as_builder_error_quark&#160;()</title>
+<indexterm zone="as-builder-error-quark"><primary>as_builder_error_quark</primary></indexterm>
+<programlisting language="C"><link linkend="GQuark"><returnvalue>GQuark</returnvalue></link>
+as_builder_error_quark (<parameter><type>void</type></parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> An error quark.</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-builder-new" role="function">
+<title>as_builder_new&#160;()</title>
+<indexterm zone="as-builder-new"><primary>as_builder_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsBuilder"><returnvalue>AsBuilder</returnvalue></link>&#160;*
+as_builder_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsBuilder"><type>AsBuilder</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> an <link linkend="AsBuilder"><type>AsBuilder</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-builder-new-path" role="function">
+<title>as_builder_new_path&#160;()</title>
+<indexterm zone="as-builder-new-path"><primary>as_builder_new_path</primary></indexterm>
+<programlisting language="C"><link linkend="AsBuilder"><returnvalue>AsBuilder</returnvalue></link>&#160;*
+as_builder_new_path (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dbpath</parameter>);</programlisting>
+<para>Creates a new <link linkend="AsBuilder"><type>AsBuilder</type></link> with custom database path.</para>
+<para><parameter>path</parameter>
+ path to the new Xapian database</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> an <link linkend="AsBuilder"><type>AsBuilder</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-builder-initialize" role="function">
+<title>as_builder_initialize&#160;()</title>
+<indexterm zone="as-builder-initialize"><primary>as_builder_initialize</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_builder_initialize (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *self</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-builder-refresh-cache" role="function">
+<title>as_builder_refresh_cache&#160;()</title>
+<indexterm zone="as-builder-refresh-cache"><primary>as_builder_refresh_cache</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_builder_refresh_cache (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *self</parameter>,
+                          <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
+                          <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Update the AppStream Xapian cache</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-builder-set-data-source-directories" role="function">
+<title>as_builder_set_data_source_directories&#160;()</title>
+<indexterm zone="as-builder-set-data-source-directories"><primary>as_builder_set_data_source_directories</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_builder_set_data_source_directories
+                               (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *self</parameter>,
+                                <parameter><link linkend="gchar"><type>gchar</type></link> **dirs</parameter>);</programlisting>
+<para>Set locations for the database builder to pull it's data from.
+This is mainly used for testing purposes. Each location should have an
+"xmls" and/or "yaml" subdirectory with the actual data as (compressed)
+AppStream XML or DEP-11 YAML in it.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>self</para></entry>
+<entry role="parameter_description"><para>a valid <link linkend="AsBuilder"><type>AsBuilder</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>dirs</para></entry>
+<entry role="parameter_description"><para> a zero-terminated array of data input directories. </para></entry>
+<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsBuilder.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AS-BUILDER-ERROR:CAPS" role="macro">
+<title>AS_BUILDER_ERROR</title>
+<indexterm zone="AS-BUILDER-ERROR:CAPS"><primary>AS_BUILDER_ERROR</primary></indexterm>
+<programlisting language="C">#define&#160;AS_BUILDER_ERROR as_builder_error_quark ()
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsNodeError" role="enum">
+<title>enum AsNodeError</title>
+<indexterm zone="AsNodeError"><primary>AsNodeError</primary></indexterm>
+<para>
+</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUILDER-ERROR-FAILED:CAPS">AS_BUILDER_ERROR_FAILED</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUILDER-ERROR-PARTIALLY-FAILED:CAPS">AS_BUILDER_ERROR_PARTIALLY_FAILED</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+
+</refentry>

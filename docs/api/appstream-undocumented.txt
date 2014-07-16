@@ -1,9 +1,10 @@
-58% symbol docs coverage.
-197 symbols documented.
-54 symbols incomplete.
-142 not documented.
+62% symbol docs coverage.
+220 symbols documented.
+62 symbols incomplete.
+136 not documented.
 
 
+AS_BUILDER_ERROR
 AS_METADATA_ERROR
 AS_PROVIDER_DE_P11
 AS_PROVIDER_DE_P11_CLASS
@@ -12,6 +13,7 @@ AsDataProvider::component
 AsImageKind (AS_IMAGE_KIND_LAST)
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
+AsNodeError (<items>)
 AsParserMode (AS_PARSER_MODE_LAST)
 AsProviderAppstreamXML
 AsProviderAppstreamXMLClass (<items>)
@@ -23,11 +25,10 @@ AsProviderUbuntuAppinstall (<items>)
 AsProviderUbuntuAppinstallClass (<items>)
 AsProviderUbuntuAppinstallPrivate
 AsUrlKind (AS_URL_KIND_LAST)
-as_builder_construct
-as_builder_construct_path
+as_builder_error_quark
 as_builder_initialize
 as_builder_new_path (dbpath)
-as_builder_refresh_cache
+as_builder_refresh_cache (self, force, error, Returns)
 as_category_add_subcategory
 as_category_complete
 as_category_construct (object_type)
@@ -50,15 +51,15 @@ as_component_construct (object_type)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
+as_component_get_developer_name (self, Returns)
 as_component_get_icon
 as_component_get_icon_url
 as_component_get_id (self, Returns)
 as_component_get_keywords
 as_component_get_kind
-as_component_get_mimetypes
 as_component_get_name
 as_component_get_name_original
-as_component_get_pkgname
+as_component_get_pkgnames (self)
 as_component_get_priority
 as_component_get_project_group (self, Returns)
 as_component_get_project_license (self, Returns)
@@ -74,18 +75,26 @@ as_component_set_categories
 as_component_set_categories_from_str (self, categories_str)
 as_component_set_compulsory_for_desktops (self, value)
 as_component_set_description
-as_component_set_icon
-as_component_set_icon_url
+as_component_set_developer_name (self, value)
+as_component_set_icon (value)
+as_component_set_icon_url (value)
 as_component_set_id (self, value)
 as_component_set_keywords
 as_component_set_kind (self, value)
 as_component_set_name
 as_component_set_name_original
-as_component_set_pkgname
+as_component_set_pkgnames (self)
 as_component_set_project_group (self, value)
 as_component_set_project_license (self, value)
 as_component_set_summary
 as_component_to_string (self)
+as_data_pool_class_init
+as_data_pool_finalize
+as_data_pool_get_components (dpool)
+as_data_pool_init
+as_data_pool_initialize (dpool)
+as_data_pool_set_data_source_directories
+as_data_pool_update (dpool)
 as_data_provider_construct
 as_data_provider_emit_application
 as_data_provider_execute
@@ -95,10 +104,7 @@ as_data_provider_log_warning
 as_data_provider_set_watch_files
 as_database_construct (object_type)
 as_database_db_exists
-as_database_find_components (self, query)
-as_database_find_components_by_str (self, search_str, categories_str)
-as_database_get_all_components (self)
-as_database_get_component_by_id (self, idname)
+as_database_get_components_by_kind (self, kinds)
 as_database_get_components_by_provides (self, kind, value, data)
 as_database_get_database_path
 as_database_open
@@ -134,6 +140,7 @@ as_provider_ubuntu_appinstall_new
 as_provides_item_create (kind, value, data)
 as_provides_item_get_kind (item)
 as_provides_item_get_value (item)
+as_ptr_array_to_strv
 as_release_class_init
 as_release_finalize
 as_release_init
@@ -151,7 +158,6 @@ as_search_query_set_categories_from_string (self, categories_str)
 as_search_query_set_search_term (self, value)
 as_str_replace
 as_string_strip
-as_strv_dup
 as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_root
@@ -178,19 +184,14 @@ pk_plugin_get_description
 pk_plugin_initialize
 pk_plugin_transaction_finished_end
 
-as_component_get_homepage
-as_component_get_idname
-as_component_set_homepage
-as_component_set_idname
 
 appstream-xml:Long_Description
 appstream-xml:Short_Description
+as-cache-builder:Long_Description
+as-cache-builder:Short_Description
 as-data-provider:Long_Description
 as-data-provider:Short_Description
-as-database-builder:Long_Description
-as-database-builder:Short_Description
 as-enums:Long_Description
-as-enums:Short_Description
 as-metadata-private:Long_Description
 as-metadata-private:Short_Description
 as-utils-private:Long_Description

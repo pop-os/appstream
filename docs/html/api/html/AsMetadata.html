@@ -1,0 +1,338 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>AppStream Library Reference Manual: AsMetadata</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="AppStream Library Reference Manual">
+<link rel="up" href="ch01.html" title="AppStream API Reference">
+<link rel="prev" href="AsDatabase.html" title="AsDatabase">
+<link rel="next" href="AsDataPool.html" title="AsDataPool">
+<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
+                  <a href="#AsMetadata.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
+                  <a href="#AsMetadata.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="AsDatabase.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="AsDataPool.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="AsMetadata"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="AsMetadata.top_of_page"></a>AsMetadata</span></h2>
+<p>AsMetadata — Parser for AppStream metadata</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="AsMetadata.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-new" title="as_metadata_new ()">as_metadata_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-error-quark" title="as_metadata_error_quark ()">as_metadata_error_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-parse-file" title="as_metadata_parse_file ()">as_metadata_parse_file</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-parse-data" title="as_metadata_parse_data ()">as_metadata_parse_data</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-set-locale" title="as_metadata_set_locale ()">as_metadata_set_locale</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-get-locale" title="as_metadata_get_locale ()">as_metadata_get_locale</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsMetadataError" title="enum AsMetadataError">AsMetadataError</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AS-METADATA-ERROR:CAPS" title="AS_METADATA_ERROR">AS_METADATA_ERROR</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
+    <span class="lineart">╰──</span> AsMetadata
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;appstream.h&gt;
+</pre>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.description"></a><h2>Description</h2>
+<p>This object parses AppStream metadata, including AppStream
+upstream metadata, which is defined by upstream projects.
+It returns an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> of the data.</p>
+<p>See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>, <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a></p>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="as-metadata-new"></a><h3>as_metadata_new ()</h3>
+<pre class="programlisting"><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
+as_metadata_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>Creates a new <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.2.5"></a><h4>Returns</h4>
+<p> a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-error-quark"></a><h3>as_metadata_error_quark ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+as_metadata_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<div class="refsect3">
+<a name="id-1.2.8.8.3.4"></a><h4>Returns</h4>
+<p> An error quark.</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-parse-file"></a><h3>as_metadata_parse_file ()</h3>
+<pre class="programlisting"><a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+as_metadata_parse_file (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                        <em class="parameter"><code><a href="../gio/GFile.html"><span class="type">GFile</span></a> *infile</code></em>,
+                        <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Parses an AppStream upstream metadata file.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.4.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>A valid <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>infile</p></td>
+<td class="parameter_description"><p><a href="../gio/GFile.html"><span class="type">GFile</span></a> for the upstream metadata</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>A <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.8.8.4.6"></a><h4>Returns</h4>
+<p> the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> of this file, or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-parse-data"></a><h3>as_metadata_parse_data ()</h3>
+<pre class="programlisting"><a class="link" href="AsComponent.html" title="AsComponent"><span class="returnvalue">AsComponent</span></a> *
+as_metadata_parse_data (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>,
+                        <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Parses AppStream upstream metadata.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.5.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>A valid <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>data</p></td>
+<td class="parameter_description"><p>XML data describing a component</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>A <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.8.8.5.6"></a><h4>Returns</h4>
+<p> the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> of this data, or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-set-locale"></a><h3>as_metadata_set_locale ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_metadata_set_locale (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
+<p>Sets the current locale whcih should be used when parsing metadata.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.6.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>locale</p></td>
+<td class="parameter_description"><p>the locale.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-get-locale"></a><h3>as_metadata_get_locale ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_metadata_get_locale (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
+<p>Gets the currently used locale.</p>
+<div class="refsect3">
+<a name="id-1.2.8.8.7.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.8.8.7.6"></a><h4>Returns</h4>
+<p> Locale used for metadata parsing.</p>
+<p></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="AsMetadata.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="AsMetadataError"></a><h3>enum AsMetadataError</h3>
+<p>The error type.</p>
+<div class="refsect3">
+<a name="id-1.2.8.9.2.4"></a><h4>Members</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="AS-METADATA-ERROR-FAILED:CAPS"></a>AS_METADATA_ERROR_FAILED</p></td>
+<td class="enum_member_description">
+<p>Generic failure</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-METADATA-ERROR-LAST:CAPS"></a>AS_METADATA_ERROR_LAST</p></td>
+<td class="enum_member_description"> </td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AS-METADATA-ERROR:CAPS"></a><h3>AS_METADATA_ERROR</h3>
+<pre class="programlisting">#define AS_METADATA_ERROR				as_metadata_error_quark ()
+</pre>
+<p>
+</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr>
+          Generated by GTK-Doc V1.20</div>
+</body>
+</html>
