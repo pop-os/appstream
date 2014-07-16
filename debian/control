@@ -90,6 +90,8 @@ Description: Library to access AppStream services (introspection data)
 Package: libappstreamqt0
 Architecture: any
 Section: libs
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (= ${binary:Version})

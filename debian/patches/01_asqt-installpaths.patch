@@ -1,0 +1,65 @@
+From 2382796e9f22be8b1af4669c9e0bc09da524412c Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Wed, 16 Jul 2014 18:06:32 +0200
+Subject: [PATCH] qt: Respect the global install paths set by the toplevel CMake file
+
+---
+ qt/CMakeLists.txt     |   12 ++++++++++++
+ qt/src/CMakeLists.txt |   12 ++++++------
+ 2 files changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/qt/CMakeLists.txt b/qt/CMakeLists.txt
+index 6ec18d3..67cce18 100644
+--- a/qt/CMakeLists.txt
++++ b/qt/CMakeLists.txt
+@@ -26,4 +26,16 @@ if(COMMAND cmake_policy)
+   cmake_policy(SET CMP0003 NEW)
+ endif(COMMAND cmake_policy)
+ 
++if (NOT DEFINED INSTALL_DIR_LIB)
++    set(INSTALL_DIR_LIB lib${LIB_SUFFIX}/${CMAKE_LIBRARY_ARCHITECTURE} CACHE PATH "Installation directory for libraries")
++endif()
++
++if (NOT DEFINED INSTALL_DIR_BIN)
++    set(INSTALL_DIR_BIN bin CACHE PATH "Installation directory for executables")
++endif()
++
++if (NOT DEFINED INSTALL_DIR_INC)
++    set(INSTALL_DIR_INC include CACHE PATH "Installation directory for headers")
++endif()
++
+ add_subdirectory(src)
+diff --git a/qt/src/CMakeLists.txt b/qt/src/CMakeLists.txt
+index 69cb8a3..b05108b 100644
+--- a/qt/src/CMakeLists.txt
++++ b/qt/src/CMakeLists.txt
+@@ -32,20 +32,20 @@ set_property(TARGET AppstreamQt PROPERTY VERSION "${APPSTREAMQT_SO_VERSION}.0.0"
+ set_property(TARGET AppstreamQt PROPERTY SOVERSION "${APPSTREAMQT_SO_VERSION}" )
+ 
+ install(TARGETS AppstreamQt EXPORT AppstreamQtTargets
+-    RUNTIME DESTINATION "bin"
+-    LIBRARY DESTINATION "lib"
+-    ARCHIVE DESTINATION "lib"
+-    INCLUDES DESTINATION "include"
++    RUNTIME DESTINATION ${INSTALL_DIR_BIN}
++    LIBRARY DESTINATION ${INSTALL_DIR_LIB}
++    ARCHIVE DESTINATION ${INSTALL_DIR_LIB}
++    INCLUDES DESTINATION ${INSTALL_DIR_INC}
+ )
+ 
+-install(FILES ${APPSTREAMQT_PUBLIC_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/appstreamqt_export.h DESTINATION "include/AppstreamQt")
++install(FILES ${APPSTREAMQT_PUBLIC_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/appstreamqt_export.h DESTINATION "${INSTALL_DIR_INC}/AppstreamQt")
+ 
+ write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/AppstreamQtConfigVersion.cmake VERSION ${APPSTREAMQT_VERSION} COMPATIBILITY SameMajorVersion )
+ 
+ export(TARGETS AppstreamQt
+        FILE "${CMAKE_CURRENT_BINARY_DIR}/AppstreamQtTargets.cmake")
+ 
+-set(ConfigPackageLocation lib/cmake/AppstreamQt)
++set(ConfigPackageLocation ${INSTALL_DIR_LIB}/cmake/AppstreamQt)
+ 
+ configure_file(
+   "${CMAKE_CURRENT_SOURCE_DIR}/AppstreamQtConfig.cmake.in"
+-- 
+1.7.1
+
