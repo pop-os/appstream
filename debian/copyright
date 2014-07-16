@@ -5,13 +5,13 @@ Source: http://www.freedesktop.org/wiki/Distributions/AppStream/
 
 Files: *
 Copyright: Matthias Klumpp <matthias@tenstral.net>
-License: GPL-3+
- LGPL-3+
+License: GPL-2+
+ LGPL-2.1+
 
-License: GPL-3+
+License: GPL-2+
  This package is free software; you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
- the Free Software Foundation; either version 3 of the License, or
+ the Free Software Foundation; either version 2 of the License, or
  (at your option) any later version.
  .
  This package is distributed in the hope that it will be useful,
@@ -23,12 +23,12 @@ License: GPL-3+
  along with this program. If not, see <http://www.gnu.org/licenses/>
  .
  On Debian systems, the complete text of the GNU General
- Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
 
-License: LGPL-3+
+License: LGPL-2.1+
  This library is free software: you can redistribute it and/or modify
  it under the terms of the GNU Lesser General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
+ the Free Software Foundation, either version 2.1 of the License, or
  (at your option) any later version.
  .
  This library is distributed in the hope that it will be useful,
@@ -40,35 +40,79 @@ License: LGPL-3+
  along with this library.  If not, see <http://www.gnu.org/licenses/>.
  .
  On Debian systems, the complete text of the GNU Lesser General
- Public License version 3 can be found in "/usr/share/common-licenses/LGPL-3".
+ Public License version 2.1 can be found in "/usr/share/common-licenses/LGPL-2.1".
 
-Files: ./tests/test-appstreamxml.vala
- ./tests/test-basics.vala
- ./tests/test-database-read.vala
- ./uai/data-provider.vala
- ./uai/data-providers/appstream-xml.vala
- ./uai/data-providers/debian-dep11.vala
- ./uai/data-providers/ubuntu-appinstall.vala
- ./uai/uai-client.vala
- ./uai/uai-engine.vala
- ./uai/uai-utils.vala
- ./uai/uai.vala
-Copyright: 2012, Matthias Klumpp <matthias@tenstral.net>
-License: GPL-3+
-
-Files: ./src/app-info.vala
- ./src/database.vala
- ./src/settings.vala
- ./src/utils.vala
+Files: ./src/appstream.h
+ ./src/as-cache-builder.c
+ ./src/as-cache-builder.h
+ ./src/as-category.c
+ ./src/as-category.h
+ ./src/as-component-private.h
+ ./src/as-component.c
+ ./src/as-component.h
+ ./src/as-data-pool.c
+ ./src/as-data-pool.h
+ ./src/as-data-provider.c
+ ./src/as-data-provider.h
+ ./src/as-database.c
+ ./src/as-database.h
+ ./src/as-distro-details.c
+ ./src/as-distro-details.h
+ ./src/as-enums.c
+ ./src/as-enums.h
+ ./src/as-menu-parser.c
+ ./src/as-menu-parser.h
+ ./src/as-metadata-private.h
+ ./src/as-metadata.c
+ ./src/as-metadata.h
+ ./src/as-provides.c
+ ./src/as-provides.h
+ ./src/as-search-query.c
+ ./src/as-search-query.h
+ ./src/as-settings-private.h
+ ./src/as-utils-private.h
+ ./src/as-utils.h
+ ./src/as-validator-issue.c
+ ./src/as-validator.c
+ ./src/as-validator.h
+ ./src/data-providers/appstream-xml.c
+ ./src/data-providers/appstream-xml.h
+ ./src/data-providers/debian-dep11.c
+ ./src/data-providers/debian-dep11.h
+ ./src/data-providers/ubuntu-appinstall.c
+ ./src/data-providers/ubuntu-appinstall.h
+ ./src/pk-plugin/pk-plugin-appstream.c
  ./src/xapian/database-common.hpp
+ ./src/xapian/database-cwrap.hpp
  ./src/xapian/database-read.hpp
- ./src/xapian/database-vala.h
  ./src/xapian/database-write.cpp
  ./src/xapian/database-write.hpp
-Copyright: 2012, Matthias Klumpp
-License: LGPL-3+
+Copyright: 2012-2014, Matthias Klumpp <matthias@tenstral.net>
+License: LGPL-2.1+
+
+Files: ./qt/src/component.cpp
+ ./qt/src/component.h
+ ./qt/src/database.h
+ ./qt/src/image.cpp
+ ./qt/src/image.h
+ ./qt/src/provides.cpp
+ ./qt/src/provides.h
+ ./qt/src/screenshot.cpp
+ ./qt/src/screenshot.h
+Copyright: 2014, Sune Vuorela <sune@vuorela.dk>
+License: LGPL-2.1+
+
+Files: ./tools/appstream-index.c
+ ./tools/appstream-validate.c
+Copyright: 2012-2014, Matthias Klumpp <matthias@tenstral.net>
+License: GPL-2+
 
 Files: ./src/xapian/database-read.cpp
 Copyright: 2009, Michael Vogt <mvo@debian.org>
-  2012, Matthias Klumpp <matthias@tenstral.net>
-License: LGPL-3+
+  2012-2014, Matthias Klumpp <matthias@tenstral.net>
+License: LGPL-2.1+
+
+Files: ./qt/src/database.cpp
+Copyright: 2012-2014, Matthias Klumpp <matthias@tenstral.net>
+  2014, Sune Vuorela <sune@vuorela.dk>
+License: LGPL-2.1+
