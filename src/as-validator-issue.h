@@ -3,11 +3,11 @@
  * Copyright (C) 2014 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2014 Richard Hughes <richard@hughsie.com>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -86,6 +86,7 @@ typedef enum {
  * @AS_ISSUE_KIND_TAG_DUPLICATED:	A tag is duplicated
  * @AS_ISSUE_KIND_TAG_MISSING:		A required tag is missing
  * @AS_ISSUE_KIND_TAG_UNKNOWN:		An unknown tag was found
+ * @AS_ISSUE_KIND_TAG_NOT_ALLOWED:	A tag is not allowed in the current context
  * @AS_ISSUE_KIND_PROPERTY_MISSING:	A required property is missing
  * @AS_ISSUE_KIND_PROPERTY_INVALID:	A property is invalid
  * @AS_ISSUE_KIND_VALUE_WRONG:		The value of a tag or property is wrong
@@ -100,6 +101,7 @@ typedef enum {
 	AS_ISSUE_KIND_TAG_DUPLICATED,
 	AS_ISSUE_KIND_TAG_MISSING,
 	AS_ISSUE_KIND_TAG_UNKNOWN,
+	AS_ISSUE_KIND_TAG_NOT_ALLOWED,
 	AS_ISSUE_KIND_PROPERTY_MISSING,
 	AS_ISSUE_KIND_PROPERTY_INVALID,
 	AS_ISSUE_KIND_VALUE_WRONG,

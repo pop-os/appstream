@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -66,14 +66,15 @@ DatabaseWrite::initialize (const gchar *dbPath)
 }
 
 static
-void url_hashtable_to_text (gchar *key, gchar *value, gchar **text)
+void url_hashtable_to_str (gchar *key, gchar *value, GString *gstr)
 {
-	gchar *tmp;
+	g_string_append_printf (gstr, "%s\n%s\n", key, value);
+}
 
-	tmp = g_strdup (*text);
-	g_free (*text);
-    *text = g_strdup_printf ("%s\n%s\n%s", tmp, key, value);
-	g_free (tmp);
+static
+void langs_hashtable_to_str (gchar *key, gint value, GString *gstr)
+{
+	g_string_append_printf (gstr, "%s\n%i\n", key, value);
 }
 
 bool
@@ -121,6 +122,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 	for (GList *list = cpt_list; list != NULL; list = list->next) {
 		AsComponent *cpt = (AsComponent*) list->data;
+		GString *gstr;
 
 		Xapian::Document doc;
 		term_generator.set_document (doc);
@@ -130,17 +132,29 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		doc.set_data (as_component_get_name (cpt));
 
 		// Package name
-		string pkgname = as_component_get_pkgname (cpt);
-		doc.add_value (XapianValues::PKGNAME, pkgname);
-		doc.add_term("AP" + pkgname);
-		if (pkgname.find ("-") != string::npos) {
-			// we need this to work around xapian oddness
-			string tmp = pkgname;
-			replace (tmp.begin(), tmp.end(), '-', '_');
-			doc.add_term (tmp);
+		gchar **pkgs = as_component_get_pkgnames (cpt);
+		if (pkgs == NULL) {
+			g_warning ("Skipped component '%s' from inclusion into database: Does not have package names defined.",
+					   as_component_get_id (cpt));
+			continue;
 		}
-		// add packagename as meta-data too
-		term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
+		gchar *pkgs_cstr = g_strjoinv ("\n", pkgs);
+		string pkgs_str = pkgs_cstr;
+		doc.add_value (XapianValues::PKGNAME, pkgs_str);
+		g_free (pkgs_cstr);
+
+		for (uint i = 0; pkgs[i] != NULL; i++) {
+			string pkgname = pkgs[i];
+			doc.add_term("AP" + pkgname);
+			if (pkgname.find ("-") != string::npos) {
+				// we need this to work around xapian oddness
+				string tmp = pkgname;
+				replace (tmp.begin(), tmp.end(), '-', '_');
+				doc.add_term (tmp);
+			}
+			// add packagename as meta-data too
+			term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
+		}
 
 		// Identifier
 		string idname = as_component_get_id (cpt);
@@ -160,14 +174,22 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		// Type identifier
 		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
 		doc.add_value (XapianValues::TYPE, type_str);
+		doc.add_term ("AT" + type_str);
 
 		// URLs
 		GHashTable *urls;
-		gchar *text = g_strdup ("");
 		urls = as_component_get_urls (cpt);
-		g_hash_table_foreach(urls, (GHFunc) url_hashtable_to_text, &text);
-		doc.add_value (XapianValues::URLS, text);
-		g_free (text);
+		if (g_hash_table_size (urls) > 0) {
+			gchar *cstr;
+			gstr = g_string_new ("");
+			g_hash_table_foreach(urls, (GHFunc) url_hashtable_to_str, gstr);
+			if (gstr->len > 0)
+				g_string_truncate (gstr, gstr->len - 1);
+
+			cstr = g_string_free (gstr, FALSE);
+			doc.add_value (XapianValues::URLS, cstr);
+			g_free (cstr);
+		}
 
 		// Application icon
 		doc.add_value (XapianValues::ICON, as_component_get_icon (cpt));
@@ -187,7 +209,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		gchar **categories = as_component_get_categories (cpt);
 		string categories_str = "";
 		for (uint i = 0; categories[i] != NULL; i++) {
-			if (categories[i] == NULL)
+			if (as_str_empty (categories[i]))
 				continue;
 
 			string cat = categories[i];
@@ -247,7 +269,20 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		// Add releases information (XML data)
 		doc.add_value (XapianValues::RELEASES_DATA, as_component_dump_releases_data_xml (cpt));
 
-		// TODO: Look at the SC Xapian database - there are still some values and terms missing!
+		// Languages
+		GHashTable *langs_table;
+		langs_table = as_component_get_languages_map (cpt);
+		if (g_hash_table_size (langs_table) > 0) {
+			gchar *cstr;
+			gstr = g_string_new ("");
+			g_hash_table_foreach (langs_table, (GHFunc) langs_hashtable_to_str, gstr);
+			if (gstr->len > 0)
+				g_string_truncate (gstr, gstr->len - 1);
+
+			cstr = g_string_free (gstr, FALSE);
+			doc.add_value (XapianValues::LANGUAGES, cstr);
+			g_free (cstr);
+		}
 
 		// Postprocess
 		string docData = doc.get_data ();

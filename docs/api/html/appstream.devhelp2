@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
-<book xmlns="http://www.devhelp.net/book" title="LibAppStream Reference Manual" link="index.html" author="" name="appstream" version="2" language="c">
+<book xmlns="http://www.devhelp.net/book" title="AppStream Library Reference Manual" link="index.html" author="" name="appstream" version="2" language="c">
   <chapters>
     <sub name="AppStream API Reference" link="ch01.html">
       <sub name="AsComponent" link="AsComponent.html"/>
@@ -9,17 +9,23 @@
       <sub name="AsImage" link="AsImage.html"/>
       <sub name="AsSearchQuery" link="AsSearchQuery.html"/>
       <sub name="AsDatabase" link="AsDatabase.html"/>
+      <sub name="AsMetadata" link="AsMetadata.html"/>
+      <sub name="AsDataPool" link="AsDataPool.html"/>
       <sub name="AsDistroDetails" link="AsDistroDetails.html"/>
       <sub name="AsMenuParser" link="AsMenuParser.html"/>
       <sub name="AsCategory" link="AsCategory.html"/>
+      <sub name="as-enums" link="appstream-as-enums.html"/>
       <sub name="as-provides" link="appstream-as-provides.html"/>
+      <sub name="AsValidator" link="AsValidator.html"/>
+      <sub name="AsValidatorIssue" link="AsValidatorIssue.html"/>
     </sub>
     <sub name="Object Hierarchy" link="object-tree.html"/>
     <sub name="API Index" link="api-index-full.html"/>
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstream-index" link="re11.html"/>
+      <sub name="appstream-index" link="re16.html"/>
+      <sub name="appstream-validate" link="re17.html"/>
     </sub>
   </chapters>
   <functions>
@@ -29,34 +35,35 @@
     <keyword type="function" name="as_component_construct ()" link="AsComponent.html#as-component-construct"/>
     <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
     <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
-    <keyword type="function" name="as_component_provides_item ()" link="AsComponent.html#as-component-provides-item"/>
     <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
     <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
     <keyword type="function" name="as_component_get_id ()" link="AsComponent.html#as-component-get-id"/>
     <keyword type="function" name="as_component_set_id ()" link="AsComponent.html#as-component-set-id"/>
-    <keyword type="function" name="as_component_get_pkgname ()" link="AsComponent.html#as-component-get-pkgname"/>
-    <keyword type="function" name="as_component_set_pkgname ()" link="AsComponent.html#as-component-set-pkgname"/>
+    <keyword type="function" name="as_component_get_pkgnames ()" link="AsComponent.html#as-component-get-pkgnames"/>
+    <keyword type="function" name="as_component_set_pkgnames ()" link="AsComponent.html#as-component-set-pkgnames"/>
     <keyword type="function" name="as_component_get_name ()" link="AsComponent.html#as-component-get-name"/>
     <keyword type="function" name="as_component_set_name ()" link="AsComponent.html#as-component-set-name"/>
     <keyword type="function" name="as_component_get_name_original ()" link="AsComponent.html#as-component-get-name-original"/>
     <keyword type="function" name="as_component_set_name_original ()" link="AsComponent.html#as-component-set-name-original"/>
+    <keyword type="function" name="as_component_get_summary ()" link="AsComponent.html#as-component-get-summary"/>
+    <keyword type="function" name="as_component_set_summary ()" link="AsComponent.html#as-component-set-summary"/>
+    <keyword type="function" name="as_component_get_description ()" link="AsComponent.html#as-component-get-description"/>
+    <keyword type="function" name="as_component_set_description ()" link="AsComponent.html#as-component-set-description"/>
     <keyword type="function" name="as_component_get_project_license ()" link="AsComponent.html#as-component-get-project-license"/>
     <keyword type="function" name="as_component_set_project_license ()" link="AsComponent.html#as-component-set-project-license"/>
     <keyword type="function" name="as_component_get_project_group ()" link="AsComponent.html#as-component-get-project-group"/>
     <keyword type="function" name="as_component_set_project_group ()" link="AsComponent.html#as-component-set-project-group"/>
+    <keyword type="function" name="as_component_get_developer_name ()" link="AsComponent.html#as-component-get-developer-name"/>
+    <keyword type="function" name="as_component_set_developer_name ()" link="AsComponent.html#as-component-set-developer-name"/>
     <keyword type="function" name="as_component_get_compulsory_for_desktops ()" link="AsComponent.html#as-component-get-compulsory-for-desktops"/>
     <keyword type="function" name="as_component_set_compulsory_for_desktops ()" link="AsComponent.html#as-component-set-compulsory-for-desktops"/>
     <keyword type="function" name="as_component_is_compulsory_for_desktop ()" link="AsComponent.html#as-component-is-compulsory-for-desktop"/>
-    <keyword type="function" name="as_component_get_summary ()" link="AsComponent.html#as-component-get-summary"/>
-    <keyword type="function" name="as_component_set_summary ()" link="AsComponent.html#as-component-set-summary"/>
     <keyword type="function" name="as_component_get_categories ()" link="AsComponent.html#as-component-get-categories"/>
     <keyword type="function" name="as_component_set_categories ()" link="AsComponent.html#as-component-set-categories"/>
     <keyword type="function" name="as_component_set_categories_from_str ()" link="AsComponent.html#as-component-set-categories-from-str"/>
     <keyword type="function" name="as_component_has_category ()" link="AsComponent.html#as-component-has-category"/>
     <keyword type="function" name="as_component_get_screenshots ()" link="AsComponent.html#as-component-get-screenshots"/>
     <keyword type="function" name="as_component_add_screenshot ()" link="AsComponent.html#as-component-add-screenshot"/>
-    <keyword type="function" name="as_component_get_description ()" link="AsComponent.html#as-component-get-description"/>
-    <keyword type="function" name="as_component_set_description ()" link="AsComponent.html#as-component-set-description"/>
     <keyword type="function" name="as_component_get_keywords ()" link="AsComponent.html#as-component-get-keywords"/>
     <keyword type="function" name="as_component_set_keywords ()" link="AsComponent.html#as-component-set-keywords"/>
     <keyword type="function" name="as_component_get_icon ()" link="AsComponent.html#as-component-get-icon"/>
@@ -65,18 +72,23 @@
     <keyword type="function" name="as_component_set_icon_url ()" link="AsComponent.html#as-component-set-icon-url"/>
     <keyword type="function" name="as_component_get_provided_items ()" link="AsComponent.html#as-component-get-provided-items"/>
     <keyword type="function" name="as_component_add_provided_item ()" link="AsComponent.html#as-component-add-provided-item" since="0.6.2"/>
+    <keyword type="function" name="as_component_provides_item ()" link="AsComponent.html#as-component-provides-item"/>
     <keyword type="function" name="as_component_get_urls ()" link="AsComponent.html#as-component-get-urls" since="0.6.2"/>
     <keyword type="function" name="as_component_get_url ()" link="AsComponent.html#as-component-get-url" since="0.6.2"/>
     <keyword type="function" name="as_component_add_url ()" link="AsComponent.html#as-component-add-url" since="0.6.2"/>
     <keyword type="function" name="as_component_get_releases ()" link="AsComponent.html#as-component-get-releases"/>
     <keyword type="function" name="as_component_add_release ()" link="AsComponent.html#as-component-add-release"/>
+    <keyword type="function" name="as_component_get_extends ()" link="AsComponent.html#as-component-get-extends" since="0.7.0"/>
+    <keyword type="function" name="as_component_add_extends ()" link="AsComponent.html#as-component-add-extends"/>
+    <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
+    <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
+    <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
     <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
-    <keyword type="property" name="The “homepage” property" link="AsComponent.html#AsComponent--homepage"/>
     <keyword type="property" name="The “icon” property" link="AsComponent.html#AsComponent--icon"/>
     <keyword type="property" name="The “icon-url” property" link="AsComponent.html#AsComponent--icon-url"/>
-    <keyword type="property" name="The “idname” property" link="AsComponent.html#AsComponent--idname"/>
+    <keyword type="property" name="The “id” property" link="AsComponent.html#AsComponent--id"/>
     <keyword type="property" name="The “keywords” property" link="AsComponent.html#AsComponent--keywords"/>
     <keyword type="property" name="The “kind” property" link="AsComponent.html#AsComponent--kind"/>
     <keyword type="property" name="The “mimetypes” property" link="AsComponent.html#AsComponent--mimetypes"/>
@@ -86,6 +98,7 @@
     <keyword type="property" name="The “project-license” property" link="AsComponent.html#AsComponent--project-license"/>
     <keyword type="property" name="The “screenshots” property" link="AsComponent.html#AsComponent--screenshots"/>
     <keyword type="property" name="The “summary” property" link="AsComponent.html#AsComponent--summary"/>
+    <keyword type="property" name="The “urls” property" link="AsComponent.html#AsComponent--urls"/>
     <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
     <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
     <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
@@ -136,10 +149,25 @@
     <keyword type="function" name="as_database_db_exists ()" link="AsDatabase.html#as-database-db-exists"/>
     <keyword type="function" name="as_database_get_all_components ()" link="AsDatabase.html#as-database-get-all-components"/>
     <keyword type="function" name="as_database_find_components ()" link="AsDatabase.html#as-database-find-components"/>
-    <keyword type="function" name="as_database_find_components_by_str ()" link="AsDatabase.html#as-database-find-components-by-str"/>
+    <keyword type="function" name="as_database_find_components_by_term ()" link="AsDatabase.html#as-database-find-components-by-term"/>
     <keyword type="function" name="as_database_get_component_by_id ()" link="AsDatabase.html#as-database-get-component-by-id"/>
     <keyword type="function" name="as_database_get_components_by_provides ()" link="AsDatabase.html#as-database-get-components-by-provides"/>
+    <keyword type="function" name="as_database_get_components_by_kind ()" link="AsDatabase.html#as-database-get-components-by-kind"/>
     <keyword type="property" name="The “database-path” property" link="AsDatabase.html#AsDatabase--database-path"/>
+    <keyword type="function" name="as_metadata_new ()" link="AsMetadata.html#as-metadata-new"/>
+    <keyword type="function" name="as_metadata_error_quark ()" link="AsMetadata.html#as-metadata-error-quark"/>
+    <keyword type="function" name="as_metadata_parse_file ()" link="AsMetadata.html#as-metadata-parse-file"/>
+    <keyword type="function" name="as_metadata_parse_data ()" link="AsMetadata.html#as-metadata-parse-data"/>
+    <keyword type="function" name="as_metadata_set_locale ()" link="AsMetadata.html#as-metadata-set-locale"/>
+    <keyword type="function" name="as_metadata_get_locale ()" link="AsMetadata.html#as-metadata-get-locale"/>
+    <keyword type="enum" name="enum AsMetadataError" link="AsMetadata.html#AsMetadataError"/>
+    <keyword type="macro" name="AS_METADATA_ERROR" link="AsMetadata.html#AS-METADATA-ERROR:CAPS"/>
+    <keyword type="function" name="as_data_pool_new ()" link="AsDataPool.html#as-data-pool-new"/>
+    <keyword type="function" name="as_data_pool_initialize ()" link="AsDataPool.html#as-data-pool-initialize"/>
+    <keyword type="function" name="as_data_pool_get_watched_locations ()" link="AsDataPool.html#as-data-pool-get-watched-locations"/>
+    <keyword type="function" name="as_data_pool_update ()" link="AsDataPool.html#as-data-pool-update"/>
+    <keyword type="function" name="as_data_pool_get_components ()" link="AsDataPool.html#as-data-pool-get-components"/>
+    <keyword type="function" name="as_data_pool_set_data_source_directories ()" link="AsDataPool.html#as-data-pool-set-data-source-directories"/>
     <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
     <keyword type="function" name="as_distro_details_construct ()" link="AsDistroDetails.html#as-distro-details-construct"/>
     <keyword type="function" name="as_distro_details_config_distro_get_str ()" link="AsDistroDetails.html#as-distro-details-config-distro-get-str"/>
@@ -186,11 +214,28 @@
     <keyword type="property" name="The “name” property" link="AsCategory.html#AsCategory--name"/>
     <keyword type="property" name="The “subcategories” property" link="AsCategory.html#AsCategory--subcategories"/>
     <keyword type="property" name="The “summary” property" link="AsCategory.html#AsCategory--summary"/>
+    <keyword type="function" name="as_url_kind_to_string ()" link="appstream-as-enums.html#as-url-kind-to-string"/>
+    <keyword type="function" name="as_url_kind_from_string ()" link="appstream-as-enums.html#as-url-kind-from-string"/>
+    <keyword type="enum" name="enum AsUrlKind" link="appstream-as-enums.html#AsUrlKind"/>
     <keyword type="function" name="as_provides_kind_to_string ()" link="appstream-as-provides.html#as-provides-kind-to-string"/>
     <keyword type="function" name="as_provides_kind_from_string ()" link="appstream-as-provides.html#as-provides-kind-from-string"/>
     <keyword type="function" name="as_provides_item_create ()" link="appstream-as-provides.html#as-provides-item-create"/>
     <keyword type="function" name="as_provides_item_get_kind ()" link="appstream-as-provides.html#as-provides-item-get-kind"/>
     <keyword type="function" name="as_provides_item_get_value ()" link="appstream-as-provides.html#as-provides-item-get-value"/>
     <keyword type="enum" name="enum AsProvidesKind" link="appstream-as-provides.html#AsProvidesKind"/>
+    <keyword type="function" name="as_validator_new ()" link="AsValidator.html#as-validator-new"/>
+    <keyword type="function" name="as_validator_clear_issues ()" link="AsValidator.html#as-validator-clear-issues"/>
+    <keyword type="function" name="as_validator_validate_file ()" link="AsValidator.html#as-validator-validate-file"/>
+    <keyword type="function" name="as_validator_validate_data ()" link="AsValidator.html#as-validator-validate-data"/>
+    <keyword type="function" name="as_validator_get_issues ()" link="AsValidator.html#as-validator-get-issues"/>
+    <keyword type="function" name="as_validator_issue_new ()" link="AsValidatorIssue.html#as-validator-issue-new"/>
+    <keyword type="function" name="as_validator_issue_get_kind ()" link="AsValidatorIssue.html#as-validator-issue-get-kind"/>
+    <keyword type="function" name="as_validator_issue_set_kind ()" link="AsValidatorIssue.html#as-validator-issue-set-kind"/>
+    <keyword type="function" name="as_validator_issue_get_importance ()" link="AsValidatorIssue.html#as-validator-issue-get-importance"/>
+    <keyword type="function" name="as_validator_issue_set_importance ()" link="AsValidatorIssue.html#as-validator-issue-set-importance"/>
+    <keyword type="function" name="as_validator_issue_get_message ()" link="AsValidatorIssue.html#as-validator-issue-get-message"/>
+    <keyword type="function" name="as_validator_issue_set_message ()" link="AsValidatorIssue.html#as-validator-issue-set-message"/>
+    <keyword type="enum" name="enum AsIssueImportance" link="AsValidatorIssue.html#AsIssueImportance"/>
+    <keyword type="enum" name="enum AsIssueKind" link="AsValidatorIssue.html#AsIssueKind"/>
   </functions>
 </book>

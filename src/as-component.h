@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -74,17 +74,19 @@ struct _AsComponentClass
  * @AS_COMPONENT_KIND_FONT:			A font
  * @AS_COMPONENT_KIND_CODEC:		A multimedia codec
  * @AS_COMPONENT_KIND_INPUTMETHOD:	An input-method provider
+ * @AS_COMPONENT_KIND_ADDON:		An extension of existing software, which does not run standalone
  *
  * The URL type.
  **/
 typedef enum  {
-	AS_COMPONENT_KIND_UNKNOWN,
-	AS_COMPONENT_KIND_GENERIC,
-	AS_COMPONENT_KIND_DESKTOP_APP,
-	AS_COMPONENT_KIND_FONT,
-	AS_COMPONENT_KIND_CODEC,
-	AS_COMPONENT_KIND_INPUTMETHOD,
-	AS_COMPONENT_KIND_LAST
+	AS_COMPONENT_KIND_UNKNOWN = 0,
+	AS_COMPONENT_KIND_GENERIC = 1 << 0,
+	AS_COMPONENT_KIND_DESKTOP_APP = 1 << 1,
+	AS_COMPONENT_KIND_FONT = 1 << 2,
+	AS_COMPONENT_KIND_CODEC = 1 << 3,
+	AS_COMPONENT_KIND_INPUTMETHOD = 1 << 4,
+	AS_COMPONENT_KIND_ADDON = 1 << 5,
+	AS_COMPONENT_KIND_LAST = 7
 } AsComponentKind;
 
 GType				as_component_kind_get_type (void) G_GNUC_CONST;
@@ -97,45 +99,50 @@ AsComponent*		as_component_construct (GType object_type);
 gboolean			as_component_is_valid (AsComponent* self);
 gchar* 				as_component_to_string (AsComponent* self);
 
-gboolean			as_component_provides_item (AsComponent *self,
-												AsProvidesKind kind, const gchar *value);
-
 AsComponentKind		as_component_get_kind (AsComponent* self);
 void				as_component_set_kind (AsComponent* self,
 										   AsComponentKind value);
 
 const gchar*		as_component_get_id (AsComponent* self);
 void				as_component_set_id (AsComponent* self,
-											 const gchar* value);
+											const gchar* value);
 
-const gchar*		as_component_get_pkgname (AsComponent* self);
-void				as_component_set_pkgname (AsComponent* self,
-											  const gchar* value);
+gchar**				as_component_get_pkgnames (AsComponent* self);
+void				as_component_set_pkgnames (AsComponent* self,
+												gchar** value);
 
 const gchar*		as_component_get_name (AsComponent* self);
 void				as_component_set_name (AsComponent* self,
-										   const gchar* value);
+											const gchar* value);
 const gchar* 		as_component_get_name_original (AsComponent* self);
 void				as_component_set_name_original (AsComponent* self,
 													const gchar* value);
 
+const gchar*		as_component_get_summary (AsComponent* self);
+void				as_component_set_summary (AsComponent* self,
+													const gchar* value);
+
+const gchar*		as_component_get_description (AsComponent* self);
+void				as_component_set_description (AsComponent* self,
+													const gchar* value);
+
 const gchar* 		as_component_get_project_license (AsComponent* self);
 void				as_component_set_project_license (AsComponent* self,
-													  const gchar* value);
+													const gchar* value);
 
 const gchar* 		as_component_get_project_group (AsComponent* self);
 void				as_component_set_project_group (AsComponent* self,
 													const gchar* value);
 
+const gchar*		as_component_get_developer_name (AsComponent* self);
+void				as_component_set_developer_name (AsComponent* self,
+													const gchar* value);
+
 gchar**				as_component_get_compulsory_for_desktops (AsComponent* self);
 void				as_component_set_compulsory_for_desktops (AsComponent* self,
-															  gchar** value);
+																gchar** value);
 gboolean			as_component_is_compulsory_for_desktop (AsComponent* self,
-															  const gchar* desktop);
-
-const gchar*		as_component_get_summary (AsComponent* self);
-void				as_component_set_summary (AsComponent* self,
-											  const gchar* value);
+																const gchar* desktop);
 
 gchar**				as_component_get_categories (AsComponent* self);
 void				as_component_set_categories (AsComponent* self,
@@ -147,28 +154,27 @@ gboolean			as_component_has_category (AsComponent *self,
 
 GPtrArray*			as_component_get_screenshots (AsComponent* self);
 void				as_component_add_screenshot (AsComponent* self,
-												 AsScreenshot* sshot);
-
-const gchar*		as_component_get_description (AsComponent* self);
-void				as_component_set_description (AsComponent* self,
-												  const gchar* value);
+												AsScreenshot* sshot);
 
 gchar**				as_component_get_keywords (AsComponent* self);
 void				as_component_set_keywords (AsComponent* self,
-											   gchar** value);
+												gchar** value);
 
 const gchar*		as_component_get_icon (AsComponent* self);
 void				as_component_set_icon (AsComponent* self,
-										   const gchar* value);
+											const gchar* value);
 const gchar*		as_component_get_icon_url (AsComponent* self);
 void				as_component_set_icon_url (AsComponent* self,
-											   const gchar* value);
+											const gchar* value);
 
 GPtrArray*			as_component_get_provided_items (AsComponent* self);
 void				as_component_add_provided_item (AsComponent *self,
 										AsProvidesKind kind,
 										const gchar *value,
 										const gchar *data);
+gboolean			as_component_provides_item (AsComponent *self,
+										AsProvidesKind kind,
+										const gchar *value);
 
 GHashTable*			as_component_get_urls (AsComponent *self);
 const gchar*		as_component_get_url (AsComponent *self,
@@ -179,16 +185,18 @@ void				as_component_add_url (AsComponent *self,
 
 GPtrArray*			as_component_get_releases (AsComponent* self);
 void				as_component_add_release (AsComponent* self,
-												 AsRelease* release);
+												AsRelease* release);
 
-/* deprecated */
-G_GNUC_DEPRECATED const gchar*		as_component_get_homepage (AsComponent* self);
-G_GNUC_DEPRECATED void				as_component_set_homepage (AsComponent* self,
-											   const gchar* value);
+GPtrArray*			as_component_get_extends (AsComponent *cpt);
+void				as_component_add_extends (AsComponent* cpt,
+												const gchar* cpt_id);
 
-G_GNUC_DEPRECATED const gchar*		as_component_get_idname (AsComponent* self);
-G_GNUC_DEPRECATED void				as_component_set_idname (AsComponent* self,
-											 const gchar* value);
+void				as_component_add_language (AsComponent *self,
+												const gchar *locale,
+												gint percentage);
+gint				as_component_get_language (AsComponent *self,
+											   const gchar *locale);
+GList*				as_component_get_languages (AsComponent *self);
 
 G_END_DECLS
 

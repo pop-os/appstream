@@ -31,15 +31,15 @@ set(LIBAPPSTREAM_SRC
 		data-providers/appstream-xml.c
 		data-providers/debian-dep11.c
 		data-providers/ubuntu-appinstall.c
+		as-cache-builder.c
 		# (mostly) public API
 		as-metadata.c
 		as-component.c
 		as-enums.c
 		as-provides.c
-		as-database-builder.c
+		as-data-pool.c
 		as-search-query.c
 		as-database.c
-		as-database-write.c
 		as-category.c
 		as-menu-parser.c
 		as-distro-details.c
@@ -55,6 +55,7 @@ set(LIBAPPSTREAM_PUBLIC_HEADERS
 		as-utils.h
 		as-metadata.h
 		as-component.h
+		as-data-pool.h
 		as-enums.h
 		as-provides.h
 		as-search-query.h
@@ -77,8 +78,7 @@ set(LIBAPPSTREAM_PRIVATE_HEADERS
 		data-providers/ubuntu-appinstall.h
 		as-metadata-private.h
 		as-component-private.h
-		as-database-builder.h
-		as-database-write.h
+		as-cache-builder.h
 )
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
@@ -122,16 +122,16 @@ macro(_list_prefix _outvar _listvar _prefix)
 endmacro(_list_prefix)
 
 set(introspection_files ${LIBAPPSTREAM_SRC} ${LIBAPPSTREAM_PUBLIC_HEADERS})
-set(Appstream_0_6_gir "appstream")
-set(Appstream_0_6_gir_INCLUDES GObject-2.0 Gio-2.0)
-set(Appstream_0_6_gir_CFLAGS "-I${CMAKE_CURRENT_SOURCE_DIR}/" "-DAS_COMPILATION")
-set(Appstream_0_6_gir_LIBS appstream)
+set(Appstream_0_7_gir "appstream")
+set(Appstream_0_7_gir_INCLUDES GObject-2.0 Gio-2.0)
+set(Appstream_0_7_gir_CFLAGS "-I${CMAKE_CURRENT_SOURCE_DIR}/" "-DAS_COMPILATION")
+set(Appstream_0_7_gir_LIBS appstream)
 
-_list_prefix(Appstream_0_6_gir_FILES introspection_files "${CMAKE_CURRENT_SOURCE_DIR}/")
-set(Appstream_0_6_gir_SCANNERFLAGS --c-include appstream.h)
-set(Appstream_0_6_gir_EXPORT_PACKAGES appstream)
+_list_prefix(Appstream_0_7_gir_FILES introspection_files "${CMAKE_CURRENT_SOURCE_DIR}/")
+set(Appstream_0_7_gir_SCANNERFLAGS --c-include appstream.h)
+set(Appstream_0_7_gir_EXPORT_PACKAGES appstream)
 
-list(APPEND INTROSPECTION_GIRS Appstream-0.6.gir)
+list(APPEND INTROSPECTION_GIRS Appstream-0.7.gir)
 gir_add_introspections(INTROSPECTION_GIRS)
 ####
 

@@ -1,15 +1,14 @@
 # CMakeLists for the AppStream Project
 project(appstream)
-
-cmake_minimum_required(VERSION 2.8.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
-set(AS_VERSION_MINOR  "6")
-set(AS_VERSION_PATCH  "2")
+set(AS_VERSION_MINOR  "7")
+set(AS_VERSION_PATCH  "0")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
-set(APPSTREAM_LIB_API_LEVEL "0")
+set(APPSTREAM_LIB_API_LEVEL "1")
 
 # Don't allow in-tree building
 if(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
@@ -25,6 +24,7 @@ option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" OFF)
 option(PROVIDER_UBUNTU_APPINSTALL "Enable AppInstall data provider" OFF)
 option(L18N "Enable localization" ON)
 option(VAPI "Create and install a Vala API file" OFF)
+option(QT "Build libappstream-qt" OFF)
 option(TESTS "Enable Unit Tests" OFF)
 option(MAINTAINER "Enable maintainer mode" OFF)
 
@@ -107,14 +107,15 @@ add_definitions(${MAINTAINER_CFLAGS})
 # we do always enable this to never run into the missing-include-trap again
 add_definitions("-Werror=implicit-function-declaration")
 
-# Required to include config.h before all other units
-add_definitions ("--include config.h")
-
 find_package(PkgConfig REQUIRED)
 
 add_subdirectory(src)
 add_subdirectory(tools)
 add_subdirectory(data)
+add_subdirectory(contrib)
 add_subdirectory(po)
 add_subdirectory(docs)
 add_subdirectory(tests)
+if(QT)
+	add_subdirectory(qt)
+endif()

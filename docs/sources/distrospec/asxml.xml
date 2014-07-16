@@ -5,7 +5,7 @@
 ]>
 
 <section id="sect-AppStream-ASXML">
-	<title>AppStream XML files</title>
+	<title>AppStream distribution XML files</title>
 
 	<section id="spec-asxml-introduction">
 		<title>Introduction</title>
@@ -37,8 +37,7 @@
 		<title>General XML structure</title>
 		<para>
 			The XML starts with an <code>&lt;components&gt;</code> tag as root element. It has all the
-			<code>&lt;component&gt;</code>, <code>&lt;application&gt;</code>, <code>&lt;font&gt;</code> and
-			<code>&lt;inputmethod&gt;</code> elements as children.
+			<code>&lt;component&gt;</code> tags of different <literal>type</literal> as children.
 		</para>
 		<para>
 			Data to fill the different component elements is usually taken from their <ulink url="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</ulink>
@@ -89,40 +88,54 @@
 		</para>
 
 		<variablelist>
-			<varlistentry>
+			<varlistentry id="tag-distro-component-id">
 			<term>&lt;id/&gt;</term>
 			<listitem>
 				<para>
-					The <code>&lt;id/&gt;</code> tag is the same name as the installed .desktop file for the application.
-					Additional identifiers are possible later, but right now <literal>desktop</literal> is the only supported type.
+					The <code>&lt;id/&gt;</code> tag is a short unique and usually lower-cases identifier for the component.
+					Depending on the component's type, different naming conventions apply.
 				</para>
 			</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-pkgname">
 				<term>&lt;pkgname/&gt;</term>
 				<listitem>
 					<para>
-						The name of the package which needs to be installed in order to provide this application.
+						The name of the package which needs to be installed in order to make this component available on the system.
 					</para>
+					<para>
+						This tag can be defined multiple times, if a component is split across multiple packages.
+					</para>
+					<important>
+						<para>
+							The preferred way is to create metapackages containing the component metadata, and referncing them
+							from the distribution metadata, and not to use multiple <literal>pkgname</literal> tags.
+							They should only be used multiple times as a workaround or if there is no sensible way of creating a
+							matching metapackage.
+						</para>
+					</important>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-name">
 				<term>&lt;name/&gt;</term>
 				<listitem>
 					<para>
-						The application name defined in the application's
-						<ulink url="http://standards.freedesktop.org/desktop-entry-spec/latest/">desktop file</ulink>.
+						A human-readable name for this component.
+					</para>
+					<para>
+						In case of a component of type <literal>desktop</literal>, the application name as defined in the application's
+						<ulink url="http://standards.freedesktop.org/desktop-entry-spec/latest/">desktop file</ulink> is used.
 					</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-project_license">
 				<term>&lt;project_license/&gt;</term>
 				<listitem>
 					<para>
-						The <code><![CDATA[<project_license>]]></code> tag is indicating the license of your project/application.
+						The <code>&lt;project_license/&gt;</code> tag is indicating the license of the component.
 						It should be a string in SPDX format. Licenses may be combined using <emphasis>and</emphasis> and <emphasis>or</emphasis> logic.
 						Possible values include:
 						<itemizedlist>
@@ -135,27 +148,28 @@
 						A full list of recognized licenses and their identifiers can be found at the
 						<ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
 					</para>
-					<para>
-						Although the license tag is not mandatory, it is recommended to include it.
-					</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-summary">
 				<term>&lt;summary/&gt;</term>
 				<listitem>
 					<para>
-						A short summary of the purpose and function of this application. Usually taken from the Desktop file,
-						if the application does not ship an AppData file.
+						The tag contains a short summary of the purpose and function of this component. In case the component is of
+						type <literal>desktop</literal>, it is usually taken from a Desktop file,
+						if the application does not ship an upstream metadata file.
+					</para>
+					<para>
+						For more information about this tag, take a look at the tag's definition at <xref linkend="tag-summary"/>.
 					</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-description">
 				<term>&lt;description/&gt;</term>
 				<listitem>
 					<para>
-						A long description of the application. It is usually taken from the package descriptions or meta-info files, if they were provided.
+						A long description of the component. It is usually taken from the package descriptions or meta-info files, if they were provided.
 						The description might use markup. Right now, only paragraph, ordered list and unordered list are supported.
 						An example description element might look like this:
 						<programlisting language="XML">
@@ -181,23 +195,26 @@
 						<literal>&lt;description/&gt;</literal> tag itself has a language property and contain the translated paragraphs for the given language.
 						This allows faster parsing of the Appstream XML file, and does not increase it's size much, as long as it is compressed.
 					</para>
+					<para>
+						For more information about this tag, take a look at the tag's definition at <xref linkend="tag-description"/>.
+					</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-url">
 				<term>&lt;url/&gt;</term>
 				<listitem>
 					<para>
-						Defines URLs for this application. This tag can be present multiple times.
+						Defines URLs for this component. This tag can be present multiple times.
 					</para>
 					<para>
 						For a list of possible url types and what they are expected to do,
-						take a look at the tag's description at <xref linkend="spec-component-filespec"/>.
+						take a look at the tag's description at <xref linkend="tag-url"/>.
 					</para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-project_group">
 				<term>&lt;project_group/&gt;</term>
 				<listitem>
 					<para>
@@ -207,18 +224,18 @@
 					</para>
 					<note>
 						<para>
-							Applications should only identify with an umbrella project if you use all their infrastructure and policies, for instance
+							Components should only identify with an umbrella project if you use all their infrastructure and policies, for instance
 							string freezes dates, bugtracker and source control instance.
 						</para>
 					</note>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-icon">
 				<term>&lt;icon/&gt;</term>
 				<listitem>
 					<para>
-						The <code><![CDATA[<icon>]]></code> tag describes the application's icon.
+						The <code>&lt;icon/&gt;</code> tag describes the component icon. It is mostly used for GUI applications (component-type <literal>desktop</literal>).
 						It can be of the type <literal>stock</literal>, <literal>cached</literal>, <literal>local</literal>,
 						or <literal>url</literal>.
 					</para>
@@ -257,11 +274,11 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-mimetypes">
 				<term>&lt;mimetypes/&gt;</term>
 				<listitem>
 					<para>
-						This tag can contain one or more <code><![CDATA[<mimetype>]]></code> tags, describing the mime types this application supports.
+						This tag can contain one or more <code><![CDATA[<mimetype>]]></code> tags, describing the mime types this component supports.
 						The data can usually be fetched from the Desktop files.
 						Example:
 					</para>
@@ -274,12 +291,12 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-categories">
 				<term>&lt;categories/&gt;</term>
 				<listitem>
 					<para>
 						This tag can contain one or more <code><![CDATA[<category>]]></code> tags, describing the categories this application
-						is in.
+						is located in. This tag is usually applied to components of type <literal>desktop</literal>, although it might be used by others later.
 						This data is usually taken from Desktop files, a list of categories can be found in the
 						<ulink url="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</ulink>.
 						Example:
@@ -301,13 +318,14 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-keywords">
 				<term>&lt;keywords/&gt;</term>
 				<listitem>
 					<para>
-						This tag can contain one or more <code><![CDATA[<keyword>]]></code> tags, describing keywords for the application,
+						This tag can contain one or more <code><![CDATA[<keyword>]]></code> tags, describing keywords for the component,
 						to make it easier to find in a software center.
-						The data is taken from Desktop files.
+						In case of type <literal>desktop</literal> components, this data is taken from Desktop files. For <literal>addon</literal>
+						components, the upstream metadata file usually provides this tag.
 						Example:
 					</para>
 					<programlisting language="XML">
@@ -319,7 +337,7 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-screenshots">
 				<term>&lt;screenshots/&gt;</term>
 				<listitem>
 					<para>
@@ -356,12 +374,12 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-compulsory_for_desktop">
 				<term>&lt;compulsory_for_desktop/&gt;</term>
 				<listitem>
 					<para>
-						The <code><![CDATA[<compulsory_for_desktop>]]></code> tag indicates that the application which the data belongs to is essential for the
-						functionality of the defined desktop environment. Examples for compulsory applications are the <literal>GNOME-Shell</literal> by the GNOME-Project,
+						The <code><![CDATA[<compulsory_for_desktop>]]></code> tag indicates that the component which the metadata belongs to is essential for the
+						functionality of the defined desktop environment. Examples for compulsory components are the <literal>GNOME-Shell</literal> by the GNOME-Project,
 						or the <literal>Plasma-Desktop</literal> by KDE, as well as things like <literal>iBus</literal> or the desktop login manager.
 					</para>
 					<para>
@@ -370,7 +388,7 @@
 					</para>
 					<para>
 						Multiple occurrences of the <code><![CDATA[<compulsory_for_desktop>]]></code> tag are allowed, so a project can be essential for many desktops.
-						The distributor decides which applications should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
+						The distributor decides which components should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
 					</para>
 					<para>
 						A list of all allowed values for this tag is defined in the <ulink url="http://standards.freedesktop.org/menu-spec/latest/apb.html">XDG Menu Specification</ulink>.
@@ -379,11 +397,11 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+			<varlistentry id="tag-distro-provides">
 				<term>&lt;provides/&gt;</term>
 				<listitem>
 					<para>
-							This tag is described in detail at <xref linkend="sect-Metadata-GenericComponent"/>.
+						This tag is described in detail at <xref linkend="sect-Metadata-GenericComponent"/>.
 					</para>
 					<para>
 						For generic component types, this tag has to be present.
@@ -393,21 +411,33 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
-				<term>&lt;release/&gt;</term>
+			<varlistentry id="tag-distro-developer_name">
+			<term>&lt;developer_name/&gt;</term>
+			<listitem>
+				<para>
+					The <code>&lt;developer_name/&gt;</code> tag as described in the specification for a generic component. See <xref linkend="tag-developer_name"/> for more information.
+				</para>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-distro-releases">
+				<term>&lt;releases/&gt;</term>
 				<listitem>
 					<para>
-						The <code><![CDATA[<release>]]></code> tag describes some metainformation about the current release of the described component.
-						It may be present multiple times (for older releases), but a tag for the current version must always be present.
+						The <code>&lt;releases&gt;</code> tag contains <code>&lt;release/&gt;</code> child tags which
+						describe some metainformation about the current release of the described software.
+						The <code>&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for
+						the current version must always be present.
 						A <literal>release</literal> tag can have the properties <literal>version</literal> and <literal>timestamp</literal> which contain the version number
-						and a release timestamp in form of YYYYMMDD.
+						and a release timestamp in form of a UNIX epoch.
 					</para>
 					<para>
-						Examples for a valid release tags:
+						Examples for a valid releases tag:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<release version="1.2" timestamp="20140412" />
-<release version="1.0" timestamp="20120826" />]]></programlisting>
+					<programlisting language="XML"><![CDATA[<releases>
+  <release version="1.2" timestamp="1397253600" />
+  <release version="1.0" timestamp="1345932000" />
+</releases>]]></programlisting>
 					<para>
 						In case a <code>&lt;release/&gt;</code> tag has a <code>&lt;description/&gt;</code> tag as parameter, describing the new release briefly, distributors are encouraged to provide 2-4
 						<code>&lt;release/&gt;</code> release tags for every component. If no description is provided, one tag is enough.
@@ -415,7 +445,8 @@
 				</listitem>
 			</varlistentry>
 
-			<varlistentry>
+
+			<varlistentry id="tag-distro-architectures">
 				<term>&lt;architectures/&gt;</term>
 				<listitem>
 					<para>
@@ -425,10 +456,39 @@
 					<para>
 						For example, this marks a component to only be available on i686:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<architectures>
+					<programlisting language="XML"><![CDATA[<architectures>
   <arch>i686</arch>
 </architectures>]]></programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-distro-languages">
+				<term>&lt;languages/&gt;</term>
+				<listitem>
+					<para>
+						This tag gives information about the translations a component provides, and to which extent the software is translated.
+					</para>
+					<para>
+						The tag is allowed to only occur once per component, and contains multiple <code>&lt;lang/&gt;</code> child nodes, which have
+						a <ulink url="https://www.gnu.org/software/gettext/manual/html_node/Language-Codes.html">language code</ulink> as value.
+						Each <code>&lt;lang/&gt;</code> node may have a <literal>percentage</literal> property, which describes the percentage value to which
+						a component has been translated.
+					</para>
+					<para>
+						The language data is expected to be extracted by the AppStream XML generator, and is not provided upstream. Generators may obtain the
+						information from processing GNU Gettext files, which should cover most translation methods.
+					</para>
+					<para>
+						Tag example:
+					</para>
+					<programlisting language="XML">
+<![CDATA[<languages>
+  <lang percentage="96">gu</lang>
+  <lang percentage="94">ca@valencia</lang>
+  <lang percentage="91">de</lang>
+  <lang percentage="93">eo</lang>
+</languages>
+]]></programlisting>
 				</listitem>
 			</varlistentry>
 

@@ -129,7 +129,11 @@ as_provides_item_create (<parameter><link linkend="AsProvidesKind"><type>AsProvi
 consists of a type-part describing the items type, and a name-part,
 containing the name of the item. Both are separated by a semicolon,
 so an item of type KIND_LIBRARY and name libappstream.so.0 will become
-"lib;libappstream.so.0"</para>
+"lib;libappstream.so.0;"
+A provides-item might also contain a "data" part, describing additional
+information about it. For example, for a KIND_DBUS provides type,
+the item might look like: dbus;org.freedesktop.PackageKit;system
+(specifying that the service name is on the system bus)</para>
 <para><parameter>kind</parameter>
  a <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> describing the type of the item string
 <parameter>value</parameter>
@@ -226,6 +230,11 @@ as_provides_item_get_value (<parameter>const <link linkend="gchar"><type>gchar</
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-MIMETYPE:CAPS">AS_PROVIDES_KIND_MIMETYPE</para></entry>
 <entry role="enum_member_description"><para>Provides a handler for a mimetype</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDES-KIND-DBUS:CAPS">AS_PROVIDES_KIND_DBUS</para></entry>
+<entry role="enum_member_description"><para>A DBus service name</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

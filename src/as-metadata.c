@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -58,7 +58,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_metadata_get_instance_private (o))
 
 static gchar*		as_metadata_parse_value (AsMetadata* metad, xmlNode* node, gboolean translated);
-static gchar**		as_metadata_get_children_as_array (AsMetadata* metad, xmlNode* node, const gchar* element_name);
+static gchar**		as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar* element_name);
 
 /**
  * as_metadata_finalize:
@@ -184,7 +184,7 @@ out:
 }
 
 static gchar**
-as_metadata_get_children_as_array (AsMetadata* metad, xmlNode* node, const gchar* element_name)
+as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar* element_name)
 {
 	GPtrArray *list;
 	xmlNode *iter;
@@ -443,6 +443,21 @@ as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt
 		} else if (g_strcmp0 (node_name, "python3") == 0) {
 			g_ptr_array_add (provided_items,
 							 as_provides_item_create (AS_PROVIDES_KIND_PYTHON3, content, ""));
+		} else if (g_strcmp0 (node_name, "dbus") == 0) {
+			gchar *dbustype_val;
+			const gchar *dbustype = NULL;
+			dbustype_val = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+
+			if (g_strcmp0 (dbustype_val, "system") == 0)
+				dbustype = "system";
+			else if (g_strcmp0 (dbustype_val, "session") == 0)
+				dbustype = "session";
+			g_free (dbustype_val);
+
+			/* we don't add malformed provides types */
+			if (dbustype != NULL)
+				g_ptr_array_add (provided_items,
+								as_provides_item_create (AS_PROVIDES_KIND_DBUS, content, dbustype));
 		}
 		g_free (content);
 	}
@@ -511,24 +526,10 @@ out:
 	}
 }
 
-AsComponent*
-as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
+static void
+as_metadata_set_component_type_from_node (xmlNode *node, AsComponent *cpt)
 {
-	AsComponent* cpt;
-	xmlNode *iter;
-	const gchar *node_name;
-	gchar *content;
-	GPtrArray *compulsory_for_desktops;
-	gchar **strv;
 	gchar *cpttype;
-	AsMetadataPrivate *priv = GET_PRIVATE (metad);
-
-	g_return_if_fail (metad != NULL);
-
-	compulsory_for_desktops = g_ptr_array_new_with_free_func (g_free);
-
-	/* a fresh app component */
-	cpt = as_component_new ();
 
 	/* find out which kind of component we are dealing with */
 	cpttype = (gchar*) xmlGetProp (node, (xmlChar*) "type");
@@ -542,6 +543,62 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 			g_debug ("An unknown component was found: %s", cpttype);
 	}
 	g_free (cpttype);
+}
+
+static void
+as_metadata_process_languages_tag (AsMetadata* metad, xmlNode* node, AsComponent* cpt)
+{
+	xmlNode *iter;
+	gchar *prop;
+	g_return_if_fail (metad != NULL);
+	g_return_if_fail (cpt != NULL);
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+
+		if (g_strcmp0 ((gchar*) iter->name, "lang") == 0) {
+			guint64 percentage = 0;
+			gchar *locale;
+			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "percentage");
+			if (prop != NULL) {
+				percentage = g_ascii_strtoll (prop, NULL, 10);
+				g_free (prop);
+			}
+
+			locale = as_metadata_parse_value (metad, iter, TRUE);
+			as_component_add_language (cpt, locale, percentage);
+			g_free (locale);
+		}
+	}
+}
+
+/**
+ * as_metadata_parse_component_node:
+ */
+AsComponent*
+as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
+{
+	AsComponent* cpt;
+	xmlNode *iter;
+	const gchar *node_name;
+	gchar *content;
+	GPtrArray *compulsory_for_desktops;
+	GPtrArray *pkgnames;
+	gchar **strv;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	g_return_val_if_fail (metad != NULL, NULL);
+
+	compulsory_for_desktops = g_ptr_array_new_with_free_func (g_free);
+	pkgnames = g_ptr_array_new_with_free_func (g_free);
+
+	/* a fresh app component */
+	cpt = as_component_new ();
+
+	/* set component kind */
+	as_metadata_set_component_type_from_node (node, cpt);
 
 	if (priv->mode == AS_PARSER_MODE_DISTRO) {
 		/* distro metadata allows setting a priority for components */
@@ -563,9 +620,14 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		content = as_metadata_parse_value (metad, iter, FALSE);
 		if (g_strcmp0 (node_name, "id") == 0) {
 				as_component_set_id (cpt, content);
+				if ((priv->mode == AS_PARSER_MODE_UPSTREAM) &&
+					(as_component_get_kind (cpt) == AS_COMPONENT_KIND_GENERIC)) {
+					/* parse legacy component type information */
+					as_metadata_set_component_type_from_node (iter, cpt);
+				}
 		} else if (g_strcmp0 (node_name, "pkgname") == 0) {
 			if (content != NULL)
-				as_component_set_pkgname (cpt, content);
+				g_ptr_array_add (pkgnames, g_strdup (content));
 		} else if (g_strcmp0 (node_name, "name") == 0) {
 			if (content != NULL) {
 				as_component_set_name_original (cpt, content);
@@ -637,19 +699,19 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 			}
 		} else if (g_strcmp0 (node_name, "categories") == 0) {
 			gchar **cat_array;
-			cat_array = as_metadata_get_children_as_array (metad, iter, "category");
+			cat_array = as_metadata_get_children_as_strv (metad, iter, "category");
 			as_component_set_categories (cpt, cat_array);
 			g_strfreev (cat_array);
 		} else if (g_strcmp0 (node_name, "keywords") == 0) {
 			gchar **kw_array;
-			kw_array = as_metadata_get_children_as_array (metad, iter, "keyword");
+			kw_array = as_metadata_get_children_as_strv (metad, iter, "keyword");
 			as_component_set_keywords (cpt, kw_array);
 			g_strfreev (kw_array);
 		} else if (g_strcmp0 (node_name, "mimetypes") == 0) {
 			gchar **mime_array;
 			guint i;
 
-			mime_array = as_metadata_get_children_as_array (metad, iter, "mimetype");
+			mime_array = as_metadata_get_children_as_strv (metad, iter, "mimetype");
 			for (i = 0; mime_array[i] != NULL; i++) {
 				as_component_add_provided_item (cpt, AS_PROVIDES_KIND_MIMETYPE, mime_array[i], "");
 			}
@@ -664,14 +726,28 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		} else if (g_strcmp0 (node_name, "project_group") == 0) {
 			if (content != NULL)
 				as_component_set_project_group (cpt, content);
+		} else if (g_strcmp0 (node_name, "developer_name") == 0) {
+			if (content != NULL)
+				as_component_set_developer_name (cpt, content);
 		} else if (g_strcmp0 (node_name, "compulsory_for_desktop") == 0) {
 			if (content != NULL)
 				g_ptr_array_add (compulsory_for_desktops, g_strdup (content));
 		} else if (g_strcmp0 (node_name, "releases") == 0) {
 			as_metadata_process_releases_tag (metad, iter, cpt);
+		} else if (g_strcmp0 (node_name, "extends") == 0) {
+			if (content != NULL)
+				as_component_add_extends (cpt, content);
+		} else if (g_strcmp0 (node_name, "languages") == 0) {
+			as_metadata_process_languages_tag (metad, iter, cpt);
 		}
 		g_free (content);
 	}
+
+	/* add package name information to component */
+	strv = as_ptr_array_to_strv (pkgnames);
+	as_component_set_pkgnames (cpt, strv);
+	g_ptr_array_unref (pkgnames);
+	g_strfreev (strv);
 
 	/* add compulsory information to component as strv */
 	strv = as_ptr_array_to_strv (compulsory_for_desktops);
@@ -730,14 +806,18 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 	}
 
 	if (g_strcmp0 ((gchar*) root->name, "component") != 0) {
-		g_set_error_literal (error,
-				     AS_METADATA_ERROR,
-				     AS_METADATA_ERROR_FAILED,
-				     "XML file does not contain valid AppStream data!");
-		goto out;
+		if (g_strcmp0 ((gchar*) root->name, "application") != 0) {
+			g_set_error_literal (error,
+						AS_METADATA_ERROR,
+						AS_METADATA_ERROR_FAILED,
+						"XML file does not contain valid AppStream data!");
+			goto out;
+		} else {
+			g_debug ("Parsing legacy AppStream metadata file.");
+		}
 	}
 
-	cpt = as_metadata_parse_component_node (metad, root, FALSE, error);
+	cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
 
 out:
 	xmlFreeDoc (doc);
@@ -820,7 +900,7 @@ as_metadata_parse_file (AsMetadata* metad, GFile* infile, GError **error)
 
 /**
  * as_metadata_set_locale:
- * @metad: a #AsMezadata instance.
+ * @metad: a #AsMetadata instance.
  * @locale: the locale.
  *
  * Sets the current locale whcih should be used when parsing metadata.
@@ -865,7 +945,7 @@ as_metadata_set_origin_id (AsMetadata *metad, const gchar *origin)
 
 /**
  * as_metadata_set_parser_mode:
- * @metad: a #AsMezadata instance.
+ * @metad: a #AsMetadata instance.
  * @mode: the #AsParserMode.
  *
  * Sets the current metadata parsing mode.
@@ -879,7 +959,7 @@ as_metadata_set_parser_mode (AsMetadata *metad, AsParserMode mode)
 
 /**
  * as_metadata_get_parser_mode:
- * @metad: a #AsMezadata instance.
+ * @metad: a #AsMetadata instance.
  *
  * Gets the current parser mode
  *

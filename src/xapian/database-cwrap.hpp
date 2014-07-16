@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -22,6 +22,8 @@
 #define DATABASE_CWRAP_H
 
 #include <glib.h>
+#include "../as-provides.h"
+#include "../as-component.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,17 +41,19 @@ XADatabaseRead		*xa_database_read_new ();
 void				xa_database_read_free (XADatabaseRead *db);
 
 gboolean			xa_database_read_open (XADatabaseRead *db,
-										   const gchar *db_path);
+											const gchar *db_path);
 const gchar			*xa_database_read_get_schema_version (XADatabaseRead *db);
 GPtrArray			*xa_database_read_get_all_components (XADatabaseRead *db);
 GPtrArray			*xa_database_read_find_components (XADatabaseRead *db,
-													   AsSearchQuery *query);
+														AsSearchQuery *query);
 AsComponent			*xa_database_read_get_component_by_id (XADatabaseRead *db,
-														   const gchar *idname);
+														const gchar *idname);
 GPtrArray			*xa_database_read_get_components_by_provides (XADatabaseRead *db,
-													   AsProvidesKind kind,
-													   const gchar *value,
-													   const gchar *data);
+														AsProvidesKind kind,
+														const gchar *value,
+														const gchar *data);
+GPtrArray			*xa_database_read_get_components_by_kind (XADatabaseRead *db,
+													AsComponentKind kinds);
 
 /* methods for database write access */
 
@@ -57,11 +61,11 @@ XADatabaseWrite		*xa_database_write_new ();
 void				xa_database_write_free (XADatabaseWrite *db);
 
 gboolean			xa_database_write_initialize (XADatabaseWrite *db,
-												  const gchar *db_path);
+												const gchar *db_path);
 gboolean			xa_database_write_add_component (XADatabaseWrite *db,
-													 AsComponent *cpt);
+												AsComponent *cpt);
 gboolean			xa_database_write_rebuild (XADatabaseWrite *db,
-											   GList *cpt_list);
+												GList *cpt_list);
 
 #ifdef __cplusplus
 };

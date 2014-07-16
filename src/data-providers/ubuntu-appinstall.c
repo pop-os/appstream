@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -35,7 +35,6 @@ struct _AsProviderUbuntuAppinstallPrivate {
 
 static gpointer as_provider_ubuntu_appinstall_parent_class = NULL;
 
-#define AS_PROVIDER_UBUNTU_APPINSTALL_DIR "/usr/share/app-install"
 GType as_provider_ubuntu_appinstall_get_type (void) G_GNUC_CONST;
 #define AS_PROVIDER_UBUNTU_APPINSTALL_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstallPrivate))
 
@@ -48,16 +47,9 @@ AsProviderUbuntuAppinstall*
 as_provider_ubuntu_appinstall_construct (GType object_type)
 {
 	AsProviderUbuntuAppinstall * self = NULL;
-	gchar** watch_files = NULL;
 
 	self = (AsProviderUbuntuAppinstall*) as_data_provider_construct (object_type);
 	self->priv->system_categories = as_get_system_categories ();
-
-	/* set AppInstall location as watch target for the data provider */
-	watch_files = g_new0 (gchar*, 1 + 1);
-	watch_files[0] = g_strdup (AS_PROVIDER_UBUNTU_APPINSTALL_DIR);
-	as_data_provider_set_watch_files ((AsDataProvider*) self, watch_files);
-	g_strfreev(watch_files);
 
 	return self;
 }
@@ -102,6 +94,7 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 	GKeyFile *dfile;
 	AsComponent *cpt;
 	gchar **lines;
+	gchar **strv;
 	gchar *str;
 	gchar *str2;
 
@@ -136,16 +129,24 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 	g_free (desktop_file_name);
 
 	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "X-AppInstall-Ignore");
-	str2 = g_utf8_strdown (str, (gssize) (-1));
-	g_free (str);
-	if (g_strcmp0 (str2, "true") == 0) {
-		g_free (str2);
+	if (g_strcmp0 (str, "true") == 0) {
+		g_free (str);
 		goto out;
 	}
+	g_free (str);
+
+	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "NoDisplay");
+	if (g_strcmp0 (str, "true") == 0) {
+		g_free (str);
+		goto out;
+	}
+	g_free (str);
 
 	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "X-AppInstall-Package");
-	as_component_set_pkgname (cpt, str);
-	g_free (str);
+	strv = g_new0 (gchar*, 2);
+	strv[0] = str;
+	as_component_set_pkgnames (cpt, strv);
+	g_strfreev (strv);
 
 	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "Name");
 	as_component_set_name (cpt, str);
@@ -181,6 +182,21 @@ as_provider_ubuntu_appinstall_process_desktop_file (AsProviderUbuntuAppinstall* 
 	}
 	g_free (str);
 
+	str = as_provider_ubuntu_appinstall_desktop_file_get_str (self, dfile, "OnlyShowIn");
+	if (!as_str_empty (str)) {
+		/* we cheat here and assume that if a .desktop file states that it should only be shown in desktop X, it
+		 * is compulsory for that desktop (admittedly, that might be a lie in many cases...).
+		 * Another way would be to simply ignore data which states being desktop-specific, but first try how this works out.
+		 * (AppStream doesn't know a concept for desktop-specific apps, and we are still evaluating if that's a useful thing)
+		 */
+		gchar **compulsory;
+		compulsory = g_strsplit (str, ";", 0);
+		as_component_set_compulsory_for_desktops (cpt, compulsory);
+		g_strfreev (compulsory);
+	}
+	g_free (str);
+
+
 	if (as_component_is_valid (cpt)) {
 		/* everything is fine with this component, we can emit it */
 		as_data_provider_emit_application ((AsDataProvider*) self, cpt);
@@ -200,25 +216,35 @@ out:
 
 
 static gboolean
-as_provider_ubuntu_appinstall_real_execute (AsDataProvider* base)
+as_provider_ubuntu_appinstall_real_execute (AsDataProvider *base)
 {
 	AsProviderUbuntuAppinstall * self;
 	GPtrArray* desktop_files;
-	gchar *fname;
 	guint i;
+	gchar **paths;
+	self = AS_PROVIDER_UBUNTU_APPINSTALL (base);
 
-	self = (AsProviderUbuntuAppinstall*) base;
-	fname = g_build_filename (AS_PROVIDER_UBUNTU_APPINSTALL_DIR, "desktop", NULL, NULL);
-	desktop_files = as_utils_find_files_matching (fname, "*.desktop", FALSE);
-	if (desktop_files == NULL)
-		return FALSE;
+	paths = as_data_provider_get_watch_files (base);
+	if (paths == NULL)
+		return TRUE;
+	for (i = 0; paths[i] != NULL; i++) {
+		gchar *fname;
+		guint j;
+		fname = g_build_filename (paths[i], "desktop", NULL);
+		desktop_files = as_utils_find_files_matching (fname, "*.desktop", FALSE);
+		if (desktop_files == NULL) {
+			g_free (fname);
+			return FALSE;
+		}
 
-	for (i = 0; i < desktop_files->len; i++) {
-			const gchar *path;
-			path = (const gchar *) g_ptr_array_index (desktop_files, i);
-			as_provider_ubuntu_appinstall_process_desktop_file (self, path);
+		for (j = 0; j < desktop_files->len; j++) {
+				const gchar *path;
+				path = (const gchar *) g_ptr_array_index (desktop_files, j);
+				as_provider_ubuntu_appinstall_process_desktop_file (self, path);
+		}
+		g_ptr_array_unref (desktop_files);
+		g_free (fname);
 	}
-	g_ptr_array_unref (desktop_files);
 
 	return TRUE;
 }
@@ -246,7 +272,7 @@ as_provider_ubuntu_appinstall_finalize (GObject* obj)
 {
 	AsProviderUbuntuAppinstall * self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstall);
-	g_object_unref (self->priv->system_categories);
+	g_list_free (self->priv->system_categories);
 	G_OBJECT_CLASS (as_provider_ubuntu_appinstall_parent_class)->finalize (obj);
 }
 

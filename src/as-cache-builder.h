@@ -2,11 +2,11 @@
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU Lesser General Public License Version 3
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This library is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
@@ -49,14 +49,32 @@ struct _AsBuilderClass {
 	GObjectClass parent_class;
 };
 
+#define	AS_BUILDER_ERROR as_builder_error_quark ()
+GQuark as_builder_error_quark (void);
+
+/**
+ * AsBuilderError:
+ * @AS_BUILDER_ERROR_FAILED:			Generic failure
+ * @AS_BUILDER_ERROR_PARTIALLY_FAILED:	Some parts of the current action have been failed
+ *
+ * The error type.
+ **/
+typedef enum {
+	AS_BUILDER_ERROR_FAILED,
+	AS_BUILDER_ERROR_PARTIALLY_FAILED,
+	/*< private >*/
+	AS_BUILDER_ERROR_LAST
+} AsNodeError;
+
 GType as_builder_get_type (void) G_GNUC_CONST;
 
 AsBuilder*		as_builder_new (void);
-AsBuilder*		as_builder_construct (GType object_type);
 AsBuilder*		as_builder_new_path (const gchar* dbpath);
-AsBuilder*		as_builder_construct_path (GType object_type, const gchar* dbpath);
-void			as_builder_initialize (AsBuilder* self);
-gboolean		as_builder_refresh_cache (AsBuilder* self, gboolean force);
+
+gboolean		as_builder_initialize (AsBuilder* self);
+gboolean		as_builder_refresh_cache (AsBuilder* self, gboolean force, GError **error);
+
+void			as_builder_set_data_source_directories (AsBuilder *self, gchar **dirs);
 
 G_END_DECLS
 

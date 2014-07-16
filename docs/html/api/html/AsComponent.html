@@ -2,9 +2,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>LibAppStream Reference Manual: AsComponent</title>
+<title>AppStream Library Reference Manual: AsComponent</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="ch01.html" title="AppStream API Reference">
 <link rel="next" href="AsRelease.html" title="AsRelease">
@@ -90,14 +90,6 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="AsComponent.html#as-component-provides-item" title="as_component_provides_item ()">as_component_provides_item</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
 <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="returnvalue">AsComponentKind</span></a>
 </td>
 <td class="function_name">
@@ -128,10 +120,11 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 </td>
 <td class="function_name">
-<a class="link" href="AsComponent.html#as-component-get-pkgname" title="as_component_get_pkgname ()">as_component_get_pkgname</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsComponent.html#as-component-get-pkgnames" title="as_component_get_pkgnames ()">as_component_get_pkgnames</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -139,7 +132,7 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsComponent.html#as-component-set-pkgname" title="as_component_set_pkgname ()">as_component_set_pkgname</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsComponent.html#as-component-set-pkgnames" title="as_component_set_pkgnames ()">as_component_set_pkgnames</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -176,6 +169,36 @@
 <td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-summary" title="as_component_get_summary ()">as_component_get_summary</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-set-summary" title="as_component_set_summary ()">as_component_set_summary</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-description" title="as_component_get_description ()">as_component_get_description</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-set-description" title="as_component_set_description ()">as_component_set_description</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
 <a class="link" href="AsComponent.html#as-component-get-project-license" title="as_component_get_project_license ()">as_component_get_project_license</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
@@ -203,6 +226,21 @@
 </td>
 </tr>
 <tr>
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-developer-name" title="as_component_get_developer_name ()">as_component_get_developer_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-set-developer-name" title="as_component_set_developer_name ()">as_component_set_developer_name</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
 <td class="function_type">
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 </td>
@@ -224,21 +262,6 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsComponent.html#as-component-is-compulsory-for-desktop" title="as_component_is_compulsory_for_desktop ()">as_component_is_compulsory_for_desktop</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsComponent.html#as-component-get-summary" title="as_component_get_summary ()">as_component_get_summary</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="AsComponent.html#as-component-set-summary" title="as_component_set_summary ()">as_component_set_summary</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -287,21 +310,6 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsComponent.html#as-component-add-screenshot" title="as_component_add_screenshot ()">as_component_add_screenshot</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsComponent.html#as-component-get-description" title="as_component_get_description ()">as_component_get_description</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="AsComponent.html#as-component-set-description" title="as_component_set_description ()">as_component_set_description</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -368,6 +376,14 @@
 </tr>
 <tr>
 <td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-provides-item" title="as_component_provides_item ()">as_component_provides_item</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
 <a href="../glib/glib-Hash-Tables.html#GHashTable"><span class="returnvalue">GHashTable</span></a> *
 </td>
 <td class="function_name">
@@ -405,6 +421,46 @@
 <a class="link" href="AsComponent.html#as-component-add-release" title="as_component_add_release ()">as_component_add_release</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-extends" title="as_component_get_extends ()">as_component_get_extends</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-add-extends" title="as_component_add_extends ()">as_component_add_extends</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-add-language" title="as_component_add_language ()">as_component_add_language</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-language" title="as_component_get_language ()">as_component_get_language</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-languages" title="as_component_get_languages ()">as_component_get_languages</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -431,12 +487,6 @@
 <tr>
 <td class="property_type">
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
-<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--homepage" title="The “homepage” property">homepage</a></td>
-<td class="property_flags">Read / Write</td>
-</tr>
-<tr>
-<td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
 <td class="property_name"><a class="link" href="AsComponent.html#AsComponent--icon" title="The “icon” property">icon</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
@@ -449,7 +499,7 @@
 <tr>
 <td class="property_type">
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
-<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--idname" title="The “idname” property">idname</a></td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--id" title="The “id” property">id</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
@@ -502,6 +552,12 @@
 <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
 <td class="property_name"><a class="link" href="AsComponent.html#AsComponent--summary" title="The “summary” property">summary</a></td>
 <td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="../glib/glib-Hash-Tables.html#GHashTable"><span class="type">GHashTable</span></a> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--urls" title="The “urls” property">urls</a></td>
+<td class="property_flags">Read</td>
 </tr>
 </tbody>
 </table></div>
@@ -651,31 +707,11 @@ as_component_to_string (<em class="parameter"><code><a class="link" href="AsComp
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-component-provides-item"></a><h3>as_component_provides_item ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-as_component_provides_item (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                            <em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
-                            <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>Checks if this component provides an item of the specified type</p>
-<p><em class="parameter"><code>self</code></em>
- a valid <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
-<em class="parameter"><code>kind</code></em>
- the kind of the provides-item
-<em class="parameter"><code>value</code></em>
- the value of the provides-item</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.8.6"></a><h4>Returns</h4>
-<p> <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if an item was found</p>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-component-get-kind"></a><h3>as_component_get_kind ()</h3>
 <pre class="programlisting"><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="returnvalue">AsComponentKind</span></a>
 as_component_get_kind (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.9.4"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.8.4"></a><h4>Returns</h4>
 <p>the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
 <p></p>
 </div>
@@ -695,7 +731,7 @@ as_component_set_kind (<em class="parameter"><code><a class="link" href="AsCompo
 as_component_get_id (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <p>Set the unique identifier for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.11.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.10.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -709,24 +745,40 @@ as_component_set_id (<em class="parameter"><code><a class="link" href="AsCompone
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-component-get-pkgname"></a><h3>as_component_get_pkgname ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_component_get_pkgname (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
-<p>
-</p>
+<a name="as-component-get-pkgnames"></a><h3>as_component_get_pkgnames ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
+as_component_get_pkgnames (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
+<p>Get a list of package names which this component consists of.
+This usually is just one package name.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.13.5"></a><h4>Returns</h4>
-<p></p>
+<a name="id-1.2.2.9.12.5"></a><h4>Returns</h4>
+<p> String array of package names. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-component-set-pkgname"></a><h3>as_component_set_pkgname ()</h3>
+<a name="as-component-set-pkgnames"></a><h3>as_component_set_pkgnames ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_component_set_pkgname (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
+as_component_set_pkgnames (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);</pre>
+<p>Set a list of package names this component consists of.
+(This should usually be just one package name)</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.13.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span></td>
+</tr></tbody>
+</table></div>
+</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -736,7 +788,7 @@ as_component_get_name (<em class="parameter"><code><a class="link" href="AsCompo
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.2.9.15.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.14.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -757,7 +809,7 @@ as_component_get_name_original (<em class="parameter"><code><a class="link" href
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.2.9.17.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.16.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -772,12 +824,54 @@ as_component_set_name_original (<em class="parameter"><code><a class="link" href
 </div>
 <hr>
 <div class="refsect2">
+<a name="as-component-get-summary"></a><h3>as_component_get_summary ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_component_get_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.18.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-set-summary"></a><h3>as_component_set_summary ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_set_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-description"></a><h3>as_component_get_description ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_component_get_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
+<p>
+</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.20.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-set-description"></a><h3>as_component_set_description ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_set_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                              <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-component-get-project-license"></a><h3>as_component_get_project_license ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_project_license (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <p>Get the license of the project this component belongs to.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.19.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.22.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -796,7 +890,7 @@ as_component_set_project_license (<em class="parameter"><code><a class="link" hr
 as_component_get_project_group (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <p>Get the component's project group.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.21.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.24.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -810,12 +904,31 @@ as_component_set_project_group (<em class="parameter"><code><a class="link" href
 </div>
 <hr>
 <div class="refsect2">
+<a name="as-component-get-developer-name"></a><h3>as_component_get_developer_name ()</h3>
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_component_get_developer_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
+<p>Get the component's developer or development team name.</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.26.5"></a><h4>Returns</h4>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-set-developer-name"></a><h3>as_component_set_developer_name ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_set_developer_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>Set the the component's developer or development team name.</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-component-get-compulsory-for-desktops"></a><h3>as_component_get_compulsory_for_desktops ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 as_component_get_compulsory_for_desktops
                                (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.23.4"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.28.4"></a><h4>Returns</h4>
 <p> A list of desktops where this component is compulsory. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -838,31 +951,10 @@ as_component_is_compulsory_for_desktop
                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *desktop</code></em>);</pre>
 <p>Check if this component is compulsory for the given desktop.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.25.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.30.5"></a><h4>Returns</h4>
 <p> <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if compulsory, <a href="../glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise.</p>
 <p></p>
 </div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-component-get-summary"></a><h3>as_component_get_summary ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_component_get_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.26.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-component-set-summary"></a><h3>as_component_set_summary ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-as_component_set_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -870,7 +962,7 @@ as_component_set_summary (<em class="parameter"><code><a class="link" href="AsCo
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 as_component_get_categories (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.28.4"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.31.4"></a><h4>Returns</h4>
 <p> String array of categories. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -881,8 +973,21 @@ as_component_get_categories (<em class="parameter"><code><a class="link" href="A
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_set_categories (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
                              <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);</pre>
-<p>
-</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.32.4"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span></td>
+</tr></tbody>
+</table></div>
+</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -904,7 +1009,7 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *category</code></em>);</pre>
 <p>Check if component is in the specified category.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.31.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.34.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -915,7 +1020,7 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
 as_component_get_screenshots (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <p>Get a list of associated screenshots.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.32.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.35.5"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> instances. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsScreenshot][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -928,7 +1033,7 @@ as_component_add_screenshot (<em class="parameter"><code><a class="link" href="A
                              <em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *sshot</code></em>);</pre>
 <p>Add an <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.33.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.36.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -952,34 +1057,13 @@ as_component_add_screenshot (<em class="parameter"><code><a class="link" href="A
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-component-get-description"></a><h3>as_component_get_description ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_component_get_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
-<p>
-</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.34.5"></a><h4>Returns</h4>
-<p></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-component-set-description"></a><h3>as_component_set_description ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-as_component_set_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                              <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-component-get-keywords"></a><h3>as_component_get_keywords ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 as_component_get_keywords (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.36.4"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.37.4"></a><h4>Returns</h4>
 <p> String array of keywords. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
@@ -988,18 +1072,46 @@ as_component_get_keywords (<em class="parameter"><code><a class="link" href="AsC
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_set_keywords (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
                            <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);</pre>
-<p>
-</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.38.4"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Parameter points to an array of items."><span class="acronym">array</span></acronym> zero-terminated=1]</span></td>
+</tr></tbody>
+</table></div>
+</div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-component-get-icon"></a><h3>as_component_get_icon ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_icon (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
-<p>
-</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.38.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.39.4"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.9.39.5"></a><h4>Returns</h4>
+<p>the icon name for this component. This is usually
+a stock icon name, e.g. "applications-science"</p>
 <p></p>
 </div>
 </div>
@@ -1009,18 +1121,49 @@ as_component_get_icon (<em class="parameter"><code><a class="link" href="AsCompo
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_set_icon (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
+<p>Set a stock icon name for this component,
+e.g. "applications-science"</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.40.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-component-get-icon-url"></a><h3>as_component_get_icon_url ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_icon_url (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
-<p>
-</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.40.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.41.4"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.9.41.5"></a><h4>Returns</h4>
+<p>the full url of this icon, e.g.
+"/usr/share/icons/hicolor/64x64/foobar.png"
+This might also be an http url pointing at a remote location.</p>
 <p></p>
 </div>
 </div>
@@ -1030,8 +1173,25 @@ as_component_get_icon_url (<em class="parameter"><code><a class="link" href="AsC
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_set_icon_url (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
                            <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>
-</p>
+<p>Set an icon url for this component, which can be a remote
+or local location.
+The icon size pointed to should be 64x64 and the icon should ideally be
+a PNG icon.</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.42.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1041,7 +1201,7 @@ as_component_get_provided_items (<em class="parameter"><code><a class="link" hre
 <p>Get an array of the provides-items this component is
 associated with.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.42.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.43.5"></a><h4>Returns</h4>
 <p> A list of desktops where this component is compulsory. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1056,7 +1216,7 @@ as_component_add_provided_item (<em class="parameter"><code><a class="link" href
                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>);</pre>
 <p>Adds a provided item to the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.43.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.44.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1086,12 +1246,32 @@ as_component_add_provided_item (<em class="parameter"><code><a class="link" href
 </div>
 <hr>
 <div class="refsect2">
+<a name="as-component-provides-item"></a><h3>as_component_provides_item ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+as_component_provides_item (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                            <em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
+                            <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>Checks if this component provides an item of the specified type</p>
+<p><em class="parameter"><code>self</code></em>
+ a valid <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
+<em class="parameter"><code>kind</code></em>
+ the kind of the provides-item
+<em class="parameter"><code>value</code></em>
+ the value of the provides-item</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.45.6"></a><h4>Returns</h4>
+<p> <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if an item was found</p>
+<p></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-component-get-urls"></a><h3>as_component_get_urls ()</h3>
 <pre class="programlisting"><a href="../glib/glib-Hash-Tables.html#GHashTable"><span class="returnvalue">GHashTable</span></a> *
 as_component_get_urls (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
 <p>Gets the URLs set for the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.44.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.46.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1106,7 +1286,7 @@ as_component_get_urls (<em class="parameter"><code><a class="link" href="AsCompo
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.44.6"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.46.6"></a><h4>Returns</h4>
 <p> URLs. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1117,10 +1297,10 @@ as_component_get_urls (<em class="parameter"><code><a class="link" href="AsCompo
 <a name="as-component-get-url"></a><h3>as_component_get_url ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_url (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                      <em class="parameter"><code><a href="../appstream-glib/appstream-glib-as-enums.html#AsUrlKind"><span class="type">AsUrlKind</span></a> url_kind</code></em>);</pre>
+                      <em class="parameter"><code><a class="link" href="appstream-as-enums.html#AsUrlKind" title="enum AsUrlKind"><span class="type">AsUrlKind</span></a> url_kind</code></em>);</pre>
 <p>Gets a URL.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.45.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.47.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1135,14 +1315,14 @@ as_component_get_url (<em class="parameter"><code><a class="link" href="AsCompon
 </tr>
 <tr>
 <td class="parameter_name"><p>url_kind</p></td>
-<td class="parameter_description"><p>the URL kind, e.g. <code class="literal">AS_URL_KIND_HOMEPAGE</code>.</p></td>
+<td class="parameter_description"><p>the URL kind, e.g. <a class="link" href="appstream-as-enums.html#AS-URL-KIND-HOMEPAGE:CAPS"><code class="literal">AS_URL_KIND_HOMEPAGE</code></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.45.6"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.47.6"></a><h4>Returns</h4>
 <p> string, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> if unset</p>
 <p></p>
 </div>
@@ -1153,11 +1333,11 @@ as_component_get_url (<em class="parameter"><code><a class="link" href="AsCompon
 <a name="as-component-add-url"></a><h3>as_component_add_url ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_add_url (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
-                      <em class="parameter"><code><a href="../appstream-glib/appstream-glib-as-enums.html#AsUrlKind"><span class="type">AsUrlKind</span></a> url_kind</code></em>,
+                      <em class="parameter"><code><a class="link" href="appstream-as-enums.html#AsUrlKind" title="enum AsUrlKind"><span class="type">AsUrlKind</span></a> url_kind</code></em>,
                       <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);</pre>
 <p>Adds some URL data to the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.46.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.48.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1172,7 +1352,7 @@ as_component_add_url (<em class="parameter"><code><a class="link" href="AsCompon
 </tr>
 <tr>
 <td class="parameter_name"><p>url_kind</p></td>
-<td class="parameter_description"><p>the URL kind, e.g. <code class="literal">AS_URL_KIND_HOMEPAGE</code></p></td>
+<td class="parameter_description"><p>the URL kind, e.g. <a class="link" href="appstream-as-enums.html#AS-URL-KIND-HOMEPAGE:CAPS"><code class="literal">AS_URL_KIND_HOMEPAGE</code></a></p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
@@ -1193,7 +1373,7 @@ as_component_get_releases (<em class="parameter"><code><a class="link" href="AsC
 <p>Get an array of the <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> items this component
 provides.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.47.5"></a><h4>Returns</h4>
+<a name="id-1.2.2.9.49.5"></a><h4>Returns</h4>
 <p> A list of releases. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsRelease][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1206,7 +1386,7 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
                           <em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Add an <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.48.5"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.50.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1227,6 +1407,166 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
 </tbody>
 </table></div>
 </div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-extends"></a><h3>as_component_get_extends ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+as_component_get_extends (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Returns a string list of IDs of components which
+are extended by this addon.</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.51.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.9.51.6"></a><h4>Returns</h4>
+<p> an array. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since 0.7.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-add-extends"></a><h3>as_component_add_extends ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_add_extends (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
+                          <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *cpt_id</code></em>);</pre>
+<p>Add a reference to the extended component</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.52.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cpt_id</p></td>
+<td class="parameter_description"><p>The id of a component which is extended by this component</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-add-language"></a><h3>as_component_add_language ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_add_language (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>,
+                           <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> percentage</code></em>);</pre>
+<p>Adds a language to the component.</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.53.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>locale</p></td>
+<td class="parameter_description"><p>the locale, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. e.g. "en_GB"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>percentage</p></td>
+<td class="parameter_description"><p>the percentage completion of the translation, 0 for locales with unknown amount of translation</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since 0.7.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-language"></a><h3>as_component_get_language ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+as_component_get_language (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>,
+                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
+<p>Gets the translation coverage in percent for a specific locale</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.54.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>locale</p></td>
+<td class="parameter_description"><p>the locale, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. e.g. "en_GB"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.9.54.6"></a><h4>Returns</h4>
+<p> a percentage value, -1 if locale was not found</p>
+<p></p>
+</div>
+<p class="since">Since 0.7.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-languages"></a><h3>as_component_get_languages ()</h3>
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+as_component_get_languages (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *self</code></em>);</pre>
+<p>Get a list of all languages.</p>
+<div class="refsect3">
+<a name="id-1.2.2.9.55.5"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>self</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="id-1.2.2.9.55.6"></a><h4>Returns</h4>
+<p> list of locales. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
+</div>
+<p class="since">Since 0.7.0</p>
 </div>
 </div>
 <div class="refsect1">
@@ -1286,6 +1626,13 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
+<td class="enum_member_name"><p><a name="AS-COMPONENT-KIND-ADDON:CAPS"></a>AS_COMPONENT_KIND_ADDON</p></td>
+<td class="enum_member_description">
+<p>An extension of existing software, which does not run standalone</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
 <td class="enum_member_name"><p><a name="AS-COMPONENT-KIND-LAST:CAPS"></a>AS_COMPONENT_KIND_LAST</p></td>
 <td class="enum_member_description"> </td>
 <td class="enum_member_annotations"> </td>
@@ -1313,14 +1660,6 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsComponent--homepage"></a><h3>The <code class="literal">“homepage”</code> property</h3>
-<pre class="programlisting">  “homepage”                 <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
-<p>homepage.</p>
-<p>Flags: Read / Write</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="AsComponent--icon"></a><h3>The <code class="literal">“icon”</code> property</h3>
 <pre class="programlisting">  “icon”                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p>icon.</p>
@@ -1337,9 +1676,9 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsComponent--idname"></a><h3>The <code class="literal">“idname”</code> property</h3>
-<pre class="programlisting">  “idname”                   <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
-<p>idname.</p>
+<a name="AsComponent--id"></a><h3>The <code class="literal">“id”</code> property</h3>
+<pre class="programlisting">  “id”                       <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>id.</p>
 <p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 </div>
@@ -1411,6 +1750,13 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
 <p>summary.</p>
 <p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--urls"></a><h3>The <code class="literal">“urls”</code> property</h3>
+<pre class="programlisting">  “urls”                     <a href="../glib/glib-Hash-Tables.html#GHashTable"><span class="type">GHashTable</span></a> *</pre>
+<p>urls.</p>
+<p>Flags: Read</p>
 </div>
 </div>
 </div>

@@ -2,11 +2,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>LibAppStream Reference Manual: AsDistroDetails</title>
+<title>AppStream Library Reference Manual: AsDistroDetails</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
-<link rel="home" href="index.html" title="LibAppStream Reference Manual">
+<link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
-<link rel="prev" href="AsDatabase.html" title="AsDatabase">
+<link rel="prev" href="AsDataPool.html" title="AsDataPool">
 <link rel="next" href="AsMenuParser.html" title="AsMenuParser">
 <meta name="generator" content="GTK-Doc V1.20 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -21,7 +21,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="AsDatabase.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="AsDataPool.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="AsMenuParser.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -162,7 +162,7 @@ service distributors may want to provide.</p>
 as_distro_details_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> instance.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.2.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.2.5"></a><h4>Returns</h4>
 <p> a new <a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> instance. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -174,7 +174,7 @@ as_distro_details_new (<em class="parameter"><code><span class="type">void</span
 as_distro_details_construct (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>);</pre>
 <p>Construct a new <a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> instance.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.3.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.3.5"></a><h4>Returns</h4>
 <p> a new <a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> instance. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -189,7 +189,7 @@ as_distro_details_config_distro_get_str
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.4.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.4.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -201,7 +201,7 @@ as_distro_details_get_distro_id (<em class="parameter"><code><a class="link" hre
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.5.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.5.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -215,7 +215,7 @@ as_distro_details_config_distro_get_bool
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.6.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.6.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -227,7 +227,7 @@ as_distro_details_get_distro_name (<em class="parameter"><code><a class="link" h
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.7.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.7.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -239,7 +239,7 @@ as_distro_details_get_distro_version (<em class="parameter"><code><a class="link
 <p>
 </p>
 <div class="refsect3">
-<a name="id-1.2.8.8.8.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.8.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -253,7 +253,7 @@ as_distro_details_get_icon_repository_paths
 Icons of software (even if it is not installed) are stored in these
 locations.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.9.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.9.5"></a><h4>Returns</h4>
 <p> A NULL-terminated array of paths. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>

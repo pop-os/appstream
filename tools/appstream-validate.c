@@ -3,11 +3,11 @@
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
- * Licensed under the GNU General Public License Version 3
+ * Licensed under the GNU General Public License Version 2
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the license, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
@@ -21,6 +21,7 @@
 
 #include "config.h"
 
+#include <config.h>
 #include <locale.h>
 #include <glib/gi18n-lib.h>
 #include <appstream.h>
@@ -141,6 +142,7 @@ main (int argc, char *argv[])
 	gboolean no_color = FALSE;
 	GError *error = NULL;
 	guint retval = 1;
+	guint i;
 
 	const GOptionEntry options[] = {
 		{ "verbose", 0, 0, G_OPTION_ARG_NONE, &verbose,
@@ -188,7 +190,14 @@ main (int argc, char *argv[])
 		goto out;
 	}
 
-	ret = validate_file (argv[1], !no_color);
+	ret = TRUE;
+	for (i = 1; i < argc; i++) {
+		gboolean tmp_ret;
+		tmp_ret = validate_file (argv[i], !no_color);
+		if (!tmp_ret)
+			ret = FALSE;
+	}
+
 	if (!ret) {
 		g_print ("%s\n",
 				 _("Validation failed."));

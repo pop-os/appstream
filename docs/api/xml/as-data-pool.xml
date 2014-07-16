@@ -1,0 +1,145 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsDataPool">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsDataPool.top_of_page">AsDataPool</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>
+  APPSTREAM Library
+</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsDataPool</refname>
+<refpurpose>Collect and temporarily store metadata from different sources</refpurpose>
+</refnamediv>
+
+<refsect1 id="AsDataPool.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsDataPool"><returnvalue>AsDataPool</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-new">as_data_pool_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-initialize">as_data_pool_initialize</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+</entry><entry role="function_name"><link linkend="as-data-pool-get-watched-locations">as_data_pool_get_watched_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-update">as_data_pool_update</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-set-data-source-directories">as_data_pool_set_data_source_directories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsDataPool.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsDataPool
+</screen>
+</refsect1>
+
+
+<refsect1 id="AsDataPool.description" role="desc">
+<title role="desc.title">Description</title>
+<para>This class contains a temporary pool of metadata which has been collected from different
+sources on the system.
+It can directly be used, but usually it is accessed through a <link linkend="AsDatabase"><type>AsDatabase</type></link> instance.
+This class is used by internally by the cache builder, but might be useful for others.</para>
+<para>See also: <link linkend="AsDatabase"><type>AsDatabase</type></link></para>
+
+</refsect1>
+<refsect1 id="AsDataPool.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-data-pool-new" role="function">
+<title>as_data_pool_new&#160;()</title>
+<indexterm zone="as-data-pool-new"><primary>as_data_pool_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsDataPool"><returnvalue>AsDataPool</returnvalue></link>&#160;*
+as_data_pool_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsDataPool"><type>AsDataPool</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-initialize" role="function">
+<title>as_data_pool_initialize&#160;()</title>
+<indexterm zone="as-data-pool-initialize"><primary>as_data_pool_initialize</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_initialize (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Initialize the pool with the predefined metadata locations.</para>
+</refsect2>
+<refsect2 id="as-data-pool-get-watched-locations" role="function">
+<title>as_data_pool_get_watched_locations&#160;()</title>
+<indexterm zone="as-data-pool-get-watched-locations"><primary>as_data_pool_get_watched_locations</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+as_data_pool_get_watched_locations (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Return a list of all locations which are searched for metadata.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>a valid <link linkend="AsDataPool"><type>AsDataPool</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> A string-list of watched (absolute) filepaths. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-update" role="function">
+<title>as_data_pool_update&#160;()</title>
+<indexterm zone="as-data-pool-update"><primary>as_data_pool_update</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_update (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Builds an index of all found components in the watched locations.
+The function will try to get as much data into the pool as possible, so even if
+the updates completes with <link linkend="FALSE:CAPS"><literal>FALSE</literal></link>, it might still add components to the pool.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if update completed without error.</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-get-components" role="function">
+<title>as_data_pool_get_components&#160;()</title>
+<indexterm zone="as-data-pool-get-components"><primary>as_data_pool_get_components</primary></indexterm>
+<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+as_data_pool_get_components (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Get a list of found components.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a list of <link linkend="AsComponent"><type>AsComponent</type></link> instances, free with <link linkend="g-list-free"><function>g_list_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer container</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-set-data-source-directories" role="function">
+<title>as_data_pool_set_data_source_directories&#160;()</title>
+<indexterm zone="as-data-pool-set-data-source-directories"><primary>as_data_pool_set_data_source_directories</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_set_data_source_directories
+                               (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                                <parameter><link linkend="gchar"><type>gchar</type></link> **dirs</parameter>);</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+<refsect1 id="AsDataPool.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>
