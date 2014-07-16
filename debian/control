@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
 Build-Depends: cmake (>= 2.8),
                debhelper (>= 9.0.0),
+               gtk-doc-tools,
                intltool,
                libdbus-glib-1-dev,
                libgirepository1.0-dev (>= 1.32),
@@ -20,8 +21,7 @@ Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
 
 Package: appstream-index
 Architecture: any
-Depends: libappstream0 (>= ${binary:Version}),
-         packagekit (>= 0.8.10),
+Depends: packagekit (>= 0.8.10),
          ${misc:Depends},
          ${shlibs:Depends}
 Recommends: app-install-data
@@ -122,7 +122,7 @@ Description: Qt4 library to access AppStream services (development files)
  software-management tools which use the Qt4-based AppStream library.
 
 Package: appstream-doc
-Architecture: any
+Architecture: all
 Section: doc
 Depends: ${misc:Depends}
 Suggests: appstream-index

@@ -3,7 +3,7 @@
 set -e
 
 if [ "$1" = "purge" ]; then
-        # remove the AppStream database
+        # remove the AppStream cache
         rm -rf /var/cache/app-info
 
 fi
