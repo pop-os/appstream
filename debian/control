@@ -9,6 +9,7 @@ Build-Depends: cmake (>= 2.8),
                libgirepository1.0-dev (>= 1.32),
                libglib2.0-dev (>= 2.36),
                libpackagekit-glib2-dev (>= 0.8.10),
+               libqt4-dev,
                libxapian-dev (>= 1.2.12),
                libxml2-dev (>= 2.8.0),
                xmlto
@@ -36,7 +37,7 @@ Description: Software component index generator
  This package provides tools to generate, maintain and
  access the AppStream database of installed and available applications.
 
-Package: libappstream0
+Package: libappstream1
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -57,7 +58,7 @@ Description: Library to access AppStream services
 Package: libappstream-dev
 Architecture: any
 Section: libdevel
-Depends: libappstream0 (= ${binary:Version}),
+Depends: libappstream1 (= ${binary:Version}),
          libglib2.0-dev (>= 2.28),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
@@ -75,7 +76,7 @@ Architecture: any
 Section: introspection
 Depends: gir1.2-freedesktop (>= 1.32),
          gir1.2-glib-2.0 (>= 1.32),
-         libappstream0 (= ${binary:Version}),
+         libappstream1 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a cross-distribution effort for providing and sharing
@@ -85,3 +86,49 @@ Description: Library to access AppStream services (introspection data)
  and various other things needed to make handling of software smarter.
  .
  This package contains introspection data for the AppStream library.
+
+Package: libappstreamqt0
+Architecture: any
+Section: libs
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: appstream-index (= ${binary:Version})
+Description: Qt4 library to access AppStream services
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
+ .
+ This package contains a Qt-based library to access AppStream
+ services, like the software component metadata database.
+
+Package: libappstreamqt-dev
+Architecture: any
+Section: libdevel
+Depends: libappstreamqt0 (= ${binary:Version}),
+         libqt4-dev,
+         ${misc:Depends}
+Description: Qt4 library to access AppStream services (development files)
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
+ .
+ This package contains development files necessary to develop
+ software-management tools which use the Qt4-based AppStream library.
+
+Package: appstream-doc
+Architecture: any
+Section: doc
+Depends: ${misc:Depends}
+Suggests: appstream-index
+Description: Developer documentation for AppStream
+ AppStream is a cross-distribution effort for providing and sharing
+ metadata about software components available in the package repositories
+ of a distribution.
+ It provides specifications for an unified software component metadata database
+ and various other things needed to make handling of software smarter.
+ .
+ This package provides developer documentation for AppStream.
