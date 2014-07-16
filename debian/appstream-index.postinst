@@ -3,7 +3,7 @@
 set -e
 
 # Force-upgrade the database, in case something has changed
-appstream-index appstream-index refresh --force || true
+appstream-index refresh --force || true
 
 #DEBHELPER#
 
