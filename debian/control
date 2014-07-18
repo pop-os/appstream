@@ -26,7 +26,7 @@ Depends: packagekit (>= 0.8.10),
          ${shlibs:Depends}
 Recommends: app-install-data
 Description: Software component index generator
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database,
@@ -46,7 +46,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (= ${binary:Version})
 Description: Library to access AppStream services
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
@@ -62,7 +62,7 @@ Depends: libappstream1 (= ${binary:Version}),
          libglib2.0-dev (>= 2.28),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
@@ -79,7 +79,7 @@ Depends: gir1.2-freedesktop (>= 1.32),
          libappstream1 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
@@ -96,7 +96,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (= ${binary:Version})
 Description: Qt4 library to access AppStream services
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
@@ -112,7 +112,7 @@ Depends: libappstreamqt0 (= ${binary:Version}),
          libqt4-dev,
          ${misc:Depends}
 Description: Qt4 library to access AppStream services (development files)
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
@@ -127,7 +127,7 @@ Section: doc
 Depends: ${misc:Depends}
 Suggests: appstream-index
 Description: Developer documentation for AppStream
- AppStream is a cross-distribution effort for providing and sharing
+ AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata database
