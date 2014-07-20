@@ -44,7 +44,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream-index (= ${binary:Version})
+Recommends: appstream-index (>= ${binary:Version})
 Description: Library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
@@ -94,7 +94,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream-index (= ${binary:Version})
+Recommends: appstream-index (>= ${binary:Version})
 Description: Qt4 library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
