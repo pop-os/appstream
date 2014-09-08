@@ -187,6 +187,10 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsComponent.html#AsComponent--developer-name" title="The “developer-name” property">AsComponent:developer-name</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsComponent.html#AsComponent--icon" title="The “icon” property">AsComponent:icon</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
@@ -207,10 +211,6 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#AsComponent--mimetypes" title="The “mimetypes” property">AsComponent:mimetypes</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsComponent.html#AsComponent--name" title="The “name” property">AsComponent:name</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
@@ -219,7 +219,11 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#AsComponent--pkgname" title="The “pkgname” property">AsComponent:pkgname</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+<a class="link" href="AsComponent.html#AsComponent--pkgnames" title="The “pkgnames” property">AsComponent:pkgnames</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#AsComponent--project-group" title="The “project-group” property">AsComponent:project-group</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -458,6 +462,10 @@ as_builder_set_data_source_directories, function in AsBuilder
 <a class="link" href="AsComponent.html#as-component-to-string" title="as_component_to_string ()">as_component_to_string</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-to-xml" title="as_component_to_xml ()">as_component_to_xml</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
 <a name="idxD"></a><h3 class="title">D</h3>
 <dt>
 <a class="link" href="AsDatabase.html#AsDatabase--database-path" title="The “database-path” property">AsDatabase:database-path</a>, object property in <a class="link" href="AsDatabase.html" title="AsDatabase">AsDatabase</a>
@@ -524,6 +532,10 @@ AsDataProvider:watch-files, object property in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsDataPool.html#as-data-pool-get-locale" title="as_data_pool_get_locale ()">as_data_pool_get_locale</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsDataPool.html#as-data-pool-get-watched-locations" title="as_data_pool_get_watched_locations ()">as_data_pool_get_watched_locations</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
 </dt>
 <dd></dd>
@@ -540,6 +552,10 @@ AsDataProvider:watch-files, object property in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsDataPool.html#as-data-pool-set-locale" title="as_data_pool_set_locale ()">as_data_pool_set_locale</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsDataPool.html#as-data-pool-update" title="as_data_pool_update ()">as_data_pool_update</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
 </dt>
 <dd></dd>
@@ -548,11 +564,19 @@ as_data_provider_construct, function in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_emit_application, function in AsDataProvider
+as_data_provider_emit_component, function in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
 as_data_provider_execute, function in AsDataProvider
+</dt>
+<dd></dd>
+<dt>
+as_data_provider_get_locale, function in AsDataProvider
+</dt>
+<dd></dd>
+<dt>
+as_data_provider_get_locale_short, function in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
@@ -565,6 +589,10 @@ as_data_provider_log_error, function in AsDataProvider
 <dd></dd>
 <dt>
 as_data_provider_log_warning, function in AsDataProvider
+</dt>
+<dd></dd>
+<dt>
+as_data_provider_set_locale, function in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
@@ -616,6 +644,10 @@ as_data_provider_set_watch_files, function in AsDataProvider
 </dt>
 <dd></dd>
 <a name="idxG"></a><h3 class="title">G</h3>
+<dt>
+as_get_locale, function in as-utils-private
+</dt>
+<dd></dd>
 <dt>
 <a class="link" href="AsMenuParser.html#as-get-system-categories" title="as_get_system_categories ()">as_get_system_categories</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
 </dt>
@@ -769,18 +801,6 @@ AsParserMode, enum in as-metadata-private
 </dt>
 <dd></dd>
 <dt>
-AsProviderAppstreamXML, struct in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
-AsProviderAppstreamXMLClass, struct in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
-AsProviderAppstreamXMLPrivate, struct in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
 AsProviderDEP11, struct in AsProviderDEP11
 </dt>
 <dd></dd>
@@ -805,22 +825,6 @@ AsProviderUbuntuAppinstallPrivate, struct in AsProviderUbuntuAppinstall
 </dt>
 <dd></dd>
 <dt>
-as_provider_appstream_xml_construct, function in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_appstream_xml_new, function in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_appstream_xml_process_compressed_file, function in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_appstream_xml_process_file, function in AsProviderAppstreamXML
-</dt>
-<dd></dd>
-<dt>
 as_provider_dep11_construct, function in AsProviderDEP11
 </dt>
 <dd></dd>
@@ -829,11 +833,7 @@ as_provider_dep11_new, function in AsProviderDEP11
 </dt>
 <dd></dd>
 <dt>
-AS_PROVIDER_DE_P11, macro in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-AS_PROVIDER_DE_P11_CLASS, macro in AsProviderDEP11
+AS_PROVIDER_TYPE_XML, macro in AsProviderXML
 </dt>
 <dd></dd>
 <dt>
@@ -842,6 +842,22 @@ as_provider_ubuntu_appinstall_construct, function in AsProviderUbuntuAppinstall
 <dd></dd>
 <dt>
 as_provider_ubuntu_appinstall_new, function in AsProviderUbuntuAppinstall
+</dt>
+<dd></dd>
+<dt>
+as_provider_xml_construct, function in AsProviderXML
+</dt>
+<dd></dd>
+<dt>
+as_provider_xml_new, function in AsProviderXML
+</dt>
+<dd></dd>
+<dt>
+as_provider_xml_process_compressed_file, function in AsProviderXML
+</dt>
+<dd></dd>
+<dt>
+as_provider_xml_process_file, function in AsProviderXML
 </dt>
 <dd></dd>
 <dt>

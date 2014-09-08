@@ -78,7 +78,7 @@ as_description_markup_convert_simple (const gchar *markup)
 	}
 
 	root = xmlDocGetRootElement (doc);
-	if (doc == NULL) {
+	if (root == NULL) {
 		/* document was empty */
 		ret = FALSE;
 		goto out;
@@ -391,6 +391,30 @@ as_string_strip (const gchar* str)
 	result = _tmp0_;
 	g_strstrip (result);
 	return result;
+}
+
+/**
+ * as_get_locale:
+ *
+ * Returns a locale string as used in the AppStream specification.
+ *
+ * Returns: (transfer full): A locale string, free with g_free()
+ */
+gchar*
+as_get_locale (void)
+{
+	const gchar * const *locale_names;
+	gchar *tmp;
+	gchar *locale;
+
+	locale_names = g_get_language_names ();
+	/* set active locale without UTF-8 suffix */
+	locale = g_strdup (locale_names[0]);
+	tmp = g_strstr_len (locale, -1, ".UTF-8");
+	if (tmp != NULL)
+		*tmp = '\0';
+
+	return locale;
 }
 
 /**

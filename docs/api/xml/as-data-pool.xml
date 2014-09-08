@@ -34,6 +34,10 @@
 </entry><entry role="function_name"><link linkend="as-data-pool-update">as_data_pool_update</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-locale">as_data_pool_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-set-locale">as_data_pool_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-pool-set-data-source-directories">as_data_pool_set_data_source_directories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
@@ -125,6 +129,52 @@ as_data_pool_get_components (<parameter><link linkend="AsDataPool"><type>AsDataP
 <para> a list of <link linkend="AsComponent"><type>AsComponent</type></link> instances, free with <link linkend="g-list-free"><function>g_list_free()</function></link>. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer container</acronym>]</emphasis></para>
 </refsect3></refsect2>
+<refsect2 id="as-data-pool-get-locale" role="function">
+<title>as_data_pool_get_locale&#160;()</title>
+<indexterm zone="as-data-pool-get-locale"><primary>as_data_pool_get_locale</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_data_pool_get_locale (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Gets the currently used locale.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsDataPool"><type>AsDataPool</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> Locale used for metadata parsing.</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-set-locale" role="function">
+<title>as_data_pool_set_locale&#160;()</title>
+<indexterm zone="as-data-pool-set-locale"><primary>as_data_pool_set_locale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_set_locale (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
+<para>Sets the current locale which should be used when parsing metadata.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsDataPool"><type>AsDataPool</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>locale</para></entry>
+<entry role="parameter_description"><para>the locale.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-data-pool-set-data-source-directories" role="function">
 <title>as_data_pool_set_data_source_directories&#160;()</title>
 <indexterm zone="as-data-pool-set-data-source-directories"><primary>as_data_pool_set_data_source_directories</primary></indexterm>
@@ -132,9 +182,23 @@ as_data_pool_get_components (<parameter><link linkend="AsDataPool"><type>AsDataP
 as_data_pool_set_data_source_directories
                                (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
                                 <parameter><link linkend="gchar"><type>gchar</type></link> **dirs</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
+<para>Set locations for the data pool to read it's data from.
+This is mainly used for testing purposes. Each location should have an
+"xmls" and/or "yaml" subdirectory with the actual data as (compressed)
+AppStream XML or DEP-11 YAML in it.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dirs</para></entry>
+<entry role="parameter_description"><para> a zero-terminated array of data input directories. </para></entry>
+<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsDataPool.other_details" role="details">

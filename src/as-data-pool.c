@@ -65,10 +65,13 @@ struct _AsDataPoolPrivate
 	GPtrArray* providers;
 	gchar *scr_base_url;
 	gboolean initialized;
+	gchar *locale;
 
 	gchar **asxml_paths;
 	gchar **dep11_paths;
 	gchar **appinstall_paths;
+
+	gchar **icon_paths;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsDataPool, as_data_pool, G_TYPE_OBJECT)
@@ -90,6 +93,8 @@ as_data_pool_finalize (GObject *object)
 
 	g_strfreev (priv->appinstall_paths);
 	g_strfreev (priv->asxml_paths);
+
+	g_strfreev (priv->icon_paths);
 
 	G_OBJECT_CLASS (as_data_pool_parent_class)->finalize (object);
 }
@@ -123,8 +128,9 @@ as_data_pool_new_component_cb (AsDataProvider *sender, AsComponent* cpt, AsDataP
 	cpt_id = as_component_get_id (cpt);
 	existing_cpt = g_hash_table_lookup (priv->cpt_table, cpt_id);
 
-	/* add additional data to the component, e.g. external screenshots */
-	as_component_complete (cpt, priv->scr_base_url);
+	/* add additional data to the component, e.g. external screenshots. Also refines
+	 * the component's icon paths */
+	as_component_complete (cpt, priv->scr_base_url, priv->icon_paths);
 
 	if (existing_cpt) {
 		int priority;
@@ -160,11 +166,12 @@ as_data_pool_initialize (AsDataPool *dpool)
 	priv->providers = g_ptr_array_new_with_free_func (g_object_unref);
 
 	/* added by priority: Appstream XML has the highest, Ubuntu AppInstall the lowest priority */
-	dprov = AS_DATA_PROVIDER (as_provider_appstream_xml_new ());
+	dprov = AS_DATA_PROVIDER (as_provider_xml_new ());
 	as_data_provider_set_watch_files (dprov, priv->asxml_paths);
 	g_ptr_array_add (priv->providers, dprov);
 #ifdef DEBIAN_DEP11
 	dprov = AS_DATA_PROVIDER (as_provider_dep11_new ());
+	as_data_provider_set_watch_files (dprov, priv->dep11_paths);
 	g_ptr_array_add (priv->providers, dprov);
 #endif
 #ifdef UBUNTU_APPINSTALL
@@ -253,6 +260,8 @@ as_data_pool_update (AsDataPool *dpool)
 	for (i = 0; i < priv->providers->len; i++) {
 		gboolean dret;
 		dprov = (AsDataProvider*) g_ptr_array_index (priv->providers, i);
+		as_data_provider_set_locale (dprov, priv->locale);
+
 		dret = as_data_provider_execute (dprov);
 		if (!dret)
 			ret = FALSE;
@@ -276,7 +285,37 @@ as_data_pool_get_components (AsDataPool *dpool)
 }
 
 /**
- * as_builder_set_data_source_directories:
+ * as_data_pool_set_locale:
+ * @dpool: a #AsDataPool instance.
+ * @locale: the locale.
+ *
+ * Sets the current locale which should be used when parsing metadata.
+ **/
+void
+as_data_pool_set_locale (AsDataPool *dpool, const gchar *locale)
+{
+	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
+	g_free (priv->locale);
+	priv->locale = g_strdup (locale);
+}
+
+/**
+ * as_data_pool_get_locale:
+ * @dpool: a #AsDataPool instance.
+ *
+ * Gets the currently used locale.
+ *
+ * Returns: Locale used for metadata parsing.
+ **/
+const gchar *
+as_data_pool_get_locale (AsDataPool *dpool)
+{
+	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
+	return priv->locale;
+}
+
+/**
+ * as_data_pool_set_data_source_directories:
  * @dpool a valid #AsBuilder instance
  * @dirs: (array zero-terminated=1): a zero-terminated array of data input directories.
  *
@@ -343,6 +382,9 @@ as_data_pool_new (void)
 	dpool = g_object_new (AS_TYPE_DATA_POOL, NULL);
 	priv = GET_PRIVATE (dpool);
 
+	/* set active locale */
+	priv->locale = as_get_locale ();
+
 	priv->cpt_table = g_hash_table_new_full (g_str_hash,
 								g_str_equal,
 								g_free,
@@ -380,6 +422,9 @@ as_data_pool_new (void)
 	/* set default directories for Ubuntu AppInstall */
 	priv->appinstall_paths = g_new0 (gchar*, 2);
 	priv->appinstall_paths[0] = g_strdup (AS_PROVIDER_UBUNTU_APPINSTALL_DIR);
+
+	/* set default icon search locations */
+	priv->icon_paths = as_distro_details_get_icon_repository_paths ();
 
 	priv->initialized = FALSE;
 

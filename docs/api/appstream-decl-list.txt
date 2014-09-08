@@ -1,21 +1,21 @@
 <SECTION>
 <FILE>appstream-xml</FILE>
-<TITLE>AsProviderAppstreamXML</TITLE>
-AsProviderAppstreamXML
-AsProviderAppstreamXMLClass
-as_provider_appstream_xml_new
-as_provider_appstream_xml_construct
-as_provider_appstream_xml_process_compressed_file
-as_provider_appstream_xml_process_file
-AsProviderAppstreamXMLPrivate
+<TITLE>AsProviderXML</TITLE>
+AS_PROVIDER_TYPE_XML
+as_provider_xml_new
+as_provider_xml_construct
+as_provider_xml_process_compressed_file
+as_provider_xml_process_file
 <SUBSECTION Standard>
-AS_PROVIDER_APPSTREAM_XML
-AS_PROVIDER_APPSTREAM_XML_CLASS
-AS_PROVIDER_APPSTREAM_XML_GET_CLASS
 AS_PROVIDER_IS_APPSTREAM_XML
 AS_PROVIDER_IS_APPSTREAM_XML_CLASS
-AS_PROVIDER_TYPE_APPSTREAM_XML
-as_provider_appstream_xml_get_type
+AS_PROVIDER_XML
+AS_PROVIDER_XML_CLASS
+AS_PROVIDER_XML_GET_CLASS
+AsProviderXML
+AsProviderXMLClass
+AsProviderXMLPrivate
+as_provider_xml_get_type
 </SECTION>
 
 <SECTION>
@@ -134,6 +134,7 @@ as_component_add_extends
 as_component_add_language
 as_component_get_language
 as_component_get_languages
+as_component_to_xml
 <SUBSECTION Standard>
 AS_COMPONENT
 AS_COMPONENT_CLASS
@@ -157,6 +158,8 @@ as_data_pool_initialize
 as_data_pool_get_watched_locations
 as_data_pool_update
 as_data_pool_get_components
+as_data_pool_get_locale
+as_data_pool_set_locale
 as_data_pool_set_data_source_directories
 <SUBSECTION Standard>
 AS_DATA_POOL
@@ -174,10 +177,13 @@ as_data_pool_get_type
 <FILE>as-data-provider</FILE>
 <TITLE>AsDataProvider</TITLE>
 as_data_provider_construct
-as_data_provider_emit_application
+as_data_provider_emit_component
 as_data_provider_execute
 as_data_provider_log_error
 as_data_provider_log_warning
+as_data_provider_get_locale_short
+as_data_provider_get_locale
+as_data_provider_set_locale
 as_data_provider_get_watch_files
 as_data_provider_set_watch_files
 <SUBSECTION Standard>
@@ -371,15 +377,15 @@ as_release_get_type
 <FILE>as-screenshot</FILE>
 <TITLE>AsScreenshot</TITLE>
 AsScreenshotKind
-as_screenshot_new
 as_screenshot_kind_from_string
 as_screenshot_kind_to_string
 as_screenshot_is_valid
+as_screenshot_new
 as_screenshot_get_kind
-as_screenshot_get_caption
-as_screenshot_get_images
 as_screenshot_set_kind
+as_screenshot_get_caption
 as_screenshot_set_caption
+as_screenshot_get_images
 as_screenshot_add_image
 <SUBSECTION Standard>
 AS_IS_SCREENSHOT
@@ -430,6 +436,7 @@ as_utils_find_files_matching
 as_utils_find_files
 as_utils_is_root
 as_str_replace
+as_get_locale
 </SECTION>
 
 <SECTION>
@@ -479,14 +486,14 @@ as_validator_issue_get_type
 <SECTION>
 <FILE>debian-dep11</FILE>
 <TITLE>AsProviderDEP11</TITLE>
-AS_PROVIDER_DE_P11
-AS_PROVIDER_DE_P11_CLASS
 AsProviderDEP11
 AsProviderDEP11Class
 as_provider_dep11_new
 as_provider_dep11_construct
 AsProviderDEP11Private
 <SUBSECTION Standard>
+AS_PROVIDER_DEP11
+AS_PROVIDER_DEP11_CLASS
 AS_PROVIDER_DEP11_GET_CLASS
 AS_PROVIDER_IS_DEP11
 AS_PROVIDER_IS_DEP11_CLASS

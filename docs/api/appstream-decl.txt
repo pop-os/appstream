@@ -242,6 +242,16 @@ AsDataPool *dpool
 AsDataPool *dpool 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_data_pool_get_locale</NAME>
+<RETURNS>const gchar  *	</RETURNS>
+AsDataPool *dpool 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_pool_set_locale</NAME>
+<RETURNS>void 			</RETURNS>
+AsDataPool *dpool, const gchar *locale 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_data_pool_set_data_source_directories</NAME>
 <RETURNS>void 			</RETURNS>
 AsDataPool *dpool, gchar **dirs 
@@ -344,227 +354,227 @@ GType object_type
 <FUNCTION>
 <NAME>as_component_is_valid</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_to_string</NAME>
 <RETURNS>gchar * 				</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_kind</NAME>
 <RETURNS>AsComponentKind 		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_kind</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, AsComponentKind value 
+AsComponent* cpt, AsComponentKind value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_id</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_id</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_pkgnames</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_pkgnames</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
+AsComponent* cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_name</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name_original</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_name_original</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_summary</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_summary</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_description</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_description</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_license</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_project_license</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_group</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_project_group</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_developer_name</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_developer_name</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_compulsory_for_desktops</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_compulsory_for_desktops</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
+AsComponent* cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_is_compulsory_for_desktop</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent* self, const gchar* desktop 
+AsComponent* cpt, const gchar* desktop 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
+AsComponent* cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories_from_str</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* categories_str 
+AsComponent* cpt, const gchar* categories_str 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_has_category</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent *self, const gchar *category 
+AsComponent *cpt, const gchar *category 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_screenshots</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_screenshot</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, AsScreenshot* sshot 
+AsComponent* cpt, AsScreenshot* sshot 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_keywords</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_keywords</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, gchar** value 
+AsComponent* cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_icon</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon_url</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_icon_url</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, const gchar* value 
+AsComponent* cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_provided_items</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_provided_item</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *self, AsProvidesKind kind, const gchar *value, const gchar *data 
+AsComponent *cpt, AsProvidesKind kind, const gchar *value, const gchar *data 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_provides_item</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent *self, AsProvidesKind kind, const gchar *value 
+AsComponent *cpt, AsProvidesKind kind, const gchar *value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_urls</NAME>
 <RETURNS>GHashTable *			</RETURNS>
-AsComponent *self 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_url</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent *self, AsUrlKind url_kind 
+AsComponent *cpt, AsUrlKind url_kind 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_url</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *self, AsUrlKind url_kind, const gchar *url 
+AsComponent *cpt, AsUrlKind url_kind, const gchar *url 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_releases</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* self 
+AsComponent* cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_release</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* self, AsRelease* release 
+AsComponent* cpt, AsRelease* release 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_extends</NAME>
@@ -579,17 +589,22 @@ AsComponent* cpt, const gchar* cpt_id
 <FUNCTION>
 <NAME>as_component_add_language</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *self, const gchar *locale, gint percentage 
+AsComponent *cpt, const gchar *locale, gint percentage 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_language</NAME>
 <RETURNS>gint 				</RETURNS>
-AsComponent *self, const gchar *locale 
+AsComponent *cpt, const gchar *locale 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_languages</NAME>
 <RETURNS>GList *				</RETURNS>
-AsComponent *self 
+AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_to_xml</NAME>
+<RETURNS>gchar *				</RETURNS>
+AsComponent *cpt 
 </FUNCTION>
 <STRUCT>
 <NAME>AsComponentPrivate</NAME>
@@ -652,19 +667,9 @@ typedef enum {
 } AsScreenshotKind;
 </ENUM>
 <FUNCTION>
-<NAME>as_screenshot_get_type</NAME>
-<RETURNS>GType 		 	</RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_screenshot_new</NAME>
-<RETURNS>AsScreenshot 	*</RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
 <NAME>as_screenshot_kind_from_string</NAME>
 <RETURNS>AsScreenshotKind 	</RETURNS>
-const gchar	*kind 
+const gchar *kind 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_kind_to_string</NAME>
@@ -677,33 +682,43 @@ AsScreenshotKind kind
 AsScreenshot *screenshot 
 </FUNCTION>
 <FUNCTION>
+<NAME>as_screenshot_get_type</NAME>
+<RETURNS>GType 		 	</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_new</NAME>
+<RETURNS>AsScreenshot 	*</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
 <NAME>as_screenshot_get_kind</NAME>
 <RETURNS>AsScreenshotKind 	</RETURNS>
-AsScreenshot	*screenshot 
+AsScreenshot *screenshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_kind</NAME>
+<RETURNS>void 		 		</RETURNS>
+AsScreenshot *screenshot, AsScreenshotKind kind 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_get_caption</NAME>
 <RETURNS>const gchar 			*</RETURNS>
-AsScreenshot	*screenshot 
+AsScreenshot *screenshot 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_caption</NAME>
+<RETURNS>void 				</RETURNS>
+AsScreenshot *screenshot, const gchar *caption 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_get_images</NAME>
 <RETURNS>GPtrArray 			*</RETURNS>
-AsScreenshot	*screenshot 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_screenshot_set_kind</NAME>
-<RETURNS>void 		 </RETURNS>
-AsScreenshot *screenshot, AsScreenshotKind kind 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_screenshot_set_caption</NAME>
-<RETURNS>void 		 </RETURNS>
-AsScreenshot *screenshot, const gchar *caption 
+AsScreenshot *screenshot 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_add_image</NAME>
-<RETURNS>void 		 </RETURNS>
+<RETURNS>void 				</RETURNS>
 AsScreenshot *screenshot, AsImage *image 
 </FUNCTION>
 <MACRO>
@@ -1416,7 +1431,7 @@ void
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_provider_emit_application</NAME>
+<NAME>as_data_provider_emit_component</NAME>
 <RETURNS>void 				</RETURNS>
 AsDataProvider* self, AsComponent* cpt 
 </FUNCTION>
@@ -1434,6 +1449,21 @@ AsDataProvider* self, const gchar* msg
 <NAME>as_data_provider_log_warning</NAME>
 <RETURNS>void 				</RETURNS>
 AsDataProvider* self, const gchar* msg 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_provider_get_locale_short</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsDataProvider *dprov 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_provider_get_locale</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsDataProvider *dpool 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_provider_set_locale</NAME>
+<RETURNS>void 				</RETURNS>
+AsDataProvider *dprov, const gchar *locale 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_data_provider_get_watch_files</NAME>
@@ -1492,6 +1522,11 @@ void
 <NAME>as_str_replace</NAME>
 <RETURNS>gchar *			</RETURNS>
 const gchar* str, const gchar* old_str, const gchar* new_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_get_locale</NAME>
+<RETURNS>gchar *			</RETURNS>
+void 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_METADATA</NAME>
@@ -1913,12 +1948,12 @@ void
 #define AS_PROVIDER_TYPE_DEP11 (as_provider_dep11_get_type ())
 </MACRO>
 <MACRO>
-<NAME>AS_PROVIDER_DE_P11</NAME>
-#define AS_PROVIDER_DE_P11(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11))
+<NAME>AS_PROVIDER_DEP11</NAME>
+#define AS_PROVIDER_DEP11(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11))
 </MACRO>
 <MACRO>
-<NAME>AS_PROVIDER_DE_P11_CLASS</NAME>
-#define AS_PROVIDER_DE_P11_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
+<NAME>AS_PROVIDER_DEP11_CLASS</NAME>
+#define AS_PROVIDER_DEP11_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
 </MACRO>
 <MACRO>
 <NAME>AS_PROVIDER_IS_DEP11</NAME>
@@ -1936,7 +1971,7 @@ void
 <NAME>AsProviderDEP11</NAME>
 struct _AsProviderDEP11 {
 	AsDataProvider parent_instance;
-	AsProviderDEP11Private * priv;
+	AsProviderDEP11Private *priv;
 };
 </STRUCT>
 <STRUCT>
@@ -1964,69 +1999,69 @@ GType object_type
 <NAME>AsProviderDEP11Private</NAME>
 </STRUCT>
 <MACRO>
-<NAME>AS_PROVIDER_TYPE_APPSTREAM_XML</NAME>
-#define AS_PROVIDER_TYPE_APPSTREAM_XML (as_provider_appstream_xml_get_type ())
+<NAME>AS_PROVIDER_TYPE_XML</NAME>
+#define AS_PROVIDER_TYPE_XML (as_provider_xml_get_type ())
 </MACRO>
 <MACRO>
-<NAME>AS_PROVIDER_APPSTREAM_XML</NAME>
-#define AS_PROVIDER_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXML))
+<NAME>AS_PROVIDER_XML</NAME>
+#define AS_PROVIDER_XML(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_XML, AsProviderXML))
 </MACRO>
 <MACRO>
-<NAME>AS_PROVIDER_APPSTREAM_XML_CLASS</NAME>
-#define AS_PROVIDER_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXMLClass))
+<NAME>AS_PROVIDER_XML_CLASS</NAME>
+#define AS_PROVIDER_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_XML, AsProviderXMLClass))
 </MACRO>
 <MACRO>
 <NAME>AS_PROVIDER_IS_APPSTREAM_XML</NAME>
-#define AS_PROVIDER_IS_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML))
+#define AS_PROVIDER_IS_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_XML))
 </MACRO>
 <MACRO>
 <NAME>AS_PROVIDER_IS_APPSTREAM_XML_CLASS</NAME>
-#define AS_PROVIDER_IS_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_APPSTREAM_XML))
+#define AS_PROVIDER_IS_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_XML))
 </MACRO>
 <MACRO>
-<NAME>AS_PROVIDER_APPSTREAM_XML_GET_CLASS</NAME>
-#define AS_PROVIDER_APPSTREAM_XML_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_APPSTREAM_XML, AsProviderAppstreamXMLClass))
+<NAME>AS_PROVIDER_XML_GET_CLASS</NAME>
+#define AS_PROVIDER_XML_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_XML, AsProviderXMLClass))
 </MACRO>
 <STRUCT>
-<NAME>AsProviderAppstreamXML</NAME>
-struct _AsProviderAppstreamXML {
+<NAME>AsProviderXML</NAME>
+struct _AsProviderXML {
 	AsDataProvider parent_instance;
-	AsProviderAppstreamXMLPrivate * priv;
+	AsProviderXMLPrivate * priv;
 };
 </STRUCT>
 <STRUCT>
-<NAME>AsProviderAppstreamXMLClass</NAME>
-struct _AsProviderAppstreamXMLClass {
+<NAME>AsProviderXMLClass</NAME>
+struct _AsProviderXMLClass {
 	AsDataProviderClass parent_class;
 };
 </STRUCT>
 <FUNCTION>
-<NAME>as_provider_appstream_xml_get_type</NAME>
+<NAME>as_provider_xml_get_type</NAME>
 <RETURNS>GType  </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_provider_appstream_xml_new</NAME>
-<RETURNS>AsProviderAppstreamXML * </RETURNS>
+<NAME>as_provider_xml_new</NAME>
+<RETURNS>AsProviderXML * </RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_provider_appstream_xml_construct</NAME>
-<RETURNS>AsProviderAppstreamXML * </RETURNS>
+<NAME>as_provider_xml_construct</NAME>
+<RETURNS>AsProviderXML * </RETURNS>
 GType object_type 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_provider_appstream_xml_process_compressed_file</NAME>
+<NAME>as_provider_xml_process_compressed_file</NAME>
 <RETURNS>gboolean  </RETURNS>
-AsProviderAppstreamXML* self, GFile* infile 
+AsProviderXML *self, GFile *infile 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_provider_appstream_xml_process_file</NAME>
+<NAME>as_provider_xml_process_file</NAME>
 <RETURNS>gboolean  </RETURNS>
-AsProviderAppstreamXML* self, GFile* infile 
+AsProviderXML *self, GFile *infile 
 </FUNCTION>
 <STRUCT>
-<NAME>AsProviderAppstreamXMLPrivate</NAME>
+<NAME>AsProviderXMLPrivate</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_PROVIDER_TYPE_UBUNTU_APPINSTALL</NAME>

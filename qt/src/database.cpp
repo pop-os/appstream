@@ -104,7 +104,7 @@ Component xapianDocToComponent(Xapian::Document document) {
         }
         component.setUrls(urls);
     } else {
-        qWarning("Bad url strings for package: %s %s", qPrintable(packageNames.join(",")), qPrintable(concatUrlStrings));
+        qWarning("Bad url strings for component: '%s' (%s)", qPrintable(id), qPrintable(concatUrlStrings));
     }
 
     QString concatProvides = value(document, XapianValues::PROVIDED_ITEMS);
@@ -113,7 +113,7 @@ Component xapianDocToComponent(Xapian::Document document) {
     Q_FOREACH(const QString& string, providesList) {
         QStringList providesParts = string.split(';',QString::SkipEmptyParts);
         if(providesParts.size() < 2) {
-            qWarning("Bad component parts for package %s %s",qPrintable(packageNames.join(",")), qPrintable(string));
+            qWarning("Bad component parts for component: '%s' (%s)", qPrintable(id), qPrintable(string));
             continue;
         }
         QString kindString = providesParts.takeFirst();
@@ -342,6 +342,20 @@ QList< Component > Database::findComponentsByString(const QString& searchTerm, c
 
     return result;
 }
+
+QList<Component> Database::findComponentsByPackageName(const QString& packageName) const
+{
+    Xapian::Query pkgQuery(Xapian::Query::OP_OR,
+                              pkgQuery,
+                              Xapian::Query ("AP" + packageName.trimmed().toStdString()));
+
+    Xapian::Enquire enquire(d->m_db);
+    enquire.set_query (pkgQuery);
+
+    QList<Component> result = parseSearchResults (enquire.get_mset(0,d->m_db.get_doccount()));
+    return result;
+}
+
 
 Database::Database() : d(new DatabasePrivate(QLatin1String("/var/cache/app-info/xapian"))) {
 

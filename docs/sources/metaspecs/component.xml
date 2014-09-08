@@ -75,7 +75,7 @@
 			<term>&lt;id/&gt;</term>
 			<listitem>
 				<para>
-					The <code language="XML"><![CDATA[<id>]]></code> tag is a short and unique identifier for this component. It must contain only ASCII caracters, dots, hyphens and numbers, spaces are
+					The <code language="XML"><![CDATA[<id>]]></code> tag is a short and unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers, spaces are
 					not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <literal>id</literal> tag value.
 				</para>
 				<para>
@@ -234,7 +234,7 @@
 						This includes binaries and libraries. Private interfaces should never be added to a <literal>provides</literal> tag.
 					</para>
 					<para>
-						A <literal>provides</literal> tag contain a number of childrens describing the type and name of the provided public interface items.
+						A <literal>provides</literal> tag contain a number of children describing the type and name of the provided public interface items.
 						It is suggested that the build-system auto-generates this tag and it's children.
 						Currently allowed item types are listed below. If you miss something, file a bug against AppStream so we can add the new type.
 					</para>
@@ -421,13 +421,13 @@
 					Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
 				</para>
 				<para>
-					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property
+					The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> children, where at least one of them must have the property
 					<code>type="default"</code> to indicate the application's primary screenshot. Every <code>&lt;screenshot/&gt;</code> tag must have at least
 					one <code>&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties.
 					The value of the <code>&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
 				</para>
 				<para>
-					Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a <code>&lt;caption/&gt;</code> child, defining a short (not more then 255 caracters!)
+					Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a <code>&lt;caption/&gt;</code> child, defining a short (not more then 255 characters!)
 					description of what the user can see on the referenced screenshot.
 				</para>
 				<para>
