@@ -27,13 +27,19 @@
 <row><entry role="function_type"><link linkend="AsDataProvider"><returnvalue>AsDataProvider</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-provider-construct">as_data_provider_construct</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-data-provider-emit-application">as_data_provider_emit_application</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-data-provider-emit-component">as_data_provider_emit_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-provider-execute">as_data_provider_execute</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-provider-log-error">as_data_provider_log_error</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-provider-log-warning">as_data_provider_log_warning</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-provider-get-locale-short">as_data_provider_get_locale_short</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-provider-get-locale">as_data_provider_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-provider-set-locale">as_data_provider_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 </entry><entry role="function_name"><link linkend="as-data-provider-get-watch-files">as_data_provider_get_watch_files</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -75,8 +81,8 @@
 <title role="object_hierarchy.title">Object Hierarchy</title>
 <screen>    <link linkend="GObject">GObject</link>
     <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsDataProvider
-        <phrase role="lineart">&#9500;&#9472;&#9472;</phrase> <link linkend="AsProviderAppstreamXML">AsProviderAppstreamXML</link>
-        <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> <link linkend="AsProviderDEP11">AsProviderDEP11</link>
+        <phrase role="lineart">&#9500;&#9472;&#9472;</phrase> <link linkend="AsProviderDEP11">AsProviderDEP11</link>
+        <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> <link linkend="AsProviderXML">AsProviderXML</link>
 </screen>
 </refsect1>
 
@@ -101,12 +107,12 @@ as_data_provider_construct (<parameter><link linkend="GType"><type>GType</type><
 
 <para></para>
 </refsect3></refsect2>
-<refsect2 id="as-data-provider-emit-application" role="function">
-<title>as_data_provider_emit_application&#160;()</title>
-<indexterm zone="as-data-provider-emit-application"><primary>as_data_provider_emit_application</primary></indexterm>
+<refsect2 id="as-data-provider-emit-component" role="function">
+<title>as_data_provider_emit_component&#160;()</title>
+<indexterm zone="as-data-provider-emit-component"><primary>as_data_provider_emit_component</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_data_provider_emit_application (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
-                                   <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+as_data_provider_emit_component (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
+                                 <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>
 </para>
 </refsect2>
@@ -140,13 +146,38 @@ as_data_provider_log_warning (<parameter><link linkend="AsDataProvider"><type>As
 <para>
 </para>
 </refsect2>
+<refsect2 id="as-data-provider-get-locale-short" role="function">
+<title>as_data_provider_get_locale_short&#160;()</title>
+<indexterm zone="as-data-provider-get-locale-short"><primary>as_data_provider_get_locale_short</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_data_provider_get_locale_short (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *dprov</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-provider-get-locale" role="function">
+<title>as_data_provider_get_locale&#160;()</title>
+<indexterm zone="as-data-provider-get-locale"><primary>as_data_provider_get_locale</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_data_provider_get_locale (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *dpool</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-provider-set-locale" role="function">
+<title>as_data_provider_set_locale&#160;()</title>
+<indexterm zone="as-data-provider-set-locale"><primary>as_data_provider_set_locale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_provider_set_locale (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *dprov</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
+</refsect2>
 <refsect2 id="as-data-provider-get-watch-files" role="function">
 <title>as_data_provider_get_watch_files&#160;()</title>
 <indexterm zone="as-data-provider-get-watch-files"><primary>as_data_provider_get_watch_files</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 as_data_provider_get_watch_files (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
 <refsect3 role="returns">
 <title>Returns</title>
 
@@ -158,8 +189,6 @@ as_data_provider_get_watch_files (<parameter><link linkend="AsDataProvider"><typ
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_data_provider_set_watch_files (<parameter><link linkend="AsDataProvider"><type>AsDataProvider</type></link> *self</parameter>,
                                   <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
-<para>
-</para>
 </refsect2>
 
 </refsect1>

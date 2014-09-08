@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "7")
-set(AS_VERSION_PATCH  "0")
+set(AS_VERSION_PATCH  "1")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "1")
 
@@ -20,7 +20,7 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 #
 # Options
 #
-option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" OFF)
+option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" ON)
 option(PROVIDER_UBUNTU_APPINSTALL "Enable AppInstall data provider" OFF)
 option(L18N "Enable localization" ON)
 option(VAPI "Create and install a Vala API file" OFF)

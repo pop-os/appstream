@@ -31,15 +31,6 @@ AsScreenshot
 @AS_SCREENSHOT_KIND_NORMAL: 
 @AS_SCREENSHOT_KIND_DEFAULT: 
 
-<!-- ##### FUNCTION as_screenshot_new ##### -->
-<para>
-
-</para>
-
-@void: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_screenshot_kind_from_string ##### -->
 <para>
 
@@ -67,25 +58,16 @@ AsScreenshot
 @Returns: 
 
 
+<!-- ##### FUNCTION as_screenshot_new ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_screenshot_get_kind ##### -->
-<para>
-
-</para>
-
-@screenshot: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_screenshot_get_caption ##### -->
-<para>
-
-</para>
-
-@screenshot: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_screenshot_get_images ##### -->
 <para>
 
 </para>
@@ -103,6 +85,15 @@ AsScreenshot
 @kind: 
 
 
+<!-- ##### FUNCTION as_screenshot_get_caption ##### -->
+<para>
+
+</para>
+
+@screenshot: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_screenshot_set_caption ##### -->
 <para>
 
@@ -110,6 +101,15 @@ AsScreenshot
 
 @screenshot: 
 @caption: 
+
+
+<!-- ##### FUNCTION as_screenshot_get_images ##### -->
+<para>
+
+</para>
+
+@screenshot: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_screenshot_add_image ##### -->

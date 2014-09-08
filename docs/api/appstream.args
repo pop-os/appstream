@@ -99,6 +99,16 @@
 </ARG>
 
 <ARG>
+<NAME>AsComponent::developer-name</NAME>
+<TYPE>gchar*</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>developer-name</NICK>
+<BLURB>developer-name.</BLURB>
+<DEFAULT>NULL</DEFAULT>
+</ARG>
+
+<ARG>
 <NAME>AsComponent::icon</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
@@ -149,16 +159,6 @@
 </ARG>
 
 <ARG>
-<NAME>AsComponent::mimetypes</NAME>
-<TYPE>GStrv</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>mimetypes</NICK>
-<BLURB>mimetypes.</BLURB>
-<DEFAULT></DEFAULT>
-</ARG>
-
-<ARG>
 <NAME>AsComponent::name</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
@@ -179,12 +179,22 @@
 </ARG>
 
 <ARG>
-<NAME>AsComponent::pkgname</NAME>
+<NAME>AsComponent::pkgnames</NAME>
+<TYPE>GStrv</TYPE>
+<RANGE></RANGE>
+<FLAGS>rw</FLAGS>
+<NICK>pkgnames</NICK>
+<BLURB>pkgnames.</BLURB>
+<DEFAULT></DEFAULT>
+</ARG>
+
+<ARG>
+<NAME>AsComponent::project-group</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
 <FLAGS>rw</FLAGS>
-<NICK>pkgname</NICK>
-<BLURB>pkgname.</BLURB>
+<NICK>project-group</NICK>
+<BLURB>project-group.</BLURB>
 <DEFAULT>NULL</DEFAULT>
 </ARG>
 

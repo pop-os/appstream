@@ -83,18 +83,20 @@
     <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
+    <keyword type="function" name="as_component_to_xml ()" link="AsComponent.html#as-component-to-xml"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
     <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
+    <keyword type="property" name="The “developer-name” property" link="AsComponent.html#AsComponent--developer-name"/>
     <keyword type="property" name="The “icon” property" link="AsComponent.html#AsComponent--icon"/>
     <keyword type="property" name="The “icon-url” property" link="AsComponent.html#AsComponent--icon-url"/>
     <keyword type="property" name="The “id” property" link="AsComponent.html#AsComponent--id"/>
     <keyword type="property" name="The “keywords” property" link="AsComponent.html#AsComponent--keywords"/>
     <keyword type="property" name="The “kind” property" link="AsComponent.html#AsComponent--kind"/>
-    <keyword type="property" name="The “mimetypes” property" link="AsComponent.html#AsComponent--mimetypes"/>
     <keyword type="property" name="The “name” property" link="AsComponent.html#AsComponent--name"/>
     <keyword type="property" name="The “name-original” property" link="AsComponent.html#AsComponent--name-original"/>
-    <keyword type="property" name="The “pkgname” property" link="AsComponent.html#AsComponent--pkgname"/>
+    <keyword type="property" name="The “pkgnames” property" link="AsComponent.html#AsComponent--pkgnames"/>
+    <keyword type="property" name="The “project-group” property" link="AsComponent.html#AsComponent--project-group"/>
     <keyword type="property" name="The “project-license” property" link="AsComponent.html#AsComponent--project-license"/>
     <keyword type="property" name="The “screenshots” property" link="AsComponent.html#AsComponent--screenshots"/>
     <keyword type="property" name="The “summary” property" link="AsComponent.html#AsComponent--summary"/>
@@ -106,15 +108,15 @@
     <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
     <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
     <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
-    <keyword type="function" name="as_screenshot_new ()" link="AsScreenshot.html#as-screenshot-new"/>
     <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
     <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
     <keyword type="function" name="as_screenshot_is_valid ()" link="AsScreenshot.html#as-screenshot-is-valid"/>
+    <keyword type="function" name="as_screenshot_new ()" link="AsScreenshot.html#as-screenshot-new"/>
     <keyword type="function" name="as_screenshot_get_kind ()" link="AsScreenshot.html#as-screenshot-get-kind"/>
-    <keyword type="function" name="as_screenshot_get_caption ()" link="AsScreenshot.html#as-screenshot-get-caption"/>
-    <keyword type="function" name="as_screenshot_get_images ()" link="AsScreenshot.html#as-screenshot-get-images"/>
     <keyword type="function" name="as_screenshot_set_kind ()" link="AsScreenshot.html#as-screenshot-set-kind"/>
+    <keyword type="function" name="as_screenshot_get_caption ()" link="AsScreenshot.html#as-screenshot-get-caption"/>
     <keyword type="function" name="as_screenshot_set_caption ()" link="AsScreenshot.html#as-screenshot-set-caption"/>
+    <keyword type="function" name="as_screenshot_get_images ()" link="AsScreenshot.html#as-screenshot-get-images"/>
     <keyword type="function" name="as_screenshot_add_image ()" link="AsScreenshot.html#as-screenshot-add-image"/>
     <keyword type="enum" name="enum AsScreenshotKind" link="AsScreenshot.html#AsScreenshotKind"/>
     <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
@@ -167,6 +169,8 @@
     <keyword type="function" name="as_data_pool_get_watched_locations ()" link="AsDataPool.html#as-data-pool-get-watched-locations"/>
     <keyword type="function" name="as_data_pool_update ()" link="AsDataPool.html#as-data-pool-update"/>
     <keyword type="function" name="as_data_pool_get_components ()" link="AsDataPool.html#as-data-pool-get-components"/>
+    <keyword type="function" name="as_data_pool_get_locale ()" link="AsDataPool.html#as-data-pool-get-locale"/>
+    <keyword type="function" name="as_data_pool_set_locale ()" link="AsDataPool.html#as-data-pool-set-locale"/>
     <keyword type="function" name="as_data_pool_set_data_source_directories ()" link="AsDataPool.html#as-data-pool-set-data-source-directories"/>
     <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
     <keyword type="function" name="as_distro_details_construct ()" link="AsDistroDetails.html#as-distro-details-construct"/>

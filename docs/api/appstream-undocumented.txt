@@ -1,13 +1,12 @@
-62% symbol docs coverage.
-220 symbols documented.
-62 symbols incomplete.
-136 not documented.
+61% symbol docs coverage.
+234 symbols documented.
+63 symbols incomplete.
+151 not documented.
 
 
 AS_BUILDER_ERROR
 AS_METADATA_ERROR
-AS_PROVIDER_DE_P11
-AS_PROVIDER_DE_P11_CLASS
+AS_PROVIDER_TYPE_XML
 AsComponentKind (AS_COMPONENT_KIND_LAST)
 AsDataProvider::component
 AsImageKind (AS_IMAGE_KIND_LAST)
@@ -15,9 +14,6 @@ AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
 AsNodeError (<items>)
 AsParserMode (AS_PARSER_MODE_LAST)
-AsProviderAppstreamXML
-AsProviderAppstreamXMLClass (<items>)
-AsProviderAppstreamXMLPrivate
 AsProviderDEP11
 AsProviderDEP11Class (<items>)
 AsProviderDEP11Private
@@ -51,56 +47,60 @@ as_component_construct (object_type)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
-as_component_get_developer_name (self, Returns)
+as_component_get_developer_name (cpt, Returns)
 as_component_get_icon
 as_component_get_icon_url
-as_component_get_id (self, Returns)
+as_component_get_id (cpt, Returns)
 as_component_get_keywords
 as_component_get_kind
 as_component_get_name
 as_component_get_name_original
-as_component_get_pkgnames (self)
+as_component_get_pkgnames (cpt)
 as_component_get_priority
-as_component_get_project_group (self, Returns)
-as_component_get_project_license (self, Returns)
-as_component_get_provided_items (self)
-as_component_get_releases (self)
-as_component_get_screenshots (self)
+as_component_get_project_group (cpt, Returns)
+as_component_get_project_license (cpt, Returns)
+as_component_get_provided_items (cpt)
+as_component_get_releases (cpt)
+as_component_get_screenshots (cpt)
 as_component_get_summary
-as_component_has_category (self, category, Returns)
-as_component_is_compulsory_for_desktop (self, desktop)
-as_component_is_valid (self)
-as_component_provides_item (self, kind, value)
+as_component_has_category (cpt, category, Returns)
+as_component_is_compulsory_for_desktop (cpt, desktop)
+as_component_is_valid (cpt)
+as_component_provides_item (cpt, kind, value)
 as_component_set_categories
-as_component_set_categories_from_str (self, categories_str)
-as_component_set_compulsory_for_desktops (self, value)
+as_component_set_categories_from_str (cpt, categories_str)
+as_component_set_compulsory_for_desktops (cpt, value)
 as_component_set_description
-as_component_set_developer_name (self, value)
+as_component_set_developer_name (cpt, value)
 as_component_set_icon (value)
 as_component_set_icon_url (value)
-as_component_set_id (self, value)
+as_component_set_id (cpt, value)
 as_component_set_keywords
-as_component_set_kind (self, value)
+as_component_set_kind (cpt, value)
 as_component_set_name
 as_component_set_name_original
-as_component_set_pkgnames (self)
-as_component_set_project_group (self, value)
-as_component_set_project_license (self, value)
+as_component_set_pkgnames (cpt)
+as_component_set_project_group (cpt, value)
+as_component_set_project_license (cpt, value)
 as_component_set_summary
-as_component_to_string (self)
+as_component_to_string (cpt)
+as_component_to_xml (cpt)
 as_data_pool_class_init
 as_data_pool_finalize
 as_data_pool_get_components (dpool)
 as_data_pool_init
 as_data_pool_initialize (dpool)
-as_data_pool_set_data_source_directories
+as_data_pool_set_data_source_directories (dpool)
 as_data_pool_update (dpool)
 as_data_provider_construct
-as_data_provider_emit_application
+as_data_provider_emit_component
 as_data_provider_execute
+as_data_provider_get_locale
+as_data_provider_get_locale_short
 as_data_provider_get_watch_files
 as_data_provider_log_error
 as_data_provider_log_warning
+as_data_provider_set_locale
 as_data_provider_set_watch_files
 as_database_construct (object_type)
 as_database_db_exists
@@ -129,14 +129,25 @@ as_metadata_error_quark
 as_metadata_finalize
 as_metadata_init
 as_metadata_parse_component_node
-as_provider_appstream_xml_construct
-as_provider_appstream_xml_new
-as_provider_appstream_xml_process_compressed_file
-as_provider_appstream_xml_process_file
 as_provider_dep11_construct
+as_provider_dep11_get_localized_node
+as_provider_dep11_get_type
 as_provider_dep11_new
+as_provider_dep11_process_component_node
+as_provider_dep11_process_compressed_file
+as_provider_dep11_process_data
+as_provider_dep11_process_file
+as_provider_dep11_process_screenshots
+as_provider_dep11_real_execute
 as_provider_ubuntu_appinstall_construct
 as_provider_ubuntu_appinstall_new
+as_provider_xml_construct
+as_provider_xml_get_type
+as_provider_xml_new
+as_provider_xml_process_compressed_file
+as_provider_xml_process_file
+as_provider_xml_process_single_document
+as_provider_xml_real_execute
 as_provides_item_create (kind, value, data)
 as_provides_item_get_kind (item)
 as_provides_item_get_value (item)
@@ -180,6 +191,12 @@ as_validator_issue_init
 as_validator_validate_component_node
 as_validator_validate_data (validator, metadata, Returns)
 as_validator_validate_file (validator, metadata_file, Returns)
+dep11_list_to_string_array
+dep11_print_unknown
+dep11_process_icons
+dep11_process_image
+dep11_process_provides
+dep11_process_urls
 pk_plugin_get_description
 pk_plugin_initialize
 pk_plugin_transaction_finished_end

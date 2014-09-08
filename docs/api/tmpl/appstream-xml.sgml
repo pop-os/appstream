@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-AsProviderAppstreamXML
+AsProviderXML
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -22,20 +22,14 @@ AsProviderAppstreamXML
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### STRUCT AsProviderAppstreamXML ##### -->
+<!-- ##### MACRO AS_PROVIDER_TYPE_XML ##### -->
 <para>
 
 </para>
 
 
-<!-- ##### STRUCT AsProviderAppstreamXMLClass ##### -->
-<para>
 
-</para>
-
-@parent_class: 
-
-<!-- ##### FUNCTION as_provider_appstream_xml_new ##### -->
+<!-- ##### FUNCTION as_provider_xml_new ##### -->
 <para>
 
 </para>
@@ -44,7 +38,7 @@ AsProviderAppstreamXML
 @Returns: 
 
 
-<!-- ##### FUNCTION as_provider_appstream_xml_construct ##### -->
+<!-- ##### FUNCTION as_provider_xml_construct ##### -->
 <para>
 
 </para>
@@ -53,7 +47,7 @@ AsProviderAppstreamXML
 @Returns: 
 
 
-<!-- ##### FUNCTION as_provider_appstream_xml_process_compressed_file ##### -->
+<!-- ##### FUNCTION as_provider_xml_process_compressed_file ##### -->
 <para>
 
 </para>
@@ -63,7 +57,7 @@ AsProviderAppstreamXML
 @Returns: 
 
 
-<!-- ##### FUNCTION as_provider_appstream_xml_process_file ##### -->
+<!-- ##### FUNCTION as_provider_xml_process_file ##### -->
 <para>
 
 </para>
@@ -71,11 +65,5 @@ AsProviderAppstreamXML
 @self: 
 @infile: 
 @Returns: 
-
-
-<!-- ##### STRUCT AsProviderAppstreamXMLPrivate ##### -->
-<para>
-
-</para>
 
 

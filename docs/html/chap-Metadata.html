@@ -23,7 +23,7 @@
 </code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code> and <code class="literal">releases</code> tag, a <code class="literal">provides</code> tag with appropriate children is highly recommended. All possible tags in the generic set are:
 		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-generic"></a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;id&gt;
-</code> tag is a short and unique identifier for this component. It must contain only ASCII caracters, dots, hyphens and numbers, spaces are not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <code class="literal">id</code> tag value.
+</code> tag is a short and unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers, spaces are not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <code class="literal">id</code> tag value.
 					</div><div class="para">
 						Note that the value of this tag must be <span class="emphasis"><em>unique</em></span> across all distributions. In case it is not, distributors are expected to reject the conflicting components from inclusion into their metadata.
 					</div></dd><dt><a id="tag-metadata_license"></a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
@@ -75,7 +75,7 @@
 </pre></dd><dt><a id="tag-provides"></a><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
 						The <code class="literal">provides</code> tag and it's children describe the public interfaces this application provides. A public interface can be anything which other applications, which are not part of the upstream project, can access or reference. This includes binaries and libraries. Private interfaces should never be added to a <code class="literal">provides</code> tag.
 					</div><div class="para">
-						A <code class="literal">provides</code> tag contain a number of childrens describing the type and name of the provided public interface items. It is suggested that the build-system auto-generates this tag and it's children. Currently allowed item types are listed below. If you miss something, file a bug against AppStream so we can add the new type.
+						A <code class="literal">provides</code> tag contain a number of children describing the type and name of the provided public interface items. It is suggested that the build-system auto-generates this tag and it's children. Currently allowed item types are listed below. If you miss something, file a bug against AppStream so we can add the new type.
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;library/&gt;</span></dt><dd><div class="para">
 									Contains the name of a shared library placed in a publicly accessible library path, such as <code class="filename">/usr/lib</code>, <code class="filename">/usr/lib/&lt;triplet&gt;</code> or <code class="filename">/lib</code>. For example, for the libappstream library, the value for <code class="literal">library</code> would be <strong class="userinput"><code>libappstream.so.1</code></strong>.
 								</div></dd><dt><span class="term">&lt;binary/&gt;</span></dt><dd><div class="para">
@@ -144,9 +144,9 @@
 					</div></dd><dt><a id="tag-screenshots"></a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
 					</div><div class="para">
-						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> childrens, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
 					</div><div class="para">
-						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more then 255 caracters!) description of what the user can see on the referenced screenshot.
+						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more then 255 characters!) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
 						Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620px. They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
 					</div></dd><dt><a id="tag-update_contact"></a><span class="term">&lt;update_contact/&gt;</span></dt><dd><div class="para">

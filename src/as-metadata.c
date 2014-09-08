@@ -48,9 +48,9 @@ typedef struct _AsMetadataPrivate	AsMetadataPrivate;
 struct _AsMetadataPrivate
 {
 	gchar *locale;
+	gchar *locale_short;
 	AsParserMode mode;
 	gchar *origin_name;
-	gchar **icon_paths;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
@@ -70,7 +70,7 @@ as_metadata_finalize (GObject *object)
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	g_free (priv->locale);
-	g_strfreev (priv->icon_paths);
+	g_free (priv->locale_short);
 	if (priv->origin_name != NULL)
 		g_free (priv->origin_name);
 
@@ -83,19 +83,13 @@ as_metadata_finalize (GObject *object)
 static void
 as_metadata_init (AsMetadata *metad)
 {
-	const gchar * const *locale_names;
-	gchar *tmp;
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
-	locale_names = g_get_language_names ();
 	/* set active locale without UTF-8 suffix */
-	priv->locale = g_strdup (locale_names[0]);
-	tmp = g_strstr_len (priv->locale, -1, ".UTF-8");
-	if (tmp != NULL)
-		*tmp = '\0';
+	as_metadata_set_locale (metad,
+							as_get_locale ());
 
 	priv->origin_name = NULL;
-	priv->icon_paths = as_distro_details_get_icon_repository_paths ();
 
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
 }
@@ -139,9 +133,6 @@ as_metadata_parse_value (AsMetadata* metad, xmlNode* node, gboolean translated)
 	lang = (gchar*) xmlGetProp (node, (xmlChar*) "lang");
 
 	if (translated) {
-		gchar *current_locale;
-		gchar **strv;
-		gchar *str;
 		/* FIXME: If not-localized generic node comes _after_ the localized ones,
 		 * the not-localized will override the localized. Wrong ordering should
 		 * not happen, but we should deal with that case anyway.
@@ -150,20 +141,16 @@ as_metadata_parse_value (AsMetadata* metad, xmlNode* node, gboolean translated)
 			res = content;
 			goto out;
 		}
-		current_locale = priv->locale;
-		if (g_strcmp0 (lang, current_locale) == 0) {
+
+		if (g_strcmp0 (lang, priv->locale) == 0) {
 			res = content;
 			goto out;
 		}
-		strv = g_strsplit (current_locale, "_", 0);
-		str = g_strdup (strv[0]);
-		g_strfreev (strv);
-		if (g_strcmp0 (lang, str) == 0) {
+
+		if (g_strcmp0 (lang, priv->locale_short) == 0) {
 			res = content;
-			g_free (str);
 			goto out;
 		}
-		g_free (str);
 
 		/* Haven't found a matching locale */
 		res = NULL;
@@ -319,7 +306,7 @@ as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node)
 	gchar *content;
 	gchar *node_name;
 	GString *str;
-	g_return_if_fail (metad != NULL);
+	g_return_val_if_fail (metad != NULL, NULL);
 
 	str = g_string_new ("");
 	for (iter = node->children; iter != NULL; iter = iter->next) {
@@ -366,9 +353,11 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 			g_free (prop);
 
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "timestamp");
-			timestamp = g_ascii_strtoll (prop, NULL, 10);
-			as_release_set_timestamp (release, timestamp);
-			g_free (prop);
+			if (prop != NULL) {
+				timestamp = g_ascii_strtoll (prop, NULL, 10);
+				as_release_set_timestamp (release, timestamp);
+				g_free (prop);
+			}
 
 			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
 				if (iter->type != XML_ELEMENT_NODE)
@@ -460,69 +449,6 @@ as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt
 								as_provides_item_create (AS_PROVIDES_KIND_DBUS, content, dbustype));
 		}
 		g_free (content);
-	}
-}
-
-/**
- * as_metadata_refine_component_icon:
- *
- * We use this method to ensure the "icon" and "icon_url" properties of
- * a component are properly set, by finding the icons in default directories.
- */
-static void
-as_metadata_refine_component_icon (AsMetadata *metad, AsComponent *cpt)
-{
-	const gchar *exensions[] = { "png",
-				     "svg",
-				     "svgz",
-				     "gif",
-				     "ico",
-				     "xcf",
-				     NULL };
-	gchar *tmp_icon_path;
-	const gchar *icon_url;
-	guint i, j;
-	AsMetadataPrivate *priv = GET_PRIVATE (metad);
-
-	icon_url = as_component_get_icon_url (cpt);
-	if (g_str_has_prefix (icon_url, "/") ||
-		g_str_has_prefix (icon_url, "http://")) {
-		/* looks like this component already has a full icon path... */
-		return;
-	}
-	tmp_icon_path = NULL;
-
-	if (g_strcmp0 (icon_url, "") == 0) {
-		icon_url = as_component_get_icon (cpt);
-	}
-
-	/* search local icon path */
-	for (i = 0; priv->icon_paths[i] != NULL; i++) {
-		/* sometimes, the file already has an extension */
-		tmp_icon_path = g_strdup_printf ("%s/%s",
-					     priv->icon_paths[i],
-					     icon_url);
-		if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
-			goto out;
-		g_free (tmp_icon_path);
-
-		/* file not found, try extensions (we will not do this forever, better fix AppStream data!) */
-		for (j = 0; exensions[j] != NULL; j++) {
-			tmp_icon_path = g_strdup_printf ("%s/%s.%s",
-					     priv->icon_paths[i],
-					     icon_url,
-					     exensions[j]);
-			if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
-				goto out;
-			g_free (tmp_icon_path);
-			tmp_icon_path = NULL;
-		}
-	}
-
-out:
-	if (tmp_icon_path != NULL) {
-		as_component_set_icon_url (cpt, tmp_icon_path);
-		g_free (tmp_icon_path);
 	}
 }
 
@@ -749,16 +675,13 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 	g_ptr_array_unref (pkgnames);
 	g_strfreev (strv);
 
-	/* add compulsory information to component as strv */
+	/* add compulsoriy information to component as strv */
 	strv = as_ptr_array_to_strv (compulsory_for_desktops);
 	as_component_set_compulsory_for_desktops (cpt, strv);
 	g_ptr_array_unref (compulsory_for_desktops);
 	g_strfreev (strv);
 
 	if ((allow_invalid) || (as_component_is_valid (cpt))) {
-		/* find local icon on the filesystem */
-		as_metadata_refine_component_icon (metad, cpt);
-
 		return cpt;
 	} else {
 		gchar *cpt_str;
@@ -903,14 +826,21 @@ as_metadata_parse_file (AsMetadata* metad, GFile* infile, GError **error)
  * @metad: a #AsMetadata instance.
  * @locale: the locale.
  *
- * Sets the current locale whcih should be used when parsing metadata.
+ * Sets the current locale which should be used when parsing metadata.
  **/
 void
 as_metadata_set_locale (AsMetadata *metad, const gchar *locale)
 {
+	gchar **strv;
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
 	g_free (priv->locale);
+	g_free (priv->locale_short);
 	priv->locale = g_strdup (locale);
+
+	strv = g_strsplit (priv->locale, "_", 0);
+	priv->locale_short = g_strdup (strv[0]);
+	g_strfreev (strv);
 }
 
 /**

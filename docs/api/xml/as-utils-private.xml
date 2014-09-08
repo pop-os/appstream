@@ -42,6 +42,8 @@
 </entry><entry role="function_name"><link linkend="as-utils-is-root">as_utils_is_root</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-str-replace">as_str_replace</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-get-locale">as_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -215,6 +217,17 @@ as_str_replace (<parameter>const <link linkend="gchar"><type>gchar</type></link>
 <title>Returns</title>
 
 <para></para>
+</refsect3></refsect2>
+<refsect2 id="as-get-locale" role="function">
+<title>as_get_locale&#160;()</title>
+<indexterm zone="as-get-locale"><primary>as_get_locale</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_get_locale (<parameter><type>void</type></parameter>);</programlisting>
+<para>Returns a locale string as used in the AppStream specification.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> A locale string, free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 
 </refsect1>
