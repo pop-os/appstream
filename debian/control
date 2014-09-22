@@ -9,23 +9,20 @@ Build-Depends: cmake (>= 2.8),
                libdbus-glib-1-dev,
                libgirepository1.0-dev (>= 1.32),
                libglib2.0-dev (>= 2.36),
-               libpackagekit-glib2-dev (>= 0.9.5-2),
                libqt4-dev,
                libxapian-dev (>= 1.2.12),
                libxml2-dev (>= 2.8.0),
                libyaml-dev,
                xmlto
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Homepage: http://www.freedesktop.org/wiki/Distributions/AppStream/
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/appstream.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
 
 Package: appstream-index
 Architecture: any
-Depends: packagekit (>= 0.9.4),
-         ${misc:Depends},
+Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: app-install-data
 Description: Software component index generator
  AppStream is a cross-distribution effort for creating and sharing
  metadata about software components available in the package repositories
