@@ -8,7 +8,7 @@ Build-Depends: cmake (>= 2.8),
                intltool,
                libdbus-glib-1-dev,
                libgirepository1.0-dev (>= 1.32),
-               libglib2.0-dev (>= 2.36),
+               libglib2.0-dev (>= 2.40),
                libqt4-dev,
                libxapian-dev (>= 1.2.12),
                libxml2-dev (>= 2.8.0),
@@ -57,7 +57,7 @@ Package: libappstream-dev
 Architecture: any
 Section: libdevel
 Depends: libappstream1 (= ${binary:Version}),
-         libglib2.0-dev (>= 2.28),
+         libglib2.0-dev (>= 2.40),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
@@ -73,7 +73,7 @@ Package: gir1.2-appstream
 Architecture: any
 Section: introspection
 Depends: gir1.2-freedesktop (>= 1.32),
-         gir1.2-glib-2.0 (>= 1.32),
+         gir1.2-glib-2.0 (>= 1.40),
          libappstream1 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
