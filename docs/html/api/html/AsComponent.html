@@ -8,15 +8,15 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="ch01.html" title="AppStream API Reference">
 <link rel="next" href="AsRelease.html" title="AsRelease">
-<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
-<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
-                  <a href="#AsComponent.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
-                  <a href="#AsComponent.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties"> <span class="dim">|</span> 
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#AsComponent.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#AsComponent.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
                   <a href="#AsComponent.properties" class="shortcut">Properties</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
@@ -591,7 +591,7 @@
 </div>
 <div class="refsect1">
 <a name="AsComponent.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    GEnum
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobject/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
     <span class="lineart">╰──</span> AsComponentKind
     <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> AsComponent
@@ -724,9 +724,9 @@ as_component_to_string (<em class="parameter"><code><a class="link" href="AsComp
 <a name="as-component-get-kind"></a><h3>as_component_get_kind ()</h3>
 <pre class="programlisting"><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="returnvalue">AsComponentKind</span></a>
 as_component_get_kind (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Returns the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.8.4"></a><h4>Returns</h4>
-<p>the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
+<a name="id-1.2.2.9.8.5"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -1107,8 +1107,10 @@ as_component_set_keywords (<em class="parameter"><code><a class="link" href="AsC
 <a name="as-component-get-icon"></a><h3>as_component_get_icon ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_icon (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Returns the icon name for this component. This is usually
+a stock icon name, e.g. "applications-science"</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.39.4"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.39.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1123,9 +1125,7 @@ as_component_get_icon (<em class="parameter"><code><a class="link" href="AsCompo
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.39.5"></a><h4>Returns</h4>
-<p>the icon name for this component. This is usually
-a stock icon name, e.g. "applications-science"</p>
+<a name="id-1.2.2.9.39.6"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -1158,8 +1158,11 @@ e.g. "applications-science"</p>
 <a name="as-component-get-icon-url"></a><h3>as_component_get_icon_url ()</h3>
 <pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_component_get_icon_url (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Returns the full url of this icon, e.g.
+"/usr/share/icons/hicolor/64x64/foobar.png"
+This might also be an http url pointing at a remote location.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.41.4"></a><h4>Parameters</h4>
+<a name="id-1.2.2.9.41.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1174,10 +1177,7 @@ as_component_get_icon_url (<em class="parameter"><code><a class="link" href="AsC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.41.5"></a><h4>Returns</h4>
-<p>the full url of this icon, e.g.
-"/usr/share/icons/hicolor/64x64/foobar.png"
-This might also be an http url pointing at a remote location.</p>
+<a name="id-1.2.2.9.41.6"></a><h4>Returns</h4>
 <p></p>
 </div>
 </div>
@@ -1251,7 +1251,7 @@ as_component_add_provided_item (<em class="parameter"><code><a class="link" href
 <tr>
 <td class="parameter_name"><p>data</p></td>
 <td class="parameter_description"><p> additional data associated with this item, or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
-<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is ok, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Default parameter value (for in case the shadows-to function has less parameters)."><span class="acronym">default</span></acronym> NULL]</span></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Default parameter value (for in case the shadows-to function has less parameters)."><span class="acronym">default</span></acronym> NULL]</span></td>
 </tr>
 </tbody>
 </table></div>
@@ -1793,6 +1793,6 @@ database. You will not receive the source XML back.</p>
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.20</div>
+          Generated by GTK-Doc V1.21</div>
 </body>
 </html>

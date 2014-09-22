@@ -305,9 +305,10 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 <indexterm zone="as-component-get-kind"><primary>as_component_get_kind</primary></indexterm>
 <programlisting language="C"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 as_component_get_kind (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns the <link linkend="AsComponentKind"><type>AsComponentKind</type></link> of this component.</para>
 <refsect3 role="returns">
 <title>Returns</title>
-<para>the <link linkend="AsComponentKind"><type>AsComponentKind</type></link> of this component.</para>
+
 <para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-set-kind" role="function">
@@ -665,6 +666,8 @@ as_component_set_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-icon"><primary>as_component_get_icon</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns the icon name for this component. This is usually
+a stock icon name, e.g. "applications-science"</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -679,8 +682,7 @@ as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent<
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para>the icon name for this component. This is usually
-a stock icon name, e.g. "applications-science"</para>
+
 <para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-set-icon" role="function">
@@ -709,6 +711,9 @@ e.g. "applications-science"</para>
 <indexterm zone="as-component-get-icon-url"><primary>as_component_get_icon_url</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns the full url of this icon, e.g.
+"/usr/share/icons/hicolor/64x64/foobar.png"
+This might also be an http url pointing at a remote location.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -723,9 +728,7 @@ as_component_get_icon_url (<parameter><link linkend="AsComponent"><type>AsCompon
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para>the full url of this icon, e.g.
-"/usr/share/icons/hicolor/64x64/foobar.png"
-This might also be an http url pointing at a remote location.</para>
+
 <para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-set-icon-url" role="function">
