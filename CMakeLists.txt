@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "7")
-set(AS_VERSION_PATCH  "1")
+set(AS_VERSION_PATCH  "2")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "1")
 
@@ -35,23 +35,22 @@ if(PROVIDER_UBUNTU_APPINSTALL)
 	add_definitions ("-DUBUNTU_APPINSTALL")
 endif()
 
-if(MAINTAINER)
-	add_definitions ("-Wall" "-Werror")
-endif()
-
+#
+# Default paths
+#
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   set(CMAKE_INSTALL_PREFIX
     "/usr" CACHE PATH "Default install prefix" FORCE)
 endif(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
 
-set(XDG_APPS_INSTALL_DIR share/applications)
-
-add_definitions(-DCMAKE_INSTALL_PREFIX="\"${CMAKE_INSTALL_PREFIX}\"")
-add_definitions(-DCMAKE_INSTALL_LIBDIR="\"${CMAKE_INSTALL_LIBDIR}\"")
-
-set(CMAKE_INSTALL_LIBDIR "lib/${CMAKE_LIBRARY_ARCHITECTURE}" CACHE PATH "Output directory for libraries")
-
+# Special case for /etc and /var when prefix is /usr
+if(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
+  set(CMAKE_INSTALL_SYSCONFDIR "/etc" CACHE PATH "read-only single-machine data (etc)")
+  set(CMAKE_INSTALL_LOCALSTATEDIR "/var" CACHE PATH "modifiable single-machine data (var)")
+endif(${CMAKE_INSTALL_PREFIX} STREQUAL "/usr")
+include(GNUInstallDirs)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/data/cmake/)
+
 message(STATUS "Compiling AppStream version ${AS_VERSION}")
 
 add_custom_target(distclean
@@ -64,27 +63,10 @@ add_custom_target(distclean
 find_package (Gettext REQUIRED)
 
 #
-# Default paths
-#
-set(INSTALL_DIR_BIN bin CACHE PATH "Installation directory for executables")
-set(INSTALL_DIR_LIB lib${LIB_SUFFIX}/${CMAKE_LIBRARY_ARCHITECTURE} CACHE PATH "Installation directory for libraries")
-set(INSTALL_DIR_LIBEXEC "${INSTALL_DIR_LIB}/appstream" CACHE PATH "Installation directory for executables use by a library")
-set(INSTALL_DIR_INC include CACHE PATH "Installation directory for headers")
-set(INSTALL_DIR_SYSCONF /etc CACHE PATH "Installation directory for system configuration files")
-
-#
 # Configure files
 #
-set (PREFIXDIR "${CMAKE_INSTALL_PREFIX}")
-set (DATADIR "${CMAKE_INSTALL_PREFIX}/share")
-set (PKGDATADIR "${DATA_INSTALL_DIR}")
-set (LIBDIR "${INSTALL_DIR_LIB}")
-set (PKGLIBDIR "${INSTALL_DIR_LIBEXEC}")
 set (GETTEXT_PACKAGE "appstream")
-set (LOCALE_DIR "${DATADIR}/locale")
 set (VERSION "${AS_VERSION}")
-set (BUILDDIR "${CMAKE_BINARY_DIR}")
-
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 #
@@ -98,10 +80,9 @@ endif(TESTS)
 # Custom C flags
 #
 set (MAINTAINER_CFLAGS "-Werror -Wall -Wcast-align -Wuninitialized -Wno-uninitialized -Wempty-body -Wformat-security -Winit-self")
-option (DISABLE_MAINTAINER_CFLAGS "Disable maintainer CFlags" ON)
-if (DISABLE_MAINTAINER_CFLAGS)
+if (NOT MAINTAINER)
 	set (MAINTAINER_CFLAGS "")
-endif (DISABLE_MAINTAINER_CFLAGS)
+endif (NOT MAINTAINER)
 add_definitions(${MAINTAINER_CFLAGS})
 
 # we do always enable this to never run into the missing-include-trap again

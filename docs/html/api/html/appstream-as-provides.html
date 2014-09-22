@@ -8,15 +8,14 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="appstream-as-enums.html" title="as-enums">
 <link rel="next" href="AsValidator.html" title="AsValidator">
-<meta name="generator" content="GTK-Doc V1.20 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
-<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="10"><tr valign="middle">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
 <td width="100%" align="left" class="shortcuts">
-<a href="#" class="shortcut">Top</a><span id="nav_description"> <span class="dim">|</span> 
-                  <a href="#appstream-as-provides.description" class="shortcut">Description</a></span><span id="nav_hierarchy"> <span class="dim">|</span> 
-                  <a href="#appstream-as-provides.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#appstream-as-provides.description" class="shortcut">Description</a></span>
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
@@ -96,11 +95,6 @@
 </table></div>
 </div>
 <div class="refsect1">
-<a name="appstream-as-provides.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">
-</pre>
-</div>
-<div class="refsect1">
 <a name="appstream-as-provides.includes"></a><h2>Includes</h2>
 <pre class="synopsis">#include &lt;appstream.h&gt;
 </pre>
@@ -120,7 +114,7 @@ Functions to work with these items are provided here.</p>
 as_provides_kind_to_string (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.14.8.2.5"></a><h4>Parameters</h4>
+<a name="id-1.2.14.7.2.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -135,7 +129,7 @@ as_provides_kind_to_string (<em class="parameter"><code><a class="link" href="ap
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.14.8.2.6"></a><h4>Returns</h4>
+<a name="id-1.2.14.7.2.6"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 <p></p>
@@ -148,7 +142,7 @@ as_provides_kind_to_string (<em class="parameter"><code><a class="link" href="ap
 as_provides_kind_from_string (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind_str</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.14.8.3.5"></a><h4>Parameters</h4>
+<a name="id-1.2.14.7.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -163,7 +157,7 @@ as_provides_kind_from_string (<em class="parameter"><code>const <a href="../glib
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.14.8.3.6"></a><h4>Returns</h4>
+<a name="id-1.2.14.7.3.6"></a><h4>Returns</h4>
 <p> a <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> or <a class="link" href="appstream-as-provides.html#AS-PROVIDES-KIND-UNKNOWN:CAPS"><code class="literal">AS_PROVIDES_KIND_UNKNOWN</code></a> for unknown</p>
 <p></p>
 </div>
@@ -191,7 +185,7 @@ the item might look like: dbus;org.freedesktop.PackageKit;system
 <em class="parameter"><code>data</code></em>
  (allow-none) (default NULL): additional data associated with this item</p>
 <div class="refsect3">
-<a name="id-1.2.14.8.4.6"></a><h4>Returns</h4>
+<a name="id-1.2.14.7.4.6"></a><h4>Returns</h4>
 <p> a new provides-item string. Free with g_free</p>
 <p></p>
 </div>
@@ -206,7 +200,7 @@ as <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum 
 <p><em class="parameter"><code>item</code></em>
  a valid provides-item string</p>
 <div class="refsect3">
-<a name="id-1.2.14.8.5.6"></a><h4>Returns</h4>
+<a name="id-1.2.14.7.5.6"></a><h4>Returns</h4>
 <p> the kind of the given item</p>
 <p></p>
 </div>
@@ -220,7 +214,7 @@ as_provides_item_get_value (<em class="parameter"><code>const <a href="../glib/g
 <p><em class="parameter"><code>item</code></em>
  a valid provides-item string</p>
 <div class="refsect3">
-<a name="id-1.2.14.8.6.6"></a><h4>Returns</h4>
+<a name="id-1.2.14.7.6.6"></a><h4>Returns</h4>
 <p> the value of the given item, or NULL if the item was invalid</p>
 <p></p>
 </div>
@@ -232,7 +226,7 @@ as_provides_item_get_value (<em class="parameter"><code>const <a href="../glib/g
 <a name="AsProvidesKind"></a><h3>enum AsProvidesKind</h3>
 <p>Public interfaces components can provide.</p>
 <div class="refsect3">
-<a name="id-1.2.14.9.2.4"></a><h4>Members</h4>
+<a name="id-1.2.14.8.2.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -318,6 +312,6 @@ as_provides_item_get_value (<em class="parameter"><code>const <a href="../glib/g
 </div>
 <div class="footer">
 <hr>
-          Generated by GTK-Doc V1.20</div>
+          Generated by GTK-Doc V1.21</div>
 </body>
 </html>

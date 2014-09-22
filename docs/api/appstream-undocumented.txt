@@ -1,7 +1,7 @@
-61% symbol docs coverage.
-234 symbols documented.
-63 symbols incomplete.
-151 not documented.
+63% symbol docs coverage.
+239 symbols documented.
+67 symbols incomplete.
+143 not documented.
 
 
 AS_BUILDER_ERROR
@@ -48,15 +48,14 @@ as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
 as_component_get_developer_name (cpt, Returns)
-as_component_get_icon
-as_component_get_icon_url
+as_component_get_icon (Returns)
+as_component_get_icon_url (Returns)
 as_component_get_id (cpt, Returns)
 as_component_get_keywords
-as_component_get_kind
+as_component_get_kind (cpt, Returns)
 as_component_get_name
 as_component_get_name_original
 as_component_get_pkgnames (cpt)
-as_component_get_priority
 as_component_get_project_group (cpt, Returns)
 as_component_get_project_license (cpt, Returns)
 as_component_get_provided_items (cpt)
@@ -161,7 +160,7 @@ as_screenshot_init
 as_search_query_construct (object_type, term)
 as_search_query_get_categories
 as_search_query_get_search_all_categories
-as_search_query_get_search_term
+as_search_query_get_search_term (self, Returns)
 as_search_query_new (term)
 as_search_query_sanitize_search_term
 as_search_query_set_categories
@@ -197,9 +196,6 @@ dep11_process_icons
 dep11_process_image
 dep11_process_provides
 dep11_process_urls
-pk_plugin_get_description
-pk_plugin_initialize
-pk_plugin_transaction_finished_end
 
 
 appstream-xml:Long_Description

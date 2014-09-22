@@ -192,9 +192,10 @@ as_search_query_sanitize_search_term (<parameter><link linkend="AsSearchQuery"><
 <indexterm zone="as-search-query-get-search-term"><primary>as_search_query_get_search_term</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_search_query_get_search_term (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
+<para>Returns the search-term we currently use</para>
 <refsect3 role="returns">
 <title>Returns</title>
-<para>the search-term we currently use</para>
+
 <para></para>
 </refsect3></refsect2>
 
