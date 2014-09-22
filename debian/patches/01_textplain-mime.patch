@@ -1,0 +1,36 @@
+From c5e9ce4e907dc5dee5e8afdb441dc745b2c3e71c Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Mon, 22 Sep 2014 17:30:09 +0200
+Subject: [PATCH] Treat the text/plain mimetype equal to YAML or XML
+
+---
+ src/data-providers/appstream-xml.c | 2 +-
+ src/data-providers/debian-dep11.c  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/data-providers/appstream-xml.c b/src/data-providers/appstream-xml.c
+index 1791042..40e390b 100644
+--- a/src/data-providers/appstream-xml.c
++++ b/src/data-providers/appstream-xml.c
+@@ -276,7 +276,7 @@ as_provider_xml_real_execute (AsDataProvider* base)
+ 			continue;
+ 		}
+ 		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
+-		if (g_strcmp0 (content_type, "application/xml") == 0) {
++		if ((g_strcmp0 (content_type, "application/xml") == 0) || (g_strcmp0 (content_type, "text/plain") == 0)) {
+ 			ret = as_provider_xml_process_file (dprov, infile);
+ 		} else if (g_strcmp0 (content_type, "application/gzip") == 0 ||
+ 				g_strcmp0 (content_type, "application/x-gzip") == 0) {
+diff --git a/src/data-providers/debian-dep11.c b/src/data-providers/debian-dep11.c
+index 630fe30..e826e4f 100644
+--- a/src/data-providers/debian-dep11.c
++++ b/src/data-providers/debian-dep11.c
+@@ -794,7 +794,7 @@ as_provider_dep11_real_execute (AsDataProvider* base)
+ 			continue;
+ 		}
+ 		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
+-		if (g_strcmp0 (content_type, "application/x-yaml") == 0) {
++		if ((g_strcmp0 (content_type, "application/x-yaml") == 0) || (g_strcmp0 (content_type, "text/plain") == 0)) {
+ 			ret = as_provider_dep11_process_file (dprov, infile);
+ 		} else if (g_strcmp0 (content_type, "application/gzip") == 0 ||
+ 				g_strcmp0 (content_type, "application/x-gzip") == 0) {
