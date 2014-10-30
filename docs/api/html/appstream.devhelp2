@@ -39,6 +39,8 @@
     <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
     <keyword type="function" name="as_component_get_id ()" link="AsComponent.html#as-component-get-id"/>
     <keyword type="function" name="as_component_set_id ()" link="AsComponent.html#as-component-set-id"/>
+    <keyword type="function" name="as_component_get_origin ()" link="AsComponent.html#as-component-get-origin"/>
+    <keyword type="function" name="as_component_set_origin ()" link="AsComponent.html#as-component-set-origin"/>
     <keyword type="function" name="as_component_get_pkgnames ()" link="AsComponent.html#as-component-get-pkgnames"/>
     <keyword type="function" name="as_component_set_pkgnames ()" link="AsComponent.html#as-component-set-pkgnames"/>
     <keyword type="function" name="as_component_get_name ()" link="AsComponent.html#as-component-get-name"/>
@@ -68,8 +70,9 @@
     <keyword type="function" name="as_component_set_keywords ()" link="AsComponent.html#as-component-set-keywords"/>
     <keyword type="function" name="as_component_get_icon ()" link="AsComponent.html#as-component-get-icon"/>
     <keyword type="function" name="as_component_set_icon ()" link="AsComponent.html#as-component-set-icon"/>
-    <keyword type="function" name="as_component_get_icon_url ()" link="AsComponent.html#as-component-get-icon-url"/>
-    <keyword type="function" name="as_component_set_icon_url ()" link="AsComponent.html#as-component-set-icon-url"/>
+    <keyword type="function" name="as_component_get_icon_url_for_size ()" link="AsComponent.html#as-component-get-icon-url-for-size" since="0.7.4"/>
+    <keyword type="function" name="as_component_add_icon_url ()" link="AsComponent.html#as-component-add-icon-url" since="0.7.4"/>
+    <keyword type="function" name="as_component_get_icon_urls ()" link="AsComponent.html#as-component-get-icon-urls" since="0.7.4"/>
     <keyword type="function" name="as_component_get_provided_items ()" link="AsComponent.html#as-component-get-provided-items"/>
     <keyword type="function" name="as_component_add_provided_item ()" link="AsComponent.html#as-component-add-provided-item" since="0.6.2"/>
     <keyword type="function" name="as_component_provides_item ()" link="AsComponent.html#as-component-provides-item"/>
@@ -84,12 +87,13 @@
     <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
     <keyword type="function" name="as_component_to_xml ()" link="AsComponent.html#as-component-to-xml"/>
+    <keyword type="function" name="as_component_get_icon_url ()" link="AsComponent.html#as-component-get-icon-url" deprecated=""/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
     <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
     <keyword type="property" name="The “developer-name” property" link="AsComponent.html#AsComponent--developer-name"/>
     <keyword type="property" name="The “icon” property" link="AsComponent.html#AsComponent--icon"/>
-    <keyword type="property" name="The “icon-url” property" link="AsComponent.html#AsComponent--icon-url"/>
+    <keyword type="property" name="The “icon-urls” property" link="AsComponent.html#AsComponent--icon-urls"/>
     <keyword type="property" name="The “id” property" link="AsComponent.html#AsComponent--id"/>
     <keyword type="property" name="The “keywords” property" link="AsComponent.html#AsComponent--keywords"/>
     <keyword type="property" name="The “kind” property" link="AsComponent.html#AsComponent--kind"/>

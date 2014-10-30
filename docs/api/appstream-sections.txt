@@ -23,7 +23,7 @@ as_provider_xml_get_type
 <TITLE>AsBuilder</TITLE>
 AS_BUILDER_ERROR
 as_builder_error_quark
-AsNodeError
+AsBuilderError
 as_builder_new
 as_builder_new_path
 as_builder_initialize
@@ -90,6 +90,8 @@ as_component_get_kind
 as_component_set_kind
 as_component_get_id
 as_component_set_id
+as_component_get_origin
+as_component_set_origin
 as_component_get_pkgnames
 as_component_set_pkgnames
 as_component_get_name
@@ -119,8 +121,9 @@ as_component_get_keywords
 as_component_set_keywords
 as_component_get_icon
 as_component_set_icon
-as_component_get_icon_url
-as_component_set_icon_url
+as_component_get_icon_url_for_size
+as_component_add_icon_url
+as_component_get_icon_urls
 as_component_get_provided_items
 as_component_add_provided_item
 as_component_provides_item
@@ -135,6 +138,7 @@ as_component_add_language
 as_component_get_language
 as_component_get_languages
 as_component_to_xml
+as_component_get_icon_url
 <SUBSECTION Standard>
 AS_COMPONENT
 AS_COMPONENT_CLASS

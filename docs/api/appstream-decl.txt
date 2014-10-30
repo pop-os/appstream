@@ -354,142 +354,152 @@ GType object_type
 <FUNCTION>
 <NAME>as_component_is_valid</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_to_string</NAME>
 <RETURNS>gchar * 				</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_kind</NAME>
 <RETURNS>AsComponentKind 		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_kind</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, AsComponentKind value 
+AsComponent *cpt, AsComponentKind value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_id</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_id</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_origin</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_origin</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent *cpt, const gchar* origin 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_pkgnames</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_pkgnames</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, gchar** value 
+AsComponent *cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_name</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name_original</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_name_original</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_summary</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_summary</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_description</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_description</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_license</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_project_license</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_group</NAME>
 <RETURNS>const gchar * 		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_project_group</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_developer_name</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_developer_name</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_compulsory_for_desktops</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_compulsory_for_desktops</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, gchar** value 
+AsComponent *cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_is_compulsory_for_desktop</NAME>
 <RETURNS>gboolean 			</RETURNS>
-AsComponent* cpt, const gchar* desktop 
+AsComponent *cpt, const gchar* desktop 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, gchar** value 
+AsComponent *cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories_from_str</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* categories_str 
+AsComponent *cpt, const gchar* categories_str 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_has_category</NAME>
@@ -499,47 +509,52 @@ AsComponent *cpt, const gchar *category
 <FUNCTION>
 <NAME>as_component_get_screenshots</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_screenshot</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, AsScreenshot* sshot 
+AsComponent *cpt, AsScreenshot* sshot 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_keywords</NAME>
 <RETURNS>gchar **				</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_keywords</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, gchar** value 
+AsComponent *cpt, gchar** value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_icon</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, const gchar* value 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_icon_url</NAME>
+<NAME>as_component_get_icon_url_for_size</NAME>
 <RETURNS>const gchar *		</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt, int width, int height 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_icon_url</NAME>
+<NAME>as_component_add_icon_url</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* value 
+AsComponent *cpt, int width, int height, const gchar* value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_icon_urls</NAME>
+<RETURNS>GHashTable *			</RETURNS>
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_provided_items</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_provided_item</NAME>
@@ -569,12 +584,12 @@ AsComponent *cpt, AsUrlKind url_kind, const gchar *url
 <FUNCTION>
 <NAME>as_component_get_releases</NAME>
 <RETURNS>GPtrArray *			</RETURNS>
-AsComponent* cpt 
+AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_release</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, AsRelease* release 
+AsComponent *cpt, AsRelease* release 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_extends</NAME>
@@ -584,7 +599,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_add_extends</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent* cpt, const gchar* cpt_id 
+AsComponent *cpt, const gchar *cpt_id 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_add_language</NAME>
@@ -604,6 +619,12 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_to_xml</NAME>
 <RETURNS>gchar *				</RETURNS>
+AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_icon_url</NAME>
+<DEPRECATED/>
+<RETURNS>const gchar *		</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <STRUCT>
@@ -1330,13 +1351,13 @@ struct _AsBuilderClass {
 void 
 </FUNCTION>
 <ENUM>
-<NAME>AsNodeError</NAME>
+<NAME>AsBuilderError</NAME>
 typedef enum {
 	AS_BUILDER_ERROR_FAILED,
 	AS_BUILDER_ERROR_PARTIALLY_FAILED,
 	/*< private >*/
 	AS_BUILDER_ERROR_LAST
-} AsNodeError;
+} AsBuilderError;
 </ENUM>
 <FUNCTION>
 <NAME>as_builder_get_type</NAME>

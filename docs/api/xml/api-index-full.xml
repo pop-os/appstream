@@ -6,6 +6,7 @@
 ]>
 <indexdiv>
 <indexdiv><title>B</title>
+<indexentry><primaryie linkends="AsBuilderError"><link linkend="AsBuilderError">AsBuilderError</link>, enum in <link linkend="AsBuilder">AsBuilder</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-BUILDER-ERROR:CAPS"><link linkend="AS-BUILDER-ERROR:CAPS">AS_BUILDER_ERROR</link>, macro in <link linkend="AsBuilder">AsBuilder</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-builder-error-quark"><link linkend="as-builder-error-quark">as_builder_error_quark</link>, function in <link linkend="AsBuilder">AsBuilder</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-builder-initialize"><link linkend="as-builder-initialize">as_builder_initialize</link>, function in <link linkend="AsBuilder">AsBuilder</link></primaryie></indexentry>
@@ -45,7 +46,7 @@
 <indexentry><primaryie linkends="AsComponent--description"><link linkend="AsComponent--description">AsComponent:description</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--developer-name"><link linkend="AsComponent--developer-name">AsComponent:developer-name</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--icon"><link linkend="AsComponent--icon">AsComponent:icon</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsComponent--icon-url"><link linkend="AsComponent--icon-url">AsComponent:icon-url</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsComponent--icon-urls"><link linkend="AsComponent--icon-urls">AsComponent:icon-urls</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--id"><link linkend="AsComponent--id">AsComponent:id</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--keywords"><link linkend="AsComponent--keywords">AsComponent:keywords</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--kind"><link linkend="AsComponent--kind">AsComponent:kind</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -59,6 +60,7 @@
 <indexentry><primaryie linkends="AsComponent--urls"><link linkend="AsComponent--urls">AsComponent:urls</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponentKind"><link linkend="AsComponentKind">AsComponentKind</link>, enum in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-extends"><link linkend="as-component-add-extends">as_component_add_extends</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-add-icon-url"><link linkend="as-component-add-icon-url">as_component_add_icon_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-language"><link linkend="as-component-add-language">as_component_add_language</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-provided-item"><link linkend="as-component-add-provided-item">as_component_add_provided_item</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-release"><link linkend="as-component-add-release">as_component_add_release</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -72,6 +74,8 @@
 <indexentry><primaryie linkends="as-component-get-extends"><link linkend="as-component-get-extends">as_component_get_extends</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icon"><link linkend="as-component-get-icon">as_component_get_icon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icon-url"><link linkend="as-component-get-icon-url">as_component_get_icon_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-icon-urls"><link linkend="as-component-get-icon-urls">as_component_get_icon_urls</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-icon-url-for-size"><link linkend="as-component-get-icon-url-for-size">as_component_get_icon_url_for_size</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-id"><link linkend="as-component-get-id">as_component_get_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-keywords"><link linkend="as-component-get-keywords">as_component_get_keywords</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-kind"><link linkend="as-component-get-kind">as_component_get_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -79,6 +83,7 @@
 <indexentry><primaryie linkends="as-component-get-languages"><link linkend="as-component-get-languages">as_component_get_languages</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-name"><link linkend="as-component-get-name">as_component_get_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-name-original"><link linkend="as-component-get-name-original">as_component_get_name_original</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-origin"><link linkend="as-component-get-origin">as_component_get_origin</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-pkgnames"><link linkend="as-component-get-pkgnames">as_component_get_pkgnames</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-project-group"><link linkend="as-component-get-project-group">as_component_get_project_group</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-project-license"><link linkend="as-component-get-project-license">as_component_get_project_license</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -101,12 +106,12 @@
 <indexentry><primaryie linkends="as-component-set-description"><link linkend="as-component-set-description">as_component_set_description</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-developer-name"><link linkend="as-component-set-developer-name">as_component_set_developer_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-icon"><link linkend="as-component-set-icon">as_component_set_icon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-set-icon-url"><link linkend="as-component-set-icon-url">as_component_set_icon_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-id"><link linkend="as-component-set-id">as_component_set_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-keywords"><link linkend="as-component-set-keywords">as_component_set_keywords</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-kind"><link linkend="as-component-set-kind">as_component_set_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-name"><link linkend="as-component-set-name">as_component_set_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-name-original"><link linkend="as-component-set-name-original">as_component_set_name_original</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-set-origin"><link linkend="as-component-set-origin">as_component_set_origin</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-pkgnames"><link linkend="as-component-set-pkgnames">as_component_set_pkgnames</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-project-group"><link linkend="as-component-set-project-group">as_component_set_project_group</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-project-license"><link linkend="as-component-set-project-license">as_component_set_project_license</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -201,9 +206,6 @@
 <indexentry><primaryie linkends="as-metadata-set-locale"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-origin-id"><link linkend="as-metadata-set-origin-id">as_metadata_set_origin_id</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
-</indexdiv>
-<indexdiv><title>N</title>
-<indexentry><primaryie linkends="AsNodeError"><link linkend="AsNodeError">AsNodeError</link>, enum in <link linkend="AsBuilder">AsBuilder</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>P</title>
 <indexentry><primaryie linkends="AsParserMode"><link linkend="AsParserMode">AsParserMode</link>, enum in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>

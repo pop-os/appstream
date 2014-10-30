@@ -38,7 +38,7 @@ enum XapianValues {
 	CATEGORIES = 147,
 
 	ICON = 148,
-	ICON_URL = 149,
+	ICON_URLS = 149,
 
 	PROVIDED_ITEMS = 150,
 	SCREENSHOT_DATA = 152, // screenshot definitions, as XML
@@ -50,7 +50,9 @@ enum XapianValues {
 	PROJECT_GROUP = 160,
 
 	COMPULSORY_FOR = 170,
-	LANGUAGES = 171
+	LANGUAGES = 171,
+
+	ORIGIN = 180
 
 //!	GETTEXT_DOMAIN = 180,
 //!	ARCHIVE_SECTION = 181,

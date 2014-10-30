@@ -74,6 +74,14 @@ QString value(Xapian::Document document, XapianValues::XapianValues index) {
     return QString::fromStdString(document.get_value(index));
 }
 
+QSize parseSizeString(QString s)
+{
+    QStringList sl = s.split("x");
+    if (sl.count() != 2)
+        return QSize();
+    return QSize(sl[0].toInt(),sl[1].toInt());
+}
+
 Component xapianDocToComponent(Xapian::Document document) {
     Component component;
 
@@ -95,7 +103,7 @@ Component xapianDocToComponent(Xapian::Document document) {
 
     // URLs
     QString concatUrlStrings = value(document, XapianValues::URLS);
-    QStringList urlStrings= concatUrlStrings.split('\n',QString::SkipEmptyParts);
+    QStringList urlStrings = concatUrlStrings.split('\n',QString::SkipEmptyParts);
     if(urlStrings.size() %2 == 0) {
         QMultiHash<Component::UrlKind, QUrl> urls;
         for(int i = 0; i < urlStrings.size(); i=i+2) {
@@ -129,12 +137,23 @@ Component xapianDocToComponent(Xapian::Document document) {
     }
     component.setProvides(provideslist);
 
-    // Application icon
+    // Stock icon
     QString icon = value(document,XapianValues::ICON);
     component.setIcon(icon);
 
-    QUrl iconUrl = QUrl::fromUserInput(value(document,XapianValues::ICON_URL));
-    component.setIconUrl(iconUrl);
+    // Icon urls
+    QString concatIconUrlStrings = value(document, XapianValues::ICON_URLS);
+    QStringList iconUrlStrings = concatIconUrlStrings.split('\n',QString::SkipEmptyParts);
+    if(iconUrlStrings.size() %2 == 0) {
+        for(int i = 0; i < iconUrlStrings.size(); i=i+2) {
+            QString sizeStr = iconUrlStrings.at(i);
+            QUrl url = QUrl::fromUserInput(iconUrlStrings.at(i+1));
+            QSize size = parseSizeString(sizeStr);
+            component.addIconUrl(url, size);
+        }
+    } else {
+        qWarning("Bad icon-url strings for component: '%s' (%s)", qPrintable(id), qPrintable(concatIconUrlStrings));
+    }
 
     // Summary
     QString summary = value(document,XapianValues::SUMMARY);

@@ -595,23 +595,16 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 			if (g_strcmp0 (prop, "stock") == 0) {
 				as_component_set_icon (cpt, content);
 			} else if (g_strcmp0 (prop, "cached") == 0) {
-				icon_url = as_component_get_icon_url (cpt);
-				if ((g_strcmp0 (icon_url, "") == 0) || (g_str_has_prefix (icon_url, "http://"))) {
-					gchar *icon_path_part;
-					/* prepend the origin, to have canonical paths later */
-					if (priv->origin_name == NULL)
-						icon_path_part = g_strdup (content);
-					else
-						icon_path_part = g_strdup_printf ("%s/%s", priv->origin_name, content);
-					as_component_set_icon_url (cpt, icon_path_part);
-					g_free (icon_path_part);
+				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
+					as_component_add_icon_url (cpt, 0, 0, content);
 				}
 			} else if (g_strcmp0 (prop, "local") == 0) {
-				as_component_set_icon_url (cpt, content);
+				as_component_add_icon_url (cpt, 0, 0, content);
 			} else if (g_strcmp0 (prop, "remote") == 0) {
-				icon_url = as_component_get_icon_url (cpt);
-				if (g_strcmp0 (icon_url, "") == 0)
-					as_component_set_icon_url (cpt, content);
+				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				if (icon_url == NULL)
+					as_component_add_icon_url (cpt, 0, 0, content);
 			}
 		} else if (g_strcmp0 (node_name, "url") == 0) {
 			if (content != NULL) {
@@ -668,6 +661,9 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		}
 		g_free (content);
 	}
+
+	/* set the origin of this component */
+	as_component_set_origin (cpt, priv->origin_name);
 
 	/* add package name information to component */
 	strv = as_ptr_array_to_strv (pkgnames);

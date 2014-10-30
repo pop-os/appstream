@@ -1,7 +1,7 @@
-63% symbol docs coverage.
+62% symbol docs coverage.
 239 symbols documented.
-67 symbols incomplete.
-143 not documented.
+58 symbols incomplete.
+146 not documented.
 
 
 AS_BUILDER_ERROR
@@ -12,7 +12,6 @@ AsDataProvider::component
 AsImageKind (AS_IMAGE_KIND_LAST)
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
-AsNodeError (<items>)
 AsParserMode (AS_PARSER_MODE_LAST)
 AsProviderDEP11
 AsProviderDEP11Class (<items>)
@@ -48,13 +47,14 @@ as_component_get_categories
 as_component_get_compulsory_for_desktops
 as_component_get_description
 as_component_get_developer_name (cpt, Returns)
-as_component_get_icon (Returns)
-as_component_get_icon_url (Returns)
+as_component_get_icon
+as_component_get_icon_url_for_size (Returns)
 as_component_get_id (cpt, Returns)
 as_component_get_keywords
 as_component_get_kind (cpt, Returns)
 as_component_get_name
 as_component_get_name_original
+as_component_get_origin
 as_component_get_pkgnames (cpt)
 as_component_get_project_group (cpt, Returns)
 as_component_get_project_license (cpt, Returns)
@@ -62,28 +62,24 @@ as_component_get_provided_items (cpt)
 as_component_get_releases (cpt)
 as_component_get_screenshots (cpt)
 as_component_get_summary
-as_component_has_category (cpt, category, Returns)
-as_component_is_compulsory_for_desktop (cpt, desktop)
+as_component_has_category (category, Returns)
 as_component_is_valid (cpt)
-as_component_provides_item (cpt, kind, value)
 as_component_set_categories
-as_component_set_categories_from_str (cpt, categories_str)
 as_component_set_compulsory_for_desktops (cpt, value)
 as_component_set_description
 as_component_set_developer_name (cpt, value)
 as_component_set_icon (value)
-as_component_set_icon_url (value)
 as_component_set_id (cpt, value)
 as_component_set_keywords
 as_component_set_kind (cpt, value)
 as_component_set_name
 as_component_set_name_original
+as_component_set_origin
 as_component_set_pkgnames (cpt)
 as_component_set_project_group (cpt, value)
 as_component_set_project_license (cpt, value)
 as_component_set_summary
 as_component_to_string (cpt)
-as_component_to_xml (cpt)
 as_data_pool_class_init
 as_data_pool_finalize
 as_data_pool_get_components (dpool)
@@ -103,8 +99,6 @@ as_data_provider_set_locale
 as_data_provider_set_watch_files
 as_database_construct (object_type)
 as_database_db_exists
-as_database_get_components_by_kind (self, kinds)
-as_database_get_components_by_provides (self, kind, value, data)
 as_database_get_database_path
 as_database_open
 as_database_set_database_path
@@ -197,6 +191,7 @@ dep11_process_image
 dep11_process_provides
 dep11_process_urls
 
+as_component_get_icon_url
 
 appstream-xml:Long_Description
 appstream-xml:Short_Description

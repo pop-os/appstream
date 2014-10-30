@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QUrl>
 #include <QStringList>
+#include <QSize>
 #include "appstreamqt_export.h"
 #include "provides.h"
 
@@ -102,18 +103,41 @@ class APPSTREAMQT_EXPORT Component {
         bool hasCategory(const QString& category) const;
 
         /**
-         * \return generic icon name
+         * \return generic (stock) icon name
          */
         QString icon() const;
         void setIcon(const QString& icon);
 
-        QUrl iconUrl() const;
-        void setIconUrl(const QUrl& iconUrl);
+        /**
+         * \return absolute path to a 64x64px sized icon
+         *
+         * \deprecated this method is deprecated, use iconUrl(QSize&) instead.
+         */
+        Q_DECL_DEPRECATED QUrl iconUrl() const;
+
+        /**
+         * \return absolute (local or remote) path to an icon of the given size
+         */
+        QUrl iconUrl(const QSize& size) const;
+
+        /**
+         * Sets the url for an icon of 64x64 pixels
+         *
+         * \deprecated this method is deprecated, use \ref addIconUrl instead.
+         */
+        Q_DECL_DEPRECATED void setIconUrl(const QUrl& iconUrl);
+
+        /**
+         * Sets the url for an icon
+         *
+         * The url can be an absolute filepath or a HTTP remote link.
+         */
+        void addIconUrl(const QUrl& iconUrl, const QSize& size);
+
 
         void setUrls(const QMultiHash<UrlKind , QUrl >& urls);
         QMultiHash<UrlKind, QUrl> urls() const;
         QList<QUrl> urls(UrlKind kind) const;
-
 
 
         /**

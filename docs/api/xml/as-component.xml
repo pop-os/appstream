@@ -44,6 +44,10 @@
 </entry><entry role="function_name"><link linkend="as-component-get-id">as_component_get_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-id">as_component_set_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-origin">as_component_get_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-origin">as_component_set_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 </entry><entry role="function_name"><link linkend="as-component-get-pkgnames">as_component_get_pkgnames</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -103,9 +107,11 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-icon">as_component_set_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-icon-url">as_component_get_icon_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-get-icon-url-for-size">as_component_get_icon_url_for_size</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-icon-url">as_component_set_icon_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-icon-url">as_component_add_icon_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-icon-urls">as_component_get_icon_urls</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-provided-items">as_component_get_provided_items</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -134,6 +140,8 @@
 </entry><entry role="function_name"><link linkend="as-component-get-languages">as_component_get_languages</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-to-xml">as_component_to_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-icon-url">as_component_get_icon_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -151,7 +159,7 @@
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--description">description</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--developer-name">developer-name</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--icon">icon</link></entry><entry role="property_flags">Read / Write</entry></row>
-<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--icon-url">icon-url</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="GHashTable"><type>GHashTable</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--icon-urls">icon-urls</link></entry><entry role="property_flags">Read</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--id">id</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="GStrv"><type>GStrv</type></link></entry><entry role="property_name"><link linkend="AsComponent--keywords">keywords</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="AsComponentKind"><type>AsComponentKind</type></link></entry><entry role="property_name"><link linkend="AsComponent--kind">kind</link></entry><entry role="property_flags">Read / Write</entry></row>
@@ -338,6 +346,23 @@ as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</t
                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set the unique identifier for this component.</para>
 </refsect2>
+<refsect2 id="as-component-get-origin" role="function">
+<title>as_component_get_origin&#160;()</title>
+<indexterm zone="as-component-get-origin"><primary>as_component_get_origin</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_origin (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-component-set-origin" role="function">
+<title>as_component_set_origin&#160;()</title>
+<indexterm zone="as-component-set-origin"><primary>as_component_set_origin</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_origin (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *origin</parameter>);</programlisting>
+</refsect2>
 <refsect2 id="as-component-get-pkgnames" role="function">
 <title>as_component_get_pkgnames&#160;()</title>
 <indexterm zone="as-component-get-pkgnames"><primary>as_component_get_pkgnames</primary></indexterm>
@@ -376,8 +401,6 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-name"><primary>as_component_get_name</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>
-</para>
 <refsect3 role="returns">
 <title>Returns</title>
 
@@ -389,8 +412,6 @@ as_component_get_name (<parameter><link linkend="AsComponent"><type>AsComponent<
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_component_set_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-</para>
 </refsect2>
 <refsect2 id="as-component-get-name-original" role="function">
 <title>as_component_get_name_original&#160;()</title>
@@ -540,7 +561,22 @@ as_component_is_compulsory_for_desktop
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *desktop</parameter>);</programlisting>
 <para>Check if this component is compulsory for the given desktop.</para>
-<refsect3 role="returns">
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> object</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>desktop</para></entry>
+<entry role="parameter_description"><para>the desktop-id to test for</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if compulsory, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> otherwise.</para>
 <para></para>
@@ -581,11 +617,22 @@ as_component_set_categories (<parameter><link linkend="AsComponent"><type>AsComp
 as_component_set_categories_from_str (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
 <para>Set the categories list from a string</para>
-<para><parameter>cpt</parameter>
- a valid <link linkend="AsComponent"><type>AsComponent</type></link> instance
-<parameter>categories_str</parameter>
- Semicolon-separated list of category-names</para>
-</refsect2>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a valid <link linkend="AsComponent"><type>AsComponent</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>categories_str</para></entry>
+<entry role="parameter_description"><para>Semicolon-separated list of category-names</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-component-has-category" role="function">
 <title>as_component_has_category&#160;()</title>
 <indexterm zone="as-component-has-category"><primary>as_component_has_category</primary></indexterm>
@@ -593,7 +640,19 @@ as_component_set_categories_from_str (<parameter><link linkend="AsComponent"><ty
 as_component_has_category (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *category</parameter>);</programlisting>
 <para>Check if component is in the specified category.</para>
-<refsect3 role="returns">
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> object</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
 
 <para></para>
@@ -666,8 +725,6 @@ as_component_set_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-icon"><primary>as_component_get_icon</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Returns the icon name for this component. This is usually
-a stock icon name, e.g. "applications-science"</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -682,7 +739,8 @@ a stock icon name, e.g. "applications-science"</para>
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-
+<para> The icon name for this component. This is usually
+a stock icon name, e.g. "applications-science"</para>
 <para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-set-icon" role="function">
@@ -706,14 +764,17 @@ e.g. "applications-science"</para>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-component-get-icon-url" role="function">
-<title>as_component_get_icon_url&#160;()</title>
-<indexterm zone="as-component-get-icon-url"><primary>as_component_get_icon_url</primary></indexterm>
+<refsect2 id="as-component-get-icon-url-for-size" role="function" condition="since:0.7.4">
+<title>as_component_get_icon_url_for_size&#160;()</title>
+<indexterm zone="as-component-get-icon-url-for-size" role="0.7.4"><primary>as_component_get_icon_url_for_size</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Returns the full url of this icon, e.g.
-"/usr/share/icons/hicolor/64x64/foobar.png"
-This might also be an http url pointing at a remote location.</para>
+as_component_get_icon_url_for_size (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                    <parameter><link linkend="int"><type>int</type></link> width</parameter>,
+                                    <parameter><link linkend="int"><type>int</type></link> height</parameter>);</programlisting>
+<para>Returns the full url for an icon with the given width and height.
+In case no icon matching the size is found, <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned.
+The returned path will either be a http link or an absolute, local
+path to the image file of the icon.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -724,23 +785,29 @@ This might also be an http url pointing at a remote location.</para>
 <tbody>
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>width</para></entry>
+<entry role="parameter_description"><para>An icon width</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>height</para></entry>
+<entry role="parameter_description"><para>An icon height</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 
 <para></para>
-</refsect3></refsect2>
-<refsect2 id="as-component-set-icon-url" role="function">
-<title>as_component_set_icon_url&#160;()</title>
-<indexterm zone="as-component-set-icon-url"><primary>as_component_set_icon_url</primary></indexterm>
+</refsect3><para role="since">Since 0.7.4</para></refsect2>
+<refsect2 id="as-component-add-icon-url" role="function" condition="since:0.7.4">
+<title>as_component_add_icon_url&#160;()</title>
+<indexterm zone="as-component-add-icon-url" role="0.7.4"><primary>as_component_add_icon_url</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+as_component_add_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                           <parameter><link linkend="int"><type>int</type></link> width</parameter>,
+                           <parameter><link linkend="int"><type>int</type></link> height</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set an icon url for this component, which can be a remote
-or local location.
-The icon size pointed to should be 64x64 and the icon should ideally be
-a PNG icon.</para>
+or local location.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -752,8 +819,40 @@ a PNG icon.</para>
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>width</para></entry>
+<entry role="parameter_description"><para>An icon width</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>height</para></entry>
+<entry role="parameter_description"><para>An icon height</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>The full icon url</para></entry>
+<entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3></refsect2>
+</refsect3><para role="since">Since 0.7.4</para></refsect2>
+<refsect2 id="as-component-get-icon-urls" role="function" condition="since:0.7.4">
+<title>as_component_get_icon_urls&#160;()</title>
+<indexterm zone="as-component-get-icon-urls" role="0.7.4"><primary>as_component_get_icon_urls</primary></indexterm>
+<programlisting language="C"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+as_component_get_icon_urls (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Gets the icon-urls has table for the component.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> A hash map of icon urls and sizes. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3><para role="since">Since 0.7.4</para></refsect2>
 <refsect2 id="as-component-get-provided-items" role="function">
 <title>as_component_get_provided_items&#160;()</title>
 <indexterm zone="as-component-get-provided-items"><primary>as_component_get_provided_items</primary></indexterm>
@@ -802,7 +901,25 @@ as_component_provides_item (<parameter><link linkend="AsComponent"><type>AsCompo
                             <parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Checks if this component provides an item of the specified type</para>
-<refsect3 role="returns">
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a valid <link linkend="AsComponent"><type>AsComponent</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the kind of the provides-item</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the value of the provides-item</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if an item was found</para>
 <para></para>
@@ -1052,10 +1169,48 @@ as_component_to_xml (<parameter><link linkend="AsComponent"><type>AsComponent</t
 Note that this will produce an unlocalized file only, using the
 language which was selected when this component was obtained from the
 database. You will not receive the source XML back.</para>
-<refsect3 role="returns">
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a valid <link linkend="AsComponent"><type>AsComponent</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-component-get-icon-url" role="function" condition="deprecated:">
+<title>as_component_get_icon_url&#160;()</title>
+<indexterm zone="as-component-get-icon-url" role="deprecated"><primary>as_component_get_icon_url</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<warning><para><literal>as_component_get_icon_url</literal> is deprecated and should not be used in newly-written code.</para></warning>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> The full url of this icon, e.g.
+"/usr/share/icons/hicolor/64x64/foobar.png"
+This might also be an http url pointing at a remote location.
+The icon will have the default icon size, which is usually 64x64 pixels.</para>
+<para></para>
 </refsect3></refsect2>
 
 </refsect1>
@@ -1141,11 +1296,10 @@ database. You will not receive the source XML back.</para>
 <para>icon.</para><para>Flags: Read / Write</para>
 <para>Default value: NULL</para>
 </refsect2>
-<refsect2 id="AsComponent--icon-url" role="property"><title>The <literal>“icon-url”</literal> property</title>
-<indexterm zone="AsComponent--icon-url"><primary>AsComponent:icon-url</primary></indexterm>
-<programlisting>  “icon-url”                 <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
-<para>icon-url.</para><para>Flags: Read / Write</para>
-<para>Default value: NULL</para>
+<refsect2 id="AsComponent--icon-urls" role="property"><title>The <literal>“icon-urls”</literal> property</title>
+<indexterm zone="AsComponent--icon-urls"><primary>AsComponent:icon-urls</primary></indexterm>
+<programlisting>  “icon-urls”                <link linkend="GHashTable"><type>GHashTable</type></link>&#160;*</programlisting>
+<para>icon-urls.</para><para>Flags: Read</para>
 </refsect2>
 <refsect2 id="AsComponent--id" role="property"><title>The <literal>“id”</literal> property</title>
 <indexterm zone="AsComponent--id"><primary>AsComponent:id</primary></indexterm>

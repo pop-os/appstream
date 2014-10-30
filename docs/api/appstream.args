@@ -119,13 +119,13 @@
 </ARG>
 
 <ARG>
-<NAME>AsComponent::icon-url</NAME>
-<TYPE>gchar*</TYPE>
+<NAME>AsComponent::icon-urls</NAME>
+<TYPE>GHashTable*</TYPE>
 <RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>icon-url</NICK>
-<BLURB>icon-url.</BLURB>
-<DEFAULT>NULL</DEFAULT>
+<FLAGS>r</FLAGS>
+<NICK>icon-urls</NICK>
+<BLURB>icon-urls.</BLURB>
+<DEFAULT></DEFAULT>
 </ARG>
 
 <ARG>
