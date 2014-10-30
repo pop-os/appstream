@@ -126,6 +126,24 @@ AsComponent
 @value: 
 
 
+<!-- ##### FUNCTION as_component_get_origin ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_origin ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@origin: 
+
+
 <!-- ##### FUNCTION as_component_get_pkgnames ##### -->
 <para>
 
@@ -389,22 +407,35 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_get_icon_url ##### -->
+<!-- ##### FUNCTION as_component_get_icon_url_for_size ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@width: 
+@height: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_icon_url ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@width: 
+@height: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_get_icon_urls ##### -->
 <para>
 
 </para>
 
 @cpt: 
 @Returns: 
-
-
-<!-- ##### FUNCTION as_component_set_icon_url ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@value: 
 
 
 <!-- ##### FUNCTION as_component_get_provided_items ##### -->
@@ -533,6 +564,15 @@ AsComponent
 
 
 <!-- ##### FUNCTION as_component_to_xml ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_icon_url ##### -->
 <para>
 
 </para>

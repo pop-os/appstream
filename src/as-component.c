@@ -51,6 +51,7 @@
 struct _AsComponentPrivate {
 	AsComponentKind kind;
 	gchar *id;
+	gchar *origin;
 	gchar **pkgnames;
 	gchar *name;
 	gchar *name_original;
@@ -58,7 +59,6 @@ struct _AsComponentPrivate {
 	gchar *description;
 	gchar **keywords;
 	gchar *icon;
-	gchar *icon_url;
 	gchar **categories;
 	gchar *project_license;
 	gchar *project_group;
@@ -68,6 +68,7 @@ struct _AsComponentPrivate {
 	GPtrArray *provided_items; /* of utf8:string */
 	GPtrArray *releases; /* of AsRelease */
 	GHashTable *urls; /* of key:utf8 */
+	GHashTable *icon_urls; /* of key:utf8 */
 	GPtrArray *extends; /* of utf8:string */
 	GHashTable *languages; /* of key:utf8 */
 	int priority; /* used internally */
@@ -88,7 +89,7 @@ enum  {
 	AS_COMPONENT_DESCRIPTION,
 	AS_COMPONENT_KEYWORDS,
 	AS_COMPONENT_ICON,
-	AS_COMPONENT_ICON_URL,
+	AS_COMPONENT_ICON_URLS,
 	AS_COMPONENT_URLS,
 	AS_COMPONENT_CATEGORIES,
 	AS_COMPONENT_PROJECT_LICENSE,
@@ -194,11 +195,11 @@ as_component_construct (GType object_type)
 
 	cpt = (AsComponent*) g_object_new (object_type, NULL);
 	as_component_set_id (cpt, "");
+	as_component_set_origin (cpt, "");
 	as_component_set_name_original (cpt, "");
 	as_component_set_summary (cpt, "");
 	as_component_set_description (cpt, "");
 	as_component_set_icon (cpt, "");
-	as_component_set_icon_url (cpt, "");
 	as_component_set_project_license (cpt, "");
 	as_component_set_project_group (cpt, "");
 	cpt->priv->keywords = NULL;
@@ -207,8 +208,9 @@ as_component_construct (GType object_type)
 	cpt->priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
 	cpt->priv->provided_items = g_ptr_array_new_with_free_func (g_free);
 	cpt->priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
-	cpt->priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	cpt->priv->extends = g_ptr_array_new_with_free_func (g_free);
+	cpt->priv->icon_urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	cpt->priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	cpt->priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	as_component_set_priority (cpt, 0);
@@ -221,6 +223,7 @@ as_component_finalize (GObject* obj)
 {
 	AsComponent *cpt;
 	cpt = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_TYPE_COMPONENT, AsComponent);
+
 	g_free (cpt->priv->id);
 	g_strfreev (cpt->priv->pkgnames);
 	g_free (cpt->priv->name);
@@ -228,7 +231,6 @@ as_component_finalize (GObject* obj)
 	g_free (cpt->priv->summary);
 	g_free (cpt->priv->description);
 	g_free (cpt->priv->icon);
-	g_free (cpt->priv->icon_url);
 	g_free (cpt->priv->project_license);
 	g_free (cpt->priv->project_group);
 	g_strfreev (cpt->priv->keywords);
@@ -237,9 +239,11 @@ as_component_finalize (GObject* obj)
 	g_ptr_array_unref (cpt->priv->screenshots);
 	g_ptr_array_unref (cpt->priv->provided_items);
 	g_ptr_array_unref (cpt->priv->releases);
-	g_hash_table_unref (cpt->priv->urls);
 	g_ptr_array_unref (cpt->priv->extends);
+	g_hash_table_unref (cpt->priv->urls);
+	g_hash_table_unref (cpt->priv->icon_urls);
 	g_hash_table_unref (cpt->priv->languages);
+
 	G_OBJECT_CLASS (as_component_parent_class)->finalize (obj);
 }
 
@@ -864,7 +868,7 @@ _as_component_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *
 
 /**
  * as_component_to_xml:
- * @cpt a valid #AsComponent
+ * @cpt: a valid #AsComponent
  *
  * Serialize the component data to XML.
  * Note that this will produce an unlocalized file only, using the
@@ -930,9 +934,9 @@ as_component_to_xml (AsComponent *cpt)
 
 /**
  * as_component_provides_item:
- * @cpt a valid #AsComponent
- * @kind the kind of the provides-item
- * @value the value of the provides-item
+ * @cpt: a valid #AsComponent
+ * @kind: the kind of the provides-item
+ * @value: the value of the provides-item
  *
  * Checks if this component provides an item of the specified type
  *
@@ -1045,6 +1049,34 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 	g_object_notify ((GObject *) cpt, "id");
 }
 
+/**
+ * as_component_get_origin:
+ */
+const gchar*
+as_component_get_origin (AsComponent *cpt)
+{
+	g_return_val_if_fail (cpt != NULL, NULL);
+	return cpt->priv->origin;
+}
+
+/**
+ * as_component_set_origin:
+ */
+void
+as_component_set_origin (AsComponent *cpt, const gchar* origin)
+{
+	g_return_if_fail (cpt != NULL);
+
+	/* safety measure, so we never set this to NULL */
+	if (origin == NULL)
+		origin = "";
+	g_free (cpt->priv->origin);
+	cpt->priv->origin = g_strdup (origin);
+}
+
+/**
+ * as_component_get_name:
+ */
 const gchar*
 as_component_get_name (AsComponent *cpt)
 {
@@ -1056,6 +1088,9 @@ as_component_get_name (AsComponent *cpt)
 	return cpt->priv->name;
 }
 
+/**
+ * as_component_set_name:
+ */
 void
 as_component_set_name (AsComponent *cpt, const gchar* value)
 {
@@ -1168,7 +1203,7 @@ as_component_set_keywords (AsComponent *cpt, gchar** value)
  * as_component_get_icon:
  * @cpt: an #AsComponent instance
  *
- * Returns the icon name for this component. This is usually
+ * Returns: The icon name for this component. This is usually
  * a stock icon name, e.g. "applications-science"
  */
 const gchar*
@@ -1203,38 +1238,91 @@ as_component_set_icon (AsComponent *cpt, const gchar* value)
  * as_component_get_icon_url:
  * @cpt: an #AsComponent instance
  *
- * Returns the full url of this icon, e.g.
+ * Returns: The full url of this icon, e.g.
  * "/usr/share/icons/hicolor/64x64/foobar.png"
  * This might also be an http url pointing at a remote location.
+ * The icon will have the default icon size, which is usually 64x64 pixels.
  */
 const gchar*
 as_component_get_icon_url (AsComponent *cpt)
 {
+	gchar *icon_url;
 	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->icon_url;
+
+	icon_url = g_hash_table_lookup (cpt->priv->icon_urls, "64x64");
+	if (icon_url == NULL)
+		return "";
+	return icon_url;
 }
 
 /**
- * as_component_set_icon_url:
+ * as_component_add_icon_url:
  * @cpt: an #AsComponent instance
+ * @width: An icon width
+ * @height: An icon height
+ * @value: The full icon url
  *
  * Set an icon url for this component, which can be a remote
  * or local location.
- * The icon size pointed to should be 64x64 and the icon should ideally be
- * a PNG icon.
+ *
+ * Since: 0.7.4
  */
 void
-as_component_set_icon_url (AsComponent *cpt, const gchar* value)
+as_component_add_icon_url (AsComponent *cpt, int width, int height, const gchar* value)
 {
+	gchar *size;
 	g_return_if_fail (cpt != NULL);
 
-	/* safety measure, so we can always convert this to a C++ string */
+	/* safety measure, to protect against invalid path values */
 	if (value == NULL)
 		value = "";
 
-	g_free (cpt->priv->icon_url);
-	cpt->priv->icon_url = g_strdup (value);
-	g_object_notify ((GObject *) cpt, "icon-url");
+	size = g_strdup_printf ("%ix%i", width, height);
+	g_hash_table_insert (cpt->priv->icon_urls, size, g_strdup (value));
+}
+
+/**
+ * as_component_get_icon_url_for_size:
+ * @cpt: an #AsComponent instance
+ * @width: An icon width
+ * @height: An icon height
+ *
+ * Returns the full url for an icon with the given width and height.
+ * In case no icon matching the size is found, %NULL is returned.
+ * The returned path will either be a http link or an absolute, local
+ * path to the image file of the icon.
+ *
+ * Since: 0.7.4
+ */
+const gchar*
+as_component_get_icon_url_for_size (AsComponent *cpt, int width, int height)
+{
+	gchar *size;
+	gchar *icon_url;
+	g_return_val_if_fail (cpt != NULL, NULL);
+
+	size = g_strdup_printf ("%ix%i", width, height);
+	icon_url = g_hash_table_lookup (cpt->priv->icon_urls, size);
+	g_free (size);
+
+	return icon_url;
+}
+
+/**
+ * as_component_get_icon_urls:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets the icon-urls has table for the component.
+ *
+ * Returns: (transfer none): A hash map of icon urls and sizes
+ *
+ * Since: 0.7.4
+ **/
+GHashTable*
+as_component_get_icon_urls (AsComponent *cpt)
+{
+	g_return_val_if_fail (cpt != NULL, NULL);
+	return cpt->priv->icon_urls;
 }
 
 /**
@@ -1246,7 +1334,6 @@ gchar**
 as_component_get_categories (AsComponent *cpt)
 {
 	g_return_val_if_fail (cpt != NULL, NULL);
-
 	return cpt->priv->categories;
 }
 
@@ -1266,11 +1353,10 @@ as_component_set_categories (AsComponent *cpt, gchar** value)
 
 /**
  * as_component_set_categories_from_str:
+ * @cpt: a valid #AsComponent instance
+ * @categories_str: Semicolon-separated list of category-names
  *
  * Set the categories list from a string
- *
- * @cpt a valid #AsComponent instance
- * @categories_str Semicolon-separated list of category-names
  */
 void
 as_component_set_categories_from_str (AsComponent *cpt, const gchar* categories_str)
@@ -1287,7 +1373,7 @@ as_component_set_categories_from_str (AsComponent *cpt, const gchar* categories_
 
 /**
  * as_component_has_category:
- * @cpt an #AsComponent object
+ * @cpt: an #AsComponent object
  *
  * Check if component is in the specified category.
  **/
@@ -1430,8 +1516,8 @@ as_component_set_compulsory_for_desktops (AsComponent *cpt, gchar** value)
 
 /**
  * as_component_is_compulsory_for_desktop:
- * @cpt an #AsComponent object
- * @desktop the desktop-id to test for
+ * @cpt: an #AsComponent object
+ * @desktop: the desktop-id to test for
  *
  * Check if this component is compulsory for the given desktop.
  *
@@ -1631,43 +1717,74 @@ as_component_refine_icon (AsComponent *cpt, gchar **icon_paths)
 				     "xcf",
 				     NULL };
 	const gchar *sizes[] = { "", "64x64", "128x128", NULL };
-	gchar *tmp_icon_path;
-	const gchar *icon_url;
+	gchar *tmp_icon_path = NULL;
+	gchar *icon_url = NULL;
 	guint i, j, k;
+	AsComponentPrivate *priv = cpt->priv;
 
-	icon_url = as_component_get_icon_url (cpt);
+	/* See if we have an icon without known size.
+	 * These icons have a zero-dimensional width and height (therefore the "0x0" key)
+	 */
+	icon_url = g_strdup (g_hash_table_lookup (priv->icon_urls, "0x0"));
+	if (icon_url == NULL) {
+		/* okay, see if we have a stock icon */
+		icon_url = g_strdup (as_component_get_icon (cpt));
+		if ((icon_url == NULL) || (g_strcmp0 (icon_url, "") == 0)) {
+			/* nothing to do... */
+			return;
+		}
+	}
+	g_hash_table_remove (priv->icon_urls, "0x0");
+
 	if (g_str_has_prefix (icon_url, "/") ||
 		g_str_has_prefix (icon_url, "http://")) {
-		/* looks like this component already has a full icon path... */
-		return;
+		/* looks like this component already has a full icon path,
+		 * or is a weblink. We assume 64x64 in that case
+		 */
+		as_component_add_icon_url (cpt, 64, 64, icon_url);
+		goto out;
 	}
 	tmp_icon_path = NULL;
-
-	if (g_strcmp0 (icon_url, "") == 0) {
-		icon_url = as_component_get_icon (cpt);
-	}
 
 	/* search local icon path */
 	for (i = 0; icon_paths[i] != NULL; i++) {
 		for (j = 0; sizes[j] != NULL; j++) {
 			/* sometimes, the file already has an extension */
-			tmp_icon_path = g_strdup_printf ("%s/%s/%s",
+			tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s",
 							icon_paths[i],
+							priv->origin,
 							sizes[j],
 							icon_url);
-			if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
-				goto out;
+			if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
+				/* we have an icon! */
+				if (g_strcmp0 (sizes[j], "") == 0) {
+					/* old icon directory, so assume 64x64 */
+					as_component_add_icon_url (cpt, 64, 64, g_strdup (tmp_icon_path));
+				} else {
+					g_hash_table_insert (priv->icon_urls, g_strdup (sizes[j]), g_strdup (tmp_icon_path));
+				}
+				g_free (tmp_icon_path);
+				continue;
+			}
 			g_free (tmp_icon_path);
 
 			/* file not found, try extensions (we will not do this forever, better fix AppStream data!) */
 			for (k = 0; exensions[k] != NULL; k++) {
-				tmp_icon_path = g_strdup_printf ("%s/%s/%s.%s",
+				tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s.%s",
 							icon_paths[i],
+							priv->origin,
 							sizes[j],
 							icon_url,
 							exensions[k]);
-				if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS))
-					goto out;
+				if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
+					/* we have an icon! */
+					if (g_strcmp0 (sizes[j], "") == 0) {
+						/* old icon directory, so assume 64x64 */
+						as_component_add_icon_url (cpt, 64, 64, g_strdup (tmp_icon_path));
+					} else {
+						g_hash_table_insert (priv->icon_urls, g_strdup (sizes[j]), g_strdup (tmp_icon_path));
+					}
+				}
 				g_free (tmp_icon_path);
 				tmp_icon_path = NULL;
 			}
@@ -1675,16 +1792,17 @@ as_component_refine_icon (AsComponent *cpt, gchar **icon_paths)
 	}
 
 out:
+	if (icon_url != NULL)
+		g_free (icon_url);
 	if (tmp_icon_path != NULL) {
-		as_component_set_icon_url (cpt, tmp_icon_path);
 		g_free (tmp_icon_path);
 	}
 }
 
 /**
  * as_component_complete:
- * @scr_base_url Base url for screenshot-service, obtain via #AsDistroDetails
- * @icon_paths Zero-terminated string array of possible (cached) icon locations
+ * @scr_base_url: Base url for screenshot-service, obtain via #AsDistroDetails
+ * @icon_paths: Zero-terminated string array of possible (cached) icon locations
  *
  * Private function to complete a AsComponent with
  * additional data found on the system.
@@ -1760,7 +1878,7 @@ as_component_class_init (AsComponentClass * klass)
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_DESCRIPTION, g_param_spec_string ("description", "description", "description", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_KEYWORDS, g_param_spec_boxed ("keywords", "keywords", "keywords", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON, g_param_spec_string ("icon", "icon", "icon", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON_URL, g_param_spec_string ("icon-url", "icon-url", "icon-url", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON_URLS, g_param_spec_boxed ("icon-urls", "icon-urls", "icon-urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_URLS, g_param_spec_boxed ("urls", "urls", "urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_CATEGORIES, g_param_spec_boxed ("categories", "categories", "categories", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PROJECT_LICENSE, g_param_spec_string ("project-license", "project-license", "project-license", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
@@ -1837,8 +1955,8 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 		case AS_COMPONENT_ICON:
 			g_value_set_string (value, as_component_get_icon (cpt));
 			break;
-		case AS_COMPONENT_ICON_URL:
-			g_value_set_string (value, as_component_get_icon_url (cpt));
+		case AS_COMPONENT_ICON_URLS:
+			g_value_set_boxed (value, as_component_get_icon_urls (cpt));
 			break;
 		case AS_COMPONENT_URLS:
 			g_value_set_boxed (value, as_component_get_urls (cpt));
@@ -1897,9 +2015,6 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 			break;
 		case AS_COMPONENT_ICON:
 			as_component_set_icon (cpt, g_value_get_string (value));
-			break;
-		case AS_COMPONENT_ICON_URL:
-			as_component_set_icon_url (cpt, g_value_get_string (value));
 			break;
 		case AS_COMPONENT_CATEGORIES:
 			as_component_set_categories (cpt, g_value_get_boxed (value));

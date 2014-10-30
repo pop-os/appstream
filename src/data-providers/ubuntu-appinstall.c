@@ -29,8 +29,9 @@
 #include "../as-utils.h"
 #include "../as-utils-private.h"
 
-struct _AsProviderUbuntuAppinstallPrivate {
-	GList* system_categories;
+struct _AsProviderUbuntuAppinstallPrivate
+{
+	guint none; /* placeholder */
 };
 
 static gpointer as_provider_ubuntu_appinstall_parent_class = NULL;
@@ -47,9 +48,7 @@ AsProviderUbuntuAppinstall*
 as_provider_ubuntu_appinstall_construct (GType object_type)
 {
 	AsProviderUbuntuAppinstall * self = NULL;
-
 	self = (AsProviderUbuntuAppinstall*) as_data_provider_construct (object_type);
-	self->priv->system_categories = as_get_system_categories ();
 
 	return self;
 }
@@ -233,6 +232,11 @@ as_provider_ubuntu_appinstall_real_execute (AsDataProvider *base)
 		gchar *fname;
 		guint j;
 		fname = g_build_filename (paths[i], "desktop", NULL);
+		if (!g_file_test (fname, G_FILE_TEST_EXISTS)) {
+			g_free (fname);
+			continue;
+		}
+
 		desktop_files = as_utils_find_files_matching (fname, "*.desktop", FALSE);
 		if (desktop_files == NULL) {
 			g_free (fname);
@@ -272,9 +276,11 @@ as_provider_ubuntu_appinstall_instance_init (AsProviderUbuntuAppinstall * self)
 static void
 as_provider_ubuntu_appinstall_finalize (GObject* obj)
 {
+#if 0
 	AsProviderUbuntuAppinstall * self;
 	self = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstall);
-	g_list_free (self->priv->system_categories);
+#endif
+
 	G_OBJECT_CLASS (as_provider_ubuntu_appinstall_parent_class)->finalize (obj);
 }
 
