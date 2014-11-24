@@ -1,0 +1,67 @@
+From 8ea78c3e9f0fa8f4ba1f4799aba84396e55bc091 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Mon, 24 Nov 2014 23:27:09 +0100
+Subject: [PATCH] dep11: Fix memory leak in DEP-11 parser
+
+---
+ src/data-providers/debian-dep11.c | 26 +++++++++++++++++++++++---
+ 1 file changed, 23 insertions(+), 3 deletions(-)
+
+diff --git a/src/data-providers/debian-dep11.c b/src/data-providers/debian-dep11.c
+index c193d6e..5322f87 100644
+--- a/src/data-providers/debian-dep11.c
++++ b/src/data-providers/debian-dep11.c
+@@ -63,6 +63,18 @@ as_provider_dep11_new (void) {
+ }
+ 
+ /**
++ * _dep11_yaml_free_node:
++ */
++static gboolean
++_dep11_yaml_free_node (GNode *node, gpointer data)
++{
++	if (node->data != NULL)
++		g_free (node->data);
++
++	return FALSE;
++}
++
++/**
+  * dep11_yaml_process_layer:
+  *
+  * Create GNode tree from DEP-11 YAML document
+@@ -116,7 +128,8 @@ dep11_yaml_process_layer (yaml_parser_t *parser, GNode *data)
+ 			default:
+ 				break;
+ 		}
+-    	yaml_event_delete(&event);
++
++    	yaml_event_delete (&event);
+     }
+ }
+ 
+@@ -584,7 +597,7 @@ as_provider_dep11_process_data (AsProviderDEP11 *dprov, const gchar *data)
+ 			gchar *key;
+ 			gchar *value;
+ 			AsComponent *cpt;
+-			GNode *root = g_node_new("");
++			GNode *root = g_node_new (g_strdup (""));
+ 
+ 			dep11_yaml_process_layer (&parser, root);
+ 
+@@ -627,7 +640,14 @@ as_provider_dep11_process_data (AsProviderDEP11 *dprov, const gchar *data)
+ 			}
+ 
+ 			header = FALSE;
+-			g_node_destroy(root);
++
++			g_node_traverse (root,
++					G_IN_ORDER,
++					G_TRAVERSE_ALL,
++					-1,
++					_dep11_yaml_free_node,
++					NULL);
++			g_node_destroy (root);
+ 		}
+ 
+ 		/* stop if end of stream is reached */
