@@ -1,0 +1,22 @@
+From 1eb2c4344dd54508187b9c7d5a9fd04153dcf63b Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Mon, 24 Nov 2014 23:27:28 +0100
+Subject: [PATCH] Fix origin<->name confusion
+
+---
+ src/xapian/database-read.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/xapian/database-read.cpp b/src/xapian/database-read.cpp
+index af16eaf..4628634 100644
+--- a/src/xapian/database-read.cpp
++++ b/src/xapian/database-read.cpp
+@@ -98,7 +98,7 @@ DatabaseRead::docToComponent (Xapian::Document doc)
+ 
+ 	// Origin
+ 	string cptOrigin = doc.get_value (XapianValues::ORIGIN);
+-	as_component_set_name (cpt, cptOrigin.c_str ());
++	as_component_set_origin (cpt, cptOrigin.c_str ());
+ 
+ 	// URLs
+ 	str = doc.get_value (XapianValues::URLS);
