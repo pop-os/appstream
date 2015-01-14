@@ -13,14 +13,16 @@ cat <<EOF > asbuildtest.c
 int main()
 {
 	AsComponent *cpt;
-	gchar *str;
+	AsMetadata *metad;
+	gchar *xml_upstream;
+	gchar *xml_distro;
 	gchar **strv;
 
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
 
-	as_component_set_name (cpt, "Test");
-	as_component_set_summary (cpt, "It does things");
+	as_component_set_name (cpt, "Test", "C");
+	as_component_set_summary (cpt, "It does things", "C");
 
 	strv = g_new0 (gchar*, 1 + 2);
 	strv[0] = g_strdup ("fedex");
@@ -28,11 +30,20 @@ int main()
 	as_component_set_pkgnames (cpt, strv);
 	g_strfreev (strv);
 
-	str = as_component_to_xml (cpt);
-	g_debug ("%s", str);
+	metad = as_metadata_new ();
+	as_metadata_add_component (metad, cpt);
+	xml_upstream = as_metadata_component_to_upstream_xml (metad);
+	xml_distro = as_metadata_components_to_distro_xml (metad);
+	g_object_unref (metad);
 
-	g_assert (g_strcmp0 (str, "<?xml version=\"1.0\"?>\n<component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component>\n") == 0);
-	g_free (str);
+	g_debug ("Upstream XML: %s", xml_upstream);
+	g_debug ("Distro XML: %s", xml_distro);
+
+	g_assert_cmpstr (xml_upstream, ==, "<?xml version=\"1.0\"?>\n<component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component>\n");
+	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\"?>\n<components version=\"0.7\"><component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component></components>\n");
+
+	g_free (xml_upstream);
+	g_free (xml_distro);
 
 	return 0;
 }
