@@ -58,7 +58,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gchar</span> **
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 </td>
 <td class="function_name">
 <a class="link" href="AsDataPool.html#as-data-pool-get-watched-locations" title="as_data_pool_get_watched_locations ()">as_data_pool_get_watched_locations</a> <span class="c_punctuation">()</span>
@@ -66,7 +66,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gboolean</span>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="AsDataPool.html#as-data-pool-update" title="as_data_pool_update ()">as_data_pool_update</a> <span class="c_punctuation">()</span>
@@ -74,14 +74,14 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">GList</span> *
+<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDataPool.html#as-data-pool-get-components" title="as_data_pool_get_components ()">as_data_pool_get_components</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <span class="returnvalue">gchar</span> *
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDataPool.html#as-data-pool-get-locale" title="as_data_pool_get_locale ()">as_data_pool_get_locale</a> <span class="c_punctuation">()</span>
@@ -108,7 +108,7 @@
 </div>
 <div class="refsect1">
 <a name="AsDataPool.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    GObject
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> AsDataPool
 </pre>
 </div>
@@ -143,7 +143,7 @@ as_data_pool_initialize (<em class="parameter"><code><a class="link" href="AsDat
 <hr>
 <div class="refsect2">
 <a name="as-data-pool-get-watched-locations"></a><h3>as_data_pool_get_watched_locations ()</h3>
-<pre class="programlisting"><span class="returnvalue">gchar</span> **
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 as_data_pool_get_watched_locations (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Return a list of all locations which are searched for metadata.</p>
 <div class="refsect3">
@@ -170,33 +170,33 @@ as_data_pool_get_watched_locations (<em class="parameter"><code><a class="link" 
 <hr>
 <div class="refsect2">
 <a name="as-data-pool-update"></a><h3>as_data_pool_update ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 as_data_pool_update (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Builds an index of all found components in the watched locations.
 The function will try to get as much data into the pool as possible, so even if
-the updates completes with <code class="literal">FALSE</code>, it might still add components to the pool.</p>
+the updates completes with <a href="../glib/glib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a>, it might still add components to the pool.</p>
 <div class="refsect3">
 <a name="id-1.2.9.6.5.5"></a><h4>Returns</h4>
-<p> <code class="literal">TRUE</code> if update completed without error.</p>
+<p> <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if update completed without error.</p>
 <p></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-data-pool-get-components"></a><h3>as_data_pool_get_components ()</h3>
-<pre class="programlisting"><span class="returnvalue">GList</span> *
+<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
 as_data_pool_get_components (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Get a list of found components.</p>
 <div class="refsect3">
 <a name="id-1.2.9.6.6.5"></a><h4>Returns</h4>
-<p> a list of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances, free with <code class="function">g_list_free()</code>. </p>
+<p> a list of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances, free with <a href="../glib/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a>. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-data-pool-get-locale"></a><h3>as_data_pool_get_locale ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_data_pool_get_locale (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Gets the currently used locale.</p>
 <div class="refsect3">
@@ -225,7 +225,7 @@ as_data_pool_get_locale (<em class="parameter"><code><a class="link" href="AsDat
 <a name="as-data-pool-set-locale"></a><h3>as_data_pool_set_locale ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_data_pool_set_locale (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
+                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
 <p>Sets the current locale which should be used when parsing metadata.</p>
 <div class="refsect3">
 <a name="id-1.2.9.6.8.5"></a><h4>Parameters</h4>
@@ -256,7 +256,7 @@ as_data_pool_set_locale (<em class="parameter"><code><a class="link" href="AsDat
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_data_pool_set_data_source_directories
                                (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>,
-                                <em class="parameter"><code><span class="type">gchar</span> **dirs</code></em>);</pre>
+                                <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **dirs</code></em>);</pre>
 <p>Set locations for the data pool to read it's data from.
 This is mainly used for testing purposes. Each location should have an
 "xmls" and/or "yaml" subdirectory with the actual data as (compressed)

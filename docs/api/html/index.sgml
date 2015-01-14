@@ -10,7 +10,6 @@
 <ANCHOR id="as-component-kind-to-string" href="appstream/AsComponent.html#as-component-kind-to-string">
 <ANCHOR id="as-component-kind-from-string" href="appstream/AsComponent.html#as-component-kind-from-string">
 <ANCHOR id="as-component-new" href="appstream/AsComponent.html#as-component-new">
-<ANCHOR id="as-component-construct" href="appstream/AsComponent.html#as-component-construct">
 <ANCHOR id="as-component-is-valid" href="appstream/AsComponent.html#as-component-is-valid">
 <ANCHOR id="as-component-to-string" href="appstream/AsComponent.html#as-component-to-string">
 <ANCHOR id="as-component-get-kind" href="appstream/AsComponent.html#as-component-get-kind">
@@ -23,8 +22,6 @@
 <ANCHOR id="as-component-set-pkgnames" href="appstream/AsComponent.html#as-component-set-pkgnames">
 <ANCHOR id="as-component-get-name" href="appstream/AsComponent.html#as-component-get-name">
 <ANCHOR id="as-component-set-name" href="appstream/AsComponent.html#as-component-set-name">
-<ANCHOR id="as-component-get-name-original" href="appstream/AsComponent.html#as-component-get-name-original">
-<ANCHOR id="as-component-set-name-original" href="appstream/AsComponent.html#as-component-set-name-original">
 <ANCHOR id="as-component-get-summary" href="appstream/AsComponent.html#as-component-get-summary">
 <ANCHOR id="as-component-set-summary" href="appstream/AsComponent.html#as-component-set-summary">
 <ANCHOR id="as-component-get-description" href="appstream/AsComponent.html#as-component-get-description">
@@ -48,7 +45,7 @@
 <ANCHOR id="as-component-set-keywords" href="appstream/AsComponent.html#as-component-set-keywords">
 <ANCHOR id="as-component-get-icon" href="appstream/AsComponent.html#as-component-get-icon">
 <ANCHOR id="as-component-set-icon" href="appstream/AsComponent.html#as-component-set-icon">
-<ANCHOR id="as-component-get-icon-url-for-size" href="appstream/AsComponent.html#as-component-get-icon-url-for-size">
+<ANCHOR id="as-component-get-icon-url" href="appstream/AsComponent.html#as-component-get-icon-url">
 <ANCHOR id="as-component-add-icon-url" href="appstream/AsComponent.html#as-component-add-icon-url">
 <ANCHOR id="as-component-get-icon-urls" href="appstream/AsComponent.html#as-component-get-icon-urls">
 <ANCHOR id="as-component-get-provided-items" href="appstream/AsComponent.html#as-component-get-provided-items">
@@ -64,8 +61,8 @@
 <ANCHOR id="as-component-add-language" href="appstream/AsComponent.html#as-component-add-language">
 <ANCHOR id="as-component-get-language" href="appstream/AsComponent.html#as-component-get-language">
 <ANCHOR id="as-component-get-languages" href="appstream/AsComponent.html#as-component-get-languages">
-<ANCHOR id="as-component-to-xml" href="appstream/AsComponent.html#as-component-to-xml">
-<ANCHOR id="as-component-get-icon-url" href="appstream/AsComponent.html#as-component-get-icon-url">
+<ANCHOR id="as-component-get-active-locale" href="appstream/AsComponent.html#as-component-get-active-locale">
+<ANCHOR id="as-component-set-active-locale" href="appstream/AsComponent.html#as-component-set-active-locale">
 <ANCHOR id="AsComponent.other_details" href="appstream/AsComponent.html#AsComponent.other_details">
 <ANCHOR id="AsComponentKind" href="appstream/AsComponent.html#AsComponentKind">
 <ANCHOR id="AsComponent.property-details" href="appstream/AsComponent.html#AsComponent.property-details">
@@ -78,7 +75,6 @@
 <ANCHOR id="AsComponent--keywords" href="appstream/AsComponent.html#AsComponent--keywords">
 <ANCHOR id="AsComponent--kind" href="appstream/AsComponent.html#AsComponent--kind">
 <ANCHOR id="AsComponent--name" href="appstream/AsComponent.html#AsComponent--name">
-<ANCHOR id="AsComponent--name-original" href="appstream/AsComponent.html#AsComponent--name-original">
 <ANCHOR id="AsComponent--pkgnames" href="appstream/AsComponent.html#AsComponent--pkgnames">
 <ANCHOR id="AsComponent--project-group" href="appstream/AsComponent.html#AsComponent--project-group">
 <ANCHOR id="AsComponent--project-license" href="appstream/AsComponent.html#AsComponent--project-license">
@@ -93,11 +89,13 @@
 <ANCHOR id="AsRelease.functions_details" href="appstream/AsRelease.html#AsRelease.functions_details">
 <ANCHOR id="as-release-new" href="appstream/AsRelease.html#as-release-new">
 <ANCHOR id="as-release-get-version" href="appstream/AsRelease.html#as-release-get-version">
-<ANCHOR id="as-release-get-timestamp" href="appstream/AsRelease.html#as-release-get-timestamp">
-<ANCHOR id="as-release-get-description" href="appstream/AsRelease.html#as-release-get-description">
 <ANCHOR id="as-release-set-version" href="appstream/AsRelease.html#as-release-set-version">
+<ANCHOR id="as-release-get-timestamp" href="appstream/AsRelease.html#as-release-get-timestamp">
 <ANCHOR id="as-release-set-timestamp" href="appstream/AsRelease.html#as-release-set-timestamp">
+<ANCHOR id="as-release-get-description" href="appstream/AsRelease.html#as-release-get-description">
 <ANCHOR id="as-release-set-description" href="appstream/AsRelease.html#as-release-set-description">
+<ANCHOR id="as-release-get-active-locale" href="appstream/AsRelease.html#as-release-get-active-locale">
+<ANCHOR id="as-release-set-active-locale" href="appstream/AsRelease.html#as-release-set-active-locale">
 <ANCHOR id="AsRelease.other_details" href="appstream/AsRelease.html#AsRelease.other_details">
 <ANCHOR id="AsScreenshot" href="appstream/AsScreenshot.html">
 <ANCHOR id="AsScreenshot.functions" href="appstream/AsScreenshot.html#AsScreenshot.functions">
@@ -115,6 +113,8 @@
 <ANCHOR id="as-screenshot-set-caption" href="appstream/AsScreenshot.html#as-screenshot-set-caption">
 <ANCHOR id="as-screenshot-get-images" href="appstream/AsScreenshot.html#as-screenshot-get-images">
 <ANCHOR id="as-screenshot-add-image" href="appstream/AsScreenshot.html#as-screenshot-add-image">
+<ANCHOR id="as-screenshot-get-active-locale" href="appstream/AsScreenshot.html#as-screenshot-get-active-locale">
+<ANCHOR id="as-screenshot-set-active-locale" href="appstream/AsScreenshot.html#as-screenshot-set-active-locale">
 <ANCHOR id="AsScreenshot.other_details" href="appstream/AsScreenshot.html#AsScreenshot.other_details">
 <ANCHOR id="AsScreenshotKind" href="appstream/AsScreenshot.html#AsScreenshotKind">
 <ANCHOR id="AsImage" href="appstream/AsImage.html">
@@ -190,6 +190,14 @@
 <ANCHOR id="as-metadata-error-quark" href="appstream/AsMetadata.html#as-metadata-error-quark">
 <ANCHOR id="as-metadata-parse-file" href="appstream/AsMetadata.html#as-metadata-parse-file">
 <ANCHOR id="as-metadata-parse-data" href="appstream/AsMetadata.html#as-metadata-parse-data">
+<ANCHOR id="as-metadata-get-component" href="appstream/AsMetadata.html#as-metadata-get-component">
+<ANCHOR id="as-metadata-get-components" href="appstream/AsMetadata.html#as-metadata-get-components">
+<ANCHOR id="as-metadata-clear-components" href="appstream/AsMetadata.html#as-metadata-clear-components">
+<ANCHOR id="as-metadata-add-component" href="appstream/AsMetadata.html#as-metadata-add-component">
+<ANCHOR id="as-metadata-component-to-upstream-xml" href="appstream/AsMetadata.html#as-metadata-component-to-upstream-xml">
+<ANCHOR id="as-metadata-components-to-distro-xml" href="appstream/AsMetadata.html#as-metadata-components-to-distro-xml">
+<ANCHOR id="as-metadata-save-upstream-xml" href="appstream/AsMetadata.html#as-metadata-save-upstream-xml">
+<ANCHOR id="as-metadata-save-distro-xml" href="appstream/AsMetadata.html#as-metadata-save-distro-xml">
 <ANCHOR id="as-metadata-set-locale" href="appstream/AsMetadata.html#as-metadata-set-locale">
 <ANCHOR id="as-metadata-get-locale" href="appstream/AsMetadata.html#as-metadata-get-locale">
 <ANCHOR id="AsMetadata.other_details" href="appstream/AsMetadata.html#AsMetadata.other_details">

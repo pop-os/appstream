@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Chapter 2. Upstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.7-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-Metadata-Application.html" title="2.2. Desktop Applications" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong></a></li></ul><div class="chapter"><div class="titlepage"><div><div><h1 class="title"><a id="chap-Metadata"></a>Chapter 2. Upstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-Metadata.html#sect-Metadata-GenericComponent">2.1. Generic Component</a></span></dt><dt><span class="section"><a href="sect-Metadata-Application.html">2.2. Desktop Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-Addon.html">2.3. Addons</a></span></dt><dt><span class="section"><a href="sect-Metadata-Codec.html">2.4. Codecs</a></span></dt><dt><span class="section"><a href="sect-Metadata-InputMethod.html">2.5. Input Methods</a></span></dt></dl></div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">Chapter 2. Upstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.2.6" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.7-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-Metadata-Application.html" title="2.2. Desktop Applications" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" lang="en-US"><div class="titlepage"><div><div><h1 class="title"><a id="chap-Metadata">
+      ⁠</a>Chapter 2. Upstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-Metadata.html#sect-Metadata-GenericComponent">2.1. Generic Component</a></span></dt><dt><span class="section"><a href="sect-Metadata-Application.html">2.2. Desktop Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-Addon.html">2.3. Addons</a></span></dt><dt><span class="section"><a href="sect-Metadata-Codec.html">2.4. Codecs</a></span></dt><dt><span class="section"><a href="sect-Metadata-InputMethod.html">2.5. Input Methods</a></span></dt></dl></div><div class="para">
 		AppStream allows upstream projects to define metadata about the components they provide using small XML files, metainfo files, which get installed into locations on the client system and are used by distribuors to enhance their metadata.
 	</div><div class="para">
 		A "component" is a piece of software, like an application, a library, a font or a codec. For several components, especially those which are shown in software-centers, we provide specialized metainfo files to define specific properties and data of these components. For example, applications and fonts support screenshots, while codecs don't.
 	</div><div class="para">
 		All metainfo files need to contain a minimal amount of information, defined in the "Generic Component" section, which also describes some optional elements which can be used. Specialized components might require more information to be complete and valid.
-	</div><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-GenericComponent"></a>2.1. Generic Component</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-introduction"></a>2.1.1. Introduction</h3></div></div></div><div class="para">
+	</div><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-GenericComponent">
+      ⁠</a>2.1. Generic Component</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-introduction">
+      ⁠</a>2.1.1. Introduction</h3></div></div></div><div class="para">
 			For a distribution, it is good to know more about the content of a package. Which public interfaces (libraries? Python modules?) does it provide? Does it contain codecs? Does it contain firmware? Fonts? An application? All of this information can be used to automatically install missing software or to offer users a choice on what they want to install from a software center.
 		</div><div class="para">
 			To provide this information, we created the <span class="italic italic">metainfo</span> files, which allow <span class="bold bold"><strong>upstream projects</strong></span> to describe the content of their software package. If a metainfo file provides a <code class="literal">&lt;provides/&gt;</code> tag, distributors must also ensure that the package providing the file contain all items referenced by that statement, or is installed by a metapackage depending on packages which provide these items. This gives upstream projects a (very light) way to influence distributor packaging. More information about that can be found below.
 		</div><div class="para">
 			Several specialized component-metainfo files exist, for example for applications or fonts. These are all based on this generic component XML specification, and are described in the following chapters.
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-location"></a>2.1.2. Filesystem locations</h3></div></div></div><div class="para">
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-location">
+      ⁠</a>2.1.2. Filesystem locations</h3></div></div></div><div class="para">
 			Upstream projects can ship one or more metainfo files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>, where <code class="literal">id</code> is a unique identifier of this specific component.
-		</div><div class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
+		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
 				Applications are a special case here, because they are special in some ways (and also for historical reasons). If your metainfo file covers only an application, as described in the AppData section, install it as <code class="filename">/usr/share/appdata/%{id}.appdata.xml</code>.
 			</div></div></div><div class="para">
 			Please note that the <code class="filename">/usr/share/appdata/symbols</code> directory is reserved for a possible future use for storing upstream-generated symbols files for libraries.
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-filespec"></a>2.1.3. XML Specification</h3></div></div></div><div class="para">
-			The XML for a generic component definition starts with an <code class="code">&lt;component&gt;
-</code> tag as root element. The <code class="code">&lt;component&gt;
-</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code> and <code class="literal">releases</code> tag, a <code class="literal">provides</code> tag with appropriate children is highly recommended. All possible tags in the generic set are:
-		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-generic"></a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;id&gt;
-</code> tag is a short and unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers, spaces are not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <code class="literal">id</code> tag value.
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-filespec">
+      ⁠</a>2.1.3. XML Specification</h3></div></div></div><div class="para">
+			The XML for a generic component definition starts with an <code class="code">&lt;component&gt;</code> tag as root element. The <code class="code">&lt;component&gt;</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code> and <code class="literal">releases</code> tag, a <code class="literal">provides</code> tag with appropriate children is highly recommended. All possible tags in the generic set are:
+		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-generic">
+      ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;id&gt;</code> tag is a short and unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers, spaces are not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <code class="literal">id</code> tag value.
 					</div><div class="para">
 						Note that the value of this tag must be <span class="emphasis"><em>unique</em></span> across all distributions. In case it is not, distributors are expected to reject the conflicting components from inclusion into their metadata.
-					</div></dd><dt><a id="tag-metadata_license"></a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-metadata_license">
+      ⁠</a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;metadata_license/&gt;</code> tag is indicating the content licence that you are releasing the one Metainfo XML file as. This is not typically the same as the project licence. By ommitting the licence value would probably mean your data would not be incorporated into the distribution metadata (so this is a required tag). Permissible licence codes include:
-					</div><div class="itemizedlist"><ul><li class="listitem"><div class="para">
+					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 								CC0-1.0
 							</div></li><li class="listitem"><div class="para">
 								CC-BY-3.0
@@ -40,17 +44,21 @@
 								MIT
 							</div></li></ul></div><div class="para">
 						The licence codes correspond to the identifiers found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. For instance, CC-BY-SA-3.0 corresponds to http://creativecommons.org/licenses/by-sa/3.0/
-					</div></dd><dt><a id="tag-name"></a><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-name">
+      ⁠</a><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
 						A human-readable name for this software component. For example, if the component id was "libc", it's name might be "GNU Standard C Library".
-					</div></dd><dt><a id="tag-summary"></a><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-summary">
+      ⁠</a><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
 						A short summary of what this component does. If the component is "PackageKit", the summary could be "Provides a package-management abstraction layer".
-					</div></dd><dt><a id="tag-description"></a><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-description">
+      ⁠</a><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
 						A long description of this component. Some markup can be used.
 					</div><div class="para">
 						Do not assume the format is HTML. Only paragraph (p), ordered list (ol) and unordered list (ul) are supported at this time.
 					</div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
-					</div></dd><dt><a id="tag-url"></a><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-url">
+      ⁠</a><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
 						Defines URLs for this component.There are several different URL types allowed:
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">homepage</span></dt><dd><div class="para">
 									Should be a link to the upstream homepage for the component.
@@ -62,17 +70,17 @@
 									Should provide a link to an online user's reference, a software manual or help page.
 								</div></dd><dt><span class="term">donation</span></dt><dd><div class="para">
 									Links of this type should point to a webpage showing information on how to donate to the described software project.
-								</div></dd></dl></div></dd><dt><a id="tag-releases"></a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;releases&gt;
-</code> tag contains <code class="code">&lt;release/&gt;</code> child tags which describe some metainformation about the current release of the described software. The <code class="code">&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for the current version must always be present. A <code class="literal">release</code> tag can have the properties <code class="literal">version</code> and <code class="literal">timestamp</code> which contain the version number and a release timestamp in form of a UNIX epoch.
+								</div></dd></dl></div></dd><dt><a id="tag-releases">
+      ⁠</a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;releases&gt;</code> tag contains <code class="code">&lt;release/&gt;</code> child tags which describe some metainformation about the current release of the described software. The <code class="code">&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for the current version must always be present. A <code class="literal">release</code> tag can have the properties <code class="literal">version</code> and <code class="literal">timestamp</code> which contain the version number and a release timestamp in form of a UNIX epoch.
 					</div><div class="para">
 						Examples for a valid releases tag:
-					</div><pre class="programlisting">
-<span class="perl_Keyword">&lt;releases&gt;</span>
-  <span class="perl_Keyword">&lt;release</span><span class="perl_Others"> version=</span><span class="perl_String">"1.2"</span><span class="perl_Others"> timestamp=</span><span class="perl_String">"1397253600"</span> <span class="perl_Keyword">/&gt;</span>
-  <span class="perl_Keyword">&lt;release</span><span class="perl_Others"> version=</span><span class="perl_String">"1.0"</span><span class="perl_Others"> timestamp=</span><span class="perl_String">"1345932000"</span> <span class="perl_Keyword">/&gt;</span>
-<span class="perl_Keyword">&lt;/releases&gt;</span>
-</pre></dd><dt><a id="tag-provides"></a><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;releases&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"1.2"</span><span xmlns="" class="perl_Others"> timestamp=</span><span xmlns="" class="perl_String">"1397253600"</span> <span xmlns="" class="perl_Keyword">/&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"1.0"</span><span xmlns="" class="perl_Others"> timestamp=</span><span xmlns="" class="perl_String">"1345932000"</span> <span xmlns="" class="perl_Keyword">/&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span></pre></dd><dt><a id="tag-provides">
+      ⁠</a><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
 						The <code class="literal">provides</code> tag and it's children describe the public interfaces this application provides. A public interface can be anything which other applications, which are not part of the upstream project, can access or reference. This includes binaries and libraries. Private interfaces should never be added to a <code class="literal">provides</code> tag.
 					</div><div class="para">
 						A <code class="literal">provides</code> tag contain a number of children describing the type and name of the provided public interface items. It is suggested that the build-system auto-generates this tag and it's children. Currently allowed item types are listed below. If you miss something, file a bug against AppStream so we can add the new type.
@@ -84,19 +92,17 @@
 									Name of a font provided by this component. For example <strong class="userinput"><code>Linux Libertine O</code></strong>. The tag must have a <code class="literal">file</code> property stating the filename of the referenced font.
 								</div><div class="para">
 									Example:
-								</div><pre class="programlisting"><span class="perl_Keyword">&lt;provides&gt;</span>
-  <span class="perl_Keyword">&lt;font</span><span class="perl_Others"> file=</span><span class="perl_String">"LinLibertine_R.otf"</span><span class="perl_Keyword">&gt;</span>Linux Libertine O<span class="perl_Keyword">&lt;/font&gt;</span>
-<span class="perl_Keyword">&lt;/provides&gt;</span>
-</pre></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
+								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;font</span><span xmlns="" class="perl_Others"> file=</span><span xmlns="" class="perl_String">"LinLibertine_R.otf"</span><span xmlns="" class="perl_Keyword">&gt;</span>Linux Libertine O<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
 									A modalias glob representing the hardware types (for example USB, PCI, ACPI, DMI) this component handles. Useful for installing printer drivers or other USB protocol drivers for smartphones, firmware, kernel drivers which are not merged upstream yet or whatever else.
 								</div></dd><dt><span class="term">&lt;firmware/&gt;</span></dt><dd><div class="para">
 									Name of the firmware this component provides, to make it possible to find the right firmware package to install for a given kernel driver. The value is the path below /lib/firmware to the firmware file in question, like the firmware value exported from Linux kernel modules.
 								</div><div class="para">
 									Example:
-								</div><pre class="programlisting"><span class="perl_Keyword">&lt;provides&gt;</span>
-  <span class="perl_Keyword">&lt;firmware&gt;</span>ipw2200-bss.fw<span class="perl_Keyword">&lt;/firmware&gt;</span>
-<span class="perl_Keyword">&lt;/provides&gt;</span>
-</pre></dd><dt><span class="term">&lt;python2/&gt;</span></dt><dd><div class="para">
+								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware&gt;</span>ipw2200-bss.fw<span xmlns="" class="perl_Keyword">&lt;/firmware&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;python2/&gt;</span></dt><dd><div class="para">
 									Name of a Python2 module this component provides.
 								</div></dd><dt><span class="term">&lt;python3/&gt;</span></dt><dd><div class="para">
 									Name of a Python3 module this component provides.
@@ -104,24 +110,25 @@
 									Contains the name of a DBus service as property. The type of the service must be specified using the <code class="literal">type</code> property of this tag. Allowed values are <code class="code">session</code> and <code class="code">system</code>.
 								</div><div class="para">
 									Example:
-								</div><pre class="programlisting"><span class="perl_Keyword">&lt;provides&gt;</span>
-  <span class="perl_Keyword">&lt;dbus</span><span class="perl_Others"> type=</span><span class="perl_String">"system"</span><span class="perl_Keyword">&gt;</span>org.freedesktop.PackageKit<span class="perl_Keyword">&lt;/dbus&gt;</span>
-<span class="perl_Keyword">&lt;/provides&gt;</span>
-</pre></dd></dl></div></dd><dt><a id="tag-mimetypes"></a><span class="term">&lt;mimetypes/&gt;</span></dt><dd><div class="para">
+								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;dbus</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"system"</span><span xmlns="" class="perl_Keyword">&gt;</span>org.freedesktop.PackageKit<span xmlns="" class="perl_Keyword">&lt;/dbus&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd></dl></div></dd><dt><a id="tag-mimetypes">
+      ⁠</a><span class="term">&lt;mimetypes/&gt;</span></dt><dd><div class="para">
 						This tag can contain one or more <code class="code">&lt;mimetype/&gt;</code> children, describing the mime types this application supports. This tag is especially useful for generic components and addon-type components. For applications, the metadata will automatically be fetched from their .desktop files by the distribution's metadata generator. Example:
-					</div><pre class="programlisting">
-<span class="perl_Keyword">&lt;mimetypes&gt;</span>
-    <span class="perl_Keyword">&lt;mimetype&gt;</span>text/html<span class="perl_Keyword">&lt;/mimetype&gt;</span>
-    <span class="perl_Keyword">&lt;mimetype&gt;</span>image/jpeg<span class="perl_Keyword">&lt;/mimetype&gt;</span>
-    <span class="perl_Keyword">&lt;mimetype&gt;</span>application/rss+xml<span class="perl_Keyword">&lt;/mimetype&gt;</span>
- <span class="perl_Keyword">&lt;/mimetypes&gt;</span>
-</pre></dd><dt><a id="tag-project_group"></a><span class="term">&lt;project_group/&gt;</span></dt><dd><div class="para">
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;mimetypes&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;mimetype&gt;</span>text/html<span xmlns="" class="perl_Keyword">&lt;/mimetype&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;mimetype&gt;</span>image/jpeg<span xmlns="" class="perl_Keyword">&lt;/mimetype&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;mimetype&gt;</span>application/rss+xml<span xmlns="" class="perl_Keyword">&lt;/mimetype&gt;</span>
+<span xmlns="" class="line">​</span> <span xmlns="" class="perl_Keyword">&lt;/mimetypes&gt;</span></pre></dd><dt><a id="tag-project_group">
+      ⁠</a><span class="term">&lt;project_group/&gt;</span></dt><dd><div class="para">
 						If you include the <code class="code">&lt;project_group/&gt;</code> tag then this identifies your project with a specific upstream umbrella project. Known values include GNOME, KDE, XFCE, MATE and LXDE, although other umbrella projects like Yorba or Mozilla make sense too.
-					</div><div class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
+					</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
 							You should only identify with an umbrella project if you use all their infrastructure and policies, for instance string freezes dates, bugtracker and source control instance.
-						</div></div></div></dd><dt><a id="tag-project_license"></a><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
+						</div></div></div></dd><dt><a id="tag-project_license">
+      ⁠</a><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;project_license/&gt;</code> tag is indicating the license of the component (application/library/addon/font/etc.) described in the metadata document. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 
-						<div class="itemizedlist"><ul><li class="listitem"><div class="para">
+						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 									GPL-2.0
 								</div></li><li class="listitem"><div class="para">
 									LGPL-3.0+ and GPL-3.0+
@@ -135,13 +142,15 @@
 						 A full list of recognized licenses and their identifiers can be found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>.
 					</div><div class="para">
 						Although the <code class="literal">project_license</code> tag is not mandatory, it is recommended to include it.
-					</div></dd><dt><a id="tag-developer_name"></a><span class="term">&lt;developer_name/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-developer_name">
+      ⁠</a><span class="term">&lt;developer_name/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;developer_name/&gt;</code> tag is designed to represent the developers or project responsible for development of the project described in the metadata.
 					</div><div class="para">
 						Values might be for example "The GNOME Foundation" or "The KDE Community". You must not include hyperlinks or emails in this field, if you want to link to the developer's homepage, use the <a class="xref" href="chap-Metadata.html#tag-url">&lt;url/&gt;</a>-tag instead.
 					</div><div class="para">
 						This tag is translatable.
-					</div></dd><dt><a id="tag-screenshots"></a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-screenshots">
+      ⁠</a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
 					</div><div class="para">
 						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
@@ -149,7 +158,8 @@
 						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more then 255 characters!) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
 						Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620px. They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
-					</div></dd><dt><a id="tag-update_contact"></a><span class="term">&lt;update_contact/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-update_contact">
+      ⁠</a><span class="term">&lt;update_contact/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;update_contact/&gt;</code> tag is an optional tag which can be added to provide an email address distributors can use to contact the project about invalid or incomplete metadata, or in case the specification has changed, about old metadata. It can also be used to ask general questions in case of an update of the component described in the metadata file.
 					</div><div class="para">
 						The <code class="code">&lt;update_contact/&gt;</code> tag must <span class="emphasis"><em>only be used by distributors</em></span>. It is not included in the distribution-provided AppStream XML file, and therefore not exposed to the end user via any kind of UI.
@@ -157,27 +167,25 @@
 						Upstream authors might decide to add an email address in cleartext, but spam protection using <code class="code">_AT_</code> is also valid.
 					</div><div class="para">
 						Example:
-					</div><pre class="programlisting"><span class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span class="perl_Keyword">&lt;/update_contact&gt;</span>
-</pre></dd></dl></div><div class="para">
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd></dl></div><div class="para">
 			An example for a very basic component file could look like this:
-		</div><pre class="programlisting">
-<span class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span class="perl_Keyword">?&gt;</span>
-<span class="perl_Keyword">&lt;component&gt;</span>
-  <span class="perl_Keyword">&lt;id&gt;</span>foobar<span class="perl_Keyword">&lt;/id&gt;</span>
-  <span class="perl_Keyword">&lt;name&gt;</span>Foo Bar<span class="perl_Keyword">&lt;/name&gt;</span>
-  <span class="perl_Keyword">&lt;summary&gt;</span>A foo-ish bar<span class="perl_Keyword">&lt;/summary&gt;</span>
-  <span class="perl_Keyword">&lt;url</span><span class="perl_Others"> type=</span><span class="perl_String">"homepage"</span><span class="perl_Keyword">&gt;</span>http://www.example.org<span class="perl_Keyword">&lt;/url&gt;</span>
-  <span class="perl_Keyword">&lt;metadata_license&gt;</span>CC0<span class="perl_Keyword">&lt;/metadata_license&gt;</span>
-
-  <span class="perl_Keyword">&lt;provides&gt;</span>
-    <span class="perl_Keyword">&lt;library&gt;</span>libfoobar.so.2<span class="perl_Keyword">&lt;/library&gt;</span>
-    <span class="perl_Keyword">&lt;font&gt;</span>foo.ttf<span class="perl_Keyword">&lt;/font&gt;</span>
-    <span class="perl_Keyword">&lt;binary&gt;</span>foobar<span class="perl_Keyword">&lt;/binary&gt;</span>
-  <span class="perl_Keyword">&lt;/provides&gt;</span>
-  <span class="perl_Keyword">&lt;releases&gt;</span>
-    <span class="perl_Keyword">&lt;release</span><span class="perl_Others"> version=</span><span class="perl_String">"1.2"</span><span class="perl_Others"> timestamp=</span><span class="perl_String">"1365768000"</span> <span class="perl_Keyword">/&gt;</span>
-  <span class="perl_Keyword">&lt;/releases&gt;</span>
-  <span class="perl_Keyword">&lt;developer_name&gt;</span>FooBar Team<span class="perl_Keyword">&lt;/developer_name&gt;</span>
-<span class="perl_Keyword">&lt;/component&gt;</span>
-
+		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;component&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>foobar<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Foo Bar<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>A foo-ish bar<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.example.org<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;metadata_license&gt;</span>CC0<span xmlns="" class="perl_Keyword">&lt;/metadata_license&gt;</span>
+<span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;library&gt;</span>libfoobar.so.2<span xmlns="" class="perl_Keyword">&lt;/library&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;font&gt;</span>foo.ttf<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;binary&gt;</span>foobar<span xmlns="" class="perl_Keyword">&lt;/binary&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;releases&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"1.2"</span><span xmlns="" class="perl_Others"> timestamp=</span><span xmlns="" class="perl_String">"1365768000"</span> <span xmlns="" class="perl_Keyword">/&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;developer_name&gt;</span>FooBar Team<span xmlns="" class="perl_Keyword">&lt;/developer_name&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/component&gt;</span>
 </pre></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong>Chapter 1. About AppStream</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong>2.2. Desktop Applications</a></li></ul></body></html>

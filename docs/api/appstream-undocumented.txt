@@ -1,7 +1,7 @@
-62% symbol docs coverage.
-239 symbols documented.
-58 symbols incomplete.
-146 not documented.
+64% symbol docs coverage.
+257 symbols documented.
+74 symbols incomplete.
+147 not documented.
 
 
 AS_BUILDER_ERROR
@@ -20,6 +20,7 @@ AsProviderUbuntuAppinstall (<items>)
 AsProviderUbuntuAppinstallClass (<items>)
 AsProviderUbuntuAppinstallPrivate
 AsUrlKind (AS_URL_KIND_LAST)
+_dep11_yaml_free_node
 as_builder_error_quark
 as_builder_initialize
 as_builder_new_path (dbpath)
@@ -42,43 +43,44 @@ as_category_set_icon
 as_category_set_level
 as_category_set_name
 as_component_add_provided_item (value)
-as_component_construct (object_type)
+as_component_class_init
+as_component_finalize
+as_component_get_active_locale (cpt, Returns)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
-as_component_get_description
+as_component_get_description (cpt, Returns)
 as_component_get_developer_name (cpt, Returns)
 as_component_get_icon
-as_component_get_icon_url_for_size (Returns)
+as_component_get_icon_url (Returns)
 as_component_get_id (cpt, Returns)
 as_component_get_keywords
 as_component_get_kind (cpt, Returns)
-as_component_get_name
-as_component_get_name_original
+as_component_get_name (cpt, Returns)
 as_component_get_origin
 as_component_get_pkgnames (cpt)
 as_component_get_project_group (cpt, Returns)
 as_component_get_project_license (cpt, Returns)
+as_component_get_property
 as_component_get_provided_items (cpt)
 as_component_get_releases (cpt)
 as_component_get_screenshots (cpt)
-as_component_get_summary
+as_component_get_summary (cpt, Returns)
 as_component_has_category (category, Returns)
+as_component_init
 as_component_is_valid (cpt)
+as_component_set_active_locale (cpt, locale)
 as_component_set_categories
 as_component_set_compulsory_for_desktops (cpt, value)
-as_component_set_description
-as_component_set_developer_name (cpt, value)
+as_component_set_developer_name (cpt, value, locale)
 as_component_set_icon (value)
 as_component_set_id (cpt, value)
-as_component_set_keywords
+as_component_set_keywords (cpt)
 as_component_set_kind (cpt, value)
-as_component_set_name
-as_component_set_name_original
 as_component_set_origin
 as_component_set_pkgnames (cpt)
 as_component_set_project_group (cpt, value)
 as_component_set_project_license (cpt, value)
-as_component_set_summary
+as_component_set_property
 as_component_to_string (cpt)
 as_data_pool_class_init
 as_data_pool_finalize
@@ -117,11 +119,21 @@ as_menu_parser_get_update_category_data
 as_menu_parser_new_from_file (menu_file)
 as_menu_parser_parse (self)
 as_menu_parser_set_update_category_data
+as_metadata_add_component (metad, cpt)
 as_metadata_class_init
+as_metadata_clear_components
+as_metadata_component_to_upstream_xml (metad)
+as_metadata_components_to_distro_xml (metad)
 as_metadata_error_quark
 as_metadata_finalize
+as_metadata_get_components
 as_metadata_init
 as_metadata_parse_component_node
+as_metadata_parse_components_node
+as_metadata_process_document
+as_metadata_save_distro_xml (metad, error)
+as_metadata_save_upstream_xml (metad, error)
+as_metadata_save_xml
 as_provider_dep11_construct
 as_provider_dep11_get_localized_node
 as_provider_dep11_get_type
@@ -147,10 +159,16 @@ as_provides_item_get_value (item)
 as_ptr_array_to_strv
 as_release_class_init
 as_release_finalize
+as_release_get_active_locale (release, Returns)
 as_release_init
+as_release_set_active_locale (release, locale)
+as_release_set_description (locale)
 as_screenshot_class_init
 as_screenshot_finalize
+as_screenshot_get_active_locale (screenshot, Returns)
 as_screenshot_init
+as_screenshot_set_active_locale (screenshot, locale)
+as_screenshot_set_caption (locale)
 as_search_query_construct (object_type, term)
 as_search_query_get_categories
 as_search_query_get_search_all_categories
@@ -191,7 +209,6 @@ dep11_process_image
 dep11_process_provides
 dep11_process_urls
 
-as_component_get_icon_url
 
 appstream-xml:Long_Description
 appstream-xml:Short_Description

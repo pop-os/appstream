@@ -67,24 +67,33 @@ void
 test_component ()
 {
 	AsComponent *cpt;
+	AsMetadata *metad;
 	gchar *str;
+	gchar *str2;
 	gchar **strv;
 
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
 
-	as_component_set_name (cpt, "Test");
-	as_component_set_summary (cpt, "It does things");
+	as_component_set_name (cpt, "Test", NULL);
+	as_component_set_summary (cpt, "It does things", NULL);
 
 	strv = _get_dummy_strv ("fedex");
 	as_component_set_pkgnames (cpt, strv);
 	g_strfreev (strv);
 
-	str = as_component_to_xml (cpt);
-	g_debug ("%s", str);
+	metad = as_metadata_new ();
+	as_metadata_add_component (metad, cpt);
+	str = as_metadata_component_to_upstream_xml (metad);
+	str2 = as_metadata_components_to_distro_xml (metad);
+	g_object_unref (metad);
+	g_debug ("%s", str2);
 
 	g_assert (g_strcmp0 (str, "<?xml version=\"1.0\"?>\n<component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component>\n") == 0);
+	g_assert (g_strcmp0 (str2, "<?xml version=\"1.0\"?>\n<components version=\"0.7\"><component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component></components>\n") == 0);
+
 	g_free (str);
+	g_free (str2);
 }
 
 int

@@ -61,9 +61,8 @@ AsMetadata
 </para>
 
 @metad: 
-@infile: 
+@file: 
 @error: 
-@Returns: 
 
 
 <!-- ##### FUNCTION as_metadata_parse_data ##### -->
@@ -74,7 +73,79 @@ AsMetadata
 @metad: 
 @data: 
 @error: 
+
+
+<!-- ##### FUNCTION as_metadata_get_component ##### -->
+<para>
+
+</para>
+
+@metad: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_get_components ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_clear_components ##### -->
+<para>
+
+</para>
+
+@metad: 
+
+
+<!-- ##### FUNCTION as_metadata_add_component ##### -->
+<para>
+
+</para>
+
+@metad: 
+@cpt: 
+
+
+<!-- ##### FUNCTION as_metadata_component_to_upstream_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_components_to_distro_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_save_upstream_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@fname: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_save_distro_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@fname: 
+@error: 
 
 
 <!-- ##### FUNCTION as_metadata_set_locale ##### -->

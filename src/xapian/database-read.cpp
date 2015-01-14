@@ -59,6 +59,10 @@ DatabaseRead::open (const gchar *dbPath)
 		return false;
 	}
 
+	m_dbLocale = m_xapianDB.get_metadata ("db-locale");
+	if (m_dbLocale.empty ())
+		m_dbLocale = "C";
+
 	return true;
 }
 
@@ -74,6 +78,9 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	AsComponent *cpt = as_component_new ();
 	string str;
 
+	/* set component active languge (which is the locale the database was built for) */
+	as_component_set_active_locale (cpt, m_dbLocale.c_str ());
+
 	// Component type/kind
 	string type_str = doc.get_value (XapianValues::TYPE);
 	as_component_set_kind (cpt, as_component_kind_from_string (type_str.c_str ()));
@@ -84,7 +91,9 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 
 	// Component name
 	string cptName = doc.get_value (XapianValues::CPTNAME);
-	as_component_set_name (cpt, cptName.c_str ());
+	as_component_set_name (cpt, cptName.c_str (), NULL);
+	cptName = doc.get_value (XapianValues::CPTNAME_UNTRANSLATED);
+	as_component_set_name (cpt, cptName.c_str (), "C");
 
 	// Package name
 	string pkgNamesStr = doc.get_value (XapianValues::PKGNAME);
@@ -92,13 +101,9 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_pkgnames (cpt, pkgs);
 	g_strfreev (pkgs);
 
-	// Untranslated application name
-	string appname_orig = doc.get_value (XapianValues::CPTNAME_UNTRANSLATED);
-	as_component_set_name_original (cpt, appname_orig.c_str ());
-
 	// Origin
 	string cptOrigin = doc.get_value (XapianValues::ORIGIN);
-	as_component_set_name (cpt, cptOrigin.c_str ());
+	as_component_set_origin (cpt, cptOrigin.c_str ());
 
 	// URLs
 	str = doc.get_value (XapianValues::URLS);
@@ -133,11 +138,11 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 
 	// Summary
 	string appSummary = doc.get_value (XapianValues::SUMMARY);
-	as_component_set_summary (cpt, appSummary.c_str ());
+	as_component_set_summary (cpt, appSummary.c_str (), NULL);
 
 	// Long description
 	string appDescription = doc.get_value (XapianValues::DESCRIPTION);
-	as_component_set_description (cpt, appDescription.c_str ());
+	as_component_set_description (cpt, appDescription.c_str (), NULL);
 
 	// Categories
 	string categories_str = doc.get_value (XapianValues::CATEGORIES);

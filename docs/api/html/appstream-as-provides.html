@@ -40,7 +40,7 @@
 </colgroup>
 <tbody>
 <tr>
-<td class="function_type">const <span class="returnvalue">gchar</span> *
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="appstream-as-provides.html#as-provides-kind-to-string" title="as_provides_kind_to_string ()">as_provides_kind_to_string</a> <span class="c_punctuation">()</span>
@@ -56,7 +56,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gchar</span> *
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="appstream-as-provides.html#as-provides-item-create" title="as_provides_item_create ()">as_provides_item_create</a> <span class="c_punctuation">()</span>
@@ -72,7 +72,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gchar</span> *
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="appstream-as-provides.html#as-provides-item-get-value" title="as_provides_item_get_value ()">as_provides_item_get_value</a> <span class="c_punctuation">()</span>
@@ -110,7 +110,7 @@ Functions to work with these items are provided here.</p>
 <a name="appstream-as-provides.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
 <a name="as-provides-kind-to-string"></a><h3>as_provides_kind_to_string ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_provides_kind_to_string (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
@@ -139,7 +139,7 @@ as_provides_kind_to_string (<em class="parameter"><code><a class="link" href="ap
 <div class="refsect2">
 <a name="as-provides-kind-from-string"></a><h3>as_provides_kind_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>
-as_provides_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind_str</code></em>);</pre>
+as_provides_kind_from_string (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind_str</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
 <a name="id-1.2.14.7.3.5"></a><h4>Parameters</h4>
@@ -165,10 +165,10 @@ as_provides_kind_from_string (<em class="parameter"><code>const <span class="typ
 <hr>
 <div class="refsect2">
 <a name="as-provides-item-create"></a><h3>as_provides_item_create ()</h3>
-<pre class="programlisting"><span class="returnvalue">gchar</span> *
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_provides_item_create (<em class="parameter"><code><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a> kind</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>,
-                         <em class="parameter"><code>const <span class="type">gchar</span> *data</code></em>);</pre>
+                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>,
+                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>);</pre>
 <p>Creates a new provides-item string, which
 consists of a type-part describing the items type, and a name-part,
 containing the name of the item. Both are separated by a semicolon,
@@ -194,7 +194,7 @@ the item might look like: dbus;org.freedesktop.PackageKit;system
 <div class="refsect2">
 <a name="as-provides-item-get-kind"></a><h3>as_provides_item_get_kind ()</h3>
 <pre class="programlisting"><a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="returnvalue">AsProvidesKind</span></a>
-as_provides_item_get_kind (<em class="parameter"><code>const <span class="type">gchar</span> *item</code></em>);</pre>
+as_provides_item_get_kind (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);</pre>
 <p>Returns the type (kind) of a provides-item string
 as <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind"><span class="type">AsProvidesKind</span></a></p>
 <p><em class="parameter"><code>item</code></em>
@@ -208,8 +208,8 @@ as <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum 
 <hr>
 <div class="refsect2">
 <a name="as-provides-item-get-value"></a><h3>as_provides_item_get_value ()</h3>
-<pre class="programlisting"><span class="returnvalue">gchar</span> *
-as_provides_item_get_value (<em class="parameter"><code>const <span class="type">gchar</span> *item</code></em>);</pre>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+as_provides_item_get_value (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *item</code></em>);</pre>
 <p>Returns the value (name) of a provides-item string</p>
 <p><em class="parameter"><code>item</code></em>
  a valid provides-item string</p>

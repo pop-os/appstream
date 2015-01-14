@@ -33,28 +33,26 @@
 
 #define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
 
-#define AS_TYPE_COMPONENT (as_component_get_type ())
-#define AS_COMPONENT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_COMPONENT, AsComponent))
-#define AS_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_COMPONENT, AsComponentClass))
-#define AS_IS_COMPONENT(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_COMPONENT))
-#define AS_IS_COMPONENT_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_COMPONENT))
-#define AS_COMPONENT_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_COMPONENT, AsComponentClass))
+#define AS_TYPE_COMPONENT			(as_component_get_type())
+#define AS_COMPONENT(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_COMPONENT, AsComponent))
+#define AS_COMPONENT_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_COMPONENT, AsComponentClass))
+#define AS_IS_COMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_COMPONENT))
+#define AS_IS_COMPONENT_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_COMPONENT))
+#define AS_COMPONENT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_COMPONENT, AsComponentClass))
 
 G_BEGIN_DECLS
 
-typedef struct _AsComponent AsComponent;
-typedef struct _AsComponentClass AsComponentClass;
-typedef struct _AsComponentPrivate AsComponentPrivate;
+typedef struct _AsComponent		AsComponent;
+typedef struct _AsComponentClass	AsComponentClass;
 
 struct _AsComponent
 {
-	GObject parent_instance;
-	AsComponentPrivate * priv;
+	GObject			parent;
 };
 
 struct _AsComponentClass
 {
-	GObjectClass parent_class;
+	GObjectClass		parent_class;
 	/*< private >*/
 	void (*_as_reserved1)	(void);
 	void (*_as_reserved2)	(void);
@@ -62,8 +60,6 @@ struct _AsComponentClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 
 /**
@@ -95,7 +91,7 @@ AsComponentKind		as_component_kind_from_string (const gchar *kind_str);
 
 GType				as_component_get_type (void) G_GNUC_CONST;
 AsComponent*		as_component_new (void);
-AsComponent*		as_component_construct (GType object_type);
+
 gboolean			as_component_is_valid (AsComponent *cpt);
 gchar* 				as_component_to_string (AsComponent *cpt);
 
@@ -113,22 +109,22 @@ void				as_component_set_origin (AsComponent *cpt,
 
 gchar**				as_component_get_pkgnames (AsComponent *cpt);
 void				as_component_set_pkgnames (AsComponent *cpt,
-												gchar** value);
+											gchar** value);
 
 const gchar*		as_component_get_name (AsComponent *cpt);
 void				as_component_set_name (AsComponent *cpt,
-											const gchar* value);
-const gchar* 		as_component_get_name_original (AsComponent *cpt);
-void				as_component_set_name_original (AsComponent *cpt,
-													const gchar* value);
+											const gchar *value,
+											const gchar *locale);
 
 const gchar*		as_component_get_summary (AsComponent *cpt);
 void				as_component_set_summary (AsComponent *cpt,
-													const gchar* value);
+											const gchar *value,
+											const gchar *locale);
 
 const gchar*		as_component_get_description (AsComponent *cpt);
 void				as_component_set_description (AsComponent *cpt,
-													const gchar* value);
+											const gchar* value,
+											const gchar *locale);
 
 const gchar* 		as_component_get_project_license (AsComponent *cpt);
 void				as_component_set_project_license (AsComponent *cpt,
@@ -136,11 +132,12 @@ void				as_component_set_project_license (AsComponent *cpt,
 
 const gchar* 		as_component_get_project_group (AsComponent *cpt);
 void				as_component_set_project_group (AsComponent *cpt,
-													const gchar* value);
+													const gchar *value);
 
 const gchar*		as_component_get_developer_name (AsComponent *cpt);
 void				as_component_set_developer_name (AsComponent *cpt,
-													const gchar* value);
+											const gchar *value,
+											const gchar *locale);
 
 gchar**				as_component_get_compulsory_for_desktops (AsComponent *cpt);
 void				as_component_set_compulsory_for_desktops (AsComponent *cpt,
@@ -162,12 +159,13 @@ void				as_component_add_screenshot (AsComponent *cpt,
 
 gchar**				as_component_get_keywords (AsComponent *cpt);
 void				as_component_set_keywords (AsComponent *cpt,
-												gchar** value);
+												gchar **value,
+												const gchar *locale);
 
 const gchar*		as_component_get_icon (AsComponent *cpt);
 void				as_component_set_icon (AsComponent *cpt,
 											const gchar* value);
-const gchar*		as_component_get_icon_url_for_size (AsComponent *cpt,
+const gchar*		as_component_get_icon_url (AsComponent *cpt,
 											int width,
 											int height);
 void				as_component_add_icon_url (AsComponent *cpt,
@@ -207,12 +205,9 @@ gint				as_component_get_language (AsComponent *cpt,
 											   const gchar *locale);
 GList*				as_component_get_languages (AsComponent *cpt);
 
-gchar*				as_component_to_xml (AsComponent *cpt);
-
-/* DEPRECATED */
-
-/* use G_GNUC_DEPRECATED on this later */
-const gchar*		as_component_get_icon_url (AsComponent *cpt);
+gchar				*as_component_get_active_locale (AsComponent *cpt);
+void				as_component_set_active_locale (AsComponent *cpt,
+												const gchar *locale);
 
 G_END_DECLS
 

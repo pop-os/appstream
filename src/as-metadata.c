@@ -34,6 +34,7 @@
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <string.h>
 
 #include "as-metadata.h"
 #include "as-metadata-private.h"
@@ -51,6 +52,8 @@ struct _AsMetadataPrivate
 	gchar *locale_short;
 	AsParserMode mode;
 	gchar *origin_name;
+
+	GPtrArray *cpts;
 };
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
@@ -71,6 +74,7 @@ as_metadata_finalize (GObject *object)
 
 	g_free (priv->locale);
 	g_free (priv->locale_short);
+	g_ptr_array_unref (priv->cpts);
 	if (priv->origin_name != NULL)
 		g_free (priv->origin_name);
 
@@ -90,32 +94,21 @@ as_metadata_init (AsMetadata *metad)
 							as_get_locale ());
 
 	priv->origin_name = NULL;
-
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
+
+	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
 }
 
 /**
- * as_metadata_class_init:
- **/
-static void
-as_metadata_class_init (AsMetadataClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = as_metadata_finalize;
-}
-
-/**
- * as_metadata_error_quark:
+ * as_metadata_clear_components:
  *
- * Return value: An error quark.
  **/
-GQuark
-as_metadata_error_quark (void)
+void
+as_metadata_clear_components (AsMetadata *metad)
 {
-	static GQuark quark = 0;
-	if (!quark)
-		quark = g_quark_from_static_string ("AsMetadataError");
-	return quark;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	g_ptr_array_unref (priv->cpts);
+	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
 }
 
 static gchar*
@@ -264,7 +257,7 @@ as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* 
 			as_screenshot_add_image (sshot, img);
 		} else if (g_strcmp0 (node_name, "caption") == 0) {
 			if (content != NULL) {
-				as_screenshot_set_caption (sshot, content);
+				as_screenshot_set_caption (sshot, content, NULL);
 			}
 		}
 		g_free (content);
@@ -287,6 +280,10 @@ as_metadata_process_screenshots_tag (AsMetadata* metad, xmlNode* node, AsCompone
 
 		if (g_strcmp0 ((gchar*) iter->name, "screenshot") == 0) {
 			sshot = as_screenshot_new ();
+
+			/* propagate locale */
+			as_screenshot_set_active_locale (sshot, as_component_get_active_locale (cpt));
+
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 			if (g_strcmp0 (prop, "default") == 0)
 				as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
@@ -348,6 +345,9 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 		if (g_strcmp0 ((gchar*) iter->name, "release") == 0) {
 			release = as_release_new ();
 
+			/* propagate locale */
+			as_release_set_active_locale (release, as_component_get_active_locale (cpt));
+
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "version");
 			as_release_set_version (release, prop);
 			g_free (prop);
@@ -371,13 +371,13 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 						if (content == NULL)
 							content = as_metadata_parse_value (metad, iter2, TRUE);
 						if (content != NULL)
-							as_release_set_description (release, content);
+							as_release_set_description (release, content, NULL);
 						g_free (content);
 						break;
 					} else {
 						gchar *text;
 						text = as_metadata_parse_upstream_description_tag (metad, iter2);
-						as_release_set_description (release, text);
+						as_release_set_description (release, text, NULL);
 						g_free (text);
 						break;
 					}
@@ -538,6 +538,9 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		g_free (priority_str);
 	}
 
+	/* set active locale for this component */
+	as_component_set_active_locale (cpt, priv->locale);
+
 	for (iter = node->children; iter != NULL; iter = iter->next) {
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
@@ -556,34 +559,34 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 				g_ptr_array_add (pkgnames, g_strdup (content));
 		} else if (g_strcmp0 (node_name, "name") == 0) {
 			if (content != NULL) {
-				as_component_set_name_original (cpt, content);
+				as_component_set_name (cpt, content, "C"); /* unlocalized, original name (enhances search results) */
 			} else {
 				content = as_metadata_parse_value (metad, iter, TRUE);
 				if (content != NULL)
-					as_component_set_name (cpt, content);
+					as_component_set_name (cpt, content, NULL);
 			}
 		} else if (g_strcmp0 (node_name, "summary") == 0) {
 			if (content != NULL) {
-				as_component_set_summary (cpt, content);
+				as_component_set_summary (cpt, content, "C");
 			} else {
 				content = as_metadata_parse_value (metad, iter, TRUE);
 				if (content != NULL)
-					as_component_set_summary (cpt, content);
+					as_component_set_summary (cpt, content, NULL);
 			}
 		} else if (g_strcmp0 (node_name, "description") == 0) {
 			if (priv->mode == AS_PARSER_MODE_DISTRO) {
 				/* for distros, the "description" tag has a language property, so parsing it is simple */
 				if (content != NULL) {
-					as_component_set_description (cpt, content);
+					as_component_set_description (cpt, content, "C");
 				} else {
 					content = as_metadata_parse_value (metad, iter, TRUE);
 					if (content != NULL)
-						as_component_set_description (cpt, content);
+						as_component_set_description (cpt, content, NULL);
 				}
 			} else {
 				gchar *text;
 				text = as_metadata_parse_upstream_description_tag (metad, iter);
-				as_component_set_description (cpt, text);
+				as_component_set_description (cpt, text, NULL);
 				g_free (text);
 			}
 		} else if (g_strcmp0 (node_name, "icon") == 0) {
@@ -595,14 +598,14 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 			if (g_strcmp0 (prop, "stock") == 0) {
 				as_component_set_icon (cpt, content);
 			} else if (g_strcmp0 (prop, "cached") == 0) {
-				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
 					as_component_add_icon_url (cpt, 0, 0, content);
 				}
 			} else if (g_strcmp0 (prop, "local") == 0) {
 				as_component_add_icon_url (cpt, 0, 0, content);
 			} else if (g_strcmp0 (prop, "remote") == 0) {
-				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if (icon_url == NULL)
 					as_component_add_icon_url (cpt, 0, 0, content);
 			}
@@ -624,7 +627,7 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		} else if (g_strcmp0 (node_name, "keywords") == 0) {
 			gchar **kw_array;
 			kw_array = as_metadata_get_children_as_strv (metad, iter, "keyword");
-			as_component_set_keywords (cpt, kw_array);
+			as_component_set_keywords (cpt, kw_array, NULL);
 			g_strfreev (kw_array);
 		} else if (g_strcmp0 (node_name, "mimetypes") == 0) {
 			gchar **mime_array;
@@ -647,7 +650,7 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 				as_component_set_project_group (cpt, content);
 		} else if (g_strcmp0 (node_name, "developer_name") == 0) {
 			if (content != NULL)
-				as_component_set_developer_name (cpt, content);
+				as_component_set_developer_name (cpt, content, NULL);
 		} else if (g_strcmp0 (node_name, "compulsory_for_desktop") == 0) {
 			if (content != NULL)
 				g_ptr_array_add (compulsory_for_desktops, g_strdup (content));
@@ -696,15 +699,47 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 	return NULL;
 }
 
-static AsComponent*
+/**
+ * as_metadata_parse_components_node:
+ */
+void
+as_metadata_parse_components_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
+{
+	AsComponent *cpt;
+	xmlNode* iter;
+	GError *tmp_error = NULL;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+
+		if (g_strcmp0 ((gchar*) iter->name, "component") == 0) {
+			cpt = as_metadata_parse_component_node (metad, iter, allow_invalid, &tmp_error);
+			if (tmp_error != NULL) {
+				g_propagate_error (error, tmp_error);
+				return;
+			} else if (cpt != NULL) {
+				g_ptr_array_add (priv->cpts, cpt);
+			}
+		}
+	}
+}
+
+/**
+ * as_metadata_process_document:
+ */
+void
 as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError **error)
 {
 	xmlDoc* doc;
 	xmlNode* root;
 	AsComponent *cpt = NULL;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
-	g_return_val_if_fail (metad != NULL, FALSE);
-	g_return_val_if_fail (xmldoc_str != NULL, FALSE);
+	g_return_if_fail (metad != NULL);
+	g_return_if_fail (xmldoc_str != NULL);
 
 	doc = xmlParseDoc ((xmlChar*) xmldoc_str);
 	if (doc == NULL) {
@@ -712,7 +747,7 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 				     AS_METADATA_ERROR,
 				     AS_METADATA_ERROR_FAILED,
 				     "Could not parse XML!");
-		return NULL;
+		return;
 	}
 
 	root = xmlDocGetRootElement (doc);
@@ -721,27 +756,34 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 				     AS_METADATA_ERROR,
 				     AS_METADATA_ERROR_FAILED,
 				     "The XML document is empty.");
-		return NULL;
+		return;
 	}
 
-	if (g_strcmp0 ((gchar*) root->name, "component") != 0) {
-		if (g_strcmp0 ((gchar*) root->name, "application") != 0) {
-			g_set_error_literal (error,
-						AS_METADATA_ERROR,
-						AS_METADATA_ERROR_FAILED,
-						"XML file does not contain valid AppStream data!");
-			goto out;
-		} else {
-			g_debug ("Parsing legacy AppStream metadata file.");
-		}
-	}
+	/* clear results list */
+	as_metadata_clear_components (metad);
 
-	cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
+	if (g_strcmp0 ((gchar*) root->name, "components") == 0) {
+		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
+		as_metadata_parse_components_node (metad, root, FALSE, error);
+	} else if (g_strcmp0 ((gchar*) root->name, "component") == 0) {
+		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_UPSTREAM);
+		cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
+		g_ptr_array_add (priv->cpts, cpt);
+	} else if  (g_strcmp0 ((gchar*) root->name, "application") == 0) {
+		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_UPSTREAM);
+		g_debug ("Parsing legacy AppStream metadata file.");
+		cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
+		g_ptr_array_add (priv->cpts, cpt);
+	} else {
+		g_set_error_literal (error,
+					AS_METADATA_ERROR,
+					AS_METADATA_ERROR_FAILED,
+					"XML file does not contain valid AppStream data!");
+		goto out;
+	}
 
 out:
 	xmlFreeDoc (doc);
-
-	return cpt;
 }
 
 /**
@@ -750,20 +792,15 @@ out:
  * @data: XML data describing a component
  * @error: A #GError or %NULL.
  *
- * Parses AppStream upstream metadata.
+ * Parses AppStream metadata.
  *
- * Returns: (transfer full): the #AsComponent of this data, or NULL on error
  **/
-AsComponent*
+void
 as_metadata_parse_data (AsMetadata* metad, const gchar *data, GError **error)
 {
-	AsComponent *cpt;
-	g_return_val_if_fail (metad != NULL, NULL);
-	g_return_val_if_fail (data != NULL, NULL);
+	g_return_if_fail (metad != NULL);
 
-	cpt = as_metadata_process_document (metad, data, error);
-
-	return cpt;
+	as_metadata_process_document (metad, data, error);
 }
 
 /**
@@ -774,47 +811,471 @@ as_metadata_parse_data (AsMetadata* metad, const gchar *data, GError **error)
  *
  * Parses an AppStream upstream metadata file.
  *
- * Returns: (transfer full): the #AsComponent of this file, or NULL on error
  **/
-AsComponent*
-as_metadata_parse_file (AsMetadata* metad, GFile* infile, GError **error)
+void
+as_metadata_parse_file (AsMetadata* metad, GFile* file, GError **error)
 {
-	AsComponent *cpt;
 	gchar* xml_doc;
-	gchar* line = NULL;
-	GFileInputStream* ir;
-	GDataInputStream* dis;
+	GFileInputStream* fistream;
+	GFileInfo *info = NULL;
+	const gchar *content_type = NULL;
 
-	g_return_val_if_fail (metad != NULL, NULL);
-	g_return_val_if_fail (infile != NULL, NULL);
+	g_return_if_fail (file != NULL);
 
-	xml_doc = g_strdup ("");
-	ir = g_file_read (infile, NULL, NULL);
-	dis = g_data_input_stream_new ((GInputStream*) ir);
-	g_object_unref (ir);
+	info = g_file_query_info (file,
+				G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				G_FILE_QUERY_INFO_NONE,
+				NULL, NULL);
+	if (info != NULL)
+		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
 
-	while (TRUE) {
-		gchar *str;
-		gchar *tmp;
+	if ((g_strcmp0 (content_type, "application/gzip") == 0) || (g_strcmp0 (content_type, "application/x-gzip") == 0)) {
+		GFileInputStream *fistream;
+		GMemoryOutputStream *mem_os;
+		GInputStream *conv_stream;
+		GZlibDecompressor *zdecomp;
+		guint8 *data;
 
-		line = g_data_input_stream_read_line (dis, NULL, NULL, NULL);
-		if (line == NULL) {
-			break;
+		/* load a GZip compressed file */
+		fistream = g_file_read (file, NULL, NULL);
+		mem_os = (GMemoryOutputStream*) g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
+		zdecomp = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
+		conv_stream = g_converter_input_stream_new (G_INPUT_STREAM (fistream), G_CONVERTER (zdecomp));
+		g_object_unref (zdecomp);
+
+		g_output_stream_splice (G_OUTPUT_STREAM (mem_os), conv_stream, 0, NULL, NULL);
+		data = g_memory_output_stream_get_data (mem_os);
+
+		xml_doc = g_strdup ((const gchar*) data);
+
+		g_object_unref (conv_stream);
+		g_object_unref (mem_os);
+		g_object_unref (fistream);
+	} else {
+		gchar *line = NULL;
+		GString *str;
+		GDataInputStream *dis;
+
+		/* load a plaintext file */
+		str = g_string_new ("");
+		fistream = g_file_read (file, NULL, NULL);
+		dis = g_data_input_stream_new ((GInputStream*) fistream);
+		g_object_unref (fistream);
+
+		while (TRUE) {
+			line = g_data_input_stream_read_line (dis, NULL, NULL, NULL);
+			if (line == NULL) {
+				break;
+			}
+
+			g_string_append_printf (str, "%s\n", line);
 		}
 
-		str = g_strconcat (line, "\n", NULL);
-		g_free (line);
-		tmp = g_strconcat (xml_doc, str, NULL);
-		g_free (str);
-		g_free (xml_doc);
-		xml_doc = tmp;
+		xml_doc = g_string_free (str, FALSE);
+		g_object_unref (dis);
 	}
 
-	cpt = as_metadata_process_document (metad, xml_doc, error);
-	g_object_unref (dis);
+	/* parse XML data */
+	as_metadata_process_document (metad, xml_doc, error);
 	g_free (xml_doc);
+}
 
-	return cpt;
+/**
+ * as_metadata_save_xml:
+ */
+static void
+as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_data, GError **error)
+{
+	GFile *file;
+	GError *tmp_error = NULL;
+
+	file = g_file_new_for_path (fname);
+	if (g_str_has_suffix (fname, ".gz")) {
+		GOutputStream *out2 = NULL;
+		GOutputStream *out = NULL;
+		GZlibCompressor *compressor = NULL;
+
+		/* write a gzip compressed file */
+		compressor = g_zlib_compressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP, -1);
+		out = g_memory_output_stream_new_resizable ();
+		out2 = g_converter_output_stream_new (out, G_CONVERTER (compressor));
+		g_object_unref (compressor);
+
+		if (!g_output_stream_write_all (out2, xml_data, strlen (xml_data),
+					NULL, NULL, &tmp_error)) {
+			g_object_unref (out2);
+			g_object_unref (out);
+			g_propagate_error (error, tmp_error);
+			goto out;
+		}
+
+		g_output_stream_close (out2, NULL, &tmp_error);
+		g_object_unref (out2);
+		if (tmp_error != NULL) {
+			g_propagate_error (error, tmp_error);
+			goto out;
+		}
+
+		if (!g_file_replace_contents (file,
+			g_memory_output_stream_get_data (G_MEMORY_OUTPUT_STREAM (out)),
+						g_memory_output_stream_get_data_size (G_MEMORY_OUTPUT_STREAM (out)),
+						NULL,
+						FALSE,
+						G_FILE_CREATE_NONE,
+						NULL,
+						NULL,
+						&tmp_error)) {
+			g_object_unref (out);
+			g_propagate_error (error, tmp_error);
+			goto out;
+		}
+
+		g_object_unref (out);
+
+	} else {
+		GFileOutputStream *fos = NULL;
+		GDataOutputStream *dos = NULL;
+
+		/* write uncompressed file */
+		if (g_file_query_exists (file, NULL)) {
+			fos = g_file_replace (file,
+							NULL,
+							FALSE,
+							G_FILE_CREATE_REPLACE_DESTINATION,
+							NULL,
+							&tmp_error);
+		} else {
+			fos = g_file_create (file, G_FILE_CREATE_REPLACE_DESTINATION, NULL, &tmp_error);
+		}
+
+		if (tmp_error != NULL) {
+			g_object_unref (fos);
+			g_propagate_error (error, tmp_error);
+			goto out;
+		}
+
+		dos = g_data_output_stream_new (G_OUTPUT_STREAM (fos));
+		g_data_output_stream_put_string (dos, xml_data, NULL, &tmp_error);
+
+		g_object_unref (dos);
+		g_object_unref (fos);
+
+		if (tmp_error != NULL) {
+			g_propagate_error (error, tmp_error);
+			goto out;
+		}
+	}
+
+out:
+	g_object_unref (file);
+}
+
+
+/**
+ * as_metadata_save_upstream_xml:
+ * @fname: The filename for the new XML file.
+ *
+ * Serialize #AsComponent instance to XML and save it to file.
+ * An existing file at the same location will be overridden.
+ */
+void
+as_metadata_save_upstream_xml (AsMetadata *metad, const gchar *fname, GError **error)
+{
+	gchar *xml_data;
+
+	xml_data = as_metadata_component_to_upstream_xml (metad);
+	as_metadata_save_xml (metad, fname, xml_data, error);
+
+	g_free (xml_data);
+}
+
+/**
+ * as_metadata_save_distro_xml:
+ * @fname: The filename for the new XML file.
+ *
+ * Serialize all #AsComponent instances to XML and save the data to a file.
+ * An existing file at the same location will be overridden.
+ */
+void
+as_metadata_save_distro_xml (AsMetadata *metad, const gchar *fname, GError **error)
+{
+	gchar *xml_data;
+
+	xml_data = as_metadata_components_to_distro_xml (metad);
+	as_metadata_save_xml (metad, fname, xml_data, error);
+
+	g_free (xml_data);
+}
+
+/**
+ * as_component_xml_add_node:
+ *
+ * Add node if value is not empty
+ */
+static xmlNode*
+as_metadata_xml_add_node (xmlNode *root, const gchar *name, const gchar *value)
+{
+	if (as_str_empty (value))
+		return NULL;
+
+	return xmlNewTextChild (root, NULL, (xmlChar*) name, (xmlChar*) value);
+}
+
+/**
+ * as_metadata_xml_add_description:
+ *
+ * Add the description markup to the XML tree
+ */
+static gboolean
+as_metadata_xml_add_description (xmlNode *root, const gchar *description_markup)
+{
+	gchar *xmldata;
+	xmlDoc *doc;
+	xmlNode *droot;
+	xmlNode *dnode;
+	xmlNode *iter;
+	gboolean ret = TRUE;
+
+	if (as_str_empty (description_markup))
+		return FALSE;
+
+	xmldata = g_strdup_printf ("<root>%s</root>", description_markup);
+	doc = xmlParseDoc ((xmlChar*) xmldata);
+	if (doc == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+
+	droot = xmlDocGetRootElement (doc);
+	if (droot == NULL) {
+		ret = FALSE;
+		goto out;
+	}
+	dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
+
+	for (iter = droot->children; iter != NULL; iter = iter->next) {
+		xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
+	}
+
+out:
+	if (doc != NULL)
+		xmlFreeDoc (doc);
+	g_free (xmldata);
+	return ret;
+}
+
+/**
+ * as_component_xml_add_node_list:
+ *
+ * Add node if value is not empty
+ */
+static void
+as_metadata_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *child_name, gchar **strv)
+{
+	xmlNode *node;
+	guint i;
+
+	if (strv == NULL)
+		return;
+
+	if (name == NULL)
+		node = root;
+	else
+		node = xmlNewTextChild (root, NULL, (xmlChar*) name, NULL);
+	for (i = 0; strv[i] != NULL; i++) {
+		xmlNewTextChild (node, NULL, (xmlChar*) child_name, (xmlChar*) strv[i]);
+	}
+}
+
+/**
+ * as_metadata_component_to_node:
+ * @cpt: a valid #AsComponent
+ *
+ * Serialize the component data to an xmlNode.
+ *
+ */
+static xmlNode*
+as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
+{
+	xmlNode *cnode;
+	xmlNode *node;
+	gchar **strv;
+	GPtrArray *releases;
+	GPtrArray *screenshots;
+	AsComponentKind kind;
+	g_return_val_if_fail (cpt != NULL, NULL);
+
+	/* define component root node */
+	kind = as_component_get_kind (cpt);
+	cnode = xmlNewNode (NULL, (xmlChar*) "component");
+	if ((kind != AS_COMPONENT_KIND_GENERIC) && (kind != AS_COMPONENT_KIND_UNKNOWN)) {
+		xmlNewProp (cnode, (xmlChar*) "type",
+					(xmlChar*) as_component_kind_to_string (kind));
+	}
+
+	as_metadata_xml_add_node (cnode, "id", as_component_get_id (cpt));
+	as_metadata_xml_add_node (cnode, "name", as_component_get_name (cpt));
+	as_metadata_xml_add_node (cnode, "summary", as_component_get_summary (cpt));
+	as_metadata_xml_add_node (cnode, "project_license", as_component_get_project_license (cpt));
+	as_metadata_xml_add_node (cnode, "project_group", as_component_get_project_group (cpt));
+	as_metadata_xml_add_node (cnode, "developer_name", as_component_get_developer_name (cpt));
+	as_metadata_xml_add_description (cnode, as_component_get_description (cpt));
+
+	as_metadata_xml_add_node_list (cnode, NULL, "pkgname", as_component_get_pkgnames (cpt));
+	strv = as_ptr_array_to_strv (as_component_get_extends (cpt));
+	as_metadata_xml_add_node_list (cnode, NULL, "extends", strv);
+	g_strfreev (strv);
+	as_metadata_xml_add_node_list (cnode, NULL, "compulsory_for_desktop", as_component_get_compulsory_for_desktops (cpt));
+	as_metadata_xml_add_node_list (cnode, "keywords", "keyword", as_component_get_keywords (cpt));
+	as_metadata_xml_add_node_list (cnode, "categories", "category", as_component_get_categories (cpt));
+
+	/* releases node */
+	releases = as_component_get_releases (cpt);
+	if (releases->len > 0) {
+		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "releases", NULL);
+		as_component_xml_add_release_subnodes (cpt, node);
+	}
+
+	/* screenshots node */
+	screenshots = as_component_get_screenshots (cpt);
+	if (screenshots->len > 0) {
+		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
+		as_component_xml_add_screenshot_subnodes (cpt, node);
+	}
+
+	return cnode;
+}
+
+/**
+ * as_metadata_component_to_upstream_xml:
+ *
+ * Convert an #AsComponent to upstream XML.
+ * (The amount of localization included in the metadata depends on how the #AsComponent
+ * was initially loaded)
+ *
+ * The first #AsComponent added to the internal list will be transformed.
+ * In case no component is present, %NULL is returned.
+ *
+ * Returns: (transfer full): A string containing the XML. Free with g_free()
+ */
+gchar*
+as_metadata_component_to_upstream_xml (AsMetadata *metad)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	gchar *xmlstr = NULL;
+	AsComponent *cpt;
+
+	cpt = as_metadata_get_component (metad);
+	if (cpt == NULL)
+		return NULL;
+
+	doc = xmlNewDoc ((xmlChar*) NULL);
+
+	/* define component root node */
+	root = as_metadata_component_to_node (metad, cpt);
+	if (root == NULL)
+		goto out;
+	xmlDocSetRootElement (doc, root);
+
+out:
+	xmlDocDumpMemory (doc, (xmlChar**) (&xmlstr), NULL);
+	xmlFreeDoc (doc);
+
+	return xmlstr;
+}
+
+/**
+ * as_metadata_components_to_distro_xml:
+ *
+ * Serialize all #AsComponent instances into AppStream
+ * distro-XML data.
+ * %NULL is returned if there is nothing to serialize.
+ *
+ * Returns: (transfer full): A string containing the XML. Free with g_free()
+ */
+gchar*
+as_metadata_components_to_distro_xml (AsMetadata *metad)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	gchar *xmlstr = NULL;
+	guint i;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	if (priv->cpts->len == 0)
+		return NULL;
+
+	root = xmlNewNode (NULL, (xmlChar*) "components");
+	xmlNewProp (root, (xmlChar*) "version", (xmlChar*) "0.7");
+	if (priv->origin_name != NULL)
+		xmlNewProp (root, (xmlChar*) "origin", (xmlChar*) priv->origin_name);
+
+	for (i = 0; i < priv->cpts->len; i++) {
+		AsComponent *cpt;
+		xmlNode *node;
+		cpt = AS_COMPONENT (g_ptr_array_index (priv->cpts, i));
+
+		node = as_metadata_component_to_node (metad, cpt);
+		if (node == NULL)
+			continue;
+		xmlAddChild (root, node);
+	}
+
+	doc = xmlNewDoc ((xmlChar*) NULL);
+	xmlDocSetRootElement (doc, root);
+
+	xmlDocDumpMemory (doc, (xmlChar**) (&xmlstr), NULL);
+	xmlFreeDoc (doc);
+
+	return xmlstr;
+}
+
+/**
+ * as_metadata_add_component:
+ *
+ * Add an #AsComponent to the list of components.
+ * This can be used to add multiple components in order to
+ * produce a distro-XML AppStream metadata file.
+ */
+void
+as_metadata_add_component (AsMetadata *metad, AsComponent *cpt)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	g_ptr_array_add (priv->cpts, g_object_ref (cpt));
+}
+
+/**
+ * as_metadata_get_component:
+ * @metad: a #AsMetadata instance.
+ *
+ * Gets the #AsComponent which has been parsed from the XML.
+ * If the AppStream XML contained multiple components, return the first
+ * component that has been parsed.
+ *
+ * Returns: (transfer none): An #AsComponent or %NULL
+ **/
+AsComponent*
+as_metadata_get_component (AsMetadata *metad)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	if (priv->cpts->len == 0)
+		return NULL;
+	return AS_COMPONENT (g_ptr_array_index (priv->cpts, 0));
+}
+
+/**
+ * as_metadata_get_components:
+ * @metad: a #AsMetadata instance.
+ *
+ * Returns: (transfer none) (element-type AsComponent): A #GPtrArray of all parsed components
+ **/
+GPtrArray*
+as_metadata_get_components (AsMetadata *metad)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	return priv->cpts;
 }
 
 /**
@@ -822,7 +1283,10 @@ as_metadata_parse_file (AsMetadata* metad, GFile* infile, GError **error)
  * @metad: a #AsMetadata instance.
  * @locale: the locale.
  *
- * Sets the current locale which should be used when parsing metadata.
+ * Sets the locale which should be read when processing metadata.
+ * All other locales are ignored, which increases parsing speed and
+ * reduces memory usage.
+ * If you set the locale to "ALL", all locales will be read.
  **/
 void
 as_metadata_set_locale (AsMetadata *metad, const gchar *locale)
@@ -843,7 +1307,8 @@ as_metadata_set_locale (AsMetadata *metad, const gchar *locale)
  * as_metadata_get_locale:
  * @metad: a #AsMetadata instance.
  *
- * Gets the currently used locale.
+ * Gets the current active locale for parsing metadata,
+ * or "ALL" if all locales are read.
  *
  * Returns: Locale used for metadata parsing.
  **/
@@ -896,6 +1361,30 @@ as_metadata_get_parser_mode (AsMetadata *metad)
 {
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 	return priv->mode;
+}
+
+/**
+ * as_metadata_class_init:
+ **/
+static void
+as_metadata_class_init (AsMetadataClass *klass)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = as_metadata_finalize;
+}
+
+/**
+ * as_metadata_error_quark:
+ *
+ * Return value: An error quark.
+ **/
+GQuark
+as_metadata_error_quark (void)
+{
+	static GQuark quark = 0;
+	if (!quark)
+		quark = g_quark_from_static_string ("AsMetadataError");
+	return quark;
 }
 
 /**

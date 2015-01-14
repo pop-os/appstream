@@ -28,16 +28,20 @@
 </entry><entry role="function_name"><link linkend="as-release-new">as_release_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-release-get-version">as_release_get_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-version">as_release_set_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-release-get-timestamp">as_release_get_timestamp</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-release-get-description">as_release_get_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-release-set-version">as_release_set_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-release-set-description">as_release_set_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-release-get-active-locale">as_release_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-active-locale">as_release_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -99,52 +103,6 @@ as_release_get_version (<parameter><link linkend="AsRelease"><type>AsRelease</ty
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
 <para></para>
 </refsect3></refsect2>
-<refsect2 id="as-release-get-timestamp" role="function">
-<title>as_release_get_timestamp&#160;()</title>
-<indexterm zone="as-release-get-timestamp"><primary>as_release_get_timestamp</primary></indexterm>
-<programlisting language="C"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
-as_release_get_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
-<para>Gets the release timestamp.</para>
-<refsect3 role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>release</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
-<title>Returns</title>
-<para> timestamp, or 0 for unset</para>
-<para></para>
-</refsect3></refsect2>
-<refsect2 id="as-release-get-description" role="function">
-<title>as_release_get_description&#160;()</title>
-<indexterm zone="as-release-get-description"><primary>as_release_get_description</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_release_get_description (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
-<para>Gets the release description markup for a given locale.</para>
-<refsect3 role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>release</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
-<title>Returns</title>
-<para> markup, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
-<para></para>
-</refsect3></refsect2>
 <refsect2 id="as-release-set-version" role="function">
 <title>as_release_set_version&#160;()</title>
 <indexterm zone="as-release-set-version"><primary>as_release_set_version</primary></indexterm>
@@ -167,6 +125,29 @@ as_release_set_version (<parameter><link linkend="AsRelease"><type>AsRelease</ty
 <entry role="parameter_description"><para>the version string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-release-get-timestamp" role="function">
+<title>as_release_get_timestamp&#160;()</title>
+<indexterm zone="as-release-get-timestamp"><primary>as_release_get_timestamp</primary></indexterm>
+<programlisting language="C"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
+as_release_get_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the release timestamp.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> timestamp, or 0 for unset</para>
+<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-release-set-timestamp" role="function">
 <title>as_release_set_timestamp&#160;()</title>
@@ -191,12 +172,36 @@ as_release_set_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-release-get-description" role="function">
+<title>as_release_get_description&#160;()</title>
+<indexterm zone="as-release-get-description"><primary>as_release_get_description</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_release_get_description (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the release description markup for a given locale.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> markup, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
+<para></para>
+</refsect3></refsect2>
 <refsect2 id="as-release-set-description" role="function">
 <title>as_release_set_description&#160;()</title>
 <indexterm zone="as-release-set-description"><primary>as_release_set_description</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_release_set_description (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *description</parameter>);</programlisting>
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *description</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Sets the description release markup.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
@@ -214,6 +219,30 @@ as_release_set_description (<parameter><link linkend="AsRelease"><type>AsRelease
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-release-get-active-locale" role="function">
+<title>as_release_get_active_locale&#160;()</title>
+<indexterm zone="as-release-get-active-locale"><primary>as_release_get_active_locale</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_release_get_active_locale (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Get the current active locale, which
+is used to get localized messages.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-release-set-active-locale" role="function">
+<title>as_release_set_active_locale&#160;()</title>
+<indexterm zone="as-release-set-active-locale"><primary>as_release_set_active_locale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_active_locale (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
+<para>Set the current active locale, which
+is used to get localized messages.
+If the <link linkend="AsComponent"><type>AsComponent</type></link> linking this <link linkend="AsRelease"><type>AsRelease</type></link> was fetched
+from a localized database, usually only
+one locale is available.</para>
+</refsect2>
 
 </refsect1>
 <refsect1 id="AsRelease.other_details" role="details">
