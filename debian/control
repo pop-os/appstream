@@ -56,7 +56,7 @@ Description: Library to access AppStream services
 Package: libappstream-dev
 Architecture: any
 Section: libdevel
-Depends: libappstream1 (= ${binary:Version}),
+Depends: libappstream2 (= ${binary:Version}),
          libglib2.0-dev (>= 2.40),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
@@ -74,7 +74,7 @@ Architecture: any
 Section: introspection
 Depends: gir1.2-freedesktop (>= 1.32),
          gir1.2-glib-2.0 (>= 1.40),
-         libappstream1 (= ${binary:Version}),
+         libappstream2 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a cross-distribution effort for creating and sharing
