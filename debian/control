@@ -25,7 +25,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Description: Software component index generator
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format,
  screenshot services and various other things needed to make handling
@@ -33,7 +33,7 @@ Description: Software component index generator
  application-centric software management tools.
  .
  This package provides tools to generate, maintain and access the
- AppStream database of installed and available applications.
+ AppStream database of installed and available software.
 
 Package: libappstream2
 Architecture: any
@@ -45,13 +45,14 @@ Depends: ${misc:Depends},
 Recommends: appstream-index (>= ${binary:Version})
 Description: Library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
  .
  This package contains a GObject-based library to access AppStream
  services, like the software component metadata database.
+ It also contains functions for working with AppStream XML metadata.
 
 Package: libappstream-dev
 Architecture: any
@@ -61,7 +62,7 @@ Depends: libappstream2 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
@@ -78,7 +79,7 @@ Depends: gir1.2-freedesktop (>= 1.32),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
@@ -95,7 +96,7 @@ Depends: ${misc:Depends},
 Recommends: appstream-index (>= ${binary:Version})
 Description: Qt4 library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
@@ -111,7 +112,7 @@ Depends: libappstreamqt0 (= ${binary:Version}),
          ${misc:Depends}
 Description: Qt4 library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
@@ -126,7 +127,7 @@ Depends: ${misc:Depends}
 Suggests: appstream-index
 Description: Developer documentation for AppStream
  AppStream is a cross-distribution effort for creating and sharing
- metadata about software components available in the package repositories
+ metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
  and various other things needed to make handling of software smarter.
