@@ -63,15 +63,6 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_construct ##### -->
-<para>
-
-</para>
-
-@object_type: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_component_is_valid ##### -->
 <para>
 
@@ -178,24 +169,7 @@ AsComponent
 
 @cpt: 
 @value: 
-
-
-<!-- ##### FUNCTION as_component_get_name_original ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_set_name_original ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@value: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_component_get_summary ##### -->
@@ -214,6 +188,7 @@ AsComponent
 
 @cpt: 
 @value: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_component_get_description ##### -->
@@ -232,6 +207,7 @@ AsComponent
 
 @cpt: 
 @value: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_component_get_project_license ##### -->
@@ -286,6 +262,7 @@ AsComponent
 
 @cpt: 
 @value: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_component_get_compulsory_for_desktops ##### -->
@@ -387,6 +364,7 @@ AsComponent
 
 @cpt: 
 @value: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_component_get_icon ##### -->
@@ -407,7 +385,7 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_get_icon_url_for_size ##### -->
+<!-- ##### FUNCTION as_component_get_icon_url ##### -->
 <para>
 
 </para>
@@ -563,7 +541,7 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_to_xml ##### -->
+<!-- ##### FUNCTION as_component_get_active_locale ##### -->
 <para>
 
 </para>
@@ -572,12 +550,12 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_icon_url ##### -->
+<!-- ##### FUNCTION as_component_set_active_locale ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@Returns: 
+@locale: 
 
 

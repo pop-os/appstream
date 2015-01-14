@@ -67,7 +67,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gboolean</span>
+<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
 <a class="link" href="AsSearchQuery.html#as-search-query-get-search-all-categories" title="as_search_query_get_search_all_categories ()">as_search_query_get_search_all_categories</a> <span class="c_punctuation">()</span>
@@ -75,7 +75,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<span class="returnvalue">gchar</span> **
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 </td>
 <td class="function_name">
 <a class="link" href="AsSearchQuery.html#as-search-query-get-categories" title="as_search_query_get_categories ()">as_search_query_get_categories</a> <span class="c_punctuation">()</span>
@@ -114,7 +114,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <span class="returnvalue">gchar</span> *
+<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
 <a class="link" href="AsSearchQuery.html#as-search-query-get-search-term" title="as_search_query_get_search_term ()">as_search_query_get_search_term</a> <span class="c_punctuation">()</span>
@@ -133,13 +133,13 @@
 </colgroup>
 <tbody>
 <tr>
-<td class="property_type"><span class="type">GStrv</span></td>
+<td class="property_type"><a href="../gobject/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a></td>
 <td class="property_name"><a class="link" href="AsSearchQuery.html#AsSearchQuery--categories" title="The “categories” property">categories</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
 <td class="property_type">
-<span class="type">gchar</span> *</td>
+<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
 <td class="property_name"><a class="link" href="AsSearchQuery.html#AsSearchQuery--search-term" title="The “search-term” property">search-term</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
@@ -148,7 +148,7 @@
 </div>
 <div class="refsect1">
 <a name="AsSearchQuery.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    GObject
+<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject">GObject</a>
     <span class="lineart">╰──</span> AsSearchQuery
 </pre>
 </div>
@@ -170,7 +170,7 @@ It also applies some sanity checks and improvements to the entered search string
 <div class="refsect2">
 <a name="as-search-query-new"></a><h3>as_search_query_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *
-as_search_query_new (<em class="parameter"><code>const <span class="type">gchar</span> *term</code></em>);</pre>
+as_search_query_new (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
 <p>Creates a new <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>.</p>
 <div class="refsect3">
 <a name="id-1.2.6.8.2.5"></a><h4>Returns</h4>
@@ -182,8 +182,8 @@ as_search_query_new (<em class="parameter"><code>const <span class="type">gchar<
 <div class="refsect2">
 <a name="as-search-query-construct"></a><h3>as_search_query_construct ()</h3>
 <pre class="programlisting"><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="returnvalue">AsSearchQuery</span></a> *
-as_search_query_construct (<em class="parameter"><code><span class="type">GType</span> object_type</code></em>,
-                           <em class="parameter"><code>const <span class="type">gchar</span> *term</code></em>);</pre>
+as_search_query_construct (<em class="parameter"><code><a href="../gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> object_type</code></em>,
+                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *term</code></em>);</pre>
 <p>Construct a new <a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a>.</p>
 <div class="refsect3">
 <a name="id-1.2.6.8.3.5"></a><h4>Returns</h4>
@@ -196,7 +196,7 @@ as_search_query_construct (<em class="parameter"><code><span class="type">GType<
 <a name="as-search-query-set-search-term"></a><h3>as_search_query_set_search_term ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_search_query_set_search_term (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
-                                 <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
+                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
 <p>Set the search-term we use for the search. Multiple terms may be
 comma-separated.
 You can use Xapian prefixes, such as "XP" to refine your search.</p>
@@ -204,7 +204,7 @@ You can use Xapian prefixes, such as "XP" to refine your search.</p>
 <hr>
 <div class="refsect2">
 <a name="as-search-query-get-search-all-categories"></a><h3>as_search_query_get_search_all_categories ()</h3>
-<pre class="programlisting"><span class="returnvalue">gboolean</span>
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 as_search_query_get_search_all_categories
                                (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
 <div class="refsect3">
@@ -216,7 +216,7 @@ as_search_query_get_search_all_categories
 <hr>
 <div class="refsect2">
 <a name="as-search-query-get-categories"></a><h3>as_search_query_get_categories ()</h3>
-<pre class="programlisting"><span class="returnvalue">gchar</span> **
+<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
 as_search_query_get_categories (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
 <div class="refsect3">
 <a name="id-1.2.6.8.6.4"></a><h4>Returns</h4>
@@ -252,7 +252,7 @@ as_search_query_set_search_all_categories
 <a name="as-search-query-set-categories"></a><h3>as_search_query_set_categories ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_search_query_set_categories (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
-                                <em class="parameter"><code><span class="type">gchar</span> **value</code></em>);</pre>
+                                <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> **value</code></em>);</pre>
 <p>
 </p>
 </div>
@@ -262,7 +262,7 @@ as_search_query_set_categories (<em class="parameter"><code><a class="link" href
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_search_query_set_categories_from_string
                                (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>,
-                                <em class="parameter"><code>const <span class="type">gchar</span> *categories_str</code></em>);</pre>
+                                <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *categories_str</code></em>);</pre>
 <p>Set the categories list from a string</p>
 <p><em class="parameter"><code>categories_str</code></em>
  Semicolon-separated list of category-names</p>
@@ -278,7 +278,7 @@ as_search_query_sanitize_search_term (<em class="parameter"><code><a class="link
 <hr>
 <div class="refsect2">
 <a name="as-search-query-get-search-term"></a><h3>as_search_query_get_search_term ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 as_search_query_get_search_term (<em class="parameter"><code><a class="link" href="AsSearchQuery.html" title="AsSearchQuery"><span class="type">AsSearchQuery</span></a> *self</code></em>);</pre>
 <p>Returns the search-term we currently use</p>
 <div class="refsect3">
@@ -294,14 +294,14 @@ as_search_query_get_search_term (<em class="parameter"><code><a class="link" hre
 <a name="AsSearchQuery.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
 <a name="AsSearchQuery--categories"></a><h3>The <code class="literal">“categories”</code> property</h3>
-<pre class="programlisting">  “categories”               <span class="type">GStrv</span></pre>
+<pre class="programlisting">  “categories”               <a href="../gobject/gobject-Boxed-Types.html#GStrv"><span class="type">GStrv</span></a></pre>
 <p>categories.</p>
 <p>Flags: Read / Write</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="AsSearchQuery--search-term"></a><h3>The <code class="literal">“search-term”</code> property</h3>
-<pre class="programlisting">  “search-term”              <span class="type">gchar</span> *</pre>
+<pre class="programlisting">  “search-term”              <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
 <p>search-term.</p>
 <p>Flags: Read / Write</p>
 <p>Default value: NULL</p>

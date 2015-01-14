@@ -51,7 +51,6 @@
 <indexentry><primaryie linkends="AsComponent--keywords"><link linkend="AsComponent--keywords">AsComponent:keywords</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--kind"><link linkend="AsComponent--kind">AsComponent:kind</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--name"><link linkend="AsComponent--name">AsComponent:name</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsComponent--name-original"><link linkend="AsComponent--name-original">AsComponent:name-original</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--pkgnames"><link linkend="AsComponent--pkgnames">AsComponent:pkgnames</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--project-group"><link linkend="AsComponent--project-group">AsComponent:project-group</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--project-license"><link linkend="AsComponent--project-license">AsComponent:project-license</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -66,7 +65,7 @@
 <indexentry><primaryie linkends="as-component-add-release"><link linkend="as-component-add-release">as_component_add_release</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-screenshot"><link linkend="as-component-add-screenshot">as_component_add_screenshot</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-url"><link linkend="as-component-add-url">as_component_add_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-construct"><link linkend="as-component-construct">as_component_construct</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-active-locale"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-categories"><link linkend="as-component-get-categories">as_component_get_categories</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-compulsory-for-desktops"><link linkend="as-component-get-compulsory-for-desktops">as_component_get_compulsory_for_desktops</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-description"><link linkend="as-component-get-description">as_component_get_description</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -75,14 +74,12 @@
 <indexentry><primaryie linkends="as-component-get-icon"><link linkend="as-component-get-icon">as_component_get_icon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icon-url"><link linkend="as-component-get-icon-url">as_component_get_icon_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icon-urls"><link linkend="as-component-get-icon-urls">as_component_get_icon_urls</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-get-icon-url-for-size"><link linkend="as-component-get-icon-url-for-size">as_component_get_icon_url_for_size</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-id"><link linkend="as-component-get-id">as_component_get_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-keywords"><link linkend="as-component-get-keywords">as_component_get_keywords</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-kind"><link linkend="as-component-get-kind">as_component_get_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-language"><link linkend="as-component-get-language">as_component_get_language</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-languages"><link linkend="as-component-get-languages">as_component_get_languages</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-name"><link linkend="as-component-get-name">as_component_get_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-get-name-original"><link linkend="as-component-get-name-original">as_component_get_name_original</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-origin"><link linkend="as-component-get-origin">as_component_get_origin</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-pkgnames"><link linkend="as-component-get-pkgnames">as_component_get_pkgnames</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-project-group"><link linkend="as-component-get-project-group">as_component_get_project_group</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -100,6 +97,7 @@
 <indexentry><primaryie linkends="as-component-kind-to-string"><link linkend="as-component-kind-to-string">as_component_kind_to_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-new"><link linkend="as-component-new">as_component_new</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-provides-item"><link linkend="as-component-provides-item">as_component_provides_item</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-set-active-locale"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-categories"><link linkend="as-component-set-categories">as_component_set_categories</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-categories-from-str"><link linkend="as-component-set-categories-from-str">as_component_set_categories_from_str</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-compulsory-for-desktops"><link linkend="as-component-set-compulsory-for-desktops">as_component_set_compulsory_for_desktops</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -110,14 +108,12 @@
 <indexentry><primaryie linkends="as-component-set-keywords"><link linkend="as-component-set-keywords">as_component_set_keywords</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-kind"><link linkend="as-component-set-kind">as_component_set_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-name"><link linkend="as-component-set-name">as_component_set_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-set-name-original"><link linkend="as-component-set-name-original">as_component_set_name_original</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-origin"><link linkend="as-component-set-origin">as_component_set_origin</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-pkgnames"><link linkend="as-component-set-pkgnames">as_component_set_pkgnames</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-project-group"><link linkend="as-component-set-project-group">as_component_set_project_group</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-project-license"><link linkend="as-component-set-project-license">as_component_set_project_license</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-summary"><link linkend="as-component-set-summary">as_component_set_summary</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-to-string"><link linkend="as-component-to-string">as_component_to_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-component-to-xml"><link linkend="as-component-to-xml">as_component_to_xml</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>D</title>
 <indexentry><primaryie linkends="AsDatabase--database-path"><link linkend="AsDatabase--database-path">AsDatabase:database-path</link>, object property in <link linkend="AsDatabase">AsDatabase</link></primaryie></indexentry>
@@ -195,14 +191,22 @@
 <indexentry><primaryie linkends="as-menu-parser-parse"><link linkend="as-menu-parser-parse">as_menu_parser_parse</link>, function in <link linkend="AsMenuParser">AsMenuParser</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-menu-parser-set-update-category-data"><link linkend="as-menu-parser-set-update-category-data">as_menu_parser_set_update_category_data</link>, function in <link linkend="AsMenuParser">AsMenuParser</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsMetadataError"><link linkend="AsMetadataError">AsMetadataError</link>, enum in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-add-component"><link linkend="as-metadata-add-component">as_metadata_add_component</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-clear-components"><link linkend="as-metadata-clear-components">as_metadata_clear_components</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-components-to-distro-xml"><link linkend="as-metadata-components-to-distro-xml">as_metadata_components_to_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-component-to-upstream-xml"><link linkend="as-metadata-component-to-upstream-xml">as_metadata_component_to_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-METADATA-ERROR:CAPS"><link linkend="AS-METADATA-ERROR:CAPS">AS_METADATA_ERROR</link>, macro in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-error-quark"><link linkend="as-metadata-error-quark">as_metadata_error_quark</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-component"><link linkend="as-metadata-get-component">as_metadata_get_component</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-components"><link linkend="as-metadata-get-components">as_metadata_get_components</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-locale"><link linkend="as-metadata-get-locale">as_metadata_get_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-parser-mode"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-new"><link linkend="as-metadata-new">as_metadata_new</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-component-node"><link linkend="as-metadata-parse-component-node">as_metadata_parse_component_node</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-data"><link linkend="as-metadata-parse-data">as_metadata_parse_data</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-file"><link linkend="as-metadata-parse-file">as_metadata_parse_file</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-save-distro-xml"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-save-upstream-xml"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-locale"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-origin-id"><link linkend="as-metadata-set-origin-id">as_metadata_set_origin_id</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
@@ -232,10 +236,12 @@
 <indexentry><primaryie linkends="as-provides-kind-to-string"><link linkend="as-provides-kind-to-string">as_provides_kind_to_string</link>, function in <link linkend="appstream-as-provides">as-provides</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>R</title>
+<indexentry><primaryie linkends="as-release-get-active-locale"><link linkend="as-release-get-active-locale">as_release_get_active_locale</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-description"><link linkend="as-release-get-description">as_release_get_description</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-timestamp"><link linkend="as-release-get-timestamp">as_release_get_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-version"><link linkend="as-release-get-version">as_release_get_version</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-new"><link linkend="as-release-new">as_release_new</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-set-active-locale"><link linkend="as-release-set-active-locale">as_release_set_active_locale</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-description"><link linkend="as-release-set-description">as_release_set_description</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-timestamp"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-version"><link linkend="as-release-set-version">as_release_set_version</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
@@ -243,6 +249,7 @@
 <indexdiv><title>S</title>
 <indexentry><primaryie linkends="AsScreenshotKind"><link linkend="AsScreenshotKind">AsScreenshotKind</link>, enum in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-add-image"><link linkend="as-screenshot-add-image">as_screenshot_add_image</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-get-active-locale"><link linkend="as-screenshot-get-active-locale">as_screenshot_get_active_locale</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-caption"><link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-images"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-kind"><link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
@@ -250,6 +257,7 @@
 <indexentry><primaryie linkends="as-screenshot-kind-from-string"><link linkend="as-screenshot-kind-from-string">as_screenshot_kind_from_string</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-kind-to-string"><link linkend="as-screenshot-kind-to-string">as_screenshot_kind_to_string</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-new"><link linkend="as-screenshot-new">as_screenshot_new</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-set-active-locale"><link linkend="as-screenshot-set-active-locale">as_screenshot_set_active_locale</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-set-caption"><link linkend="as-screenshot-set-caption">as_screenshot_set_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-set-kind"><link linkend="as-screenshot-set-kind">as_screenshot_set_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsSearchQuery--categories"><link linkend="AsSearchQuery--categories">AsSearchQuery:categories</link>, object property in <link linkend="AsSearchQuery">AsSearchQuery</link></primaryie></indexentry>

@@ -1,54 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.4. Codecs</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta name="generator" content="publican 3.2.1" /><meta name="package" content="AppStream-AppStream-0.7-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="prev" href="sect-Metadata-Addon.html" title="2.3. Addons" /><link rel="next" href="sect-Metadata-InputMethod.html" title="2.5. Input Methods" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-Addon.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-InputMethod.html"><strong>Next</strong></a></li></ul><div class="section"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Codec"></a>2.4. Codecs</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-introduction"></a>2.4.1. Introduction</h3></div></div></div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">2.4. Codecs</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.2.6" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.7-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="prev" href="sect-Metadata-Addon.html" title="2.3. Addons" /><link rel="next" href="sect-Metadata-InputMethod.html" title="2.5. Input Methods" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-Addon.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-InputMethod.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Codec">
+      ⁠</a>2.4. Codecs</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-introduction">
+      ⁠</a>2.4.1. Introduction</h3></div></div></div><div class="para">
 			Software centers might want to special-case codec handling. Therefore, we provide a component type for them.
 		</div><div class="para">
 			Codecs can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>.
 		</div><div class="para">
 			Codec metadata files can - just likle all other metainfo files - be translated. See the section about translation for more information about that.
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-example"></a>2.4.2. Example file</h3></div></div></div><div class="para">
+		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-example">
+      ⁠</a>2.4.2. Example file</h3></div></div></div><div class="para">
 			A codec meta-info file should look like this:
-		</div><pre class="programlisting">
-<span class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span class="perl_Keyword">?&gt;</span>
-<span class="perl_Keyword">&lt;component</span><span class="perl_Others"> type=</span><span class="perl_String">"codec"</span><span class="perl_Keyword">&gt;</span>
-  <span class="perl_Keyword">&lt;id&gt;</span>gstreamer-good<span class="perl_Keyword">&lt;/id&gt;</span>
-  <span class="perl_Keyword">&lt;metadata_license&gt;</span>CC0<span class="perl_Keyword">&lt;/metadata_license&gt;</span>
-  <span class="perl_Keyword">&lt;name&gt;</span>GStreamer Multimedia Codecs - Extra<span class="perl_Keyword">&lt;/name&gt;</span>
-  <span class="perl_Keyword">&lt;description&gt;</span>
-    <span class="perl_Keyword">&lt;p&gt;</span>
-      This addon includes several additional codecs that are missing
-      something - perhaps a good code review, some documentation, a set of
-      tests, a real live maintainer, or some actual wide use.
-      However, they might be good enough to play your media files.
-    <span class="perl_Keyword">&lt;/p&gt;</span>
-    <span class="perl_Keyword">&lt;p&gt;</span>
-      These codecs can be used to encode and decode media files where the
-      format is not patent encumbered.
-    <span class="perl_Keyword">&lt;/p&gt;</span>
-    <span class="perl_Keyword">&lt;p&gt;</span>
-      A codec decodes audio and video for for playback or editing and is also
-      used for transmission or storage.
-      Different codecs are used in video-conferencing, streaming media and
-      video editing applications.
-    <span class="perl_Keyword">&lt;/p&gt;</span>
-  <span class="perl_Keyword">&lt;/description&gt;</span>
-  <span class="perl_Keyword">&lt;provides&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>encoder-audio/mpeg<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>mpegversion=(int){ 4, 2 }<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>stream-format=(string){ adts, raw }<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>encoder-video/mpeg<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>systemstream=(boolean)false<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>mpegversion=(int){ 1, 2, 4 }<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>encoder-video/mpeg<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>systemstream=(boolean)true<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>encoder-video/x-xvid<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>element-faac<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>element-mpeg2enc<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>element-mplex<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>element-xviddec<span class="perl_Keyword">&lt;/codec&gt;</span>
-    <span class="perl_Keyword">&lt;codec&gt;</span>element-xvidenc<span class="perl_Keyword">&lt;/codec&gt;</span>
-  <span class="perl_Keyword">&lt;/provides&gt;</span>
-<span class="perl_Keyword">&lt;/component&gt;</span>
-</pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-filespec"></a>2.4.3. File specification</h3></div></div></div><div class="para">
+		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"codec"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>gstreamer-good<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;metadata_license&gt;</span>CC0<span xmlns="" class="perl_Keyword">&lt;/metadata_license&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>GStreamer Multimedia Codecs - Extra<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>
+<span xmlns="" class="line">​</span>      This addon includes several additional codecs that are missing
+<span xmlns="" class="line">​</span>      something - perhaps a good code review, some documentation, a set of
+<span xmlns="" class="line">​</span>      tests, a real live maintainer, or some actual wide use.
+<span xmlns="" class="line">​</span>      However, they might be good enough to play your media files.
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>
+<span xmlns="" class="line">​</span>      These codecs can be used to encode and decode media files where the
+<span xmlns="" class="line">​</span>      format is not patent encumbered.
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>
+<span xmlns="" class="line">​</span>      A codec decodes audio and video for for playback or editing and is also
+<span xmlns="" class="line">​</span>      used for transmission or storage.
+<span xmlns="" class="line">​</span>      Different codecs are used in video-conferencing, streaming media and
+<span xmlns="" class="line">​</span>      video editing applications.
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>encoder-audio/mpeg<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>mpegversion=(int){ 4, 2 }<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>stream-format=(string){ adts, raw }<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>encoder-video/mpeg<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>systemstream=(boolean)false<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>mpegversion=(int){ 1, 2, 4 }<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>encoder-video/mpeg<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>systemstream=(boolean)true<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>encoder-video/x-xvid<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>element-faac<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>element-mpeg2enc<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>element-mplex<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>element-xviddec<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;codec&gt;</span>element-xvidenc<span xmlns="" class="perl_Keyword">&lt;/codec&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/component&gt;</span></pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-codecdata-filespec">
+      ⁠</a>2.4.3. File specification</h3></div></div></div><div class="para">
 			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">codec</code>. This clearly identified this metainfo document as describing a codec.
 		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						For codecs, there are no special requirements for what their <code class="literal">%{id}</code> should be. But, as for any other component, you should pick a reasonable and unique name.

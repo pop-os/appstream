@@ -40,24 +40,6 @@ AsRelease
 @Returns: 
 
 
-<!-- ##### FUNCTION as_release_get_timestamp ##### -->
-<para>
-
-</para>
-
-@release: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_release_get_description ##### -->
-<para>
-
-</para>
-
-@release: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_release_set_version ##### -->
 <para>
 
@@ -65,6 +47,15 @@ AsRelease
 
 @release: 
 @version: 
+
+
+<!-- ##### FUNCTION as_release_get_timestamp ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_release_set_timestamp ##### -->
@@ -76,6 +67,15 @@ AsRelease
 @timestamp: 
 
 
+<!-- ##### FUNCTION as_release_get_description ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_release_set_description ##### -->
 <para>
 
@@ -83,5 +83,24 @@ AsRelease
 
 @release: 
 @description: 
+@locale: 
+
+
+<!-- ##### FUNCTION as_release_get_active_locale ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_release_set_active_locale ##### -->
+<para>
+
+</para>
+
+@release: 
+@locale: 
 
 
