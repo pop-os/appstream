@@ -63,6 +63,18 @@ as_provider_dep11_new (void) {
 }
 
 /**
+ * _dep11_yaml_free_node:
+ */
+static gboolean
+_dep11_yaml_free_node (GNode *node, gpointer data)
+{
+	if (node->data != NULL)
+		g_free (node->data);
+
+	return FALSE;
+}
+
+/**
  * dep11_yaml_process_layer:
  *
  * Create GNode tree from DEP-11 YAML document
@@ -116,7 +128,8 @@ dep11_yaml_process_layer (yaml_parser_t *parser, GNode *data)
 			default:
 				break;
 		}
-    	yaml_event_delete(&event);
+
+    	yaml_event_delete (&event);
     }
 }
 
@@ -216,7 +229,7 @@ as_provider_dep11_process_keywords (AsProviderDEP11 *dprov, GNode *node, AsCompo
 	dep11_list_to_string_array (tnode, keywords);
 
 	strv = as_ptr_array_to_strv (keywords);
-	as_component_set_keywords (cpt, strv);
+	as_component_set_keywords (cpt, strv, NULL);
 	g_ptr_array_unref (keywords);
 	g_strfreev (strv);
 }
@@ -260,14 +273,14 @@ dep11_process_icons (GNode *node, AsComponent *cpt)
 			if (g_strcmp0 (key, "stock") == 0) {
 				as_component_set_icon (cpt, value);
 			} else if (g_strcmp0 (key, "cached") == 0) {
-				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
 					as_component_add_icon_url (cpt, 0, 0, value);
 				}
 			} else if (g_strcmp0 (key, "local") == 0) {
 				as_component_add_icon_url (cpt, 0, 0, value);
 			} else if (g_strcmp0 (key, "remote") == 0) {
-				icon_url = as_component_get_icon_url_for_size (cpt, 0, 0);
+				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if (icon_url == NULL)
 					as_component_add_icon_url (cpt, 0, 0, value);
 			}
@@ -410,6 +423,9 @@ as_provider_dep11_process_screenshots (AsProviderDEP11 *dprov, GNode *node, AsCo
 		AsScreenshot *scr;
 		scr = as_screenshot_new ();
 
+		/* propagate locale */
+		as_screenshot_set_active_locale (scr, as_component_get_active_locale (cpt));
+
 		for (n = sn->children; n != NULL; n = n->next) {
 			GNode *in;
 			gchar *key;
@@ -430,7 +446,7 @@ as_provider_dep11_process_screenshots (AsProviderDEP11 *dprov, GNode *node, AsCo
 				gchar *lvalue;
 				/* the caption is a localized element */
 				lvalue = as_provider_dep11_get_localized_value (dprov, n, NULL);
-				as_screenshot_set_caption (scr, lvalue);
+				as_screenshot_set_caption (scr, lvalue, NULL);
 			} else if (g_strcmp0 (key, "source-image") == 0) {
 				/* there can only be one source image */
 				dep11_process_image (n, scr);
@@ -458,6 +474,7 @@ as_provider_dep11_process_component_node (AsProviderDEP11 *dprov, GNode *root, c
 {
 	GNode *node;
 	AsComponent *cpt;
+	const gchar *locale;
 
 	gchar **strv;
 	GPtrArray *pkgnames;
@@ -469,6 +486,10 @@ as_provider_dep11_process_component_node (AsProviderDEP11 *dprov, GNode *root, c
 	pkgnames = g_ptr_array_new_with_free_func (g_free);
 	categories = g_ptr_array_new_with_free_func (g_free);
 	compulsory_for_desktops = g_ptr_array_new_with_free_func (g_free);
+
+	/* set active locale for this component */
+	locale = as_data_provider_get_locale (AS_DATA_PROVIDER (dprov));
+	as_component_set_active_locale (cpt, locale);
 
 	for (node = root->children; node != NULL; node = node->next) {
 		gchar *key;
@@ -489,26 +510,28 @@ as_provider_dep11_process_component_node (AsProviderDEP11 *dprov, GNode *root, c
 			as_component_set_id (cpt, value);
 		} else if (g_strcmp0 (key, "Packages") == 0) {
 			dep11_list_to_string_array (node, pkgnames);
+		} else if (g_strcmp0 (key, "SourcePackage") == 0) {
+			as_component_set_source_pkgname (cpt, value);
 		} else if (g_strcmp0 (key, "Name") == 0) {
 			lvalue = as_provider_dep11_get_localized_value (dprov, node, "C");
 			if (lvalue != NULL) {
-				as_component_set_name_original (cpt, lvalue);
+				as_component_set_name (cpt, lvalue, "C"); /* Unlocalized */
 				g_free (lvalue);
 			}
 			lvalue = as_provider_dep11_get_localized_value (dprov, node, NULL);
-			as_component_set_name (cpt, lvalue);
+			as_component_set_name (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "Summary") == 0) {
 			lvalue = as_provider_dep11_get_localized_value (dprov, node, NULL);
-			as_component_set_summary (cpt, lvalue);
+			as_component_set_summary (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "Description") == 0) {
 			lvalue = as_provider_dep11_get_localized_value (dprov, node, NULL);
-			as_component_set_description (cpt, lvalue);
+			as_component_set_description (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "DeveloperName") == 0) {
 			lvalue = as_provider_dep11_get_localized_value (dprov, node, NULL);
-			as_component_set_developer_name (cpt, lvalue);
+			as_component_set_developer_name (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "ProjectLicense") == 0) {
 			as_component_set_project_license (cpt, value);
@@ -584,7 +607,7 @@ as_provider_dep11_process_data (AsProviderDEP11 *dprov, const gchar *data)
 			gchar *key;
 			gchar *value;
 			AsComponent *cpt;
-			GNode *root = g_node_new("");
+			GNode *root = g_node_new (g_strdup (""));
 
 			dep11_yaml_process_layer (&parser, root);
 
@@ -627,7 +650,14 @@ as_provider_dep11_process_data (AsProviderDEP11 *dprov, const gchar *data)
 			}
 
 			header = FALSE;
-			g_node_destroy(root);
+
+			g_node_traverse (root,
+					G_IN_ORDER,
+					G_TRAVERSE_ALL,
+					-1,
+					_dep11_yaml_free_node,
+					NULL);
+			g_node_destroy (root);
 		}
 
 		/* stop if end of stream is reached */

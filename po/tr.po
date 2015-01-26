@@ -1,0 +1,213 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Matthias Klumpp
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Translators:
+# Necdet Yücel <necdetyucel@gmail.com>, 2014
+msgid ""
+msgstr ""
+"Project-Id-Version: AppStream\n"
+"Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
+"POT-Creation-Date: 2015-01-12 22:17+0100\n"
+"PO-Revision-Date: 2014-12-28 00:10+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/projects/p/appstream/"
+"language/tr/)\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "A provides-item type (e.g. lib, bin, python3, ...)"
+msgstr "Bir sağlanan-öge türü (lib, bin, python3 gibi)"
+
+msgid "AppStream Validation Utility"
+msgstr "AppStream Doğrulama Uygulaması"
+
+msgid "AppStream cache update completed successfully."
+msgstr "AppStream bellek güncellemesi başarıyla tamamlandı."
+
+#, c-format
+msgid ""
+"AppStream cache update completed, but some metadata was ignored due to "
+"errors."
+msgstr ""
+"AppStream ön bellek güncellemesi tamamlandı ama bazı meta veriler hatalar "
+"yüzünden yok sayıldı."
+
+#, c-format
+msgid "AppStream cache update failed."
+msgstr "AppStream ön bellek güncellemesi başarısız oldu."
+
+#. TRANSLATORS: This is the header to the --help menu
+msgid "AppStream-Index Client Tool"
+msgstr "AppStream Dizin İstemci Aracı"
+
+#, c-format
+msgid "Appstream-Index client tool version: %s"
+msgstr "Appstream-Dizin istemci aracı sürümü: %s"
+
+msgid "Categories"
+msgstr "Sınıflandırmalar"
+
+#, c-format
+msgid "Command '%s' is unknown."
+msgstr "'%s' komutu bilinmiyor."
+
+msgid "Compulsory for"
+msgstr "Zorunlu"
+
+msgid "Description"
+msgstr "Tanımlama"
+
+#. developer name
+msgid "Developer"
+msgstr "Geliştirici"
+
+msgid "Don't show colored output"
+msgstr "Çıktıyı renklendirilmiş gösterme"
+
+msgid "Enforce a cache refresh"
+msgstr "Ön belleğin yenilenmesini zorla"
+
+msgid "Failed to parse arguments"
+msgstr "Argüman ayrıştırması başarısız"
+
+#, c-format
+msgid "File %s not found or permission denied!"
+msgstr "%s dosyası bulunamadı veya izin verilmedi!"
+
+msgid "Get components which provide the given item"
+msgstr "Verilen ögeyi sağlayan bileşenleri alın"
+
+msgid "Get information about a component by its id"
+msgstr "Kimliğini kullanarak bir bileşen hakkında bilgi alın"
+
+msgid "Homepage"
+msgstr "Web Sitesi"
+
+msgid "Icon"
+msgstr "Simge"
+
+msgid "Identifier"
+msgstr "Tanımlayıcı"
+
+msgid "Invalid type for provides-item selected. Valid values are:"
+msgstr "Seçilen sağlanan öge için geçersiz tür. Geçerli değerler:"
+
+#. license
+msgid "License"
+msgstr "Lisans"
+
+msgid "Manually set the location of AppStream metadata for cache regeneration"
+msgstr ""
+"Ön belleğin yeniden oluşturulması için AppStream meta verisinin konumunu "
+"elle ayarlayın"
+
+msgid "Manually set the location of the AppStream cache"
+msgstr "AppStream ön belleğinin konumunu elle ayarlayın"
+
+msgid "Name"
+msgstr "İsim"
+
+#, c-format
+msgid "No component matching '%s' found."
+msgstr "'%s' ile eşleşen bileşen bulunamadı."
+
+#, c-format
+msgid "No component providing '%s:%s:%s' found."
+msgstr "'%s:%s:%s' sağlayan bileşen bulunamadı."
+
+msgid "No value for the provides-item to search for defined."
+msgstr "Sağlanan öge için arama değeri tanımlanmamış."
+
+msgid "Package"
+msgstr "Paket"
+
+msgid "Print detailed output about found components"
+msgstr "Bulunan bileşenlerin ayrıntılı çıktılarını yazdır"
+
+#. project group
+msgid "Project Group"
+msgstr "Proje Grubu"
+
+msgid "Provided Items"
+msgstr "Sağlanan Ögeler"
+
+msgid "Rebuild the component information cache"
+msgstr "Bileşen bilgisi ön belleğini yeniden oluştur"
+
+#, c-format
+msgid "Run '%s --help' to see a full list of available command line options."
+msgstr ""
+"Tüm komut satırı işlemlerini görmek için '%s --help' komutunu çalıştırın."
+
+msgid "Sample Screenshot URL"
+msgstr "Örnek Ekran Görüntüsü Adresi"
+
+msgid "Search the component database"
+msgstr "Bileşen veritabanını ara"
+
+msgid "Select a value for the provides-item which needs to be found"
+msgstr "Bulunması gereken sağlanan öge için bir değer seçin"
+
+msgid "Show extra debugging information"
+msgstr "Ek hata ayıklama bilgisi göster"
+
+msgid "Show program version"
+msgstr "Program sürümünü göster"
+
+msgid "Show the program version"
+msgstr "Program sürümünü göster"
+
+#. these are commands we can use with appstream-index
+msgid "Subcommands:"
+msgstr "Alt komutlar:"
+
+msgid "Summary"
+msgstr "Özet"
+
+#. TRANSLATORS: We failed to find any component in the database due to an error
+#, c-format
+msgid "Unable to find component matching %s!"
+msgstr "%s ile eşleşen bileşen bulunamadı!"
+
+#, c-format
+msgid "Unable to find component providing '%s:%s:%s'!"
+msgstr "'%s:%s:%s' bileşeni bulunamadı!"
+
+#, c-format
+msgid "Unable to find component with id '%s'!"
+msgstr "'%s' kimliğine sahip bileşen bulunamadı!"
+
+msgid "Validation failed."
+msgstr "Doğrulama başarısız."
+
+#, c-format
+msgid "XDG Menu XML file '%s' is damaged."
+msgstr "XDG Menü XML dosyası '%s' hasar görmüş."
+
+msgid "You need to run this command with superuser permissions!"
+msgstr "Bu komutu yetkili kullanıcı haklarıyla çalıştırmanız gerekir!"
+
+msgid "You need to specify a command."
+msgstr "Bir komut belirtmelisiniz."
+
+msgid "You need to specify a component-id."
+msgstr "Bir bileşen kimliği belirtmelisiniz."
+
+msgid "You need to specify a file to validate!"
+msgstr "Doğrulamak için bir dosya belirtmelisiniz!"
+
+msgid "You need to specify a term to search for."
+msgstr "Arama için bir terim belirtmelisiniz."
+
+#. TRANSLATORS: List of "grey-listed" words sperated with ";"
+#. * Do not translate this list directly. Instead,
+#. * provide a list of words in your language that people are likely
+#. * to include in a search but that should normally be ignored in
+#. * the search.
+#.
+msgid "app;application;package;program;programme;suite;tool"
+msgstr "app;uygulama;paket;program;program;takım;araç"

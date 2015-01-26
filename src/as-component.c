@@ -48,35 +48,43 @@
  * See also: #AsProvidesKind, #AsDatabase
  */
 
+typedef struct _AsComponentPrivate	AsComponentPrivate;
 struct _AsComponentPrivate {
 	AsComponentKind kind;
-	gchar *id;
-	gchar *origin;
-	gchar **pkgnames;
-	gchar *name;
-	gchar *name_original;
-	gchar *summary;
-	gchar *description;
-	gchar **keywords;
-	gchar *icon;
-	gchar **categories;
-	gchar *project_license;
-	gchar *project_group;
-	gchar *developer_name;
-	gchar **compulsory_for_desktops;
-	GPtrArray *screenshots; /* of AsScreenshot elements */
-	GPtrArray *provided_items; /* of utf8:string */
-	GPtrArray *releases; /* of AsRelease */
-	GHashTable *urls; /* of key:utf8 */
-	GHashTable *icon_urls; /* of key:utf8 */
-	GPtrArray *extends; /* of utf8:string */
-	GHashTable *languages; /* of key:utf8 */
-	int priority; /* used internally */
+	gchar			*active_locale;
+
+	gchar			*id;
+	gchar			*origin;
+	gchar			**pkgnames;
+	gchar			*source_pkgname;
+
+	GHashTable		*name; /* localized entry */
+	GHashTable		*summary; /* localized entry */
+	GHashTable		*description; /* localized entry */
+	GHashTable		*keywords; /* localized entry, value:strv */
+	GHashTable		*developer_name; /* localized entry */
+
+	gchar			*icon;
+	gchar			**categories;
+	gchar			*project_license;
+	gchar			*project_group;
+	gchar			**compulsory_for_desktops;
+
+	GPtrArray		*screenshots; /* of AsScreenshot elements */
+	GPtrArray		*provided_items; /* of utf8:string */
+	GPtrArray		*releases; /* of AsRelease */
+
+	GHashTable		*urls; /* of key:utf8 */
+	GHashTable		*icon_urls; /* of key:utf8 */
+	GPtrArray		*extends; /* of utf8:string */
+	GHashTable		*languages; /* of key:utf8 */
+	GHashTable		*bundles; /* of key:utf8 */
+
+	gint			priority; /* used internally */
 };
 
-static gpointer as_component_parent_class = NULL;
-
-#define AS_COMPONENT_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), AS_TYPE_COMPONENT, AsComponentPrivate))
+G_DEFINE_TYPE_WITH_PRIVATE (AsComponent, as_component, G_TYPE_OBJECT)
+#define GET_PRIVATE(o) (as_component_get_instance_private (o))
 
 enum  {
 	AS_COMPONENT_DUMMY_PROPERTY,
@@ -84,7 +92,6 @@ enum  {
 	AS_COMPONENT_PKGNAMES,
 	AS_COMPONENT_ID,
 	AS_COMPONENT_NAME,
-	AS_COMPONENT_NAME_ORIGINAL,
 	AS_COMPONENT_SUMMARY,
 	AS_COMPONENT_DESCRIPTION,
 	AS_COMPONENT_KEYWORDS,
@@ -97,10 +104,6 @@ enum  {
 	AS_COMPONENT_DEVELOPER_NAME,
 	AS_COMPONENT_SCREENSHOTS
 };
-
-static void as_component_finalize (GObject* obj);
-static void as_component_get_property (GObject * object, guint property_id, GValue * value, GParamSpec * pspec);
-static void as_component_set_property (GObject * object, guint property_id, const GValue * value, GParamSpec * pspec);
 
 /**
  * as_component_kind_get_type:
@@ -182,82 +185,72 @@ as_component_kind_from_string (const gchar *kind_str)
 }
 
 /**
- * as_component_construct:
- *
- * Construct an #AsComponent.
- *
- * Returns: (transfer full): a new #AsComponent
+ * as_component_init:
  **/
-AsComponent*
-as_component_construct (GType object_type)
+static void
+as_component_init (AsComponent *cpt)
 {
-	AsComponent *cpt = NULL;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	cpt = (AsComponent*) g_object_new (object_type, NULL);
 	as_component_set_id (cpt, "");
 	as_component_set_origin (cpt, "");
-	as_component_set_name_original (cpt, "");
-	as_component_set_summary (cpt, "");
-	as_component_set_description (cpt, "");
-	as_component_set_icon (cpt, "");
-	as_component_set_project_license (cpt, "");
-	as_component_set_project_group (cpt, "");
-	cpt->priv->keywords = NULL;
-	cpt->priv->categories = NULL;
+	priv->categories = NULL;
+	priv->active_locale = g_strdup ("C");
 
-	cpt->priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
-	cpt->priv->provided_items = g_ptr_array_new_with_free_func (g_free);
-	cpt->priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
-	cpt->priv->extends = g_ptr_array_new_with_free_func (g_free);
-	cpt->priv->icon_urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	cpt->priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	cpt->priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	/* translatable entities */
+	priv->name = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->summary = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->description = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->developer_name = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->keywords = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_strfreev);
+
+	priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->provided_items = g_ptr_array_new_with_free_func (g_free);
+	priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->extends = g_ptr_array_new_with_free_func (g_free);
+	priv->icon_urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	priv->bundles = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	as_component_set_priority (cpt, 0);
-
-	return cpt;
-}
-
-static void
-as_component_finalize (GObject* obj)
-{
-	AsComponent *cpt;
-	cpt = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_TYPE_COMPONENT, AsComponent);
-
-	g_free (cpt->priv->id);
-	g_strfreev (cpt->priv->pkgnames);
-	g_free (cpt->priv->name);
-	g_free (cpt->priv->name_original);
-	g_free (cpt->priv->summary);
-	g_free (cpt->priv->description);
-	g_free (cpt->priv->icon);
-	g_free (cpt->priv->project_license);
-	g_free (cpt->priv->project_group);
-	g_strfreev (cpt->priv->keywords);
-	g_strfreev (cpt->priv->categories);
-	g_strfreev (cpt->priv->compulsory_for_desktops);
-	g_ptr_array_unref (cpt->priv->screenshots);
-	g_ptr_array_unref (cpt->priv->provided_items);
-	g_ptr_array_unref (cpt->priv->releases);
-	g_ptr_array_unref (cpt->priv->extends);
-	g_hash_table_unref (cpt->priv->urls);
-	g_hash_table_unref (cpt->priv->icon_urls);
-	g_hash_table_unref (cpt->priv->languages);
-
-	G_OBJECT_CLASS (as_component_parent_class)->finalize (obj);
 }
 
 /**
- * as_component_new:
- *
- * Creates a new #AsComponent.
- *
- * Returns: (transfer full): a new #AsComponent
- **/
-AsComponent*
-as_component_new (void)
+ * as_component_finalize:
+ */
+static void
+as_component_finalize (GObject* object)
 {
-	return as_component_construct (AS_TYPE_COMPONENT);
+	AsComponent *cpt = AS_COMPONENT (object);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	g_free (priv->id);
+	g_strfreev (priv->pkgnames);
+	g_free (priv->icon);
+	g_free (priv->project_license);
+	g_free (priv->project_group);
+	g_free (priv->active_locale);
+
+	g_hash_table_unref (priv->name);
+	g_hash_table_unref (priv->summary);
+	g_hash_table_unref (priv->description);
+	g_hash_table_unref (priv->developer_name);
+	g_hash_table_unref (priv->keywords);
+
+	g_strfreev (priv->categories);
+	g_strfreev (priv->compulsory_for_desktops);
+
+	g_ptr_array_unref (priv->screenshots);
+	g_ptr_array_unref (priv->provided_items);
+	g_ptr_array_unref (priv->releases);
+	g_ptr_array_unref (priv->extends);
+	g_hash_table_unref (priv->urls);
+	g_hash_table_unref (priv->icon_urls);
+	g_hash_table_unref (priv->languages);
+	g_hash_table_unref (priv->bundles);
+
+	G_OBJECT_CLASS (as_component_parent_class)->finalize (object);
 }
 
 /**
@@ -272,25 +265,28 @@ gboolean
 as_component_is_valid (AsComponent *cpt)
 {
 	gboolean ret = FALSE;
+	const gchar *cname;
+	gboolean has_candidate;
 	AsComponentKind ctype;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_return_val_if_fail (cpt != NULL, FALSE);
-
-	ctype = cpt->priv->kind;
+	ctype = priv->kind;
 	if (ctype == AS_COMPONENT_KIND_UNKNOWN)
 		return FALSE;
+	cname = as_component_get_name (cpt);
 
-	if ((cpt->priv->pkgnames != NULL) &&
-		(cpt->priv->pkgnames[0] != NULL) &&
-		(g_strcmp0 (cpt->priv->id, "") != 0) &&
-		(g_strcmp0 (cpt->priv->name, "") != 0) &&
-		(g_strcmp0 (cpt->priv->name_original, "") != 0)) {
+	has_candidate = (((priv->pkgnames != NULL) && (priv->pkgnames[0] != NULL)) || (g_hash_table_size (priv->bundles) > 0));
+
+	if ((has_candidate) &&
+		(g_strcmp0 (priv->id, "") != 0) &&
+		(cname != NULL) &&
+		(g_strcmp0 (cname, "") != 0)) {
 			ret = TRUE;
 	}
 
 #if 0
 	if ((ret) && ctype == AS_COMPONENT_KIND_DESKTOP_APP) {
-		ret = g_strcmp0 (cpt->priv->desktop_file, "") != 0;
+		ret = g_strcmp0 (priv->desktop_file, "") != 0;
 	}
 #endif
 
@@ -310,24 +306,27 @@ as_component_to_string (AsComponent *cpt)
 {
 	gchar* res = NULL;
 	const gchar *name;
+	const gchar *summary;
 	gchar *pkgs;
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	if (cpt->priv->pkgnames == NULL)
+	if (priv->pkgnames == NULL)
 		pkgs = g_strdup ("?");
 	else
-		pkgs = g_strjoinv (",", cpt->priv->pkgnames);
-	name = as_component_get_name (cpt);
+		pkgs = g_strjoinv (",", priv->pkgnames);
 
-	switch (cpt->priv->kind) {
+	name = as_component_get_name (cpt);
+	summary = as_component_get_summary (cpt);
+
+	switch (priv->kind) {
 		case AS_COMPONENT_KIND_DESKTOP_APP:
 		{
-			res = g_strdup_printf ("[DesktopApp::%s]> name: %s | package: %s | summary: %s", cpt->priv->id, name, pkgs, cpt->priv->summary);
+			res = g_strdup_printf ("[DesktopApp::%s]> name: %s | package: %s | summary: %s", priv->id, name, pkgs, summary);
 			break;
 		}
 		default:
 		{
-			res = g_strdup_printf ("[Component::%s]> name: %s | package: %s | summary: %s", cpt->priv->id, name, pkgs, cpt->priv->summary);
+			res = g_strdup_printf ("[Component::%s]> name: %s | package: %s | summary: %s", priv->id, name, pkgs, summary);
 			break;
 		}
 	}
@@ -347,8 +346,6 @@ void
 as_component_add_screenshot (AsComponent *cpt, AsScreenshot* sshot)
 {
 	GPtrArray* sslist;
-	g_return_if_fail (cpt != NULL);
-	g_return_if_fail (sshot != NULL);
 
 	sslist = as_component_get_screenshots (cpt);
 	g_ptr_array_add (sslist, g_object_ref (sshot));
@@ -365,8 +362,6 @@ void
 as_component_add_release (AsComponent *cpt, AsRelease* release)
 {
 	GPtrArray* releases;
-	g_return_if_fail (cpt != NULL);
-	g_return_if_fail (release != NULL);
 
 	releases = as_component_get_releases (cpt);
 	g_ptr_array_add (releases, g_object_ref (release));
@@ -385,8 +380,8 @@ as_component_add_release (AsComponent *cpt, AsRelease* release)
 GHashTable*
 as_component_get_urls (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->urls;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->urls;
 }
 
 /**
@@ -403,8 +398,8 @@ as_component_get_urls (AsComponent *cpt)
 const gchar *
 as_component_get_url (AsComponent *cpt, AsUrlKind url_kind)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return g_hash_table_lookup (cpt->priv->urls,
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_lookup (priv->urls,
 				    as_url_kind_to_string (url_kind));
 }
 
@@ -423,8 +418,8 @@ as_component_add_url (AsComponent *cpt,
 					  AsUrlKind url_kind,
 					  const gchar *url)
 {
-	g_return_if_fail (cpt != NULL);
-	g_hash_table_insert (cpt->priv->urls,
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_hash_table_insert (priv->urls,
 			     g_strdup (as_url_kind_to_string (url_kind)),
 			     g_strdup (url));
 }
@@ -443,7 +438,7 @@ as_component_add_url (AsComponent *cpt,
 GPtrArray*
 as_component_get_extends (AsComponent *cpt)
 {
-	AsComponentPrivate *priv = cpt->priv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return priv->extends;
 }
 
@@ -457,8 +452,63 @@ as_component_get_extends (AsComponent *cpt)
 void
 as_component_add_extends (AsComponent* cpt, const gchar* cpt_id)
 {
-	AsComponentPrivate *priv = cpt->priv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_ptr_array_add (priv->extends, g_strdup (cpt_id));
+}
+
+/**
+ * as_component_get_bundle_ids:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets the bundle-ids set for the component.
+ *
+ * Returns: (transfer none): Bundle ids
+ *
+ * Since: 0.8.0
+ **/
+GHashTable*
+as_component_get_bundle_ids (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->bundles;
+}
+
+/**
+ * as_component_get_bundle_id:
+ * @cpt: a #AsComponent instance.
+ * @bundle_kind: the bundle kind, e.g. %AS_BUNDLE_KIND_LIMBA.
+ *
+ * Gets a bundle identifier string.
+ *
+ * Returns: string, or %NULL if unset
+ *
+ * Since: 0.8.0
+ **/
+const gchar*
+as_component_get_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_lookup (priv->bundles,
+				    as_bundle_kind_to_string (bundle_kind));
+}
+
+/**
+ * as_component_add_bundle_id:
+ * @cpt: a #AsComponent instance.
+ * @bundle_kind: the URL kind, e.g. %AS_BUNDLE_KIND_LIMBA
+ * @id: The bundle identification string
+ *
+ * Adds a bundle identifier to the component.
+ *
+ * Since: 0.8.0
+ **/
+void
+as_component_add_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind, const gchar *id)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_hash_table_insert (priv->bundles,
+			     g_strdup (as_bundle_kind_to_string (bundle_kind)),
+			     g_strdup (id));
 }
 
 static void
@@ -491,7 +541,7 @@ _as_component_serialize_image (AsImage *img, xmlNode *subnode)
  *
  * Add screenshot subnodes to a root node
  */
-static void
+void
 as_component_xml_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
 {
 	GPtrArray* sslist;
@@ -534,7 +584,6 @@ as_component_dump_screenshot_data_xml (AsComponent *cpt)
 	xmlDoc *doc;
 	xmlNode *root;
 	gchar *xmlstr = NULL;
-	g_return_val_if_fail (cpt != NULL, NULL);
 
 	sslist = as_component_get_screenshots (cpt);
 	if (sslist->len == 0) {
@@ -565,9 +614,9 @@ as_component_load_screenshots_from_internal_xml (AsComponent *cpt, const gchar* 
 	xmlDoc* doc = NULL;
 	xmlNode* root = NULL;
 	xmlNode *iter;
-	g_return_if_fail (cpt != NULL);
-	g_return_if_fail (xmldata != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
+	g_return_if_fail (xmldata != NULL);
 	if (as_str_empty (xmldata)) {
 		return;
 	}
@@ -587,6 +636,10 @@ as_component_load_screenshots_from_internal_xml (AsComponent *cpt, const gchar* 
 			xmlNode *iter2;
 
 			sshot = as_screenshot_new ();
+
+			/* propagate locale */
+			as_screenshot_set_active_locale (sshot, priv->active_locale);
+
 			typestr = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 			if (g_strcmp0 (typestr, "default") == 0)
 				as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
@@ -646,7 +699,7 @@ as_component_load_screenshots_from_internal_xml (AsComponent *cpt, const gchar* 
 					as_screenshot_add_image (sshot, img);
 				} else if (g_strcmp0 (node_name, "caption") == 0) {
 					if (content != NULL)
-						as_screenshot_set_caption (sshot, content);
+						as_screenshot_set_caption (sshot, content, NULL);
 				}
 				g_free (content);
 			}
@@ -660,7 +713,7 @@ as_component_load_screenshots_from_internal_xml (AsComponent *cpt, const gchar* 
  *
  * Add release nodes to a root node
  */
-static void
+void
 as_component_xml_add_release_subnodes (AsComponent *cpt, xmlNode *root)
 {
 	GPtrArray* releases;
@@ -704,7 +757,6 @@ as_component_dump_releases_data_xml (AsComponent *cpt)
 	xmlDoc *doc;
 	xmlNode *root;
 	gchar *xmlstr = NULL;
-	g_return_val_if_fail (cpt != NULL, NULL);
 
 	releases = as_component_get_releases (cpt);
 	if (releases->len == 0) {
@@ -735,7 +787,8 @@ as_component_load_releases_from_internal_xml (AsComponent *cpt, const gchar* xml
 	xmlDoc* doc = NULL;
 	xmlNode* root = NULL;
 	xmlNode *iter;
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
 	g_return_if_fail (xmldata != NULL);
 
 	if (as_str_empty (xmldata)) {
@@ -758,6 +811,9 @@ as_component_load_releases_from_internal_xml (AsComponent *cpt, const gchar* xml
 			xmlNode *iter2;
 			release = as_release_new ();
 
+			/* propagate locale */
+			as_release_set_active_locale (release, priv->active_locale);
+
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "version");
 			as_release_set_version (release, prop);
 			g_free (prop);
@@ -774,7 +830,7 @@ as_component_load_releases_from_internal_xml (AsComponent *cpt, const gchar* xml
 				if (g_strcmp0 ((gchar*) iter->name, "description") == 0) {
 					gchar *content;
 					content = (gchar*) xmlNodeGetContent (iter2);
-					as_release_set_description (release, content);
+					as_release_set_description (release, content, NULL);
 					g_free (content);
 					break;
 				}
@@ -784,152 +840,6 @@ as_component_load_releases_from_internal_xml (AsComponent *cpt, const gchar* xml
 			g_object_unref (release);
 		}
 	}
-}
-
-/**
- * as_component_xml_add_node:
- *
- * Add node if value is not empty
- */
-static xmlNode*
-_as_component_xml_add_node (xmlNode *root, const gchar *name, const gchar *value)
-{
-	if (as_str_empty (value))
-		return NULL;
-
-	return xmlNewTextChild (root, NULL, (xmlChar*) name, (xmlChar*) value);
-}
-
-/**
- * _as_component_xml_add_description:
- *
- * Add the description markup to the XML tree
- */
-static gboolean
-_as_component_xml_add_description (xmlNode *root, const gchar *description_markup)
-{
-	gchar *xmldata;
-	xmlDoc *doc;
-	xmlNode *droot;
-	xmlNode *dnode;
-	xmlNode *iter;
-	gboolean ret = TRUE;
-
-	if (as_str_empty (description_markup))
-		return FALSE;
-
-	xmldata = g_strdup_printf ("<root>%s</root>", description_markup);
-	doc = xmlParseDoc ((xmlChar*) xmldata);
-	if (doc == NULL) {
-		ret = FALSE;
-		goto out;
-	}
-
-	droot = xmlDocGetRootElement (doc);
-	if (droot == NULL) {
-		ret = FALSE;
-		goto out;
-	}
-	dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
-
-	for (iter = droot->children; iter != NULL; iter = iter->next) {
-		xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
-	}
-
-out:
-	if (doc != NULL)
-		xmlFreeDoc (doc);
-	g_free (xmldata);
-	return ret;
-}
-
-/**
- * as_component_xml_add_node_list:
- *
- * Add node if value is not empty
- */
-static void
-_as_component_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *child_name, gchar **strv)
-{
-	xmlNode *node;
-	guint i;
-
-	if (strv == NULL)
-		return;
-
-	if (name == NULL)
-		node = root;
-	else
-		node = xmlNewTextChild (root, NULL, (xmlChar*) name, NULL);
-	for (i = 0; strv[i] != NULL; i++) {
-		xmlNewTextChild (node, NULL, (xmlChar*) child_name, (xmlChar*) strv[i]);
-	}
-}
-
-/**
- * as_component_to_xml:
- * @cpt: a valid #AsComponent
- *
- * Serialize the component data to XML.
- * Note that this will produce an unlocalized file only, using the
- * language which was selected when this component was obtained from the
- * database. You will not receive the source XML back.
- *
- * Returns: (transfer full): A string containing the XML. Free with g_free()
- */
-gchar*
-as_component_to_xml (AsComponent *cpt)
-{
-	xmlDoc *doc;
-	xmlNode *root;
-	xmlNode *node;
-	gchar **strv;
-	gchar *xmlstr = NULL;
-	AsComponentPrivate *priv = cpt->priv;
-	g_return_val_if_fail (cpt != NULL, NULL);
-
-	doc = xmlNewDoc ((xmlChar*) NULL);
-
-	/* define component root node */
-	root = xmlNewNode (NULL, (xmlChar*) "component");
-	if ((priv->kind != AS_COMPONENT_KIND_GENERIC) && (priv->kind != AS_COMPONENT_KIND_UNKNOWN)) {
-		xmlNewProp (root, (xmlChar*) "type",
-					(xmlChar*) as_component_kind_to_string (priv->kind));
-	}
-	xmlDocSetRootElement (doc, root);
-
-	_as_component_xml_add_node (root, "id", priv->id);
-	_as_component_xml_add_node (root, "name", priv->name);
-	_as_component_xml_add_node (root, "summary", priv->summary);
-	_as_component_xml_add_node (root, "project_license", priv->project_license);
-	_as_component_xml_add_node (root, "project_group", priv->project_group);
-	_as_component_xml_add_node (root, "developer_name", priv->developer_name);
-	_as_component_xml_add_description (root, priv->description);
-
-	_as_component_xml_add_node_list (root, NULL, "pkgname", priv->pkgnames);
-	strv = as_ptr_array_to_strv (priv->extends);
-	_as_component_xml_add_node_list (root, NULL, "extends", strv);
-	g_strfreev (strv);
-	_as_component_xml_add_node_list (root, NULL, "compulsory_for_desktop", priv->compulsory_for_desktops);
-	_as_component_xml_add_node_list (root, "keywords", "keyword", priv->keywords);
-	_as_component_xml_add_node_list (root, "categories", "category", priv->categories);
-
-	/* releases node */
-	if (priv->releases->len > 0) {
-		node = xmlNewTextChild (root, NULL, (xmlChar*) "releases", NULL);
-		as_component_xml_add_release_subnodes (cpt, node);
-	}
-
-	/* screenshots node */
-	if (priv->releases->len > 0) {
-		node = xmlNewTextChild (root, NULL, (xmlChar*) "screenshots", NULL);
-		as_component_xml_add_screenshot_subnodes (cpt, node);
-	}
-
-	xmlDocDumpMemory (doc, (xmlChar**) (&xmlstr), NULL);
-	xmlFreeDoc (doc);
-
-	return xmlstr;
 }
 
 /**
@@ -948,7 +858,7 @@ as_component_provides_item (AsComponent *cpt, AsProvidesKind kind, const gchar *
 	guint i;
 	gboolean ret = FALSE;
 	gchar *item;
-	AsComponentPrivate *priv = cpt->priv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	item = as_provides_item_create (kind, value, "");
 	for (i = 0; i < priv->provided_items->len; i++) {
@@ -972,8 +882,8 @@ as_component_provides_item (AsComponent *cpt, AsProvidesKind kind, const gchar *
 AsComponentKind
 as_component_get_kind (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, 0);
-	return cpt->priv->kind;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->kind;
 }
 
 /**
@@ -984,9 +894,9 @@ as_component_get_kind (AsComponent *cpt)
 void
 as_component_set_kind (AsComponent *cpt, AsComponentKind value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	cpt->priv->kind = value;
+	priv->kind = value;
 	g_object_notify ((GObject *) cpt, "kind");
 }
 
@@ -1001,8 +911,8 @@ as_component_set_kind (AsComponent *cpt, AsComponentKind value)
 gchar**
 as_component_get_pkgnames (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->pkgnames;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->pkgnames;
 }
 
 /**
@@ -1015,11 +925,33 @@ as_component_get_pkgnames (AsComponent *cpt)
 void
 as_component_set_pkgnames (AsComponent *cpt, gchar** value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_strfreev (cpt->priv->pkgnames);
-	cpt->priv->pkgnames = g_strdupv (value);
+	g_strfreev (priv->pkgnames);
+	priv->pkgnames = g_strdupv (value);
 	g_object_notify ((GObject *) cpt, "pkgnames");
+}
+
+/**
+ * as_component_get_source_pkgname:
+ */
+const gchar*
+as_component_get_source_pkgname (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->source_pkgname;
+}
+
+/**
+ * as_component_set_source_pkgname:
+ */
+void
+as_component_set_source_pkgname (AsComponent *cpt, const gchar* spkgname)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	g_free (priv->source_pkgname);
+	priv->source_pkgname = g_strdup (spkgname);
 }
 
 /**
@@ -1030,8 +962,8 @@ as_component_set_pkgnames (AsComponent *cpt, gchar** value)
 const gchar*
 as_component_get_id (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->id;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->id;
 }
 
 /**
@@ -1042,10 +974,10 @@ as_component_get_id (AsComponent *cpt)
 void
 as_component_set_id (AsComponent *cpt, const gchar* value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_free (cpt->priv->id);
-	cpt->priv->id = g_strdup (value);
+	g_free (priv->id);
+	priv->id = g_strdup (value);
 	g_object_notify ((GObject *) cpt, "id");
 }
 
@@ -1055,8 +987,8 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 const gchar*
 as_component_get_origin (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->origin;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->origin;
 }
 
 /**
@@ -1065,112 +997,229 @@ as_component_get_origin (AsComponent *cpt)
 void
 as_component_set_origin (AsComponent *cpt, const gchar* origin)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* safety measure, so we never set this to NULL */
 	if (origin == NULL)
 		origin = "";
-	g_free (cpt->priv->origin);
-	cpt->priv->origin = g_strdup (origin);
+	g_free (priv->origin);
+	priv->origin = g_strdup (origin);
+}
+
+/**
+ * as_component_get_active_locale:
+ *
+ * Get the current active locale for this component, which
+ * is used to get localized messages.
+ */
+gchar*
+as_component_get_active_locale (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->active_locale;
+}
+
+/**
+ * as_component_set_active_locale:
+ *
+ * Set the current active locale for this component, which
+ * is used to get localized messages.
+ * If the #AsComponent was fetched from a localized database, usually only
+ * one locale is available.
+ */
+void
+as_component_set_active_locale (AsComponent *cpt, const gchar *locale)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	g_free (priv->active_locale);
+	priv->active_locale = g_strdup (locale);
+}
+
+/**
+ * as_component_localized_get:
+ *
+ * Helper function to get a localized property using the current
+ * active locale for this component.
+ */
+static gchar*
+as_component_localized_get (AsComponent *cpt, GHashTable *lht)
+{
+	gchar *msg;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	msg = g_hash_table_lookup (lht, priv->active_locale);
+	if (msg == NULL) {
+		/* fall back to untranslated / default */
+		msg = g_hash_table_lookup (lht, "C");
+	}
+
+	return msg;
+}
+
+/**
+ * as_component_localized_set:
+ *
+ * Helper function to set a localized property.
+ */
+static void
+as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* value, const gchar *locale)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	/* safety measure, so we can always convert this to a C++ string */
+	if (value == NULL)
+		value = "";
+
+	/* if no locale was specified, we assume the default locale */
+	/* CAVE: %NULL does NOT mean lang=C! */
+	if (locale == NULL)
+		locale = priv->active_locale;
+
+	g_hash_table_insert (lht,
+						 g_strdup (locale),
+						 g_strdup (value));
 }
 
 /**
  * as_component_get_name:
+ *
+ * A human-readable name for this component.
  */
 const gchar*
 as_component_get_name (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	if (as_str_empty (cpt->priv->name)) {
-		cpt->priv->name = g_strdup (cpt->priv->name_original);
-	}
+	const gchar *name;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->name;
+	name = as_component_localized_get (cpt, priv->name);
+	/* prevent issues when converting to a C++ string */
+	if (name == NULL)
+		return "";
+	return name;
 }
 
 /**
  * as_component_set_name:
+ * @cpt: A valid #AsComponent
+ * @value: The name
+ * @locale: The locale the used for this value, or %NULL to use the current active one.
+ *
+ * Set a human-readable name for this component.
  */
 void
-as_component_set_name (AsComponent *cpt, const gchar* value)
+as_component_set_name (AsComponent *cpt, const gchar* value, const gchar *locale)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* safety measure, so we can always convert this to a C++ string */
-	if (value == NULL)
-		value = "";
-
-	g_free (cpt->priv->name);
-	cpt->priv->name = g_strdup (value);
+	as_component_localized_set (cpt, priv->name, value, locale);
 	g_object_notify ((GObject *) cpt, "name");
 }
 
-const gchar*
-as_component_get_name_original (AsComponent *cpt)
+/**
+ * as_component_get_name_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_name_table (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->name_original;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->name;
 }
 
-void
-as_component_set_name_original (AsComponent *cpt, const gchar* value)
-{
-	g_return_if_fail (cpt != NULL);
-
-	/* safety measure, so we can always convert this to a C++ string */
-	if (value == NULL)
-		value = "";
-
-	g_free (cpt->priv->name_original);
-	cpt->priv->name_original = g_strdup (value);
-	g_object_notify ((GObject *) cpt, "name-original");
-}
-
+/**
+ * as_component_get_summary:
+ *
+ * Get a short description of this component.
+ */
 const gchar*
 as_component_get_summary (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
+	const gchar *summary;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->summary;
+	summary = as_component_localized_get (cpt, priv->summary);
+	/* prevent issues when converting to a C++ string */
+	if (summary == NULL)
+		return "";
+	return summary;
 }
 
+/**
+ * as_component_set_summary:
+ * @cpt: A valid #AsComponent
+ * @value: The summary
+ * @locale: The locale the used for this value, or %NULL to use the current active one.
+ *
+ * Set a short description for this component.
+ */
 void
-as_component_set_summary (AsComponent *cpt, const gchar* value)
+as_component_set_summary (AsComponent *cpt, const gchar* value, const gchar *locale)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* safety measure, so we can always convert this to a C++ string */
-	if (value == NULL)
-		value = "";
-
-	g_free (cpt->priv->summary);
-	cpt->priv->summary = g_strdup (value);
+	as_component_localized_set (cpt, priv->summary, value, locale);
 	g_object_notify ((GObject *) cpt, "summary");
 }
 
+/**
+ * as_component_get_summary_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_summary_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->summary;
+}
+
+/**
+ * as_component_get_description:
+ *
+ * Get the localized long description of this component.
+ */
 const gchar*
 as_component_get_description (AsComponent *cpt)
 {
-	const gchar* result;
-	const gchar* _tmp0_ = NULL;
-	g_return_val_if_fail (cpt != NULL, NULL);
-	_tmp0_ = cpt->priv->description;
-	result = _tmp0_;
-	return result;
+	const gchar *desc;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	desc = as_component_localized_get (cpt, priv->description);
+	/* prevent issues when converting to a C++ string */
+	if (desc == NULL)
+		return "";
+	return desc;
 }
 
+/**
+ * as_component_set_description:
+ * @cpt: A valid #AsComponent
+ * @value: The long description
+ * @locale: The locale the used for this value, or %NULL to use the current active one.
+ *
+ * Set long description for this component.
+ */
 void
-as_component_set_description (AsComponent *cpt, const gchar* value)
+as_component_set_description (AsComponent *cpt, const gchar* value, const gchar *locale)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* safety measure, so we can always convert this to a C++ string */
-	if (value == NULL)
-		value = "";
-
-	g_free (cpt->priv->description);
-	cpt->priv->description = g_strdup (value);
+	as_component_localized_set (cpt, priv->description, value, locale);
 	g_object_notify ((GObject *) cpt, "description");
+}
+
+/**
+ * as_component_get_description_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_description_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->description;
 }
 
 /**
@@ -1181,22 +1230,51 @@ as_component_set_description (AsComponent *cpt, const gchar* value)
 gchar**
 as_component_get_keywords (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->keywords;
+	gchar **strv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	strv = g_hash_table_lookup (priv->keywords, priv->active_locale);
+	if (strv == NULL) {
+		/* fall back to untranslated */
+		strv = g_hash_table_lookup (priv->keywords, "C");
+	}
+
+	return strv;
 }
 
 /**
  * as_component_set_keywords:
- * @value: (array zero-terminated=1):
+ * @value: (array zero-terminated=1): String-array of keywords
+ * @locale: Locale of the values, or %NULL to use current locale.
+ *
+ * Set keywords for this component.
  */
 void
-as_component_set_keywords (AsComponent *cpt, gchar** value)
+as_component_set_keywords (AsComponent *cpt, gchar **value, const gchar *locale)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_strfreev (cpt->priv->keywords);
-	cpt->priv->keywords = g_strdupv (value);
+	/* if no locale was specified, we assume the default locale */
+	if (locale == NULL)
+		locale = priv->active_locale;
+
+	g_hash_table_insert (priv->keywords,
+						 g_strdup (locale),
+						 g_strdupv (value));
+
 	g_object_notify ((GObject *) cpt, "keywords");
+}
+
+/**
+ * as_component_get_keywords_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_keywords_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->keywords;
 }
 
 /**
@@ -1209,8 +1287,8 @@ as_component_set_keywords (AsComponent *cpt, gchar** value)
 const gchar*
 as_component_get_icon (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->icon;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->icon;
 }
 
 /**
@@ -1223,36 +1301,15 @@ as_component_get_icon (AsComponent *cpt)
 void
 as_component_set_icon (AsComponent *cpt, const gchar* value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* safety measure, so we can always convert this to a C++ string */
 	if (value == NULL)
 		value = "";
 
-	g_free (cpt->priv->icon);
-	cpt->priv->icon = g_strdup (value);
+	g_free (priv->icon);
+	priv->icon = g_strdup (value);
 	g_object_notify ((GObject *) cpt, "icon");
-}
-
-/**
- * as_component_get_icon_url:
- * @cpt: an #AsComponent instance
- *
- * Returns: The full url of this icon, e.g.
- * "/usr/share/icons/hicolor/64x64/foobar.png"
- * This might also be an http url pointing at a remote location.
- * The icon will have the default icon size, which is usually 64x64 pixels.
- */
-const gchar*
-as_component_get_icon_url (AsComponent *cpt)
-{
-	gchar *icon_url;
-	g_return_val_if_fail (cpt != NULL, NULL);
-
-	icon_url = g_hash_table_lookup (cpt->priv->icon_urls, "64x64");
-	if (icon_url == NULL)
-		return "";
-	return icon_url;
 }
 
 /**
@@ -1271,18 +1328,18 @@ void
 as_component_add_icon_url (AsComponent *cpt, int width, int height, const gchar* value)
 {
 	gchar *size;
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* safety measure, to protect against invalid path values */
 	if (value == NULL)
 		value = "";
 
 	size = g_strdup_printf ("%ix%i", width, height);
-	g_hash_table_insert (cpt->priv->icon_urls, size, g_strdup (value));
+	g_hash_table_insert (priv->icon_urls, size, g_strdup (value));
 }
 
 /**
- * as_component_get_icon_url_for_size:
+ * as_component_get_icon_url:
  * @cpt: an #AsComponent instance
  * @width: An icon width
  * @height: An icon height
@@ -1295,14 +1352,14 @@ as_component_add_icon_url (AsComponent *cpt, int width, int height, const gchar*
  * Since: 0.7.4
  */
 const gchar*
-as_component_get_icon_url_for_size (AsComponent *cpt, int width, int height)
+as_component_get_icon_url (AsComponent *cpt, int width, int height)
 {
 	gchar *size;
 	gchar *icon_url;
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	size = g_strdup_printf ("%ix%i", width, height);
-	icon_url = g_hash_table_lookup (cpt->priv->icon_urls, size);
+	icon_url = g_hash_table_lookup (priv->icon_urls, size);
 	g_free (size);
 
 	return icon_url;
@@ -1321,8 +1378,8 @@ as_component_get_icon_url_for_size (AsComponent *cpt, int width, int height)
 GHashTable*
 as_component_get_icon_urls (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->icon_urls;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->icon_urls;
 }
 
 /**
@@ -1333,8 +1390,8 @@ as_component_get_icon_urls (AsComponent *cpt)
 gchar**
 as_component_get_categories (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->categories;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->categories;
 }
 
 /**
@@ -1344,10 +1401,10 @@ as_component_get_categories (AsComponent *cpt)
 void
 as_component_set_categories (AsComponent *cpt, gchar** value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_strfreev (cpt->priv->categories);
-	cpt->priv->categories = g_strdupv (value);
+	g_strfreev (priv->categories);
+	priv->categories = g_strdupv (value);
 	g_object_notify ((GObject *) cpt, "categories");
 }
 
@@ -1363,7 +1420,6 @@ as_component_set_categories_from_str (AsComponent *cpt, const gchar* categories_
 {
 	gchar** cats = NULL;
 
-	g_return_if_fail (cpt != NULL);
 	g_return_if_fail (categories_str != NULL);
 
 	cats = g_strsplit (categories_str, ";", 0);
@@ -1382,9 +1438,9 @@ as_component_has_category (AsComponent *cpt, const gchar* category)
 {
 	gchar **categories;
 	guint i;
-	g_return_val_if_fail (cpt != NULL, FALSE);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	categories = cpt->priv->categories;
+	categories = priv->categories;
 	for (i = 0; categories[i] != NULL; i++) {
 		if (g_strcmp0 (categories[i], category) == 0)
 			return TRUE;
@@ -1401,8 +1457,8 @@ as_component_has_category (AsComponent *cpt, const gchar* category)
 const gchar*
 as_component_get_project_license (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->project_license;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->project_license;
 }
 
 /**
@@ -1413,10 +1469,10 @@ as_component_get_project_license (AsComponent *cpt)
 void
 as_component_set_project_license (AsComponent *cpt, const gchar* value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_free (cpt->priv->project_license);
-	cpt->priv->project_license = g_strdup (value);
+	g_free (priv->project_license);
+	priv->project_license = g_strdup (value);
 	g_object_notify ((GObject *) cpt, "project-license");
 }
 
@@ -1428,8 +1484,8 @@ as_component_set_project_license (AsComponent *cpt, const gchar* value)
 const gchar*
 as_component_get_project_group (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->project_group;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->project_group;
 }
 
 /**
@@ -1438,12 +1494,12 @@ as_component_get_project_group (AsComponent *cpt)
  * Set the component's project group.
  */
 void
-as_component_set_project_group (AsComponent *cpt, const gchar* value)
+as_component_set_project_group (AsComponent *cpt, const gchar *value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_free (cpt->priv->project_group);
-	cpt->priv->project_group = g_strdup (value);
+	g_free (priv->project_group);
+	priv->project_group = g_strdup (value);
 }
 
 /**
@@ -1454,8 +1510,8 @@ as_component_set_project_group (AsComponent *cpt, const gchar* value)
 const gchar*
 as_component_get_developer_name (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
-	return cpt->priv->developer_name;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return as_component_localized_get (cpt, priv->developer_name);
 }
 
 /**
@@ -1464,12 +1520,22 @@ as_component_get_developer_name (AsComponent *cpt)
  * Set the the component's developer or development team name.
  */
 void
-as_component_set_developer_name (AsComponent *cpt, const gchar* value)
+as_component_set_developer_name (AsComponent *cpt, const gchar *value, const gchar *locale)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	as_component_localized_set (cpt, priv->developer_name, value, locale);
+}
 
-	g_free (cpt->priv->developer_name);
-	cpt->priv->developer_name = g_strdup (value);
+/**
+ * as_component_get_developer_name_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_developer_name_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->developer_name;
 }
 
 /**
@@ -1482,9 +1548,9 @@ as_component_set_developer_name (AsComponent *cpt, const gchar* value)
 GPtrArray*
 as_component_get_screenshots (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->screenshots;
+	return priv->screenshots;
 }
 
 /**
@@ -1495,9 +1561,9 @@ as_component_get_screenshots (AsComponent *cpt)
 gchar **
 as_component_get_compulsory_for_desktops (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->compulsory_for_desktops;
+	return priv->compulsory_for_desktops;
 }
 
 /**
@@ -1508,10 +1574,10 @@ as_component_get_compulsory_for_desktops (AsComponent *cpt)
 void
 as_component_set_compulsory_for_desktops (AsComponent *cpt, gchar** value)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_strfreev (cpt->priv->compulsory_for_desktops);
-	cpt->priv->compulsory_for_desktops = g_strdupv (value);
+	g_strfreev (priv->compulsory_for_desktops);
+	priv->compulsory_for_desktops = g_strdupv (value);
 }
 
 /**
@@ -1528,9 +1594,9 @@ as_component_is_compulsory_for_desktop (AsComponent *cpt, const gchar* desktop)
 {
 	gchar **compulsory_for_desktops;
 	guint i;
-	g_return_val_if_fail (cpt != NULL, FALSE);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	compulsory_for_desktops = cpt->priv->compulsory_for_desktops;
+	compulsory_for_desktops = priv->compulsory_for_desktops;
 	for (i = 0; compulsory_for_desktops[i] != NULL; i++) {
 		if (g_strcmp0 (compulsory_for_desktops[i], desktop) == 0)
 			return TRUE;
@@ -1550,9 +1616,9 @@ as_component_is_compulsory_for_desktop (AsComponent *cpt, const gchar* desktop)
 GPtrArray*
 as_component_get_provided_items (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->provided_items;
+	return priv->provided_items;
 }
 
 /**
@@ -1568,11 +1634,11 @@ as_component_get_provided_items (AsComponent *cpt)
 void
 as_component_add_provided_item (AsComponent *cpt, AsProvidesKind kind, const gchar *value, const gchar *data)
 {
-	g_return_if_fail (cpt != NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	/* we just skip empty items */
 	if (as_str_empty (value))
 		return;
-	g_ptr_array_add (cpt->priv->provided_items,
+	g_ptr_array_add (priv->provided_items,
 			     as_provides_item_create (kind, value, data));
 }
 
@@ -1587,9 +1653,9 @@ as_component_add_provided_item (AsComponent *cpt, AsProvidesKind kind, const gch
 GPtrArray*
 as_component_get_releases (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, NULL);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	return cpt->priv->releases;
+	return priv->releases;
 }
 
 /**
@@ -1603,8 +1669,8 @@ as_component_get_releases (AsComponent *cpt)
 int
 as_component_get_priority (AsComponent *cpt)
 {
-	g_return_val_if_fail (cpt != NULL, 0);
-	return cpt->priv->priority;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->priority;
 }
 
 /**
@@ -1618,8 +1684,8 @@ as_component_get_priority (AsComponent *cpt)
 void
 as_component_set_priority (AsComponent *cpt, int priority)
 {
-	g_return_if_fail (cpt != NULL);
-	cpt->priv->priority = priority;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	priv->priority = priority;
 }
 
 /**
@@ -1635,9 +1701,11 @@ as_component_set_priority (AsComponent *cpt, int priority)
 void
 as_component_add_language (AsComponent *cpt, const gchar *locale, gint percentage)
 {
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
 	if (locale == NULL)
 		locale = "C";
-	g_hash_table_insert (cpt->priv->languages,
+	g_hash_table_insert (priv->languages,
 						 g_strdup (locale),
 						 GINT_TO_POINTER (percentage));
 }
@@ -1658,10 +1726,11 @@ as_component_get_language (AsComponent *cpt, const gchar *locale)
 {
 	gboolean ret;
 	gpointer value = NULL;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	if (locale == NULL)
 		locale = "C";
-	ret = g_hash_table_lookup_extended (cpt->priv->languages,
+	ret = g_hash_table_lookup_extended (priv->languages,
 					    locale, NULL, &value);
 	if (!ret)
 		return -1;
@@ -1681,7 +1750,8 @@ as_component_get_language (AsComponent *cpt, const gchar *locale)
 GList*
 as_component_get_languages (AsComponent *cpt)
 {
-	return g_hash_table_get_keys (cpt->priv->languages);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_get_keys (priv->languages);
 }
 
 /**
@@ -1697,7 +1767,8 @@ as_component_get_languages (AsComponent *cpt)
 GHashTable*
 as_component_get_languages_map (AsComponent *cpt)
 {
-	return cpt->priv->languages;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->languages;
 }
 
 /**
@@ -1720,7 +1791,7 @@ as_component_refine_icon (AsComponent *cpt, gchar **icon_paths)
 	gchar *tmp_icon_path = NULL;
 	gchar *icon_url = NULL;
 	guint i, j, k;
-	AsComponentPrivate *priv = cpt->priv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* See if we have an icon without known size.
 	 * These icons have a zero-dimensional width and height (therefore the "0x0" key)
@@ -1812,7 +1883,7 @@ out:
 void
 as_component_complete (AsComponent *cpt, gchar *scr_base_url, gchar **icon_paths)
 {
-	AsComponentPrivate *priv = cpt->priv;
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* we want screenshot data from 3rd-party screenshot servers, if the component doesn't have screenshots defined already */
 	if ((priv->screenshots->len == 0) && (priv->pkgnames != NULL)) {
@@ -1834,6 +1905,10 @@ as_component_complete (AsComponent *cpt, gchar *scr_base_url, gchar **icon_paths
 		as_image_set_kind (img, AS_IMAGE_KIND_SOURCE);
 
 		sshot = as_screenshot_new ();
+
+		/* propagate locale */
+		as_screenshot_set_active_locale (sshot, priv->active_locale);
+
 		as_screenshot_add_image (sshot, img);
 		as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
 
@@ -1861,67 +1936,9 @@ as_component_complete (AsComponent *cpt, gchar *scr_base_url, gchar **icon_paths
 	as_component_refine_icon (cpt, icon_paths);
 }
 
-static void
-as_component_class_init (AsComponentClass * klass)
-{
-	as_component_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (AsComponentPrivate));
-	G_OBJECT_CLASS (klass)->get_property = as_component_get_property;
-	G_OBJECT_CLASS (klass)->set_property = as_component_set_property;
-	G_OBJECT_CLASS (klass)->finalize = as_component_finalize;
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_KIND, g_param_spec_enum ("kind", "kind", "kind", AS_TYPE_COMPONENT_KIND, 0, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PKGNAMES, g_param_spec_boxed ("pkgnames", "pkgnames", "pkgnames", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ID, g_param_spec_string ("id", "id", "id", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_NAME, g_param_spec_string ("name", "name", "name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_NAME_ORIGINAL, g_param_spec_string ("name-original", "name-original", "name-original", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_SUMMARY, g_param_spec_string ("summary", "summary", "summary", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_DESCRIPTION, g_param_spec_string ("description", "description", "description", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_KEYWORDS, g_param_spec_boxed ("keywords", "keywords", "keywords", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON, g_param_spec_string ("icon", "icon", "icon", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_ICON_URLS, g_param_spec_boxed ("icon-urls", "icon-urls", "icon-urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_URLS, g_param_spec_boxed ("urls", "urls", "urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_CATEGORIES, g_param_spec_boxed ("categories", "categories", "categories", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PROJECT_LICENSE, g_param_spec_string ("project-license", "project-license", "project-license", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_PROJECT_GROUP, g_param_spec_string ("project-group", "project-group", "project-group", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_DEVELOPER_NAME, g_param_spec_string ("developer-name", "developer-name", "developer-name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (G_OBJECT_CLASS (klass), AS_COMPONENT_SCREENSHOTS, g_param_spec_boxed ("screenshots", "screenshots", "screenshots", G_TYPE_PTR_ARRAY, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
-}
-
-static void
-as_component_instance_init (AsComponent *cpt)
-{
-	cpt->priv = AS_COMPONENT_GET_PRIVATE (cpt);
-}
-
 /**
- * as_component_get_type:
- *
- * Class to store data describing a component in AppStream
+ * as_component_get_property:
  */
-GType
-as_component_get_type (void)
-{
-	static volatile gsize as_component_type_id__volatile = 0;
-	if (g_once_init_enter (&as_component_type_id__volatile)) {
-		static const GTypeInfo g_define_type_info = {
-					sizeof (AsComponentClass),
-					(GBaseInitFunc) NULL,
-					(GBaseFinalizeFunc) NULL,
-					(GClassInitFunc) as_component_class_init,
-					(GClassFinalizeFunc) NULL,
-					NULL,
-					sizeof (AsComponent),
-					0,
-					(GInstanceInitFunc) as_component_instance_init,
-					NULL
-		};
-		GType as_component_type_id;
-		as_component_type_id = g_type_register_static (G_TYPE_OBJECT, "AsComponent", &g_define_type_info, 0);
-		g_once_init_leave (&as_component_type_id__volatile, as_component_type_id);
-	}
-	return as_component_type_id__volatile;
-}
-
 static void
 as_component_get_property (GObject * object, guint property_id, GValue * value, GParamSpec * pspec)
 {
@@ -1939,9 +1956,6 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 			break;
 		case AS_COMPONENT_NAME:
 			g_value_set_string (value, as_component_get_name (cpt));
-			break;
-		case AS_COMPONENT_NAME_ORIGINAL:
-			g_value_set_string (value, as_component_get_name_original (cpt));
 			break;
 		case AS_COMPONENT_SUMMARY:
 			g_value_set_string (value, as_component_get_summary (cpt));
@@ -1982,12 +1996,15 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 	}
 }
 
-
+/**
+ * as_component_set_property:
+ */
 static void
 as_component_set_property (GObject * object, guint property_id, const GValue * value, GParamSpec * pspec)
 {
 	AsComponent *cpt;
 	cpt = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_COMPONENT, AsComponent);
+
 	switch (property_id) {
 		case AS_COMPONENT_KIND:
 			as_component_set_kind (cpt, g_value_get_enum (value));
@@ -1999,19 +2016,16 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 			as_component_set_id (cpt, g_value_get_string (value));
 			break;
 		case AS_COMPONENT_NAME:
-			as_component_set_name (cpt, g_value_get_string (value));
-			break;
-		case AS_COMPONENT_NAME_ORIGINAL:
-			as_component_set_name_original (cpt, g_value_get_string (value));
+			as_component_set_name (cpt, g_value_get_string (value), NULL);
 			break;
 		case AS_COMPONENT_SUMMARY:
-			as_component_set_summary (cpt, g_value_get_string (value));
+			as_component_set_summary (cpt, g_value_get_string (value), NULL);
 			break;
 		case AS_COMPONENT_DESCRIPTION:
-			as_component_set_description (cpt, g_value_get_string (value));
+			as_component_set_description (cpt, g_value_get_string (value), NULL);
 			break;
 		case AS_COMPONENT_KEYWORDS:
-			as_component_set_keywords (cpt, g_value_get_boxed (value));
+			as_component_set_keywords (cpt, g_value_get_boxed (value), NULL);
 			break;
 		case AS_COMPONENT_ICON:
 			as_component_set_icon (cpt, g_value_get_string (value));
@@ -2026,10 +2040,83 @@ as_component_set_property (GObject * object, guint property_id, const GValue * v
 			as_component_set_project_group (cpt, g_value_get_string (value));
 			break;
 		case AS_COMPONENT_DEVELOPER_NAME:
-			as_component_set_developer_name (cpt, g_value_get_string (value));
+			as_component_set_developer_name (cpt, g_value_get_string (value), NULL);
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
 			break;
 	}
+}
+
+/**
+ * as_component_class_init:
+ */
+static void
+as_component_class_init (AsComponentClass * klass)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = as_component_finalize;
+	object_class->get_property = as_component_get_property;
+	object_class->set_property = as_component_set_property;
+
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_KIND,
+								g_param_spec_enum ("kind", "kind", "kind", AS_TYPE_COMPONENT_KIND, 0, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_PKGNAMES,
+								g_param_spec_boxed ("pkgnames", "pkgnames", "pkgnames", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_ID,
+								g_param_spec_string ("id", "id", "id", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_NAME,
+								g_param_spec_string ("name", "name", "name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_SUMMARY,
+								g_param_spec_string ("summary", "summary", "summary", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_DESCRIPTION,
+								g_param_spec_string ("description", "description", "description", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_KEYWORDS,
+								g_param_spec_boxed ("keywords", "keywords", "keywords", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_ICON,
+								g_param_spec_string ("icon", "icon", "icon", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_ICON_URLS,
+								g_param_spec_boxed ("icon-urls", "icon-urls", "icon-urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_URLS,
+								g_param_spec_boxed ("urls", "urls", "urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_CATEGORIES,
+								g_param_spec_boxed ("categories", "categories", "categories", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_PROJECT_LICENSE,
+								g_param_spec_string ("project-license", "project-license", "project-license", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_PROJECT_GROUP,
+								g_param_spec_string ("project-group", "project-group", "project-group", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_DEVELOPER_NAME,
+								g_param_spec_string ("developer-name", "developer-name", "developer-name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
+								AS_COMPONENT_SCREENSHOTS,
+								g_param_spec_boxed ("screenshots", "screenshots", "screenshots", G_TYPE_PTR_ARRAY, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+}
+
+/**
+ * as_component_new:
+ *
+ * Creates a new #AsComponent.
+ *
+ * Returns: (transfer full): a new #AsComponent
+ **/
+AsComponent*
+as_component_new (void)
+{
+	AsComponent *cpt;
+	cpt = g_object_new (AS_TYPE_COMPONENT, NULL);
+	return AS_COMPONENT (cpt);
 }

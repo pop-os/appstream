@@ -65,14 +65,14 @@ DatabaseWrite::initialize (const gchar *dbPath)
 	return true;
 }
 
-static
-void string_hashtable_to_str (gchar *key, gchar *value, GString *gstr)
+static void
+string_hashtable_to_str (gchar *key, gchar *value, GString *gstr)
 {
 	g_string_append_printf (gstr, "%s\n%s\n", key, value);
 }
 
-static
-void langs_hashtable_to_str (gchar *key, gint value, GString *gstr)
+static void
+langs_hashtable_to_str (gchar *key, gint value, GString *gstr)
 {
 	g_string_append_printf (gstr, "%s\n%i\n", key, value);
 }
@@ -82,6 +82,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 {
 	string old_path = m_dbPath + "_old";
 	string rebuild_path = m_dbPath + "_rb";
+	string db_locale;
 
 	// Create the rebuild directory
 	if (!as_utils_touch_dir (rebuild_path.c_str ()))
@@ -156,20 +157,56 @@ DatabaseWrite::rebuild (GList *cpt_list)
 			term_generator.index_text_without_positions (pkgname, WEIGHT_PKGNAME);
 		}
 
+		// Source package name
+		const gchar *spkgname_cstr = as_component_get_source_pkgname (cpt);
+		if (spkgname_cstr != NULL) {
+			string spkgname = spkgname_cstr;
+			doc.add_value (XapianValues::SOURCE_PKGNAME, spkgname);
+			if (!spkgname.empty()) {
+				doc.add_term("AP" + spkgname);
+				if (spkgname.find ("-") != string::npos) {
+					// we need this to work around xapian oddness
+					string tmp = spkgname;
+					replace (tmp.begin(), tmp.end(), '-', '_');
+					doc.add_term (tmp);
+				}
+				// add packagename as meta-data too
+				term_generator.index_text_without_positions (spkgname, WEIGHT_PKGNAME);
+			}
+		}
+
+		// Bundles
+		GHashTable *bundle_ids;
+		bundle_ids = as_component_get_bundle_ids (cpt);
+		if (g_hash_table_size (bundle_ids) > 0) {
+			gchar *cstr;
+			gstr = g_string_new ("");
+			g_hash_table_foreach(bundle_ids, (GHFunc) string_hashtable_to_str, gstr);
+			if (gstr->len > 0)
+				g_string_truncate (gstr, gstr->len - 1);
+
+			cstr = g_string_free (gstr, FALSE);
+			doc.add_value (XapianValues::BUNDLES, cstr);
+			g_free (cstr);
+		}
+
 		// Identifier
 		string idname = as_component_get_id (cpt);
 		doc.add_value (XapianValues::IDENTIFIER, idname);
 		doc.add_term("AI" + idname);
 		term_generator.index_text_without_positions (idname, WEIGHT_PKGNAME);
 
-		// Untranslated component name
-		string cptNameGeneric = as_component_get_name_original (cpt);
-		doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
-		term_generator.index_text_without_positions (cptNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
-
 		// Component name
 		string cptName = as_component_get_name (cpt);
 		doc.add_value (XapianValues::CPTNAME, cptName);
+
+		// Untranslated component name
+		string clocale = as_component_get_active_locale (cpt);
+		as_component_set_active_locale (cpt, "C");
+		string cptNameGeneric = as_component_get_name (cpt);
+		doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
+		as_component_set_active_locale (cpt, clocale.c_str());
+		term_generator.index_text_without_positions (cptNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
 
 		// Type identifier
 		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
@@ -196,7 +233,10 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		}
 
 		// Stock icon
-		doc.add_value (XapianValues::ICON, as_component_get_icon (cpt));
+		const gchar *stock_icon = as_component_get_icon (cpt);
+		if (stock_icon != NULL)
+			doc.add_value (XapianValues::ICON, stock_icon);
+
 		// Icon urls
 		GHashTable *icon_urls;
 		icon_urls = as_component_get_icon_urls (cpt);
@@ -280,10 +320,19 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		doc.add_value (XapianValues::COMPULSORY_FOR, compulsory_str);
 
 		// Add project-license
-		doc.add_value (XapianValues::LICENSE, as_component_get_project_license (cpt));
+		const gchar *project_license = as_component_get_project_license (cpt);
+		if (project_license != NULL)
+			doc.add_value (XapianValues::LICENSE, project_license);
 
 		// Add project group
-		doc.add_value (XapianValues::PROJECT_GROUP, as_component_get_project_group (cpt));
+		const gchar *project_group = as_component_get_project_group (cpt);
+		if (project_group != NULL)
+			doc.add_value (XapianValues::PROJECT_GROUP, project_group);
+
+		// Add developer name
+		const gchar *developer_name = as_component_get_developer_name (cpt);
+		if (developer_name != NULL)
+			doc.add_value (XapianValues::DEVELOPER_NAME, developer_name);
 
 		// Add releases information (XML data)
 		doc.add_value (XapianValues::RELEASES_DATA, as_component_dump_releases_data_xml (cpt));
@@ -309,9 +358,15 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		term_generator.index_text_without_positions (docData, WEIGHT_DESKTOP_NAME);
 
 		db.add_document (doc);
+
+		// infer database locale from single component
+		// TODO: Do that in a smarter way, if we support multiple databases later.
+		if (db_locale.empty ())
+			db_locale = as_component_get_active_locale (cpt);
 	}
 
-	db.set_metadata("db-schema-version", AS_DB_SCHEMA_VERSION);
+	db.set_metadata ("db-schema-version", AS_DB_SCHEMA_VERSION);
+	db.set_metadata ("db-locale", db_locale);
 	db.commit ();
 
 	if (g_rename (m_dbPath.c_str (), old_path.c_str ()) < 0) {

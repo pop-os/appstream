@@ -79,15 +79,37 @@ GType		 	as_metadata_get_type	(void);
 AsMetadata*		as_metadata_new			(void);
 GQuark			as_metadata_error_quark	(void);
 
-AsComponent*	as_metadata_parse_file (AsMetadata* metad,
-										GFile* infile,
+void			as_metadata_parse_file (AsMetadata *metad,
+										GFile *file,
 										GError **error);
-AsComponent*	as_metadata_parse_data (AsMetadata* metad,
+void			as_metadata_parse_data (AsMetadata *metad,
 										const gchar *data,
 										GError **error);
+
+AsComponent		*as_metadata_get_component (AsMetadata *metad);
+GPtrArray		*as_metadata_get_components (AsMetadata *metad);
+
+void			as_metadata_clear_components (AsMetadata *metad);
+
+void			as_metadata_add_component (AsMetadata *metad,
+										AsComponent *cpt);
+gchar			*as_metadata_component_to_upstream_xml (AsMetadata *metad);
+gchar			*as_metadata_components_to_distro_xml (AsMetadata *metad);
+
+void			as_metadata_save_upstream_xml (AsMetadata *metad,
+										const gchar *fname,
+										GError **error);
+void			as_metadata_save_distro_xml (AsMetadata *metad,
+										const gchar *fname,
+										GError **error);
+
 void			as_metadata_set_locale (AsMetadata *metad,
 										const gchar *locale);
-const gchar*	as_metadata_get_locale (AsMetadata *metad);
+const gchar		*as_metadata_get_locale (AsMetadata *metad);
+
+const gchar		*as_metadata_get_origin (AsMetadata *metad);
+void			as_metadata_set_origin (AsMetadata *metad,
+										const gchar *origin);
 
 
 G_END_DECLS

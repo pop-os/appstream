@@ -30,8 +30,6 @@
 </entry><entry role="function_name"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-set-origin-id">as_metadata_set_origin_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -118,29 +116,6 @@ as_metadata_get_parser_mode (<parameter><link linkend="AsMetadata"><type>AsMetad
 <title>Returns</title>
 <para> an <link linkend="AsParserMode"><type>AsParserMode</type></link></para>
 <para></para>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-set-origin-id" role="function">
-<title>as_metadata_set_origin_id&#160;()</title>
-<indexterm zone="as-metadata-set-origin-id"><primary>as_metadata_set_origin_id</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_set_origin_id (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *origin</parameter>);</programlisting>
-<para>Internal method to set the origin of AppStream distro metadata</para>
-<refsect3 role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>metad</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>origin</para></entry>
-<entry role="parameter_description"><para>the origin of AppStream distro metadata.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
 </refsect3></refsect2>
 
 </refsect1>

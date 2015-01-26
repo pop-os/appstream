@@ -79,7 +79,7 @@ as_builder_construct (GType object_type, const gchar *dbpath)
 	} else {
 		priv->cache_path = g_strdup (dbpath);
 	}
-	priv->db_path = g_build_filename (priv->cache_path, "xapian", NULL);
+	priv->db_path = g_build_filename (priv->cache_path, "xapian", "C", NULL);
 
 	/* ensure db directory exists */
 	as_utils_touch_dir (priv->db_path);
@@ -180,24 +180,20 @@ as_builder_appstream_data_changed (AsBuilder* self)
 	watchfile_new = g_strdup ("");
 	files = as_data_pool_get_watched_locations (self->priv->dpool);
 	for (i = 0; files[i] != NULL; i++) {
-		struct stat *sbuf = NULL;
+		struct stat sbuf;
 		gchar *ctime_str;
 		gchar *tmp;
 		guint j;
 		gchar *wentry;
 
 		fname = files[i];
-		sbuf = malloc(sizeof(struct stat));
-		stat (fname, sbuf);
-		if (sbuf == NULL)
+		if (stat (fname, &sbuf) == -1)
 			continue;
 
-		ctime_str = g_strdup_printf ("%ld", (glong) sbuf->st_ctime);
+		ctime_str = g_strdup_printf ("%ld", (glong) sbuf.st_ctime);
 		tmp = g_strdup_printf ("%s%s %s\n", watchfile_new, fname, ctime_str);
 		g_free (watchfile_new);
 		watchfile_new = tmp;
-
-		g_free (sbuf);
 
 		/* no need to perform test for a up-to-date data from the old watch file if it is empty */
 		if (watchfile_old->len == 0)
