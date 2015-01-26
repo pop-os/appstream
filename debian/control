@@ -9,10 +9,10 @@ Build-Depends: cmake (>= 2.8),
                libdbus-glib-1-dev,
                libgirepository1.0-dev (>= 1.32),
                libglib2.0-dev (>= 2.40),
-               libqt4-dev,
                libxapian-dev (>= 1.2.12),
                libxml2-dev (>= 2.8.0),
                libyaml-dev,
+               qtbase5-dev,
                xmlto
 Standards-Version: 3.9.6
 Homepage: http://www.freedesktop.org/wiki/Distributions/AppStream/
@@ -86,7 +86,7 @@ Description: Library to access AppStream services (introspection data)
  .
  This package contains introspection data for the AppStream library.
 
-Package: libappstreamqt0
+Package: libappstreamqt1
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -94,7 +94,7 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Recommends: appstream-index (>= ${binary:Version})
-Description: Qt4 library to access AppStream services
+Description: Qt5 library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
  of a distribution.
@@ -107,10 +107,10 @@ Description: Qt4 library to access AppStream services
 Package: libappstreamqt-dev
 Architecture: any
 Section: libdevel
-Depends: libappstreamqt0 (= ${binary:Version}),
-         libqt4-dev,
+Depends: libappstreamqt1 (= ${binary:Version}),
+         qtbase5-dev,
          ${misc:Depends}
-Description: Qt4 library to access AppStream services (development files)
+Description: Qt5 library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
  of a distribution.
@@ -118,7 +118,7 @@ Description: Qt4 library to access AppStream services (development files)
  and various other things needed to make handling of software smarter.
  .
  This package contains development files necessary to develop
- software-management tools which use the Qt4-based AppStream library.
+ software-management tools which use the Qt5-based AppStream library.
 
 Package: appstream-doc
 Architecture: all
