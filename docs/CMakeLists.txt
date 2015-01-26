@@ -2,23 +2,25 @@
 
 find_program (XMLTO xmlto)
 mark_as_advanced (XMLTO)
-if (XMLTO STREQUAL "")
+if (XMLTO STREQUAL "XMLTO-NOTFOUND")
 	message (FATAL_ERROR "Xmlto was not found! Please install it to continue!")
-endif (XMLTO STREQUAL "")
+endif (XMLTO STREQUAL "XMLTO-NOTFOUND")
 
 include (${CMAKE_SOURCE_DIR}/data/cmake/documentation.cmake)
 
 add_xml_manpages(doc-man-asi "sources/man/appstream-index.1" "" "")
 add_xml_manpages(doc-man-asv "sources/man/appstream-validate.1" "" "")
 
+set(DOC_HTML_EXPORT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/html")
+
 if (DOCUMENTATION)
 	#########################
 	# General project documentation
 	find_program (PUBLICAN publican)
 	mark_as_advanced (PUBLICAN)
-	if (PUBLICAN STREQUAL "")
+	if (PUBLICAN STREQUAL "PUBLICAN-NOTFOUND")
 		message (FATAL_ERROR "Publican was not found. Please install it to continue!")
-	endif (PUBLICAN STREQUAL "")
+	endif (PUBLICAN STREQUAL "PUBLICAN-NOTFOUND")
 
 	# we need to assemble our documentation build-directory before we can built it
 	add_custom_target (assemble-docs
@@ -50,7 +52,7 @@ if (DOCUMENTATION)
 
 	# a target to export documentation html to the source tree (useful when building the tarballs)
 	add_custom_target (documentation
-		COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/docbuild/AppStream-Docs/en-US/html/" "${CMAKE_CURRENT_SOURCE_DIR}/html"
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/docbuild/AppStream-Docs/en-US/html/" "${DOC_HTML_EXPORT_DIR}"
 		DEPENDS documentation-noexport
 		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 	)
@@ -83,6 +85,24 @@ if (DOCUMENTATION)
 
 	set_directory_properties (PROPERTIES CLEAN_NO_CUSTOM ${CMAKE_CURRENT_SOURCE_DIR}/api)
  	set_directory_properties (PROPERTIES ADDITIONAL_MAKE_CLEAN_FILES "${CMAKE_CURRENT_SOURCE_DIR}/api/html;${CMAKE_CURRENT_SOURCE_DIR}/api/xml;${CMAKE_CURRENT_SOURCE_DIR}/api/tmpl")
+endif()
 
- 	install(DIRECTORY html/api/html/ DESTINATION share/gtk-doc/html/appstream)
+option(INSTALL_PREBUILT_DOCS "Install prebuilt documentation, if found" ON)
+if (INSTALL_PREBUILT_DOCS OR DOCUMENTATION)
+	if (DOCUMENTATION OR (EXISTS "${DOC_HTML_EXPORT_DIR}" AND IS_DIRECTORY "${DOC_HTML_EXPORT_DIR}"))
+		install(DIRECTORY "${DOC_HTML_EXPORT_DIR}/" DESTINATION ${CMAKE_INSTALL_DATADIR}/doc/appstream/html)
+
+		install(DIRECTORY DESTINATION ${CMAKE_INSTALL_FULL_DATADIR}/gtk-doc/html/)
+		install(CODE "if (\"\$ENV{DESTDIR}\" STREQUAL \"\")
+					execute_process (COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+						${CMAKE_INSTALL_FULL_DATADIR}/doc/appstream/html/api/html/
+						${CMAKE_INSTALL_FULL_DATADIR}/gtk-doc/html/appstream
+					)
+				else ()
+					execute_process (COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
+						${CMAKE_INSTALL_FULL_DATADIR}/doc/appstream/html/api/html/
+						\$ENV{DESTDIR}/${CMAKE_INSTALL_FULL_DATADIR}/gtk-doc/html/appstream
+					)
+				endif ()")
+	endif()
 endif()

@@ -60,6 +60,11 @@ class APPSTREAMQT_EXPORT Component {
             UrlKindHelp,
             UrlKindDonation
         };
+        enum BundleKind {
+            BundleKindUnknown,
+            BundleKindLimba,
+            BundleKindXdgApp
+        };
 
         Component();
         Component(const Component& other);
@@ -109,23 +114,9 @@ class APPSTREAMQT_EXPORT Component {
         void setIcon(const QString& icon);
 
         /**
-         * \return absolute path to a 64x64px sized icon
-         *
-         * \deprecated this method is deprecated, use iconUrl(QSize&) instead.
-         */
-        Q_DECL_DEPRECATED QUrl iconUrl() const;
-
-        /**
          * \return absolute (local or remote) path to an icon of the given size
          */
         QUrl iconUrl(const QSize& size) const;
-
-        /**
-         * Sets the url for an icon of 64x64 pixels
-         *
-         * \deprecated this method is deprecated, use \ref addIconUrl instead.
-         */
-        Q_DECL_DEPRECATED void setIconUrl(const QUrl& iconUrl);
 
         /**
          * Sets the url for an icon
@@ -156,6 +147,12 @@ class APPSTREAMQT_EXPORT Component {
         QList<Appstream::Screenshot> screenshots() const;
         void setScreenshots(const QList<Appstream::Screenshot>& screenshots);
 
+
+        void setBundles(const QHash<BundleKind , QString >& bundles);
+        QHash<BundleKind, QString> bundles() const;
+        QString bundle(BundleKind kind) const;
+
+
         /**
          * \returns whether the component is fully initialized
          */
@@ -166,6 +163,9 @@ class APPSTREAMQT_EXPORT Component {
 
         static UrlKind stringToUrlKind(const QString& urlKindString);
         static QString urlKindToString(Appstream::Component::UrlKind kind);
+
+        static BundleKind stringToBundleKind(const QString& bundleKindString);
+        static QString bundleKindToString(Appstream::Component::BundleKind kind);
 
     private:
         QSharedDataPointer<ComponentData> d;

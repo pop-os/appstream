@@ -381,11 +381,6 @@ AsMetadata *metad, AsParserMode mode
 <RETURNS>AsParserMode 	</RETURNS>
 AsMetadata *metad 
 </FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_set_origin_id</NAME>
-<RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *origin 
-</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
@@ -1084,7 +1079,7 @@ void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_kind_to_string</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponentKind kind 
 </FUNCTION>
 <FUNCTION>
@@ -1099,7 +1094,7 @@ void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_new</NAME>
-<RETURNS>AsComponent *		</RETURNS>
+<RETURNS>AsComponent 			*</RETURNS>
 void 
 </FUNCTION>
 <FUNCTION>
@@ -1109,8 +1104,18 @@ AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_to_string</NAME>
-<RETURNS>gchar * 				</RETURNS>
+<RETURNS>gchar 				*</RETURNS>
 AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_active_locale</NAME>
+<RETURNS>gchar 				*</RETURNS>
+AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_active_locale</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent *cpt, const gchar *locale 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_kind</NAME>
@@ -1124,7 +1129,7 @@ AsComponent *cpt, AsComponentKind value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_id</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1134,7 +1139,7 @@ AsComponent *cpt, const gchar* value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_origin</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1144,17 +1149,27 @@ AsComponent *cpt, const gchar* origin
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_pkgnames</NAME>
-<RETURNS>gchar **				</RETURNS>
+<RETURNS>gchar 				**</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_pkgnames</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *cpt, gchar** value 
+AsComponent *cpt, gchar **value 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_source_pkgname</NAME>
+<RETURNS>const gchar 			*</RETURNS>
+AsComponent *cpt 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_source_pkgname</NAME>
+<RETURNS>void 				</RETURNS>
+AsComponent *cpt, const gchar* spkgname 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1164,7 +1179,7 @@ AsComponent *cpt, const gchar *value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_summary</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1174,7 +1189,7 @@ AsComponent *cpt, const gchar *value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_description</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1184,7 +1199,7 @@ AsComponent *cpt, const gchar* value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_license</NAME>
-<RETURNS>const gchar * 		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1194,7 +1209,7 @@ AsComponent *cpt, const gchar* value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_group</NAME>
-<RETURNS>const gchar * 		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1204,7 +1219,7 @@ AsComponent *cpt, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_developer_name</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1214,13 +1229,13 @@ AsComponent *cpt, const gchar *value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_compulsory_for_desktops</NAME>
-<RETURNS>gchar **				</RETURNS>
+<RETURNS>gchar 				**</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_compulsory_for_desktops</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *cpt, gchar** value 
+AsComponent *cpt, gchar **value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_is_compulsory_for_desktop</NAME>
@@ -1229,13 +1244,13 @@ AsComponent *cpt, const gchar* desktop
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
-<RETURNS>gchar **				</RETURNS>
+<RETURNS>gchar 				**</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *cpt, gchar** value 
+AsComponent *cpt, gchar **value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_set_categories_from_str</NAME>
@@ -1249,7 +1264,7 @@ AsComponent *cpt, const gchar *category
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_screenshots</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
+<RETURNS>GPtrArray 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1259,7 +1274,7 @@ AsComponent *cpt, AsScreenshot* sshot
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_keywords</NAME>
-<RETURNS>gchar **				</RETURNS>
+<RETURNS>gchar 				**</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1269,7 +1284,7 @@ AsComponent *cpt, gchar **value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1279,7 +1294,7 @@ AsComponent *cpt, const gchar* value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon_url</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt, int width, int height 
 </FUNCTION>
 <FUNCTION>
@@ -1289,12 +1304,12 @@ AsComponent *cpt, int width, int height, const gchar* value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon_urls</NAME>
-<RETURNS>GHashTable *			</RETURNS>
+<RETURNS>GHashTable 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_provided_items</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
+<RETURNS>GPtrArray 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1309,12 +1324,12 @@ AsComponent *cpt, AsProvidesKind kind, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_urls</NAME>
-<RETURNS>GHashTable *			</RETURNS>
+<RETURNS>GHashTable 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_url</NAME>
-<RETURNS>const gchar *		</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsComponent *cpt, AsUrlKind url_kind 
 </FUNCTION>
 <FUNCTION>
@@ -1324,7 +1339,7 @@ AsComponent *cpt, AsUrlKind url_kind, const gchar *url
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_releases</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
+<RETURNS>GPtrArray 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1334,7 +1349,7 @@ AsComponent *cpt, AsRelease* release
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_extends</NAME>
-<RETURNS>GPtrArray *			</RETURNS>
+<RETURNS>GPtrArray 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
@@ -1358,14 +1373,19 @@ AsComponent *cpt, const gchar *locale
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_active_locale</NAME>
-<RETURNS>gchar 				*</RETURNS>
+<NAME>as_component_get_bundle_ids</NAME>
+<RETURNS>GHashTable 			*</RETURNS>
 AsComponent *cpt 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_active_locale</NAME>
+<NAME>as_component_get_bundle_id</NAME>
+<RETURNS>const gchar 			*</RETURNS>
+AsComponent *cpt, AsBundleKind bundle_kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_bundle_id</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *cpt, const gchar *locale 
+AsComponent *cpt, AsBundleKind bundle_kind, const gchar *id 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_METADATA</NAME>
@@ -1497,8 +1517,18 @@ AsMetadata *metad, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_get_locale</NAME>
-<RETURNS>const gchar *	</RETURNS>
+<RETURNS>const gchar 		*</RETURNS>
 AsMetadata *metad 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_origin</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsMetadata *metad 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_origin</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *origin 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_MENU_PARSER</NAME>
@@ -1897,6 +1927,7 @@ typedef enum {
 	AS_URL_KIND_FAQ,
 	AS_URL_KIND_HELP,
 	AS_URL_KIND_DONATION,
+	/*< private >*/
 	AS_URL_KIND_LAST
 } AsUrlKind;
 </ENUM>
@@ -1909,6 +1940,26 @@ AsUrlKind url_kind
 <NAME>as_url_kind_from_string</NAME>
 <RETURNS>AsUrlKind 		</RETURNS>
 const gchar *url_kind 
+</FUNCTION>
+<ENUM>
+<NAME>AsBundleKind</NAME>
+typedef enum {
+	AS_BUNDLE_KIND_UNKNOWN,
+	AS_BUNDLE_KIND_LIMBA,
+	AS_BUNDLE_KIND_XDG_APP,
+	/*< private >*/
+	AS_BUNDLE_KIND_LAST
+} AsBundleKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_bundle_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsBundleKind bundle_kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_kind_from_string</NAME>
+<RETURNS>AsBundleKind 	</RETURNS>
+const gchar *bundle_kind 
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_DATA_POOL</NAME>

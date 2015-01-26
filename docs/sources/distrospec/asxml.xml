@@ -118,6 +118,19 @@
 				</listitem>
 			</varlistentry>
 
+			<varlistentry id="tag-distro-source_pkgname">
+				<term>&lt;source_pkgname/&gt;</term>
+				<listitem>
+					<para>
+						This optional tag is used to specify the source package the binary package this component belongs to was built from.
+					</para>
+					<para>
+						The tag can be used by software center applications to group components. It is otherwise useful for the distributor
+						to assign components to a source package and to fetch additional information about a package from the web.
+					</para>
+				</listitem>
+			</varlistentry>
+
 			<varlistentry id="tag-distro-name">
 				<term>&lt;name/&gt;</term>
 				<listitem>
@@ -172,8 +185,7 @@
 						A long description of the component. It is usually taken from the package descriptions or meta-info files, if they were provided.
 						The description might use markup. Right now, only paragraph, ordered list and unordered list are supported.
 						An example description element might look like this:
-						<programlisting language="XML">
-<![CDATA[<description>
+						<programlisting language="XML"><![CDATA[<description>
   <p>
    Power Statistics is a program used to view historical and current battery
    information and will show programs running on your computer using power.
@@ -249,18 +261,19 @@
 					<para>
 						<literal>local</literal> icons are reserved for AppStream data installed by local applications or via 3rd-party application installers.
 						They should specify a full file path.
+						This icon type may have <literal>width</literal> and <literal>height</literal> properties.
 					</para>
 					<para>
 						<literal>remote</literal> icons loaded from a remote URL. Currently, at least HTTP urls must be supported.
+						This icon type may have <literal>width</literal> and <literal>height</literal> properties.
 					</para>
 					<para>
 						Examples of the different methods to specify an icon:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<icon type="stock">gimp</icon>
+					<programlisting language="XML"><![CDATA[<icon type="stock">gimp</icon>
 <icon type="cached">firefox.png</icon>
-<icon type="local">/usr/share/pixmaps/foobar.png</icon>
-<icon type="remote">http://example.com/icons/foobar.png</icon>]]></programlisting>
+<icon type="remote" width="64" height="64">http://example.com/icons/foobar.png</icon>
+<icon type="local" width="64" height="64">/usr/share/pixmaps/foobar.png</icon>]]></programlisting>
 					<para>
 						Multiple <code><![CDATA[<icon/>]]></code> tags might be combined for one application, e.g. to define a <literal>stock</literal> icon
 						and a <literal>cached</literal> icon.
@@ -282,8 +295,7 @@
 						The data can usually be fetched from the Desktop files.
 						Example:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<mimetypes>
+					<programlisting language="XML"><![CDATA[<mimetypes>
     <mimetype>text/html</mimetype>
     <mimetype>image/jpeg</mimetype>
     <mimetype>application/rss+xml</mimetype>
@@ -301,8 +313,7 @@
 						<ulink url="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</ulink>.
 						Example:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<categories>
+					<programlisting language="XML"><![CDATA[<categories>
     <category>GNOME</category>
     <category>GTK</category>
     <category>Network</category>
@@ -328,8 +339,7 @@
 						components, the upstream metadata file usually provides this tag.
 						Example:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<keywords>
+					<programlisting language="XML"><![CDATA[<keywords>
   <keyword>IDE</keyword>
   <keyword>development</keyword>
   <keyword>programming</keyword>
@@ -347,9 +357,26 @@
 					</para>
 					<para>
 						Every <code><![CDATA[<screenshot>]]></code> is defined by several images of different sizes.
-						All images should have their width and hight set as arguments. Also, one of the images shoukd be marked as <code>type="source"</code>,
+						All images should have their width and hight set as arguments. Also, one of the images should be marked as <code>type="source"</code>,
 						indicating that it is the unscaled version of the screenshot.
 						Images of <code>type="thumbnail"</code> define thumbnails of the screenshot.
+					</para>
+					<para>
+						The metadata generator should scale the source image down to several thumbnails useful for the client to load.
+						The recommended sizes for thumbnail images are:
+					</para>
+					<itemizedlist>
+						<listitem><para><emphasis>752x423</emphasis> (large)</para></listitem>
+						<listitem><para><emphasis>624x351</emphasis> (normal)</para></listitem>
+						<listitem><para><emphasis>112x63</emphasis> (small)</para></listitem>
+
+						<listitem><para><emphasis>1504x846</emphasis> (large, HiDPI)</para></listitem>
+						<listitem><para><emphasis>1248x702</emphasis> (normal, HiDPI)</para></listitem>
+						<listitem><para><emphasis>224x126</emphasis> (small, HiDPI)</para></listitem>
+					</itemizedlist>
+					<para>
+						In order to support HiDPI screens, the thumbnails should also be available in their bigger sizes. A metadata generator should, however, never attempt
+						to scale up a smaller image to a larger size, and just ship the smaller sizes instead.
 					</para>
 					<para>
 						Optionally, a screenshot can contain a <code><![CDATA[<caption>]]></code> tag, describing the screenshot's caption. This is usually what the user can see
@@ -359,13 +386,13 @@
 						Every image should have a full remote url set, usually pointing to a cache of images maintained by the distributor.
 						Example:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<screenshots>
+					<programlisting language="XML"><![CDATA[<screenshots>
   <screenshot type="default">
     <caption>Foobar showing kitchen-sink functionality</caption>
     <caption xml:lang="si">Foobar shoeewing kischän-sünk funzionality</caption>
     <image type="source" width="800" height="600">http://www.example.org/en_US/main.png</image>
-    <image type="thumbnail" width="200" height="150">http://www.example.org/en_US/main-small.png</image>
+    <image type="thumbnail" width="752" height="423">http://www.example.org/en_US/main-large.png</image>
+    <image type="thumbnail" width="112" height="63">http://www.example.org/en_US/main-small.png</image>
   </screenshot>
   <screenshot>
      ....
@@ -424,12 +451,14 @@
 				<term>&lt;releases/&gt;</term>
 				<listitem>
 					<para>
-						The <code>&lt;releases&gt;</code> tag contains <code>&lt;release/&gt;</code> child tags which
-						describe some metainformation about the current release of the described software.
-						The <code>&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for
-						the current version must always be present.
-						A <literal>release</literal> tag can have the properties <literal>version</literal> and <literal>timestamp</literal> which contain the version number
-						and a release timestamp in form of a UNIX epoch.
+						The <literal>releases</literal> tag and its <literal>release</literal> children are structured as described in <xref linkend="tag-releases"/>.
+					</para>
+					<para>
+						Each <literal>release</literal> tag may have a <literal>description</literal> tag as child, containing a brief description of what is new in the release.
+						The <literal>description</literal> tag is structured as described in <xref linkend="tag-distro-description"/>. This also applies to its translation rules.
+					</para>
+					<para>
+						The AppStream distro XML generator may shorten overlong lists of releases to a smaller list, e.g. of 4 <literal>release</literal> tags.
 					</para>
 					<para>
 						Examples for a valid releases tag:
@@ -481,14 +510,41 @@
 					<para>
 						Tag example:
 					</para>
-					<programlisting language="XML">
-<![CDATA[<languages>
+					<programlisting language="XML"><![CDATA[<languages>
   <lang percentage="96">gu</lang>
   <lang percentage="94">ca@valencia</lang>
   <lang percentage="91">de</lang>
   <lang percentage="93">eo</lang>
 </languages>
 ]]></programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-distro-bundle">
+				<term>&lt;bundle/&gt;</term>
+				<listitem>
+					<para>
+						The optional <literal>bundle</literal> tag indicates that the described software is available as a software bundle via a
+						3rd-party application installer. The value of this tag is an identification string for the bundle.
+					</para>
+					<para>
+						Software centers may use the information of this tag to offer the user to install the software
+						from 3rd-party sources, or just update an already installed software automatically via the normal update procedure.
+						The <literal>bundle</literal> tag can coexist with the <literal>pkgname</literal> tag, in case a component is available from
+						multiple sources.
+					</para>
+					<para>
+						The <literal>type</literal> property of this tag indicates which 3rd-party software installation solution the bundle belongs to.
+						Currently supported solutions are:
+						<itemizedlist>
+							<listitem><para>The <ulink url="http://people.freedesktop.org/~mak/limba/">Limba Project</ulink>, using the value <code>limba</code>.</para></listitem>
+							<listitem><para> <ulink url="https://github.com/alexlarsson/xdg-app">xdg-app</ulink> bundles, using the value <code>xdg-app</code>.</para></listitem>
+						</itemizedlist>
+					</para>
+					<para>
+						Example:
+					</para>
+					<programlisting language="XML"><![CDATA[<bundle type="limba">foobar-1.0.2</bundle>]]></programlisting>
 				</listitem>
 			</varlistentry>
 

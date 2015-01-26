@@ -28,6 +28,10 @@
 </entry><entry role="function_name"><link linkend="as-url-kind-to-string">as_url_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsUrlKind"><returnvalue>AsUrlKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-url-kind-from-string">as_url_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-bundle-kind-to-string">as_bundle_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsBundleKind"><returnvalue>AsBundleKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-bundle-kind-from-string">as_bundle_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -41,6 +45,7 @@
 <colspec colname="description"/>
 <tbody>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsUrlKind">AsUrlKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsBundleKind">AsBundleKind</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -103,6 +108,53 @@ as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</typ
 <para> a <link linkend="AsUrlKind"><type>AsUrlKind</type></link> or <link linkend="AS-URL-KIND-UNKNOWN:CAPS"><literal>AS_URL_KIND_UNKNOWN</literal></link> for unknown</para>
 <para></para>
 </refsect3></refsect2>
+<refsect2 id="as-bundle-kind-to-string" role="function" condition="since:0.8.0">
+<title>as_bundle_kind_to_string&#160;()</title>
+<indexterm zone="as-bundle-kind-to-string" role="0.8.0"><primary>as_bundle_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsBundleKind"><literal>AsBundleKind</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>bundle_kind</parameter>
+</para>
+<para></para>
+</refsect3><para role="since">Since 0.8.0</para></refsect2>
+<refsect2 id="as-bundle-kind-from-string" role="function">
+<title>as_bundle_kind_from_string&#160;()</title>
+<indexterm zone="as-bundle-kind-from-string"><primary>as_bundle_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsBundleKind"><returnvalue>AsBundleKind</returnvalue></link>
+as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *bundle_kind</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsBundleKind"><type>AsBundleKind</type></link> or <link linkend="AS-BUNDLE-KIND-UNKNOWN:CAPS"><literal>AS_BUNDLE_KIND_UNKNOWN</literal></link> for unknown</para>
+<para></para>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="appstream-as-enums.other_details" role="details">
@@ -149,8 +201,33 @@ as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</typ
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-URL-KIND-LAST:CAPS">AS_URL_KIND_LAST</para></entry>
-<entry role="enum_member_description"></entry>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsBundleKind" role="enum">
+<title>enum AsBundleKind</title>
+<indexterm zone="AsBundleKind"><primary>AsBundleKind</primary></indexterm>
+<para>The bundle type.</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUNDLE-KIND-UNKNOWN:CAPS">AS_BUNDLE_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Type invalid or not known</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUNDLE-KIND-LIMBA:CAPS">AS_BUNDLE_KIND_LIMBA</para></entry>
+<entry role="enum_member_description"><para>A Limba bundle</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUNDLE-KIND-XDG-APP:CAPS">AS_BUNDLE_KIND_XDG_APP</para></entry>
+<entry role="enum_member_description"><para>An xdg-app bundle</para>
+</entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 </tbody></tgroup></informaltable>

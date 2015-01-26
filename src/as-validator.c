@@ -263,11 +263,13 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 		node_name = (gchar*) iter->name;
 		node_content = (gchar*) xmlNodeGetContent (iter);
 
-		as_validator_check_content_empty (validator,
+		if ((g_strcmp0 (node_name, "ul") != 0) && (g_strcmp0 (node_name, "ol") != 0)) {
+			as_validator_check_content_empty (validator,
 								node_content,
 								node_name,
 								AS_ISSUE_IMPORTANCE_WARNING,
 								cpt);
+		}
 
 		if (g_strcmp0 (node_name, "p") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
@@ -299,7 +301,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_check_nolocalized (validator,
 									iter,
-									"description/ul",
+									"description/ol",
 									cpt,
 									"The '%s' tag should not be localized in distro metadata. Localize the whole 'description' tag instead.");
 			}
@@ -426,6 +428,14 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 					AS_ISSUE_KIND_TAG_DUPLICATED,
 					"The 'pkgname' tag appears multiple times. You can maybe create a metapackage containing the data in order to get rid of defining multiple package names per component.");
 			}
+		} else if (g_strcmp0 (node_name, "source_pkgname") == 0) {
+			if (g_hash_table_contains (found_tags, node_name)) {
+				as_validator_add_issue (validator,
+					cpt,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_TAG_DUPLICATED,
+					"The 'source_pkgname' tag appears multiple times.");
+			}
 		} else if (g_strcmp0 (node_name, "name") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "summary") == 0) {
@@ -485,6 +495,17 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "lang", cpt);
 		} else if (g_strcmp0 (node_name, "extends") == 0) {
+		} else if (g_strcmp0 (node_name, "bundle") == 0) {
+			gchar *prop;
+			prop = as_validator_check_type_property (validator, cpt, iter);
+			if ((g_strcmp0 (prop, "limba") != 0) && (g_strcmp0 (prop, "xdg-app") != 0)) {
+				as_validator_add_issue (validator,
+					cpt,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"Unknown type '%s' for <bundle/> tag.", prop);
+			}
+			g_free (prop);
 		} else if (g_strcmp0 (node_name, "update_contact") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_add_issue (validator,
@@ -495,6 +516,13 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 			} else {
 				as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			}
+		} else if (g_strcmp0 (node_name, "metadata") == 0) {
+			as_validator_add_issue (validator,
+				cpt,
+				AS_ISSUE_IMPORTANCE_PEDANTIC,
+				AS_ISSUE_KIND_TAG_UNKNOWN,
+				"Found custom metadata in <metadata/> tag. Use of this tag is common, but should be avoided if possible.");
+			tag_valid = FALSE;
 		} else if (!g_str_has_prefix (node_name, "x-")) {
 			as_validator_add_issue (validator,
 				cpt,
@@ -570,34 +598,64 @@ as_validator_validate_file (AsValidator *validator,
 {
 	gboolean ret;
 	gchar* xml_doc;
-	gchar* line = NULL;
-	GFileInputStream* ir;
-	GDataInputStream* dis;
+	GFileInputStream* fistream;
+	GFileInfo *info = NULL;
+	const gchar *content_type = NULL;
 
-	xml_doc = g_strdup ("");
-	ir = g_file_read (metadata_file, NULL, NULL);
-	dis = g_data_input_stream_new ((GInputStream*) ir);
-	g_object_unref (ir);
+	info = g_file_query_info (metadata_file,
+				G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
+				G_FILE_QUERY_INFO_NONE,
+				NULL, NULL);
+	if (info != NULL)
+		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
 
-	while (TRUE) {
-		gchar *str;
-		gchar *tmp;
+	if ((g_strcmp0 (content_type, "application/gzip") == 0) || (g_strcmp0 (content_type, "application/x-gzip") == 0)) {
+		GFileInputStream *fistream;
+		GMemoryOutputStream *mem_os;
+		GInputStream *conv_stream;
+		GZlibDecompressor *zdecomp;
+		guint8 *data;
 
-		line = g_data_input_stream_read_line (dis, NULL, NULL, NULL);
-		if (line == NULL) {
-			break;
+		/* load a GZip compressed file */
+		fistream = g_file_read (metadata_file, NULL, NULL);
+		mem_os = (GMemoryOutputStream*) g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
+		zdecomp = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
+		conv_stream = g_converter_input_stream_new (G_INPUT_STREAM (fistream), G_CONVERTER (zdecomp));
+		g_object_unref (zdecomp);
+
+		g_output_stream_splice (G_OUTPUT_STREAM (mem_os), conv_stream, 0, NULL, NULL);
+		data = g_memory_output_stream_get_data (mem_os);
+
+		xml_doc = g_strdup ((const gchar*) data);
+
+		g_object_unref (conv_stream);
+		g_object_unref (mem_os);
+		g_object_unref (fistream);
+	} else {
+		gchar *line = NULL;
+		GString *str;
+		GDataInputStream *dis;
+
+		/* load a plaintext file */
+		str = g_string_new ("");
+		fistream = g_file_read (metadata_file, NULL, NULL);
+		dis = g_data_input_stream_new ((GInputStream*) fistream);
+		g_object_unref (fistream);
+
+		while (TRUE) {
+			line = g_data_input_stream_read_line (dis, NULL, NULL, NULL);
+			if (line == NULL) {
+				break;
+			}
+
+			g_string_append_printf (str, "%s\n", line);
 		}
 
-		str = g_strconcat (line, "\n", NULL);
-		g_free (line);
-		tmp = g_strconcat (xml_doc, str, NULL);
-		g_free (str);
-		g_free (xml_doc);
-		xml_doc = tmp;
+		xml_doc = g_string_free (str, FALSE);
+		g_object_unref (dis);
 	}
 
 	ret = as_validator_validate_data (validator, xml_doc);
-	g_object_unref (dis);
 	g_free (xml_doc);
 
 	return ret;
@@ -630,7 +688,7 @@ as_validator_validate_data (AsValidator *validator,
 	}
 
 	root = xmlDocGetRootElement (doc);
-	if (doc == NULL) {
+	if (root == NULL) {
 		as_validator_add_issue (validator,
 			NULL,
 			AS_ISSUE_IMPORTANCE_ERROR,

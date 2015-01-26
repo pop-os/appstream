@@ -1,7 +1,7 @@
-64% symbol docs coverage.
-257 symbols documented.
-74 symbols incomplete.
-147 not documented.
+63% symbol docs coverage.
+269 symbols documented.
+73 symbols incomplete.
+155 not documented.
 
 
 AS_BUILDER_ERROR
@@ -19,7 +19,8 @@ AsProviderDEP11Private
 AsProviderUbuntuAppinstall (<items>)
 AsProviderUbuntuAppinstallClass (<items>)
 AsProviderUbuntuAppinstallPrivate
-AsUrlKind (AS_URL_KIND_LAST)
+_as_metadata_desc_lang_hashtable_to_nodes
+_as_metadata_lang_hashtable_to_nodes
 _dep11_yaml_free_node
 as_builder_error_quark
 as_builder_initialize
@@ -64,6 +65,7 @@ as_component_get_property
 as_component_get_provided_items (cpt)
 as_component_get_releases (cpt)
 as_component_get_screenshots (cpt)
+as_component_get_source_pkgname
 as_component_get_summary (cpt, Returns)
 as_component_has_category (category, Returns)
 as_component_init
@@ -81,6 +83,7 @@ as_component_set_pkgnames (cpt)
 as_component_set_project_group (cpt, value)
 as_component_set_project_license (cpt, value)
 as_component_set_property
+as_component_set_source_pkgname
 as_component_to_string (cpt)
 as_data_pool_class_init
 as_data_pool_finalize
@@ -127,10 +130,14 @@ as_metadata_components_to_distro_xml (metad)
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_components
+as_metadata_get_node_value
+as_metadata_get_origin
 as_metadata_init
 as_metadata_parse_component_node
 as_metadata_parse_components_node
+as_metadata_parse_upstream_description_tag
 as_metadata_process_document
+as_metadata_process_screenshot
 as_metadata_save_distro_xml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
 as_metadata_save_xml

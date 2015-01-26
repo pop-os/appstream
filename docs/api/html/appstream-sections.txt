@@ -85,6 +85,8 @@ as_component_kind_from_string
 as_component_new
 as_component_is_valid
 as_component_to_string
+as_component_get_active_locale
+as_component_set_active_locale
 as_component_get_kind
 as_component_set_kind
 as_component_get_id
@@ -93,6 +95,8 @@ as_component_get_origin
 as_component_set_origin
 as_component_get_pkgnames
 as_component_set_pkgnames
+as_component_get_source_pkgname
+as_component_set_source_pkgname
 as_component_get_name
 as_component_set_name
 as_component_get_summary
@@ -134,8 +138,9 @@ as_component_add_extends
 as_component_add_language
 as_component_get_language
 as_component_get_languages
-as_component_get_active_locale
-as_component_set_active_locale
+as_component_get_bundle_ids
+as_component_get_bundle_id
+as_component_add_bundle_id
 <SUBSECTION Standard>
 AS_COMPONENT
 AS_COMPONENT_CLASS
@@ -256,6 +261,9 @@ as_distro_details_get_type
 AsUrlKind
 as_url_kind_to_string
 as_url_kind_from_string
+AsBundleKind
+as_bundle_kind_to_string
+as_bundle_kind_from_string
 </SECTION>
 
 <SECTION>
@@ -328,6 +336,8 @@ as_metadata_save_upstream_xml
 as_metadata_save_distro_xml
 as_metadata_set_locale
 as_metadata_get_locale
+as_metadata_get_origin
+as_metadata_set_origin
 <SUBSECTION Standard>
 AS_IS_METADATA
 AS_IS_METADATA_CLASS
@@ -346,7 +356,6 @@ AsParserMode
 as_metadata_parse_component_node
 as_metadata_set_parser_mode
 as_metadata_get_parser_mode
-as_metadata_set_origin_id
 </SECTION>
 
 <SECTION>

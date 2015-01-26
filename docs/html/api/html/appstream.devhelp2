@@ -34,6 +34,8 @@
     <keyword type="function" name="as_component_new ()" link="AsComponent.html#as-component-new"/>
     <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
     <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
+    <keyword type="function" name="as_component_get_active_locale ()" link="AsComponent.html#as-component-get-active-locale"/>
+    <keyword type="function" name="as_component_set_active_locale ()" link="AsComponent.html#as-component-set-active-locale"/>
     <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
     <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
     <keyword type="function" name="as_component_get_id ()" link="AsComponent.html#as-component-get-id"/>
@@ -42,6 +44,8 @@
     <keyword type="function" name="as_component_set_origin ()" link="AsComponent.html#as-component-set-origin"/>
     <keyword type="function" name="as_component_get_pkgnames ()" link="AsComponent.html#as-component-get-pkgnames"/>
     <keyword type="function" name="as_component_set_pkgnames ()" link="AsComponent.html#as-component-set-pkgnames"/>
+    <keyword type="function" name="as_component_get_source_pkgname ()" link="AsComponent.html#as-component-get-source-pkgname"/>
+    <keyword type="function" name="as_component_set_source_pkgname ()" link="AsComponent.html#as-component-set-source-pkgname"/>
     <keyword type="function" name="as_component_get_name ()" link="AsComponent.html#as-component-get-name"/>
     <keyword type="function" name="as_component_set_name ()" link="AsComponent.html#as-component-set-name"/>
     <keyword type="function" name="as_component_get_summary ()" link="AsComponent.html#as-component-get-summary"/>
@@ -83,8 +87,9 @@
     <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
-    <keyword type="function" name="as_component_get_active_locale ()" link="AsComponent.html#as-component-get-active-locale"/>
-    <keyword type="function" name="as_component_set_active_locale ()" link="AsComponent.html#as-component-set-active-locale"/>
+    <keyword type="function" name="as_component_get_bundle_ids ()" link="AsComponent.html#as-component-get-bundle-ids" since="0.8.0"/>
+    <keyword type="function" name="as_component_get_bundle_id ()" link="AsComponent.html#as-component-get-bundle-id" since="0.8.0"/>
+    <keyword type="function" name="as_component_add_bundle_id ()" link="AsComponent.html#as-component-add-bundle-id" since="0.8.0"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
     <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
@@ -174,6 +179,8 @@
     <keyword type="function" name="as_metadata_save_distro_xml ()" link="AsMetadata.html#as-metadata-save-distro-xml"/>
     <keyword type="function" name="as_metadata_set_locale ()" link="AsMetadata.html#as-metadata-set-locale"/>
     <keyword type="function" name="as_metadata_get_locale ()" link="AsMetadata.html#as-metadata-get-locale"/>
+    <keyword type="function" name="as_metadata_get_origin ()" link="AsMetadata.html#as-metadata-get-origin"/>
+    <keyword type="function" name="as_metadata_set_origin ()" link="AsMetadata.html#as-metadata-set-origin"/>
     <keyword type="enum" name="enum AsMetadataError" link="AsMetadata.html#AsMetadataError"/>
     <keyword type="macro" name="AS_METADATA_ERROR" link="AsMetadata.html#AS-METADATA-ERROR:CAPS"/>
     <keyword type="function" name="as_data_pool_new ()" link="AsDataPool.html#as-data-pool-new"/>
@@ -232,7 +239,10 @@
     <keyword type="property" name="The “summary” property" link="AsCategory.html#AsCategory--summary"/>
     <keyword type="function" name="as_url_kind_to_string ()" link="appstream-as-enums.html#as-url-kind-to-string"/>
     <keyword type="function" name="as_url_kind_from_string ()" link="appstream-as-enums.html#as-url-kind-from-string"/>
+    <keyword type="function" name="as_bundle_kind_to_string ()" link="appstream-as-enums.html#as-bundle-kind-to-string" since="0.8.0"/>
+    <keyword type="function" name="as_bundle_kind_from_string ()" link="appstream-as-enums.html#as-bundle-kind-from-string"/>
     <keyword type="enum" name="enum AsUrlKind" link="appstream-as-enums.html#AsUrlKind"/>
+    <keyword type="enum" name="enum AsBundleKind" link="appstream-as-enums.html#AsBundleKind"/>
     <keyword type="function" name="as_provides_kind_to_string ()" link="appstream-as-provides.html#as-provides-kind-to-string"/>
     <keyword type="function" name="as_provides_kind_from_string ()" link="appstream-as-provides.html#as-provides-kind-from-string"/>
     <keyword type="function" name="as_provides_item_create ()" link="appstream-as-provides.html#as-provides-item-create"/>

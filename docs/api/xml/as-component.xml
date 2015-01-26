@@ -34,6 +34,10 @@
 </entry><entry role="function_name"><link linkend="as-component-is-valid">as_component_is_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-to-string">as_component_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-get-kind">as_component_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -50,6 +54,10 @@
 </entry><entry role="function_name"><link linkend="as-component-get-pkgnames">as_component_get_pkgnames</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-pkgnames">as_component_set_pkgnames</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-source-pkgname">as_component_get_source_pkgname</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-source-pkgname">as_component_set_source_pkgname</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-name">as_component_get_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -132,10 +140,12 @@
 </entry><entry role="function_name"><link linkend="as-component-get-language">as_component_get_language</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-languages">as_component_get_languages</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-bundle-ids">as_component_get_bundle_ids</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-bundle-id">as_component_get_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-bundle-id">as_component_add_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -290,6 +300,29 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 <para> A descriptive string. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-active-locale" role="function">
+<title>as_component_get_active_locale&#160;()</title>
+<indexterm zone="as-component-get-active-locale"><primary>as_component_get_active_locale</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get the current active locale for this component, which
+is used to get localized messages.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-component-set-active-locale" role="function">
+<title>as_component_set_active_locale&#160;()</title>
+<indexterm zone="as-component-set-active-locale"><primary>as_component_set_active_locale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
+<para>Set the current active locale for this component, which
+is used to get localized messages.
+If the <link linkend="AsComponent"><type>AsComponent</type></link> was fetched from a localized database, usually only
+one locale is available.</para>
+</refsect2>
 <refsect2 id="as-component-get-kind" role="function">
 <title>as_component_get_kind&#160;()</title>
 <indexterm zone="as-component-get-kind"><primary>as_component_get_kind</primary></indexterm>
@@ -378,6 +411,23 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-source-pkgname" role="function">
+<title>as_component_get_source_pkgname&#160;()</title>
+<indexterm zone="as-component-get-source-pkgname"><primary>as_component_get_source_pkgname</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_source_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<refsect3 role="returns">
+<title>Returns</title>
+
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-component-set-source-pkgname" role="function">
+<title>as_component_set_source_pkgname&#160;()</title>
+<indexterm zone="as-component-set-source-pkgname"><primary>as_component_set_source_pkgname</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_source_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *spkgname</parameter>);</programlisting>
+</refsect2>
 <refsect2 id="as-component-get-name" role="function">
 <title>as_component_get_name&#160;()</title>
 <indexterm zone="as-component-get-name"><primary>as_component_get_name</primary></indexterm>
@@ -1182,29 +1232,83 @@ as_component_get_languages (<parameter><link linkend="AsComponent"><type>AsCompo
 <para> list of locales. </para>
 <para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
 </refsect3><para role="since">Since 0.7.0</para></refsect2>
-<refsect2 id="as-component-get-active-locale" role="function">
-<title>as_component_get_active_locale&#160;()</title>
-<indexterm zone="as-component-get-active-locale"><primary>as_component_get_active_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Get the current active locale for this component, which
-is used to get localized messages.</para>
-<refsect3 role="returns">
+<refsect2 id="as-component-get-bundle-ids" role="function" condition="since:0.8.0">
+<title>as_component_get_bundle_ids&#160;()</title>
+<indexterm zone="as-component-get-bundle-ids" role="0.8.0"><primary>as_component_get_bundle_ids</primary></indexterm>
+<programlisting language="C"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+as_component_get_bundle_ids (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Gets the bundle-ids set for the component.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
-
+<para> Bundle ids. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3><para role="since">Since 0.8.0</para></refsect2>
+<refsect2 id="as-component-get-bundle-id" role="function" condition="since:0.8.0">
+<title>as_component_get_bundle_id&#160;()</title>
+<indexterm zone="as-component-get-bundle-id" role="0.8.0"><primary>as_component_get_bundle_id</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                            <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
+<para>Gets a bundle identifier string.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<entry role="parameter_description"><para>the bundle kind, e.g. <link linkend="AS-BUNDLE-KIND-LIMBA:CAPS"><literal>AS_BUNDLE_KIND_LIMBA</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset</para>
 <para></para>
-</refsect3></refsect2>
-<refsect2 id="as-component-set-active-locale" role="function">
-<title>as_component_set_active_locale&#160;()</title>
-<indexterm zone="as-component-set-active-locale"><primary>as_component_set_active_locale</primary></indexterm>
+</refsect3><para role="since">Since 0.8.0</para></refsect2>
+<refsect2 id="as-component-add-bundle-id" role="function" condition="since:0.8.0">
+<title>as_component_add_bundle_id&#160;()</title>
+<indexterm zone="as-component-add-bundle-id" role="0.8.0"><primary>as_component_add_bundle_id</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
-<para>Set the current active locale for this component, which
-is used to get localized messages.
-If the <link linkend="AsComponent"><type>AsComponent</type></link> was fetched from a localized database, usually only
-one locale is available.</para>
-</refsect2>
+as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                            <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *id</parameter>);</programlisting>
+<para>Adds a bundle identifier to the component.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<entry role="parameter_description"><para>the URL kind, e.g. <link linkend="AS-BUNDLE-KIND-LIMBA:CAPS"><literal>AS_BUNDLE_KIND_LIMBA</literal></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>id</para></entry>
+<entry role="parameter_description"><para>The bundle identification string</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since 0.8.0</para></refsect2>
 
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">

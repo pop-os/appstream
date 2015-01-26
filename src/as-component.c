@@ -56,6 +56,7 @@ struct _AsComponentPrivate {
 	gchar			*id;
 	gchar			*origin;
 	gchar			**pkgnames;
+	gchar			*source_pkgname;
 
 	GHashTable		*name; /* localized entry */
 	GHashTable		*summary; /* localized entry */
@@ -77,6 +78,7 @@ struct _AsComponentPrivate {
 	GHashTable		*icon_urls; /* of key:utf8 */
 	GPtrArray		*extends; /* of utf8:string */
 	GHashTable		*languages; /* of key:utf8 */
+	GHashTable		*bundles; /* of key:utf8 */
 
 	gint			priority; /* used internally */
 };
@@ -192,9 +194,6 @@ as_component_init (AsComponent *cpt)
 
 	as_component_set_id (cpt, "");
 	as_component_set_origin (cpt, "");
-	as_component_set_icon (cpt, "");
-	as_component_set_project_license (cpt, "");
-	as_component_set_project_group (cpt, "");
 	priv->categories = NULL;
 	priv->active_locale = g_strdup ("C");
 
@@ -212,6 +211,7 @@ as_component_init (AsComponent *cpt)
 	priv->icon_urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+	priv->bundles = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	as_component_set_priority (cpt, 0);
 }
@@ -248,6 +248,7 @@ as_component_finalize (GObject* object)
 	g_hash_table_unref (priv->urls);
 	g_hash_table_unref (priv->icon_urls);
 	g_hash_table_unref (priv->languages);
+	g_hash_table_unref (priv->bundles);
 
 	G_OBJECT_CLASS (as_component_parent_class)->finalize (object);
 }
@@ -265,6 +266,7 @@ as_component_is_valid (AsComponent *cpt)
 {
 	gboolean ret = FALSE;
 	const gchar *cname;
+	gboolean has_candidate;
 	AsComponentKind ctype;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
@@ -273,8 +275,9 @@ as_component_is_valid (AsComponent *cpt)
 		return FALSE;
 	cname = as_component_get_name (cpt);
 
-	if ((priv->pkgnames != NULL) &&
-		(priv->pkgnames[0] != NULL) &&
+	has_candidate = (((priv->pkgnames != NULL) && (priv->pkgnames[0] != NULL)) || (g_hash_table_size (priv->bundles) > 0));
+
+	if ((has_candidate) &&
 		(g_strcmp0 (priv->id, "") != 0) &&
 		(cname != NULL) &&
 		(g_strcmp0 (cname, "") != 0)) {
@@ -451,6 +454,61 @@ as_component_add_extends (AsComponent* cpt, const gchar* cpt_id)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_ptr_array_add (priv->extends, g_strdup (cpt_id));
+}
+
+/**
+ * as_component_get_bundle_ids:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets the bundle-ids set for the component.
+ *
+ * Returns: (transfer none): Bundle ids
+ *
+ * Since: 0.8.0
+ **/
+GHashTable*
+as_component_get_bundle_ids (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->bundles;
+}
+
+/**
+ * as_component_get_bundle_id:
+ * @cpt: a #AsComponent instance.
+ * @bundle_kind: the bundle kind, e.g. %AS_BUNDLE_KIND_LIMBA.
+ *
+ * Gets a bundle identifier string.
+ *
+ * Returns: string, or %NULL if unset
+ *
+ * Since: 0.8.0
+ **/
+const gchar*
+as_component_get_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_lookup (priv->bundles,
+				    as_bundle_kind_to_string (bundle_kind));
+}
+
+/**
+ * as_component_add_bundle_id:
+ * @cpt: a #AsComponent instance.
+ * @bundle_kind: the URL kind, e.g. %AS_BUNDLE_KIND_LIMBA
+ * @id: The bundle identification string
+ *
+ * Adds a bundle identifier to the component.
+ *
+ * Since: 0.8.0
+ **/
+void
+as_component_add_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind, const gchar *id)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_hash_table_insert (priv->bundles,
+			     g_strdup (as_bundle_kind_to_string (bundle_kind)),
+			     g_strdup (id));
 }
 
 static void
@@ -875,6 +933,28 @@ as_component_set_pkgnames (AsComponent *cpt, gchar** value)
 }
 
 /**
+ * as_component_get_source_pkgname:
+ */
+const gchar*
+as_component_get_source_pkgname (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->source_pkgname;
+}
+
+/**
+ * as_component_set_source_pkgname:
+ */
+void
+as_component_set_source_pkgname (AsComponent *cpt, const gchar* spkgname)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	g_free (priv->source_pkgname);
+	priv->source_pkgname = g_strdup (spkgname);
+}
+
+/**
  * as_component_get_id:
  *
  * Set the unique identifier for this component.
@@ -1037,6 +1117,18 @@ as_component_set_name (AsComponent *cpt, const gchar* value, const gchar *locale
 }
 
 /**
+ * as_component_get_name_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_name_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->name;
+}
+
+/**
  * as_component_get_summary:
  *
  * Get a short description of this component.
@@ -1072,6 +1164,18 @@ as_component_set_summary (AsComponent *cpt, const gchar* value, const gchar *loc
 }
 
 /**
+ * as_component_get_summary_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_summary_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->summary;
+}
+
+/**
  * as_component_get_description:
  *
  * Get the localized long description of this component.
@@ -1104,6 +1208,18 @@ as_component_set_description (AsComponent *cpt, const gchar* value, const gchar 
 
 	as_component_localized_set (cpt, priv->description, value, locale);
 	g_object_notify ((GObject *) cpt, "description");
+}
+
+/**
+ * as_component_get_description_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_description_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->description;
 }
 
 /**
@@ -1147,6 +1263,18 @@ as_component_set_keywords (AsComponent *cpt, gchar **value, const gchar *locale)
 						 g_strdupv (value));
 
 	g_object_notify ((GObject *) cpt, "keywords");
+}
+
+/**
+ * as_component_get_keywords_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_keywords_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->keywords;
 }
 
 /**
@@ -1396,6 +1524,18 @@ as_component_set_developer_name (AsComponent *cpt, const gchar *value, const gch
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	as_component_localized_set (cpt, priv->developer_name, value, locale);
+}
+
+/**
+ * as_component_get_developer_name_table:
+ *
+ * Internal method.
+ */
+GHashTable*
+as_component_get_developer_name_table (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->developer_name;
 }
 
 /**

@@ -5,8 +5,8 @@ cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
-set(AS_VERSION_MINOR  "7")
-set(AS_VERSION_PATCH  "6")
+set(AS_VERSION_MINOR  "8")
+set(AS_VERSION_PATCH  "1")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "2")
 
@@ -27,6 +27,7 @@ option(VAPI "Create and install a Vala API file" OFF)
 option(QT "Build libappstream-qt" OFF)
 option(TESTS "Enable Unit Tests" OFF)
 option(MAINTAINER "Enable maintainer mode" OFF)
+option(DOCUMENTATION "Enable target to build documentation" OFF)
 
 if(PROVIDER_DEBIAN_DEP11)
 	add_definitions ("-DDEBIAN_DEP11")

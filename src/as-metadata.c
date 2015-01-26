@@ -60,7 +60,6 @@ G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
 
 #define GET_PRIVATE(o) (as_metadata_get_instance_private (o))
 
-static gchar*		as_metadata_parse_value (AsMetadata* metad, xmlNode* node, gboolean translated);
 static gchar**		as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar* element_name);
 
 /**
@@ -111,56 +110,61 @@ as_metadata_clear_components (AsMetadata *metad)
 	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
 }
 
+/**
+ * as_metadata_get_node_value:
+ */
 static gchar*
-as_metadata_parse_value (AsMetadata* metad, xmlNode* node, gboolean translated)
+as_metadata_get_node_value (AsMetadata* metad, xmlNode* node)
 {
-	AsMetadataPrivate *priv;
 	gchar *content;
-	gchar *lang;
-	gchar *res;
-
-	g_return_val_if_fail (metad != NULL, NULL);
-	priv = GET_PRIVATE (metad);
-
 	content = (gchar*) xmlNodeGetContent (node);
+
+	return content;
+}
+
+/**
+ * as_metadata_get_node_locale:
+ * @node: A XML node
+ *
+ * Returns the locale of a node, if the node should be considered for inclusion.
+ * Returns %NULL if the node should be ignored due to a not-matching locale.
+ */
+gchar*
+as_metadata_get_node_locale (AsMetadata *metad, xmlNode *node)
+{
+	gchar *lang;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
 	lang = (gchar*) xmlGetProp (node, (xmlChar*) "lang");
 
-	if (translated) {
-		/* FIXME: If not-localized generic node comes _after_ the localized ones,
-		 * the not-localized will override the localized. Wrong ordering should
-		 * not happen, but we should deal with that case anyway.
-		 */
-		if (lang == NULL) {
-			res = content;
-			goto out;
-		}
-
-		if (g_strcmp0 (lang, priv->locale) == 0) {
-			res = content;
-			goto out;
-		}
-
-		if (g_strcmp0 (lang, priv->locale_short) == 0) {
-			res = content;
-			goto out;
-		}
-
-		/* Haven't found a matching locale */
-		res = NULL;
-		g_free (content);
+	if (lang == NULL) {
+		lang = g_strdup ("C");
 		goto out;
 	}
-	/* If we have a locale here, but want the untranslated item, return NULL */
-	if (lang != NULL) {
-		res = NULL;
-		g_free (content);
+
+	if (g_strcmp0 (priv->locale, "ALL") == 0) {
+		/* we should read all languages */
 		goto out;
 	}
-	res = content;
+
+	if (g_strcmp0 (lang, priv->locale) == 0) {
+		goto out;
+	}
+
+	if (g_strcmp0 (lang, priv->locale_short) == 0) {
+		g_free (lang);
+		lang = g_strdup (priv->locale);
+		goto out;
+	}
+
+	/* If we are here, we haven't found a matching locale.
+	 * In that case, we return %NULL to indicate that this elemant should not be added.
+	 */
+	g_free (lang);
+	lang = NULL;
 
 out:
-	g_free (lang);
-	return res;
+	return lang;
 }
 
 static gchar**
@@ -195,15 +199,15 @@ as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar*
 	return res;
 }
 
-
+/**
+ * as_metadata_process_screenshot:
+ */
 static void
-as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* sshot)
+as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* scr)
 {
 	xmlNode *iter;
 	gchar *node_name;
 	gchar *content = NULL;
-	g_return_if_fail (metad != NULL);
-	g_return_if_fail (sshot != NULL);
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
 		/* discard spaces */
@@ -211,7 +215,7 @@ as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* 
 			continue;
 
 		node_name = (gchar*) iter->name;
-		content = as_metadata_parse_value (metad, iter, TRUE);
+		content = as_metadata_get_node_value (metad, iter);
 		if (g_strcmp0 (node_name, "image") == 0) {
 			AsImage *img;
 			guint64 width;
@@ -254,10 +258,14 @@ as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* 
 			}
 			g_free (stype);
 			as_image_set_url (img, content);
-			as_screenshot_add_image (sshot, img);
+			as_screenshot_add_image (scr, img);
 		} else if (g_strcmp0 (node_name, "caption") == 0) {
 			if (content != NULL) {
-				as_screenshot_set_caption (sshot, content, NULL);
+				gchar *lang;
+				lang = as_metadata_get_node_locale (metad, iter);
+				if (lang != NULL)
+					as_screenshot_set_caption (scr, content, lang);
+				g_free (lang);
 			}
 		}
 		g_free (content);
@@ -296,34 +304,62 @@ as_metadata_process_screenshots_tag (AsMetadata* metad, xmlNode* node, AsCompone
 	}
 }
 
-static gchar*
-as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node)
+static void
+as_metadata_upstream_description_to_cpt (gchar *key, GString *value, AsComponent *cpt)
+{
+	g_assert (AS_IS_COMPONENT (cpt));
+
+	as_component_set_description (cpt, value->str, key);
+	g_string_free (value, TRUE);
+}
+
+static void
+as_metadata_upstream_description_to_release (gchar *key, GString *value, AsRelease *rel)
+{
+	g_assert (AS_IS_RELEASE (rel));
+
+	as_release_set_description (rel, value->str, key);
+	g_string_free (value, TRUE);
+}
+
+/**
+ * as_metadata_parse_upstream_description_tag:
+ */
+static void
+as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node, GHFunc func, gpointer entity)
 {
 	xmlNode *iter;
-	gchar *content;
 	gchar *node_name;
-	GString *str;
-	g_return_val_if_fail (metad != NULL, NULL);
+	GHashTable *desc;
 
-	str = g_string_new ("");
+	desc = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
 	for (iter = node->children; iter != NULL; iter = iter->next) {
+		gchar *lang;
+		gchar *content;
+		GString *str;
+
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 
 		node_name = (gchar*) iter->name;
-		content = as_metadata_parse_value (metad, iter, TRUE);
-		if (content == NULL)
-			content = as_metadata_parse_value (metad, iter, TRUE);
-		/* skip garbage */
-		if (content == NULL)
-			continue;
+		content = as_metadata_get_node_value (metad, iter);
+		lang = as_metadata_get_node_locale (metad, iter);
+
+		str = g_hash_table_lookup (desc, lang);
+		if (str == NULL) {
+			str = g_string_new ("");
+			g_hash_table_insert (desc, g_strdup (lang), str);
+		}
 
 		g_string_append_printf (str, "\n<%s>%s</%s>", node_name, content, node_name);
+		g_free (lang);
 		g_free (content);
 	}
 
-	return g_string_free (str, FALSE);
+	g_hash_table_foreach (desc, func, entity);
+	g_hash_table_unref (desc);
 }
 
 static void
@@ -366,19 +402,20 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 				if (g_strcmp0 ((gchar*) iter->name, "description") == 0) {
 					if (priv->mode == AS_PARSER_MODE_DISTRO) {
 						gchar *content;
+						gchar *lang;
 						/* for distros, the "description" tag has a language property, so parsing it is simple */
-						content = as_metadata_parse_value (metad, iter2, FALSE);
-						if (content == NULL)
-							content = as_metadata_parse_value (metad, iter2, TRUE);
-						if (content != NULL)
-							as_release_set_description (release, content, NULL);
+						content = as_metadata_get_node_value (metad, iter2);
+						lang = as_metadata_get_node_locale (metad, iter2);
+						if (lang != NULL)
+							as_release_set_description (release, content, lang);
 						g_free (content);
+						g_free (lang);
 						break;
 					} else {
-						gchar *text;
-						text = as_metadata_parse_upstream_description_tag (metad, iter2);
-						as_release_set_description (release, text, NULL);
-						g_free (text);
+						as_metadata_parse_upstream_description_tag (metad,
+																iter2,
+																(GHFunc) as_metadata_upstream_description_to_release,
+																release);
 						break;
 					}
 				}
@@ -407,7 +444,7 @@ as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt
 			continue;
 
 		node_name = (gchar*) iter->name;
-		content = as_metadata_parse_value (metad, iter, TRUE);
+		content = as_metadata_get_node_value (metad, iter);
 		if (content == NULL)
 			continue;
 
@@ -448,6 +485,7 @@ as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt
 				g_ptr_array_add (provided_items,
 								as_provides_item_create (AS_PROVIDES_KIND_DBUS, content, dbustype));
 		}
+
 		g_free (content);
 	}
 }
@@ -493,7 +531,7 @@ as_metadata_process_languages_tag (AsMetadata* metad, xmlNode* node, AsComponent
 				g_free (prop);
 			}
 
-			locale = as_metadata_parse_value (metad, iter, TRUE);
+			locale = as_metadata_get_node_locale (metad, iter);
 			as_component_add_language (cpt, locale, percentage);
 			g_free (locale);
 		}
@@ -509,7 +547,6 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 	AsComponent* cpt;
 	xmlNode *iter;
 	const gchar *node_name;
-	gchar *content;
 	GPtrArray *compulsory_for_desktops;
 	GPtrArray *pkgnames;
 	gchar **strv;
@@ -542,11 +579,17 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 	as_component_set_active_locale (cpt, priv->locale);
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
+		gchar *content;
+		gchar *lang;
+
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
+
 		node_name = (const gchar*) iter->name;
-		content = as_metadata_parse_value (metad, iter, FALSE);
+		content = as_metadata_get_node_value (metad, iter);
+		lang = as_metadata_get_node_locale (metad, iter);
+
 		if (g_strcmp0 (node_name, "id") == 0) {
 				as_component_set_id (cpt, content);
 				if ((priv->mode == AS_PARSER_MODE_UPSTREAM) &&
@@ -557,37 +600,25 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 		} else if (g_strcmp0 (node_name, "pkgname") == 0) {
 			if (content != NULL)
 				g_ptr_array_add (pkgnames, g_strdup (content));
+		} else if (g_strcmp0 (node_name, "source_pkgname") == 0) {
+			as_component_set_source_pkgname (cpt, content);
 		} else if (g_strcmp0 (node_name, "name") == 0) {
-			if (content != NULL) {
-				as_component_set_name (cpt, content, "C"); /* unlocalized, original name (enhances search results) */
-			} else {
-				content = as_metadata_parse_value (metad, iter, TRUE);
-				if (content != NULL)
-					as_component_set_name (cpt, content, NULL);
-			}
+			if (lang != NULL)
+				as_component_set_name (cpt, content, lang);
 		} else if (g_strcmp0 (node_name, "summary") == 0) {
-			if (content != NULL) {
-				as_component_set_summary (cpt, content, "C");
-			} else {
-				content = as_metadata_parse_value (metad, iter, TRUE);
-				if (content != NULL)
-					as_component_set_summary (cpt, content, NULL);
-			}
+			if (lang != NULL)
+				as_component_set_summary (cpt, content, lang);
 		} else if (g_strcmp0 (node_name, "description") == 0) {
 			if (priv->mode == AS_PARSER_MODE_DISTRO) {
 				/* for distros, the "description" tag has a language property, so parsing it is simple */
-				if (content != NULL) {
-					as_component_set_description (cpt, content, "C");
-				} else {
-					content = as_metadata_parse_value (metad, iter, TRUE);
-					if (content != NULL)
-						as_component_set_description (cpt, content, NULL);
+				if (lang != NULL) {
+					as_component_set_description (cpt, content, lang);
 				}
 			} else {
-				gchar *text;
-				text = as_metadata_parse_upstream_description_tag (metad, iter);
-				as_component_set_description (cpt, text, NULL);
-				g_free (text);
+				as_metadata_parse_upstream_description_tag (metad,
+														iter,
+														(GHFunc) as_metadata_upstream_description_to_cpt,
+														cpt);
 			}
 		} else if (g_strcmp0 (node_name, "icon") == 0) {
 			gchar *prop;
@@ -649,8 +680,8 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 			if (content != NULL)
 				as_component_set_project_group (cpt, content);
 		} else if (g_strcmp0 (node_name, "developer_name") == 0) {
-			if (content != NULL)
-				as_component_set_developer_name (cpt, content, NULL);
+			if (lang != NULL)
+				as_component_set_developer_name (cpt, content, lang);
 		} else if (g_strcmp0 (node_name, "compulsory_for_desktop") == 0) {
 			if (content != NULL)
 				g_ptr_array_add (compulsory_for_desktops, g_strdup (content));
@@ -661,7 +692,20 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 				as_component_add_extends (cpt, content);
 		} else if (g_strcmp0 (node_name, "languages") == 0) {
 			as_metadata_process_languages_tag (metad, iter, cpt);
+		} else if (g_strcmp0 (node_name, "bundle") == 0) {
+			if (content != NULL) {
+				gchar *type_str;
+				AsBundleKind bundle_kind;
+				type_str = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+				bundle_kind = as_bundle_kind_from_string (type_str);
+				if (bundle_kind != AS_BUNDLE_KIND_UNKNOWN)
+					bundle_kind = AS_BUNDLE_KIND_LIMBA;
+				as_component_add_bundle_id (cpt, bundle_kind, content);
+				g_free (type_str);
+			}
 		}
+
+		g_free (lang);
 		g_free (content);
 	}
 
@@ -751,7 +795,7 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 	}
 
 	root = xmlDocGetRootElement (doc);
-	if (doc == NULL) {
+	if (root == NULL) {
 		g_set_error_literal (error,
 				     AS_METADATA_ERROR,
 				     AS_METADATA_ERROR_FAILED,
@@ -806,7 +850,7 @@ as_metadata_parse_data (AsMetadata* metad, const gchar *data, GError **error)
 /**
  * as_metadata_parse_file:
  * @metad: A valid #AsMetadata instance
- * @infile: #GFile for the upstream metadata
+ * @file: #GFile for the upstream metadata
  * @error: A #GError or %NULL.
  *
  * Parses an AppStream upstream metadata file.
@@ -1027,14 +1071,16 @@ as_metadata_xml_add_node (xmlNode *root, const gchar *name, const gchar *value)
  * Add the description markup to the XML tree
  */
 static gboolean
-as_metadata_xml_add_description (xmlNode *root, const gchar *description_markup)
+as_metadata_xml_add_description (AsMetadata *metad, xmlNode *root, const gchar *description_markup, const gchar *lang)
 {
 	gchar *xmldata;
 	xmlDoc *doc;
 	xmlNode *droot;
 	xmlNode *dnode;
 	xmlNode *iter;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 	gboolean ret = TRUE;
+	gboolean localized;
 
 	if (as_str_empty (description_markup))
 		return FALSE;
@@ -1053,8 +1099,28 @@ as_metadata_xml_add_description (xmlNode *root, const gchar *description_markup)
 	}
 	dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
 
+	localized = g_strcmp0 (lang, "C") != 0;
+	if (priv->mode != AS_PARSER_MODE_UPSTREAM) {
+		if (localized) {
+			xmlNewProp (dnode,
+					(xmlChar*) "xml:lang",
+					(xmlChar*) lang);
+		}
+	}
+
 	for (iter = droot->children; iter != NULL; iter = iter->next) {
-		xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
+		xmlNode *cn;
+		cn = xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
+
+		if (priv->mode == AS_PARSER_MODE_UPSTREAM) {
+			if ((localized) &&
+				(g_strcmp0 ((const gchar*) iter->name, "ul") != 0) &&
+				(g_strcmp0 ((const gchar*) iter->name, "ol") != 0)) {
+				xmlNewProp (cn,
+						(xmlChar*) "xml:lang",
+						(xmlChar*) lang);
+			}
+		}
 	}
 
 out:
@@ -1087,6 +1153,43 @@ as_metadata_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *ch
 	}
 }
 
+typedef struct {
+	AsMetadata *metad;
+
+	xmlNode *node;
+	const gchar *node_name;
+} AsLocaleWriteHelper;
+
+/**
+ * _as_metadata_lang_hashtable_to_nodes:
+ */
+static void
+_as_metadata_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
+{
+	xmlNode *cnode;
+	if (as_str_empty (value))
+		return;
+
+	cnode = xmlNewTextChild (helper->node, NULL, (xmlChar*) helper->node_name, (xmlChar*) value);
+	if (g_strcmp0 (key, "C") != 0) {
+		xmlNewProp (cnode,
+					(xmlChar*) "xml:lang",
+					(xmlChar*) key);
+	}
+}
+
+/**
+ * _as_metadata_desc_lang_hashtable_to_nodes:
+ */
+static void
+_as_metadata_desc_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
+{
+	if (as_str_empty (value))
+		return;
+
+	as_metadata_xml_add_description (helper->metad, helper->node, value, key);
+}
+
 /**
  * as_metadata_component_to_node:
  * @cpt: a valid #AsComponent
@@ -1103,6 +1206,8 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	GPtrArray *releases;
 	GPtrArray *screenshots;
 	AsComponentKind kind;
+	AsLocaleWriteHelper helper;
+	guint i;
 	g_return_val_if_fail (cpt != NULL, NULL);
 
 	/* define component root node */
@@ -1114,12 +1219,31 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	}
 
 	as_metadata_xml_add_node (cnode, "id", as_component_get_id (cpt));
-	as_metadata_xml_add_node (cnode, "name", as_component_get_name (cpt));
-	as_metadata_xml_add_node (cnode, "summary", as_component_get_summary (cpt));
+
+	helper.node = cnode;
+	helper.metad = metad;
+	helper.node_name = "name";
+	g_hash_table_foreach (as_component_get_name_table (cpt),
+						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+						&helper);
+
+	helper.node_name = "summary";
+	g_hash_table_foreach (as_component_get_summary_table (cpt),
+						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+						&helper);
+
+	helper.node_name = "developer_name";
+	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
+						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+						&helper);
+
+	helper.node_name = "description";
+	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
+						(GHFunc) _as_metadata_desc_lang_hashtable_to_nodes,
+						&helper);
+
 	as_metadata_xml_add_node (cnode, "project_license", as_component_get_project_license (cpt));
 	as_metadata_xml_add_node (cnode, "project_group", as_component_get_project_group (cpt));
-	as_metadata_xml_add_node (cnode, "developer_name", as_component_get_developer_name (cpt));
-	as_metadata_xml_add_description (cnode, as_component_get_description (cpt));
 
 	as_metadata_xml_add_node_list (cnode, NULL, "pkgname", as_component_get_pkgnames (cpt));
 	strv = as_ptr_array_to_strv (as_component_get_extends (cpt));
@@ -1128,6 +1252,32 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	as_metadata_xml_add_node_list (cnode, NULL, "compulsory_for_desktop", as_component_get_compulsory_for_desktops (cpt));
 	as_metadata_xml_add_node_list (cnode, "keywords", "keyword", as_component_get_keywords (cpt));
 	as_metadata_xml_add_node_list (cnode, "categories", "category", as_component_get_categories (cpt));
+
+	/* urls */
+	for (i = AS_URL_KIND_UNKNOWN; i < AS_URL_KIND_LAST; i++) {
+		xmlNode *n;
+		const gchar *value;
+		value = as_component_get_url (cpt, i);
+		if (value == NULL)
+			continue;
+
+		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "url", (xmlChar*) value);
+		xmlNewProp (n, (xmlChar*) "type",
+					(xmlChar*) as_url_kind_to_string (i));
+	}
+
+	/* bundles */
+	for (i = AS_BUNDLE_KIND_UNKNOWN; i < AS_BUNDLE_KIND_LAST; i++) {
+		xmlNode *n;
+		const gchar *value;
+		value = as_component_get_bundle_id (cpt, i);
+		if (value == NULL)
+			continue;
+
+		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "bundle", (xmlChar*) value);
+		xmlNewProp (n, (xmlChar*) "type",
+					(xmlChar*) as_bundle_kind_to_string (i));
+	}
 
 	/* releases node */
 	releases = as_component_get_releases (cpt);
@@ -1207,7 +1357,7 @@ as_metadata_components_to_distro_xml (AsMetadata *metad)
 		return NULL;
 
 	root = xmlNewNode (NULL, (xmlChar*) "components");
-	xmlNewProp (root, (xmlChar*) "version", (xmlChar*) "0.7");
+	xmlNewProp (root, (xmlChar*) "version", (xmlChar*) "0.8");
 	if (priv->origin_name != NULL)
 		xmlNewProp (root, (xmlChar*) "origin", (xmlChar*) priv->origin_name);
 
@@ -1320,18 +1470,31 @@ as_metadata_get_locale (AsMetadata *metad)
 }
 
 /**
- * as_metadata_set_origin_id:
- * @metad: a #AsMetadata instance.
+ * as_metadata_set_origin:
+ * @metad: an #AsMetadata instance.
  * @origin: the origin of AppStream distro metadata.
  *
- * Internal method to set the origin of AppStream distro metadata
+ * Set the origin of AppStream distro metadata
  **/
 void
-as_metadata_set_origin_id (AsMetadata *metad, const gchar *origin)
+as_metadata_set_origin (AsMetadata *metad, const gchar *origin)
 {
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 	g_free (priv->origin_name);
 	priv->origin_name = g_strdup (origin);
+}
+
+/**
+ * as_metadata_get_origin:
+ * @metad: an #AsMetadata instance.
+ *
+ * Returns: The origin of AppStream distro metadata
+ **/
+const gchar*
+as_metadata_get_origin (AsMetadata *metad)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	return priv->origin_name;
 }
 
 /**

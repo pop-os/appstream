@@ -81,6 +81,24 @@ AsComponent
 @Returns: 
 
 
+<!-- ##### FUNCTION as_component_get_active_locale ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_active_locale ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@locale: 
+
+
 <!-- ##### FUNCTION as_component_get_kind ##### -->
 <para>
 
@@ -151,6 +169,24 @@ AsComponent
 
 @cpt: 
 @value: 
+
+
+<!-- ##### FUNCTION as_component_get_source_pkgname ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_source_pkgname ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@spkgname: 
 
 
 <!-- ##### FUNCTION as_component_get_name ##### -->
@@ -541,7 +577,7 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_active_locale ##### -->
+<!-- ##### FUNCTION as_component_get_bundle_ids ##### -->
 <para>
 
 </para>
@@ -550,12 +586,23 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_active_locale ##### -->
+<!-- ##### FUNCTION as_component_get_bundle_id ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@locale: 
+@bundle_kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_bundle_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@bundle_kind: 
+@id: 
 
 

@@ -63,13 +63,21 @@ DatabaseRead::open (const gchar *dbPath)
 	if (m_dbLocale.empty ())
 		m_dbLocale = "C";
 
+	m_schemaVersion = m_xapianDB.get_metadata ("db-schema-version");
+
 	return true;
 }
 
 string
 DatabaseRead::getSchemaVersion ()
 {
-	return m_xapianDB.get_metadata ("db-schema-version");
+	return m_schemaVersion;
+}
+
+string
+DatabaseRead::getLocale ()
+{
+	return m_dbLocale;
 }
 
 AsComponent*
@@ -101,6 +109,10 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_pkgnames (cpt, pkgs);
 	g_strfreev (pkgs);
 
+	// Source package name
+	string cptSPkg = doc.get_value (XapianValues::SOURCE_PKGNAME);
+	as_component_set_source_pkgname (cpt, cptSPkg.c_str ());
+
 	// Origin
 	string cptOrigin = doc.get_value (XapianValues::ORIGIN);
 	as_component_set_origin (cpt, cptOrigin.c_str ());
@@ -117,6 +129,19 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 			as_component_add_url (cpt, ukind, urls[i+1]);
 	}
 	g_strfreev (urls);
+
+	// Bundles
+	str = doc.get_value (XapianValues::BUNDLES);
+	gchar **bundle_ids = g_strsplit (str.c_str (), "\n", -1);
+	for (uint i = 0; bundle_ids[i] != NULL; i += 2) {
+		/* bundle-ids are stored in form of "type \n id" (so we just need one stringsplit here...) */
+		if (bundle_ids[i+1] == NULL)
+			break;
+		AsBundleKind bkind = as_bundle_kind_from_string (bundle_ids[i]);
+		if (bkind != AS_BUNDLE_KIND_UNKNOWN)
+			as_component_add_bundle_id (cpt, bkind, bundle_ids[i+1]);
+	}
+	g_strfreev (bundle_ids);
 
 	// Stock icon
 	string appIcon = doc.get_value (XapianValues::ICON);
@@ -177,6 +202,10 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	// Project group
 	string project_group = doc.get_value (XapianValues::PROJECT_GROUP);
 	as_component_set_project_group (cpt, project_group.c_str ());
+
+	// Source package name
+	string developerName = doc.get_value (XapianValues::DEVELOPER_NAME);
+	as_component_set_developer_name (cpt, developerName.c_str (), NULL);
 
 	// Releases data
 	string releases_xml = doc.get_value (XapianValues::RELEASES_DATA);
