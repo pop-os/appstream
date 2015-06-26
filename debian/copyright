@@ -52,14 +52,14 @@ Files: ./src/appstream.h
  ./src/as-component.h
  ./src/as-data-pool.c
  ./src/as-data-pool.h
- ./src/as-data-provider.c
- ./src/as-data-provider.h
  ./src/as-database.c
  ./src/as-database.h
  ./src/as-distro-details.c
  ./src/as-distro-details.h
  ./src/as-enums.c
  ./src/as-enums.h
+ ./src/as-image.c
+ ./src/as-image.h
  ./src/as-menu-parser.c
  ./src/as-menu-parser.h
  ./src/as-metadata-private.h
@@ -67,6 +67,10 @@ Files: ./src/appstream.h
  ./src/as-metadata.h
  ./src/as-provides.c
  ./src/as-provides.h
+ ./src/as-release.c
+ ./src/as-release.h
+ ./src/as-screenshot.c
+ ./src/as-screenshot.h
  ./src/as-search-query.c
  ./src/as-search-query.h
  ./src/as-settings-private.h
@@ -75,18 +79,14 @@ Files: ./src/appstream.h
  ./src/as-validator-issue.c
  ./src/as-validator.c
  ./src/as-validator.h
- ./src/data-providers/appstream-xml.c
- ./src/data-providers/appstream-xml.h
- ./src/data-providers/debian-dep11.c
- ./src/data-providers/debian-dep11.h
- ./src/data-providers/ubuntu-appinstall.c
- ./src/data-providers/ubuntu-appinstall.h
+ ./src/as-dep11.c
+ ./src/as-dep11.h
  ./src/xapian/database-common.hpp
  ./src/xapian/database-cwrap.hpp
  ./src/xapian/database-read.hpp
  ./src/xapian/database-write.cpp
  ./src/xapian/database-write.hpp
-Copyright: 2012-2014, Matthias Klumpp <matthias@tenstral.net>
+Copyright: 2012-2015, Matthias Klumpp <matthias@tenstral.net>
 License: LGPL-2.1+
 
 Files: ./qt/src/component.cpp
