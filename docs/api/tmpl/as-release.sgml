@@ -22,6 +22,34 @@ AsRelease
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### ENUM AsChecksumKind ##### -->
+<para>
+
+</para>
+
+@AS_CHECKSUM_KIND_NONE: 
+@AS_CHECKSUM_KIND_SHA1: 
+@AS_CHECKSUM_KIND_SHA256: 
+@AS_CHECKSUM_KIND_LAST: 
+
+<!-- ##### FUNCTION as_checksum_kind_to_string ##### -->
+<para>
+
+</para>
+
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_checksum_kind_from_string ##### -->
+<para>
+
+</para>
+
+@kind_str: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_release_new ##### -->
 <para>
 
@@ -102,5 +130,43 @@ AsRelease
 
 @release: 
 @locale: 
+
+
+<!-- ##### FUNCTION as_release_get_locations ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_release_add_location ##### -->
+<para>
+
+</para>
+
+@release: 
+@location: 
+
+
+<!-- ##### FUNCTION as_release_get_checksum ##### -->
+<para>
+
+</para>
+
+@release: 
+@cs_kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_release_set_checksum ##### -->
+<para>
+
+</para>
+
+@release: 
+@checksum: 
+@cs_kind: 
 
 

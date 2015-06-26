@@ -109,7 +109,7 @@ as_builder_new_path (<parameter>const <link linkend="gchar"><type>gchar</type></
 <title>as_builder_initialize&#160;()</title>
 <indexterm zone="as-builder-initialize"><primary>as_builder_initialize</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_builder_initialize (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *self</parameter>);</programlisting>
+as_builder_initialize (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *builder</parameter>);</programlisting>
 <refsect3 role="returns">
 <title>Returns</title>
 
@@ -119,7 +119,7 @@ as_builder_initialize (<parameter><link linkend="AsBuilder"><type>AsBuilder</typ
 <title>as_builder_refresh_cache&#160;()</title>
 <indexterm zone="as-builder-refresh-cache"><primary>as_builder_refresh_cache</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_builder_refresh_cache (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *self</parameter>,
+as_builder_refresh_cache (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *builder</parameter>,
                           <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
                           <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Update the AppStream Xapian cache</para>

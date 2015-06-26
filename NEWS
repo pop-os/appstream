@@ -1,3 +1,55 @@
+Version 0.8.2
+~~~~~~~~~~~~~~
+Released: 2015-06-26
+
+Notes:
+ * Ubuntu AppInstall support has been removed from this release, as its data
+   never matched the DEP11/ASXML data and pretty much every distribution can offer
+   one of those better data sources now.
+ * This release contains some heavy refactoring, most importantly it removes the
+   "DataProvider" concept and hardcodes the ASXML/DEP11 metadata parsers.
+   This improves maintainability and speed of the AppStream libraries.
+   Please report any bugs you may find!
+
+Features:
+ * Refactor DataProvider code (Matthias Klumpp)
+ * Remove DEP-11 validator, it belongs to the dep11 package (Matthias Klumpp)
+ * Add icon information to generated XML (Matthias Klumpp)
+ * Allow more than one checksum kind per AsRelease (Matthias Klumpp)
+ * Propagate bundle information in case multiple components with the same id are found
+   (Matthias Klumpp)
+
+Bugfixes:
+ * tests: Add unit test for simple XML description writer (Matthias Klumpp)
+ * Remove some useless code in AsDataPool and recognize DEP-11 data again (Matthias Klumpp)
+ * Fix several quirks in the ASXML description writing code (Matthias Klumpp)
+ * tests: Add rudimentary DEP-11 test (Matthias Klumpp)
+ * Fix a rare double-free corruption (Matthias Klumpp)
+ * Extract correct description markup when reading distro XML (Matthias Klumpp)
+ * Updated POTFILES.in (Piotr Drąg)
+
+Version 0.8.1
+~~~~~~~~~~~~~~
+Released: 2015-05-31
+
+Features:
+ * qt: Add QLoggingCategory appstreamqt.database (Daniel Nicoletti)
+ * Don't implicitly clear component list when parsing XML (Matthias Klumpp)
+ * Implement support for firmware component type (Matthias Klumpp)
+ * qt: Recognize firmware component type (Matthias Klumpp)
+
+Specification:
+ * spec: Document the firmware component (Matthias Klumpp)
+
+Bugfixes:
+ * qt: Remove useless moc file on database.cpp (Daniel Nicoletti)
+ * Fix doc symlink install code (Matthias Klumpp)
+ * qt: Load developer_name from database (Matthias Klumpp)
+ * Prevent crash when saving an empty XML document (Matthias Klumpp)
+ * Handle empty XML document as valid file (Matthias Klumpp)
+ * Relicense some remaining files from GPLv3 to GPLv2 (Matthias Klumpp)
+ * Fix typo which prevented description XML from being generated (Matthias Klumpp)
+
 Version 0.8.0
 ~~~~~~~~~~~~~~
 Released: 2015-01-26
