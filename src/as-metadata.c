@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -60,7 +60,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
 
 #define GET_PRIVATE(o) (as_metadata_get_instance_private (o))
 
-static gchar**		as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar* element_name);
+static gchar**		as_metadata_get_children_as_strv (AsMetadata *metad, xmlNode* node, const gchar* element_name);
 
 /**
  * as_metadata_finalize:
@@ -86,11 +86,13 @@ as_metadata_finalize (GObject *object)
 static void
 as_metadata_init (AsMetadata *metad)
 {
+	gchar *str;
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	/* set active locale without UTF-8 suffix */
-	as_metadata_set_locale (metad,
-							as_get_locale ());
+	str = as_get_locale ();
+	as_metadata_set_locale (metad, str);
+	g_free (str);
 
 	priv->origin_name = NULL;
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
@@ -114,12 +116,40 @@ as_metadata_clear_components (AsMetadata *metad)
  * as_metadata_get_node_value:
  */
 static gchar*
-as_metadata_get_node_value (AsMetadata* metad, xmlNode* node)
+as_metadata_get_node_value (AsMetadata *metad, xmlNode *node)
 {
 	gchar *content;
 	content = (gchar*) xmlNodeGetContent (node);
 
 	return content;
+}
+
+/**
+ * as_metadata_dump_node_children:
+ */
+static gchar*
+as_metadata_dump_node_children (AsMetadata *metad, xmlNode *node)
+{
+	GString *str = NULL;
+	xmlNode *iter;
+	xmlBufferPtr nodeBuf;
+
+	str = g_string_new ("");
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE) {
+					continue;
+		}
+
+		nodeBuf = xmlBufferCreate();
+		xmlNodeDump (nodeBuf, NULL, iter, 0, 1);
+		if (str->len > 0)
+			g_string_append (str, "\n");
+		g_string_append_printf (str, "%s", (const gchar*) nodeBuf->content);
+		xmlBufferFree (nodeBuf);
+	}
+
+	return g_string_free (str, FALSE);
 }
 
 /**
@@ -168,7 +198,7 @@ out:
 }
 
 static gchar**
-as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar* element_name)
+as_metadata_get_children_as_strv (AsMetadata *metad, xmlNode* node, const gchar* element_name)
 {
 	GPtrArray *list;
 	xmlNode *iter;
@@ -203,7 +233,7 @@ as_metadata_get_children_as_strv (AsMetadata* metad, xmlNode* node, const gchar*
  * as_metadata_process_screenshot:
  */
 static void
-as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* scr)
+as_metadata_process_screenshot (AsMetadata *metad, xmlNode* node, AsScreenshot* scr)
 {
 	xmlNode *iter;
 	gchar *node_name;
@@ -273,7 +303,7 @@ as_metadata_process_screenshot (AsMetadata* metad, xmlNode* node, AsScreenshot* 
 }
 
 static void
-as_metadata_process_screenshots_tag (AsMetadata* metad, xmlNode* node, AsComponent* cpt)
+as_metadata_process_screenshots_tag (AsMetadata *metad, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
 	AsScreenshot *sshot = NULL;
@@ -326,7 +356,7 @@ as_metadata_upstream_description_to_release (gchar *key, GString *value, AsRelea
  * as_metadata_parse_upstream_description_tag:
  */
 static void
-as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node, GHFunc func, gpointer entity)
+as_metadata_parse_upstream_description_tag (AsMetadata *metad, xmlNode* node, GHFunc func, gpointer entity)
 {
 	xmlNode *iter;
 	gchar *node_name;
@@ -363,7 +393,7 @@ as_metadata_parse_upstream_description_tag (AsMetadata* metad, xmlNode* node, GH
 }
 
 static void
-as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent* cpt)
+as_metadata_process_releases_tag (AsMetadata *metad, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
 	xmlNode *iter2;
@@ -396,27 +426,42 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 			}
 
 			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
+				gchar *content;
+
 				if (iter->type != XML_ELEMENT_NODE)
 					continue;
 
-				if (g_strcmp0 ((gchar*) iter->name, "description") == 0) {
-					if (priv->mode == AS_PARSER_MODE_DISTRO) {
-						gchar *content;
-						gchar *lang;
-						/* for distros, the "description" tag has a language property, so parsing it is simple */
+				if (g_strcmp0 ((gchar*) iter2->name, "location") == 0) {
+					content = as_metadata_get_node_value (metad, iter2);
+					as_release_add_location (release, content);
+					g_free (content);
+				} else if (g_strcmp0 ((gchar*) iter2->name, "checksum") == 0) {
+					AsChecksumKind cs_kind;
+					prop = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+
+					cs_kind = as_checksum_kind_from_string (prop);
+					if (cs_kind != AS_CHECKSUM_KIND_NONE) {
 						content = as_metadata_get_node_value (metad, iter2);
+						as_release_set_checksum (release, content, cs_kind);
+						g_free (content);
+					}
+					g_free (prop);
+				} else if (g_strcmp0 ((gchar*) iter2->name, "description") == 0) {
+					if (priv->mode == AS_PARSER_MODE_DISTRO) {
+						gchar *lang;
+
+						/* for distro XML, the "description" tag has a language property, so parsing it is simple */
+						content = as_metadata_dump_node_children (metad, iter2);
 						lang = as_metadata_get_node_locale (metad, iter2);
 						if (lang != NULL)
 							as_release_set_description (release, content, lang);
 						g_free (content);
 						g_free (lang);
-						break;
 					} else {
 						as_metadata_parse_upstream_description_tag (metad,
 																iter2,
 																(GHFunc) as_metadata_upstream_description_to_release,
 																release);
-						break;
 					}
 				}
 			}
@@ -428,7 +473,7 @@ as_metadata_process_releases_tag (AsMetadata* metad, xmlNode* node, AsComponent*
 }
 
 static void
-as_metadata_process_provides (AsMetadata* metad, xmlNode* node, AsComponent* cpt)
+as_metadata_process_provides (AsMetadata *metad, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
 	gchar *node_name;
@@ -510,7 +555,7 @@ as_metadata_set_component_type_from_node (xmlNode *node, AsComponent *cpt)
 }
 
 static void
-as_metadata_process_languages_tag (AsMetadata* metad, xmlNode* node, AsComponent* cpt)
+as_metadata_process_languages_tag (AsMetadata *metad, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
 	gchar *prop;
@@ -542,7 +587,7 @@ as_metadata_process_languages_tag (AsMetadata* metad, xmlNode* node, AsComponent
  * as_metadata_parse_component_node:
  */
 AsComponent*
-as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
+as_metadata_parse_component_node (AsMetadata *metad, xmlNode* node, gboolean allow_invalid, GError **error)
 {
 	AsComponent* cpt;
 	xmlNode *iter;
@@ -610,9 +655,12 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 				as_component_set_summary (cpt, content, lang);
 		} else if (g_strcmp0 (node_name, "description") == 0) {
 			if (priv->mode == AS_PARSER_MODE_DISTRO) {
-				/* for distros, the "description" tag has a language property, so parsing it is simple */
+				/* for distro XML, the "description" tag has a language property, so parsing it is simple */
 				if (lang != NULL) {
-					as_component_set_description (cpt, content, lang);
+					gchar *desc;
+					desc = as_metadata_dump_node_children (metad, iter);
+					as_component_set_description (cpt, desc, lang);
+					g_free (desc);
 				}
 			} else {
 				as_metadata_parse_upstream_description_tag (metad,
@@ -627,15 +675,18 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
 				continue;
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 			if (g_strcmp0 (prop, "stock") == 0) {
-				as_component_set_icon (cpt, content);
+				as_component_add_icon (cpt, AS_ICON_KIND_STOCK, 0, 0, content);
 			} else if (g_strcmp0 (prop, "cached") == 0) {
+				as_component_add_icon (cpt, AS_ICON_KIND_CACHED, 0, 0, content);
 				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
 					as_component_add_icon_url (cpt, 0, 0, content);
 				}
 			} else if (g_strcmp0 (prop, "local") == 0) {
 				as_component_add_icon_url (cpt, 0, 0, content);
+				as_component_add_icon (cpt, AS_ICON_KIND_LOCAL, 0, 0, content);
 			} else if (g_strcmp0 (prop, "remote") == 0) {
+				as_component_add_icon (cpt, AS_ICON_KIND_REMOTE, 0, 0, content);
 				icon_url = as_component_get_icon_url (cpt, 0, 0);
 				if (icon_url == NULL)
 					as_component_add_icon_url (cpt, 0, 0, content);
@@ -747,12 +798,18 @@ as_metadata_parse_component_node (AsMetadata* metad, xmlNode* node, gboolean all
  * as_metadata_parse_components_node:
  */
 void
-as_metadata_parse_components_node (AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error)
+as_metadata_parse_components_node (AsMetadata *metad, xmlNode* node, gboolean allow_invalid, GError **error)
 {
 	AsComponent *cpt;
 	xmlNode* iter;
 	GError *tmp_error = NULL;
+	gchar *origin;
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	/* set origin of this metadata */
+	origin = (gchar*) xmlGetProp (node, (xmlChar*) "origin");
+	as_metadata_set_origin (metad, origin);
+	g_free (origin);
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
 		/* discard spaces */
@@ -783,7 +840,11 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	g_return_if_fail (metad != NULL);
-	g_return_if_fail (xmldoc_str != NULL);
+
+	if (xmldoc_str == NULL) {
+		/* empty document means no components */
+		return;
+	}
 
 	doc = xmlParseDoc ((xmlChar*) xmldoc_str);
 	if (doc == NULL) {
@@ -802,9 +863,6 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 				     "The XML document is empty.");
 		return;
 	}
-
-	/* clear results list */
-	as_metadata_clear_components (metad);
 
 	if (g_strcmp0 ((gchar*) root->name, "components") == 0) {
 		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
@@ -840,7 +898,7 @@ out:
  *
  **/
 void
-as_metadata_parse_data (AsMetadata* metad, const gchar *data, GError **error)
+as_metadata_parse_data (AsMetadata *metad, const gchar *data, GError **error)
 {
 	g_return_if_fail (metad != NULL);
 
@@ -857,9 +915,9 @@ as_metadata_parse_data (AsMetadata* metad, const gchar *data, GError **error)
  *
  **/
 void
-as_metadata_parse_file (AsMetadata* metad, GFile* file, GError **error)
+as_metadata_parse_file (AsMetadata *metad, GFile* file, GError **error)
 {
-	gchar* xml_doc;
+	gchar *xml_doc;
 	GFileInputStream* fistream;
 	GFileInfo *info = NULL;
 	const gchar *content_type = NULL;
@@ -944,6 +1002,10 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 		out = g_memory_output_stream_new_resizable ();
 		out2 = g_converter_output_stream_new (out, G_CONVERTER (compressor));
 		g_object_unref (compressor);
+
+		/* ensure data is not NULL */
+		if (xml_data == NULL)
+			xml_data = "";
 
 		if (!g_output_stream_write_all (out2, xml_data, strlen (xml_data),
 					NULL, NULL, &tmp_error)) {
@@ -1071,7 +1133,7 @@ as_metadata_xml_add_node (xmlNode *root, const gchar *name, const gchar *value)
  * Add the description markup to the XML tree
  */
 static gboolean
-as_metadata_xml_add_description (AsMetadata *metad, xmlNode *root, const gchar *description_markup, const gchar *lang)
+as_metadata_xml_add_description (AsMetadata *metad, xmlNode *root, xmlNode **desc_node, const gchar *description_markup, const gchar *lang)
 {
 	gchar *xmldata;
 	xmlDoc *doc;
@@ -1097,7 +1159,15 @@ as_metadata_xml_add_description (AsMetadata *metad, xmlNode *root, const gchar *
 		ret = FALSE;
 		goto out;
 	}
-	dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
+
+	if (priv->mode == AS_PARSER_MODE_UPSTREAM) {
+		if (*desc_node == NULL)
+			*desc_node = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
+		dnode = *desc_node;
+	} else {
+		/* in distro parser mode, we might have multiple <description/> tags */
+		dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
+	}
 
 	localized = g_strcmp0 (lang, "C") != 0;
 	if (priv->mode != AS_PARSER_MODE_UPSTREAM) {
@@ -1110,16 +1180,31 @@ as_metadata_xml_add_description (AsMetadata *metad, xmlNode *root, const gchar *
 
 	for (iter = droot->children; iter != NULL; iter = iter->next) {
 		xmlNode *cn;
-		cn = xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
 
-		if (priv->mode == AS_PARSER_MODE_UPSTREAM) {
-			if ((localized) &&
-				(g_strcmp0 ((const gchar*) iter->name, "ul") != 0) &&
-				(g_strcmp0 ((const gchar*) iter->name, "ol") != 0)) {
-				xmlNewProp (cn,
+		if ((g_strcmp0 ((const gchar*) iter->name, "ul") == 0) || (g_strcmp0 ((const gchar*) iter->name, "ol") == 0)) {
+			xmlNode *iter2;
+			xmlNode *enumNode;
+
+			enumNode = xmlNewChild (dnode, NULL, iter->name, NULL);
+			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
+				cn = xmlAddChild (enumNode, xmlCopyNode (iter2, TRUE));
+
+				if ((priv->mode == AS_PARSER_MODE_UPSTREAM) && (localized)) {
+					xmlNewProp (cn,
 						(xmlChar*) "xml:lang",
 						(xmlChar*) lang);
+				}
 			}
+
+			continue;
+		}
+
+		cn = xmlAddChild (dnode, xmlCopyNode (iter, TRUE));
+
+		if ((priv->mode == AS_PARSER_MODE_UPSTREAM) && (localized)) {
+			xmlNewProp (cn,
+					(xmlChar*) "xml:lang",
+					(xmlChar*) lang);
 		}
 	}
 
@@ -1156,7 +1241,8 @@ as_metadata_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *ch
 typedef struct {
 	AsMetadata *metad;
 
-	xmlNode *node;
+	xmlNode *parent;
+	xmlNode *nd;
 	const gchar *node_name;
 } AsLocaleWriteHelper;
 
@@ -1170,7 +1256,7 @@ _as_metadata_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHel
 	if (as_str_empty (value))
 		return;
 
-	cnode = xmlNewTextChild (helper->node, NULL, (xmlChar*) helper->node_name, (xmlChar*) value);
+	cnode = xmlNewTextChild (helper->parent, NULL, (xmlChar*) helper->node_name, (xmlChar*) value);
 	if (g_strcmp0 (key, "C") != 0) {
 		xmlNewProp (cnode,
 					(xmlChar*) "xml:lang",
@@ -1187,7 +1273,7 @@ _as_metadata_desc_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWri
 	if (as_str_empty (value))
 		return;
 
-	as_metadata_xml_add_description (helper->metad, helper->node, value, key);
+	as_metadata_xml_add_description (helper->metad, helper->parent, &helper->nd, value, key);
 }
 
 /**
@@ -1220,25 +1306,29 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 
 	as_metadata_xml_add_node (cnode, "id", as_component_get_id (cpt));
 
-	helper.node = cnode;
+	helper.parent = cnode;
 	helper.metad = metad;
+	helper.nd = NULL;
 	helper.node_name = "name";
 	g_hash_table_foreach (as_component_get_name_table (cpt),
 						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
 						&helper);
 
+	helper.nd = NULL;
 	helper.node_name = "summary";
 	g_hash_table_foreach (as_component_get_summary_table (cpt),
 						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
 						&helper);
 
+	helper.nd = NULL;
 	helper.node_name = "developer_name";
 	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
 						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
 						&helper);
 
+	helper.nd = NULL;
 	helper.node_name = "description";
-	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
+	g_hash_table_foreach (as_component_get_description_table (cpt),
 						(GHFunc) _as_metadata_desc_lang_hashtable_to_nodes,
 						&helper);
 
@@ -1264,6 +1354,19 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "url", (xmlChar*) value);
 		xmlNewProp (n, (xmlChar*) "type",
 					(xmlChar*) as_url_kind_to_string (i));
+	}
+
+	/* icons */
+	for (i = AS_ICON_KIND_UNKNOWN; i < AS_ICON_KIND_LAST; i++) {
+		xmlNode *n;
+		const gchar *value;
+		value = as_component_get_icon (cpt, i, 0, 0); /* TODO: Add size information to output XML */
+		if (value == NULL)
+			continue;
+
+		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "icon", (xmlChar*) value);
+		xmlNewProp (n, (xmlChar*) "type",
+					(xmlChar*) as_icon_kind_to_string (i));
 	}
 
 	/* bundles */
@@ -1315,10 +1418,13 @@ as_metadata_component_to_upstream_xml (AsMetadata *metad)
 	xmlNode *root;
 	gchar *xmlstr = NULL;
 	AsComponent *cpt;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	cpt = as_metadata_get_component (metad);
 	if (cpt == NULL)
 		return NULL;
+
+	priv->mode = AS_PARSER_MODE_UPSTREAM;
 
 	doc = xmlNewDoc ((xmlChar*) NULL);
 
@@ -1355,6 +1461,8 @@ as_metadata_components_to_distro_xml (AsMetadata *metad)
 
 	if (priv->cpts->len == 0)
 		return NULL;
+
+	priv->mode = AS_PARSER_MODE_DISTRO;
 
 	root = xmlNewNode (NULL, (xmlChar*) "components");
 	xmlNewProp (root, (xmlChar*) "version", (xmlChar*) "0.8");

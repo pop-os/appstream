@@ -28,6 +28,10 @@
 </entry><entry role="function_name"><link linkend="as-component-kind-to-string">as_component_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-kind-from-string">as_component_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsIconKind"><returnvalue>AsIconKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-icon-kind-from-string">as_icon_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-icon-kind-to-string">as_icon_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-new">as_component_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
@@ -107,7 +111,7 @@
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-icon">as_component_get_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-icon">as_component_set_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-icon">as_component_add_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-icon-url">as_component_get_icon_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -162,7 +166,6 @@
 <row><entry role="property_type"><link linkend="GStrv"><type>GStrv</type></link></entry><entry role="property_name"><link linkend="AsComponent--categories">categories</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--description">description</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--developer-name">developer-name</link></entry><entry role="property_flags">Read / Write</entry></row>
-<row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--icon">icon</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="GHashTable"><type>GHashTable</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--icon-urls">icon-urls</link></entry><entry role="property_flags">Read</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--id">id</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="GStrv"><type>GStrv</type></link></entry><entry role="property_name"><link linkend="AsComponent--keywords">keywords</link></entry><entry role="property_flags">Read / Write</entry></row>
@@ -187,6 +190,7 @@
 <colspec colname="description"/>
 <tbody>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsComponentKind">AsComponentKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsIconKind">AsIconKind</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -263,6 +267,53 @@ as_component_kind_from_string (<parameter>const <link linkend="gchar"><type>gcha
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsComponentKind"><type>AsComponentKind</type></link> or <link linkend="AS-COMPONENT-KIND-UNKNOWN:CAPS"><literal>AS_COMPONENT_KIND_UNKNOWN</literal></link> for unknown</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-icon-kind-from-string" role="function">
+<title>as_icon_kind_from_string&#160;()</title>
+<indexterm zone="as-icon-kind-from-string"><primary>as_icon_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsIconKind"><returnvalue>AsIconKind</returnvalue></link>
+as_icon_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsIconKind"><type>AsIconKind</type></link> or <link linkend="AS-ICON-KIND-UNKNOWN:CAPS"><literal>AS_ICON_KIND_UNKNOWN</literal></link> for unknown</para>
+<para></para>
+</refsect3></refsect2>
+<refsect2 id="as-icon-kind-to-string" role="function">
+<title>as_icon_kind_to_string&#160;()</title>
+<indexterm zone="as-icon-kind-to-string"><primary>as_icon_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_icon_kind_to_string (<parameter><link linkend="AsIconKind"><type>AsIconKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsIconKind"><literal>AsIconKind</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
 <para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-new" role="function">
@@ -796,7 +847,10 @@ as_component_set_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
 <title>as_component_get_icon&#160;()</title>
 <indexterm zone="as-component-get-icon"><primary>as_component_get_icon</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                       <parameter><link linkend="AsIconKind"><type>AsIconKind</type></link> kind</parameter>,
+                       <parameter><link linkend="int"><type>int</type></link> width</parameter>,
+                       <parameter><link linkend="int"><type>int</type></link> height</parameter>);</programlisting>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -811,18 +865,21 @@ as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent<
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> The icon name for this component. This is usually
-a stock icon name, e.g. "applications-science"</para>
+<para> The raw icon data found for the given icon kind and size.
+If the icon kind is <link linkend="AS-ICON-KIND-STOCK:CAPS"><literal>AS_ICON_KIND_STOCK</literal></link>, the size is ignored.
+<link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned in case no icon was found.</para>
 <para></para>
 </refsect3></refsect2>
-<refsect2 id="as-component-set-icon" role="function">
-<title>as_component_set_icon&#160;()</title>
-<indexterm zone="as-component-set-icon"><primary>as_component_set_icon</primary></indexterm>
+<refsect2 id="as-component-add-icon" role="function">
+<title>as_component_add_icon&#160;()</title>
+<indexterm zone="as-component-add-icon"><primary>as_component_add_icon</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+as_component_add_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                       <parameter><link linkend="AsIconKind"><type>AsIconKind</type></link> kind</parameter>,
+                       <parameter><link linkend="int"><type>int</type></link> width</parameter>,
+                       <parameter><link linkend="int"><type>int</type></link> height</parameter>,
                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>Set a stock icon name for this component,
-e.g. "applications-science"</para>
+<para>Add an icon of the given type to this component.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -843,10 +900,10 @@ e.g. "applications-science"</para>
 as_component_get_icon_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                            <parameter><link linkend="int"><type>int</type></link> width</parameter>,
                            <parameter><link linkend="int"><type>int</type></link> height</parameter>);</programlisting>
-<para>Returns the full url for an icon with the given width and height.
-In case no icon matching the size is found, <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned.
-The returned path will either be a http link or an absolute, local
-path to the image file of the icon.</para>
+<para>A convenience method to retrieve an icon for this component.
+This method is designed to be used by software center applications,
+it will always return a full path or url to a valid icon, in contrast
+to the <link linkend="as-component-get-icon"><function>as_component_get_icon()</function></link> method, which returns unprocessed icon data.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -867,7 +924,10 @@ path to the image file of the icon.</para>
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-
+<para> The full url for an icon with the given width and height.
+In case no icon matching the size is found, <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned.
+The returned path will either be a http link or an absolute, local
+path to the image file of the icon.</para>
 <para></para>
 </refsect3><para role="since">Since 0.7.4</para></refsect2>
 <refsect2 id="as-component-add-icon-url" role="function" condition="since:0.7.4">
@@ -880,6 +940,11 @@ as_component_add_icon_url (<parameter><link linkend="AsComponent"><type>AsCompon
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set an icon url for this component, which can be a remote
 or local location.</para>
+<para>The icon_url does not end up in XML generated for this component,
+it is mereley designed to be a fast way to get icon information
+for a component.
+If you want to set an icon which gets serialized to AppStream xml,
+use the <link linkend="as-component-add-icon"><function>as_component_add_icon()</function></link> method instead.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -1360,7 +1425,54 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-FIRMWARE:CAPS">AS_COMPONENT_KIND_FIRMWARE</para></entry>
+<entry role="enum_member_description"><para>Firmware</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-LAST:CAPS">AS_COMPONENT_KIND_LAST</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsIconKind" role="enum">
+<title>enum AsIconKind</title>
+<indexterm zone="AsIconKind"><primary>AsIconKind</primary></indexterm>
+<para>The icon type.</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-UNKNOWN:CAPS">AS_ICON_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-CACHED:CAPS">AS_ICON_KIND_CACHED</para></entry>
+<entry role="enum_member_description"><para>Icon in the internal caches</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-STOCK:CAPS">AS_ICON_KIND_STOCK</para></entry>
+<entry role="enum_member_description"><para>Stock icon name</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-LOCAL:CAPS">AS_ICON_KIND_LOCAL</para></entry>
+<entry role="enum_member_description"><para>Local icon name</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-REMOTE:CAPS">AS_ICON_KIND_REMOTE</para></entry>
+<entry role="enum_member_description"><para>Remote icon URL</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ICON-KIND-LAST:CAPS">AS_ICON_KIND_LAST</para></entry>
 <entry role="enum_member_description"></entry>
 <entry role="enum_member_annotations"></entry>
 </row>
@@ -1385,12 +1497,6 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <indexterm zone="AsComponent--developer-name"><primary>AsComponent:developer-name</primary></indexterm>
 <programlisting>  “developer-name”           <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
 <para>developer-name.</para><para>Flags: Read / Write</para>
-<para>Default value: NULL</para>
-</refsect2>
-<refsect2 id="AsComponent--icon" role="property"><title>The <literal>“icon”</literal> property</title>
-<indexterm zone="AsComponent--icon"><primary>AsComponent:icon</primary></indexterm>
-<programlisting>  “icon”                     <link linkend="gchar"><type>gchar</type></link>&#160;*</programlisting>
-<para>icon.</para><para>Flags: Read / Write</para>
 <para>Default value: NULL</para>
 </refsect2>
 <refsect2 id="AsComponent--icon-urls" role="property"><title>The <literal>“icon-urls”</literal> property</title>

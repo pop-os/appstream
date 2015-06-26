@@ -1,31 +1,26 @@
-63% symbol docs coverage.
-269 symbols documented.
-73 symbols incomplete.
-155 not documented.
+69% symbol docs coverage.
+281 symbols documented.
+74 symbols incomplete.
+129 not documented.
 
 
 AS_BUILDER_ERROR
 AS_METADATA_ERROR
-AS_PROVIDER_TYPE_XML
+AsChecksumKind (AS_CHECKSUM_KIND_LAST)
 AsComponentKind (AS_COMPONENT_KIND_LAST)
-AsDataProvider::component
+AsIconKind (AS_ICON_KIND_UNKNOWN, AS_ICON_KIND_LAST)
 AsImageKind (AS_IMAGE_KIND_LAST)
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
 AsParserMode (AS_PARSER_MODE_LAST)
-AsProviderDEP11
-AsProviderDEP11Class (<items>)
-AsProviderDEP11Private
-AsProviderUbuntuAppinstall (<items>)
-AsProviderUbuntuAppinstallClass (<items>)
-AsProviderUbuntuAppinstallPrivate
+GS_DEFINE_CLEANUP_FUNCTION
 _as_metadata_desc_lang_hashtable_to_nodes
 _as_metadata_lang_hashtable_to_nodes
 _dep11_yaml_free_node
 as_builder_error_quark
 as_builder_initialize
 as_builder_new_path (dbpath)
-as_builder_refresh_cache (self, force, error, Returns)
+as_builder_refresh_cache (builder, force, error, Returns)
 as_category_add_subcategory
 as_category_complete
 as_category_construct (object_type)
@@ -43,6 +38,7 @@ as_category_set_directory
 as_category_set_icon
 as_category_set_level
 as_category_set_name
+as_component_add_icon (kind, width, height, value)
 as_component_add_provided_item (value)
 as_component_class_init
 as_component_finalize
@@ -52,7 +48,6 @@ as_component_get_compulsory_for_desktops
 as_component_get_description (cpt, Returns)
 as_component_get_developer_name (cpt, Returns)
 as_component_get_icon
-as_component_get_icon_url (Returns)
 as_component_get_id (cpt, Returns)
 as_component_get_keywords
 as_component_get_kind (cpt, Returns)
@@ -74,7 +69,6 @@ as_component_set_active_locale (cpt, locale)
 as_component_set_categories
 as_component_set_compulsory_for_desktops (cpt, value)
 as_component_set_developer_name (cpt, value, locale)
-as_component_set_icon (value)
 as_component_set_id (cpt, value)
 as_component_set_keywords (cpt)
 as_component_set_kind (cpt, value)
@@ -89,24 +83,27 @@ as_data_pool_class_init
 as_data_pool_finalize
 as_data_pool_get_components (dpool)
 as_data_pool_init
-as_data_pool_initialize (dpool)
+as_data_pool_read_asxml
+as_data_pool_read_dep11
 as_data_pool_set_data_source_directories (dpool)
 as_data_pool_update (dpool)
-as_data_provider_construct
-as_data_provider_emit_component
-as_data_provider_execute
-as_data_provider_get_locale
-as_data_provider_get_locale_short
-as_data_provider_get_watch_files
-as_data_provider_log_error
-as_data_provider_log_warning
-as_data_provider_set_locale
-as_data_provider_set_watch_files
 as_database_construct (object_type)
 as_database_db_exists
 as_database_get_database_path
 as_database_open
 as_database_set_database_path
+as_dep11_add_component
+as_dep11_class_init
+as_dep11_clear_components
+as_dep11_finalize
+as_dep11_get_components
+as_dep11_get_localized_node
+as_dep11_init
+as_dep11_new
+as_dep11_parse_data
+as_dep11_process_component_node
+as_dep11_process_data
+as_dep11_process_screenshots
 as_distro_details_config_distro_get_bool
 as_distro_details_config_distro_get_str
 as_distro_details_construct (object_type)
@@ -127,6 +124,7 @@ as_metadata_class_init
 as_metadata_clear_components
 as_metadata_component_to_upstream_xml (metad)
 as_metadata_components_to_distro_xml (metad)
+as_metadata_dump_node_children
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_components
@@ -141,34 +139,19 @@ as_metadata_process_screenshot
 as_metadata_save_distro_xml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
 as_metadata_save_xml
-as_provider_dep11_construct
-as_provider_dep11_get_localized_node
-as_provider_dep11_get_type
-as_provider_dep11_new
-as_provider_dep11_process_component_node
-as_provider_dep11_process_compressed_file
-as_provider_dep11_process_data
-as_provider_dep11_process_file
-as_provider_dep11_process_screenshots
-as_provider_dep11_real_execute
-as_provider_ubuntu_appinstall_construct
-as_provider_ubuntu_appinstall_new
-as_provider_xml_construct
-as_provider_xml_get_type
-as_provider_xml_new
-as_provider_xml_process_compressed_file
-as_provider_xml_process_file
-as_provider_xml_process_single_document
-as_provider_xml_real_execute
 as_provides_item_create (kind, value, data)
 as_provides_item_get_kind (item)
 as_provides_item_get_value (item)
 as_ptr_array_to_strv
+as_release_add_location (release)
 as_release_class_init
 as_release_finalize
 as_release_get_active_locale (release, Returns)
+as_release_get_checksum (release, cs_kind)
+as_release_get_locations (release)
 as_release_init
 as_release_set_active_locale (release, locale)
+as_release_set_checksum (release, checksum, cs_kind)
 as_release_set_description (locale)
 as_screenshot_class_init
 as_screenshot_finalize
@@ -217,17 +200,12 @@ dep11_process_provides
 dep11_process_urls
 
 
-appstream-xml:Long_Description
-appstream-xml:Short_Description
 as-cache-builder:Long_Description
 as-cache-builder:Short_Description
-as-data-provider:Long_Description
-as-data-provider:Short_Description
+as-dep11:Long_Description
+as-dep11:Short_Description
 as-enums:Long_Description
 as-metadata-private:Long_Description
 as-metadata-private:Short_Description
 as-utils-private:Long_Description
 as-utils-private:Short_Description
-debian-dep11:Long_Description
-debian-dep11:Short_Description
-ubuntu-appinstall:Short_Description

@@ -1,24 +1,4 @@
 <SECTION>
-<FILE>appstream-xml</FILE>
-<TITLE>AsProviderXML</TITLE>
-AS_PROVIDER_TYPE_XML
-as_provider_xml_new
-as_provider_xml_construct
-as_provider_xml_process_compressed_file
-as_provider_xml_process_file
-<SUBSECTION Standard>
-AS_PROVIDER_IS_APPSTREAM_XML
-AS_PROVIDER_IS_APPSTREAM_XML_CLASS
-AS_PROVIDER_XML
-AS_PROVIDER_XML_CLASS
-AS_PROVIDER_XML_GET_CLASS
-AsProviderXML
-AsProviderXMLClass
-AsProviderXMLPrivate
-as_provider_xml_get_type
-</SECTION>
-
-<SECTION>
 <FILE>as-cache-builder</FILE>
 <TITLE>AsBuilder</TITLE>
 AS_BUILDER_ERROR
@@ -80,8 +60,11 @@ as_category_get_type
 <FILE>as-component</FILE>
 <TITLE>AsComponent</TITLE>
 AsComponentKind
+AsIconKind
 as_component_kind_to_string
 as_component_kind_from_string
+as_icon_kind_from_string
+as_icon_kind_to_string
 as_component_new
 as_component_is_valid
 as_component_to_string
@@ -121,7 +104,7 @@ as_component_add_screenshot
 as_component_get_keywords
 as_component_set_keywords
 as_component_get_icon
-as_component_set_icon
+as_component_add_icon
 as_component_get_icon_url
 as_component_add_icon_url
 as_component_get_icon_urls
@@ -159,7 +142,6 @@ as_component_kind_get_type
 <FILE>as-data-pool</FILE>
 <TITLE>AsDataPool</TITLE>
 as_data_pool_new
-as_data_pool_initialize
 as_data_pool_get_watched_locations
 as_data_pool_update
 as_data_pool_get_components
@@ -176,32 +158,6 @@ AS_TYPE_DATA_POOL
 AsDataPool
 AsDataPoolClass
 as_data_pool_get_type
-</SECTION>
-
-<SECTION>
-<FILE>as-data-provider</FILE>
-<TITLE>AsDataProvider</TITLE>
-as_data_provider_construct
-as_data_provider_emit_component
-as_data_provider_execute
-as_data_provider_log_error
-as_data_provider_log_warning
-as_data_provider_get_locale_short
-as_data_provider_get_locale
-as_data_provider_set_locale
-as_data_provider_get_watch_files
-as_data_provider_set_watch_files
-<SUBSECTION Standard>
-AS_DATA_PROVIDER
-AS_DATA_PROVIDER_CLASS
-AS_DATA_PROVIDER_GET_CLASS
-AS_IS_DATA_PROVIDER
-AS_IS_DATA_PROVIDER_CLASS
-AS_TYPE_DATA_PROVIDER
-AsDataProvider
-AsDataProviderClass
-AsDataProviderPrivate
-as_data_provider_get_type
 </SECTION>
 
 <SECTION>
@@ -230,6 +186,28 @@ AsDatabase
 AsDatabaseClass
 AsDatabasePrivate
 as_database_get_type
+</SECTION>
+
+<SECTION>
+<FILE>as-dep11</FILE>
+<TITLE>AsDEP11</TITLE>
+as_dep11_new
+as_dep11_get_locale
+as_dep11_set_locale
+as_dep11_parse_data
+as_dep11_parse_file
+as_dep11_get_components
+as_dep11_clear_components
+<SUBSECTION Standard>
+AS_DEP11
+AS_DEP11_CLASS
+AS_DEP11_GET_CLASS
+AS_IS_DEP11
+AS_IS_DEP11_CLASS
+AS_TYPE_DEP11
+AsDEP11
+AsDEP11Class
+as_dep11_get_type
 </SECTION>
 
 <SECTION>
@@ -371,6 +349,9 @@ as_provides_item_get_value
 <SECTION>
 <FILE>as-release</FILE>
 <TITLE>AsRelease</TITLE>
+AsChecksumKind
+as_checksum_kind_to_string
+as_checksum_kind_from_string
 as_release_new
 as_release_get_version
 as_release_set_version
@@ -380,6 +361,10 @@ as_release_get_description
 as_release_set_description
 as_release_get_active_locale
 as_release_set_active_locale
+as_release_get_locations
+as_release_add_location
+as_release_get_checksum
+as_release_set_checksum
 <SUBSECTION Standard>
 AS_IS_RELEASE
 AS_IS_RELEASE_CLASS
@@ -448,6 +433,7 @@ as_search_query_get_type
 
 <SECTION>
 <FILE>as-utils-private</FILE>
+GS_DEFINE_CLEANUP_FUNCTION
 as_utils_touch_dir
 as_utils_delete_dir_recursive
 as_string_strip
@@ -502,40 +488,5 @@ AS_VALIDATOR_ISSUE_GET_CLASS
 AsValidatorIssue
 AsValidatorIssueClass
 as_validator_issue_get_type
-</SECTION>
-
-<SECTION>
-<FILE>debian-dep11</FILE>
-<TITLE>AsProviderDEP11</TITLE>
-AsProviderDEP11
-AsProviderDEP11Class
-as_provider_dep11_new
-as_provider_dep11_construct
-AsProviderDEP11Private
-<SUBSECTION Standard>
-AS_PROVIDER_DEP11
-AS_PROVIDER_DEP11_CLASS
-AS_PROVIDER_DEP11_GET_CLASS
-AS_PROVIDER_IS_DEP11
-AS_PROVIDER_IS_DEP11_CLASS
-AS_PROVIDER_TYPE_DEP11
-as_provider_dep11_get_type
-</SECTION>
-
-<SECTION>
-<FILE>ubuntu-appinstall</FILE>
-<TITLE>AsProviderUbuntuAppinstall</TITLE>
-AsProviderUbuntuAppinstall
-AsProviderUbuntuAppinstallClass
-as_provider_ubuntu_appinstall_new
-as_provider_ubuntu_appinstall_construct
-AsProviderUbuntuAppinstallPrivate
-<SUBSECTION Standard>
-AS_PROVIDER_IS_UBUNTU_APPINSTALL
-AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS
-AS_PROVIDER_TYPE_UBUNTU_APPINSTALL
-AS_PROVIDER_UBUNTU_APPINSTALL
-AS_PROVIDER_UBUNTU_APPINSTALL_CLASS
-AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS
 </SECTION>
 

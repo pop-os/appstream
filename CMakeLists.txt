@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "8")
-set(AS_VERSION_PATCH  "1")
+set(AS_VERSION_PATCH  "2")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "2")
 
@@ -20,8 +20,7 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 #
 # Options
 #
-option(PROVIDER_DEBIAN_DEP11 "Enable DEP11 data provider" ON)
-option(PROVIDER_UBUNTU_APPINSTALL "Enable AppInstall data provider" OFF)
+option(DEBIAN_DEP11 "Enable DEP11 data provider" ON)
 option(L18N "Enable localization" ON)
 option(VAPI "Create and install a Vala API file" OFF)
 option(QT "Build libappstream-qt" OFF)
@@ -29,11 +28,8 @@ option(TESTS "Enable Unit Tests" OFF)
 option(MAINTAINER "Enable maintainer mode" OFF)
 option(DOCUMENTATION "Enable target to build documentation" OFF)
 
-if(PROVIDER_DEBIAN_DEP11)
+if(DEBIAN_DEP11)
 	add_definitions ("-DDEBIAN_DEP11")
-endif()
-if(PROVIDER_UBUNTU_APPINSTALL)
-	add_definitions ("-DUBUNTU_APPINSTALL")
 endif()
 
 #

@@ -1,4 +1,89 @@
 <MACRO>
+<NAME>AS_TYPE_DEP11</NAME>
+#define AS_TYPE_DEP11			(as_dep11_get_type())
+</MACRO>
+<MACRO>
+<NAME>AS_DEP11</NAME>
+#define AS_DEP11(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_DEP11, AsDEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_DEP11_CLASS</NAME>
+#define AS_DEP11_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_DEP11, AsDEP11Class))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DEP11</NAME>
+#define AS_IS_DEP11(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_DEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_IS_DEP11_CLASS</NAME>
+#define AS_IS_DEP11_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_DEP11))
+</MACRO>
+<MACRO>
+<NAME>AS_DEP11_GET_CLASS</NAME>
+#define AS_DEP11_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_DEP11, AsDEP11Class))
+</MACRO>
+<STRUCT>
+<NAME>AsDEP11</NAME>
+struct _AsDEP11
+{
+	GObject			parent;
+};
+</STRUCT>
+<STRUCT>
+<NAME>AsDEP11Class</NAME>
+struct _AsDEP11Class
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_dep11_get_type</NAME>
+<RETURNS>GType 			</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_new</NAME>
+<RETURNS>AsDEP11 *		</RETURNS>
+void 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_get_locale</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsDEP11 *dep11 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_set_locale</NAME>
+<RETURNS>void 			</RETURNS>
+AsDEP11 *dep11, const gchar *locale 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_parse_data</NAME>
+<RETURNS>void 			</RETURNS>
+AsDEP11 *dep11, const gchar *data, GError **error 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_parse_file</NAME>
+<RETURNS>void 			</RETURNS>
+AsDEP11 *dep11, GFile* file, GError **error 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_get_components</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsDEP11 *dep11 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_dep11_clear_components</NAME>
+<RETURNS>void 			</RETURNS>
+AsDEP11 *dep11 
+</FUNCTION>
+<MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
 #define AS_TYPE_IMAGE		(as_image_get_type())
 </MACRO>
@@ -114,6 +199,14 @@ AsImage *image, guint height
 <RETURNS>void 		 </RETURNS>
 AsImage *image, AsImageKind kind 
 </FUNCTION>
+<MACRO>
+<NAME>GS_DEFINE_CLEANUP_FUNCTION</NAME>
+#define GS_DEFINE_CLEANUP_FUNCTION(Type, name, func) \
+  static inline void name (void *v) \
+  { \
+    func (*(Type*)v); \
+  }
+</MACRO>
 <FUNCTION>
 <NAME>as_utils_touch_dir</NAME>
 <RETURNS>gboolean 		</RETURNS>
@@ -1069,8 +1162,20 @@ typedef enum  {
 	AS_COMPONENT_KIND_CODEC = 1 << 3,
 	AS_COMPONENT_KIND_INPUTMETHOD = 1 << 4,
 	AS_COMPONENT_KIND_ADDON = 1 << 5,
+	AS_COMPONENT_KIND_FIRMWARE = 1 << 6,
 	AS_COMPONENT_KIND_LAST = 7
 } AsComponentKind;
+</ENUM>
+<ENUM>
+<NAME>AsIconKind</NAME>
+typedef enum  {
+	AS_ICON_KIND_UNKNOWN,
+	AS_ICON_KIND_CACHED,
+	AS_ICON_KIND_STOCK,
+	AS_ICON_KIND_LOCAL,
+	AS_ICON_KIND_REMOTE,
+	AS_ICON_KIND_LAST
+} AsIconKind;
 </ENUM>
 <FUNCTION>
 <NAME>as_component_kind_get_type</NAME>
@@ -1086,6 +1191,16 @@ AsComponentKind kind
 <NAME>as_component_kind_from_string</NAME>
 <RETURNS>AsComponentKind 		</RETURNS>
 const gchar *kind_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_kind_from_string</NAME>
+<RETURNS>AsIconKind 			</RETURNS>
+const gchar *kind_str 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_kind_to_string</NAME>
+<RETURNS>const gchar *		</RETURNS>
+AsIconKind kind 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_type</NAME>
@@ -1285,12 +1400,12 @@ AsComponent *cpt, gchar **value, const gchar *locale
 <FUNCTION>
 <NAME>as_component_get_icon</NAME>
 <RETURNS>const gchar 			*</RETURNS>
-AsComponent *cpt 
+AsComponent *cpt, AsIconKind kind, int width, int height 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_icon</NAME>
+<NAME>as_component_add_icon</NAME>
 <RETURNS>void 				</RETURNS>
-AsComponent *cpt, const gchar* value 
+AsComponent *cpt, AsIconKind kind, int width, int height, const gchar* value 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_icon_url</NAME>
@@ -1673,6 +1788,25 @@ struct _AsReleaseClass
 	void (*_as_reserved8)	(void);
 };
 </STRUCT>
+<ENUM>
+<NAME>AsChecksumKind</NAME>
+typedef enum  {
+	AS_CHECKSUM_KIND_NONE,
+	AS_CHECKSUM_KIND_SHA1,
+	AS_CHECKSUM_KIND_SHA256,
+	AS_CHECKSUM_KIND_LAST
+} AsChecksumKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_checksum_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsChecksumKind kind 
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_kind_from_string</NAME>
+<RETURNS>AsChecksumKind 	</RETURNS>
+const gchar *kind_str 
+</FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_type</NAME>
 <RETURNS>GType 		 </RETURNS>
@@ -1723,113 +1857,26 @@ AsRelease *release
 <RETURNS>void 		</RETURNS>
 AsRelease	*release, const gchar *locale 
 </FUNCTION>
-<MACRO>
-<NAME>AS_TYPE_DATA_PROVIDER</NAME>
-#define AS_TYPE_DATA_PROVIDER (as_data_provider_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_PROVIDER</NAME>
-#define AS_DATA_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DATA_PROVIDER, AsDataProvider))
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_PROVIDER_CLASS</NAME>
-#define AS_DATA_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DATA_PROVIDER, AsDataProviderClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATA_PROVIDER</NAME>
-#define AS_IS_DATA_PROVIDER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DATA_PROVIDER))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATA_PROVIDER_CLASS</NAME>
-#define AS_IS_DATA_PROVIDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DATA_PROVIDER))
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_PROVIDER_GET_CLASS</NAME>
-#define AS_DATA_PROVIDER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DATA_PROVIDER, AsDataProviderClass))
-</MACRO>
-<STRUCT>
-<NAME>AsDataProvider</NAME>
-struct _AsDataProvider
-{
-	GObject parent_instance;
-	AsDataProviderPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AsDataProviderClass</NAME>
-struct _AsDataProviderClass
-{
-	GObjectClass parent_class;
-	gboolean (*execute) (AsDataProvider* self);
-	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
-};
-</STRUCT>
 <FUNCTION>
-<NAME>as_data_provider_get_type</NAME>
-<RETURNS>GType  </RETURNS>
-void 
+<NAME>as_release_get_locations</NAME>
+<RETURNS>GPtrArray 	*</RETURNS>
+AsRelease *release 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_provider_construct</NAME>
-<RETURNS>AsDataProvider *		</RETURNS>
-GType object_type 
+<NAME>as_release_add_location</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease *release, const gchar *location 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_provider_emit_component</NAME>
-<RETURNS>void 				</RETURNS>
-AsDataProvider* self, AsComponent* cpt 
+<NAME>as_release_get_checksum</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsRelease *release, AsChecksumKind cs_kind 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_provider_execute</NAME>
-<RETURNS>gboolean 			</RETURNS>
-AsDataProvider* self 
+<NAME>as_release_set_checksum</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease *release, const gchar *checksum, AsChecksumKind cs_kind 
 </FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_log_error</NAME>
-<RETURNS>void 				</RETURNS>
-AsDataProvider* self, const gchar* msg 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_log_warning</NAME>
-<RETURNS>void 				</RETURNS>
-AsDataProvider* self, const gchar* msg 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_get_locale_short</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsDataProvider *dprov 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_get_locale</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsDataProvider *dpool 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_set_locale</NAME>
-<RETURNS>void 				</RETURNS>
-AsDataProvider *dprov, const gchar *locale 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_get_watch_files</NAME>
-<RETURNS>gchar **				</RETURNS>
-AsDataProvider* self 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_provider_set_watch_files</NAME>
-<RETURNS>void 				</RETURNS>
-AsDataProvider* self, gchar** value 
-</FUNCTION>
-<STRUCT>
-<NAME>AsDataProviderPrivate</NAME>
-</STRUCT>
 <MACRO>
 <NAME>AS_TYPE_BUILDER</NAME>
 #define AS_TYPE_BUILDER (as_builder_get_type ())
@@ -1903,12 +1950,12 @@ const gchar* dbpath
 <FUNCTION>
 <NAME>as_builder_initialize</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsBuilder* self 
+AsBuilder *builder 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_builder_refresh_cache</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsBuilder* self, gboolean force, GError **error 
+AsBuilder *builder, gboolean force, GError **error 
 </FUNCTION>
 <FUNCTION>
 <NAME>as_builder_set_data_source_directories</NAME>
@@ -2019,11 +2066,6 @@ void
 void 
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_pool_initialize</NAME>
-<RETURNS>void 			</RETURNS>
-AsDataPool *dpool 
-</FUNCTION>
-<FUNCTION>
 <NAME>as_data_pool_get_watched_locations</NAME>
 <RETURNS>gchar **			</RETURNS>
 AsDataPool *dpool 
@@ -2053,173 +2095,3 @@ AsDataPool *dpool, const gchar *locale
 <RETURNS>void 			</RETURNS>
 AsDataPool *dpool, gchar **dirs 
 </FUNCTION>
-<MACRO>
-<NAME>AS_PROVIDER_TYPE_XML</NAME>
-#define AS_PROVIDER_TYPE_XML (as_provider_xml_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_XML</NAME>
-#define AS_PROVIDER_XML(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_XML, AsProviderXML))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_XML_CLASS</NAME>
-#define AS_PROVIDER_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_XML, AsProviderXMLClass))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_APPSTREAM_XML</NAME>
-#define AS_PROVIDER_IS_APPSTREAM_XML(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_XML))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_APPSTREAM_XML_CLASS</NAME>
-#define AS_PROVIDER_IS_APPSTREAM_XML_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_XML))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_XML_GET_CLASS</NAME>
-#define AS_PROVIDER_XML_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_XML, AsProviderXMLClass))
-</MACRO>
-<STRUCT>
-<NAME>AsProviderXML</NAME>
-struct _AsProviderXML {
-	AsDataProvider parent_instance;
-	AsProviderXMLPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AsProviderXMLClass</NAME>
-struct _AsProviderXMLClass {
-	AsDataProviderClass parent_class;
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_provider_xml_get_type</NAME>
-<RETURNS>GType  </RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_xml_new</NAME>
-<RETURNS>AsProviderXML * </RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_xml_construct</NAME>
-<RETURNS>AsProviderXML * </RETURNS>
-GType object_type 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_xml_process_compressed_file</NAME>
-<RETURNS>gboolean  </RETURNS>
-AsProviderXML *self, GFile *infile 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_xml_process_file</NAME>
-<RETURNS>gboolean  </RETURNS>
-AsProviderXML *self, GFile *infile 
-</FUNCTION>
-<STRUCT>
-<NAME>AsProviderXMLPrivate</NAME>
-</STRUCT>
-<MACRO>
-<NAME>AS_PROVIDER_TYPE_UBUNTU_APPINSTALL</NAME>
-#define AS_PROVIDER_TYPE_UBUNTU_APPINSTALL (as_provider_ubuntu_appinstall_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_UBUNTU_APPINSTALL</NAME>
-#define AS_PROVIDER_UBUNTU_APPINSTALL(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstall))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_UBUNTU_APPINSTALL_CLASS</NAME>
-#define AS_PROVIDER_UBUNTU_APPINSTALL_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstallClass))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_UBUNTU_APPINSTALL</NAME>
-#define AS_PROVIDER_IS_UBUNTU_APPINSTALL(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS</NAME>
-#define AS_PROVIDER_IS_UBUNTU_APPINSTALL_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS</NAME>
-#define AS_PROVIDER_UBUNTU_APPINSTALL_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_UBUNTU_APPINSTALL, AsProviderUbuntuAppinstallClass))
-</MACRO>
-<STRUCT>
-<NAME>AsProviderUbuntuAppinstall</NAME>
-struct _AsProviderUbuntuAppinstall {
-	AsDataProvider parent_instance;
-	AsProviderUbuntuAppinstallPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AsProviderUbuntuAppinstallClass</NAME>
-struct _AsProviderUbuntuAppinstallClass {
-	AsDataProviderClass parent_class;
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_provider_ubuntu_appinstall_new</NAME>
-<RETURNS>AsProviderUbuntuAppinstall *				</RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_ubuntu_appinstall_construct</NAME>
-<RETURNS>AsProviderUbuntuAppinstall *				</RETURNS>
-GType object_type 
-</FUNCTION>
-<STRUCT>
-<NAME>AsProviderUbuntuAppinstallPrivate</NAME>
-</STRUCT>
-<MACRO>
-<NAME>AS_PROVIDER_TYPE_DEP11</NAME>
-#define AS_PROVIDER_TYPE_DEP11 (as_provider_dep11_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_DEP11</NAME>
-#define AS_PROVIDER_DEP11(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_DEP11_CLASS</NAME>
-#define AS_PROVIDER_DEP11_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_DEP11</NAME>
-#define AS_PROVIDER_IS_DEP11(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_PROVIDER_TYPE_DEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_IS_DEP11_CLASS</NAME>
-#define AS_PROVIDER_IS_DEP11_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_PROVIDER_TYPE_DEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_PROVIDER_DEP11_GET_CLASS</NAME>
-#define AS_PROVIDER_DEP11_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_PROVIDER_TYPE_DEP11, AsProviderDEP11Class))
-</MACRO>
-<STRUCT>
-<NAME>AsProviderDEP11</NAME>
-struct _AsProviderDEP11 {
-	AsDataProvider parent_instance;
-	AsProviderDEP11Private *priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AsProviderDEP11Class</NAME>
-struct _AsProviderDEP11Class {
-	AsDataProviderClass parent_class;
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_provider_dep11_get_type</NAME>
-<RETURNS>GType 					</RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_dep11_new</NAME>
-<RETURNS>AsProviderDEP11 *		</RETURNS>
-void 
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provider_dep11_construct</NAME>
-<RETURNS>AsProviderDEP11 *		</RETURNS>
-GType object_type 
-</FUNCTION>
-<STRUCT>
-<NAME>AsProviderDEP11Private</NAME>
-</STRUCT>

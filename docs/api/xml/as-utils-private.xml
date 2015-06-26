@@ -24,6 +24,7 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="GS-DEFINE-CLEANUP-FUNCTION:CAPS">GS_DEFINE_CLEANUP_FUNCTION</link><phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-touch-dir">as_utils_touch_dir</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
@@ -59,6 +60,13 @@
 </refsect1>
 <refsect1 id="appstream-as-utils-private.functions_details" role="details">
 <title role="details.title">Functions</title>
+<refsect2 id="GS-DEFINE-CLEANUP-FUNCTION:CAPS" role="macro">
+<title>GS_DEFINE_CLEANUP_FUNCTION()</title>
+<indexterm zone="GS-DEFINE-CLEANUP-FUNCTION:CAPS"><primary>GS_DEFINE_CLEANUP_FUNCTION</primary></indexterm>
+<programlisting language="C">#define             GS_DEFINE_CLEANUP_FUNCTION(Type, name, func)</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="as-utils-touch-dir" role="function">
 <title>as_utils_touch_dir&#160;()</title>
 <indexterm zone="as-utils-touch-dir"><primary>as_utils_touch_dir</primary></indexterm>

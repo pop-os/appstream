@@ -34,7 +34,20 @@ AsComponent
 @AS_COMPONENT_KIND_CODEC: 
 @AS_COMPONENT_KIND_INPUTMETHOD: 
 @AS_COMPONENT_KIND_ADDON: 
+@AS_COMPONENT_KIND_FIRMWARE: 
 @AS_COMPONENT_KIND_LAST: 
+
+<!-- ##### ENUM AsIconKind ##### -->
+<para>
+
+</para>
+
+@AS_ICON_KIND_UNKNOWN: 
+@AS_ICON_KIND_CACHED: 
+@AS_ICON_KIND_STOCK: 
+@AS_ICON_KIND_LOCAL: 
+@AS_ICON_KIND_REMOTE: 
+@AS_ICON_KIND_LAST: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
@@ -51,6 +64,24 @@ AsComponent
 </para>
 
 @kind_str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_icon_kind_from_string ##### -->
+<para>
+
+</para>
+
+@kind_str: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_icon_kind_to_string ##### -->
+<para>
+
+</para>
+
+@kind: 
 @Returns: 
 
 
@@ -409,15 +440,21 @@ AsComponent
 </para>
 
 @cpt: 
+@kind: 
+@width: 
+@height: 
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_icon ##### -->
+<!-- ##### FUNCTION as_component_add_icon ##### -->
 <para>
 
 </para>
 
 @cpt: 
+@kind: 
+@width: 
+@height: 
 @value: 
 
 

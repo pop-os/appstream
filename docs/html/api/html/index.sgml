@@ -9,6 +9,8 @@
 <ANCHOR id="AsComponent.functions_details" href="appstream/AsComponent.html#AsComponent.functions_details">
 <ANCHOR id="as-component-kind-to-string" href="appstream/AsComponent.html#as-component-kind-to-string">
 <ANCHOR id="as-component-kind-from-string" href="appstream/AsComponent.html#as-component-kind-from-string">
+<ANCHOR id="as-icon-kind-from-string" href="appstream/AsComponent.html#as-icon-kind-from-string">
+<ANCHOR id="as-icon-kind-to-string" href="appstream/AsComponent.html#as-icon-kind-to-string">
 <ANCHOR id="as-component-new" href="appstream/AsComponent.html#as-component-new">
 <ANCHOR id="as-component-is-valid" href="appstream/AsComponent.html#as-component-is-valid">
 <ANCHOR id="as-component-to-string" href="appstream/AsComponent.html#as-component-to-string">
@@ -48,7 +50,7 @@
 <ANCHOR id="as-component-get-keywords" href="appstream/AsComponent.html#as-component-get-keywords">
 <ANCHOR id="as-component-set-keywords" href="appstream/AsComponent.html#as-component-set-keywords">
 <ANCHOR id="as-component-get-icon" href="appstream/AsComponent.html#as-component-get-icon">
-<ANCHOR id="as-component-set-icon" href="appstream/AsComponent.html#as-component-set-icon">
+<ANCHOR id="as-component-add-icon" href="appstream/AsComponent.html#as-component-add-icon">
 <ANCHOR id="as-component-get-icon-url" href="appstream/AsComponent.html#as-component-get-icon-url">
 <ANCHOR id="as-component-add-icon-url" href="appstream/AsComponent.html#as-component-add-icon-url">
 <ANCHOR id="as-component-get-icon-urls" href="appstream/AsComponent.html#as-component-get-icon-urls">
@@ -70,11 +72,11 @@
 <ANCHOR id="as-component-add-bundle-id" href="appstream/AsComponent.html#as-component-add-bundle-id">
 <ANCHOR id="AsComponent.other_details" href="appstream/AsComponent.html#AsComponent.other_details">
 <ANCHOR id="AsComponentKind" href="appstream/AsComponent.html#AsComponentKind">
+<ANCHOR id="AsIconKind" href="appstream/AsComponent.html#AsIconKind">
 <ANCHOR id="AsComponent.property-details" href="appstream/AsComponent.html#AsComponent.property-details">
 <ANCHOR id="AsComponent--categories" href="appstream/AsComponent.html#AsComponent--categories">
 <ANCHOR id="AsComponent--description" href="appstream/AsComponent.html#AsComponent--description">
 <ANCHOR id="AsComponent--developer-name" href="appstream/AsComponent.html#AsComponent--developer-name">
-<ANCHOR id="AsComponent--icon" href="appstream/AsComponent.html#AsComponent--icon">
 <ANCHOR id="AsComponent--icon-urls" href="appstream/AsComponent.html#AsComponent--icon-urls">
 <ANCHOR id="AsComponent--id" href="appstream/AsComponent.html#AsComponent--id">
 <ANCHOR id="AsComponent--keywords" href="appstream/AsComponent.html#AsComponent--keywords">
@@ -88,10 +90,13 @@
 <ANCHOR id="AsComponent--urls" href="appstream/AsComponent.html#AsComponent--urls">
 <ANCHOR id="AsRelease" href="appstream/AsRelease.html">
 <ANCHOR id="AsRelease.functions" href="appstream/AsRelease.html#AsRelease.functions">
+<ANCHOR id="AsRelease.other" href="appstream/AsRelease.html#AsRelease.other">
 <ANCHOR id="AsRelease.object-hierarchy" href="appstream/AsRelease.html#AsRelease.object-hierarchy">
 <ANCHOR id="AsRelease.includes" href="appstream/AsRelease.html#AsRelease.includes">
 <ANCHOR id="AsRelease.description" href="appstream/AsRelease.html#AsRelease.description">
 <ANCHOR id="AsRelease.functions_details" href="appstream/AsRelease.html#AsRelease.functions_details">
+<ANCHOR id="as-checksum-kind-to-string" href="appstream/AsRelease.html#as-checksum-kind-to-string">
+<ANCHOR id="as-checksum-kind-from-string" href="appstream/AsRelease.html#as-checksum-kind-from-string">
 <ANCHOR id="as-release-new" href="appstream/AsRelease.html#as-release-new">
 <ANCHOR id="as-release-get-version" href="appstream/AsRelease.html#as-release-get-version">
 <ANCHOR id="as-release-set-version" href="appstream/AsRelease.html#as-release-set-version">
@@ -101,7 +106,12 @@
 <ANCHOR id="as-release-set-description" href="appstream/AsRelease.html#as-release-set-description">
 <ANCHOR id="as-release-get-active-locale" href="appstream/AsRelease.html#as-release-get-active-locale">
 <ANCHOR id="as-release-set-active-locale" href="appstream/AsRelease.html#as-release-set-active-locale">
+<ANCHOR id="as-release-get-locations" href="appstream/AsRelease.html#as-release-get-locations">
+<ANCHOR id="as-release-add-location" href="appstream/AsRelease.html#as-release-add-location">
+<ANCHOR id="as-release-get-checksum" href="appstream/AsRelease.html#as-release-get-checksum">
+<ANCHOR id="as-release-set-checksum" href="appstream/AsRelease.html#as-release-set-checksum">
 <ANCHOR id="AsRelease.other_details" href="appstream/AsRelease.html#AsRelease.other_details">
+<ANCHOR id="AsChecksumKind" href="appstream/AsRelease.html#AsChecksumKind">
 <ANCHOR id="AsScreenshot" href="appstream/AsScreenshot.html">
 <ANCHOR id="AsScreenshot.functions" href="appstream/AsScreenshot.html#AsScreenshot.functions">
 <ANCHOR id="AsScreenshot.other" href="appstream/AsScreenshot.html#AsScreenshot.other">
@@ -216,7 +226,6 @@
 <ANCHOR id="AsDataPool.description" href="appstream/AsDataPool.html#AsDataPool.description">
 <ANCHOR id="AsDataPool.functions_details" href="appstream/AsDataPool.html#AsDataPool.functions_details">
 <ANCHOR id="as-data-pool-new" href="appstream/AsDataPool.html#as-data-pool-new">
-<ANCHOR id="as-data-pool-initialize" href="appstream/AsDataPool.html#as-data-pool-initialize">
 <ANCHOR id="as-data-pool-get-watched-locations" href="appstream/AsDataPool.html#as-data-pool-get-watched-locations">
 <ANCHOR id="as-data-pool-update" href="appstream/AsDataPool.html#as-data-pool-update">
 <ANCHOR id="as-data-pool-get-components" href="appstream/AsDataPool.html#as-data-pool-get-components">

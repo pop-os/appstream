@@ -193,6 +193,18 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind">AsChecksumKind</a>, enum in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-checksum-kind-from-string" title="as_checksum_kind_from_string ()">as_checksum_kind_from_string</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-checksum-kind-to-string" title="as_checksum_kind_to_string ()">as_checksum_kind_to_string</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsComponent.html#AsComponent--categories" title="The “categories” property">AsComponent:categories</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
@@ -202,10 +214,6 @@ as_builder_set_data_source_directories, function in AsBuilder
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#AsComponent--developer-name" title="The “developer-name” property">AsComponent:developer-name</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsComponent.html#AsComponent--icon" title="The “icon” property">AsComponent:icon</a>, object property in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -262,6 +270,10 @@ as_builder_set_data_source_directories, function in AsBuilder
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-add-extends" title="as_component_add_extends ()">as_component_add_extends</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-add-icon" title="as_component_add_icon ()">as_component_add_icon</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -453,10 +465,6 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#as-component-set-icon" title="as_component_set_icon ()">as_component_set_icon</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsComponent.html#as-component-set-id" title="as_component_set_id ()">as_component_set_id</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
@@ -554,14 +562,6 @@ as_builder_set_data_source_directories, function in AsBuilder
 </dt>
 <dd></dd>
 <dt>
-AsDataProvider::component, object signal in AsDataProvider
-</dt>
-<dd></dd>
-<dt>
-AsDataProvider:watch-files, object property in AsDataProvider
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsDataPool.html#as-data-pool-get-components" title="as_data_pool_get_components ()">as_data_pool_get_components</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
 </dt>
 <dd></dd>
@@ -571,10 +571,6 @@ AsDataProvider:watch-files, object property in AsDataProvider
 <dd></dd>
 <dt>
 <a class="link" href="AsDataPool.html#as-data-pool-get-watched-locations" title="as_data_pool_get_watched_locations ()">as_data_pool_get_watched_locations</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-initialize" title="as_data_pool_initialize ()">as_data_pool_initialize</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
 </dt>
 <dd></dd>
 <dt>
@@ -594,43 +590,31 @@ AsDataProvider:watch-files, object property in AsDataProvider
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_construct, function in AsDataProvider
+as_dep11_clear_components, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_emit_component, function in AsDataProvider
+as_dep11_get_components, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_execute, function in AsDataProvider
+as_dep11_get_locale, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_get_locale, function in AsDataProvider
+as_dep11_new, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_get_locale_short, function in AsDataProvider
+as_dep11_parse_data, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_get_watch_files, function in AsDataProvider
+as_dep11_parse_file, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
-as_data_provider_log_error, function in AsDataProvider
-</dt>
-<dd></dd>
-<dt>
-as_data_provider_log_warning, function in AsDataProvider
-</dt>
-<dd></dd>
-<dt>
-as_data_provider_set_locale, function in AsDataProvider
-</dt>
-<dd></dd>
-<dt>
-as_data_provider_set_watch_files, function in AsDataProvider
+as_dep11_set_locale, function in AsDEP11
 </dt>
 <dd></dd>
 <dt>
@@ -686,7 +670,23 @@ as_get_locale, function in as-utils-private
 <a class="link" href="AsMenuParser.html#as-get-system-categories" title="as_get_system_categories ()">as_get_system_categories</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
 </dt>
 <dd></dd>
+<dt>
+GS_DEFINE_CLEANUP_FUNCTION, macro in as-utils-private
+</dt>
+<dd></dd>
 <a name="idxI"></a><h3 class="title">I</h3>
+<dt>
+<a class="link" href="AsComponent.html#AsIconKind" title="enum AsIconKind">AsIconKind</a>, enum in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-icon-kind-from-string" title="as_icon_kind_from_string ()">as_icon_kind_from_string</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-icon-kind-to-string" title="as_icon_kind_to_string ()">as_icon_kind_to_string</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
 <dt>
 <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind">AsImageKind</a>, enum in <a class="link" href="AsImage.html" title="AsImage">AsImage</a>
 </dt>
@@ -866,66 +866,6 @@ AsParserMode, enum in as-metadata-private
 </dt>
 <dd></dd>
 <dt>
-AsProviderDEP11, struct in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-AsProviderDEP11Class, struct in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-AsProviderDEP11Private, struct in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-AsProviderUbuntuAppinstall, struct in AsProviderUbuntuAppinstall
-</dt>
-<dd></dd>
-<dt>
-AsProviderUbuntuAppinstallClass, struct in AsProviderUbuntuAppinstall
-</dt>
-<dd></dd>
-<dt>
-AsProviderUbuntuAppinstallPrivate, struct in AsProviderUbuntuAppinstall
-</dt>
-<dd></dd>
-<dt>
-as_provider_dep11_construct, function in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-as_provider_dep11_new, function in AsProviderDEP11
-</dt>
-<dd></dd>
-<dt>
-AS_PROVIDER_TYPE_XML, macro in AsProviderXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_ubuntu_appinstall_construct, function in AsProviderUbuntuAppinstall
-</dt>
-<dd></dd>
-<dt>
-as_provider_ubuntu_appinstall_new, function in AsProviderUbuntuAppinstall
-</dt>
-<dd></dd>
-<dt>
-as_provider_xml_construct, function in AsProviderXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_xml_new, function in AsProviderXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_xml_process_compressed_file, function in AsProviderXML
-</dt>
-<dd></dd>
-<dt>
-as_provider_xml_process_file, function in AsProviderXML
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="appstream-as-provides.html#AsProvidesKind" title="enum AsProvidesKind">AsProvidesKind</a>, enum in <a class="link" href="appstream-as-provides.html" title="as-provides">as-provides</a>
 </dt>
 <dd></dd>
@@ -951,11 +891,23 @@ as_provider_xml_process_file, function in AsProviderXML
 <dd></dd>
 <a name="idxR"></a><h3 class="title">R</h3>
 <dt>
+<a class="link" href="AsRelease.html#as-release-add-location" title="as_release_add_location ()">as_release_add_location</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsRelease.html#as-release-get-active-locale" title="as_release_get_active_locale ()">as_release_get_active_locale</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsRelease.html#as-release-get-checksum" title="as_release_get_checksum ()">as_release_get_checksum</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsRelease.html#as-release-get-description" title="as_release_get_description ()">as_release_get_description</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-release-get-locations" title="as_release_get_locations ()">as_release_get_locations</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
 <dt>
@@ -972,6 +924,10 @@ as_provider_xml_process_file, function in AsProviderXML
 <dd></dd>
 <dt>
 <a class="link" href="AsRelease.html#as-release-set-active-locale" title="as_release_set_active_locale ()">as_release_set_active_locale</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-release-set-checksum" title="as_release_set_checksum ()">as_release_set_checksum</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
 <dt>

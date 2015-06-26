@@ -109,16 +109,6 @@
 </ARG>
 
 <ARG>
-<NAME>AsComponent::icon</NAME>
-<TYPE>gchar*</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>icon</NICK>
-<BLURB>icon.</BLURB>
-<DEFAULT>NULL</DEFAULT>
-</ARG>
-
-<ARG>
 <NAME>AsComponent::icon-urls</NAME>
 <TYPE>GHashTable*</TYPE>
 <RANGE></RANGE>
@@ -225,16 +215,6 @@
 <FLAGS>r</FLAGS>
 <NICK>urls</NICK>
 <BLURB>urls.</BLURB>
-<DEFAULT></DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsDataProvider::watch-files</NAME>
-<TYPE>GStrv</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>watch-files</NICK>
-<BLURB>watch-files.</BLURB>
 <DEFAULT></DEFAULT>
 </ARG>
 
