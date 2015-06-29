@@ -40,7 +40,7 @@ int main()
 	g_debug ("Distro XML: %s", xml_distro);
 
 	g_assert_cmpstr (xml_upstream, ==, "<?xml version=\"1.0\"?>\n<component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component>\n");
-	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\"?>\n<components version=\"0.7\"><component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component></components>\n");
+	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\"?>\n<components version=\"0.8\"><component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component></components>\n");
 
 	g_free (xml_upstream);
 	g_free (xml_distro);
