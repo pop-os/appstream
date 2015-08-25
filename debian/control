@@ -19,11 +19,13 @@ Homepage: http://www.freedesktop.org/wiki/Distributions/AppStream/
 Vcs-Git: git://anonscm.debian.org/pkg-packagekit/appstream.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=pkg-packagekit/appstream.git
 
-Package: appstream-index
+Package: appstream
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Description: Software component index generator
+Breaks: appstream-index (<< 0.8.2-2)
+Replaces: appstream-index (<< 0.8.2-2)
+Description: Software component index
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
  of a distribution.
@@ -42,7 +44,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream-index (>= ${binary:Version})
+Recommends: appstream (>= ${binary:Version})
 Description: Library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
@@ -93,7 +95,7 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream-index (>= ${binary:Version})
+Recommends: appstream (>= ${binary:Version})
 Description: Qt5 library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
@@ -124,7 +126,7 @@ Package: appstream-doc
 Architecture: all
 Section: doc
 Depends: ${misc:Depends}
-Suggests: appstream-index
+Suggests: appstream
 Description: Developer documentation for AppStream
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
