@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsValidator.top_of_page">AsValidator</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsValidator</refname>
@@ -83,11 +81,7 @@ as_validator_clear_issues (<parameter><link linkend="AsValidator"><type>AsValida
 as_validator_validate_file (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter><link linkend="GFile"><type>GFile</type></link> *metadata_file</parameter>);</programlisting>
 <para>Validate an AppStream XML file</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-validator-validate-data" role="function">
 <title>as_validator_validate_data&#160;()</title>
 <indexterm zone="as-validator-validate-data"><primary>as_validator_validate_data</primary></indexterm>
@@ -95,11 +89,7 @@ as_validator_validate_file (<parameter><link linkend="AsValidator"><type>AsValid
 as_validator_validate_data (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *metadata</parameter>);</programlisting>
 <para>Validate AppStream XML data</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-validator-get-issues" role="function">
 <title>as_validator_get_issues&#160;()</title>
 <indexterm zone="as-validator-get-issues"><primary>as_validator_get_issues</primary></indexterm>

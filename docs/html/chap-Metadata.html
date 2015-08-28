@@ -28,6 +28,8 @@
       ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;id&gt;</code> tag is a short and unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers, spaces are not allowed. Specialized metainfo types, such as application or fonts, may apply additional restrictions on the <code class="literal">id</code> tag value.
 					</div><div class="para">
+						A general pattern for a valid ID tag is to use a reverse URL scheme, consisting of <code class="literal">&lt;tld&gt;.&lt;vendor&gt;.&lt;product&gt;.&lt;type&gt;</code>, e.g. <code class="code">org.kde.gwenview.desktop</code> or <code class="code">com.hugski.ColorHug2.firmware</code>.
+					</div><div class="para">
 						Note that the value of this tag must be <span class="emphasis"><em>unique</em></span> across all distributions. In case it is not, distributors are expected to reject the conflicting components from inclusion into their metadata.
 					</div></dd><dt><a id="tag-metadata_license">
       ⁠</a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
@@ -98,17 +100,13 @@
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
 									A modalias glob representing the hardware types (for example USB, PCI, ACPI, DMI) this component handles. Useful for installing printer drivers or other USB protocol drivers for smartphones, firmware, kernel drivers which are not merged upstream yet or whatever else.
 								</div></dd><dt><span class="term">&lt;firmware/&gt;</span></dt><dd><div class="para">
-									Name of the firmware this component provides, to make it possible to find the right firmware package to install for a given kernel driver. The value is the path below /lib/firmware to the firmware file in question, like the firmware value exported from Linux kernel modules.
-								</div><div class="para">
-									Example:
-								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware&gt;</span>ipw2200-bss.fw<span xmlns="" class="perl_Keyword">&lt;/firmware&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;python2/&gt;</span></dt><dd><div class="para">
+									This provided element is described in details for the <code class="literal">firmware</code> component type, where it is mandatory. Please see <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-provides">&lt;provides/&gt; ↪ &lt;firmware/&gt;</a> for more information.
+								</div></dd><dt><span class="term">&lt;python2/&gt;</span></dt><dd><div class="para">
 									Name of a Python2 module this component provides.
 								</div></dd><dt><span class="term">&lt;python3/&gt;</span></dt><dd><div class="para">
 									Name of a Python3 module this component provides.
 								</div></dd><dt><span class="term">&lt;dbus/&gt;</span></dt><dd><div class="para">
-									Contains the name of a DBus service as property. The type of the service must be specified using the <code class="literal">type</code> property of this tag. Allowed values are <code class="code">session</code> and <code class="code">system</code>.
+									Contains the name of a DBus service as property. The type of the service must be specified using the <code class="literal">type</code> property of this tag. Allowed values are <code class="code">user</code> and <code class="code">system</code>.
 								</div><div class="para">
 									Example:
 								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>

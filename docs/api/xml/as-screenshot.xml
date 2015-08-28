@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsScreenshot.top_of_page">AsScreenshot</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsScreenshot</refname>
@@ -129,7 +127,6 @@ as_screenshot_kind_to_string (<parameter><link linkend="AsScreenshotKind"><type>
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-screenshot-is-valid" role="function">
 <title>as_screenshot_is_valid&#160;()</title>
@@ -152,7 +149,6 @@ as_screenshot_is_valid (<parameter><link linkend="AsScreenshot"><type>AsScreensh
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> TRUE if the screenshot is a complete <link linkend="AsScreenshot"><type>AsScreenshot</type></link></para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-screenshot-new" role="function">
 <title>as_screenshot_new&#160;()</title>
@@ -186,7 +182,6 @@ as_screenshot_get_kind (<parameter><link linkend="AsScreenshot"><type>AsScreensh
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsScreenshotKind"><type>AsScreenshotKind</type></link></para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-screenshot-set-kind" role="function">
 <title>as_screenshot_set_kind&#160;()</title>
@@ -232,7 +227,6 @@ as_screenshot_get_caption (<parameter><link linkend="AsScreenshot"><type>AsScree
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> the caption</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-screenshot-set-caption" role="function">
 <title>as_screenshot_set_caption&#160;()</title>
@@ -311,11 +305,7 @@ as_screenshot_add_image (<parameter><link linkend="AsScreenshot"><type>AsScreens
 as_screenshot_get_active_locale (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
 <para>Get the current active locale, which
 is used to get localized messages.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-screenshot-set-active-locale" role="function">
 <title>as_screenshot_set_active_locale&#160;()</title>
 <indexterm zone="as-screenshot-set-active-locale"><primary>as_screenshot_set_active_locale</primary></indexterm>

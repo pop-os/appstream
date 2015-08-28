@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsComponent.top_of_page">AsComponent</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsComponent</refname>
@@ -244,7 +242,6 @@ as_component_kind_to_string (<parameter><link linkend="AsComponentKind"><type>As
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-kind-from-string" role="function">
 <title>as_component_kind_from_string&#160;()</title>
@@ -267,7 +264,6 @@ as_component_kind_from_string (<parameter>const <link linkend="gchar"><type>gcha
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsComponentKind"><type>AsComponentKind</type></link> or <link linkend="AS-COMPONENT-KIND-UNKNOWN:CAPS"><literal>AS_COMPONENT_KIND_UNKNOWN</literal></link> for unknown</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-icon-kind-from-string" role="function">
 <title>as_icon_kind_from_string&#160;()</title>
@@ -290,7 +286,6 @@ as_icon_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</ty
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsIconKind"><type>AsIconKind</type></link> or <link linkend="AS-ICON-KIND-UNKNOWN:CAPS"><literal>AS_ICON_KIND_UNKNOWN</literal></link> for unknown</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-icon-kind-to-string" role="function">
 <title>as_icon_kind_to_string&#160;()</title>
@@ -314,7 +309,6 @@ as_icon_kind_to_string (<parameter><link linkend="AsIconKind"><type>AsIconKind</
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-new" role="function">
 <title>as_component_new&#160;()</title>
@@ -337,7 +331,6 @@ populated with useful data.</para>
 <refsect3 role="returns">
 <title>Returns</title>
 <para> TRUE if the component data was validated successfully.</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-to-string" role="function">
 <title>as_component_to_string&#160;()</title>
@@ -358,11 +351,7 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 as_component_get_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the current active locale for this component, which
 is used to get localized messages.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-active-locale" role="function">
 <title>as_component_set_active_locale&#160;()</title>
 <indexterm zone="as-component-set-active-locale"><primary>as_component_set_active_locale</primary></indexterm>
@@ -380,11 +369,7 @@ one locale is available.</para>
 <programlisting language="C"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 as_component_get_kind (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Returns the <link linkend="AsComponentKind"><type>AsComponentKind</type></link> of this component.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-kind" role="function">
 <title>as_component_set_kind&#160;()</title>
 <indexterm zone="as-component-set-kind"><primary>as_component_set_kind</primary></indexterm>
@@ -399,11 +384,7 @@ as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Set the unique identifier for this component.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-id" role="function">
 <title>as_component_set_id&#160;()</title>
 <indexterm zone="as-component-set-id"><primary>as_component_set_id</primary></indexterm>
@@ -417,11 +398,7 @@ as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</t
 <indexterm zone="as-component-get-origin"><primary>as_component_get_origin</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_origin (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-origin" role="function">
 <title>as_component_set_origin&#160;()</title>
 <indexterm zone="as-component-set-origin"><primary>as_component_set_origin</primary></indexterm>
@@ -467,11 +444,7 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-source-pkgname"><primary>as_component_get_source_pkgname</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_source_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-source-pkgname" role="function">
 <title>as_component_set_source_pkgname&#160;()</title>
 <indexterm zone="as-component-set-source-pkgname"><primary>as_component_set_source_pkgname</primary></indexterm>
@@ -485,11 +458,7 @@ as_component_set_source_pkgname (<parameter><link linkend="AsComponent"><type>As
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>A human-readable name for this component.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-name" role="function">
 <title>as_component_set_name&#160;()</title>
 <indexterm zone="as-component-set-name"><primary>as_component_set_name</primary></indexterm>
@@ -523,11 +492,7 @@ as_component_set_name (<parameter><link linkend="AsComponent"><type>AsComponent<
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_summary (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a short description of this component.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-summary" role="function">
 <title>as_component_set_summary&#160;()</title>
 <indexterm zone="as-component-set-summary"><primary>as_component_set_summary</primary></indexterm>
@@ -561,11 +526,7 @@ as_component_set_summary (<parameter><link linkend="AsComponent"><type>AsCompone
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_description (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the localized long description of this component.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-description" role="function">
 <title>as_component_set_description&#160;()</title>
 <indexterm zone="as-component-set-description"><primary>as_component_set_description</primary></indexterm>
@@ -599,11 +560,7 @@ as_component_set_description (<parameter><link linkend="AsComponent"><type>AsCom
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_project_license (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the license of the project this component belongs to.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-project-license" role="function">
 <title>as_component_set_project_license&#160;()</title>
 <indexterm zone="as-component-set-project-license"><primary>as_component_set_project_license</primary></indexterm>
@@ -618,11 +575,7 @@ as_component_set_project_license (<parameter><link linkend="AsComponent"><type>A
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_project_group (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the component's project group.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-project-group" role="function">
 <title>as_component_set_project_group&#160;()</title>
 <indexterm zone="as-component-set-project-group"><primary>as_component_set_project_group</primary></indexterm>
@@ -637,11 +590,7 @@ as_component_set_project_group (<parameter><link linkend="AsComponent"><type>AsC
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_developer_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the component's developer or development team name.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-component-set-developer-name" role="function">
 <title>as_component_set_developer_name&#160;()</title>
 <indexterm zone="as-component-set-developer-name"><primary>as_component_set_developer_name</primary></indexterm>
@@ -697,7 +646,6 @@ as_component_is_compulsory_for_desktop
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if compulsory, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> otherwise.</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-get-categories" role="function">
 <title>as_component_get_categories&#160;()</title>
@@ -770,10 +718,6 @@ as_component_has_category (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> object</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-get-screenshots" role="function">
 <title>as_component_get_screenshots&#160;()</title>
@@ -868,7 +812,6 @@ as_component_get_icon (<parameter><link linkend="AsComponent"><type>AsComponent<
 <para> The raw icon data found for the given icon kind and size.
 If the icon kind is <link linkend="AS-ICON-KIND-STOCK:CAPS"><literal>AS_ICON_KIND_STOCK</literal></link>, the size is ignored.
 <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned in case no icon was found.</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-add-icon" role="function">
 <title>as_component_add_icon&#160;()</title>
@@ -928,8 +871,7 @@ to the <link linkend="as-component-get-icon"><function>as_component_get_icon()</
 In case no icon matching the size is found, <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned.
 The returned path will either be a http link or an absolute, local
 path to the image file of the icon.</para>
-<para></para>
-</refsect3><para role="since">Since 0.7.4</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.4">0.7.4</link></para></refsect2>
 <refsect2 id="as-component-add-icon-url" role="function" condition="since:0.7.4">
 <title>as_component_add_icon_url&#160;()</title>
 <indexterm zone="as-component-add-icon-url" role="0.7.4"><primary>as_component_add_icon_url</primary></indexterm>
@@ -966,7 +908,7 @@ use the <link linkend="as-component-add-icon"><function>as_component_add_icon()<
 <entry role="parameter_description"><para>The full icon url</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.7.4</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.4">0.7.4</link></para></refsect2>
 <refsect2 id="as-component-get-icon-urls" role="function" condition="since:0.7.4">
 <title>as_component_get_icon_urls&#160;()</title>
 <indexterm zone="as-component-get-icon-urls" role="0.7.4"><primary>as_component_get_icon_urls</primary></indexterm>
@@ -989,7 +931,7 @@ as_component_get_icon_urls (<parameter><link linkend="AsComponent"><type>AsCompo
 <title>Returns</title>
 <para> A hash map of icon urls and sizes. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3><para role="since">Since 0.7.4</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.4">0.7.4</link></para></refsect2>
 <refsect2 id="as-component-get-provided-items" role="function">
 <title>as_component_get_provided_items&#160;()</title>
 <indexterm zone="as-component-get-provided-items"><primary>as_component_get_provided_items</primary></indexterm>
@@ -1029,7 +971,7 @@ as_component_add_provided_item (<parameter><link linkend="AsComponent"><type>AsC
 <entry role="parameter_description"><para> additional data associated with this item, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. </para></entry>
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>allow-none</acronym>][<acronym>default</acronym> NULL]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.6.2</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.2">0.6.2</link></para></refsect2>
 <refsect2 id="as-component-provides-item" role="function">
 <title>as_component_provides_item&#160;()</title>
 <indexterm zone="as-component-provides-item"><primary>as_component_provides_item</primary></indexterm>
@@ -1059,7 +1001,6 @@ as_component_provides_item (<parameter><link linkend="AsComponent"><type>AsCompo
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if an item was found</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-get-urls" role="function" condition="since:0.6.2">
 <title>as_component_get_urls&#160;()</title>
@@ -1083,7 +1024,7 @@ as_component_get_urls (<parameter><link linkend="AsComponent"><type>AsComponent<
 <title>Returns</title>
 <para> URLs. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3><para role="since">Since 0.6.2</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.2">0.6.2</link></para></refsect2>
 <refsect2 id="as-component-get-url" role="function" condition="since:0.6.2">
 <title>as_component_get_url&#160;()</title>
 <indexterm zone="as-component-get-url" role="0.6.2"><primary>as_component_get_url</primary></indexterm>
@@ -1109,8 +1050,7 @@ as_component_get_url (<parameter><link linkend="AsComponent"><type>AsComponent</
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset</para>
-<para></para>
-</refsect3><para role="since">Since 0.6.2</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.2">0.6.2</link></para></refsect2>
 <refsect2 id="as-component-add-url" role="function" condition="since:0.6.2">
 <title>as_component_add_url&#160;()</title>
 <indexterm zone="as-component-add-url" role="0.6.2"><primary>as_component_add_url</primary></indexterm>
@@ -1137,7 +1077,7 @@ as_component_add_url (<parameter><link linkend="AsComponent"><type>AsComponent</
 <entry role="parameter_description"><para>the full URL.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.6.2</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.2">0.6.2</link></para></refsect2>
 <refsect2 id="as-component-get-releases" role="function">
 <title>as_component_get_releases&#160;()</title>
 <indexterm zone="as-component-get-releases"><primary>as_component_get_releases</primary></indexterm>
@@ -1196,7 +1136,7 @@ are extended by this addon.</para>
 <title>Returns</title>
 <para> an array. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3><para role="since">Since 0.7.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
 <refsect2 id="as-component-add-extends" role="function">
 <title>as_component_add_extends&#160;()</title>
 <indexterm zone="as-component-add-extends"><primary>as_component_add_extends</primary></indexterm>
@@ -1246,7 +1186,7 @@ as_component_add_language (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para>the percentage completion of the translation, 0 for locales with unknown amount of translation</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.7.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
 <refsect2 id="as-component-get-language" role="function" condition="since:0.7.0">
 <title>as_component_get_language&#160;()</title>
 <indexterm zone="as-component-get-language" role="0.7.0"><primary>as_component_get_language</primary></indexterm>
@@ -1272,8 +1212,7 @@ as_component_get_language (<parameter><link linkend="AsComponent"><type>AsCompon
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a percentage value, -1 if locale was not found</para>
-<para></para>
-</refsect3><para role="since">Since 0.7.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
 <refsect2 id="as-component-get-languages" role="function" condition="since:0.7.0">
 <title>as_component_get_languages&#160;()</title>
 <indexterm zone="as-component-get-languages" role="0.7.0"><primary>as_component_get_languages</primary></indexterm>
@@ -1296,7 +1235,7 @@ as_component_get_languages (<parameter><link linkend="AsComponent"><type>AsCompo
 <title>Returns</title>
 <para> list of locales. </para>
 <para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
-</refsect3><para role="since">Since 0.7.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
 <refsect2 id="as-component-get-bundle-ids" role="function" condition="since:0.8.0">
 <title>as_component_get_bundle_ids&#160;()</title>
 <indexterm zone="as-component-get-bundle-ids" role="0.8.0"><primary>as_component_get_bundle_ids</primary></indexterm>
@@ -1319,7 +1258,7 @@ as_component_get_bundle_ids (<parameter><link linkend="AsComponent"><type>AsComp
 <title>Returns</title>
 <para> Bundle ids. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3><para role="since">Since 0.8.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 <refsect2 id="as-component-get-bundle-id" role="function" condition="since:0.8.0">
 <title>as_component_get_bundle_id&#160;()</title>
 <indexterm zone="as-component-get-bundle-id" role="0.8.0"><primary>as_component_get_bundle_id</primary></indexterm>
@@ -1345,8 +1284,7 @@ as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset</para>
-<para></para>
-</refsect3><para role="since">Since 0.8.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 <refsect2 id="as-component-add-bundle-id" role="function" condition="since:0.8.0">
 <title>as_component_add_bundle_id&#160;()</title>
 <indexterm zone="as-component-add-bundle-id" role="0.8.0"><primary>as_component_add_bundle_id</primary></indexterm>
@@ -1373,7 +1311,7 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <entry role="parameter_description"><para>The bundle identification string</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.8.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">
