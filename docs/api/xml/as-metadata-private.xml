@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="appstream-as-metadata-private.top_of_page">as-metadata-private</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>as-metadata-private</refname>
@@ -66,11 +64,7 @@ as_metadata_parse_component_node (<parameter><link linkend="AsMetadata"><type>As
                                   <parameter><link linkend="xmlNode"><type>xmlNode</type></link> *node</parameter>,
                                   <parameter><link linkend="gboolean"><type>gboolean</type></link> allow_invalid</parameter>,
                                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-metadata-set-parser-mode" role="function">
 <title>as_metadata_set_parser_mode&#160;()</title>
 <indexterm zone="as-metadata-set-parser-mode"><primary>as_metadata_set_parser_mode</primary></indexterm>
@@ -115,7 +109,6 @@ as_metadata_get_parser_mode (<parameter><link linkend="AsMetadata"><type>AsMetad
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> an <link linkend="AsParserMode"><type>AsParserMode</type></link></para>
-<para></para>
 </refsect3></refsect2>
 
 </refsect1>

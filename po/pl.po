@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-06-26 14:43+0200\n"
-"PO-Revision-Date: 2015-05-31 15:32+0000\n"
+"POT-Creation-Date: 2015-08-28 21:16+0200\n"
+"PO-Revision-Date: 2015-08-27 15:03+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
-"Language-Team: Polish (http://www.transifex.com/projects/p/appstream/"
+"Language-Team: Polish (http://www.transifex.com/freedesktop/appstream/"
 "language/pl/)\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -21,10 +21,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2);\n"
 
 msgid "A provides-item type (e.g. lib, bin, python3, ...)"
-msgstr "Typ elementu Provides (np. lib, bin, python3...)"
-
-msgid "AppStream Validation Utility"
-msgstr "Narzędzie sprawdzania poprawności AppStream"
+msgstr "Typ elementu Provides (np. lib, bin, python3…)"
 
 msgid "AppStream cache update completed successfully."
 msgstr "Pomyślnie ukończono aktualizację pamięci podręcznej AppStream."
@@ -41,13 +38,14 @@ msgstr ""
 msgid "AppStream cache update failed."
 msgstr "Aktualizacja pamięci podręcznej AppStream się nie powiodła."
 
-#. TRANSLATORS: This is the header to the --help menu
-msgid "AppStream-Index Client Tool"
-msgstr "Narzędzie klienta AppStream-Index"
-
-#, c-format
-msgid "Appstream-Index client tool version: %s"
+#, fuzzy, c-format
+msgid "AppStream client tool version: %s"
 msgstr "Wersja narzędzia klienta AppStream-Index: %s"
+
+#. TRANSLATORS: This is the header to the --help menu
+#, fuzzy
+msgid "AppStream command-line interface"
+msgstr "Aktualizacja pamięci podręcznej AppStream się nie powiodła."
 
 msgid "Bundle"
 msgstr "Paczka"
@@ -57,7 +55,7 @@ msgstr "Kategorie"
 
 #, c-format
 msgid "Command '%s' is unknown."
-msgstr "Nieznane polecenie \"%s\"."
+msgstr "Nieznane polecenie „%s”."
 
 msgid "Compulsory for"
 msgstr "Obowiązkowe dla"
@@ -72,11 +70,11 @@ msgstr "Programista"
 msgid "Don't show colored output"
 msgstr "Bez kolorowania wyjścia"
 
+msgid "Dump raw XML metadata for a component matching the ID"
+msgstr ""
+
 msgid "Enforce a cache refresh"
 msgstr "Wymusza odświeżenie pamięci podręcznej"
-
-msgid "Failed to parse arguments"
-msgstr "Przetworzenie parametrów się nie powiodło"
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -85,7 +83,8 @@ msgstr "Nie odnaleziono pliku %s lub odmówiono uprawnień."
 msgid "Get components which provide the given item"
 msgstr "Uzyskuje składniki dostarczające podany element"
 
-msgid "Get information about a component by its id"
+#, fuzzy
+msgid "Get information about a component by its ID"
 msgstr "Uzyskuje informacje o składniku według jego identyfikatora"
 
 msgid "Homepage"
@@ -117,11 +116,11 @@ msgstr "Nazwa"
 
 #, c-format
 msgid "No component matching '%s' found."
-msgstr "Nie odnaleziono składnika pasującego do \"%s\"."
+msgstr "Nie odnaleziono składnika pasującego do „%s”."
 
 #, c-format
 msgid "No component providing '%s:%s:%s' found."
-msgstr "Nie odnaleziono składnika dostarczającego \"%s:%s:%s\"."
+msgstr "Nie odnaleziono składnika dostarczającego „%s:%s:%s”."
 
 msgid "No value for the provides-item to search for defined."
 msgstr "Nie określono wartości dla wyszukiwanego elementu Provides."
@@ -145,8 +144,7 @@ msgstr "Ponownie buduje pamięć podręczną informacji o składnikach"
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
-"Wykonanie polecenia \"%s --help\" wyświetli pełną listę dostępnych opcji "
-"wiersza poleceń."
+"Polecenie „%s --help” wyświetli pełną listę dostępnych opcji wiersza poleceń."
 
 msgid "Sample Screenshot URL"
 msgstr "Przykładowy adres URL zrzutu ekranu"
@@ -160,16 +158,10 @@ msgstr "Proszę wybrać wartość dla elementu Provides, który należy odnaleź
 msgid "Show extra debugging information"
 msgstr "Wyświetla dodatkowe informacje debugowania"
 
-msgid "Show issues from pedantic tests"
-msgstr "Wyświetla problemy z drobiazgowych testów"
-
-msgid "Show program version"
-msgstr "Wyświetla wersję programu"
-
 msgid "Show the program version"
 msgstr "Wyświetla wersję programu"
 
-#. these are commands we can use with appstream-index
+#. these are commands we can use with appstream-cli
 msgid "Subcommands:"
 msgstr "Podpolecenia:"
 
@@ -183,18 +175,28 @@ msgstr "Nie można odnaleźć składnika pasującego do %s."
 
 #, c-format
 msgid "Unable to find component providing '%s:%s:%s'!"
-msgstr "Nie można odnaleźć składnika dostarczającego \"%s:%s:%s\"."
+msgstr "Nie można odnaleźć składnika dostarczającego „%s:%s:%s”."
 
 #, c-format
 msgid "Unable to find component with id '%s'!"
-msgstr "Nie można odnaleźć składnika o identyfikatorze \"%s\"."
+msgstr "Nie można odnaleźć składnika o identyfikatorze „%s”."
+
+msgid "Validate AppStream XML files for issues"
+msgstr ""
+
+msgid "Validate AppStream XML files for issues, even pedantic ones"
+msgstr ""
 
 msgid "Validation failed."
 msgstr "Sprawdzenie poprawności się nie powiodło."
 
+#, fuzzy
+msgid "Validation was successful."
+msgstr "Sprawdzenie poprawności się nie powiodło."
+
 #, c-format
 msgid "XDG Menu XML file '%s' is damaged."
-msgstr "Plik menu XDG w formacie XML \"%s\" jest uszkodzony."
+msgstr "Plik menu XDG w formacie XML „%s” jest uszkodzony."
 
 msgid "You need to run this command with superuser permissions!"
 msgstr "Należy wykonać to polecenie z uprawnieniami superużytkownika."
@@ -221,3 +223,18 @@ msgid "app;application;package;program;programme;suite;tool"
 msgstr ""
 "aplikacja;apka;app;application;pakiet;paczka;package;program;programme;"
 "zestaw;suite;narzędzie;tool"
+
+#~ msgid "AppStream Validation Utility"
+#~ msgstr "Narzędzie sprawdzania poprawności AppStream"
+
+#~ msgid "AppStream-Index Client Tool"
+#~ msgstr "Narzędzie klienta AppStream-Index"
+
+#~ msgid "Failed to parse arguments"
+#~ msgstr "Przetworzenie parametrów się nie powiodło"
+
+#~ msgid "Show issues from pedantic tests"
+#~ msgstr "Wyświetla problemy z drobiazgowych testów"
+
+#~ msgid "Show program version"
+#~ msgstr "Wyświetla wersję programu"

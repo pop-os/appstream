@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="appstream-as-enums.top_of_page">as-enums</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>as-enums</refname>
@@ -83,7 +81,6 @@ as_url_kind_to_string (<parameter><link linkend="AsUrlKind"><type>AsUrlKind</typ
 <title>Returns</title>
 <para> string version of <parameter>url_kind</parameter>
 </para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-url-kind-from-string" role="function">
 <title>as_url_kind_from_string&#160;()</title>
@@ -106,7 +103,6 @@ as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</typ
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsUrlKind"><type>AsUrlKind</type></link> or <link linkend="AS-URL-KIND-UNKNOWN:CAPS"><literal>AS_URL_KIND_UNKNOWN</literal></link> for unknown</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-bundle-kind-to-string" role="function" condition="since:0.8.0">
 <title>as_bundle_kind_to_string&#160;()</title>
@@ -130,8 +126,7 @@ as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundle
 <title>Returns</title>
 <para> string version of <parameter>bundle_kind</parameter>
 </para>
-<para></para>
-</refsect3><para role="since">Since 0.8.0</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 <refsect2 id="as-bundle-kind-from-string" role="function">
 <title>as_bundle_kind_from_string&#160;()</title>
 <indexterm zone="as-bundle-kind-from-string"><primary>as_bundle_kind_from_string</primary></indexterm>
@@ -153,7 +148,6 @@ as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsBundleKind"><type>AsBundleKind</type></link> or <link linkend="AS-BUNDLE-KIND-UNKNOWN:CAPS"><literal>AS_BUNDLE_KIND_UNKNOWN</literal></link> for unknown</para>
-<para></para>
 </refsect3></refsect2>
 
 </refsect1>

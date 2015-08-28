@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsSearchQuery.top_of_page">AsSearchQuery</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsSearchQuery</refname>
@@ -127,7 +125,6 @@ as_search_query_get_search_all_categories
 <refsect3 role="returns">
 <title>Returns</title>
 <para> TRUE if we search in all categories</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-search-query-get-categories" role="function">
 <title>as_search_query_get_categories&#160;()</title>
@@ -193,11 +190,7 @@ as_search_query_sanitize_search_term (<parameter><link linkend="AsSearchQuery"><
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_search_query_get_search_term (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
 <para>Returns the search-term we currently use</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 
 </refsect1>
 <refsect1 id="AsSearchQuery.other_details" role="details">

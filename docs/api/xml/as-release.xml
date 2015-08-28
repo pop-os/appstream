@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsRelease.top_of_page">AsRelease</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsRelease</refname>
@@ -116,7 +114,6 @@ as_checksum_kind_to_string (<parameter><link linkend="AsChecksumKind"><type>AsCh
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-checksum-kind-from-string" role="function">
 <title>as_checksum_kind_from_string&#160;()</title>
@@ -139,7 +136,6 @@ as_checksum_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> or <link linkend="AS-CHECKSUM-KIND-NONE:CAPS"><literal>AS_CHECKSUM_KIND_NONE</literal></link> for unknown</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-release-new" role="function">
 <title>as_release_new&#160;()</title>
@@ -173,7 +169,6 @@ as_release_get_version (<parameter><link linkend="AsRelease"><type>AsRelease</ty
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-release-set-version" role="function">
 <title>as_release_set_version&#160;()</title>
@@ -219,7 +214,6 @@ as_release_get_timestamp (<parameter><link linkend="AsRelease"><type>AsRelease</
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> timestamp, or 0 for unset</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-release-set-timestamp" role="function">
 <title>as_release_set_timestamp&#160;()</title>
@@ -265,7 +259,6 @@ as_release_get_description (<parameter><link linkend="AsRelease"><type>AsRelease
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> markup, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-release-set-description" role="function">
 <title>as_release_set_description&#160;()</title>
@@ -298,11 +291,7 @@ as_release_set_description (<parameter><link linkend="AsRelease"><type>AsRelease
 as_release_get_active_locale (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
 <para>Get the current active locale, which
 is used to get localized messages.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-release-set-active-locale" role="function">
 <title>as_release_set_active_locale&#160;()</title>
 <indexterm zone="as-release-set-active-locale"><primary>as_release_set_active_locale</primary></indexterm>
@@ -325,7 +314,7 @@ as_release_get_locations (<parameter><link linkend="AsRelease"><type>AsRelease</
 <title>Returns</title>
 <para> list of locations. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
-</refsect3><para role="since">Since 0.8.1</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.1">0.8.1</link></para></refsect2>
 <refsect2 id="as-release-add-location" role="function" condition="since:0.8.1">
 <title>as_release_add_location&#160;()</title>
 <indexterm zone="as-release-add-location" role="0.8.1"><primary>as_release_add_location</primary></indexterm>
@@ -345,7 +334,7 @@ as_release_add_location (<parameter><link linkend="AsRelease"><type>AsRelease</t
 <entry role="parameter_description"><para>An URL of the download location</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since 0.8.1</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.1">0.8.1</link></para></refsect2>
 <refsect2 id="as-release-get-checksum" role="function" condition="since:0.8.2">
 <title>as_release_get_checksum&#160;()</title>
 <indexterm zone="as-release-get-checksum" role="0.8.2"><primary>as_release_get_checksum</primary></indexterm>
@@ -356,8 +345,7 @@ as_release_get_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</t
 <refsect3 role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> for not set or invalid</para>
-<para></para>
-</refsect3><para role="since">Since 0.8.2</para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.2">0.8.2</link></para></refsect2>
 <refsect2 id="as-release-set-checksum" role="function" condition="since:0.8.2">
 <title>as_release_set_checksum&#160;()</title>
 <indexterm zone="as-release-set-checksum" role="0.8.2"><primary>as_release_set_checksum</primary></indexterm>
@@ -366,7 +354,7 @@ as_release_set_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</t
                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *checksum</parameter>,
                          <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> cs_kind</parameter>);</programlisting>
 <para>Set the release checksum.</para>
-<para role="since">Since 0.8.2</para></refsect2>
+<para role="since">Since: <link linkend="api-index-0.8.2">0.8.2</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsRelease.other_details" role="details">

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<!DOCTYPE book PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "">
 <book xmlns="http://www.devhelp.net/book" title="AppStream Library Reference Manual" link="index.html" author="" name="appstream" version="2" language="c">
   <chapters>
     <sub name="AppStream API Reference" link="ch01.html">
@@ -24,8 +23,7 @@
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstream-index" link="re16.html"/>
-      <sub name="appstream-validate" link="re17.html"/>
+      <sub name="appstream-cli" link="re16.html"/>
     </sub>
   </chapters>
   <functions>
@@ -271,5 +269,68 @@
     <keyword type="function" name="as_validator_issue_set_message ()" link="AsValidatorIssue.html#as-validator-issue-set-message"/>
     <keyword type="enum" name="enum AsIssueImportance" link="AsValidatorIssue.html#AsIssueImportance"/>
     <keyword type="enum" name="enum AsIssueKind" link="AsValidatorIssue.html#AsIssueKind"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_UNKNOWN" link="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_GENERIC" link="AsComponent.html#AS-COMPONENT-KIND-GENERIC:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_DESKTOP_APP" link="AsComponent.html#AS-COMPONENT-KIND-DESKTOP-APP:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_FONT" link="AsComponent.html#AS-COMPONENT-KIND-FONT:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_CODEC" link="AsComponent.html#AS-COMPONENT-KIND-CODEC:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_INPUTMETHOD" link="AsComponent.html#AS-COMPONENT-KIND-INPUTMETHOD:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_ADDON" link="AsComponent.html#AS-COMPONENT-KIND-ADDON:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_FIRMWARE" link="AsComponent.html#AS-COMPONENT-KIND-FIRMWARE:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_LAST" link="AsComponent.html#AS-COMPONENT-KIND-LAST:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_UNKNOWN" link="AsComponent.html#AS-ICON-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_CACHED" link="AsComponent.html#AS-ICON-KIND-CACHED:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_STOCK" link="AsComponent.html#AS-ICON-KIND-STOCK:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_LOCAL" link="AsComponent.html#AS-ICON-KIND-LOCAL:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_REMOTE" link="AsComponent.html#AS-ICON-KIND-REMOTE:CAPS"/>
+    <keyword type="constant" name="AS_ICON_KIND_LAST" link="AsComponent.html#AS-ICON-KIND-LAST:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_NONE" link="AsRelease.html#AS-CHECKSUM-KIND-NONE:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA1" link="AsRelease.html#AS-CHECKSUM-KIND-SHA1:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA256" link="AsRelease.html#AS-CHECKSUM-KIND-SHA256:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_LAST" link="AsRelease.html#AS-CHECKSUM-KIND-LAST:CAPS"/>
+    <keyword type="constant" name="AS_SCREENSHOT_KIND_UNKNOWN" link="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_SCREENSHOT_KIND_NORMAL" link="AsScreenshot.html#AS-SCREENSHOT-KIND-NORMAL:CAPS"/>
+    <keyword type="constant" name="AS_SCREENSHOT_KIND_DEFAULT" link="AsScreenshot.html#AS-SCREENSHOT-KIND-DEFAULT:CAPS"/>
+    <keyword type="constant" name="AS_IMAGE_KIND_UNKNOWN" link="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_IMAGE_KIND_SOURCE" link="AsImage.html#AS-IMAGE-KIND-SOURCE:CAPS"/>
+    <keyword type="constant" name="AS_IMAGE_KIND_THUMBNAIL" link="AsImage.html#AS-IMAGE-KIND-THUMBNAIL:CAPS"/>
+    <keyword type="constant" name="AS_IMAGE_KIND_LAST" link="AsImage.html#AS-IMAGE-KIND-LAST:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_FAILED" link="AsMetadata.html#AS-METADATA-ERROR-FAILED:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_LAST" link="AsMetadata.html#AS-METADATA-ERROR-LAST:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_UNKNOWN" link="appstream-as-enums.html#AS-URL-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_HOMEPAGE" link="appstream-as-enums.html#AS-URL-KIND-HOMEPAGE:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_BUGTRACKER" link="appstream-as-enums.html#AS-URL-KIND-BUGTRACKER:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_FAQ" link="appstream-as-enums.html#AS-URL-KIND-FAQ:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_HELP" link="appstream-as-enums.html#AS-URL-KIND-HELP:CAPS"/>
+    <keyword type="constant" name="AS_URL_KIND_DONATION" link="appstream-as-enums.html#AS-URL-KIND-DONATION:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_UNKNOWN" link="appstream-as-enums.html#AS-BUNDLE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_LIMBA" link="appstream-as-enums.html#AS-BUNDLE-KIND-LIMBA:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_XDG_APP" link="appstream-as-enums.html#AS-BUNDLE-KIND-XDG-APP:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_UNKNOWN" link="appstream-as-provides.html#AS-PROVIDES-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_LIBRARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-LIBRARY:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_BINARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-BINARY:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_FONT" link="appstream-as-provides.html#AS-PROVIDES-KIND-FONT:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_MODALIAS" link="appstream-as-provides.html#AS-PROVIDES-KIND-MODALIAS:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_FIRMWARE" link="appstream-as-provides.html#AS-PROVIDES-KIND-FIRMWARE:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_PYTHON2" link="appstream-as-provides.html#AS-PROVIDES-KIND-PYTHON2:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_PYTHON3" link="appstream-as-provides.html#AS-PROVIDES-KIND-PYTHON3:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_MIMETYPE" link="appstream-as-provides.html#AS-PROVIDES-KIND-MIMETYPE:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDES_KIND_DBUS" link="appstream-as-provides.html#AS-PROVIDES-KIND-DBUS:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_IMPORTANCE_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_IMPORTANCE_ERROR" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-ERROR:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_IMPORTANCE_WARNING" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-WARNING:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_IMPORTANCE_INFO" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-INFO:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_IMPORTANCE_PEDANTIC" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-PEDANTIC:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_MARKUP_INVALID" link="AsValidatorIssue.html#AS-ISSUE-KIND-MARKUP-INVALID:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_LEGACY" link="AsValidatorIssue.html#AS-ISSUE-KIND-LEGACY:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_TAG_DUPLICATED" link="AsValidatorIssue.html#AS-ISSUE-KIND-TAG-DUPLICATED:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_TAG_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-TAG-MISSING:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_TAG_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-KIND-TAG-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_TAG_NOT_ALLOWED" link="AsValidatorIssue.html#AS-ISSUE-KIND-TAG-NOT-ALLOWED:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_PROPERTY_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-PROPERTY-MISSING:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_PROPERTY_INVALID" link="AsValidatorIssue.html#AS-ISSUE-KIND-PROPERTY-INVALID:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_VALUE_WRONG" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-WRONG:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_VALUE_ISSUE" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-ISSUE:CAPS"/>
   </functions>
 </book>

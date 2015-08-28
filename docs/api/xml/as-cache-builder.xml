@@ -8,9 +8,7 @@
 <refmeta>
 <refentrytitle role="top_of_page" id="AsBuilder.top_of_page">AsBuilder</refentrytitle>
 <manvolnum>3</manvolnum>
-<refmiscinfo>
-  APPSTREAM Library
-</refmiscinfo>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
 </refmeta>
 <refnamediv>
 <refname>AsBuilder</refname>
@@ -79,7 +77,6 @@ as_builder_error_quark (<parameter><type>void</type></parameter>);</programlisti
 <refsect3 role="returns">
 <title>Returns</title>
 <para> An error quark.</para>
-<para></para>
 </refsect3></refsect2>
 <refsect2 id="as-builder-new" role="function">
 <title>as_builder_new&#160;()</title>
@@ -110,11 +107,7 @@ as_builder_new_path (<parameter>const <link linkend="gchar"><type>gchar</type></
 <indexterm zone="as-builder-initialize"><primary>as_builder_initialize</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_builder_initialize (<parameter><link linkend="AsBuilder"><type>AsBuilder</type></link> *builder</parameter>);</programlisting>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-builder-refresh-cache" role="function">
 <title>as_builder_refresh_cache&#160;()</title>
 <indexterm zone="as-builder-refresh-cache"><primary>as_builder_refresh_cache</primary></indexterm>
@@ -123,11 +116,7 @@ as_builder_refresh_cache (<parameter><link linkend="AsBuilder"><type>AsBuilder</
                           <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
                           <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Update the AppStream Xapian cache</para>
-<refsect3 role="returns">
-<title>Returns</title>
-
-<para></para>
-</refsect3></refsect2>
+</refsect2>
 <refsect2 id="as-builder-set-data-source-directories" role="function">
 <title>as_builder_set_data_source_directories&#160;()</title>
 <indexterm zone="as-builder-set-data-source-directories"><primary>as_builder_set_data_source_directories</primary></indexterm>

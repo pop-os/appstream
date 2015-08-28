@@ -2,13 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>AppStream Library Reference Manual: AsComponent</title>
+<title>AsComponent: AppStream Library Reference Manual</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="ch01.html" title="AppStream API Reference">
 <link rel="next" href="AsRelease.html" title="AsRelease">
-<meta name="generator" content="GTK-Doc V1.21 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -694,7 +694,6 @@ as_component_kind_to_string (<em class="parameter"><code><a class="link" href="A
 <a name="id-1.2.2.9.2.6"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -721,7 +720,6 @@ as_component_kind_from_string (<em class="parameter"><code>const <span class="ty
 <div class="refsect3">
 <a name="id-1.2.2.9.3.6"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> or <a class="link" href="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"><code class="literal">AS_COMPONENT_KIND_UNKNOWN</code></a> for unknown</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -748,7 +746,6 @@ as_icon_kind_from_string (<em class="parameter"><code>const <span class="type">g
 <div class="refsect3">
 <a name="id-1.2.2.9.4.6"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsComponent.html#AsIconKind" title="enum AsIconKind"><span class="type">AsIconKind</span></a> or <a class="link" href="AsComponent.html#AS-ICON-KIND-UNKNOWN:CAPS"><code class="literal">AS_ICON_KIND_UNKNOWN</code></a> for unknown</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -776,7 +773,6 @@ as_icon_kind_to_string (<em class="parameter"><code><a class="link" href="AsComp
 <a name="id-1.2.2.9.5.6"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -801,7 +797,6 @@ populated with useful data.</p>
 <div class="refsect3">
 <a name="id-1.2.2.9.7.5"></a><h4>Returns</h4>
 <p> TRUE if the component data was validated successfully.</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -824,10 +819,6 @@ as_component_to_string (<em class="parameter"><code><a class="link" href="AsComp
 as_component_get_active_locale (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the current active locale for this component, which
 is used to get localized messages.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.9.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -846,10 +837,6 @@ one locale is available.</p>
 <pre class="programlisting"><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="returnvalue">AsComponentKind</span></a>
 as_component_get_kind (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Returns the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.11.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -865,10 +852,6 @@ as_component_set_kind (<em class="parameter"><code><a class="link" href="AsCompo
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_id (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Set the unique identifier for this component.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.13.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -883,10 +866,6 @@ as_component_set_id (<em class="parameter"><code><a class="link" href="AsCompone
 <a name="as-component-get-origin"></a><h3>as_component_get_origin ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_origin (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
-<div class="refsect3">
-<a name="id-1.2.2.9.15.4"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -937,10 +916,6 @@ as_component_set_pkgnames (<em class="parameter"><code><a class="link" href="AsC
 <a name="as-component-get-source-pkgname"></a><h3>as_component_get_source_pkgname ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_source_pkgname (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
-<div class="refsect3">
-<a name="id-1.2.2.9.19.4"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -955,10 +930,6 @@ as_component_set_source_pkgname (<em class="parameter"><code><a class="link" hre
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>A human-readable name for this component.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.21.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1002,10 +973,6 @@ as_component_set_name (<em class="parameter"><code><a class="link" href="AsCompo
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get a short description of this component.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.23.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1049,10 +1016,6 @@ as_component_set_summary (<em class="parameter"><code><a class="link" href="AsCo
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the localized long description of this component.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.25.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1096,10 +1059,6 @@ as_component_set_description (<em class="parameter"><code><a class="link" href="
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_project_license (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the license of the project this component belongs to.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.27.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1115,10 +1074,6 @@ as_component_set_project_license (<em class="parameter"><code><a class="link" hr
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_project_group (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the component's project group.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.29.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1134,10 +1089,6 @@ as_component_set_project_group (<em class="parameter"><code><a class="link" href
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_developer_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the component's developer or development team name.</p>
-<div class="refsect3">
-<a name="id-1.2.2.9.31.5"></a><h4>Returns</h4>
-<p></p>
-</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1202,7 +1153,6 @@ as_component_is_compulsory_for_desktop
 <div class="refsect3">
 <a name="id-1.2.2.9.35.6"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if compulsory, <code class="literal">FALSE</code> otherwise.</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1289,10 +1239,6 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
-</div>
-<div class="refsect3">
-<a name="id-1.2.2.9.39.6"></a><h4>Returns</h4>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1407,7 +1353,6 @@ as_component_get_icon (<em class="parameter"><code><a class="link" href="AsCompo
 <p> The raw icon data found for the given icon kind and size.
 If the icon kind is <a class="link" href="AsComponent.html#AS-ICON-KIND-STOCK:CAPS"><code class="literal">AS_ICON_KIND_STOCK</code></a>, the size is ignored.
 <code class="literal">NULL</code> is returned in case no icon was found.</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1480,9 +1425,8 @@ to the <a class="link" href="AsComponent.html#as-component-get-icon" title="as_c
 In case no icon matching the size is found, <code class="literal">NULL</code> is returned.
 The returned path will either be a http link or an absolute, local
 path to the image file of the icon.</p>
-<p></p>
 </div>
-<p class="since">Since 0.7.4</p>
+<p class="since">Since: 0.7.4</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1531,7 +1475,7 @@ use the <a class="link" href="AsComponent.html#as-component-add-icon" title="as_
 </tbody>
 </table></div>
 </div>
-<p class="since">Since 0.7.4</p>
+<p class="since">Since: 0.7.4</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1559,7 +1503,7 @@ as_component_get_icon_urls (<em class="parameter"><code><a class="link" href="As
 <p> A hash map of icon urls and sizes. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
-<p class="since">Since 0.7.4</p>
+<p class="since">Since: 0.7.4</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1610,7 +1554,7 @@ as_component_add_provided_item (<em class="parameter"><code><a class="link" href
 </tbody>
 </table></div>
 </div>
-<p class="since">Since 0.6.2</p>
+<p class="since">Since: 0.6.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1650,7 +1594,6 @@ as_component_provides_item (<em class="parameter"><code><a class="link" href="As
 <div class="refsect3">
 <a name="id-1.2.2.9.51.6"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if an item was found</p>
-<p></p>
 </div>
 </div>
 <hr>
@@ -1679,7 +1622,7 @@ as_component_get_urls (<em class="parameter"><code><a class="link" href="AsCompo
 <p> URLs. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
-<p class="since">Since 0.6.2</p>
+<p class="since">Since: 0.6.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1713,9 +1656,8 @@ as_component_get_url (<em class="parameter"><code><a class="link" href="AsCompon
 <div class="refsect3">
 <a name="id-1.2.2.9.53.6"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> if unset</p>
-<p></p>
 </div>
-<p class="since">Since 0.6.2</p>
+<p class="since">Since: 0.6.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1752,7 +1694,7 @@ as_component_add_url (<em class="parameter"><code><a class="link" href="AsCompon
 </tbody>
 </table></div>
 </div>
-<p class="since">Since 0.6.2</p>
+<p class="since">Since: 0.6.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1824,7 +1766,7 @@ are extended by this addon.</p>
 <p> an array. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
-<p class="since">Since 0.7.0</p>
+<p class="since">Since: 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1891,7 +1833,7 @@ as_component_add_language (<em class="parameter"><code><a class="link" href="AsC
 </tbody>
 </table></div>
 </div>
-<p class="since">Since 0.7.0</p>
+<p class="since">Since: 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1925,9 +1867,8 @@ as_component_get_language (<em class="parameter"><code><a class="link" href="AsC
 <div class="refsect3">
 <a name="id-1.2.2.9.60.6"></a><h4>Returns</h4>
 <p> a percentage value, -1 if locale was not found</p>
-<p></p>
 </div>
-<p class="since">Since 0.7.0</p>
+<p class="since">Since: 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1955,7 +1896,7 @@ as_component_get_languages (<em class="parameter"><code><a class="link" href="As
 <p> list of locales. </p>
 <p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
-<p class="since">Since 0.7.0</p>
+<p class="since">Since: 0.7.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1983,7 +1924,7 @@ as_component_get_bundle_ids (<em class="parameter"><code><a class="link" href="A
 <p> Bundle ids. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
-<p class="since">Since 0.8.0</p>
+<p class="since">Since: 0.8.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2017,9 +1958,8 @@ as_component_get_bundle_id (<em class="parameter"><code><a class="link" href="As
 <div class="refsect3">
 <a name="id-1.2.2.9.63.6"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> if unset</p>
-<p></p>
 </div>
-<p class="since">Since 0.8.0</p>
+<p class="since">Since: 0.8.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2056,7 +1996,7 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
 </tbody>
 </table></div>
 </div>
-<p class="since">Since 0.8.0</p>
+<p class="since">Since: 0.8.0</p>
 </div>
 </div>
 <div class="refsect1">
@@ -2304,7 +2244,6 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
 </div>
 </div>
 <div class="footer">
-<hr>
-          Generated by GTK-Doc V1.21</div>
+<hr>Generated by GTK-Doc V1.24</div>
 </body>
 </html>

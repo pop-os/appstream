@@ -8,10 +8,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-06-26 14:43+0200\n"
+"POT-Creation-Date: 2015-08-28 21:16+0200\n"
 "PO-Revision-Date: 2015-05-31 15:20+0000\n"
 "Last-Translator: Matthias K. <matthias@tenstral.net>\n"
-"Language-Team: Indonesian (http://www.transifex.com/projects/p/appstream/"
+"Language-Team: Indonesian (http://www.transifex.com/freedesktop/appstream/"
 "language/id/)\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
@@ -21,9 +21,6 @@ msgstr ""
 
 msgid "A provides-item type (e.g. lib, bin, python3, ...)"
 msgstr "Sebuah tipe buir-penyedia (mis. lib, bin, python3, ...)"
-
-msgid "AppStream Validation Utility"
-msgstr "AppStream Utilitas Validasi"
 
 msgid "AppStream cache update completed successfully."
 msgstr "Pemutakhiran singgahan AppStream berakhir dengan sukses."
@@ -40,13 +37,14 @@ msgstr ""
 msgid "AppStream cache update failed."
 msgstr "Pemutakhiran singgahan AppStream gagal."
 
-#. TRANSLATORS: This is the header to the --help menu
-msgid "AppStream-Index Client Tool"
-msgstr "Alat Klien AppStream-Index"
-
-#, c-format
-msgid "Appstream-Index client tool version: %s"
+#, fuzzy, c-format
+msgid "AppStream client tool version: %s"
 msgstr "Alat klien AppStream-Index versi: %s"
+
+#. TRANSLATORS: This is the header to the --help menu
+#, fuzzy
+msgid "AppStream command-line interface"
+msgstr "Pemutakhiran singgahan AppStream gagal."
 
 msgid "Bundle"
 msgstr ""
@@ -71,11 +69,11 @@ msgstr "Pengembang"
 msgid "Don't show colored output"
 msgstr "Jangan tampilkan keluaran berwarna"
 
+msgid "Dump raw XML metadata for a component matching the ID"
+msgstr ""
+
 msgid "Enforce a cache refresh"
 msgstr "Paksakan penyegaran singgahan"
-
-msgid "Failed to parse arguments"
-msgstr "Gagal mengurai argumen"
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -84,7 +82,8 @@ msgstr "Berkas %s tak ditemukan atau tak diizinkan!"
 msgid "Get components which provide the given item"
 msgstr "Dapatkan komponen yang menyediakan butir yang diberikan"
 
-msgid "Get information about a component by its id"
+#, fuzzy
+msgid "Get information about a component by its ID"
 msgstr "Dapatkan informasi tentang suatu komponen berdasarkan id-nya"
 
 msgid "Homepage"
@@ -156,16 +155,10 @@ msgstr ""
 msgid "Show extra debugging information"
 msgstr ""
 
-msgid "Show issues from pedantic tests"
-msgstr ""
-
-msgid "Show program version"
-msgstr ""
-
 msgid "Show the program version"
 msgstr ""
 
-#. these are commands we can use with appstream-index
+#. these are commands we can use with appstream-cli
 msgid "Subcommands:"
 msgstr ""
 
@@ -185,7 +178,17 @@ msgstr ""
 msgid "Unable to find component with id '%s'!"
 msgstr ""
 
+msgid "Validate AppStream XML files for issues"
+msgstr ""
+
+msgid "Validate AppStream XML files for issues, even pedantic ones"
+msgstr ""
+
 msgid "Validation failed."
+msgstr "Validasi gagal."
+
+#, fuzzy
+msgid "Validation was successful."
 msgstr "Validasi gagal."
 
 #, c-format
@@ -215,3 +218,12 @@ msgstr ""
 #.
 msgid "app;application;package;program;programme;suite;tool"
 msgstr ""
+
+#~ msgid "AppStream Validation Utility"
+#~ msgstr "AppStream Utilitas Validasi"
+
+#~ msgid "AppStream-Index Client Tool"
+#~ msgstr "Alat Klien AppStream-Index"
+
+#~ msgid "Failed to parse arguments"
+#~ msgstr "Gagal mengurai argumen"
