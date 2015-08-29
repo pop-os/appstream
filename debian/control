@@ -25,6 +25,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Breaks: appstream-index (<< ${source:Version})
 Provides: appstream-index
+Suggests: dep11-tools
 Description: Software component index
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
