@@ -23,8 +23,8 @@ Package: appstream
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Breaks: appstream-index (<< 0.8.2-2)
-Replaces: appstream-index (<< 0.8.2-2)
+Breaks: appstream-index (<< ${source:Version})
+Provides: appstream-index
 Description: Software component index
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
@@ -135,3 +135,13 @@ Description: Developer documentation for AppStream
  and various other things needed to make handling of software smarter.
  .
  This package provides developer documentation for AppStream.
+
+Package: appstream-index
+Architecture: all
+Section: oldlibs
+Priority: extra
+Depends: appstream (>= ${source:Version}),
+         ${misc:Depends}
+Description: Transitional package (appstream-index -> appstream)
+ Transitional dummy package replacing appstream-index with
+ appstream.
