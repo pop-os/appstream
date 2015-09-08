@@ -23,7 +23,7 @@
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstream-cli" link="re16.html"/>
+      <sub name="appstreamcli" link="re16.html"/>
     </sub>
   </chapters>
   <functions>
@@ -194,6 +194,7 @@
     <keyword type="function" name="as_data_pool_get_watched_locations ()" link="AsDataPool.html#as-data-pool-get-watched-locations"/>
     <keyword type="function" name="as_data_pool_update ()" link="AsDataPool.html#as-data-pool-update"/>
     <keyword type="function" name="as_data_pool_get_components ()" link="AsDataPool.html#as-data-pool-get-components"/>
+    <keyword type="function" name="as_data_pool_get_component_by_id ()" link="AsDataPool.html#as-data-pool-get-component-by-id"/>
     <keyword type="function" name="as_data_pool_get_locale ()" link="AsDataPool.html#as-data-pool-get-locale"/>
     <keyword type="function" name="as_data_pool_set_locale ()" link="AsDataPool.html#as-data-pool-set-locale"/>
     <keyword type="function" name="as_data_pool_set_data_source_directories ()" link="AsDataPool.html#as-data-pool-set-data-source-directories"/>
@@ -259,6 +260,7 @@
     <keyword type="function" name="as_validator_clear_issues ()" link="AsValidator.html#as-validator-clear-issues"/>
     <keyword type="function" name="as_validator_validate_file ()" link="AsValidator.html#as-validator-validate-file"/>
     <keyword type="function" name="as_validator_validate_data ()" link="AsValidator.html#as-validator-validate-data"/>
+    <keyword type="function" name="as_validator_validate_tree ()" link="AsValidator.html#as-validator-validate-tree"/>
     <keyword type="function" name="as_validator_get_issues ()" link="AsValidator.html#as-validator-get-issues"/>
     <keyword type="function" name="as_validator_issue_new ()" link="AsValidatorIssue.html#as-validator-issue-new"/>
     <keyword type="function" name="as_validator_issue_get_kind ()" link="AsValidatorIssue.html#as-validator-issue-get-kind"/>
@@ -267,6 +269,8 @@
     <keyword type="function" name="as_validator_issue_set_importance ()" link="AsValidatorIssue.html#as-validator-issue-set-importance"/>
     <keyword type="function" name="as_validator_issue_get_message ()" link="AsValidatorIssue.html#as-validator-issue-get-message"/>
     <keyword type="function" name="as_validator_issue_set_message ()" link="AsValidatorIssue.html#as-validator-issue-set-message"/>
+    <keyword type="function" name="as_validator_issue_get_location ()" link="AsValidatorIssue.html#as-validator-issue-get-location"/>
+    <keyword type="function" name="as_validator_issue_set_location ()" link="AsValidatorIssue.html#as-validator-issue-set-location"/>
     <keyword type="enum" name="enum AsIssueImportance" link="AsValidatorIssue.html#AsIssueImportance"/>
     <keyword type="enum" name="enum AsIssueKind" link="AsValidatorIssue.html#AsIssueKind"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_UNKNOWN" link="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"/>
@@ -332,5 +336,7 @@
     <keyword type="constant" name="AS_ISSUE_KIND_PROPERTY_INVALID" link="AsValidatorIssue.html#AS-ISSUE-KIND-PROPERTY-INVALID:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_VALUE_WRONG" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-WRONG:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_VALUE_ISSUE" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-ISSUE:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_FILE_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-FILE-MISSING:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_WRONG_NAME" link="AsValidatorIssue.html#AS-ISSUE-KIND-WRONG-NAME:CAPS"/>
   </functions>
 </book>

@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*-
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
@@ -29,35 +29,45 @@
  * importance_to_print_string:
  **/
 static gchar*
-importance_to_print_string (AsIssueImportance importance, gboolean pretty)
+importance_location_to_print_string (AsIssueImportance importance, const gchar *location, gboolean pretty)
 {
+	gchar *str;
+
+	switch (importance) {
+		case AS_ISSUE_IMPORTANCE_ERROR:
+			str = g_strdup_printf ("E - %s", location);
+			break;
+		case AS_ISSUE_IMPORTANCE_WARNING:
+			str = g_strdup_printf ("W - %s", location);
+			break;
+		case AS_ISSUE_IMPORTANCE_INFO:
+			str = g_strdup_printf ("I - %s", location);
+			break;
+		case AS_ISSUE_IMPORTANCE_PEDANTIC:
+			str = g_strdup_printf ("P - %s", location);
+			break;
+		default:
+			str = g_strdup_printf ("U - %s", location);
+	}
+
 	if (pretty) {
 		switch (importance) {
 			case AS_ISSUE_IMPORTANCE_ERROR:
-				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 31, "E", 0x1B, 0);
+				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 31, str, 0x1B, 0);
 			case AS_ISSUE_IMPORTANCE_WARNING:
-				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 33, "W", 0x1B, 0);
+				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 33, str, 0x1B, 0);
 			case AS_ISSUE_IMPORTANCE_INFO:
-				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 32, "I", 0x1B, 0);
+				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 32, str, 0x1B, 0);
 			case AS_ISSUE_IMPORTANCE_PEDANTIC:
-				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 37, "P", 0x1B, 0);
+				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 37, str, 0x1B, 0);
 			default:
-				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 35, "I", 0x1B, 0);
+				return g_strdup_printf ("%c[%d;1m%s%c[%dm", 0x1B, 35, str, 0x1B, 0);
 		}
 	} else {
-		switch (importance) {
-			case AS_ISSUE_IMPORTANCE_ERROR:
-				return g_strdup ("E");
-			case AS_ISSUE_IMPORTANCE_WARNING:
-				return g_strdup ("W");
-			case AS_ISSUE_IMPORTANCE_INFO:
-				return g_strdup ("I");
-			case AS_ISSUE_IMPORTANCE_PEDANTIC:
-				return g_strdup ("P");
-			default:
-				return g_strdup ("X");
-		}
+		return str;
 	}
+
+	g_free (str);
 }
 
 /**
@@ -69,8 +79,8 @@ process_report (GList *issues, gboolean pretty, gboolean pedantic)
 	GList *l;
 	AsValidatorIssue *issue;
 	AsIssueImportance importance;
-	gboolean errors_found = FALSE;
-	gchar *imp;
+	gboolean no_errors = TRUE;
+	gchar *header;
 
 	for (l = issues; l != NULL; l = l->next) {
 		issue = (AsValidatorIssue*) l->data;
@@ -78,20 +88,22 @@ process_report (GList *issues, gboolean pretty, gboolean pedantic)
 
 		/* if there are errors or warnings, we consider the validation to be failed */
 		if ((importance == AS_ISSUE_IMPORTANCE_ERROR) || (importance == AS_ISSUE_IMPORTANCE_WARNING))
-			errors_found = TRUE;
+			no_errors = FALSE;
 
 		/* skip pedantic issues if we should not show them */
 		if ((!pedantic) && (importance == AS_ISSUE_IMPORTANCE_PEDANTIC))
 			continue;
 
-		imp = importance_to_print_string (importance, pretty);
-		g_print ("%s: %s\n",
-				 imp,
-				 as_validator_issue_get_message (issue));
-		g_free (imp);
+		header = importance_location_to_print_string (importance,
+								as_validator_issue_get_location (issue),
+								pretty);
+		g_print ("%s\n    %s\n\n",
+				header,
+				as_validator_issue_get_message (issue));
+		g_free (header);
 	}
 
-	return errors_found;
+	return no_errors;
 }
 
 /**
@@ -102,7 +114,7 @@ ascli_validate_file (gchar *fname, gboolean pretty, gboolean pedantic)
 {
 	GFile *file;
 	gboolean ret;
-	gboolean errors_found;
+	gboolean errors_found = FALSE;
 	AsValidator *validator;
 	GList *issues;
 
@@ -116,9 +128,11 @@ ascli_validate_file (gchar *fname, gboolean pretty, gboolean pedantic)
 
 	validator = as_validator_new ();
 	ret = as_validator_validate_file (validator, file);
+	if (!ret)
+		errors_found = TRUE;
 	issues = as_validator_get_issues (validator);
 
-	errors_found = process_report (issues, pretty, pedantic);
+	ret = process_report (issues, pretty, pedantic);
 	if (!ret)
 		errors_found = TRUE;
 
@@ -133,7 +147,7 @@ ascli_validate_file (gchar *fname, gboolean pretty, gboolean pedantic)
  * ascli_validate_files:
  */
 gint
-ascli_validate_files (char **argv, int argc, gboolean no_color, gboolean pedantic)
+ascli_validate_files (gchar **argv, gint argc, gboolean no_color, gboolean pedantic)
 {
 	gint i;
 	gboolean ret;
@@ -151,6 +165,40 @@ ascli_validate_files (char **argv, int argc, gboolean no_color, gboolean pedanti
 	}
 
 	if (ret) {
+		g_print ("%s\n", _("Validation was successful."));
+	} else {
+		g_print ("%s\n", _("Validation failed."));
+		return 3;
+	}
+
+	return 0;
+}
+
+/**
+ * ascli_validate_tree:
+ */
+gint
+ascli_validate_tree (const gchar *root_dir, gboolean no_color, gboolean pedantic)
+{
+	gboolean no_errors = TRUE;
+	AsValidator *validator;
+	GList *issues;
+
+	if (root_dir == NULL) {
+		g_print ("%s\n", _("You need to specify a root directory to start validation!"));
+		return 1;
+	}
+
+	validator = as_validator_new ();
+	as_validator_validate_tree (validator, root_dir);
+	issues = as_validator_get_issues (validator);
+
+	no_errors = process_report (issues, !no_color, pedantic);
+
+	g_list_free (issues);
+	g_object_unref (validator);
+
+	if (no_errors) {
 		g_print ("%s\n", _("Validation was successful."));
 	} else {
 		g_print ("%s\n", _("Validation failed."));

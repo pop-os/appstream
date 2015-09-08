@@ -49,6 +49,8 @@ AsValidatorIssue
 @AS_ISSUE_KIND_PROPERTY_INVALID: 
 @AS_ISSUE_KIND_VALUE_WRONG: 
 @AS_ISSUE_KIND_VALUE_ISSUE: 
+@AS_ISSUE_KIND_FILE_MISSING: 
+@AS_ISSUE_KIND_WRONG_NAME: 
 
 <!-- ##### FUNCTION as_validator_issue_new ##### -->
 <para>
@@ -111,5 +113,23 @@ AsValidatorIssue
 
 @issue: 
 @message: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_location ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_location ##### -->
+<para>
+
+</para>
+
+@issue: 
+@location: 
 
 
