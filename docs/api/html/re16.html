@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>appstream-cli: AppStream Library Reference Manual</title>
+<title>appstreamcli: AppStream Library Reference Manual</title>
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="manpages.html" title="AppStream Manual Pages">
@@ -22,22 +22,22 @@
 <a name="id-1.7.2"></a><div class="titlepage"></div>
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
-<h2><span class="refentrytitle">appstream-cli</span></h2>
-<p>appstream-cli — Handle AppStream metadata and the AppStream index</p>
+<h2><span class="refentrytitle">appstreamcli</span></h2>
+<p>appstreamcli — Handle AppStream metadata and the AppStream index</p>
 </td>
 <td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
 <div class="refsynopsisdiv">
 <h2>Synopsis</h2>
-<div class="cmdsynopsis"><p><code class="command">appstream-cli</code>  [<code class="option">COMMAND</code>]</p></div>
+<div class="cmdsynopsis"><p><code class="command">appstreamcli</code>  [<code class="option">COMMAND</code>]</p></div>
 </div>
 <div class="refsect1">
 <a name="id-1.7.2.5"></a><h2>Description</h2>
 <p>
-			This manual page documents briefly the <span class="command"><strong>appstream-cli</strong></span> command.
+			This manual page documents briefly the <span class="command"><strong>appstreamcli</strong></span> command.
 		</p>
 <p>
-			<span class="command"><strong>appstream-cli</strong></span> is a small helper tool to work with AppStream metadata and
+			<span class="command"><strong>appstreamcli</strong></span> is a small helper tool to work with AppStream metadata and
 			access the AppStream component index from the command-line. The AppStream component
 			index contains a list of all available software components for your distribution, matched to their
 			package names.
@@ -77,18 +77,18 @@
 						Get components which handle the "text/xml" mimetype.
 					</p>
 <p>
-						<span class="command"><strong>appstream-cli</strong></span> what-provides mimetype "text/xml"
+						<span class="command"><strong>appstreamcli</strong></span> what-provides mimetype "text/xml"
 					</p>
 <p>
 						Get component which provides the "libfoo.so.2" library.
 					</p>
 <p>
-						<span class="command"><strong>appstream-cli</strong></span> what-provides lib libfoo.so.2
+						<span class="command"><strong>appstreamcli</strong></span> what-provides lib libfoo.so.2
 					</p>
 </td>
 </tr>
 <tr>
-<td><p><span class="term"><code class="option">refresh-index</code></span></p></td>
+<td><p><span class="term"><code class="option">refresh</code>, </span><span class="term"><code class="option">refresh-index</code></span></p></td>
 <td>
 <p>
 						Trigger a database refresh, if necessary.
@@ -104,7 +104,7 @@
 					</p></td>
 </tr>
 <tr>
-<td><p><span class="term"><code class="option">validate</code>, </span><span class="term"><code class="option">validate-pedantic <em class="replaceable"><code>FILES</code></em></code></span></p></td>
+<td><p><span class="term"><code class="option">validate <em class="replaceable"><code>FILES</code></em></code></span></p></td>
 <td>
 <p>
 						Validate AppStream XML metadata for compliance with the specification.
@@ -114,8 +114,20 @@
 						The filetype which should be validated is determined automatically.
 					</p>
 <p>
-						The <code class="option">validate-pedantic</code> command triggers a more pedantic
+						The <code class="option">--pedantic</code> flag triggers a more pedantic
 						validation of the file, including minor and style issues in the report.
+					</p>
+</td>
+</tr>
+<tr>
+<td><p><span class="term"><code class="option">validate-tree <em class="replaceable"><code>DIRECTORY</code></em></code></span></p></td>
+<td>
+<p>
+						Validate AppStream XML metadata found in a file-tree.
+					</p>
+<p>
+						This performs a standard validation of all found metadata, but also checks for additional
+						errors, like the presence of .desktop files and validity of other additional metadata.
 					</p>
 </td>
 </tr>
@@ -129,7 +141,7 @@
 </tr>
 <tr>
 <td><p><span class="term"><code class="option">--version</code></span></p></td>
-<td><p>Display the version number of appstream-cli</p></td>
+<td><p>Display the version number of appstreamcli</p></td>
 </tr>
 </tbody>
 </table></div>

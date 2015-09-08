@@ -145,6 +145,7 @@ as_data_pool_new
 as_data_pool_get_watched_locations
 as_data_pool_update
 as_data_pool_get_components
+as_data_pool_get_component_by_id
 as_data_pool_get_locale
 as_data_pool_set_locale
 as_data_pool_set_data_source_directories
@@ -453,6 +454,7 @@ as_validator_new
 as_validator_clear_issues
 as_validator_validate_file
 as_validator_validate_data
+as_validator_validate_tree
 as_validator_get_issues
 <SUBSECTION Standard>
 AS_IS_VALIDATOR
@@ -478,6 +480,8 @@ as_validator_issue_get_importance
 as_validator_issue_set_importance
 as_validator_issue_get_message
 as_validator_issue_set_message
+as_validator_issue_get_location
+as_validator_issue_set_location
 <SUBSECTION Standard>
 AS_IS_VALIDATOR_ISSUE
 AS_IS_VALIDATOR_ISSUE_CLASS

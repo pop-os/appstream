@@ -30,6 +30,8 @@
 </entry><entry role="function_name"><link linkend="as-validator-validate-file">as_validator_validate_file</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-validator-validate-data">as_validator_validate_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-validator-validate-tree">as_validator_validate_tree</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-validator-get-issues">as_validator_get_issues</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
@@ -89,6 +91,14 @@ as_validator_validate_file (<parameter><link linkend="AsValidator"><type>AsValid
 as_validator_validate_data (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *metadata</parameter>);</programlisting>
 <para>Validate AppStream XML data</para>
+</refsect2>
+<refsect2 id="as-validator-validate-tree" role="function">
+<title>as_validator_validate_tree&#160;()</title>
+<indexterm zone="as-validator-validate-tree"><primary>as_validator_validate_tree</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_validator_validate_tree (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *root_dir</parameter>);</programlisting>
+<para>Validate a full directory tree for issues in AppStream metadata.</para>
 </refsect2>
 <refsect2 id="as-validator-get-issues" role="function">
 <title>as_validator_get_issues&#160;()</title>

@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 4; indent-tabs-mode: t; c-basic-offset: 4 -*-
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
  *
@@ -29,8 +29,12 @@ gboolean		ascli_validate_file (gchar *fname,
 						gboolean pretty,
 						gboolean pedantic);
 
-gint			ascli_validate_files (char **argv,
-						int argc,
+gint			ascli_validate_files (gchar **argv,
+						gint argc,
+						gboolean no_color,
+						gboolean pedantic);
+
+gint			ascli_validate_tree (const gchar *root_dir,
 						gboolean no_color,
 						gboolean pedantic);
 

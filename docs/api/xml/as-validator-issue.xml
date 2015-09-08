@@ -36,6 +36,10 @@
 </entry><entry role="function_name"><link linkend="as-validator-issue-get-message">as_validator_issue_get_message</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-validator-issue-set-message">as_validator_issue_set_message</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-validator-issue-get-location">as_validator_issue_get_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-validator-issue-set-location">as_validator_issue_set_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -218,6 +222,51 @@ as_validator_issue_set_message (<parameter><link linkend="AsValidatorIssue"><typ
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-validator-issue-get-location" role="function">
+<title>as_validator_issue_get_location&#160;()</title>
+<indexterm zone="as-validator-issue-get-location"><primary>as_validator_issue_get_location</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_validator_issue_get_location (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>);</programlisting>
+<para>Gets a location hint for the issue.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> the location hint</para>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-set-location" role="function">
+<title>as_validator_issue_set_location&#160;()</title>
+<indexterm zone="as-validator-issue-set-location"><primary>as_validator_issue_set_location</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_validator_issue_set_location (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>,
+                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *location</parameter>);</programlisting>
+<para>Sets a location hint for this issue.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>location</para></entry>
+<entry role="parameter_description"><para>a location hint.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsValidatorIssue.other_details" role="details">
@@ -324,6 +373,16 @@ as_validator_issue_set_message (<parameter><link linkend="AsValidatorIssue"><typ
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-ISSUE-KIND-VALUE-ISSUE:CAPS">AS_ISSUE_KIND_VALUE_ISSUE</para></entry>
 <entry role="enum_member_description"><para>There is an issue with a tag or property value (often non-fatal)</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ISSUE-KIND-FILE-MISSING:CAPS">AS_ISSUE_KIND_FILE_MISSING</para></entry>
+<entry role="enum_member_description"><para>A required file or other metadata was missing</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-ISSUE-KIND-WRONG-NAME:CAPS">AS_ISSUE_KIND_WRONG_NAME</para></entry>
+<entry role="enum_member_description"><para>The naming of an entity is wrong</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

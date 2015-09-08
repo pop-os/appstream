@@ -6,7 +6,7 @@
   <!ENTITY date        "<date>26 July,2012</date>">
   <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
        allowed: see man(7), man(1). -->
-  <!ENTITY package     "appstream-cli">
+  <!ENTITY package     "appstreamcli">
   <!ENTITY gnu         "<acronym>GNU</acronym>">
   <!ENTITY gpl         "&gnu; <acronym>GPL</acronym>">
 ]>
@@ -23,7 +23,7 @@
 	</refentryinfo>
 
 	<refmeta>
-		<refentrytitle>appstream-cli</refentrytitle>
+		<refentrytitle>appstreamcli</refentrytitle>
 		<manvolnum>1</manvolnum>
 	</refmeta>
 	<refnamediv>
@@ -102,6 +102,7 @@
 			</varlistentry>
 
 			<varlistentry>
+				<term><option>refresh</option></term>
 				<term><option>refresh-index</option></term>
 				<listitem>
 					<para>
@@ -122,8 +123,7 @@
 			</varlistentry>
 
 			<varlistentry>
-				<term><option>validate</option></term>
-				<term><option>validate-pedantic <replaceable>FILES</replaceable></option></term>
+				<term><option>validate <replaceable>FILES</replaceable></option></term>
 				<listitem>
 					<para>
 						Validate AppStream XML metadata for compliance with the specification.
@@ -133,8 +133,21 @@
 						The filetype which should be validated is determined automatically.
 					</para>
 					<para>
-						The <option>validate-pedantic</option> command triggers a more pedantic
+						The <option>--pedantic</option> flag triggers a more pedantic
 						validation of the file, including minor and style issues in the report.
+					</para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term><option>validate-tree <replaceable>DIRECTORY</replaceable></option></term>
+				<listitem>
+					<para>
+						Validate AppStream XML metadata found in a file-tree.
+					</para>
+					<para>
+						This performs a standard validation of all found metadata, but also checks for additional
+						errors, like the presence of .desktop files and validity of other additional metadata.
 					</para>
 				</listitem>
 			</varlistentry>

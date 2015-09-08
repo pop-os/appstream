@@ -1,7 +1,7 @@
 69% symbol docs coverage.
-282 symbols documented.
-74 symbols incomplete.
-129 not documented.
+293 symbols documented.
+76 symbols incomplete.
+130 not documented.
 
 
 AS_BUILDER_ERROR
@@ -81,6 +81,7 @@ as_component_set_source_pkgname
 as_component_to_string (cpt)
 as_data_pool_class_init
 as_data_pool_finalize
+as_data_pool_get_component_by_id (dpool, id)
 as_data_pool_get_components (dpool)
 as_data_pool_init
 as_data_pool_read_asxml
@@ -189,9 +190,11 @@ as_validator_init
 as_validator_issue_class_init
 as_validator_issue_finalize
 as_validator_issue_init
+as_validator_open_xml_document
 as_validator_validate_component_node
 as_validator_validate_data (validator, metadata, Returns)
 as_validator_validate_file (validator, metadata_file, Returns)
+as_validator_validate_tree (validator, root_dir, Returns)
 dep11_list_to_string_array
 dep11_print_unknown
 dep11_process_icons
