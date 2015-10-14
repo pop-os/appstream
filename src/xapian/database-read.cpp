@@ -28,23 +28,23 @@
 #include <vector>
 #include <glib/gstdio.h>
 
-#include "database-common.hpp"
+#include "database-schema.hpp"
 #include "../as-menu-parser.h"
 #include "../as-component-private.h"
 #include "../as-provides.h"
 
 using namespace std;
-using namespace Appstream;
+using namespace ASCache;
 
 DatabaseRead::DatabaseRead () :
-    m_xapianDB(0)
+    m_dbPath("")
 {
 
 }
 
 DatabaseRead::~DatabaseRead ()
 {
-
+	m_xapianDB.close ();
 }
 
 bool
@@ -63,12 +63,22 @@ DatabaseRead::open (const gchar *dbPath)
 	if (m_dbLocale.empty ())
 		m_dbLocale = "C";
 
-	m_schemaVersion = m_xapianDB.get_metadata ("db-schema-version");
+	try {
+		m_schemaVersion = stoi (m_xapianDB.get_metadata ("db-schema-version"));
+	} catch (...) {
+		g_warning ("Unable to read database schema version, assuming 0.");
+		m_schemaVersion = 0;
+	}
+
+	if (m_schemaVersion != AS_DB_SCHEMA_VERSION) {
+		g_warning ("Attempted to open an old version of the AppStream cache. Please refresh the cache and try again!");
+		return false;
+	}
 
 	return true;
 }
 
-string
+int
 DatabaseRead::getSchemaVersion ()
 {
 	return m_schemaVersion;
@@ -104,8 +114,8 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_name (cpt, cptName.c_str (), "C");
 
 	// Package name
-	string pkgNamesStr = doc.get_value (XapianValues::PKGNAME);
-	gchar **pkgs = g_strsplit (pkgNamesStr.c_str (), "\n", -1);
+	string pkgNamesStr = doc.get_value (XapianValues::PKGNAMES);
+	gchar **pkgs = g_strsplit (pkgNamesStr.c_str (), ";", -1);
 	as_component_set_pkgnames (cpt, pkgs);
 	g_strfreev (pkgs);
 
@@ -117,49 +127,44 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	string cptOrigin = doc.get_value (XapianValues::ORIGIN);
 	as_component_set_origin (cpt, cptOrigin.c_str ());
 
-	// URLs
-	str = doc.get_value (XapianValues::URLS);
-	gchar **urls = g_strsplit (str.c_str (), "\n", -1);
-	for (uint i = 0; urls[i] != NULL; i += 2) {
-		/* urls are stored in form of "type \n url" (so we just need one stringsplit here...) */
-		if (urls[i+1] == NULL)
-			break;
-		AsUrlKind ukind = as_url_kind_from_string (urls[i]);
-		if (ukind != AS_URL_KIND_UNKNOWN)
-			as_component_add_url (cpt, ukind, urls[i+1]);
-	}
-	g_strfreev (urls);
-
 	// Bundles
+	Bundles bundles;
 	str = doc.get_value (XapianValues::BUNDLES);
-	gchar **bundle_ids = g_strsplit (str.c_str (), "\n", -1);
-	for (uint i = 0; bundle_ids[i] != NULL; i += 2) {
-		/* bundle-ids are stored in form of "type \n id" (so we just need one stringsplit here...) */
-		if (bundle_ids[i+1] == NULL)
-			break;
-		AsBundleKind bkind = as_bundle_kind_from_string (bundle_ids[i]);
+	bundles.ParseFromString (str);
+	for (int i = 0; i < bundles.bundle_size (); i++) {
+		const Bundles_Bundle& bdl = bundles.bundle (i);
+		AsBundleKind bkind = (AsBundleKind) bdl.type ();
 		if (bkind != AS_BUNDLE_KIND_UNKNOWN)
-			as_component_add_bundle_id (cpt, bkind, bundle_ids[i+1]);
+			as_component_add_bundle_id (cpt, bkind, bdl.id ().c_str ());
 	}
-	g_strfreev (bundle_ids);
+
+	// URLs
+	Urls urls;
+	str = doc.get_value (XapianValues::URLS);
+	urls.ParseFromString (str);
+	for (int i = 0; i < urls.url_size (); i++) {
+		const Urls_Url& url = urls.url (i);
+		AsUrlKind ukind = (AsUrlKind) url.type ();
+		if (ukind != AS_URL_KIND_UNKNOWN)
+			as_component_add_url (cpt, ukind, url.url ().c_str ());
+	}
 
 	// Stock icon
 	string appIcon = doc.get_value (XapianValues::ICON);
 	as_component_add_icon (cpt, AS_ICON_KIND_STOCK, 0, 0, appIcon.c_str ());
 
 	// Icon urls
+	IconUrls iurls;
 	str = doc.get_value (XapianValues::ICON_URLS);
-	gchar **icon_urls = g_strsplit (str.c_str (), "\n", -1);
+	iurls.ParseFromString (str);
 	GHashTable *cpt_icon_urls = as_component_get_icon_urls (cpt);
-	for (uint i = 0; icon_urls[i] != NULL; i += 2) {
-		/* icon-urls are stored in form of "size \n url"
-		 * A "size" is a string in the form of "WIDTHxHEIGHT", e.g. "64x64"
-		 */
-		if (icon_urls[i+1] == NULL)
-			break;
-		g_hash_table_insert (cpt_icon_urls, g_strdup (icon_urls[i]), g_strdup (icon_urls[i+1]));
+	for (int i = 0; i < iurls.icon_size (); i++) {
+		const IconUrls_Icon& icon = iurls.icon (i);
+
+		g_hash_table_insert (cpt_icon_urls,
+					g_strdup (icon.size ().c_str ()),
+					g_strdup (icon.url ().c_str ()));
 	}
-	g_strfreev (icon_urls);
 
 	// Summary
 	string appSummary = doc.get_value (XapianValues::SUMMARY);
@@ -174,20 +179,53 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_categories_from_str (cpt, categories_str.c_str ());
 
 	// Provided items
-	string provided_items_str = doc.get_value (XapianValues::PROVIDED_ITEMS);
-	if (!provided_items_str.empty ()) {
-		gchar **pitems_strv = g_strsplit (provided_items_str.c_str (), "\n", -1);
-		GPtrArray *pitems = as_component_get_provided_items (cpt);
-		for (uint i = 0; pitems_strv[i] != NULL; i++) {
-			g_ptr_array_add (pitems,
-						g_strdup (pitems_strv[i]));
-		}
-		g_strfreev (pitems_strv);
+	ProvidedItems pitems;
+	str = doc.get_value (XapianValues::PROVIDED_ITEMS);
+	pitems.ParseFromString (str);
+	GPtrArray *pitems_array = as_component_get_provided_items (cpt);
+	for (int i = 0; i < pitems.item_size (); i++) {
+		const string& item_data = pitems.item (i);
+		g_ptr_array_add (pitems_array, g_strdup (item_data.c_str ()));
 	}
 
 	// Screenshot data
-	string screenshot_xml = doc.get_value (XapianValues::SCREENSHOT_DATA);
-	as_component_load_screenshots_from_internal_xml (cpt, screenshot_xml.c_str ());
+	Screenshots screenshots;
+	str = doc.get_value (XapianValues::SCREENSHOTS);
+	screenshots.ParseFromString (str);
+	for (int i = 0; i < screenshots.screenshot_size (); i++) {
+		const Screenshots_Screenshot& pb_scr = screenshots.screenshot (i);
+		AsScreenshot *scr = as_screenshot_new ();
+		as_screenshot_set_active_locale (scr, m_dbLocale.c_str ());
+
+		if (pb_scr.primary ())
+			as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_DEFAULT);
+		else
+			as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_NORMAL);
+
+		if (pb_scr.has_caption ())
+			as_screenshot_set_caption (scr, pb_scr.caption ().c_str (), NULL);
+
+		for (int j = 0; j < pb_scr.image_size (); j++) {
+			const Screenshots_Image& pb_img = pb_scr.image (j);
+			AsImage *img = as_image_new ();
+
+			if (pb_img.source ()) {
+				as_image_set_kind (img, AS_IMAGE_KIND_SOURCE);
+			} else {
+				as_image_set_kind (img, AS_IMAGE_KIND_THUMBNAIL);
+			}
+
+			as_image_set_width (img, pb_img.width ());
+			as_image_set_height (img, pb_img.height ());
+			as_image_set_url (img, pb_img.url ().c_str ());
+
+			as_screenshot_add_image (scr, img);
+			g_object_unref (img);
+		}
+
+		as_component_add_screenshot (cpt, scr);
+		g_object_unref (scr);
+	}
 
 	// Compulsory-for-desktop information
 	string compulsory_str = doc.get_value (XapianValues::COMPULSORY_FOR);
@@ -208,22 +246,54 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_developer_name (cpt, developerName.c_str (), NULL);
 
 	// Releases data
-	string releases_xml = doc.get_value (XapianValues::RELEASES_DATA);
-	as_component_load_releases_from_internal_xml (cpt, releases_xml.c_str ());
+	Releases pb_rels;
+	str = doc.get_value (XapianValues::RELEASES);
+	pb_rels.ParseFromString (str);
+	for (int i = 0; i < pb_rels.release_size (); i++) {
+		const Releases_Release& pb_rel = pb_rels.release (i);
+		AsRelease *rel = as_release_new ();
+		as_release_set_active_locale (rel, m_dbLocale.c_str ());
 
-	// Languages
-	str = doc.get_value (XapianValues::LANGUAGES);
-	gchar **lang_data = g_strsplit (str.c_str (), "\n", -1);
-	for (uint i = 0; lang_data[i] != NULL; i += 2) {
-		gint64 percentage;
-		/* language information is stored in form of "locale \n <percentage:int>" (so we just need one stringsplit) */
-		if (lang_data[i+1] == NULL)
-			break;
-		percentage = g_ascii_strtoll (lang_data[i+1], NULL, 10);
-		as_component_add_language (cpt, lang_data[i], percentage);
+		as_release_set_version (rel, pb_rel.version ().c_str ());
+		as_release_set_timestamp (rel, pb_rel.unix_timestamp ());
+		if (pb_rel.has_urgency ())
+			as_release_set_urgency (rel, (AsUrgencyKind) pb_rel.urgency ());
+
+		if (pb_rel.has_description ())
+			as_release_set_description (rel, pb_rel.description ().c_str (), NULL);
+
+		for (int j = 0; j < pb_rel.location_size (); j++)
+			as_release_add_location (rel, pb_rel.location (j).c_str ());
+
+		for (int j = 0; j < pb_rel.checksum_size (); j++) {
+			const Releases_Checksum& pb_cs = pb_rel.checksum (j);
+			AsChecksumKind cskind;
+			cskind = (AsChecksumKind) pb_cs.type ();
+			if (cskind >= AS_CHECKSUM_KIND_LAST) {
+				g_warning ("Found invalid checksum type in database for component '%s'", id_str.c_str ());
+				continue;
+			}
+			as_release_set_checksum (rel, pb_cs.value ().c_str (), cskind);
+		}
+
+		as_component_add_release (cpt, rel);
+		g_object_unref (rel);
 	}
 
-	// TODO: Read out keywords?
+	// Languages
+	Languages langs;
+	str = doc.get_value (XapianValues::LANGUAGES);
+	langs.ParseFromString (str);
+	for (int i = 0; i < langs.language_size (); i++) {
+		const Languages_Language& lang = langs.language (i);
+
+		as_component_add_language (cpt,
+					   lang.locale ().c_str (),
+					   lang.percentage ());
+	}
+
+	// TODO: Read out keywords? - actually not necessary, since they're already in the database and used by the search engine
+	//       or do we really need to know what the defined keywords have been for each component?
 
 	return cpt;
 }

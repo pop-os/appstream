@@ -23,10 +23,6 @@
 
 #include <glib.h>
 #include <glib-object.h>
-#include <stdlib.h>
-#include <string.h>
-#include <libxml/tree.h>
-#include <libxml/parser.h>
 
 #include "as-utils.h"
 #include "as-utils-private.h"
@@ -326,7 +322,6 @@ as_component_is_valid (AsComponent *cpt)
 {
 	gboolean ret = FALSE;
 	const gchar *cname;
-	gboolean has_candidate;
 	AsComponentKind ctype;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
@@ -335,9 +330,7 @@ as_component_is_valid (AsComponent *cpt)
 		return FALSE;
 	cname = as_component_get_name (cpt);
 
-	has_candidate = (((priv->pkgnames != NULL) && (priv->pkgnames[0] != NULL)) || (g_hash_table_size (priv->bundles) > 0));
-
-	if ((has_candidate) &&
+	if ((as_component_has_install_candidate (cpt)) &&
 		(g_strcmp0 (priv->id, "") != 0) &&
 		(cname != NULL) &&
 		(g_strcmp0 (cname, "") != 0)) {
@@ -370,7 +363,7 @@ as_component_to_string (AsComponent *cpt)
 	gchar *pkgs;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	if (priv->pkgnames == NULL)
+	if (as_component_has_package (cpt))
 		pkgs = g_strdup ("?");
 	else
 		pkgs = g_strjoinv (",", priv->pkgnames);
@@ -382,6 +375,11 @@ as_component_to_string (AsComponent *cpt)
 		case AS_COMPONENT_KIND_DESKTOP_APP:
 		{
 			res = g_strdup_printf ("[DesktopApp::%s]> name: %s | package: %s | summary: %s", priv->id, name, pkgs, summary);
+			break;
+		}
+		case AS_COMPONENT_KIND_UNKNOWN:
+		{
+			res = g_strdup_printf ("[UNKNOWN::%s]> name: %s | package: %s | summary: %s", priv->id, name, pkgs, summary);
 			break;
 		}
 		default:
@@ -598,362 +596,29 @@ as_component_has_bundle (AsComponent *cpt)
 	return g_hash_table_size (priv->bundles) > 0;
 }
 
-static void
-_as_component_serialize_image (AsImage *img, xmlNode *subnode)
-{
-	xmlNode* n_image = NULL;
-	gchar *size;
-	g_return_if_fail (img != NULL);
-	g_return_if_fail (subnode != NULL);
-
-	n_image = xmlNewTextChild (subnode, NULL, (xmlChar*) "image", (xmlChar*) as_image_get_url (img));
-	if (as_image_get_kind (img) == AS_IMAGE_KIND_THUMBNAIL)
-		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "thumbnail");
-	else
-		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "source");
-
-	if ((as_image_get_width (img) > 0) &&
-		(as_image_get_height (img) > 0)) {
-		size = g_strdup_printf("%i", as_image_get_width (img));
-		xmlNewProp (n_image, (xmlChar*) "width", (xmlChar*) size);
-		g_free (size);
-
-		size = g_strdup_printf("%i", as_image_get_height (img));
-		xmlNewProp (n_image, (xmlChar*) "height", (xmlChar*) size);
-		g_free (size);
-	}
-
-	xmlAddChild (subnode, n_image);
-}
-
 /**
- * as_component_xml_add_screenshot_subnodes:
+ * as_component_has_package:
+ * @cpt: a #AsComponent instance.
  *
- * Add screenshot subnodes to a root node
- */
-void
-as_component_xml_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
+ * Internal function.
+ **/
+gboolean
+as_component_has_package (AsComponent *cpt)
 {
-	GPtrArray* sslist;
-	AsScreenshot *sshot;
-	guint i;
-
-	sslist = as_component_get_screenshots (cpt);
-	for (i = 0; i < sslist->len; i++) {
-		xmlNode *subnode;
-		const gchar *str;
-		GPtrArray *images;
-		sshot = (AsScreenshot*) g_ptr_array_index (sslist, i);
-
-		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "screenshot", (xmlChar*) "");
-		if (as_screenshot_get_kind (sshot) == AS_SCREENSHOT_KIND_DEFAULT)
-			xmlNewProp (subnode, (xmlChar*) "type", (xmlChar*) "default");
-
-		str = as_screenshot_get_caption (sshot);
-		if (g_strcmp0 (str, "") != 0) {
-			xmlNode* n_caption;
-			n_caption = xmlNewTextChild (subnode, NULL, (xmlChar*) "caption", (xmlChar*) str);
-			xmlAddChild (subnode, n_caption);
-		}
-
-		images = as_screenshot_get_images (sshot);
-		g_ptr_array_foreach (images, (GFunc) _as_component_serialize_image, subnode);
-	}
-}
-
-/**
- * as_component_dump_screenshot_data_xml:
- *
- * Internal function to create XML which gets stored in the AppStream database
- * for screenshots
- */
-gchar*
-as_component_dump_screenshot_data_xml (AsComponent *cpt)
-{
-	GPtrArray* sslist;
-	xmlDoc *doc;
-	xmlNode *root;
-	gchar *xmlstr = NULL;
-
-	sslist = as_component_get_screenshots (cpt);
-	if (sslist->len == 0) {
-		return g_strdup ("");
-	}
-
-	doc = xmlNewDoc ((xmlChar*) NULL);
-	root = xmlNewNode (NULL, (xmlChar*) "screenshots");
-	xmlDocSetRootElement (doc, root);
-
-	as_component_xml_add_screenshot_subnodes (cpt, root);
-
-	xmlDocDumpMemory (doc, (xmlChar**) (&xmlstr), NULL);
-	xmlFreeDoc (doc);
-
-	return xmlstr;
-}
-
-/**
- * as_component_load_screenshots_from_internal_xml:
- *
- * Internal function to load the screenshot list
- * using the database-internal XML data.
- */
-void
-as_component_load_screenshots_from_internal_xml (AsComponent *cpt, const gchar* xmldata)
-{
-	xmlDoc* doc = NULL;
-	xmlNode* root = NULL;
-	xmlNode *iter;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	g_return_if_fail (xmldata != NULL);
-	if (as_str_empty (xmldata)) {
-		return;
-	}
-
-	doc = xmlParseDoc ((xmlChar*) xmldata);
-	root = xmlDocGetRootElement (doc);
-
-	if (root == NULL) {
-		xmlFreeDoc (doc);
-		return;
-	}
-
-	for (iter = root->children; iter != NULL; iter = iter->next) {
-		if (g_strcmp0 ((gchar*) iter->name, "screenshot") == 0) {
-			AsScreenshot* sshot;
-			gchar *typestr;
-			xmlNode *iter2;
-
-			sshot = as_screenshot_new ();
-
-			/* propagate locale */
-			as_screenshot_set_active_locale (sshot, priv->active_locale);
-
-			typestr = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
-			if (g_strcmp0 (typestr, "default") == 0)
-				as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
-			else
-				as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_NORMAL);
-			g_free (typestr);
-			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
-				const gchar *node_name;
-				gchar *content;
-
-				node_name = (const gchar*) iter2->name;
-				content = (gchar*) xmlNodeGetContent (iter2);
-				if (g_strcmp0 (node_name, "image") == 0) {
-					AsImage *img;
-					gchar *str;
-					guint64 width;
-					guint64 height;
-					gchar *imgtype;
-					if (content == NULL)
-						continue;
-					img = as_image_new ();
-
-					str = (gchar*) xmlGetProp (iter2, (xmlChar*) "width");
-					if (str == NULL) {
-						g_object_unref (img);
-						continue;
-					}
-					width = g_ascii_strtoll (str, NULL, 10);
-					g_free (str);
-
-					str = (gchar*) xmlGetProp (iter2, (xmlChar*) "height");
-					if (str == NULL) {
-						g_object_unref (img);
-						continue;
-					}
-					height = g_ascii_strtoll (str, NULL, 10);
-					g_free (str);
-
-					as_image_set_width (img, width);
-					as_image_set_height (img, height);
-
-					/* discard invalid elements */
-					if ((width == 0) || (height == 0)) {
-						g_object_unref (img);
-						continue;
-					}
-					as_image_set_url (img, content);
-
-					imgtype = (gchar*) xmlGetProp (iter2, (xmlChar*) "type");
-					if (g_strcmp0 (imgtype, "thumbnail") == 0) {
-						as_image_set_kind (img, AS_IMAGE_KIND_THUMBNAIL);
-					} else {
-						as_image_set_kind (img, AS_IMAGE_KIND_SOURCE);
-					}
-					g_free (imgtype);
-
-					as_screenshot_add_image (sshot, img);
-				} else if (g_strcmp0 (node_name, "caption") == 0) {
-					if (content != NULL)
-						as_screenshot_set_caption (sshot, content, NULL);
-				}
-				g_free (content);
-			}
-			as_component_add_screenshot (cpt, sshot);
-		}
-	}
+	return (priv->pkgnames != NULL) && (priv->pkgnames[0] != NULL);
 }
 
 /**
- * as_component_xml_add_release_subnodes:
+ * as_component_has_install_candidate:
+ * @cpt: a #AsComponent instance.
  *
- * Add release nodes to a root node
- */
-void
-as_component_xml_add_release_subnodes (AsComponent *cpt, xmlNode *root)
+ * Returns: %TRUE if the component has an installable component (package, bundle, ...) set.
+ **/
+gboolean
+as_component_has_install_candidate (AsComponent *cpt)
 {
-	GPtrArray* releases;
-	AsRelease *release;
-	guint i;
-
-	releases = as_component_get_releases (cpt);
-	for (i = 0; i < releases->len; i++) {
-		xmlNode *subnode;
-		const gchar *str;
-		gchar *timestamp;
-		GPtrArray *locations;
-		guint j;
-		release = (AsRelease*) g_ptr_array_index (releases, i);
-
-		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "release", (xmlChar*) "");
-		xmlNewProp (subnode, (xmlChar*) "version",
-					(xmlChar*) as_release_get_version (release));
-		timestamp = g_strdup_printf ("%ld", as_release_get_timestamp (release));
-		xmlNewProp (subnode, (xmlChar*) "timestamp",
-					(xmlChar*) timestamp);
-		g_free (timestamp);
-
-		/* add location urls */
-		locations = as_release_get_locations (release);
-		for (j = 0; j < locations->len; j++) {
-			gchar *lurl;
-			lurl = (gchar*) g_ptr_array_index (locations, j);
-			xmlNewTextChild (subnode, NULL, (xmlChar*) "location", (xmlChar*) lurl);
-		}
-
-		/* add checksum node */
-		if (as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA1) != NULL) {
-			xmlNode *csNode;
-			csNode = xmlNewTextChild (subnode, NULL, (xmlChar*) "checksum",
-							(xmlChar*) as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA1));
-			xmlNewProp (csNode, (xmlChar*) "type", (xmlChar*) "sha1");
-		}
-		if (as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA256) != NULL) {
-			xmlNode *csNode;
-			csNode = xmlNewTextChild (subnode, NULL, (xmlChar*) "checksum",
-							(xmlChar*) as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA256));
-			xmlNewProp (csNode, (xmlChar*) "type", (xmlChar*) "sha256");
-		}
-
-		str = as_release_get_description (release);
-		if (g_strcmp0 (str, "") != 0) {
-			xmlNode* n_desc;
-			n_desc = xmlNewTextChild (subnode, NULL, (xmlChar*) "description", (xmlChar*) str);
-			xmlAddChild (subnode, n_desc);
-		}
-	}
-}
-
-/**
- * as_component_dump_releases_data_xml:
- *
- * Internal function to create XML which gets stored in the AppStream database
- * for releases
- */
-gchar*
-as_component_dump_releases_data_xml (AsComponent *cpt)
-{
-	GPtrArray* releases;
-	xmlDoc *doc;
-	xmlNode *root;
-	gchar *xmlstr = NULL;
-
-	releases = as_component_get_releases (cpt);
-	if (releases->len == 0) {
-		return g_strdup ("");
-	}
-
-	doc = xmlNewDoc ((xmlChar*) NULL);
-	root = xmlNewNode (NULL, (xmlChar*) "releases");
-	xmlDocSetRootElement (doc, root);
-
-	as_component_xml_add_release_subnodes (cpt, root);
-
-	xmlDocDumpMemory (doc, (xmlChar**) (&xmlstr), NULL);
-	xmlFreeDoc (doc);
-
-	return xmlstr;
-}
-
-/**
- * as_component_load_releases_from_internal_xml:
- *
- * Internal function to load the releases list
- * using the database-internal XML data.
- */
-void
-as_component_load_releases_from_internal_xml (AsComponent *cpt, const gchar* xmldata)
-{
-	xmlDoc* doc = NULL;
-	xmlNode* root = NULL;
-	xmlNode *iter;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	g_return_if_fail (xmldata != NULL);
-
-	if (as_str_empty (xmldata)) {
-		return;
-	}
-
-	doc = xmlParseDoc ((xmlChar*) xmldata);
-	root = xmlDocGetRootElement (doc);
-
-	if (root == NULL) {
-		xmlFreeDoc (doc);
-		return;
-	}
-
-	for (iter = root->children; iter != NULL; iter = iter->next) {
-		if (g_strcmp0 ((gchar*) iter->name, "release") == 0) {
-			AsRelease *release;
-			gchar *prop;
-			guint64 timestamp;
-			xmlNode *iter2;
-			release = as_release_new ();
-
-			/* propagate locale */
-			as_release_set_active_locale (release, priv->active_locale);
-
-			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "version");
-			as_release_set_version (release, prop);
-			g_free (prop);
-
-			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "timestamp");
-			timestamp = g_ascii_strtoll (prop, NULL, 10);
-			as_release_set_timestamp (release, timestamp);
-			g_free (prop);
-
-			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
-				if (iter->type != XML_ELEMENT_NODE)
-					continue;
-
-				if (g_strcmp0 ((gchar*) iter->name, "description") == 0) {
-					gchar *content;
-					content = (gchar*) xmlNodeGetContent (iter2);
-					as_release_set_description (release, content, NULL);
-					g_free (content);
-					break;
-				}
-			}
-
-			as_component_add_release (cpt, release);
-			g_object_unref (release);
-		}
-	}
+	return as_component_has_bundle (cpt) || as_component_has_package (cpt);
 }
 
 /**
@@ -1878,8 +1543,8 @@ as_component_add_language (AsComponent *cpt, const gchar *locale, gint percentag
 	if (locale == NULL)
 		locale = "C";
 	g_hash_table_insert (priv->languages,
-						 g_strdup (locale),
-						 GINT_TO_POINTER (percentage));
+				g_strdup (locale),
+				GINT_TO_POINTER (percentage));
 }
 
 /**
@@ -2061,7 +1726,7 @@ as_component_complete (AsComponent *cpt, gchar *scr_base_url, gchar **icon_paths
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* we want screenshot data from 3rd-party screenshot servers, if the component doesn't have screenshots defined already */
-	if ((priv->screenshots->len == 0) && (priv->pkgnames != NULL)) {
+	if ((priv->screenshots->len == 0) && (as_component_has_package (cpt))) {
 		gchar *url;
 		AsImage *img;
 		AsScreenshot *sshot;

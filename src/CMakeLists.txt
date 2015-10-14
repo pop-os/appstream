@@ -2,9 +2,10 @@
 
 find_package(GLIB2 2.36 REQUIRED)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
-find_package(Xapian 1.2 REQUIRED)
 find_package(GI REQUIRED)
 find_package(LibXml2 REQUIRED)
+find_package(Xapian 1.2 REQUIRED)
+find_package(Protobuf REQUIRED)
 find_library(M_LIB m)
 
 include(GObjectIntrospectionMacros)
@@ -15,7 +16,14 @@ set(INTROSPECTION_COMPILER_ARGS "--includedir=${CMAKE_CURRENT_SOURCE_DIR}")
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
 set(AS_VERSION_BASE "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
 
-set(ASLIB_XAP_SOURCES xapian/database-common.hpp
+if (PROTOBUF_PROTOC_EXECUTABLE STREQUAL "PROTOBUF_PROTOC_EXECUTABLE-NOTFOUND")
+	message (FATAL_ERROR "ProtoBuf compiler (protoc) was not found!")
+endif ()
+
+protobuf_generate_cpp(AS_PROTO_SRCS AS_PROTO_HDRS xapian/asxentries.proto)
+
+set(ASLIB_XAP_SOURCES ${AS_PROTO_SRCS} ${AS_PROTO_HDRS}
+		xapian/database-schema.hpp
 		xapian/database-read.hpp
 		xapian/database-read.cpp
 		xapian/database-write.hpp
@@ -86,8 +94,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
 		    ${GLIB2_INCLUDE_DIR}
 		    ${GIO2_INCLUDE_DIR}
 		    ${LIBXML2_INCLUDE_DIR}
-		    ${XAPIAN_INCLUDE_DIR}
 		    ${YAML_INCLUDE_DIR}
+		    ${XAPIAN_INCLUDE_DIR}
+		    ${PROTOBUF_INCLUDE_DIRS}
 )
 
 add_definitions("-DAS_COMPILATION")
@@ -104,8 +113,9 @@ target_link_libraries(appstream
 		${GLIB2_LIBRARIES}
 		${GIO2_LIBRARIES}
 		${LIBXML2_LIBRARIES}
-		${XAPIAN_LIBRARIES}
 		${YAML_LIBRARIES}
+		${XAPIAN_LIBRARIES}
+		${PROTOBUF_LITE_LIBRARIES}
 )
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/appstream.pc.in ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc @ONLY)

@@ -139,6 +139,7 @@ as_data_pool_add_new_component (AsDataPool *dpool, AsComponent *cpt)
 			g_hash_table_replace (priv->cpt_table,
 						g_strdup (cpt_id),
 						g_object_ref (cpt));
+			g_debug ("Replaced '%s' with data of higher priority.", cpt_id);
 		} else {
 			if ((!as_component_has_bundle (existing_cpt)) && (as_component_has_bundle (cpt))) {
 				GHashTable *bundles;
@@ -198,7 +199,7 @@ as_data_pool_read_asxml (AsDataPool *dpool)
 	GPtrArray *components;
 	guint i;
 	GFile *infile;
-	gboolean ret = TRUE;
+	gboolean ret;
 	const gchar *content_type;
 	AsMetadata *metad;
 	GError *error = NULL;
@@ -240,6 +241,7 @@ as_data_pool_read_asxml (AsDataPool *dpool)
 	as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
 	as_metadata_set_locale (metad, priv->locale);
 
+	ret = TRUE;
 	for (i = 0; i < xml_files->len; i++) {
 		gchar *fname;
 		GFileInfo *info = NULL;
@@ -257,7 +259,7 @@ as_data_pool_read_asxml (AsDataPool *dpool)
 				G_FILE_QUERY_INFO_NONE,
 				NULL, NULL);
 		if (info == NULL) {
-			g_debug ("No info for file '%s' found, file was skipped.", fname);
+			g_debug ("No file-info for '%s' found, file was skipped.", fname);
 			g_object_unref (infile);
 			continue;
 		}
@@ -276,9 +278,6 @@ as_data_pool_read_asxml (AsDataPool *dpool)
 		}
 		g_object_unref (info);
 		g_object_unref (infile);
-
-		if (!ret)
-			break;
 	}
 
 	components = as_metadata_get_components (metad);

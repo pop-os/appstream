@@ -1,6 +1,7 @@
 /*
  * Part of Appstream, a library for accessing AppStream on-disk database
- * Copyright 2014  Sune Vuorela <sune@vuorela.dk>
+ * Copyright (C) 2014  Sune Vuorela <sune@vuorela.dk>
+ * Copyright (C) 2015  Matthias Klumpp <matthias@tenstral.net>
  *
  * Based upon database-read.hpp
  * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
@@ -24,25 +25,31 @@
 #define QT_NO_KEYWORDS
 
 #include "database.h"
-#include "screenshotxmlparser_p.h"
-#include <database-common.hpp>
+
+#include <database-schema.hpp>
 #include <xapian.h>
 #include <QStringList>
 #include <QUrl>
 #include <QMultiHash>
 #include <QLoggingCategory>
 
+#include "image.h"
+#include "screenshot.h"
+
 Q_LOGGING_CATEGORY(APPSTREAMQT_DB, "appstreamqt.database")
 
 using namespace Appstream;
+using namespace ASCache;
 
 class Appstream::DatabasePrivate {
     public:
         DatabasePrivate(const QString& dbpath) : m_dbPath(dbpath) {
         }
+
         QString m_dbPath;
         QString m_errorString;
         Xapian::Database m_db;
+
         bool open() {
             try {
                 m_db = Xapian::Database (m_dbPath.trimmed().toStdString());
@@ -50,8 +57,22 @@ class Appstream::DatabasePrivate {
                 m_errorString = QString::fromStdString (error.get_msg());
                 return false;
             }
+
+            int schemaVersion = 0;
+            try {
+                schemaVersion = stoi (m_db.get_metadata ("db-schema-version"));
+            } catch (...) {
+                qCWarning(APPSTREAMQT_DB, "Unable to read database schema version, assuming 0.");
+            }
+
+            if (schemaVersion != AS_DB_SCHEMA_VERSION) {
+                qCWarning(APPSTREAMQT_DB, "Attempted to open an old version of the AppStream cache. Please refresh the cache and try again!");
+                return false;
+            }
+
             return true;
         }
+
         ~DatabasePrivate() {
             m_db.close();
         }
@@ -87,6 +108,7 @@ QSize parseSizeString(QString s)
 
 Component xapianDocToComponent(Xapian::Document document) {
     Component component;
+    std::string str;
 
     // kind
     QString kindString = value (document, XapianValues::TYPE);
@@ -101,32 +123,57 @@ Component xapianDocToComponent(Xapian::Document document) {
     component.setName(name);
 
     // Package name
-    QStringList packageNames = value(document,XapianValues::PKGNAME).split("\n",QString::SkipEmptyParts);
+    QStringList packageNames = value(document,XapianValues::PKGNAMES).split(";",QString::SkipEmptyParts);
     component.setPackageNames(packageNames);
 
-    // URLs
-    QString concatUrlStrings = value(document, XapianValues::URLS);
-    QStringList urlStrings = concatUrlStrings.split('\n',QString::SkipEmptyParts);
-    if(urlStrings.size() %2 == 0) {
-        QMultiHash<Component::UrlKind, QUrl> urls;
-        for(int i = 0; i < urlStrings.size(); i=i+2) {
-            Component::UrlKind ukind = Component::stringToUrlKind(urlStrings.at(i));
-            QUrl url = QUrl::fromUserInput(urlStrings.at(i+1));
-            urls.insertMulti(ukind, url);
+    // Bundles
+    ASCache::Bundles pb_bundles;
+    str = document.get_value (XapianValues::BUNDLES);
+    pb_bundles.ParseFromString (str);
+    QHash<Component::BundleKind, QString> bundles;
+    for (int i = 0; i < pb_bundles.bundle_size (); i++) {
+        const Bundles_Bundle& bdl = pb_bundles.bundle (i);
+        auto bkind = (Component::BundleKind) bdl.type ();
+        auto bdlid = QString::fromStdString(bdl.id ());
+
+        if (bkind != Component::BundleKindUnknown) {
+            bundles.insertMulti(bkind, bdlid);
+        } else {
+            qCWarning(APPSTREAMQT_DB, "Found bundle of unknown type for '%s': %s", qPrintable(id), qPrintable(bdlid));
         }
-        component.setUrls(urls);
-    } else {
-        qCWarning(APPSTREAMQT_DB, "Bad url strings for component: '%s' (%s)", qPrintable(id), qPrintable(concatUrlStrings));
+
     }
+    component.setBundles(bundles);
+
+    // URLs
+    ASCache::Urls pb_urls;
+    str = document.get_value (XapianValues::URLS);
+    pb_urls.ParseFromString (str);
+    QMultiHash<Component::UrlKind, QUrl> urls;
+    for (int i = 0; i < pb_urls.url_size (); i++) {
+        const Urls_Url& pb_url = pb_urls.url (i);
+        auto ukind = (Component::UrlKind) pb_url.type ();
+        QUrl url = QUrl::fromUserInput(QString::fromStdString(pb_url.url ()));
+
+        if (ukind != Component::UrlKindUnknown) {
+            urls.insertMulti(ukind, url);
+        } else {
+            qCWarning(APPSTREAMQT_DB, "URL of unknown type found for '%s': %s", qPrintable(id), qPrintable(url.toString()));
+        }
+    }
+    component.setUrls(urls);
 
     // Provided items
-    QString concatProvides = value(document, XapianValues::PROVIDED_ITEMS);
-    QStringList providesList = concatProvides.split('\n',QString::SkipEmptyParts);
+    ASCache::ProvidedItems pb_pitems;
+    str = document.get_value (XapianValues::PROVIDED_ITEMS);
+    pb_pitems.ParseFromString (str);
     QList<Provides> provideslist;
-    Q_FOREACH(const QString& string, providesList) {
-        QStringList providesParts = string.split(';',QString::SkipEmptyParts);
+    for (int i = 0; i < pb_pitems.item_size (); i++) {
+        const QString& itemData = QString::fromStdString(pb_pitems.item (i));
+
+        QStringList providesParts = itemData.split(';',QString::SkipEmptyParts);
         if(providesParts.size() < 2) {
-            qCWarning(APPSTREAMQT_DB, "Bad component parts for component: '%s' (%s)", qPrintable(id), qPrintable(string));
+            qCWarning(APPSTREAMQT_DB, "Bad component parts for component: '%s' (%s)", qPrintable(id), qPrintable(itemData));
             continue;
         }
         QString kindString = providesParts.takeFirst();
@@ -140,21 +187,6 @@ Component xapianDocToComponent(Xapian::Document document) {
         provideslist << provides;
     }
     component.setProvides(provideslist);
-
-    // Bundles
-    QString concatBundleIds = value(document, XapianValues::BUNDLES);
-    QStringList bundleIds = concatBundleIds.split('\n',QString::SkipEmptyParts);
-    if(bundleIds.size() %2 == 0) {
-        QHash<Component::BundleKind, QString> bundles;
-        for(int i = 0; i < bundleIds.size(); i=i+2) {
-            Component::BundleKind bkind = Component::stringToBundleKind(bundleIds.at(i));
-            QString bdid = QString(bundleIds.at(i+1));
-            bundles.insertMulti(bkind, bdid);
-        }
-        component.setBundles(bundles);
-    } else {
-        qCWarning(APPSTREAMQT_DB, "Bad bundle strings for component: '%s' (%s)", qPrintable(id), qPrintable(concatBundleIds));
-    }
 
     // Stock icon
     QString icon = value(document,XapianValues::ICON);
@@ -186,10 +218,40 @@ Component xapianDocToComponent(Xapian::Document document) {
     QStringList categories = value(document, XapianValues::CATEGORIES).split(";");
     component.setCategories(categories);
 
-    // Screenshot data
-    QString screenshotXml = value(document,XapianValues::SCREENSHOT_DATA);
-    QXmlStreamReader reader(screenshotXml);
-    QList<Appstream::Screenshot> screenshots = parseScreenshotsXml(&reader);
+    // Screenshots
+    ASCache::Screenshots pb_scrs;
+    str = document.get_value (XapianValues::SCREENSHOTS);
+    pb_scrs.ParseFromString (str);
+    QList<Appstream::Screenshot> screenshots;
+    for (int i = 0; i < pb_scrs.screenshot_size (); i++) {
+        const Screenshots_Screenshot& pb_scr = pb_scrs.screenshot (i);
+        Appstream::Screenshot scr;
+        QList<Appstream::Image> images;
+
+        if (pb_scr.primary())
+            scr.setDefault(true);
+        if (pb_scr.has_caption())
+            scr.setCaption(QString::fromStdString(pb_scr.caption()));
+
+        for (int j = 0; j < pb_scr.image_size(); j++) {
+            const Screenshots_Image& pb_img = pb_scr.image(j);
+            Appstream::Image image;
+
+            image.setUrl(QString::fromStdString(pb_img.url()));
+            image.setWidth(pb_img.width ());
+            image.setHeight(pb_img.height ());
+
+            if (pb_img.source ()) {
+                image.setKind(Appstream::Image::Kind::Plain);
+            } else {
+                image.setKind(Appstream::Image::Kind::Thumbnail);
+            }
+
+            images.append(image);
+        }
+
+        screenshots.append(scr);
+    }
     component.setScreenshots(screenshots);
 
     // Compulsory-for-desktop information
@@ -208,9 +270,11 @@ Component xapianDocToComponent(Xapian::Document document) {
     QString developerName = value(document,XapianValues::DEVELOPER_NAME);
     component.setDeveloperName(developerName);
 
-    // Releases data
-    QString releasesXml = value(document,XapianValues::RELEASES_DATA);
-    Q_UNUSED(releasesXml);
+    // Releases
+    Releases pb_rels;
+    str = document.get_value (XapianValues::RELEASES);
+    pb_rels.ParseFromString (str);
+    Q_UNUSED(pb_rels);
 
     return component;
 }
@@ -400,6 +464,6 @@ QList<Component> Database::findComponentsByPackageName(const QString& packageNam
 }
 
 
-Database::Database() : d(new DatabasePrivate(QLatin1String("/var/cache/app-info/xapian/C"))) {
+Database::Database() : d(new DatabasePrivate(QLatin1String("/var/cache/app-info/xapian/default"))) {
 
 }

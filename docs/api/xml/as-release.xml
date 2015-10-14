@@ -52,6 +52,10 @@
 </entry><entry role="function_name"><link linkend="as-release-get-checksum">as_release_get_checksum</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-release-set-checksum">as_release_set_checksum</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsUrgencyKind"><returnvalue>AsUrgencyKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-get-urgency">as_release_get_urgency</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-urgency">as_release_set_urgency</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -355,6 +359,52 @@ as_release_set_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</t
                          <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> cs_kind</parameter>);</programlisting>
 <para>Set the release checksum.</para>
 <para role="since">Since: <link linkend="api-index-0.8.2">0.8.2</link></para></refsect2>
+<refsect2 id="as-release-get-urgency" role="function" condition="since:0.6.5">
+<title>as_release_get_urgency&#160;()</title>
+<indexterm zone="as-release-get-urgency" role="0.6.5"><primary>as_release_get_urgency</primary></indexterm>
+<programlisting language="C"><link linkend="AsUrgencyKind"><returnvalue>AsUrgencyKind</returnvalue></link>
+as_release_get_urgency (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
+<para>Gets the urgency of the release
+(showing how important it is to update to a more recent release)</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="AsUrgencyKind"><type>AsUrgencyKind</type></link>, or <link linkend="AS-URGENCY-KIND-UNKNOWN:CAPS"><literal>AS_URGENCY_KIND_UNKNOWN</literal></link> for not set</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.5">0.6.5</link></para></refsect2>
+<refsect2 id="as-release-set-urgency" role="function" condition="since:0.6.5">
+<title>as_release_set_urgency&#160;()</title>
+<indexterm zone="as-release-set-urgency" role="0.6.5"><primary>as_release_set_urgency</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_urgency (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                        <parameter><link linkend="AsUrgencyKind"><type>AsUrgencyKind</type></link> urgency</parameter>);</programlisting>
+<para>Sets the release urgency.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>urgency</para></entry>
+<entry role="parameter_description"><para>the urgency of this release/update (as <link linkend="AsUrgencyKind"><type>AsUrgencyKind</type></link>)</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.6.5">0.6.5</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsRelease.other_details" role="details">

@@ -111,7 +111,7 @@ as_database_construct (<parameter><link linkend="GType"><type>GType</type></link
 <title>as_database_set_database_path&#160;()</title>
 <indexterm zone="as-database-set-database-path"><primary>as_database_set_database_path</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_database_set_database_path (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+as_database_set_database_path (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>
 </para>
@@ -120,7 +120,7 @@ as_database_set_database_path (<parameter><link linkend="AsDatabase"><type>AsDat
 <title>as_database_open&#160;()</title>
 <indexterm zone="as-database-open"><primary>as_database_open</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
 <para>
 </para>
 </refsect2>
@@ -128,7 +128,7 @@ as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type><
 <title>as_database_get_database_path&#160;()</title>
 <indexterm zone="as-database-get-database-path"><primary>as_database_get_database_path</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_database_get_database_path (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+as_database_get_database_path (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
 <para>
 </para>
 </refsect2>
@@ -136,7 +136,7 @@ as_database_get_database_path (<parameter><link linkend="AsDatabase"><type>AsDat
 <title>as_database_db_exists&#160;()</title>
 <indexterm zone="as-database-db-exists"><primary>as_database_db_exists</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_database_db_exists (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+as_database_db_exists (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -145,7 +145,7 @@ as_database_db_exists (<parameter><link linkend="AsDatabase"><type>AsDatabase</t
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
@@ -157,7 +157,7 @@ as_database_db_exists (<parameter><link linkend="AsDatabase"><type>AsDatabase</t
 <title>as_database_get_all_components&#160;()</title>
 <indexterm zone="as-database-get-all-components"><primary>as_database_get_all_components</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>);</programlisting>
+as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
 <para>Dump a list of all components found in the database.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
@@ -167,7 +167,7 @@ as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDa
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
@@ -180,7 +180,7 @@ as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDa
 <title>as_database_find_components&#160;()</title>
 <indexterm zone="as-database-find-components"><primary>as_database_find_components</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                              <parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *query</parameter>);</programlisting>
 <para>Find components in the Appstream database.</para>
 <refsect3 role="parameters">
@@ -191,7 +191,7 @@ as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatab
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>query</para></entry>
@@ -207,7 +207,7 @@ as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatab
 <title>as_database_find_components_by_term&#160;()</title>
 <indexterm zone="as-database-find-components-by-term"><primary>as_database_find_components_by_term</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-as_database_find_components_by_term (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+as_database_find_components_by_term (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *search_term</parameter>,
                                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories_str</parameter>);</programlisting>
 <para>Find components in the Appstream database by searching for a simple string.</para>
@@ -219,7 +219,7 @@ as_database_find_components_by_term (<parameter><link linkend="AsDatabase"><type
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>search_term</para></entry>
@@ -238,7 +238,7 @@ as_database_find_components_by_term (<parameter><link linkend="AsDatabase"><type
 <title>as_database_get_component_by_id&#160;()</title>
 <indexterm zone="as-database-get-component-by-id"><primary>as_database_get_component_by_id</primary></indexterm>
 <programlisting language="C"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
-as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *idname</parameter>);</programlisting>
 <para>Get a component by it's ID</para>
 <refsect3 role="parameters">
@@ -249,7 +249,7 @@ as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsD
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>idname</para></entry>
@@ -266,7 +266,7 @@ as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsD
 <indexterm zone="as-database-get-components-by-provides"><primary>as_database_get_components_by_provides</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_database_get_components_by_provides
-                               (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+                               (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                 <parameter><link linkend="AsProvidesKind"><type>AsProvidesKind</type></link> kind</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>);</programlisting>
@@ -279,7 +279,7 @@ as_database_get_components_by_provides
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>kind</para></entry>
@@ -301,7 +301,7 @@ as_database_get_components_by_provides
 <title>as_database_get_components_by_kind&#160;()</title>
 <indexterm zone="as-database-get-components-by-kind"><primary>as_database_get_components_by_kind</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *self</parameter>,
+as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                     <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kinds</parameter>);</programlisting>
 <para>Find components of a given kind.</para>
 <refsect3 role="parameters">
@@ -312,7 +312,7 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>self</para></entry>
+<row><entry role="parameter_name"><para>db</para></entry>
 <entry role="parameter_description"><para>a valid <link linkend="AsDatabase"><type>AsDatabase</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>kinds</para></entry>

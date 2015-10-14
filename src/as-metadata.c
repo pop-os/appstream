@@ -324,6 +324,9 @@ as_metadata_process_screenshot (AsMetadata *metad, xmlNode* node, AsScreenshot* 
 	}
 }
 
+/**
+ * as_metadata_process_screenshots_tag:
+ */
 static void
 as_metadata_process_screenshots_tag (AsMetadata *metad, xmlNode* node, AsComponent* cpt)
 {
@@ -356,6 +359,11 @@ as_metadata_process_screenshots_tag (AsMetadata *metad, xmlNode* node, AsCompone
 	}
 }
 
+/**
+ * as_metadata_upstream_description_to_cpt:
+ *
+ * Helper function for GHashTable
+ */
 static void
 as_metadata_upstream_description_to_cpt (gchar *key, GString *value, AsComponent *cpt)
 {
@@ -365,6 +373,11 @@ as_metadata_upstream_description_to_cpt (gchar *key, GString *value, AsComponent
 	g_string_free (value, TRUE);
 }
 
+/**
+ * as_metadata_upstream_description_to_release:
+ *
+ * Helper function for GHashTable
+ */
 static void
 as_metadata_upstream_description_to_release (gchar *key, GString *value, AsRelease *rel)
 {
@@ -448,6 +461,13 @@ as_metadata_process_releases_tag (AsMetadata *metad, xmlNode* node, AsComponent*
 			if (prop != NULL) {
 				timestamp = g_ascii_strtoll (prop, NULL, 10);
 				as_release_set_timestamp (release, timestamp);
+				g_free (prop);
+			}
+			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "urgency");
+			if (prop != NULL) {
+				AsUrgencyKind ukind;
+				ukind = as_urgency_kind_from_string (prop);
+				as_release_set_urgency (release, ukind);
 				g_free (prop);
 			}
 
@@ -917,12 +937,14 @@ as_metadata_process_document (AsMetadata *metad, const gchar* xmldoc_str, GError
 	} else if (g_strcmp0 ((gchar*) root->name, "component") == 0) {
 		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_UPSTREAM);
 		cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
-		g_ptr_array_add (priv->cpts, cpt);
+		if (cpt != NULL)
+			g_ptr_array_add (priv->cpts, cpt);
 	} else if  (g_strcmp0 ((gchar*) root->name, "application") == 0) {
 		as_metadata_set_parser_mode (metad, AS_PARSER_MODE_UPSTREAM);
 		g_debug ("Parsing legacy AppStream metadata file.");
 		cpt = as_metadata_parse_component_node (metad, root, TRUE, error);
-		g_ptr_array_add (priv->cpts, cpt);
+		if (cpt != NULL)
+			g_ptr_array_add (priv->cpts, cpt);
 	} else {
 		g_set_error_literal (error,
 					AS_METADATA_ERROR,
@@ -1324,6 +1346,143 @@ _as_metadata_desc_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWri
 }
 
 /**
+ * _as_metadata_serialize_image:
+ */
+static void
+_as_metadata_serialize_image (AsImage *img, xmlNode *subnode)
+{
+	xmlNode* n_image = NULL;
+	gchar *size;
+	g_return_if_fail (img != NULL);
+	g_return_if_fail (subnode != NULL);
+
+	n_image = xmlNewTextChild (subnode, NULL, (xmlChar*) "image", (xmlChar*) as_image_get_url (img));
+	if (as_image_get_kind (img) == AS_IMAGE_KIND_THUMBNAIL)
+		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "thumbnail");
+	else
+		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "source");
+
+	if ((as_image_get_width (img) > 0) &&
+		(as_image_get_height (img) > 0)) {
+		size = g_strdup_printf("%i", as_image_get_width (img));
+		xmlNewProp (n_image, (xmlChar*) "width", (xmlChar*) size);
+		g_free (size);
+
+		size = g_strdup_printf("%i", as_image_get_height (img));
+		xmlNewProp (n_image, (xmlChar*) "height", (xmlChar*) size);
+		g_free (size);
+	}
+
+	xmlAddChild (subnode, n_image);
+}
+
+/**
+ * as_metadata_add_screenshot_subnodes:
+ *
+ * Add screenshot subnodes to a root node
+ */
+static void
+as_metadata_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
+{
+	GPtrArray* sslist;
+	AsScreenshot *sshot;
+	guint i;
+
+	sslist = as_component_get_screenshots (cpt);
+	for (i = 0; i < sslist->len; i++) {
+		xmlNode *subnode;
+		const gchar *str;
+		GPtrArray *images;
+		sshot = (AsScreenshot*) g_ptr_array_index (sslist, i);
+
+		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "screenshot", (xmlChar*) "");
+		if (as_screenshot_get_kind (sshot) == AS_SCREENSHOT_KIND_DEFAULT)
+			xmlNewProp (subnode, (xmlChar*) "type", (xmlChar*) "default");
+
+		str = as_screenshot_get_caption (sshot);
+		if (g_strcmp0 (str, "") != 0) {
+			xmlNode* n_caption;
+			n_caption = xmlNewTextChild (subnode, NULL, (xmlChar*) "caption", (xmlChar*) str);
+			xmlAddChild (subnode, n_caption);
+		}
+
+		images = as_screenshot_get_images (sshot);
+		g_ptr_array_foreach (images, (GFunc) _as_metadata_serialize_image, subnode);
+	}
+}
+
+/**
+ * as_metadata_add_release_subnodes:
+ *
+ * Add release nodes to a root node
+ */
+static void
+as_metadata_add_release_subnodes (AsComponent *cpt, xmlNode *root)
+{
+	GPtrArray* releases;
+	AsRelease *release;
+	guint i;
+
+	releases = as_component_get_releases (cpt);
+	for (i = 0; i < releases->len; i++) {
+		xmlNode *subnode;
+		const gchar *str;
+		gchar *timestamp;
+		GPtrArray *locations;
+		guint j;
+		release = (AsRelease*) g_ptr_array_index (releases, i);
+
+		/* set release version */
+		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "release", (xmlChar*) "");
+		xmlNewProp (subnode, (xmlChar*) "version",
+					(xmlChar*) as_release_get_version (release));
+
+		/* set release timestamp */
+		timestamp = g_strdup_printf ("%ld", as_release_get_timestamp (release));
+		xmlNewProp (subnode, (xmlChar*) "timestamp",
+					(xmlChar*) timestamp);
+		g_free (timestamp);
+
+		/* set release urgency, if we have one */
+		if (as_release_get_urgency (release) != AS_URGENCY_KIND_UNKNOWN) {
+			const gchar *urgency_str;
+			urgency_str = as_urgency_kind_to_string (as_release_get_urgency (release));
+			xmlNewProp (subnode, (xmlChar*) "urgency",
+					(xmlChar*) urgency_str);
+		}
+
+		/* add location urls */
+		locations = as_release_get_locations (release);
+		for (j = 0; j < locations->len; j++) {
+			gchar *lurl;
+			lurl = (gchar*) g_ptr_array_index (locations, j);
+			xmlNewTextChild (subnode, NULL, (xmlChar*) "location", (xmlChar*) lurl);
+		}
+
+		/* add checksum node */
+		if (as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA1) != NULL) {
+			xmlNode *csNode;
+			csNode = xmlNewTextChild (subnode, NULL, (xmlChar*) "checksum",
+							(xmlChar*) as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA1));
+			xmlNewProp (csNode, (xmlChar*) "type", (xmlChar*) "sha1");
+		}
+		if (as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA256) != NULL) {
+			xmlNode *csNode;
+			csNode = xmlNewTextChild (subnode, NULL, (xmlChar*) "checksum",
+							(xmlChar*) as_release_get_checksum (release, AS_CHECKSUM_KIND_SHA256));
+			xmlNewProp (csNode, (xmlChar*) "type", (xmlChar*) "sha256");
+		}
+
+		str = as_release_get_description (release);
+		if (g_strcmp0 (str, "") != 0) {
+			xmlNode* n_desc;
+			n_desc = xmlNewTextChild (subnode, NULL, (xmlChar*) "description", (xmlChar*) str);
+			xmlAddChild (subnode, n_desc);
+		}
+	}
+}
+
+/**
  * as_metadata_component_to_node:
  * @cpt: a valid #AsComponent
  *
@@ -1433,14 +1592,14 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	releases = as_component_get_releases (cpt);
 	if (releases->len > 0) {
 		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "releases", NULL);
-		as_component_xml_add_release_subnodes (cpt, node);
+		as_metadata_add_release_subnodes (cpt, node);
 	}
 
 	/* screenshots node */
 	screenshots = as_component_get_screenshots (cpt);
 	if (screenshots->len > 0) {
 		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
-		as_component_xml_add_screenshot_subnodes (cpt, node);
+		as_metadata_add_screenshot_subnodes (cpt, node);
 	}
 
 	return cnode;
