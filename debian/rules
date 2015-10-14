@@ -2,8 +2,7 @@
 # -*- makefile -*-
 #export DH_VERBOSE=1
 
-AS_CONFIGURE_ARGS = -DTESTS=ON \
-		-DQT=ON \
+AS_CONFIGURE_ARGS = -DQT=ON \
 		-DDEBIAN_DEP11=ON
 
 
