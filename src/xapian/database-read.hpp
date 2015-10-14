@@ -41,30 +41,30 @@ public:
 	explicit DatabaseRead ();
 	~DatabaseRead ();
 
-	bool open (const gchar *dbPath);
+	bool		open (const gchar *dbPath);
 
-	string getSchemaVersion ();
-	string getLocale ();
+	int		getSchemaVersion ();
+	string		getLocale ();
 
-	GPtrArray *getAllComponents ();
-	GPtrArray *findComponents (AsSearchQuery *asQuery);
-	AsComponent *getComponentById (const gchar *idname);
-	GPtrArray *getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data);
-	GPtrArray *getComponentsByKind (AsComponentKind kinds);
+	GPtrArray	*getAllComponents ();
+	GPtrArray	*findComponents (AsSearchQuery *asQuery);
+	AsComponent	*getComponentById (const gchar *idname);
+	GPtrArray	*getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data);
+	GPtrArray	*getComponentsByKind (AsComponentKind kinds);
 
 private:
 	Xapian::Database m_xapianDB;
 	string m_dbPath;
 	string m_dbLocale;
-	string m_schemaVersion;
+	int m_schemaVersion;
 
 	AsComponent *docToComponent (Xapian::Document);
 
-	Xapian::QueryParser		newAppStreamParser ();
-	Xapian::Query			addCategoryToQuery (Xapian::Query query, Xapian::Query category_query);
-	Xapian::Query			getQueryForPkgNames (vector<string> pkgnames);
-	Xapian::Query			getQueryForCategory (gchar *cat_id);
-	void					appendSearchResults (Xapian::Enquire enquire, GPtrArray *cptArray);
+	Xapian::QueryParser	newAppStreamParser ();
+	Xapian::Query		addCategoryToQuery (Xapian::Query query, Xapian::Query category_query);
+	Xapian::Query		getQueryForPkgNames (vector<string> pkgnames);
+	Xapian::Query		getQueryForCategory (gchar *cat_id);
+	void			appendSearchResults (Xapian::Enquire enquire, GPtrArray *cptArray);
 	vector<Xapian::Query>	queryListFromSearchEntry (AsSearchQuery *asQuery);
 };
 

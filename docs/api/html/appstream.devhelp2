@@ -121,6 +121,8 @@
     <keyword type="function" name="as_release_add_location ()" link="AsRelease.html#as-release-add-location" since="0.8.1"/>
     <keyword type="function" name="as_release_get_checksum ()" link="AsRelease.html#as-release-get-checksum" since="0.8.2"/>
     <keyword type="function" name="as_release_set_checksum ()" link="AsRelease.html#as-release-set-checksum" since="0.8.2"/>
+    <keyword type="function" name="as_release_get_urgency ()" link="AsRelease.html#as-release-get-urgency" since="0.6.5"/>
+    <keyword type="function" name="as_release_set_urgency ()" link="AsRelease.html#as-release-set-urgency" since="0.6.5"/>
     <keyword type="enum" name="enum AsChecksumKind" link="AsRelease.html#AsChecksumKind"/>
     <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
     <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
@@ -248,8 +250,11 @@
     <keyword type="function" name="as_url_kind_from_string ()" link="appstream-as-enums.html#as-url-kind-from-string"/>
     <keyword type="function" name="as_bundle_kind_to_string ()" link="appstream-as-enums.html#as-bundle-kind-to-string" since="0.8.0"/>
     <keyword type="function" name="as_bundle_kind_from_string ()" link="appstream-as-enums.html#as-bundle-kind-from-string"/>
+    <keyword type="function" name="as_urgency_kind_to_string ()" link="appstream-as-enums.html#as-urgency-kind-to-string" since="0.6.5"/>
+    <keyword type="function" name="as_urgency_kind_from_string ()" link="appstream-as-enums.html#as-urgency-kind-from-string" since="0.6.5"/>
     <keyword type="enum" name="enum AsUrlKind" link="appstream-as-enums.html#AsUrlKind"/>
     <keyword type="enum" name="enum AsBundleKind" link="appstream-as-enums.html#AsBundleKind"/>
+    <keyword type="enum" name="enum AsUrgencyKind" link="appstream-as-enums.html#AsUrgencyKind"/>
     <keyword type="function" name="as_provides_kind_to_string ()" link="appstream-as-provides.html#as-provides-kind-to-string"/>
     <keyword type="function" name="as_provides_kind_from_string ()" link="appstream-as-provides.html#as-provides-kind-from-string"/>
     <keyword type="function" name="as_provides_item_create ()" link="appstream-as-provides.html#as-provides-item-create"/>
@@ -310,6 +315,11 @@
     <keyword type="constant" name="AS_BUNDLE_KIND_UNKNOWN" link="appstream-as-enums.html#AS-BUNDLE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_LIMBA" link="appstream-as-enums.html#AS-BUNDLE-KIND-LIMBA:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_XDG_APP" link="appstream-as-enums.html#AS-BUNDLE-KIND-XDG-APP:CAPS"/>
+    <keyword type="constant" name="AS_URGENCY_KIND_UNKNOWN" link="appstream-as-enums.html#AS-URGENCY-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_URGENCY_KIND_LOW" link="appstream-as-enums.html#AS-URGENCY-KIND-LOW:CAPS"/>
+    <keyword type="constant" name="AS_URGENCY_KIND_MEDIUM" link="appstream-as-enums.html#AS-URGENCY-KIND-MEDIUM:CAPS"/>
+    <keyword type="constant" name="AS_URGENCY_KIND_HIGH" link="appstream-as-enums.html#AS-URGENCY-KIND-HIGH:CAPS"/>
+    <keyword type="constant" name="AS_URGENCY_KIND_CRITICAL" link="appstream-as-enums.html#AS-URGENCY-KIND-CRITICAL:CAPS"/>
     <keyword type="constant" name="AS_PROVIDES_KIND_UNKNOWN" link="appstream-as-provides.html#AS-PROVIDES-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_PROVIDES_KIND_LIBRARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-LIBRARY:CAPS"/>
     <keyword type="constant" name="AS_PROVIDES_KIND_BINARY" link="appstream-as-provides.html#AS-PROVIDES-KIND-BINARY:CAPS"/>

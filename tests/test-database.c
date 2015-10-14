@@ -87,6 +87,8 @@ test_database_read (const gchar *dbpath)
 	AsDatabase *db;
 	AsSearchQuery *query;
 	GPtrArray *cpts = NULL;
+	GPtrArray *rels;
+	AsRelease *rel;
 	AsComponent *cpt;
 
 	db = as_database_new ();
@@ -105,7 +107,7 @@ test_database_read (const gchar *dbpath)
 	print_cptarray (cpts);
 	g_assert (cpts->len == 1);
 	cpt = (AsComponent*) g_ptr_array_index (cpts, 0);
-	g_assert (g_strcmp0 (as_component_get_pkgnames (cpt)[0], "kig") == 0);
+	g_assert_cmpstr (as_component_get_pkgnames (cpt)[0], ==, "kig");
 	g_ptr_array_unref (cpts);
 
 	query = as_search_query_new ("");
@@ -135,9 +137,34 @@ test_database_read (const gchar *dbpath)
 	print_cptarray (cpts);
 	g_assert (cpts->len == 1);
 	cpt = (AsComponent*) g_ptr_array_index (cpts, 0);
-	g_assert (g_strcmp0 (as_component_get_name (cpt), "Inkscape") == 0);
+
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "Inkscape");
+	g_assert_cmpstr (as_component_get_url (cpt, AS_URL_KIND_HOMEPAGE), ==, "https://inkscape.org/");
+	g_assert_cmpstr (as_component_get_url (cpt, AS_URL_KIND_FAQ), ==, "https://inkscape.org/learn/faq/");
+
 	g_ptr_array_unref (cpts);
 
+	/* test a component in a different file, with no package but a bundle instead */
+	cpt = as_database_get_component_by_id (db, "neverball.desktop");
+	g_assert_nonnull (cpt);
+
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "Neverball");
+	g_assert_cmpstr (as_component_get_url (cpt, AS_URL_KIND_HOMEPAGE), ==, "http://neverball.org/");
+	g_assert_cmpstr (as_component_get_bundle_id (cpt, AS_BUNDLE_KIND_LIMBA), ==, "neverball-1.6.0");
+
+	rels = as_component_get_releases (cpt);
+	g_assert (rels->len == 2);
+
+	rel = AS_RELEASE (g_ptr_array_index (rels, 0));
+	g_assert_cmpstr (as_release_get_version (rel), ==, "1.6.1");
+	g_assert (as_release_get_timestamp (rel) == 123465789);
+	g_assert (as_release_get_urgency (rel) == AS_URGENCY_KIND_LOW);
+
+	rel = AS_RELEASE (g_ptr_array_index (rels, 1));
+	g_assert_cmpstr (as_release_get_version (rel), ==, "1.6.0");
+	g_assert (as_release_get_timestamp (rel) == 123456789);
+
+	g_object_unref (cpt);
 	g_object_unref (db);
 }
 

@@ -243,6 +243,9 @@ as_url_kind_from_string
 AsBundleKind
 as_bundle_kind_to_string
 as_bundle_kind_from_string
+AsUrgencyKind
+as_urgency_kind_to_string
+as_urgency_kind_from_string
 </SECTION>
 
 <SECTION>
@@ -366,6 +369,8 @@ as_release_get_locations
 as_release_add_location
 as_release_get_checksum
 as_release_set_checksum
+as_release_get_urgency
+as_release_set_urgency
 <SUBSECTION Standard>
 AS_IS_RELEASE
 AS_IS_RELEASE_CLASS

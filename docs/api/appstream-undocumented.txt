@@ -1,7 +1,7 @@
 69% symbol docs coverage.
-293 symbols documented.
-76 symbols incomplete.
-130 not documented.
+297 symbols documented.
+77 symbols incomplete.
+133 not documented.
 
 
 AS_BUILDER_ERROR
@@ -16,11 +16,13 @@ AsParserMode (AS_PARSER_MODE_LAST)
 GS_DEFINE_CLEANUP_FUNCTION
 _as_metadata_desc_lang_hashtable_to_nodes
 _as_metadata_lang_hashtable_to_nodes
+_as_metadata_serialize_image
 _dep11_yaml_free_node
 as_builder_error_quark
 as_builder_initialize
 as_builder_new_path (dbpath)
 as_builder_refresh_cache (builder, force, error, Returns)
+as_builder_set_data_source_directories (self)
 as_category_add_subcategory
 as_category_complete
 as_category_construct (object_type)
@@ -63,6 +65,7 @@ as_component_get_screenshots (cpt)
 as_component_get_source_pkgname
 as_component_get_summary (cpt, Returns)
 as_component_has_category (category, Returns)
+as_component_has_install_candidate
 as_component_init
 as_component_is_valid (cpt)
 as_component_set_active_locale (cpt, locale)
@@ -137,6 +140,7 @@ as_metadata_parse_components_node
 as_metadata_parse_upstream_description_tag
 as_metadata_process_document
 as_metadata_process_screenshot
+as_metadata_process_screenshots_tag
 as_metadata_save_distro_xml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
 as_metadata_save_xml
