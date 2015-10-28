@@ -46,7 +46,6 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream (>= ${binary:Version})
 Description: Library to access AppStream services
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
