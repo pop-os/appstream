@@ -1,0 +1,27 @@
+From 536bd9ab7d2d33f4ee1171d0d41e08f9efd10f95 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Mon, 26 Oct 2015 05:39:20 +0100
+Subject: [PATCH] Don't fail displaying package names in component_to_string
+
+Stupid mistake made here... Results in appstreamcli spamming the user
+with lots of error messages, in case priv->pkgnames happens to be NULL.
+---
+ src/as-component.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/as-component.c b/src/as-component.c
+index e413e9f..7e2b762 100644
+--- a/src/as-component.c
++++ b/src/as-component.c
+@@ -364,9 +364,9 @@ as_component_to_string (AsComponent *cpt)
+ 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+ 
+ 	if (as_component_has_package (cpt))
+-		pkgs = g_strdup ("?");
+-	else
+ 		pkgs = g_strjoinv (",", priv->pkgnames);
++	else
++		pkgs = g_strdup ("?");
+ 
+ 	name = as_component_get_name (cpt);
+ 	summary = as_component_get_summary (cpt);
