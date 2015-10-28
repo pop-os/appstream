@@ -3,7 +3,8 @@
 #export DH_VERBOSE=1
 
 AS_CONFIGURE_ARGS = -DQT=ON \
-		-DDEBIAN_DEP11=ON
+		-DDEBIAN_DEP11=ON \
+		-DVAPI=ON
 
 
 # Define install target dir
