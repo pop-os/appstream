@@ -1,3 +1,14 @@
+appstream (0.8.5-2) unstable; urgency=medium
+
+  * Don't have libappstream recommend the appstream package
+    - The library is useful even without having a cache built.
+      Ṕackages which need the cache and/or the AppStream utilities
+      need to explicitly depend on the "appstream" package now.
+  * Don't print errors when updating data
+  * Build the Vala API as well
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 28 Oct 2015 19:46:24 +0100
+
 appstream (0.8.5-1) unstable; urgency=medium
 
   * New upstream release: 0.8.5
