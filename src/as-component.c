@@ -230,7 +230,7 @@ as_icon_kind_from_string (const gchar *kind_str)
 		return AS_ICON_KIND_REMOTE;
 	if (g_strcmp0 (kind_str, "stock") == 0)
 		return AS_ICON_KIND_STOCK;
-	return AS_COMPONENT_KIND_UNKNOWN;
+	return AS_ICON_KIND_UNKNOWN;
 }
 
 /**
@@ -364,9 +364,9 @@ as_component_to_string (AsComponent *cpt)
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	if (as_component_has_package (cpt))
-		pkgs = g_strdup ("?");
-	else
 		pkgs = g_strjoinv (",", priv->pkgnames);
+	else
+		pkgs = g_strdup ("?");
 
 	name = as_component_get_name (cpt);
 	summary = as_component_get_summary (cpt);
@@ -431,7 +431,7 @@ as_component_add_release (AsComponent *cpt, AsRelease* release)
  *
  * Gets the URLs set for the component.
  *
- * Returns: (transfer none): URLs
+ * Returns: (transfer none) (element-type utf8 utf8): URLs
  *
  * Since: 0.6.2
  **/
@@ -520,7 +520,7 @@ as_component_add_extends (AsComponent* cpt, const gchar* cpt_id)
  *
  * Gets the bundle-ids set for the component.
  *
- * Returns: (transfer none): Bundle ids
+ * Returns: (transfer none) (element-type utf8 utf8): Bundle ids
  *
  * Since: 0.8.0
  **/
@@ -1067,7 +1067,7 @@ as_component_get_keywords_table (AsComponent *cpt)
 const gchar*
 as_component_get_icon (AsComponent *cpt, AsIconKind kind, int width, int height)
 {
-	_cleanup_free_ gchar *size = NULL;
+	g_autofree gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	if (kind == AS_ICON_KIND_STOCK)
@@ -1105,7 +1105,7 @@ as_component_get_icon (AsComponent *cpt, AsIconKind kind, int width, int height)
 void
 as_component_add_icon (AsComponent *cpt, AsIconKind kind, int width, int height, const gchar* value)
 {
-	_cleanup_free_ gchar *size = NULL;
+	g_autofree gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	if (kind == AS_ICON_KIND_STOCK) {
@@ -1208,7 +1208,7 @@ as_component_get_icon_url (AsComponent *cpt, int width, int height)
  *
  * Gets the icon-urls has table for the component.
  *
- * Returns: (transfer none): A hash map of icon urls and sizes
+ * Returns: (transfer none) (element-type utf8 utf8): A hash map of icon urls and sizes
  *
  * Since: 0.7.4
  **/

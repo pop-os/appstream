@@ -108,6 +108,8 @@
     <keyword type="property" name="The “urls” property" link="AsComponent.html#AsComponent--urls"/>
     <keyword type="function" name="as_checksum_kind_to_string ()" link="AsRelease.html#as-checksum-kind-to-string"/>
     <keyword type="function" name="as_checksum_kind_from_string ()" link="AsRelease.html#as-checksum-kind-from-string"/>
+    <keyword type="function" name="as_size_kind_to_string ()" link="AsRelease.html#as-size-kind-to-string" since="0.8.6"/>
+    <keyword type="function" name="as_size_kind_from_string ()" link="AsRelease.html#as-size-kind-from-string" since="0.8.6"/>
     <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
     <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
     <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
@@ -123,7 +125,10 @@
     <keyword type="function" name="as_release_set_checksum ()" link="AsRelease.html#as-release-set-checksum" since="0.8.2"/>
     <keyword type="function" name="as_release_get_urgency ()" link="AsRelease.html#as-release-get-urgency" since="0.6.5"/>
     <keyword type="function" name="as_release_set_urgency ()" link="AsRelease.html#as-release-set-urgency" since="0.6.5"/>
+    <keyword type="function" name="as_release_get_size ()" link="AsRelease.html#as-release-get-size" since="0.8.6"/>
+    <keyword type="function" name="as_release_set_size ()" link="AsRelease.html#as-release-set-size" since="0.8.6"/>
     <keyword type="enum" name="enum AsChecksumKind" link="AsRelease.html#AsChecksumKind"/>
+    <keyword type="enum" name="enum AsSizeKind" link="AsRelease.html#AsSizeKind" since="0.8.6"/>
     <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
     <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
     <keyword type="function" name="as_screenshot_is_valid ()" link="AsScreenshot.html#as-screenshot-is-valid"/>
@@ -137,16 +142,16 @@
     <keyword type="function" name="as_screenshot_get_active_locale ()" link="AsScreenshot.html#as-screenshot-get-active-locale"/>
     <keyword type="function" name="as_screenshot_set_active_locale ()" link="AsScreenshot.html#as-screenshot-set-active-locale"/>
     <keyword type="enum" name="enum AsScreenshotKind" link="AsScreenshot.html#AsScreenshotKind"/>
-    <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
     <keyword type="function" name="as_image_kind_from_string ()" link="AsImage.html#as-image-kind-from-string"/>
     <keyword type="function" name="as_image_kind_to_string ()" link="AsImage.html#as-image-kind-to-string"/>
+    <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
     <keyword type="function" name="as_image_get_url ()" link="AsImage.html#as-image-get-url"/>
-    <keyword type="function" name="as_image_get_width ()" link="AsImage.html#as-image-get-width"/>
-    <keyword type="function" name="as_image_get_height ()" link="AsImage.html#as-image-get-height"/>
-    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
     <keyword type="function" name="as_image_set_url ()" link="AsImage.html#as-image-set-url"/>
+    <keyword type="function" name="as_image_get_width ()" link="AsImage.html#as-image-get-width"/>
     <keyword type="function" name="as_image_set_width ()" link="AsImage.html#as-image-set-width"/>
+    <keyword type="function" name="as_image_get_height ()" link="AsImage.html#as-image-get-height"/>
     <keyword type="function" name="as_image_set_height ()" link="AsImage.html#as-image-set-height"/>
+    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
     <keyword type="function" name="as_image_set_kind ()" link="AsImage.html#as-image-set-kind"/>
     <keyword type="enum" name="enum AsImageKind" link="AsImage.html#AsImageKind"/>
     <keyword type="function" name="as_search_query_new ()" link="AsSearchQuery.html#as-search-query-new"/>
@@ -297,6 +302,9 @@
     <keyword type="constant" name="AS_CHECKSUM_KIND_SHA1" link="AsRelease.html#AS-CHECKSUM-KIND-SHA1:CAPS"/>
     <keyword type="constant" name="AS_CHECKSUM_KIND_SHA256" link="AsRelease.html#AS-CHECKSUM-KIND-SHA256:CAPS"/>
     <keyword type="constant" name="AS_CHECKSUM_KIND_LAST" link="AsRelease.html#AS-CHECKSUM-KIND-LAST:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_UNKNOWN" link="AsRelease.html#AS-SIZE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_DOWNLOAD" link="AsRelease.html#AS-SIZE-KIND-DOWNLOAD:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_INSTALLED" link="AsRelease.html#AS-SIZE-KIND-INSTALLED:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_UNKNOWN" link="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_NORMAL" link="AsScreenshot.html#AS-SCREENSHOT-KIND-NORMAL:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_DEFAULT" link="AsScreenshot.html#AS-SCREENSHOT-KIND-DEFAULT:CAPS"/>
@@ -344,9 +352,11 @@
     <keyword type="constant" name="AS_ISSUE_KIND_TAG_NOT_ALLOWED" link="AsValidatorIssue.html#AS-ISSUE-KIND-TAG-NOT-ALLOWED:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_PROPERTY_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-PROPERTY-MISSING:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_PROPERTY_INVALID" link="AsValidatorIssue.html#AS-ISSUE-KIND-PROPERTY-INVALID:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_VALUE_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-MISSING:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_VALUE_WRONG" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-WRONG:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_VALUE_ISSUE" link="AsValidatorIssue.html#AS-ISSUE-KIND-VALUE-ISSUE:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_FILE_MISSING" link="AsValidatorIssue.html#AS-ISSUE-KIND-FILE-MISSING:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_KIND_WRONG_NAME" link="AsValidatorIssue.html#AS-ISSUE-KIND-WRONG-NAME:CAPS"/>
+    <keyword type="constant" name="AS_ISSUE_KIND_READ_ERROR" link="AsValidatorIssue.html#AS-ISSUE-KIND-READ-ERROR:CAPS"/>
   </functions>
 </book>

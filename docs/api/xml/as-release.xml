@@ -26,6 +26,10 @@
 </entry><entry role="function_name"><link linkend="as-checksum-kind-to-string">as_checksum_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsChecksumKind"><returnvalue>AsChecksumKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-checksum-kind-from-string">as_checksum_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-size-kind-to-string">as_size_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsSizeKind"><returnvalue>AsSizeKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-size-kind-from-string">as_size_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-release-new">as_release_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -56,6 +60,10 @@
 </entry><entry role="function_name"><link linkend="as-release-get-urgency">as_release_get_urgency</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-release-set-urgency">as_release_set_urgency</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-get-size">as_release_get_size</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-release-set-size">as_release_set_size</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -69,6 +77,7 @@
 <colspec colname="description"/>
 <tbody>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsChecksumKind">AsChecksumKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsSizeKind">AsSizeKind</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -141,6 +150,51 @@ as_checksum_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar
 <title>Returns</title>
 <para> a <link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> or <link linkend="AS-CHECKSUM-KIND-NONE:CAPS"><literal>AS_CHECKSUM_KIND_NONE</literal></link> for unknown</para>
 </refsect3></refsect2>
+<refsect2 id="as-size-kind-to-string" role="function" condition="since:0.8.6">
+<title>as_size_kind_to_string&#160;()</title>
+<indexterm zone="as-size-kind-to-string" role="0.8.6"><primary>as_size_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_size_kind_to_string (<parameter><link linkend="AsSizeKind"><type>AsSizeKind</type></link> size_kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>size_kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsSizeKind"><type>AsSizeKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>size_kind</parameter>
+</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.6">0.8.6</link></para></refsect2>
+<refsect2 id="as-size-kind-from-string" role="function" condition="since:0.8.6">
+<title>as_size_kind_from_string&#160;()</title>
+<indexterm zone="as-size-kind-from-string" role="0.8.6"><primary>as_size_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsSizeKind"><returnvalue>AsSizeKind</returnvalue></link>
+as_size_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *size_kind</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>size_kind</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> an <link linkend="AsSizeKind"><type>AsSizeKind</type></link> or <link linkend="AS-SIZE-KIND-UNKNOWN:CAPS"><literal>AS_SIZE_KIND_UNKNOWN</literal></link> for unknown</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.6">0.8.6</link></para></refsect2>
 <refsect2 id="as-release-new" role="function">
 <title>as_release_new&#160;()</title>
 <indexterm zone="as-release-new"><primary>as_release_new</primary></indexterm>
@@ -344,7 +398,7 @@ as_release_add_location (<parameter><link linkend="AsRelease"><type>AsRelease</t
 <indexterm zone="as-release-get-checksum" role="0.8.2"><primary>as_release_get_checksum</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_release_get_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
-                         <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> cs_kind</parameter>);</programlisting>
+                         <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> kind</parameter>);</programlisting>
 <para>Gets the release checksum</para>
 <refsect3 role="returns">
 <title>Returns</title>
@@ -356,7 +410,7 @@ as_release_get_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</t
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_release_set_checksum (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *checksum</parameter>,
-                         <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> cs_kind</parameter>);</programlisting>
+                         <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> kind</parameter>);</programlisting>
 <para>Set the release checksum.</para>
 <para role="since">Since: <link linkend="api-index-0.8.2">0.8.2</link></para></refsect2>
 <refsect2 id="as-release-get-urgency" role="function" condition="since:0.6.5">
@@ -405,6 +459,59 @@ as_release_set_urgency (<parameter><link linkend="AsRelease"><type>AsRelease</ty
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.6.5">0.6.5</link></para></refsect2>
+<refsect2 id="as-release-get-size" role="function" condition="since:0.8.6">
+<title>as_release_get_size&#160;()</title>
+<indexterm zone="as-release-get-size" role="0.8.6"><primary>as_release_get_size</primary></indexterm>
+<programlisting language="C"><link linkend="guint64"><returnvalue>guint64</returnvalue></link>
+as_release_get_size (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                     <parameter><link linkend="AsSizeKind"><type>AsSizeKind</type></link> kind</parameter>);</programlisting>
+<para>Gets the release size.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsSizeKind"><type>AsSizeKind</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> The size of the given kind of this release.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.6">0.8.6</link></para></refsect2>
+<refsect2 id="as-release-set-size" role="function" condition="since:0.8.6">
+<title>as_release_set_size&#160;()</title>
+<indexterm zone="as-release-set-size" role="0.8.6"><primary>as_release_set_size</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_release_set_size (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>,
+                     <parameter><link linkend="guint64"><type>guint64</type></link> size</parameter>,
+                     <parameter><link linkend="AsSizeKind"><type>AsSizeKind</type></link> kind</parameter>);</programlisting>
+<para>Sets the release size for the given kind.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>release</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsRelease"><type>AsRelease</type></link> instance</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>size</para></entry>
+<entry role="parameter_description"><para>a size in bytes, or 0 for unknown</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsSizeKind"><type>AsSizeKind</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.6">0.8.6</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsRelease.other_details" role="details">
@@ -442,6 +549,35 @@ as_release_set_urgency (<parameter><link linkend="AsRelease"><type>AsRelease</ty
 </row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="AsSizeKind" role="enum" condition="since:0.8.6">
+<title>enum AsSizeKind</title>
+<indexterm zone="AsSizeKind" role="0.8.6"><primary>AsSizeKind</primary></indexterm>
+<para>The release size kind.</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SIZE-KIND-UNKNOWN:CAPS">AS_SIZE_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown size</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SIZE-KIND-DOWNLOAD:CAPS">AS_SIZE_KIND_DOWNLOAD</para></entry>
+<entry role="enum_member_description"><para>Size of download of component</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SIZE-KIND-INSTALLED:CAPS">AS_SIZE_KIND_INSTALLED</para></entry>
+<entry role="enum_member_description"><para>Size of installed component</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.8.6">0.8.6</link></para></refsect2>
 
 </refsect1>
 

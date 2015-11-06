@@ -50,6 +50,33 @@ AsRelease
 @Returns: 
 
 
+<!-- ##### ENUM AsSizeKind ##### -->
+<para>
+
+</para>
+
+@AS_SIZE_KIND_UNKNOWN: 
+@AS_SIZE_KIND_DOWNLOAD: 
+@AS_SIZE_KIND_INSTALLED: 
+
+<!-- ##### FUNCTION as_size_kind_to_string ##### -->
+<para>
+
+</para>
+
+@size_kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_size_kind_from_string ##### -->
+<para>
+
+</para>
+
+@size_kind: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_release_new ##### -->
 <para>
 
@@ -156,7 +183,7 @@ AsRelease
 </para>
 
 @release: 
-@cs_kind: 
+@kind: 
 @Returns: 
 
 
@@ -167,7 +194,7 @@ AsRelease
 
 @release: 
 @checksum: 
-@cs_kind: 
+@kind: 
 
 
 <!-- ##### FUNCTION as_release_get_urgency ##### -->
@@ -186,5 +213,25 @@ AsRelease
 
 @release: 
 @urgency: 
+
+
+<!-- ##### FUNCTION as_release_get_size ##### -->
+<para>
+
+</para>
+
+@release: 
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_release_set_size ##### -->
+<para>
+
+</para>
+
+@release: 
+@size: 
+@kind: 
 
 
