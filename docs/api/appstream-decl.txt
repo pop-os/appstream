@@ -140,16 +140,6 @@ typedef enum {
 } AsImageKind;
 </ENUM>
 <FUNCTION>
-<NAME>as_image_get_type</NAME>
-<RETURNS>GType 		 </RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_image_new</NAME>
-<RETURNS>AsImage 		*</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
 <NAME>as_image_kind_from_string</NAME>
 <RETURNS>AsImageKind 	 </RETURNS>
 const gchar	*kind
@@ -160,23 +150,18 @@ const gchar	*kind
 AsImageKind	 kind
 </FUNCTION>
 <FUNCTION>
+<NAME>as_image_get_type</NAME>
+<RETURNS>GType 		 </RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_new</NAME>
+<RETURNS>AsImage 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
 <NAME>as_image_get_url</NAME>
 <RETURNS>const gchar 	*</RETURNS>
-AsImage *image
-</FUNCTION>
-<FUNCTION>
-<NAME>as_image_get_width</NAME>
-<RETURNS>guint 		 </RETURNS>
-AsImage *image
-</FUNCTION>
-<FUNCTION>
-<NAME>as_image_get_height</NAME>
-<RETURNS>guint 		 </RETURNS>
-AsImage *image
-</FUNCTION>
-<FUNCTION>
-<NAME>as_image_get_kind</NAME>
-<RETURNS>AsImageKind 	 </RETURNS>
 AsImage *image
 </FUNCTION>
 <FUNCTION>
@@ -185,9 +170,19 @@ AsImage *image
 AsImage *image, const gchar *url
 </FUNCTION>
 <FUNCTION>
+<NAME>as_image_get_width</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsImage *image
+</FUNCTION>
+<FUNCTION>
 <NAME>as_image_set_width</NAME>
 <RETURNS>void 		 </RETURNS>
 AsImage *image, guint width
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_get_height</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsImage *image
 </FUNCTION>
 <FUNCTION>
 <NAME>as_image_set_height</NAME>
@@ -195,18 +190,15 @@ AsImage *image, guint width
 AsImage *image, guint height
 </FUNCTION>
 <FUNCTION>
+<NAME>as_image_get_kind</NAME>
+<RETURNS>AsImageKind 	 </RETURNS>
+AsImage *image
+</FUNCTION>
+<FUNCTION>
 <NAME>as_image_set_kind</NAME>
 <RETURNS>void 		 </RETURNS>
 AsImage *image, AsImageKind kind
 </FUNCTION>
-<MACRO>
-<NAME>GS_DEFINE_CLEANUP_FUNCTION</NAME>
-#define GS_DEFINE_CLEANUP_FUNCTION(Type, name, func) \
-  static inline void name (void *v) \
-  { \
-    func (*(Type*)v); \
-  }
-</MACRO>
 <FUNCTION>
 <NAME>as_utils_touch_dir</NAME>
 <RETURNS>gboolean 		</RETURNS>
@@ -406,10 +398,12 @@ typedef enum {
 	AS_ISSUE_KIND_TAG_NOT_ALLOWED,
 	AS_ISSUE_KIND_PROPERTY_MISSING,
 	AS_ISSUE_KIND_PROPERTY_INVALID,
+	AS_ISSUE_KIND_VALUE_MISSING,
 	AS_ISSUE_KIND_VALUE_WRONG,
 	AS_ISSUE_KIND_VALUE_ISSUE,
 	AS_ISSUE_KIND_FILE_MISSING,
 	AS_ISSUE_KIND_WRONG_NAME,
+	AS_ISSUE_KIND_READ_ERROR,
 	/*< private >*/
 	AS_ISSUE_KIND_LAST
 } AsIssueKind;
@@ -681,47 +675,47 @@ struct _AsDistroDetailsClass
 </STRUCT>
 <FUNCTION>
 <NAME>as_distro_details_get_type</NAME>
-<RETURNS>GType 				</RETURNS>
+<RETURNS>GType 			</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_new</NAME>
-<RETURNS>AsDistroDetails 			*</RETURNS>
+<RETURNS>AsDistroDetails 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_construct</NAME>
-<RETURNS>AsDistroDetails 			*</RETURNS>
+<RETURNS>AsDistroDetails 		*</RETURNS>
 GType object_type
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_config_distro_get_str</NAME>
-<RETURNS>gchar 				*</RETURNS>
+<RETURNS>gchar 			*</RETURNS>
 AsDistroDetails *self, const gchar *key
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_get_distro_id</NAME>
-<RETURNS>const gchar 			*</RETURNS>
+<RETURNS>const gchar 		*</RETURNS>
 AsDistroDetails *self
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_config_distro_get_bool</NAME>
-<RETURNS>gboolean 			</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsDistroDetails *self, const gchar *key
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_get_distro_name</NAME>
-<RETURNS>const gchar 			*</RETURNS>
+<RETURNS>const gchar 		*</RETURNS>
 AsDistroDetails *self
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_get_distro_version</NAME>
-<RETURNS>const gchar 			*</RETURNS>
+<RETURNS>const gchar 		*</RETURNS>
 AsDistroDetails *self
 </FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_get_icon_repository_paths</NAME>
-<RETURNS>gchar 				**</RETURNS>
+<RETURNS>gchar 			**</RETURNS>
 void
 </FUNCTION>
 <STRUCT>
@@ -942,7 +936,7 @@ struct _AsDatabaseClass
 </STRUCT>
 <FUNCTION>
 <NAME>as_database_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<RETURNS>GType 			</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
@@ -1700,8 +1694,6 @@ struct _AsMenuParserClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <FUNCTION>
@@ -1818,6 +1810,26 @@ AsChecksumKind kind
 <RETURNS>AsChecksumKind 	</RETURNS>
 const gchar *kind_str
 </FUNCTION>
+<ENUM>
+<NAME>AsSizeKind</NAME>
+typedef enum {
+	AS_SIZE_KIND_UNKNOWN,
+	AS_SIZE_KIND_DOWNLOAD,
+	AS_SIZE_KIND_INSTALLED,
+	/*< private >*/
+	AS_SIZE_KIND_LAST
+} AsSizeKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_size_kind_to_string</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsSizeKind size_kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_size_kind_from_string</NAME>
+<RETURNS>AsSizeKind 	</RETURNS>
+const gchar *size_kind
+</FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_type</NAME>
 <RETURNS>GType 		</RETURNS>
@@ -1881,12 +1893,12 @@ AsRelease *release, const gchar *location
 <FUNCTION>
 <NAME>as_release_get_checksum</NAME>
 <RETURNS>const gchar 	*</RETURNS>
-AsRelease *release, AsChecksumKind cs_kind
+AsRelease *release, AsChecksumKind kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_set_checksum</NAME>
 <RETURNS>void 		</RETURNS>
-AsRelease *release, const gchar *checksum, AsChecksumKind cs_kind
+AsRelease *release, const gchar *checksum, AsChecksumKind kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_urgency</NAME>
@@ -1897,6 +1909,16 @@ AsRelease *release
 <NAME>as_release_set_urgency</NAME>
 <RETURNS>void 		</RETURNS>
 AsRelease *release, AsUrgencyKind urgency
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_get_size</NAME>
+<RETURNS>guint64 		</RETURNS>
+AsRelease *release, AsSizeKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_size</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease *release, guint64 size, AsSizeKind kind
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_BUILDER</NAME>
@@ -1955,7 +1977,7 @@ typedef enum {
 </ENUM>
 <FUNCTION>
 <NAME>as_builder_get_type</NAME>
-<RETURNS>GType  </RETURNS>
+<RETURNS>GType 			</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>

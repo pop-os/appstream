@@ -930,7 +930,7 @@ as_component_get_icon_urls (<parameter><link linkend="AsComponent"><type>AsCompo
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> A hash map of icon urls and sizes. </para>
-<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8 utf8]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.7.4">0.7.4</link></para></refsect2>
 <refsect2 id="as-component-get-provided-items" role="function">
 <title>as_component_get_provided_items&#160;()</title>
@@ -1023,7 +1023,7 @@ as_component_get_urls (<parameter><link linkend="AsComponent"><type>AsComponent<
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> URLs. </para>
-<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8 utf8]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.6.2">0.6.2</link></para></refsect2>
 <refsect2 id="as-component-get-url" role="function" condition="since:0.6.2">
 <title>as_component_get_url&#160;()</title>
@@ -1257,7 +1257,7 @@ as_component_get_bundle_ids (<parameter><link linkend="AsComponent"><type>AsComp
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
 <para> Bundle ids. </para>
-<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8 utf8]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 <refsect2 id="as-component-get-bundle-id" role="function" condition="since:0.8.0">
 <title>as_component_get_bundle_id&#160;()</title>

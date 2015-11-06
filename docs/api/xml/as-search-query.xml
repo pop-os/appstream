@@ -115,7 +115,22 @@ as_search_query_set_search_term (<parameter><link linkend="AsSearchQuery"><type>
 <para>Set the search-term we use for the search. Multiple terms may be
 comma-separated.
 You can use Xapian prefixes, such as "XP" to refine your search.</para>
-</refsect2>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>self</para></entry>
+<entry role="parameter_description"><para>an instance of <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the string to search for</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-search-query-get-search-all-categories" role="function">
 <title>as_search_query_get_search_all_categories&#160;()</title>
 <indexterm zone="as-search-query-get-search-all-categories"><primary>as_search_query_get_search_all_categories</primary></indexterm>
@@ -190,7 +205,19 @@ as_search_query_sanitize_search_term (<parameter><link linkend="AsSearchQuery"><
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_search_query_get_search_term (<parameter><link linkend="AsSearchQuery"><type>AsSearchQuery</type></link> *self</parameter>);</programlisting>
 <para>Returns the search-term we currently use</para>
-</refsect2>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>self</para></entry>
+<entry role="parameter_description"><para>an instance of <link linkend="AsSearchQuery"><type>AsSearchQuery</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsSearchQuery.other_details" role="details">

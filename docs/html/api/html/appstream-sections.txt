@@ -252,16 +252,16 @@ as_urgency_kind_from_string
 <FILE>as-image</FILE>
 <TITLE>AsImage</TITLE>
 AsImageKind
-as_image_new
 as_image_kind_from_string
 as_image_kind_to_string
+as_image_new
 as_image_get_url
-as_image_get_width
-as_image_get_height
-as_image_get_kind
 as_image_set_url
+as_image_get_width
 as_image_set_width
+as_image_get_height
 as_image_set_height
+as_image_get_kind
 as_image_set_kind
 <SUBSECTION Standard>
 AS_IMAGE
@@ -356,6 +356,9 @@ as_provides_item_get_value
 AsChecksumKind
 as_checksum_kind_to_string
 as_checksum_kind_from_string
+AsSizeKind
+as_size_kind_to_string
+as_size_kind_from_string
 as_release_new
 as_release_get_version
 as_release_set_version
@@ -371,6 +374,8 @@ as_release_get_checksum
 as_release_set_checksum
 as_release_get_urgency
 as_release_set_urgency
+as_release_get_size
+as_release_set_size
 <SUBSECTION Standard>
 AS_IS_RELEASE
 AS_IS_RELEASE_CLASS
@@ -439,7 +444,6 @@ as_search_query_get_type
 
 <SECTION>
 <FILE>as-utils-private</FILE>
-GS_DEFINE_CLEANUP_FUNCTION
 as_utils_touch_dir
 as_utils_delete_dir_recursive
 as_string_strip

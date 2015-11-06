@@ -1,6 +1,6 @@
 69% symbol docs coverage.
-297 symbols documented.
-77 symbols incomplete.
+301 symbols documented.
+76 symbols incomplete.
 133 not documented.
 
 
@@ -13,7 +13,6 @@ AsImageKind (AS_IMAGE_KIND_LAST)
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMetadataError (AS_METADATA_ERROR_LAST)
 AsParserMode (AS_PARSER_MODE_LAST)
-GS_DEFINE_CLEANUP_FUNCTION
 _as_metadata_desc_lang_hashtable_to_nodes
 _as_metadata_lang_hashtable_to_nodes
 _as_metadata_serialize_image
@@ -132,6 +131,7 @@ as_metadata_dump_node_children
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_components
+as_metadata_get_node_locale
 as_metadata_get_node_value
 as_metadata_get_origin
 as_metadata_init
@@ -152,11 +152,11 @@ as_release_add_location (release)
 as_release_class_init
 as_release_finalize
 as_release_get_active_locale (release, Returns)
-as_release_get_checksum (release, cs_kind)
+as_release_get_checksum (release, kind)
 as_release_get_locations (release)
 as_release_init
 as_release_set_active_locale (release, locale)
-as_release_set_checksum (release, checksum, cs_kind)
+as_release_set_checksum (release, checksum, kind)
 as_release_set_description (locale)
 as_screenshot_class_init
 as_screenshot_finalize
@@ -167,12 +167,11 @@ as_screenshot_set_caption (locale)
 as_search_query_construct (object_type, term)
 as_search_query_get_categories
 as_search_query_get_search_all_categories
-as_search_query_get_search_term (self, Returns)
+as_search_query_get_search_term (Returns)
 as_search_query_new (term)
 as_search_query_sanitize_search_term
 as_search_query_set_categories
 as_search_query_set_categories_from_string (self, categories_str)
-as_search_query_set_search_term (self, value)
 as_str_replace
 as_string_strip
 as_utils_find_files
