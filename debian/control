@@ -7,7 +7,7 @@ Build-Depends: cmake (>= 2.8),
                gtk-doc-tools,
                intltool,
                libgirepository1.0-dev (>= 1.32),
-               libglib2.0-dev (>= 2.40),
+               libglib2.0-dev (>= 2.46),
                libprotobuf-dev,
                libxapian-dev (>= 1.2.12),
                libxml2-dev (>= 2.8.0),
@@ -62,7 +62,7 @@ Package: libappstream-dev
 Architecture: any
 Section: libdevel
 Depends: libappstream2 (= ${binary:Version}),
-         libglib2.0-dev (>= 2.40),
+         libglib2.0-dev (>= 2.46),
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
