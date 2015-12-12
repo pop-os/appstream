@@ -57,6 +57,8 @@ Files: ./src/appstream.h
  ./src/as-distro-details.h
  ./src/as-enums.c
  ./src/as-enums.h
+ ./src/as-icon.c
+ ./src/as-icon.h
  ./src/as-image.c
  ./src/as-image.h
  ./src/as-menu-parser.c
@@ -64,14 +66,12 @@ Files: ./src/appstream.h
  ./src/as-metadata-private.h
  ./src/as-metadata.c
  ./src/as-metadata.h
- ./src/as-provides.c
- ./src/as-provides.h
+ ./src/as-provided.c
+ ./src/as-provided.h
  ./src/as-release.c
  ./src/as-release.h
  ./src/as-screenshot.c
  ./src/as-screenshot.h
- ./src/as-search-query.c
- ./src/as-search-query.h
  ./src/as-settings-private.h
  ./src/as-utils-private.h
  ./src/as-utils.h
@@ -98,6 +98,7 @@ Files: ./qt/component.cpp
  ./qt/screenshot.cpp
  ./qt/screenshot.h
 Copyright: 2014, Sune Vuorela <sune@vuorela.dk>
+ 2015, Matthias Klumpp <matthias@tenstral.net>
 License: LGPL-2.1+
 
 Files: ./tools/*
