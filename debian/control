@@ -13,7 +13,7 @@ Build-Depends: cmake (>= 2.8),
                libxml2-dev (>= 2.8.0),
                libyaml-dev,
                protobuf-compiler,
-               qtbase5-dev,
+               qtbase5-dev (>= 5.4),
                valac,
                xmlto
 Standards-Version: 3.9.6
@@ -27,7 +27,6 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Breaks: appstream-index (<< ${source:Version})
 Provides: appstream-index
-Suggests: dep11-tools
 Description: Software component index
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
@@ -40,7 +39,7 @@ Description: Software component index
  This package provides tools to generate, maintain and access the
  AppStream database of installed and available software.
 
-Package: libappstream2
+Package: libappstream3
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -61,9 +60,10 @@ Description: Library to access AppStream services
 Package: libappstream-dev
 Architecture: any
 Section: libdevel
-Depends: libappstream2 (= ${binary:Version}),
+Depends: libappstream3 (= ${binary:Version}),
          libglib2.0-dev (>= 2.46),
          ${misc:Depends}
+Suggests: dep11-tools
 Description: Library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
  metadata of software components available in the package repositories
@@ -78,8 +78,8 @@ Package: gir1.2-appstream
 Architecture: any
 Section: introspection
 Depends: gir1.2-freedesktop (>= 1.32),
-         gir1.2-glib-2.0 (>= 1.40),
-         libappstream2 (= ${binary:Version}),
+         gir1.2-glib-2.0 (>= 1.46),
+         libappstream3 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a cross-distribution effort for creating and sharing
@@ -112,7 +112,7 @@ Package: libappstreamqt-dev
 Architecture: any
 Section: libdevel
 Depends: libappstreamqt1 (= ${binary:Version}),
-         qtbase5-dev,
+         qtbase5-dev (>= 5.4),
          ${misc:Depends}
 Description: Qt5 library to access AppStream services (development files)
  AppStream is a cross-distribution effort for creating and sharing
@@ -138,6 +138,7 @@ Description: Developer documentation for AppStream
  .
  This package provides developer documentation for AppStream.
 
+# Obsolete, remove after Stretch release
 Package: appstream-index
 Architecture: all
 Section: oldlibs
