@@ -31,7 +31,6 @@
 #include "database-schema.hpp"
 #include "../as-menu-parser.h"
 #include "../as-component-private.h"
-#include "../as-provides.h"
 
 using namespace std;
 using namespace ASCache;
@@ -149,21 +148,26 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 			as_component_add_url (cpt, ukind, url.url ().c_str ());
 	}
 
-	// Stock icon
-	string appIcon = doc.get_value (XapianValues::ICON);
-	as_component_add_icon (cpt, AS_ICON_KIND_STOCK, 0, 0, appIcon.c_str ());
+	// Icons
+	Icons icons;
+	str = doc.get_value (XapianValues::ICONS);
+	icons.ParseFromString (str);
+	for (int i = 0; i < icons.icon_size (); i++) {
+		const Icons_Icon& pbIcon = icons.icon (i);
 
-	// Icon urls
-	IconUrls iurls;
-	str = doc.get_value (XapianValues::ICON_URLS);
-	iurls.ParseFromString (str);
-	GHashTable *cpt_icon_urls = as_component_get_icon_urls (cpt);
-	for (int i = 0; i < iurls.icon_size (); i++) {
-		const IconUrls_Icon& icon = iurls.icon (i);
+		AsIcon *icon = as_icon_new ();
+		as_icon_set_width (icon, pbIcon.width ());
+		as_icon_set_height (icon, pbIcon.height ());
 
-		g_hash_table_insert (cpt_icon_urls,
-					g_strdup (icon.size ().c_str ()),
-					g_strdup (icon.url ().c_str ()));
+		if (pbIcon.type () == Icons_IconType_REMOTE) {
+			as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
+			as_icon_set_url (icon, pbIcon.url ().c_str ());
+		} else {
+			as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+			as_icon_set_filename (icon, pbIcon.url ().c_str ());
+		}
+		as_component_add_icon (cpt, icon);
+		g_object_unref (icon);
 	}
 
 	// Summary
@@ -179,13 +183,21 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 	as_component_set_categories_from_str (cpt, categories_str.c_str ());
 
 	// Provided items
-	ProvidedItems pitems;
+	ASCache::ProvidedItems pbPI;
 	str = doc.get_value (XapianValues::PROVIDED_ITEMS);
-	pitems.ParseFromString (str);
-	GPtrArray *pitems_array = as_component_get_provided_items (cpt);
-	for (int i = 0; i < pitems.item_size (); i++) {
-		const string& item_data = pitems.item (i);
-		g_ptr_array_add (pitems_array, g_strdup (item_data.c_str ()));
+	pbPI.ParseFromString (str);
+	for (int i = 0; i < pbPI.provided_size (); i++) {
+		const ProvidedItems_Provided& pbProv = pbPI.provided (i);
+
+		AsProvided *prov = as_provided_new ();
+		as_provided_set_kind (prov, (AsProvidedKind) pbProv.type ());
+
+		for (int j = 0; j < pbProv.item_size (); j++) {
+			const string& item = pbProv.item (j);
+			as_provided_add_item (prov, item.c_str ());
+		}
+
+		as_component_add_provided (cpt, prov);
 	}
 
 	// Screenshot data
@@ -200,7 +212,7 @@ DatabaseRead::docToComponent (Xapian::Document doc)
 		if (pb_scr.primary ())
 			as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_DEFAULT);
 		else
-			as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_NORMAL);
+			as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_EXTRA);
 
 		if (pb_scr.has_caption ())
 			as_screenshot_set_caption (scr, pb_scr.caption ().c_str (), NULL);
@@ -331,14 +343,14 @@ Xapian::QueryParser
 DatabaseRead::newAppStreamParser ()
 {
 	Xapian::QueryParser xapian_parser = Xapian::QueryParser ();
-        xapian_parser.set_database (m_xapianDB);
-        xapian_parser.add_boolean_prefix ("pkg", "XP");
-        xapian_parser.add_boolean_prefix ("pkg", "AP");
-        xapian_parser.add_boolean_prefix ("id", "AI");
-        xapian_parser.add_boolean_prefix ("section", "XS");
-        xapian_parser.add_prefix ("pkg_wildcard", "XP");
-        xapian_parser.add_prefix ("pkg_wildcard", "AP");
-        xapian_parser.set_default_op (Xapian::Query::OP_AND);
+	xapian_parser.set_database (m_xapianDB);
+	xapian_parser.add_boolean_prefix ("id", "AI");
+	xapian_parser.add_boolean_prefix ("pkg", "AP");
+	xapian_parser.add_boolean_prefix ("provides", "AE");
+	xapian_parser.add_boolean_prefix ("section", "XS");
+	xapian_parser.add_prefix ("pkg_wildcard", "XP");
+	xapian_parser.add_prefix ("pkg_wildcard", "AP");
+	xapian_parser.set_default_op (Xapian::Query::OP_AND);
         return xapian_parser;
 }
 
@@ -390,28 +402,30 @@ DatabaseRead::getQueryForCategory (gchar *cat_id)
  * search to the given category
  */
 vector<Xapian::Query>
-DatabaseRead::queryListFromSearchEntry (AsSearchQuery *asQuery)
+DatabaseRead::queryListForTermCats (const gchar *term, gchar **categories)
 {
 	// prepare search-term
-	as_search_query_sanitize_search_term (asQuery);
-	string search_term = as_search_query_get_search_term (asQuery);
-	bool searchAll = as_search_query_get_search_all_categories (asQuery);
+	bool globalSearch = false;
+	string search_term = term == NULL ? "" : term;
+	if (categories == NULL)
+		globalSearch = true;
 
-	// generate category query
+	// generate category query (if we are not searching globally in all categories)
 	Xapian::Query category_query = Xapian::Query ();
-	gchar **categories = as_search_query_get_categories (asQuery);
-	string categories_str = "";
-	for (uint i = 0; categories[i] != NULL; i++) {
-		gchar *cat_id = categories[i];
+	if (not globalSearch) {
+		for (uint i = 0; categories[i] != NULL; i++) {
+			gchar *cat_id = categories[i];
 
-		category_query = Xapian::Query (Xapian::Query::OP_OR,
+			category_query = Xapian::Query (Xapian::Query::OP_OR,
 						 category_query,
 						 getQueryForCategory (cat_id));
+		}
 	}
 
 	// empty query returns a query that matches nothing (for performance
 	// reasons)
-	if ((search_term.compare ("") == 0) && (searchAll)) {
+	// We caught the "both criteria zero" case way earlier, so this is just additional safety.
+	if ((search_term.compare ("") == 0) && (globalSearch)) {
 		Xapian::Query vv[2] = { Xapian::Query(), Xapian::Query () };
 		vector<Xapian::Query> res(&vv[0], &vv[0]+2);
 		return res;
@@ -420,8 +434,8 @@ DatabaseRead::queryListFromSearchEntry (AsSearchQuery *asQuery)
 	// we cheat and return a match-all query for single letter searches
 	if (search_term.length () < 2) {
 		Xapian::Query allQuery = addCategoryToQuery (Xapian::Query (""), category_query);
-		// I want C++11!
-        Xapian::Query vv[2] = { allQuery, allQuery };
+		// NOTE: I want C++11!
+		Xapian::Query vv[2] = { allQuery, allQuery };
 		vector<Xapian::Query> res(&vv[0], &vv[0]+2);
 		return res;
 	}
@@ -476,14 +490,13 @@ DatabaseRead::appendSearchResults (Xapian::Enquire enquire, GPtrArray *cptArray)
 }
 
 GPtrArray*
-DatabaseRead::findComponents (AsSearchQuery *asQuery)
+DatabaseRead::findComponents (const gchar *term, gchar **cats)
 {
 	// Create new array to store the AsComponent objects
 	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
-	vector<Xapian::Query> qlist;
 
 	// "normal" query
-	qlist = queryListFromSearchEntry (asQuery);
+	auto qlist = queryListForTermCats (term, cats);
 	Xapian::Query query = qlist[0];
 	query.serialise ();
 
@@ -550,18 +563,20 @@ DatabaseRead::getComponentById (const gchar *idname)
 }
 
 GPtrArray*
-DatabaseRead::getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data)
+DatabaseRead::getComponentsByProvides (AsProvidedKind kind, const gchar *item)
 {
 	/* Create new array to store the AsComponent objects */
 	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
 
 	Xapian::Query item_query;
-	gchar *provides_item;
-	provides_item = as_provides_item_create (kind, value, data);
+	gchar *element_id;
+	element_id = g_strdup_printf ("%s;%s",
+					 as_provided_kind_to_string (kind),
+					 item);
 	item_query = Xapian::Query (Xapian::Query::OP_OR,
-					   Xapian::Query("AE" + string(provides_item)),
+					   Xapian::Query("AE" + string(element_id)),
 					   Xapian::Query ());
-	g_free (provides_item);
+	g_free (element_id);
 
 	item_query.serialise ();
 
@@ -573,24 +588,18 @@ DatabaseRead::getComponentsByProvides (AsProvidesKind kind, const gchar *value, 
 }
 
 GPtrArray*
-DatabaseRead::getComponentsByKind (AsComponentKind kinds)
+DatabaseRead::getComponentsByKind (AsComponentKind kind)
 {
 	GPtrArray *cptArray = g_ptr_array_new_with_free_func (g_object_unref);
 
-	Xapian::Query item_query = Xapian::Query();
+	auto kind_query = Xapian::Query (Xapian::Query::OP_OR,
+			   Xapian::Query("AT" + string(as_component_kind_to_string (kind))),
+			   Xapian::Query());
 
-	for (guint i = 0; i < AS_COMPONENT_KIND_LAST;i++) {
-		if ((kinds & (1 << i)) > 0) {
-			item_query = Xapian::Query (Xapian::Query::OP_OR,
-					   Xapian::Query("AT" + string(as_component_kind_to_string ((AsComponentKind) (1 << i)))),
-					   item_query);
-		}
-	}
-
-	item_query.serialise ();
+	kind_query.serialise ();
 
 	Xapian::Enquire enquire = Xapian::Enquire (m_xapianDB);
-	enquire.set_query (item_query);
+	enquire.set_query (kind_query);
 	appendSearchResults (enquire, cptArray);
 
 	return cptArray;

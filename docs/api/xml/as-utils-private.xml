@@ -23,11 +23,7 @@
 <colspec colname="functions_name"/>
 <tbody>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-utils-touch-dir">as_utils_touch_dir</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-delete-dir-recursive">as_utils_delete_dir_recursive</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-string-strip">as_string_strip</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-utils-categories-from-strv">as_utils_categories_from_strv</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
@@ -40,8 +36,10 @@
 </entry><entry role="function_name"><link linkend="as-utils-is-root">as_utils_is_root</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-str-replace">as_str_replace</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-get-locale">as_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+</entry><entry role="function_name"><link linkend="as-ptr-array-to-strv">as_ptr_array_to_strv</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-touch-location">as_touch_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -57,20 +55,12 @@
 </refsect1>
 <refsect1 id="appstream-as-utils-private.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="as-utils-touch-dir" role="function">
-<title>as_utils_touch_dir&#160;()</title>
-<indexterm zone="as-utils-touch-dir"><primary>as_utils_touch_dir</primary></indexterm>
-<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_utils_touch_dir (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dirname</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-utils-delete-dir-recursive" role="function">
 <title>as_utils_delete_dir_recursive&#160;()</title>
 <indexterm zone="as-utils-delete-dir-recursive"><primary>as_utils_delete_dir_recursive</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_utils_delete_dir_recursive (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dirname</parameter>);</programlisting>
-<para>Remove folder like rm -r does</para>
+<para>Remove directory and all its children (like rm -r does).</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -85,16 +75,8 @@ as_utils_delete_dir_recursive (<parameter>const <link linkend="gchar"><type>gcha
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> TRUE if operation was successful</para>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if operation was successful</para>
 </refsect3></refsect2>
-<refsect2 id="as-string-strip" role="function">
-<title>as_string_strip&#160;()</title>
-<indexterm zone="as-string-strip"><primary>as_string_strip</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_string_strip (<parameter>const <link linkend="gchar"><type>gchar</type></link> *str</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-utils-categories-from-strv" role="function">
 <title>as_utils_categories_from_strv&#160;()</title>
 <indexterm zone="as-utils-categories-from-strv"><primary>as_utils_categories_from_strv</primary></indexterm>
@@ -119,7 +101,7 @@ as_utils_categories_from_strv (<parameter><link linkend="gchar"><type>gchar</typ
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> <link linkend="GPtrArray"><type>GPtrArray</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objcts matching the strings in the array. </para>
+<para> <link linkend="GPtrArray"><type>GPtrArray</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objects matching the strings in the array. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-utils-categories-from-str" role="function">
@@ -155,26 +137,22 @@ as_utils_categories_from_str (<parameter>const <link linkend="gchar"><type>gchar
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_utils_find_files_matching (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>,
                               <parameter>const <link linkend="gchar"><type>gchar</type></link> *pattern</parameter>,
-                              <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>);</programlisting>
-<para>
-</para>
+                              <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>,
+                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 </refsect2>
 <refsect2 id="as-utils-find-files" role="function">
 <title>as_utils_find_files&#160;()</title>
 <indexterm zone="as-utils-find-files"><primary>as_utils_find_files</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_utils_find_files (<parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>,
-                     <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>);</programlisting>
-<para>
-</para>
+                     <parameter><link linkend="gboolean"><type>gboolean</type></link> recursive</parameter>,
+                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 </refsect2>
 <refsect2 id="as-utils-is-root" role="function">
 <title>as_utils_is_root&#160;()</title>
 <indexterm zone="as-utils-is-root"><primary>as_utils_is_root</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_utils_is_root (<parameter><type>void</type></parameter>);</programlisting>
-<para>
-</para>
 </refsect2>
 <refsect2 id="as-str-replace" role="function">
 <title>as_str_replace&#160;()</title>
@@ -183,19 +161,47 @@ as_utils_is_root (<parameter><type>void</type></parameter>);</programlisting>
 as_str_replace (<parameter>const <link linkend="gchar"><type>gchar</type></link> *str</parameter>,
                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *old_str</parameter>,
                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *new_str</parameter>);</programlisting>
-<para>
-</para>
 </refsect2>
-<refsect2 id="as-get-locale" role="function">
-<title>as_get_locale&#160;()</title>
-<indexterm zone="as-get-locale"><primary>as_get_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_get_locale (<parameter><type>void</type></parameter>);</programlisting>
-<para>Returns a locale string as used in the AppStream specification.</para>
-<refsect3 role="returns">
+<refsect2 id="as-ptr-array-to-strv" role="function">
+<title>as_ptr_array_to_strv&#160;()</title>
+<indexterm zone="as-ptr-array-to-strv"><primary>as_ptr_array_to_strv</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+as_ptr_array_to_strv (<parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *array</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>array</para></entry>
+<entry role="parameter_description"><para>. </para></entry>
+<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>element-type</acronym> utf8]</emphasis></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> A locale string, free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para> strv of the string array. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-touch-location" role="function">
+<title>as_touch_location&#160;()</title>
+<indexterm zone="as-touch-location"><primary>as_touch_location</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_touch_location (<parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>);</programlisting>
+<para>Change mtime of a filesystem location.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>The file or directory to touch.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
 </refsect3></refsect2>
 
 </refsect1>

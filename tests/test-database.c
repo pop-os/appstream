@@ -52,12 +52,13 @@ print_cptarray (GPtrArray *cpt_array)
 gchar*
 test_database_create ()
 {
-	AsBuilder *builder;
+	g_autoptr(AsCacheBuilder) builder = NULL;
 	GError *error = NULL;
 	gchar *db_path;
 	gchar **strv;
+	gboolean ret;
 
-	as_utils_touch_dir ("/var/tmp/appstream-tests/");
+	g_mkdir_with_parents ("/var/tmp/appstream-tests/", 0755);
 	db_path = g_strdup ("/var/tmp/appstream-tests/libas-dbtest-XXXXXX");
 	db_path = g_mkdtemp (db_path);
 	g_assert (db_path != NULL);
@@ -66,17 +67,22 @@ test_database_create ()
 	strv = g_new0 (gchar*, 2);
 	strv[0] = g_build_filename (datadir, "distro", NULL);
 
-	builder = as_builder_new_path (db_path);
-	as_builder_set_data_source_directories (builder, strv);
+	builder = as_cache_builder_new ();
+	as_cache_builder_set_data_source_directories (builder, strv);
 	g_strfreev (strv);
 
-	as_builder_initialize (builder);
-	as_builder_refresh_cache (builder, TRUE, &error);
+	ret = as_cache_builder_setup (builder, db_path);
+	g_assert (ret);
 
-	if (error != NULL) {
-		g_error ("%s", error->message);
-		g_error_free (error);
-	}
+	/* build the cache for the first time (enforcing build) */
+	ret = as_cache_builder_refresh (builder, TRUE, &error);
+	g_assert_no_error (error);
+	g_assert (ret);
+
+	/* if we refresh the cache for the second time, we should receive FALSE, as we don't need to update it again */
+	ret = as_cache_builder_refresh (builder, FALSE, &error);
+	g_assert_no_error (error);
+	g_assert (!ret);
 
 	return db_path;
 }
@@ -85,55 +91,53 @@ void
 test_database_read (const gchar *dbpath)
 {
 	AsDatabase *db;
-	AsSearchQuery *query;
 	GPtrArray *cpts = NULL;
 	GPtrArray *rels;
 	AsRelease *rel;
 	AsComponent *cpt;
+	g_autoptr(GError) error = NULL;
 
 	db = as_database_new ();
-	as_database_set_database_path (db, dbpath);
-	as_database_open (db);
+	as_database_set_location (db, dbpath);
+	as_database_open (db, &error);
+	g_assert_no_error (error);
 
-	cpts = as_database_get_all_components (db);
+	cpts = as_database_get_all_components (db, &error);
+	g_assert_no_error (error);
 	g_assert (cpts != NULL);
 
 	print_cptarray (cpts);
 
 	msg ("==============================");
 
-	query = as_search_query_new ("kig");
-	cpts = as_database_find_components (db, query);
+	cpts = as_database_find_components (db, "kig", NULL, &error);
+	g_assert_no_error (error);
 	print_cptarray (cpts);
 	g_assert (cpts->len == 1);
 	cpt = (AsComponent*) g_ptr_array_index (cpts, 0);
 	g_assert_cmpstr (as_component_get_pkgnames (cpt)[0], ==, "kig");
 	g_ptr_array_unref (cpts);
 
-	query = as_search_query_new ("");
-	as_search_query_set_categories_from_string (query, "science");
-	cpts = as_database_find_components (db, query);
+	cpts = as_database_find_components (db, NULL, "science", &error);
+	g_assert_no_error (error);
 	print_cptarray (cpts);
 	g_assert (cpts->len == 3);
 	g_ptr_array_unref (cpts);
-	g_object_unref (query);
 
-	query = as_search_query_new ("logic");
-	as_search_query_set_categories_from_string (query, "science");
-	cpts = as_database_find_components (db, query);
+	cpts = as_database_find_components (db, "logic", "science", &error);
+	g_assert_no_error (error);
 	print_cptarray (cpts);
 	g_assert (cpts->len == 1);
 	g_ptr_array_unref (cpts);
-	g_object_unref (query);
 
-	query = as_search_query_new ("logic");
-	cpts = as_database_find_components (db, query);
+	cpts = as_database_find_components (db, "logic", NULL, &error);
+	g_assert_no_error (error);
 	print_cptarray (cpts);
 	g_assert (cpts->len == 2);
 	g_ptr_array_unref (cpts);
-	g_object_unref (query);
 
-	cpts = as_database_get_components_by_provides (db, AS_PROVIDES_KIND_BINARY, "inkscape", NULL);
+	cpts = as_database_get_components_by_provided_item (db, AS_PROVIDED_KIND_BINARY, "inkscape", &error);
+	g_assert_no_error (error);
 	print_cptarray (cpts);
 	g_assert (cpts->len == 1);
 	cpt = (AsComponent*) g_ptr_array_index (cpts, 0);
@@ -145,7 +149,8 @@ test_database_read (const gchar *dbpath)
 	g_ptr_array_unref (cpts);
 
 	/* test a component in a different file, with no package but a bundle instead */
-	cpt = as_database_get_component_by_id (db, "neverball.desktop");
+	cpt = as_database_get_component_by_id (db, "neverball.desktop", &error);
+	g_assert_no_error (error);
 	g_assert_nonnull (cpt);
 
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Neverball");

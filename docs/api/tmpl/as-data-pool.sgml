@@ -22,6 +22,43 @@ AsDataPool
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_DATA_POOL ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsDataPoolClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
+<!-- ##### ENUM AsDataPoolError ##### -->
+<para>
+
+</para>
+
+@AS_DATA_POOL_ERROR_FAILED: 
+
+<!-- ##### MACRO AS_DATA_POOL_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION as_data_pool_error_quark ##### -->
+<para>
+
+</para>
+
+@void: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_data_pool_new ##### -->
 <para>
 
@@ -29,6 +66,24 @@ AsDataPool
 
 @void: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_get_locale ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_set_locale ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@locale: 
 
 
 <!-- ##### FUNCTION as_data_pool_get_watched_locations ##### -->
@@ -46,6 +101,7 @@ AsDataPool
 </para>
 
 @dpool: 
+@error: 
 @Returns: 
 
 
@@ -68,24 +124,6 @@ AsDataPool
 @Returns: 
 
 
-<!-- ##### FUNCTION as_data_pool_get_locale ##### -->
-<para>
-
-</para>
-
-@dpool: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_data_pool_set_locale ##### -->
-<para>
-
-</para>
-
-@dpool: 
-@locale: 
-
-
 <!-- ##### FUNCTION as_data_pool_set_data_source_directories ##### -->
 <para>
 
@@ -93,5 +131,11 @@ AsDataPool
 
 @dpool: 
 @dirs: 
+
+
+<!-- ##### STRUCT AsDataPool ##### -->
+<para>
+
+</para>
 
 

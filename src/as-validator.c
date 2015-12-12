@@ -47,17 +47,15 @@
 #include "as-component.h"
 #include "as-component-private.h"
 
-typedef struct _AsValidatorPrivate	AsValidatorPrivate;
-struct _AsValidatorPrivate
+typedef struct
 {
-	GHashTable *issues; /* of utf8 string->AsValidatorIssue objects */
+	GHashTable *issues; /* of utf8:AsValidatorIssue */
 
 	AsComponent *current_cpt;
 	gchar *current_fname;
-};
+} AsValidatorPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsValidator, as_validator, G_TYPE_OBJECT)
-
 #define GET_PRIVATE(o) (as_validator_get_instance_private (o))
 
 /**
@@ -195,6 +193,7 @@ as_validator_clear_current_cpt (AsValidator *validator)
 
 /**
  * as_validator_clear_issues:
+ * @validator: An instance of #AsValidator.
  *
  * Clears the list of issues
  **/
@@ -647,6 +646,8 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 
 /**
  * as_validator_validate_file:
+ * @validator: An instance of #AsValidator.
+ * @metadata_file: An AppStream XML file.
  *
  * Validate an AppStream XML file
  **/
@@ -760,6 +761,8 @@ out:
 
 /**
  * as_validator_validate_data:
+ * @validator: An instance of #AsValidator.
+ * @metadata: XML metadata.
  *
  * Validate AppStream XML data
  **/
@@ -937,6 +940,8 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
 
 /**
  * as_validator_validate_tree:
+ * @validator: An instance of #AsValidator.
+ * @root_dir: The root directory of the filesystem tree that should be validated.
  *
  * Validate a full directory tree for issues in AppStream metadata.
  **/
@@ -983,7 +988,7 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 						g_object_unref);
 
 	/* validate all metainfo files */
-	mfiles = as_utils_find_files_matching (metainfo_dir, "*.xml", FALSE);
+	mfiles = as_utils_find_files_matching (metainfo_dir, "*.xml", FALSE, NULL);
 	for (i = 0; i < mfiles->len; i++) {
 		const gchar *fname;
 		GFile *file;
@@ -1063,7 +1068,7 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 						g_str_equal,
 						g_free,
 						NULL);
-	dfiles = as_utils_find_files_matching (apps_dir, "*.desktop", FALSE);
+	dfiles = as_utils_find_files_matching (apps_dir, "*.desktop", FALSE, NULL);
 	if (dfiles != NULL) {
 		for (i = 0; i < dfiles->len; i++) {
 			const gchar *fname;
@@ -1096,6 +1101,7 @@ out:
 
 /**
  * as_validator_get_issues:
+ * @validator: An instance of #AsValidator.
  *
  * Get a list of found metadata format issues.
  *

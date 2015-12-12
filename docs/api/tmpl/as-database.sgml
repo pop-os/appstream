@@ -22,6 +22,36 @@ AsDatabase
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_DATABASE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsDatabaseClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
+<!-- ##### ENUM AsDatabaseError ##### -->
+<para>
+
+</para>
+
+@AS_DATABASE_ERROR_FAILED: 
+@AS_DATABASE_ERROR_CLOSED: 
+@AS_DATABASE_ERROR_TERM_INVALID: 
+
+<!-- ##### MACRO AS_DATABASE_ERROR ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### FUNCTION as_database_new ##### -->
 <para>
 
@@ -31,22 +61,13 @@ AsDatabase
 @Returns: 
 
 
-<!-- ##### FUNCTION as_database_construct ##### -->
+<!-- ##### FUNCTION as_database_error_quark ##### -->
 <para>
 
 </para>
 
-@object_type: 
+@void: 
 @Returns: 
-
-
-<!-- ##### FUNCTION as_database_set_database_path ##### -->
-<para>
-
-</para>
-
-@db: 
-@value: 
 
 
 <!-- ##### FUNCTION as_database_open ##### -->
@@ -55,10 +76,11 @@ AsDatabase
 </para>
 
 @db: 
+@error: 
 @Returns: 
 
 
-<!-- ##### FUNCTION as_database_get_database_path ##### -->
+<!-- ##### FUNCTION as_database_get_location ##### -->
 <para>
 
 </para>
@@ -67,12 +89,24 @@ AsDatabase
 @Returns: 
 
 
-<!-- ##### FUNCTION as_database_db_exists ##### -->
+<!-- ##### FUNCTION as_database_set_location ##### -->
 <para>
 
 </para>
 
 @db: 
+@dir: 
+
+
+<!-- ##### FUNCTION as_database_find_components ##### -->
+<para>
+
+</para>
+
+@db: 
+@term: 
+@cats_str: 
+@error: 
 @Returns: 
 
 
@@ -82,27 +116,7 @@ AsDatabase
 </para>
 
 @db: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_database_find_components ##### -->
-<para>
-
-</para>
-
-@db: 
-@query: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_database_find_components_by_term ##### -->
-<para>
-
-</para>
-
-@db: 
-@search_term: 
-@categories_str: 
+@error: 
 @Returns: 
 
 
@@ -112,19 +126,20 @@ AsDatabase
 </para>
 
 @db: 
-@idname: 
+@cid: 
+@error: 
 @Returns: 
 
 
-<!-- ##### FUNCTION as_database_get_components_by_provides ##### -->
+<!-- ##### FUNCTION as_database_get_components_by_provided_item ##### -->
 <para>
 
 </para>
 
 @db: 
 @kind: 
-@value: 
-@data: 
+@item: 
+@error: 
 @Returns: 
 
 
@@ -134,7 +149,14 @@ AsDatabase
 </para>
 
 @db: 
-@kinds: 
+@kind: 
+@error: 
 @Returns: 
+
+
+<!-- ##### STRUCT AsDatabase ##### -->
+<para>
+
+</para>
 
 

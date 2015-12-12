@@ -22,6 +22,20 @@ AsRelease
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_RELEASE ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsReleaseClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
 <!-- ##### ENUM AsChecksumKind ##### -->
 <para>
 
@@ -30,7 +44,6 @@ AsRelease
 @AS_CHECKSUM_KIND_NONE: 
 @AS_CHECKSUM_KIND_SHA1: 
 @AS_CHECKSUM_KIND_SHA256: 
-@AS_CHECKSUM_KIND_LAST: 
 
 <!-- ##### FUNCTION as_checksum_kind_to_string ##### -->
 <para>
@@ -233,5 +246,11 @@ AsRelease
 @release: 
 @size: 
 @kind: 
+
+
+<!-- ##### STRUCT AsRelease ##### -->
+<para>
+
+</para>
 
 

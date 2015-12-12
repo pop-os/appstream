@@ -22,6 +22,7 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-SCREENSHOT:CAPS">AS_TYPE_SCREENSHOT</link></entry></row>
 <row><entry role="function_type"><link linkend="AsScreenshotKind"><returnvalue>AsScreenshotKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-screenshot-kind-from-string">as_screenshot_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -58,7 +59,9 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsScreenshotClass">AsScreenshotClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsScreenshotKind">AsScreenshotKind</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsScreenshot-struct">AsScreenshot</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -81,6 +84,14 @@ of different resolution.</para>
 </refsect1>
 <refsect1 id="AsScreenshot.functions_details" role="details">
 <title role="details.title">Functions</title>
+<refsect2 id="AS-TYPE-SCREENSHOT:CAPS" role="macro">
+<title>AS_TYPE_SCREENSHOT</title>
+<indexterm zone="AS-TYPE-SCREENSHOT:CAPS"><primary>AS_TYPE_SCREENSHOT</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_SCREENSHOT (as_screenshot_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="as-screenshot-kind-from-string" role="function">
 <title>as_screenshot_kind_from_string&#160;()</title>
 <indexterm zone="as-screenshot-kind-from-string"><primary>as_screenshot_kind_from_string</primary></indexterm>
@@ -322,6 +333,16 @@ one locale is available.</para>
 </refsect1>
 <refsect1 id="AsScreenshot.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AsScreenshotClass" role="struct">
+<title>struct AsScreenshotClass</title>
+<indexterm zone="AsScreenshotClass"><primary>AsScreenshotClass</primary></indexterm>
+<programlisting language="C">struct AsScreenshotClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsScreenshotKind" role="enum">
 <title>enum AsScreenshotKind</title>
 <indexterm zone="AsScreenshotKind"><primary>AsScreenshotKind</primary></indexterm>
@@ -339,18 +360,25 @@ one locale is available.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-NORMAL:CAPS">AS_SCREENSHOT_KIND_NORMAL</para></entry>
-<entry role="enum_member_description"><para>Optional screenshot</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-DEFAULT:CAPS">AS_SCREENSHOT_KIND_DEFAULT</para></entry>
+<entry role="enum_member_description"><para>The primary screenshot to show by default</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-DEFAULT:CAPS">AS_SCREENSHOT_KIND_DEFAULT</para></entry>
-<entry role="enum_member_description"><para>Screenshot to show by default</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-SCREENSHOT-KIND-EXTRA:CAPS">AS_SCREENSHOT_KIND_EXTRA</para></entry>
+<entry role="enum_member_description"><para>Optional screenshot</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="AsScreenshot-struct" role="struct">
+<title>AsScreenshot</title>
+<indexterm zone="AsScreenshot-struct"><primary>AsScreenshot</primary></indexterm>
+<programlisting language="C">typedef struct _AsScreenshot AsScreenshot;</programlisting>
+<para>
+</para>
+</refsect2>
 
 </refsect1>
 

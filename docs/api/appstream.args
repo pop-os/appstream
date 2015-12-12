@@ -109,12 +109,12 @@
 </ARG>
 
 <ARG>
-<NAME>AsComponent::icon-urls</NAME>
-<TYPE>GHashTable*</TYPE>
+<NAME>AsComponent::icons</NAME>
+<TYPE>gpointer</TYPE>
 <RANGE></RANGE>
 <FLAGS>r</FLAGS>
-<NICK>icon-urls</NICK>
-<BLURB>icon-urls.</BLURB>
+<NICK>icons</NICK>
+<BLURB>icons.</BLURB>
 <DEFAULT></DEFAULT>
 </ARG>
 
@@ -219,42 +219,32 @@
 </ARG>
 
 <ARG>
-<NAME>AsDatabase::database-path</NAME>
+<NAME>AsDistroDetails::id</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>database-path</NICK>
-<BLURB>database-path.</BLURB>
+<FLAGS>r</FLAGS>
+<NICK>id</NICK>
+<BLURB>id.</BLURB>
 <DEFAULT>NULL</DEFAULT>
 </ARG>
 
 <ARG>
-<NAME>AsDistroDetails::distro-id</NAME>
+<NAME>AsDistroDetails::name</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
 <FLAGS>r</FLAGS>
-<NICK>distro-id</NICK>
-<BLURB>distro-id.</BLURB>
+<NICK>name</NICK>
+<BLURB>name.</BLURB>
 <DEFAULT>NULL</DEFAULT>
 </ARG>
 
 <ARG>
-<NAME>AsDistroDetails::distro-name</NAME>
+<NAME>AsDistroDetails::version</NAME>
 <TYPE>gchar*</TYPE>
 <RANGE></RANGE>
 <FLAGS>r</FLAGS>
-<NICK>distro-name</NICK>
-<BLURB>distro-name.</BLURB>
-<DEFAULT>NULL</DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsDistroDetails::distro-version</NAME>
-<TYPE>gchar*</TYPE>
-<RANGE></RANGE>
-<FLAGS>r</FLAGS>
-<NICK>distro-version</NICK>
-<BLURB>distro-version.</BLURB>
+<NICK>version</NICK>
+<BLURB>version.</BLURB>
 <DEFAULT>NULL</DEFAULT>
 </ARG>
 
@@ -266,25 +256,5 @@
 <NICK>update-category-data</NICK>
 <BLURB>update-category-data.</BLURB>
 <DEFAULT>FALSE</DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsSearchQuery::categories</NAME>
-<TYPE>GStrv</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>categories</NICK>
-<BLURB>categories.</BLURB>
-<DEFAULT></DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsSearchQuery::search-term</NAME>
-<TYPE>gchar*</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>search-term</NICK>
-<BLURB>search-term.</BLURB>
-<DEFAULT>NULL</DEFAULT>
 </ARG>
 

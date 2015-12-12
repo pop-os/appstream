@@ -31,6 +31,9 @@
 #include <sys/types.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <time.h>
+#include <utime.h>
+#include <sys/stat.h>
 
 #include "as-category.h"
 
@@ -135,6 +138,12 @@ out:
 	return formatted;
 }
 
+/**
+ * as_str_empty:
+ * @str: The string to test.
+ *
+ * Test if a C string is NULL or empty (containing only spaces).
+ */
 gboolean
 as_str_empty (const gchar* str)
 {
@@ -143,34 +152,13 @@ as_str_empty (const gchar* str)
 	return FALSE;
 }
 
-gboolean
-as_utils_touch_dir (const gchar* dirname)
-{
-	GFile *d = NULL;
-	GError *error = NULL;
-	g_return_val_if_fail (dirname != NULL, FALSE);
-
-	d = g_file_new_for_path (dirname);
-	if (!g_file_query_exists (d, NULL)) {
-		g_file_make_directory_with_parents (d, NULL, &error);
-		if (error != NULL) {
-			g_critical ("Unable to create directory tree. Error: %s", error->message);
-			g_error_free (error);
-			return FALSE;
-		}
-	}
-	g_object_unref (d);
-
-	return TRUE;
-}
-
 /**
  * as_utils_delete_dir_recursive:
  * @dirname: Directory to remove
  *
- * Remove folder like rm -r does
+ * Remove directory and all its children (like rm -r does).
  *
- * Returns: TRUE if operation was successful
+ * Returns: %TRUE if operation was successful
  */
 gboolean
 as_utils_delete_dir_recursive (const gchar* dirname)
@@ -231,7 +219,7 @@ out:
  *
  * Create a list of categories from string array
  *
- * Returns: (element-type AsCategory) (transfer full): #GPtrArray of #AsCategory objcts matching the strings in the array
+ * Returns: (element-type AsCategory) (transfer full): #GPtrArray of #AsCategory objects matching the strings in the array
  */
 GPtrArray*
 as_utils_categories_from_strv (gchar** categories_strv, GPtrArray* system_categories)
@@ -299,34 +287,42 @@ as_utils_categories_from_str (const gchar* categories_str, GPtrArray* system_cat
 	return cat_list;
 }
 
+/**
+ * as_utils_find_files_matching:
+ */
 GPtrArray*
-as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean recursive)
+as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean recursive, GError **error)
 {
 	GPtrArray* list;
-	GError *error = NULL;
 	GFileInfo *file_info;
 	GFileEnumerator *enumerator = NULL;
 	GFile *fdir;
+	GError *tmp_error = NULL;
 	g_return_val_if_fail (dir != NULL, NULL);
 	g_return_val_if_fail (pattern != NULL, NULL);
 
 	list = g_ptr_array_new_with_free_func (g_free);
 	fdir =  g_file_new_for_path (dir);
-	enumerator = g_file_enumerate_children (fdir, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, &error);
-	if (error != NULL)
+	enumerator = g_file_enumerate_children (fdir, G_FILE_ATTRIBUTE_STANDARD_NAME, 0, NULL, &tmp_error);
+	if (tmp_error != NULL)
 		goto out;
 
-	while ((file_info = g_file_enumerator_next_file (enumerator, NULL, &error)) != NULL) {
+	while ((file_info = g_file_enumerator_next_file (enumerator, NULL, &tmp_error)) != NULL) {
 		gchar *path;
+
+		if (tmp_error != NULL)
+			goto out;
 		if (g_file_info_get_is_hidden (file_info))
 			continue;
+
 		path = g_build_filename (dir,
 					 g_file_info_get_name (file_info),
 					 NULL);
+
 		if ((!g_file_test (path, G_FILE_TEST_IS_REGULAR)) && (recursive)) {
 			GPtrArray *subdir_list;
 			guint i;
-			subdir_list = as_utils_find_files_matching (path, pattern, recursive);
+			subdir_list = as_utils_find_files_matching (path, pattern, recursive, &tmp_error);
 			/* if there was an error, exit */
 			if (subdir_list == NULL) {
 				g_ptr_array_unref (list);
@@ -348,15 +344,17 @@ as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean r
 			g_ptr_array_add (list, path);
 		}
 	}
-	if (error != NULL)
-		goto out;
+
 
 out:
 	g_object_unref (fdir);
 	if (enumerator != NULL)
 		g_object_unref (enumerator);
-	if (error != NULL) {
-		fprintf (stderr, "Error while finding files in directory %s: %s\n", dir, error->message);
+	if (tmp_error != NULL) {
+		if (error == NULL)
+			g_debug ("Error while searching for files in %s: %s", dir, tmp_error->message);
+		else
+			g_propagate_error (error, tmp_error);
 		g_ptr_array_unref (list);
 		return NULL;
 	}
@@ -364,17 +362,22 @@ out:
 	return list;
 }
 
+/**
+ * as_utils_find_files:
+ */
 GPtrArray*
-as_utils_find_files (const gchar* dir, gboolean recursive)
+as_utils_find_files (const gchar *dir, gboolean recursive, GError **error)
 {
 	GPtrArray* res = NULL;
 	g_return_val_if_fail (dir != NULL, NULL);
 
-	res = as_utils_find_files_matching (dir, "", recursive);
+	res = as_utils_find_files_matching (dir, "", recursive, error);
 	return res;
 }
 
-
+/**
+ * as_utils_is_root:
+ */
 gboolean
 as_utils_is_root (void)
 {
@@ -383,27 +386,15 @@ as_utils_is_root (void)
 	return (vuid == ((uid_t) 0));
 }
 
-gchar*
-as_string_strip (const gchar* str)
-{
-	gchar* result = NULL;
-	gchar* _tmp0_ = NULL;
-	g_return_val_if_fail (str != NULL, NULL);
-	_tmp0_ = g_strdup (str);
-	result = _tmp0_;
-	g_strstrip (result);
-	return result;
-}
-
 /**
- * as_get_locale:
+ * as_get_current_locale:
  *
  * Returns a locale string as used in the AppStream specification.
  *
  * Returns: (transfer full): A locale string, free with g_free()
  */
 gchar*
-as_get_locale (void)
+as_get_current_locale (void)
 {
 	const gchar * const *locale_names;
 	gchar *tmp;
@@ -444,6 +435,9 @@ as_ptr_array_to_strv (GPtrArray *array)
 	return value;
 }
 
+/**
+ * as_str_replace:
+ */
 gchar*
 as_str_replace (const gchar *str, const gchar *old, const gchar *new)
 {
@@ -474,4 +468,27 @@ as_str_replace (const gchar *str, const gchar *old, const gchar *new)
 	strcpy(r, p);
 
 	return ret;
+}
+
+/**
+ * as_touch_location:
+ * @fname: The file or directory to touch.
+ *
+ * Change mtime of a filesystem location.
+ */
+gboolean
+as_touch_location (const gchar *fname)
+{
+	struct stat sb;
+	struct utimbuf new_times;
+
+	if (stat (fname, &sb) < 0)
+		return FALSE;
+
+	new_times.actime = sb.st_atime;
+	new_times.modtime = time (NULL);
+	if (utime (fname, &new_times) < 0)
+		return FALSE;
+
+	return TRUE;
 }

@@ -22,14 +22,28 @@ AsScreenshot
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_SCREENSHOT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsScreenshotClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
 <!-- ##### ENUM AsScreenshotKind ##### -->
 <para>
 
 </para>
 
 @AS_SCREENSHOT_KIND_UNKNOWN: 
-@AS_SCREENSHOT_KIND_NORMAL: 
 @AS_SCREENSHOT_KIND_DEFAULT: 
+@AS_SCREENSHOT_KIND_EXTRA: 
 
 <!-- ##### FUNCTION as_screenshot_kind_from_string ##### -->
 <para>
@@ -138,5 +152,11 @@ AsScreenshot
 
 @screenshot: 
 @locale: 
+
+
+<!-- ##### STRUCT AsScreenshot ##### -->
+<para>
+
+</para>
 
 

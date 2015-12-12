@@ -29,8 +29,7 @@
 #include "as-metadata.h"
 #include "as-component-private.h"
 
-typedef struct _AsDEP11Private	AsDEP11Private;
-struct _AsDEP11Private
+typedef struct
 {
 	gchar *locale;
 	gchar *locale_short;
@@ -39,10 +38,9 @@ struct _AsDEP11Private
 	gint default_priority;
 
 	GPtrArray *cpts;
-};
+} AsDEP11Private;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsDEP11, as_dep11, G_TYPE_OBJECT)
-
 #define GET_PRIVATE(o) (as_dep11_get_instance_private (o))
 
 enum YamlNodeKind {
@@ -61,7 +59,7 @@ as_dep11_init (AsDEP11 *dep11)
 	AsDEP11Private *priv = GET_PRIVATE (dep11);
 
 	/* set active locale without UTF-8 suffix */
-	str = as_get_locale ();
+	str = as_get_current_locale ();
 	as_dep11_set_locale (dep11, str);
 
 	priv->origin_name = NULL;
@@ -302,36 +300,48 @@ dep11_process_urls (GNode *node, AsComponent *cpt)
 }
 
 /**
- * dep11_process_icons:
+ * as_dep11_process_icons:
  */
 static void
-dep11_process_icons (GNode *node, AsComponent *cpt)
+as_dep11_process_icons (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 {
 	GNode *n;
 	gchar *key;
 	gchar *value;
-	const gchar *icon_url;
+	AsDEP11Private *priv = GET_PRIVATE (dep11);
 
 	for (n = node->children; n != NULL; n = n->next) {
+		g_autoptr(AsIcon) icon = NULL;
+
 		key = (gchar*) n->data;
 		value = (gchar*) n->children->data;
+		icon = as_icon_new ();
 
 		if (g_strcmp0 (key, "stock") == 0) {
-			as_component_add_icon (cpt, AS_ICON_KIND_STOCK, 0, 0, value);
+			as_icon_set_kind (icon, AS_ICON_KIND_STOCK);
+			as_icon_set_name (icon, value);
+			as_component_add_icon (cpt, icon);
 		} else if (g_strcmp0 (key, "cached") == 0) {
-			as_component_add_icon (cpt, AS_ICON_KIND_CACHED, 0, 0, value);
-			icon_url = as_component_get_icon_url (cpt, 0, 0);
-			if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
-				as_component_add_icon_url (cpt, 0, 0, value);
-			}
+			as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+			as_icon_set_filename (icon, value);
+			as_component_add_icon (cpt, icon);
 		} else if (g_strcmp0 (key, "local") == 0) {
-			as_component_add_icon (cpt, AS_ICON_KIND_LOCAL, 0, 0, value);
-			as_component_add_icon_url (cpt, 0, 0, value);
+			as_icon_set_kind (icon, AS_ICON_KIND_LOCAL);
+			as_icon_set_filename (icon, value);
+			as_component_add_icon (cpt, icon);
 		} else if (g_strcmp0 (key, "remote") == 0) {
-			as_component_add_icon (cpt, AS_ICON_KIND_REMOTE, 0, 0, value);
-			icon_url = as_component_get_icon_url (cpt, 0, 0);
-			if (icon_url == NULL)
-				as_component_add_icon_url (cpt, 0, 0, value);
+			as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
+			if (priv->media_baseurl == NULL) {
+				/* no baseurl, we can just set the value as URL */
+				as_icon_set_url (icon, value);
+			} else {
+				/* handle the media baseurl */
+				gchar *tmp;
+				tmp = g_build_filename (priv->media_baseurl, value, NULL);
+				as_icon_set_url (icon, tmp);
+				g_free (tmp);
+			}
+			as_component_add_icon (cpt, icon);
 		}
 	}
 }
@@ -345,31 +355,25 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
 	GNode *n;
 	GNode *sn;
 	gchar *key;
-	GPtrArray *provided_items;
 
-	provided_items = as_component_get_provided_items (cpt);
 	for (n = node->children; n != NULL; n = n->next) {
 		key = (gchar*) n->data;
 
 		if (g_strcmp0 (key, "libraries") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_LIBRARY, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_LIBRARY, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "binaries") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_BINARY, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_BINARY, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "fonts") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_FONT, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FONT, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "modaliases") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_MODALIAS, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MODALIAS, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "firmware") == 0) {
 			GNode *dn;
@@ -384,7 +388,7 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
 					if (dn->children)
 						dvalue = (gchar*) dn->children->data;
 					else
-						dvalue = NULL;
+						continue;
 					if (g_strcmp0 (dkey, "type") == 0) {
 						kind = dvalue;
 					} else if ((g_strcmp0 (dkey, "guid") == 0) || (g_strcmp0 (dkey, "fname") == 0)) {
@@ -392,24 +396,25 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
 					}
 				}
 				/* we don't add malformed provides types */
-				if ((kind != NULL) && (fwdata != NULL))
-					g_ptr_array_add (provided_items,
-							 as_provides_item_create (AS_PROVIDES_KIND_FIRMWARE, fwdata, kind));
+				if ((kind == NULL) || (fwdata == NULL))
+					continue;
+
+				if (g_strcmp0 (kind, "runtime") == 0)
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FIRMWARE_RUNTIME, fwdata);
+				else if (g_strcmp0 (kind, "flashed") == 0)
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FIRMWARE_FLASHED, fwdata);
 			}
 		} else if (g_strcmp0 (key, "python2") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_PYTHON2, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_PYTHON_2, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "python3") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_PYTHON3, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_PYTHON, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "mimetypes") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				g_ptr_array_add (provided_items,
-						 as_provides_item_create (AS_PROVIDES_KIND_MIMETYPE, (gchar*) sn->data, ""));
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MIMETYPE, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "dbus") == 0) {
 			GNode *dn;
@@ -432,9 +437,13 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
 					}
 				}
 				/* we don't add malformed provides types */
-				if ((kind != NULL) && (service != NULL))
-					g_ptr_array_add (provided_items,
-							as_provides_item_create (AS_PROVIDES_KIND_DBUS, service, kind));
+				if ((kind == NULL) || (service == NULL))
+					continue;
+
+				if (g_strcmp0 (kind, "system") == 0)
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_DBUS_SYSTEM, service);
+				else if ((g_strcmp0 (kind, "user") == 0) || (g_strcmp0 (kind, "session") == 0))
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_DBUS_USER, service);
 			}
 		}
 	}
@@ -520,7 +529,7 @@ as_dep11_process_screenshots (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 				if (g_strcmp0 (value, "yes") == 0)
 					as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_DEFAULT);
 				else
-					as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_NORMAL);
+					as_screenshot_set_kind (scr, AS_SCREENSHOT_KIND_EXTRA);
 			} else if (g_strcmp0 (key, "caption") == 0) {
 				gchar *lvalue;
 				/* the caption is a localized element */
@@ -678,7 +687,7 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 		} else if (g_strcmp0 (key, "Url") == 0) {
 			dep11_process_urls (node, cpt);
 		} else if (g_strcmp0 (key, "Icon") == 0) {
-			dep11_process_icons (node, cpt);
+			as_dep11_process_icons (dep11, node, cpt);
 		} else if (g_strcmp0 (key, "Provides") == 0) {
 			dep11_process_provides (node, cpt);
 		} else if (g_strcmp0 (key, "Screenshots") == 0) {
@@ -722,6 +731,11 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 	gboolean header = TRUE;
 	gboolean parse = TRUE;
 	AsDEP11Private *priv = GET_PRIVATE (dep11);
+
+	/* we ignore empty data - usually happens if the file is broken, e.g. by disk corruption
+	 * or download interruption. */
+	if (data == NULL)
+		return;
 
 	yaml_parser_initialize (&parser);
 	yaml_parser_set_input_string (&parser, (unsigned char*) data, strlen(data));

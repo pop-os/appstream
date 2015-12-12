@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-11-05 02:36+0100\n"
-"PO-Revision-Date: 2015-10-05 11:59+0000\n"
-"Last-Translator: Miloš Popović <gpopac@gmail.com>\n"
+"POT-Creation-Date: 2015-12-12 18:14+0100\n"
+"PO-Revision-Date: 2015-12-10 22:56+0000\n"
+"Last-Translator: Matthias K. <matthias@tenstral.net>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/freedesktop/"
 "appstream/language/sr@latin/)\n"
 "Language: sr@latin\n"
@@ -44,9 +44,15 @@ msgstr ""
 msgid "AppStream cache update failed."
 msgstr "Osvežavanje ostave Programskog toka nije uspelo."
 
+msgid "AppStream cache update is not necessary."
+msgstr ""
+
 #. TRANSLATORS: This is the header to the --help menu
 msgid "AppStream command-line interface"
 msgstr "Naredbeno sučelje Programskog toka"
+
+msgid "Binaries"
+msgstr ""
 
 msgid "Bundle"
 msgstr "Paket"
@@ -58,8 +64,18 @@ msgstr "Kategorije"
 msgid "Command '%s' is unknown."
 msgstr "Naredba „%s“ nije poznata."
 
+#, c-format
+msgid "Component '%s' has no installation candidate."
+msgstr ""
+
 msgid "Compulsory for"
 msgstr "Obavezujući za"
+
+msgid "DBus Session Services"
+msgstr ""
+
+msgid "DBus System Services"
+msgstr ""
 
 msgid "Description"
 msgstr "Opis"
@@ -86,6 +102,12 @@ msgstr "Primorava osvežavanje ostave"
 msgid "File %s not found or permission denied!"
 msgstr "Nisam pronašao datoteku „%s“ ili su ovlašćenja odbijena!"
 
+msgid "Flashed Firmware"
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
 msgid "Get components which provide the given item"
 msgstr "Dobavlja sastojke koji obezbeđuju datu stavku"
 
@@ -101,9 +123,11 @@ msgstr "Ikonica"
 msgid "Identifier"
 msgstr "Odrednik"
 
-msgid "Invalid type for provides-item selected. Valid values are:"
+msgid "Invalid type for provided item selected. Valid values are:"
 msgstr ""
-"Neispravna vrsta za izabrano „obezbeđuje-stavku“. Ispravne vrednosti su:"
+
+msgid "Libraries"
+msgstr ""
 
 #. license
 msgid "License"
@@ -117,6 +141,12 @@ msgstr ""
 msgid "Manually set the location of the AppStream cache"
 msgstr "Ručno postavite mesto ostave Programskog toka"
 
+msgid "Mimetypes"
+msgstr ""
+
+msgid "Modaliases"
+msgstr ""
+
 msgid "Name"
 msgstr "Naziv"
 
@@ -125,11 +155,16 @@ msgid "No component matching '%s' found."
 msgstr "Nisam našao sastojak koji odgovara „%s“."
 
 #, c-format
-msgid "No component providing '%s:%s:%s' found."
-msgstr "Nisam našao sastojak koji obezbeđuje „%s:%s:%s“."
+msgid "No component providing '%s;%s' found."
+msgstr ""
 
-msgid "No value for the provides-item to search for defined."
-msgstr "Nije određena vrednost za „obezbeđuje-stavku“ za traženje."
+msgid ""
+"No suitable package manager CLI found. Please make sure that e.g. \"pkcon"
+"\" (part of PackageKit) is available."
+msgstr ""
+
+msgid "No value for the item to search for defined."
+msgstr ""
 
 msgid "Package"
 msgstr "Paket"
@@ -147,6 +182,12 @@ msgstr "Grupa projekta"
 msgid "Provided Items"
 msgstr "Obezbeđene stavke"
 
+msgid "Python (Version 2)"
+msgstr ""
+
+msgid "Python 3"
+msgstr ""
+
 msgid "Rebuild the component information cache"
 msgstr "Ponovo izgrađuje ostavu podataka sastojka"
 
@@ -154,6 +195,9 @@ msgstr "Ponovo izgrađuje ostavu podataka sastojka"
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
 "Pokrenite „%s --help“ da vidite čitav spisak dostupnih opcija linije naredbi."
+
+msgid "Runtime Firmware"
+msgstr ""
 
 msgid "Sample Screenshot URL"
 msgstr "Adresa uzorka snimka ekrana"
@@ -177,18 +221,28 @@ msgstr "Podnaredbe:"
 msgid "Summary"
 msgstr "Sažetak"
 
+msgid "Tried to perform query on closed database."
+msgstr ""
+
 #. TRANSLATORS: We failed to find any component in the database due to an error
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "Ne mogu da pronađem sastojak koji odgovara „%s“!"
 
 #, c-format
-msgid "Unable to find component providing '%s:%s:%s'!"
-msgstr "Ne mogu da pronađem sastojak koji obezbeđuje „%s:%s:%s“!"
+msgid "Unable to find component providing '%s;%s'!"
+msgstr ""
 
 #, c-format
 msgid "Unable to find component with id '%s'!"
 msgstr "Ne mogu da pronađem sastojak sa ib-om „%s“!"
+
+msgid "Unable to open the AppStream software component cache."
+msgstr ""
+
+#, c-format
+msgid "Unable to spawn package manager: %s"
+msgstr ""
 
 msgid "Validate AppStream XML files for issues"
 msgstr "Proverite da li postoje greške u „XML“ datotekama Programskog toka"

@@ -22,21 +22,26 @@ AsMenuParser
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_MENU_PARSER ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsMenuParserClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
 <!-- ##### FUNCTION as_menu_parser_new ##### -->
 <para>
 
 </para>
 
 @void: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_menu_parser_construct ##### -->
-<para>
-
-</para>
-
-@object_type: 
 @Returns: 
 
 
@@ -49,31 +54,12 @@ AsMenuParser
 @Returns: 
 
 
-<!-- ##### FUNCTION as_menu_parser_construct_from_file ##### -->
-<para>
-
-</para>
-
-@object_type: 
-@menu_file: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_menu_parser_set_update_category_data ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
 <!-- ##### FUNCTION as_menu_parser_parse ##### -->
 <para>
 
 </para>
 
-@self: 
+@mp: 
 @Returns: 
 
 
@@ -82,8 +68,17 @@ AsMenuParser
 
 </para>
 
-@self: 
+@mp: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_menu_parser_set_update_category_data ##### -->
+<para>
+
+</para>
+
+@mp: 
+@value: 
 
 
 <!-- ##### FUNCTION as_get_system_categories ##### -->
@@ -94,4 +89,15 @@ AsMenuParser
 @void: 
 @Returns: 
 
+
+<!-- ##### STRUCT AsMenuParser ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG AsMenuParser:update-category-data ##### -->
+<para>
+
+</para>
 

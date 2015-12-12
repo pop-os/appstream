@@ -29,56 +29,374 @@
 #include <database-cwrap.hpp>
 #include <glib/gstdio.h>
 
+#include "as-utils.h"
+#include "as-utils-private.h"
 #include "as-settings-private.h"
 
 /**
  * SECTION:as-database
- * @short_description: Read-only access to the Appstream component database
+ * @short_description: Read-only access to the AppStream component database
  * @include: appstream.h
  *
  * This object provides access to the Appstream Xapian database of available software components.
  * You can search for components using various criteria, as well as getting some information
- * about the data provided by this Appstream database.
+ * about the data provided by this AppStream database.
  *
- * See also: #AsComponent, #AsSearchQuery
+ * By default, the global software component cache is used as datasource, unless a different database
+ * is explicitly defined via %as_database_set_location().
+ *
+ * A new cache can be created using the appstreamcli(1) utility.
+ *
+ * See also: #AsComponent, #AsDataPool
  */
 
-struct _AsDatabasePrivate {
+typedef struct
+{
 	struct XADatabaseRead *xdb;
 	gboolean opened;
-	gchar* database_path;
-};
+	gchar *database_path;
+	gchar **term_greylist;
+} AsDatabasePrivate;
 
-static gpointer as_database_parent_class = NULL;
+G_DEFINE_TYPE_WITH_PRIVATE (AsDatabase, as_database, G_TYPE_OBJECT)
+#define GET_PRIVATE(o) (as_database_get_instance_private (o))
 
-
-#define AS_DATABASE_GET_PRIVATE(o) (G_TYPE_INSTANCE_GET_PRIVATE ((o), AS_TYPE_DATABASE, AsDatabasePrivate))
-enum  {
-	AS_DATABASE_DUMMY_PROPERTY,
-	AS_DATABASE_DATABASE_PATH
-};
-
-static gboolean as_database_real_open (AsDatabase *db);
-static void as_database_finalize (GObject* obj);
+/* TRANSLATORS: List of "grey-listed" words sperated with ";"
+ * Do not translate this list directly. Instead,
+ * provide a list of words in your language that people are likely
+ * to include in a search but that should normally be ignored in
+ * the search.
+ */
+#define AS_SEARCH_GREYLIST_STR _("app;application;package;program;programme;suite;tool")
 
 /**
- * as_database_construct:
- *
- * Construct a new #AsDatabase.
- *
- * Returns: (transfer full): a new #AsDatabase
+ * as_database_init:
  **/
-AsDatabase*
-as_database_construct (GType object_type)
+static void
+as_database_init (AsDatabase *db)
 {
-	AsDatabase *db = NULL;
-	db = (AsDatabase*) g_object_new (object_type, NULL);
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
 
-	db->priv->xdb = xa_database_read_new ();
-	db->priv->opened = FALSE;
-	as_database_set_database_path (db, AS_APPSTREAM_CACHE_PATH);
+	priv->xdb = xa_database_read_new ();
+	priv->opened = FALSE;
+	as_database_set_location (db, AS_APPSTREAM_CACHE_PATH);
 
-	return db;
+	priv->term_greylist = g_strsplit (AS_SEARCH_GREYLIST_STR, ";", -1);
+}
+
+/**
+ * as_database_finalize:
+ **/
+static void
+as_database_finalize (GObject *object)
+{
+	AsDatabase *db = AS_DATABASE (object);
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	xa_database_read_free (priv->xdb);
+	g_free (priv->database_path);
+	g_strfreev (priv->term_greylist);
+
+	G_OBJECT_CLASS (as_database_parent_class)->finalize (object);
+}
+
+/**
+ * as_database_class_init:
+ **/
+static void
+as_database_class_init (AsDatabaseClass *klass)
+{
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
+	object_class->finalize = as_database_finalize;
+}
+
+/**
+ * as_database_open:
+ * @db: An instance of #AsDatabase.
+ * @error: A #GError or %NULL.
+ *
+ * Open the current AppStream metadata cache for reading.
+ *
+ * Returns: %TRUE on success, %FALSE on error.
+ */
+gboolean
+as_database_open (AsDatabase *db, GError **error)
+{
+	gboolean ret = FALSE;
+	g_autofree gchar *path = NULL;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	path = g_build_filename (priv->database_path, "xapian", "default", NULL);
+	ret = xa_database_read_open (priv->xdb, path);
+	priv->opened = ret;
+
+	if (!ret)
+		g_set_error_literal (error,
+					AS_DATABASE_ERROR,
+					AS_DATABASE_ERROR_FAILED,
+					_("Unable to open the AppStream software component cache."));
+
+	return ret;
+}
+
+/**
+ * as_database_test_opened:
+ * @db: An instance of #AsDatabase.
+ * @error: A #GError or %NULL.
+ */
+static gboolean
+as_database_test_opened (AsDatabase *db, GError **error)
+{
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!priv->opened) {
+		g_set_error_literal (error,
+					AS_DATABASE_ERROR,
+					AS_DATABASE_ERROR_CLOSED,
+					_("Tried to perform query on closed database."));
+		return FALSE;
+	}
+	return TRUE;
+}
+
+/**
+ * as_database_get_all_components:
+ * @db: An instance of #AsDatabase.
+ * @error: A #GError or %NULL.
+ *
+ * Dump a list of all software components found in the database.
+ *
+ * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects.
+ */
+GPtrArray*
+as_database_get_all_components (AsDatabase *db, GError **error)
+{
+	GPtrArray *cpts = NULL;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!as_database_test_opened (db, error))
+		return NULL;
+
+	cpts = xa_database_read_get_all_components (priv->xdb);
+	return cpts;
+}
+
+/**
+ * as_database_sanitize_search_term:
+ *
+ * Improve the search term slightly, by stripping whitespaces and
+ * removing greylist words.
+ */
+static gchar*
+as_database_sanitize_search_term (AsDatabase *db, const gchar *term)
+{
+	gchar *res_term;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (term == NULL)
+		return NULL;
+	res_term = g_strdup (term);
+
+	/* check if there is a ":" in the search, if so, it means the user
+	 * could be using a xapian prefix like "pkg:" or "mime:" and in this case
+	 * we do not want to alter the search term (as application is in the
+	 * greylist but a common mime-type prefix)
+	 */
+	if (strstr (term, ":") == NULL) {
+		guint i;
+
+		/* filter query by greylist (to avoid overly generic search terms) */
+		for (i = 0; priv->term_greylist[i] != NULL; i++) {
+			gchar *str;
+			str = as_str_replace (res_term, priv->term_greylist[i], "");
+			g_free (res_term);
+			res_term = str;
+		}
+
+		/* restore query if it was just greylist words */
+		if (g_strcmp0 (res_term, "") == 0) {
+			g_debug ("grey-list replaced all terms, restoring");
+			g_free (res_term);
+			res_term = g_strdup (term);
+		}
+	}
+
+	/* we have to strip the leading and trailing whitespaces to avoid having
+	 * different results for e.g. 'font ' and 'font' (LP: #506419)
+	 */
+	g_strstrip (res_term);
+
+	return res_term;
+}
+
+/**
+ * as_database_find_components:
+ * @db: An instance of #AsDatabase.
+ * @term: (nullable): a search-term to look for.
+ * @cats_str: (nullable): A semicolon-delimited list of lower-cased category names, e.g. "science;development".
+ * @error: A #GError or %NULL.
+ *
+ * Find components in the AppStream database, which match a given term.
+ * You can limit the search to a specific set of categories by setting the categories string to
+ * a semicolon-separated list of lower-cased category names.
+ *
+ * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found
+ */
+GPtrArray*
+as_database_find_components (AsDatabase *db, const gchar *term, const gchar *cats_str, GError **error)
+{
+	GPtrArray *cpts;
+	g_autofree gchar *sterm = NULL;
+	g_auto(GStrv) cats = NULL;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!as_database_test_opened (db, error))
+		return NULL;
+
+	/* return everything if term and categories are both NULL or empty */
+	if ((as_str_empty (term)) && (as_str_empty (cats_str)))
+		return as_database_get_all_components (db, error);
+
+	/* sanitize our search term */
+	sterm = as_database_sanitize_search_term (db, term);
+
+	if (cats_str != NULL)
+		cats = g_strsplit (cats_str, ";", -1);
+
+	cpts = xa_database_read_find_components (priv->xdb, sterm, cats);
+	return cpts;
+}
+
+/**
+ * as_database_get_component_by_id:
+ * @db: An instance of #AsDatabase.
+ * @cid: the ID of the component, e.g. "org.kde.gwenview.desktop"
+ * @error: A #GError or %NULL.
+ *
+ * Get a component by its AppStream-ID.
+ *
+ * Returns: (transfer full): an #AsComponent or %NULL if none was found.
+ **/
+AsComponent*
+as_database_get_component_by_id (AsDatabase *db, const gchar *cid, GError **error)
+{
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!as_database_test_opened (db, error))
+		return NULL;
+	if (cid == NULL) {
+		g_set_error_literal (error,
+					AS_DATABASE_ERROR,
+					AS_DATABASE_ERROR_TERM_INVALID,
+					"Search term must not be NULL.");
+		return NULL;
+	}
+
+	return xa_database_read_get_component_by_id (priv->xdb, cid);
+}
+
+/**
+ * as_database_get_components_by_provided_item:
+ * @db: An instance of #AsDatabase.
+ * @kind: an #AsProvidesKind
+ * @item: the name of the provided item.
+ * @error: A #GError or %NULL.
+ *
+ * Find components in the Appstream database.
+ *
+ * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found, NULL on error
+ */
+GPtrArray*
+as_database_get_components_by_provided_item (AsDatabase *db, AsProvidedKind kind, const gchar *item, GError **error)
+{
+	GPtrArray* cpt_array;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!as_database_test_opened (db, error))
+		return NULL;
+	if (item == NULL) {
+		g_set_error_literal (error,
+					AS_DATABASE_ERROR,
+					AS_DATABASE_ERROR_TERM_INVALID,
+					"Search term must not be NULL.");
+		return NULL;
+	}
+
+	cpt_array = xa_database_read_get_components_by_provides (priv->xdb, kind, item);
+	return cpt_array;
+}
+
+/**
+ * as_database_get_components_by_kind:
+ * @db: An instance of #AsDatabase.
+ * @kind: an #AsComponentKind.
+ * @error: A #GError or %NULL.
+ *
+ * Return a list of all components in the database which match a certain kind.
+ *
+ * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found, %NULL on error
+ */
+GPtrArray*
+as_database_get_components_by_kind (AsDatabase *db, AsComponentKind kind, GError **error)
+{
+	GPtrArray* cpt_array;
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+
+	if (!as_database_test_opened (db, error))
+		return NULL;
+	if (kind >= AS_COMPONENT_KIND_LAST) {
+		g_set_error_literal (error,
+					AS_DATABASE_ERROR,
+					AS_DATABASE_ERROR_TERM_INVALID,
+					"Can not search for unknown component type.");
+		return NULL;
+	}
+
+	cpt_array = xa_database_read_get_components_by_kind (priv->xdb, kind);
+	return cpt_array;
+}
+
+/**
+ * as_database_get_location:
+ * @db: An instance of #AsDatabase.
+ *
+ * Get the current path of the AppStream database we use.
+ */
+const gchar*
+as_database_get_location (AsDatabase *db)
+{
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+	return priv->database_path;
+}
+
+/**
+ * as_database_set_location:
+ * @db: An instance of #AsDatabase.
+ * @dir: The directory of the Xapian database.
+ *
+ * Set the location of the AppStream database we use.
+ */
+void
+as_database_set_location (AsDatabase *db, const gchar *dir)
+{
+	AsDatabasePrivate *priv = GET_PRIVATE (db);
+	g_free (priv->database_path);
+	priv->database_path = g_strdup (dir);
+	g_debug ("AppSteam cache location altered to: %s", dir);
+}
+
+/**
+ * as_database_error_quark:
+ *
+ * Return value: An error quark.
+ **/
+GQuark
+as_database_error_quark (void)
+{
+	static GQuark quark = 0;
+	if (!quark)
+		quark = g_quark_from_static_string ("AsDatabaseError");
+	return quark;
 }
 
 /**
@@ -86,296 +404,12 @@ as_database_construct (GType object_type)
  *
  * Creates a new #AsDatabase.
  *
- * Returns: (transfer full): a new #AsDatabase
+ * Returns: (transfer full): a #AsDatabase
  **/
 AsDatabase*
 as_database_new (void)
 {
-	return as_database_construct (AS_TYPE_DATABASE);
-}
-
-
-static gboolean
-as_database_real_open (AsDatabase *db)
-{
-	gboolean ret = FALSE;
-	gchar *path;
-
-	path = g_build_filename (db->priv->database_path, "xapian", "default", NULL);
-	ret = xa_database_read_open (db->priv->xdb, path);
-	g_free (path);
-	db->priv->opened = ret;
-
-	return ret;
-}
-
-
-gboolean
-as_database_open (AsDatabase *db)
-{
-	g_return_val_if_fail (db != NULL, FALSE);
-	return AS_DATABASE_GET_CLASS (db)->open (db);
-}
-
-
-/**
- * as_database_db_exists:
- * @db: a valid #AsDatabase instance
- *
- * Returns: TRUE if the application database exists
- */
-gboolean
-as_database_db_exists (AsDatabase *db)
-{
-	g_return_val_if_fail (db != NULL, FALSE);
-
-	return g_file_test (db->priv->database_path, G_FILE_TEST_IS_DIR);
-}
-
-/**
- * as_database_get_all_components:
- * @db: a valid #AsDatabase instance
- *
- * Dump a list of all components found in the database.
- *
- * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects
- */
-GPtrArray*
-as_database_get_all_components (AsDatabase *db)
-{
-	GPtrArray* cpt_array = NULL;
-	g_return_val_if_fail (db != NULL, NULL);
-	if (!db->priv->opened)
-		return NULL;
-
-	cpt_array = xa_database_read_get_all_components (db->priv->xdb);
-	return cpt_array;
-}
-
-/**
- * as_database_find_components:
- * @db: a valid #AsDatabase instance
- * @query: a #AsSearchQuery
- *
- * Find components in the Appstream database.
- *
- * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found
- */
-GPtrArray*
-as_database_find_components (AsDatabase *db, AsSearchQuery* query)
-{
-	GPtrArray* cpt_array;
-	g_return_val_if_fail (db != NULL, NULL);
-	g_return_val_if_fail (query != NULL, NULL);
-	if (!db->priv->opened)
-		return NULL;
-
-	cpt_array = xa_database_read_find_components (db->priv->xdb, query);
-
-	return cpt_array;
-}
-
-/**
- * as_database_find_components_by_term:
- * @db: a valid #AsDatabase instance
- * @search_term: the string to search for
- * @categories_str: (allow-none) (default NULL): a comma-separated list of category names, or NULL to search in all categories
- *
- * Find components in the Appstream database by searching for a simple string.
- *
- * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found
- */
-GPtrArray*
-as_database_find_components_by_term (AsDatabase *db, const gchar* search_term, const gchar* categories_str)
-{
-	GPtrArray* cpt_array;
-	AsSearchQuery* query;
-	g_return_val_if_fail (db != NULL, NULL);
-	g_return_val_if_fail (search_term != NULL, NULL);
-
-	query = as_search_query_new (search_term);
-	if (categories_str == NULL) {
-		as_search_query_set_search_all_categories (query);
-	} else {
-		as_search_query_set_categories_from_string (query, categories_str);
-	}
-	cpt_array = as_database_find_components (db, query);
-	g_object_unref (query);
-	return cpt_array;
-}
-
-/**
- * as_database_get_component_by_id:
- * @db: a valid #AsDatabase instance
- * @idname: the ID of the component
- *
- * Get a component by it's ID
- *
- * Returns: (transfer full): an #AsComponent or NULL if none was found
- **/
-AsComponent*
-as_database_get_component_by_id (AsDatabase *db, const gchar *idname)
-{
-	g_return_val_if_fail (db != NULL, NULL);
-	g_return_val_if_fail (idname != NULL, NULL);
-
-	return xa_database_read_get_component_by_id (db->priv->xdb, idname);
-}
-
-/**
- * as_database_get_components_by_provides:
- * @db: a valid #AsDatabase instance
- * @kind: an #AsProvidesKind
- * @value: a value of the selected provides kind
- * @data: (allow-none) (default NULL): additional provides data
- *
- * Find components in the Appstream database.
- *
- * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found, NULL on error
- */
-GPtrArray*
-as_database_get_components_by_provides (AsDatabase *db, AsProvidesKind kind, const gchar *value, const gchar *data)
-{
-	GPtrArray* cpt_array;
-	g_return_val_if_fail (db != NULL, NULL);
-	g_return_val_if_fail (value != NULL, NULL);
-	if (!db->priv->opened)
-		return NULL;
-
-	cpt_array = xa_database_read_get_components_by_provides (db->priv->xdb, kind, value, data);
-
-	return cpt_array;
-}
-
-/**
- * as_database_get_components_by_kind:
- * @db: a valid #AsDatabase instance
- * @kinds: an #AsComponentKind bitfield
- *
- * Find components of a given kind.
- *
- * Returns: (element-type AsComponent) (transfer full): an array of #AsComponent objects which have been found, NULL on error
- */
-GPtrArray*
-as_database_get_components_by_kind (AsDatabase *db, AsComponentKind kinds)
-{
-	GPtrArray* cpt_array;
-	g_return_val_if_fail (db != NULL, NULL);
-	if (!db->priv->opened)
-		return NULL;
-
-	cpt_array = xa_database_read_get_components_by_kind (db->priv->xdb, kinds);
-
-	return cpt_array;
-}
-
-const gchar*
-as_database_get_database_path (AsDatabase *db)
-{
-	g_return_val_if_fail (db != NULL, NULL);
-	return db->priv->database_path;
-}
-
-void
-as_database_set_database_path (AsDatabase *db, const gchar *value)
-{
-	g_return_if_fail (db != NULL);
-	g_free (db->priv->database_path);
-	db->priv->database_path = g_strdup (value);
-	g_object_notify ((GObject *) db, "database-path");
-}
-
-static void
-as_database_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
-{
 	AsDatabase *db;
-	db = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_DATABASE, AsDatabase);
-	switch (property_id) {
-		case AS_DATABASE_DATABASE_PATH:
-			g_value_set_string (value, as_database_get_database_path (db));
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-	}
-}
-
-
-static void
-as_database_set_property (GObject * object, guint property_id, const GValue *value, GParamSpec *pspec)
-{
-	AsDatabase *db;
-	db = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_DATABASE, AsDatabase);
-	switch (property_id) {
-		case AS_DATABASE_DATABASE_PATH:
-			as_database_set_database_path (db, g_value_get_string (value));
-			break;
-		default:
-			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
-			break;
-	}
-}
-
-static void
-as_database_class_init (AsDatabaseClass * klass)
-{
-	as_database_parent_class = g_type_class_peek_parent (klass);
-	g_type_class_add_private (klass, sizeof (AsDatabasePrivate));
-	AS_DATABASE_CLASS (klass)->open = as_database_real_open;
-	G_OBJECT_CLASS (klass)->get_property = as_database_get_property;
-	G_OBJECT_CLASS (klass)->set_property = as_database_set_property;
-	G_OBJECT_CLASS (klass)->finalize = as_database_finalize;
-	g_object_class_install_property (G_OBJECT_CLASS (klass),
-						AS_DATABASE_DATABASE_PATH,
-						g_param_spec_string ("database-path", "database-path", "database-path", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE)
-	);
-}
-
-
-static void
-as_database_instance_init (AsDatabase *db)
-{
-	db->priv = AS_DATABASE_GET_PRIVATE (db);
-}
-
-
-static void
-as_database_finalize (GObject* obj)
-{
-	AsDatabase *db;
-	db = G_TYPE_CHECK_INSTANCE_CAST (obj, AS_TYPE_DATABASE, AsDatabase);
-	xa_database_read_free (db->priv->xdb);
-	g_free (db->priv->database_path);
-	G_OBJECT_CLASS (as_database_parent_class)->finalize (obj);
-}
-
-
-/**
- * as_database_get_type:
- *
- * Class to access the AppStream
- * application database
- */
-GType
-as_database_get_type (void)
-{
-	static volatile gsize as_database_type_id__volatile = 0;
-	if (g_once_init_enter (&as_database_type_id__volatile)) {
-		static const GTypeInfo g_define_type_info = {
-				sizeof (AsDatabaseClass),
-				(GBaseInitFunc) NULL,
-				(GBaseFinalizeFunc) NULL,
-				(GClassInitFunc) as_database_class_init,
-				(GClassFinalizeFunc) NULL,
-				NULL,
-				sizeof (AsDatabase),
-				0,
-				(GInstanceInitFunc) as_database_instance_init,
-				NULL
-		};
-		GType as_database_type_id;
-		as_database_type_id = g_type_register_static (G_TYPE_OBJECT, "AsDatabase", &g_define_type_info, 0);
-		g_once_init_leave (&as_database_type_id__volatile, as_database_type_id);
-	}
-	return as_database_type_id__volatile;
+	db = g_object_new (AS_TYPE_DATABASE, NULL);
+	return AS_DATABASE (db);
 }

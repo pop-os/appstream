@@ -1,34 +1,7 @@
 <MACRO>
 <NAME>AS_TYPE_DEP11</NAME>
-#define AS_TYPE_DEP11			(as_dep11_get_type())
+#define AS_TYPE_DEP11 (as_dep11_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_DEP11</NAME>
-#define AS_DEP11(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_DEP11, AsDEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_DEP11_CLASS</NAME>
-#define AS_DEP11_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_DEP11, AsDEP11Class))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DEP11</NAME>
-#define AS_IS_DEP11(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_DEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DEP11_CLASS</NAME>
-#define AS_IS_DEP11_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_DEP11))
-</MACRO>
-<MACRO>
-<NAME>AS_DEP11_GET_CLASS</NAME>
-#define AS_DEP11_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_DEP11, AsDEP11Class))
-</MACRO>
-<STRUCT>
-<NAME>AsDEP11</NAME>
-struct _AsDEP11
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsDEP11Class</NAME>
 struct _AsDEP11Class
@@ -43,11 +16,6 @@ struct _AsDEP11Class
 	void (*_as_reserved6)	(void);
 };
 </STRUCT>
-<FUNCTION>
-<NAME>as_dep11_get_type</NAME>
-<RETURNS>GType 			</RETURNS>
-void
-</FUNCTION>
 <FUNCTION>
 <NAME>as_dep11_new</NAME>
 <RETURNS>AsDEP11 *		</RETURNS>
@@ -83,37 +51,13 @@ AsDEP11 *dep11
 <RETURNS>void 			</RETURNS>
 AsDEP11 *dep11
 </FUNCTION>
+<STRUCT>
+<NAME>AsDEP11</NAME>
+</STRUCT>
 <MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
-#define AS_TYPE_IMAGE		(as_image_get_type())
+#define AS_TYPE_IMAGE (as_image_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_IMAGE</NAME>
-#define AS_IMAGE(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_IMAGE, AsImage))
-</MACRO>
-<MACRO>
-<NAME>AS_IMAGE_CLASS</NAME>
-#define AS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_IMAGE, AsImageClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_IMAGE</NAME>
-#define AS_IS_IMAGE(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_IMAGE))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_IMAGE_CLASS</NAME>
-#define AS_IS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_IMAGE))
-</MACRO>
-<MACRO>
-<NAME>AS_IMAGE_GET_CLASS</NAME>
-#define AS_IMAGE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_IMAGE, AsImageClass))
-</MACRO>
-<STRUCT>
-<NAME>AsImage</NAME>
-struct _AsImage
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsImageClass</NAME>
 struct _AsImageClass
@@ -126,8 +70,6 @@ struct _AsImageClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <ENUM>
@@ -136,23 +78,19 @@ typedef enum {
 	AS_IMAGE_KIND_UNKNOWN,
 	AS_IMAGE_KIND_SOURCE,
 	AS_IMAGE_KIND_THUMBNAIL,
+	/*< private >*/
 	AS_IMAGE_KIND_LAST
 } AsImageKind;
 </ENUM>
 <FUNCTION>
 <NAME>as_image_kind_from_string</NAME>
 <RETURNS>AsImageKind 	 </RETURNS>
-const gchar	*kind
+const gchar *kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_image_kind_to_string</NAME>
 <RETURNS>const gchar 	*</RETURNS>
-AsImageKind	 kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_image_get_type</NAME>
-<RETURNS>GType 		 </RETURNS>
-void
+AsImageKind kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_image_new</NAME>
@@ -199,40 +137,33 @@ AsImage *image
 <RETURNS>void 		 </RETURNS>
 AsImage *image, AsImageKind kind
 </FUNCTION>
-<FUNCTION>
-<NAME>as_utils_touch_dir</NAME>
-<RETURNS>gboolean 		</RETURNS>
-const gchar* dirname
-</FUNCTION>
+<STRUCT>
+<NAME>AsImage</NAME>
+</STRUCT>
 <FUNCTION>
 <NAME>as_utils_delete_dir_recursive</NAME>
 <RETURNS>gboolean 		</RETURNS>
 const gchar* dirname
 </FUNCTION>
 <FUNCTION>
-<NAME>as_string_strip</NAME>
-<RETURNS>gchar *			</RETURNS>
-const gchar* str
-</FUNCTION>
-<FUNCTION>
 <NAME>as_utils_categories_from_strv</NAME>
-<RETURNS>GPtrArray *		</RETURNS>
-gchar** categories_strv, GPtrArray* system_categories
+<RETURNS>GPtrArray 		*</RETURNS>
+gchar **categories_strv, GPtrArray *system_categories
 </FUNCTION>
 <FUNCTION>
 <NAME>as_utils_categories_from_str</NAME>
-<RETURNS>GPtrArray *		</RETURNS>
-const gchar* categories_str, GPtrArray* system_categories
+<RETURNS>GPtrArray 		*</RETURNS>
+const gchar *categories_str, GPtrArray *system_categories
 </FUNCTION>
 <FUNCTION>
 <NAME>as_utils_find_files_matching</NAME>
-<RETURNS>GPtrArray *		</RETURNS>
-const gchar* dir, const gchar* pattern, gboolean recursive
+<RETURNS>GPtrArray 		*</RETURNS>
+const gchar *dir, const gchar *pattern, gboolean recursive, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_utils_find_files</NAME>
-<RETURNS>GPtrArray *		</RETURNS>
-const gchar* dir, gboolean recursive
+<RETURNS>GPtrArray 		*</RETURNS>
+const gchar *dir, gboolean recursive, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_utils_is_root</NAME>
@@ -241,45 +172,23 @@ void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_str_replace</NAME>
-<RETURNS>gchar *			</RETURNS>
-const gchar* str, const gchar* old_str, const gchar* new_str
+<RETURNS>gchar 			*</RETURNS>
+const gchar *str, const gchar *old_str, const gchar *new_str
 </FUNCTION>
 <FUNCTION>
-<NAME>as_get_locale</NAME>
-<RETURNS>gchar *			</RETURNS>
-void
+<NAME>as_ptr_array_to_strv</NAME>
+<RETURNS>gchar 			**</RETURNS>
+GPtrArray *array
+</FUNCTION>
+<FUNCTION>
+<NAME>as_touch_location</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar *fname
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR</NAME>
-#define AS_TYPE_VALIDATOR		(as_validator_get_type())
+#define AS_TYPE_VALIDATOR (as_validator_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR</NAME>
-#define AS_VALIDATOR(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_VALIDATOR, AsValidator))
-</MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR_CLASS</NAME>
-#define AS_VALIDATOR_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_VALIDATOR, AsValidatorClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_VALIDATOR</NAME>
-#define AS_IS_VALIDATOR(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_VALIDATOR))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_VALIDATOR_CLASS</NAME>
-#define AS_IS_VALIDATOR_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_VALIDATOR))
-</MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR_GET_CLASS</NAME>
-#define AS_VALIDATOR_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_VALIDATOR, AsValidatorClass))
-</MACRO>
-<STRUCT>
-<NAME>AsValidator</NAME>
-struct _AsValidator
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsValidatorClass</NAME>
 struct _AsValidatorClass
@@ -294,11 +203,6 @@ struct _AsValidatorClass
 	void (*_as_reserved6)	(void);
 };
 </STRUCT>
-<FUNCTION>
-<NAME>as_validator_get_type</NAME>
-<RETURNS>GType 		 </RETURNS>
-void
-</FUNCTION>
 <FUNCTION>
 <NAME>as_validator_new</NAME>
 <RETURNS>AsValidator 	*</RETURNS>
@@ -329,37 +233,13 @@ AsValidator *validator, const gchar *root_dir
 <RETURNS>GList 		*</RETURNS>
 AsValidator *validator
 </FUNCTION>
+<STRUCT>
+<NAME>AsValidator</NAME>
+</STRUCT>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR_ISSUE</NAME>
-#define AS_TYPE_VALIDATOR_ISSUE			(as_validator_issue_get_type())
+#define AS_TYPE_VALIDATOR_ISSUE (as_validator_issue_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR_ISSUE</NAME>
-#define AS_VALIDATOR_ISSUE(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssue))
-</MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR_ISSUE_CLASS</NAME>
-#define AS_VALIDATOR_ISSUE_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssueClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_VALIDATOR_ISSUE</NAME>
-#define AS_IS_VALIDATOR_ISSUE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_VALIDATOR_ISSUE))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_VALIDATOR_ISSUE_CLASS</NAME>
-#define AS_IS_VALIDATOR_ISSUE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_VALIDATOR_ISSUE))
-</MACRO>
-<MACRO>
-<NAME>AS_VALIDATOR_ISSUE_GET_CLASS</NAME>
-#define AS_VALIDATOR_ISSUE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_VALIDATOR_ISSUE, AsValidatorIssueClass))
-</MACRO>
-<STRUCT>
-<NAME>AsValidatorIssue</NAME>
-struct _AsValidatorIssue
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsValidatorIssueClass</NAME>
 struct _AsValidatorIssueClass
@@ -409,11 +289,6 @@ typedef enum {
 } AsIssueKind;
 </ENUM>
 <FUNCTION>
-<NAME>as_validator_issue_get_type</NAME>
-<RETURNS>GType 		 	</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
 <NAME>as_validator_issue_new</NAME>
 <RETURNS>AsValidatorIssue 	*</RETURNS>
 void
@@ -458,11 +333,15 @@ AsValidatorIssue *issue
 <RETURNS>void 			</RETURNS>
 AsValidatorIssue *issue, const gchar *location
 </FUNCTION>
+<STRUCT>
+<NAME>AsValidatorIssue</NAME>
+</STRUCT>
 <ENUM>
 <NAME>AsParserMode</NAME>
 typedef enum {
 	AS_PARSER_MODE_UPSTREAM,
 	AS_PARSER_MODE_DISTRO,
+	/*< private >*/
 	AS_PARSER_MODE_LAST
 } AsParserMode;
 </ENUM>
@@ -485,34 +364,6 @@ AsMetadata *metad
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_CATEGORY</NAME>
-#define AS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_CATEGORY, AsCategory))
-</MACRO>
-<MACRO>
-<NAME>AS_CATEGORY_CLASS</NAME>
-#define AS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_CATEGORY, AsCategoryClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_CATEGORY</NAME>
-#define AS_IS_CATEGORY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_CATEGORY_CLASS</NAME>
-#define AS_IS_CATEGORY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_CATEGORY))
-</MACRO>
-<MACRO>
-<NAME>AS_CATEGORY_GET_CLASS</NAME>
-#define AS_CATEGORY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_CATEGORY, AsCategoryClass))
-</MACRO>
-<STRUCT>
-<NAME>AsCategory</NAME>
-struct _AsCategory
-{
-	GObject parent_instance;
-	AsCategoryPrivate *priv;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsCategoryClass</NAME>
 struct _AsCategoryClass
@@ -528,135 +379,102 @@ struct _AsCategoryClass
 };
 </STRUCT>
 <FUNCTION>
-<NAME>as_category_get_type</NAME>
-<RETURNS>GType 				</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
 <NAME>as_category_new</NAME>
-<RETURNS>AsCategory *			</RETURNS>
+<RETURNS>AsCategory 		*</RETURNS>
 void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_construct</NAME>
-<RETURNS>AsCategory *			</RETURNS>
-GType object_type
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_complete</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self
+<RETURNS>void 			</RETURNS>
+AsCategory *cat
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_directory</NAME>
-<RETURNS>const gchar *			</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_name</NAME>
-<RETURNS>const gchar *			</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_set_icon</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, const gchar* value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_set_name</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, const gchar* value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_summary</NAME>
-<RETURNS>const gchar *			</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_icon</NAME>
-<RETURNS>const gchar *			</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_add_subcategory</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, AsCategory* cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_remove_subcategory</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, AsCategory* cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_has_subcategory</NAME>
-<RETURNS>gboolean 			</RETURNS>
-AsCategory* self
+<RETURNS>const gchar 		*</RETURNS>
+AsCategory *cat
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_set_directory</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, const gchar* value
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, const gchar* value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_name</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_name</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_summary</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_summary</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_icon</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_icon</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, const gchar* value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_has_subcategory</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_add_subcategory</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, AsCategory *subcat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_remove_subcategory</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, AsCategory *subcat
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_included</NAME>
-<RETURNS>GList *				</RETURNS>
-AsCategory* self
+<RETURNS>GList 			*</RETURNS>
+AsCategory *cat
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_excluded</NAME>
-<RETURNS>GList *				</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_level</NAME>
-<RETURNS>gint 				</RETURNS>
-AsCategory* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_set_level</NAME>
-<RETURNS>void 				</RETURNS>
-AsCategory* self, gint value
+<RETURNS>GList 			*</RETURNS>
+AsCategory *cat
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_subcategories</NAME>
-<RETURNS>GList *				</RETURNS>
-AsCategory* self
+<RETURNS>GList 			*</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_level</NAME>
+<RETURNS>gint 			</RETURNS>
+AsCategory *cat
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_set_level</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *cat, gint value
 </FUNCTION>
 <STRUCT>
-<NAME>AsCategoryPrivate</NAME>
+<NAME>AsCategory</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_DISTRO_DETAILS</NAME>
-#define AS_TYPE_DISTRO_DETAILS			(as_distro_details_get_type ())
+#define AS_TYPE_DISTRO_DETAILS (as_distro_details_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_DISTRO_DETAILS</NAME>
-#define AS_DISTRO_DETAILS(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DISTRO_DETAILS, AsDistroDetails))
-</MACRO>
-<MACRO>
-<NAME>AS_DISTRO_DETAILS_CLASS</NAME>
-#define AS_DISTRO_DETAILS_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DISTRO_DETAILS, AsDistroDetailsClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DISTRO_DETAILS</NAME>
-#define AS_IS_DISTRO_DETAILS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DISTRO_DETAILS))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DISTRO_DETAILS_CLASS</NAME>
-#define AS_IS_DISTRO_DETAILS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DISTRO_DETAILS))
-</MACRO>
-<MACRO>
-<NAME>AS_DISTRO_DETAILS_GET_CLASS</NAME>
-#define AS_DISTRO_DETAILS_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DISTRO_DETAILS, AsDistroDetailsClass))
-</MACRO>
-<STRUCT>
-<NAME>AsDistroDetails</NAME>
-struct _AsDistroDetails
-{
-	GObject parent_instance;
-	AsDistroDetailsPrivate * priv;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsDistroDetailsClass</NAME>
 struct _AsDistroDetailsClass
@@ -669,89 +487,50 @@ struct _AsDistroDetailsClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
-<FUNCTION>
-<NAME>as_distro_details_get_type</NAME>
-<RETURNS>GType 			</RETURNS>
-void
-</FUNCTION>
 <FUNCTION>
 <NAME>as_distro_details_new</NAME>
 <RETURNS>AsDistroDetails 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_distro_details_construct</NAME>
-<RETURNS>AsDistroDetails 		*</RETURNS>
-GType object_type
+<NAME>as_distro_details_get_id</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsDistroDetails *distro
 </FUNCTION>
 <FUNCTION>
-<NAME>as_distro_details_config_distro_get_str</NAME>
+<NAME>as_distro_details_get_name</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsDistroDetails *distro
+</FUNCTION>
+<FUNCTION>
+<NAME>as_distro_details_get_version</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsDistroDetails *distro
+</FUNCTION>
+<FUNCTION>
+<NAME>as_distro_details_get_str</NAME>
 <RETURNS>gchar 			*</RETURNS>
-AsDistroDetails *self, const gchar *key
+AsDistroDetails *distro, const gchar *key
 </FUNCTION>
 <FUNCTION>
-<NAME>as_distro_details_get_distro_id</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsDistroDetails *self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_distro_details_config_distro_get_bool</NAME>
+<NAME>as_distro_details_get_bool</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsDistroDetails *self, const gchar *key
+AsDistroDetails *distro, const gchar *key
 </FUNCTION>
 <FUNCTION>
-<NAME>as_distro_details_get_distro_name</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsDistroDetails *self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_distro_details_get_distro_version</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsDistroDetails *self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_distro_details_get_icon_repository_paths</NAME>
+<NAME>as_get_icon_repository_paths</NAME>
 <RETURNS>gchar 			**</RETURNS>
 void
 </FUNCTION>
 <STRUCT>
-<NAME>AsDistroDetailsPrivate</NAME>
+<NAME>AsDistroDetails</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_SCREENSHOT</NAME>
-#define AS_TYPE_SCREENSHOT		(as_screenshot_get_type())
+#define AS_TYPE_SCREENSHOT (as_screenshot_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_SCREENSHOT</NAME>
-#define AS_SCREENSHOT(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_SCREENSHOT, AsScreenshot))
-</MACRO>
-<MACRO>
-<NAME>AS_SCREENSHOT_CLASS</NAME>
-#define AS_SCREENSHOT_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_SCREENSHOT, AsScreenshotClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_SCREENSHOT</NAME>
-#define AS_IS_SCREENSHOT(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_SCREENSHOT))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_SCREENSHOT_CLASS</NAME>
-#define AS_IS_SCREENSHOT_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_SCREENSHOT))
-</MACRO>
-<MACRO>
-<NAME>AS_SCREENSHOT_GET_CLASS</NAME>
-#define AS_SCREENSHOT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_SCREENSHOT, AsScreenshotClass))
-</MACRO>
-<STRUCT>
-<NAME>AsScreenshot</NAME>
-struct _AsScreenshot
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsScreenshotClass</NAME>
 struct _AsScreenshotClass
@@ -764,16 +543,14 @@ struct _AsScreenshotClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <ENUM>
 <NAME>AsScreenshotKind</NAME>
 typedef enum {
 	AS_SCREENSHOT_KIND_UNKNOWN,
-	AS_SCREENSHOT_KIND_NORMAL,
 	AS_SCREENSHOT_KIND_DEFAULT,
+	AS_SCREENSHOT_KIND_EXTRA,
 	/*< private >*/
 	AS_SCREENSHOT_KIND_LAST
 } AsScreenshotKind;
@@ -792,11 +569,6 @@ AsScreenshotKind kind
 <NAME>as_screenshot_is_valid</NAME>
 <RETURNS>gboolean 			</RETURNS>
 AsScreenshot *screenshot
-</FUNCTION>
-<FUNCTION>
-<NAME>as_screenshot_get_type</NAME>
-<RETURNS>GType 		 		</RETURNS>
-void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_new</NAME>
@@ -843,86 +615,18 @@ AsScreenshot *screenshot
 <RETURNS>void 				</RETURNS>
 AsScreenshot *screenshot, const gchar *locale
 </FUNCTION>
-<ENUM>
-<NAME>AsProvidesKind</NAME>
-typedef enum  {
-	AS_PROVIDES_KIND_UNKNOWN,
-	AS_PROVIDES_KIND_LIBRARY,
-	AS_PROVIDES_KIND_BINARY,
-	AS_PROVIDES_KIND_FONT,
-	AS_PROVIDES_KIND_MODALIAS,
-	AS_PROVIDES_KIND_FIRMWARE,
-	AS_PROVIDES_KIND_PYTHON2,
-	AS_PROVIDES_KIND_PYTHON3,
-	AS_PROVIDES_KIND_MIMETYPE,
-	AS_PROVIDES_KIND_DBUS,
-	/* < private > */
-	AS_PROVIDES_KIND_LAST
-} AsProvidesKind;
-</ENUM>
-<FUNCTION>
-<NAME>as_provides_kind_to_string</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsProvidesKind kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provides_kind_from_string</NAME>
-<RETURNS>AsProvidesKind 		</RETURNS>
-const gchar *kind_str
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provides_item_create</NAME>
-<RETURNS>gchar *			</RETURNS>
-AsProvidesKind kind, const gchar *value, const gchar *data
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provides_item_get_kind</NAME>
-<RETURNS>AsProvidesKind 		</RETURNS>
-const gchar *item
-</FUNCTION>
-<FUNCTION>
-<NAME>as_provides_item_get_value</NAME>
-<RETURNS>gchar *			</RETURNS>
-const gchar *item
-</FUNCTION>
+<STRUCT>
+<NAME>AsScreenshot</NAME>
+</STRUCT>
 <MACRO>
 <NAME>AS_TYPE_DATABASE</NAME>
 #define AS_TYPE_DATABASE (as_database_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_DATABASE</NAME>
-#define AS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DATABASE, AsDatabase))
-</MACRO>
-<MACRO>
-<NAME>AS_DATABASE_CLASS</NAME>
-#define AS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DATABASE, AsDatabaseClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATABASE</NAME>
-#define AS_IS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DATABASE))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATABASE_CLASS</NAME>
-#define AS_IS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DATABASE))
-</MACRO>
-<MACRO>
-<NAME>AS_DATABASE_GET_CLASS</NAME>
-#define AS_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DATABASE, AsDatabaseClass))
-</MACRO>
-<STRUCT>
-<NAME>AsDatabase</NAME>
-struct _AsDatabase
-{
-	GObject parent_instance;
-	AsDatabasePrivate *priv;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsDatabaseClass</NAME>
 struct _AsDatabaseClass
 {
 	GObjectClass parent_class;
-	gboolean (*open) (AsDatabase* db);
 	/*< private >*/
 	void (*_as_reserved1)	(void);
 	void (*_as_reserved2)	(void);
@@ -930,219 +634,79 @@ struct _AsDatabaseClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
-<FUNCTION>
-<NAME>as_database_get_type</NAME>
-<RETURNS>GType 			</RETURNS>
-void
-</FUNCTION>
+<ENUM>
+<NAME>AsDatabaseError</NAME>
+typedef enum {
+	AS_DATABASE_ERROR_FAILED,
+	AS_DATABASE_ERROR_CLOSED,
+	AS_DATABASE_ERROR_TERM_INVALID,
+	/*< private >*/
+	AS_DATABASE_ERROR_LAST
+} AsDatabaseError;
+</ENUM>
+<MACRO>
+<NAME>AS_DATABASE_ERROR</NAME>
+#define	AS_DATABASE_ERROR	as_database_error_quark ()
+</MACRO>
 <FUNCTION>
 <NAME>as_database_new</NAME>
 <RETURNS>AsDatabase 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_construct</NAME>
-<RETURNS>AsDatabase 		*</RETURNS>
-GType object_type
-</FUNCTION>
-<FUNCTION>
-<NAME>as_database_set_database_path</NAME>
-<RETURNS>void 			</RETURNS>
-AsDatabase *db, const gchar* value
+<NAME>as_database_error_quark</NAME>
+<RETURNS>GQuark 			</RETURNS>
+void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_database_open</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsDatabase *db
+AsDatabase *db, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_database_path</NAME>
+<NAME>as_database_get_location</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsDatabase *db
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_db_exists</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDatabase *db
-</FUNCTION>
-<FUNCTION>
-<NAME>as_database_get_all_components</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db
+<NAME>as_database_set_location</NAME>
+<RETURNS>void 			</RETURNS>
+AsDatabase *db, const gchar *dir
 </FUNCTION>
 <FUNCTION>
 <NAME>as_database_find_components</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, AsSearchQuery* query
+AsDatabase *db, const gchar *term, const gchar *cats_str, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_find_components_by_term</NAME>
+<NAME>as_database_get_all_components</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, const gchar *search_term, const gchar *categories_str
+AsDatabase *db, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_database_get_component_by_id</NAME>
 <RETURNS>AsComponent 		*</RETURNS>
-AsDatabase *db, const gchar *idname
+AsDatabase *db, const gchar *cid, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_components_by_provides</NAME>
+<NAME>as_database_get_components_by_provided_item</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase* db, AsProvidesKind kind, const gchar *value, const gchar *data
+AsDatabase *db, AsProvidedKind kind, const gchar *item, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_database_get_components_by_kind</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, AsComponentKind kinds
+AsDatabase *db, AsComponentKind kind, GError **error
 </FUNCTION>
 <STRUCT>
-<NAME>AsDatabasePrivate</NAME>
+<NAME>AsDatabase</NAME>
 </STRUCT>
-<MACRO>
-<NAME>AS_TYPE_SEARCH_QUERY</NAME>
-#define AS_TYPE_SEARCH_QUERY (as_search_query_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_SEARCH_QUERY</NAME>
-#define AS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_SEARCH_QUERY, AsSearchQuery))
-</MACRO>
-<MACRO>
-<NAME>AS_SEARCH_QUERY_CLASS</NAME>
-#define AS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_SEARCH_QUERY, AsSearchQueryClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_SEARCH_QUERY</NAME>
-#define AS_IS_SEARCH_QUERY(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_SEARCH_QUERY))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_SEARCH_QUERY_CLASS</NAME>
-#define AS_IS_SEARCH_QUERY_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_SEARCH_QUERY))
-</MACRO>
-<MACRO>
-<NAME>AS_SEARCH_QUERY_GET_CLASS</NAME>
-#define AS_SEARCH_QUERY_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_SEARCH_QUERY, AsSearchQueryClass))
-</MACRO>
-<STRUCT>
-<NAME>AsSearchQuery</NAME>
-struct _AsSearchQuery
-{
-	GObject parent_instance;
-	AsSearchQueryPrivate * priv;
-};
-</STRUCT>
-<STRUCT>
-<NAME>AsSearchQueryClass</NAME>
-struct _AsSearchQueryClass
-{
-	GObjectClass parent_class;
-	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_search_query_get_type</NAME>
-<RETURNS>GType 				</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_new</NAME>
-<RETURNS>AsSearchQuery 			*</RETURNS>
-const gchar* term
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_construct</NAME>
-<RETURNS>AsSearchQuery 			*</RETURNS>
-GType object_type, const gchar* term
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_set_search_term</NAME>
-<RETURNS>void 				</RETURNS>
-AsSearchQuery* self, const gchar* value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_get_search_all_categories</NAME>
-<RETURNS>gboolean 			</RETURNS>
-AsSearchQuery* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_get_categories</NAME>
-<RETURNS>gchar 				**</RETURNS>
-AsSearchQuery* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_set_search_all_categories</NAME>
-<RETURNS>void 				</RETURNS>
-AsSearchQuery* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_set_categories</NAME>
-<RETURNS>void 				</RETURNS>
-AsSearchQuery* self, gchar** value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_set_categories_from_string</NAME>
-<RETURNS>void 				</RETURNS>
-AsSearchQuery* self, const gchar* categories_str
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_sanitize_search_term</NAME>
-<RETURNS>void 				</RETURNS>
-AsSearchQuery* self
-</FUNCTION>
-<FUNCTION>
-<NAME>as_search_query_get_search_term</NAME>
-<RETURNS>const gchar 			*</RETURNS>
-AsSearchQuery* self
-</FUNCTION>
-<STRUCT>
-<NAME>AsSearchQueryPrivate</NAME>
-</STRUCT>
-<MACRO>
-<NAME>AS_TYPE_COMPONENT_KIND</NAME>
-#define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
-</MACRO>
 <MACRO>
 <NAME>AS_TYPE_COMPONENT</NAME>
-#define AS_TYPE_COMPONENT		(as_component_get_type())
+#define AS_TYPE_COMPONENT (as_component_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_COMPONENT</NAME>
-#define AS_COMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_COMPONENT, AsComponent))
-</MACRO>
-<MACRO>
-<NAME>AS_COMPONENT_CLASS</NAME>
-#define AS_COMPONENT_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_COMPONENT, AsComponentClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_COMPONENT</NAME>
-#define AS_IS_COMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_COMPONENT))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_COMPONENT_CLASS</NAME>
-#define AS_IS_COMPONENT_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_COMPONENT))
-</MACRO>
-<MACRO>
-<NAME>AS_COMPONENT_GET_CLASS</NAME>
-#define AS_COMPONENT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_COMPONENT, AsComponentClass))
-</MACRO>
-<STRUCT>
-<NAME>AsComponent</NAME>
-struct _AsComponent
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsComponentClass</NAME>
 struct _AsComponentClass
@@ -1160,28 +724,22 @@ struct _AsComponentClass
 <ENUM>
 <NAME>AsComponentKind</NAME>
 typedef enum  {
-	AS_COMPONENT_KIND_UNKNOWN = 0,
-	AS_COMPONENT_KIND_GENERIC = 1 << 0,
-	AS_COMPONENT_KIND_DESKTOP_APP = 1 << 1,
-	AS_COMPONENT_KIND_FONT = 1 << 2,
-	AS_COMPONENT_KIND_CODEC = 1 << 3,
-	AS_COMPONENT_KIND_INPUTMETHOD = 1 << 4,
-	AS_COMPONENT_KIND_ADDON = 1 << 5,
-	AS_COMPONENT_KIND_FIRMWARE = 1 << 6,
-	AS_COMPONENT_KIND_LAST = 7
+	AS_COMPONENT_KIND_UNKNOWN,
+	AS_COMPONENT_KIND_GENERIC,
+	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_FONT,
+	AS_COMPONENT_KIND_CODEC,
+	AS_COMPONENT_KIND_INPUTMETHOD,
+	AS_COMPONENT_KIND_ADDON,
+	AS_COMPONENT_KIND_FIRMWARE,
+	/*< private >*/
+	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
 </ENUM>
-<ENUM>
-<NAME>AsIconKind</NAME>
-typedef enum  {
-	AS_ICON_KIND_UNKNOWN,
-	AS_ICON_KIND_CACHED,
-	AS_ICON_KIND_STOCK,
-	AS_ICON_KIND_LOCAL,
-	AS_ICON_KIND_REMOTE,
-	AS_ICON_KIND_LAST
-} AsIconKind;
-</ENUM>
+<MACRO>
+<NAME>AS_TYPE_COMPONENT_KIND</NAME>
+#define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
+</MACRO>
 <FUNCTION>
 <NAME>as_component_kind_get_type</NAME>
 <RETURNS>GType 			</RETURNS>
@@ -1196,21 +754,6 @@ AsComponentKind kind
 <NAME>as_component_kind_from_string</NAME>
 <RETURNS>AsComponentKind 		</RETURNS>
 const gchar *kind_str
-</FUNCTION>
-<FUNCTION>
-<NAME>as_icon_kind_from_string</NAME>
-<RETURNS>AsIconKind 		</RETURNS>
-const gchar *kind_str
-</FUNCTION>
-<FUNCTION>
-<NAME>as_icon_kind_to_string</NAME>
-<RETURNS>const gchar *		</RETURNS>
-AsIconKind kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_type</NAME>
-<RETURNS>GType 			</RETURNS>
-void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_new</NAME>
@@ -1255,7 +798,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_id</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* value
+AsComponent *cpt, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_origin</NAME>
@@ -1265,7 +808,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_origin</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* origin
+AsComponent *cpt, const gchar *origin
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_pkgnames</NAME>
@@ -1315,7 +858,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_description</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* value, const gchar *locale
+AsComponent *cpt, const gchar *value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_license</NAME>
@@ -1325,7 +868,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_project_license</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* value
+AsComponent *cpt, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_project_group</NAME>
@@ -1360,7 +903,7 @@ AsComponent *cpt, gchar **value
 <FUNCTION>
 <NAME>as_component_is_compulsory_for_desktop</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsComponent *cpt, const gchar* desktop
+AsComponent *cpt, const gchar *desktop
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
@@ -1371,11 +914,6 @@ AsComponent *cpt
 <NAME>as_component_set_categories</NAME>
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, gchar **value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_categories_from_str</NAME>
-<RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* categories_str
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_has_category</NAME>
@@ -1390,7 +928,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_add_screenshot</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, AsScreenshot* sshot
+AsComponent *cpt, AsScreenshot *sshot
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_keywords</NAME>
@@ -1403,48 +941,33 @@ AsComponent *cpt
 AsComponent *cpt, gchar **value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_icon</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsComponent *cpt, AsIconKind kind, int width, int height
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_add_icon</NAME>
-<RETURNS>void 			</RETURNS>
-AsComponent *cpt, AsIconKind kind, int width, int height, const gchar* value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_icon_url</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsComponent *cpt, int width, int height
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_add_icon_url</NAME>
-<RETURNS>void 			</RETURNS>
-AsComponent *cpt, int width, int height, const gchar* value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_icon_urls</NAME>
-<RETURNS>GHashTable 		*</RETURNS>
-AsComponent *cpt
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_provided_items</NAME>
+<NAME>as_component_get_icons</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_add_provided_item</NAME>
+<NAME>as_component_get_icon_by_size</NAME>
+<RETURNS>AsIcon 			*</RETURNS>
+AsComponent *cpt, guint width, guint height
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_icon</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, AsProvidesKind kind, const gchar *value, const gchar *data
+AsComponent *cpt, AsIcon *icon
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_provides_item</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsComponent *cpt, AsProvidesKind kind, const gchar *value
+<NAME>as_component_add_provided</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsProvided *prov
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_urls</NAME>
-<RETURNS>GHashTable 		*</RETURNS>
+<NAME>as_component_get_provided_for_kind</NAME>
+<RETURNS>AsProvided 		*</RETURNS>
+AsComponent *cpt, AsProvidedKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_provided</NAME>
+<RETURNS>GList 			*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
@@ -1493,8 +1016,8 @@ AsComponent *cpt, const gchar *locale
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_bundle_ids</NAME>
-<RETURNS>GHashTable 		*</RETURNS>
+<NAME>as_component_has_bundle</NAME>
+<RETURNS>gboolean 		</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
@@ -1507,37 +1030,121 @@ AsComponent *cpt, AsBundleKind bundle_kind
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, AsBundleKind bundle_kind, const gchar *id
 </FUNCTION>
+<STRUCT>
+<NAME>AsComponent</NAME>
+</STRUCT>
 <MACRO>
-<NAME>AS_TYPE_METADATA</NAME>
-#define AS_TYPE_METADATA		(as_metadata_get_type())
-</MACRO>
-<MACRO>
-<NAME>AS_METADATA</NAME>
-#define AS_METADATA(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_METADATA, AsMetadata))
-</MACRO>
-<MACRO>
-<NAME>AS_METADATA_CLASS</NAME>
-#define AS_METADATA_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_METADATA, AsMetadataClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_METADATA</NAME>
-#define AS_IS_METADATA(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_METADATA))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_METADATA_CLASS</NAME>
-#define AS_IS_METADATA_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_METADATA))
-</MACRO>
-<MACRO>
-<NAME>AS_METADATA_GET_CLASS</NAME>
-#define AS_METADATA_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_METADATA, AsMetadataClass))
+<NAME>AS_TYPE_ICON</NAME>
+#define AS_TYPE_ICON (as_icon_get_type ())
 </MACRO>
 <STRUCT>
-<NAME>AsMetadata</NAME>
-struct _AsMetadata
+<NAME>AsIconClass</NAME>
+struct _AsIconClass
 {
-	GObject			parent;
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
 };
 </STRUCT>
+<ENUM>
+<NAME>AsIconKind</NAME>
+typedef enum  {
+	AS_ICON_KIND_UNKNOWN,
+	AS_ICON_KIND_CACHED,
+	AS_ICON_KIND_STOCK,
+	AS_ICON_KIND_LOCAL,
+	AS_ICON_KIND_REMOTE,
+	/*< private >*/
+	AS_ICON_KIND_LAST
+} AsIconKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_icon_kind_from_string</NAME>
+<RETURNS>AsIconKind 	</RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_kind_to_string</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsIconKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_new</NAME>
+<RETURNS>AsIcon 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_kind</NAME>
+<RETURNS>AsIconKind 	 </RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_kind</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, AsIconKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_name</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_name</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, const gchar *name
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_url</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_url</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, const gchar *url
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_filename</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_filename</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, const gchar *filename
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_width</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_width</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, guint width
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_height</NAME>
+<RETURNS>guint 		 </RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_height</NAME>
+<RETURNS>void 		 </RETURNS>
+AsIcon *icon, guint height
+</FUNCTION>
+<STRUCT>
+<NAME>AsIcon</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_METADATA</NAME>
+#define AS_TYPE_METADATA (as_metadata_get_type ())
+</MACRO>
 <STRUCT>
 <NAME>AsMetadataClass</NAME>
 struct _AsMetadataClass
@@ -1550,29 +1157,23 @@ struct _AsMetadataClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <ENUM>
 <NAME>AsMetadataError</NAME>
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
+	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
 </ENUM>
 <MACRO>
 <NAME>AS_METADATA_ERROR</NAME>
-#define	AS_METADATA_ERROR		as_metadata_error_quark ()
+#define	AS_METADATA_ERROR	as_metadata_error_quark ()
 </MACRO>
 <FUNCTION>
-<NAME>as_metadata_get_type</NAME>
-<RETURNS>GType 		 	</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
 <NAME>as_metadata_new</NAME>
-<RETURNS>AsMetadata *		</RETURNS>
+<RETURNS>AsMetadata 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
@@ -1650,38 +1251,13 @@ AsMetadata *metad
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *origin
 </FUNCTION>
+<STRUCT>
+<NAME>AsMetadata</NAME>
+</STRUCT>
 <MACRO>
 <NAME>AS_TYPE_MENU_PARSER</NAME>
 #define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_MENU_PARSER</NAME>
-#define AS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_MENU_PARSER, AsMenuParser))
-</MACRO>
-<MACRO>
-<NAME>AS_MENU_PARSER_CLASS</NAME>
-#define AS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_MENU_PARSER, AsMenuParserClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_MENU_PARSER</NAME>
-#define AS_IS_MENU_PARSER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_MENU_PARSER))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_MENU_PARSER_CLASS</NAME>
-#define AS_IS_MENU_PARSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_MENU_PARSER))
-</MACRO>
-<MACRO>
-<NAME>AS_MENU_PARSER_GET_CLASS</NAME>
-#define AS_MENU_PARSER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_MENU_PARSER, AsMenuParserClass))
-</MACRO>
-<STRUCT>
-<NAME>AsMenuParser</NAME>
-struct _AsMenuParser
-{
-	GObject parent_instance;
-	AsMenuParserPrivate *priv;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsMenuParserClass</NAME>
 struct _AsMenuParserClass
@@ -1697,84 +1273,42 @@ struct _AsMenuParserClass
 };
 </STRUCT>
 <FUNCTION>
-<NAME>as_menu_parser_get_type</NAME>
-<RETURNS>GType 				</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
 <NAME>as_menu_parser_new</NAME>
-<RETURNS>AsMenuParser 			*</RETURNS>
+<RETURNS>AsMenuParser 		*</RETURNS>
 void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_construct</NAME>
-<RETURNS>AsMenuParser 			*</RETURNS>
-GType object_type
 </FUNCTION>
 <FUNCTION>
 <NAME>as_menu_parser_new_from_file</NAME>
-<RETURNS>AsMenuParser 			*</RETURNS>
+<RETURNS>AsMenuParser 		*</RETURNS>
 const gchar *menu_file
 </FUNCTION>
 <FUNCTION>
-<NAME>as_menu_parser_construct_from_file</NAME>
-<RETURNS>AsMenuParser 			*</RETURNS>
-GType object_type, const gchar* menu_file
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_set_update_category_data</NAME>
-<RETURNS>void 				</RETURNS>
-AsMenuParser* self, gboolean value
-</FUNCTION>
-<FUNCTION>
 <NAME>as_menu_parser_parse</NAME>
-<RETURNS>GList 				*</RETURNS>
-AsMenuParser *self
+<RETURNS>GList 			*</RETURNS>
+AsMenuParser *mp
 </FUNCTION>
 <FUNCTION>
 <NAME>as_menu_parser_get_update_category_data</NAME>
-<RETURNS>gboolean 			</RETURNS>
-AsMenuParser* self
+<RETURNS>gboolean 		</RETURNS>
+AsMenuParser *mp
+</FUNCTION>
+<FUNCTION>
+<NAME>as_menu_parser_set_update_category_data</NAME>
+<RETURNS>void 			</RETURNS>
+AsMenuParser *mp, gboolean value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_get_system_categories</NAME>
-<RETURNS>GList 				*</RETURNS>
+<RETURNS>GList 			*</RETURNS>
 void
 </FUNCTION>
 <STRUCT>
-<NAME>AsMenuParserPrivate</NAME>
+<NAME>AsMenuParser</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_RELEASE</NAME>
-#define AS_TYPE_RELEASE			(as_release_get_type())
+#define AS_TYPE_RELEASE (as_release_get_type ())
 </MACRO>
-<MACRO>
-<NAME>AS_RELEASE</NAME>
-#define AS_RELEASE(obj)			(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_RELEASE, AsRelease))
-</MACRO>
-<MACRO>
-<NAME>AS_RELEASE_CLASS</NAME>
-#define AS_RELEASE_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_RELEASE, AsReleaseClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_RELEASE</NAME>
-#define AS_IS_RELEASE(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_RELEASE))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_RELEASE_CLASS</NAME>
-#define AS_IS_RELEASE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_RELEASE))
-</MACRO>
-<MACRO>
-<NAME>AS_RELEASE_GET_CLASS</NAME>
-#define AS_RELEASE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_RELEASE, AsReleaseClass))
-</MACRO>
-<STRUCT>
-<NAME>AsRelease</NAME>
-struct _AsRelease
-{
-	GObject			parent;
-};
-</STRUCT>
 <STRUCT>
 <NAME>AsReleaseClass</NAME>
 struct _AsReleaseClass
@@ -1787,8 +1321,6 @@ struct _AsReleaseClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 </STRUCT>
 <ENUM>
@@ -1797,6 +1329,7 @@ typedef enum  {
 	AS_CHECKSUM_KIND_NONE,
 	AS_CHECKSUM_KIND_SHA1,
 	AS_CHECKSUM_KIND_SHA256,
+	/*< private >*/
 	AS_CHECKSUM_KIND_LAST
 } AsChecksumKind;
 </ENUM>
@@ -1829,11 +1362,6 @@ AsSizeKind size_kind
 <NAME>as_size_kind_from_string</NAME>
 <RETURNS>AsSizeKind 	</RETURNS>
 const gchar *size_kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_release_get_type</NAME>
-<RETURNS>GType 		</RETURNS>
-void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_new</NAME>
@@ -1920,93 +1448,66 @@ AsRelease *release, AsSizeKind kind
 <RETURNS>void 		</RETURNS>
 AsRelease *release, guint64 size, AsSizeKind kind
 </FUNCTION>
-<MACRO>
-<NAME>AS_TYPE_BUILDER</NAME>
-#define AS_TYPE_BUILDER (as_builder_get_type ())
-</MACRO>
-<MACRO>
-<NAME>AS_BUILDER</NAME>
-#define AS_BUILDER(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_BUILDER, AsBuilder))
-</MACRO>
-<MACRO>
-<NAME>AS_BUILDER_CLASS</NAME>
-#define AS_BUILDER_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_BUILDER, AsBuilderClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_BUILDER</NAME>
-#define AS_IS_BUILDER(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_BUILDER))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_BUILDER_CLASS</NAME>
-#define AS_IS_BUILDER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_BUILDER))
-</MACRO>
-<MACRO>
-<NAME>AS_BUILDER_GET_CLASS</NAME>
-#define AS_BUILDER_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_BUILDER, AsBuilderClass))
-</MACRO>
 <STRUCT>
-<NAME>AsBuilder</NAME>
-struct _AsBuilder {
-	GObject parent_instance;
-	AsBuilderPrivate * priv;
-};
+<NAME>AsRelease</NAME>
 </STRUCT>
+<MACRO>
+<NAME>AS_TYPE_CACHE_BUILDER</NAME>
+#define AS_TYPE_CACHE_BUILDER (as_cache_builder_get_type ())
+</MACRO>
 <STRUCT>
-<NAME>AsBuilderClass</NAME>
-struct _AsBuilderClass {
+<NAME>AsCacheBuilderClass</NAME>
+struct _AsCacheBuilderClass {
 	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
 };
 </STRUCT>
 <MACRO>
-<NAME>AS_BUILDER_ERROR</NAME>
-#define	AS_BUILDER_ERROR as_builder_error_quark ()
+<NAME>AS_CACHE_BUILDER_ERROR</NAME>
+#define	AS_CACHE_BUILDER_ERROR as_cache_builder_error_quark ()
 </MACRO>
 <FUNCTION>
-<NAME>as_builder_error_quark</NAME>
+<NAME>as_cache_builder_error_quark</NAME>
 <RETURNS>GQuark  </RETURNS>
 void
 </FUNCTION>
 <ENUM>
-<NAME>AsBuilderError</NAME>
+<NAME>AsCacheBuilderError</NAME>
 typedef enum {
-	AS_BUILDER_ERROR_FAILED,
-	AS_BUILDER_ERROR_PARTIALLY_FAILED,
+	AS_CACHE_BUILDER_ERROR_FAILED,
+	AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED,
 	/*< private >*/
-	AS_BUILDER_ERROR_LAST
-} AsBuilderError;
+	AS_CACHE_BUILDER_ERROR_LAST
+} AsCacheBuilderError;
 </ENUM>
 <FUNCTION>
-<NAME>as_builder_get_type</NAME>
-<RETURNS>GType 			</RETURNS>
+<NAME>as_cache_builder_new</NAME>
+<RETURNS>AsCacheBuilder 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_builder_new</NAME>
-<RETURNS>AsBuilder *		</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_builder_new_path</NAME>
-<RETURNS>AsBuilder *		</RETURNS>
-const gchar* dbpath
-</FUNCTION>
-<FUNCTION>
-<NAME>as_builder_initialize</NAME>
+<NAME>as_cache_builder_setup</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsBuilder *builder
+AsCacheBuilder *builder, const gchar *dbpath
 </FUNCTION>
 <FUNCTION>
-<NAME>as_builder_refresh_cache</NAME>
+<NAME>as_cache_builder_refresh</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsBuilder *builder, gboolean force, GError **error
+AsCacheBuilder *builder, gboolean force, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_builder_set_data_source_directories</NAME>
+<NAME>as_cache_builder_set_data_source_directories</NAME>
 <RETURNS>void 			</RETURNS>
-AsBuilder *self, gchar **dirs
+AsCacheBuilder *self, gchar **dirs
 </FUNCTION>
 <STRUCT>
-<NAME>AsBuilderPrivate</NAME>
+<NAME>AsCacheBuilder</NAME>
 </STRUCT>
 <ENUM>
 <NAME>AsUrlKind</NAME>
@@ -2074,36 +1575,94 @@ AsUrgencyKind urgency_kind
 const gchar *urgency_kind
 </FUNCTION>
 <MACRO>
-<NAME>AS_TYPE_DATA_POOL</NAME>
-#define AS_TYPE_DATA_POOL		(as_data_pool_get_type())
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_POOL</NAME>
-#define AS_DATA_POOL(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_DATA_POOL, AsDataPool))
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_POOL_CLASS</NAME>
-#define AS_DATA_POOL_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_DATA_POOL, AsDataPoolClass))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATA_POOL</NAME>
-#define AS_IS_DATA_POOL(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_DATA_POOL))
-</MACRO>
-<MACRO>
-<NAME>AS_IS_DATA_POOL_CLASS</NAME>
-#define AS_IS_DATA_POOL_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_DATA_POOL))
-</MACRO>
-<MACRO>
-<NAME>AS_DATA_POOL_GET_CLASS</NAME>
-#define AS_DATA_POOL_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_DATA_POOL, AsDataPoolClass))
+<NAME>AS_TYPE_PROVIDED</NAME>
+#define AS_TYPE_PROVIDED (as_provided_get_type ())
 </MACRO>
 <STRUCT>
-<NAME>AsDataPool</NAME>
-struct _AsDataPool
+<NAME>AsProvidedClass</NAME>
+struct _AsProvidedClass
 {
-	GObject parent;
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
 };
 </STRUCT>
+<ENUM>
+<NAME>AsProvidedKind</NAME>
+typedef enum  {
+	AS_PROVIDED_KIND_UNKNOWN,
+	AS_PROVIDED_KIND_LIBRARY,
+	AS_PROVIDED_KIND_BINARY,
+	AS_PROVIDED_KIND_MIMETYPE,
+	AS_PROVIDED_KIND_FONT,
+	AS_PROVIDED_KIND_MODALIAS,
+	AS_PROVIDED_KIND_PYTHON_2,
+	AS_PROVIDED_KIND_PYTHON,
+	AS_PROVIDED_KIND_DBUS_SYSTEM,
+	AS_PROVIDED_KIND_DBUS_USER,
+	AS_PROVIDED_KIND_FIRMWARE_RUNTIME,
+	AS_PROVIDED_KIND_FIRMWARE_FLASHED,
+	/*< private >*/
+	AS_PROVIDED_KIND_LAST
+} AsProvidedKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_provided_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsProvidedKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_kind_from_string</NAME>
+<RETURNS>AsProvidedKind 		</RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_kind_to_l10n_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsProvidedKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_new</NAME>
+<RETURNS>AsProvided 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_get_kind</NAME>
+<RETURNS>AsProvidedKind 		</RETURNS>
+AsProvided *prov
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsProvided *prov, AsProvidedKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_get_items</NAME>
+<RETURNS>gchar 			**</RETURNS>
+AsProvided *prov
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_add_item</NAME>
+<RETURNS>void 			</RETURNS>
+AsProvided *prov, const gchar *item
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_has_item</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsProvided *prov, const gchar *item
+</FUNCTION>
+<STRUCT>
+<NAME>AsProvided</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_DATA_POOL</NAME>
+#define AS_TYPE_DATA_POOL (as_data_pool_get_type ())
+</MACRO>
 <STRUCT>
 <NAME>AsDataPoolClass</NAME>
 struct _AsDataPoolClass
@@ -2116,39 +1675,29 @@ struct _AsDataPoolClass
 	void (*_as_reserved4) (void);
 	void (*_as_reserved5) (void);
 	void (*_as_reserved6) (void);
-	void (*_as_reserved7) (void);
-	void (*_as_reserved8) (void);
 };
 </STRUCT>
+<ENUM>
+<NAME>AsDataPoolError</NAME>
+typedef enum {
+	AS_DATA_POOL_ERROR_FAILED,
+	/*< private >*/
+	AS_DATA_POOL_ERROR_LAST
+} AsDataPoolError;
+</ENUM>
+<MACRO>
+<NAME>AS_DATA_POOL_ERROR</NAME>
+#define AS_DATA_POOL_ERROR	as_data_pool_error_quark ()
+</MACRO>
 <FUNCTION>
-<NAME>as_data_pool_get_type</NAME>
-<RETURNS>GType 		 	</RETURNS>
+<NAME>as_data_pool_error_quark</NAME>
+<RETURNS>GQuark 			</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_data_pool_new</NAME>
 <RETURNS>AsDataPool 		*</RETURNS>
 void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_watched_locations</NAME>
-<RETURNS>gchar 			**</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_update</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_components</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_component_by_id</NAME>
-<RETURNS>AsComponent 		*</RETURNS>
-AsDataPool *dpool, const gchar *id
 </FUNCTION>
 <FUNCTION>
 <NAME>as_data_pool_get_locale</NAME>
@@ -2161,7 +1710,30 @@ AsDataPool *dpool
 AsDataPool *dpool, const gchar *locale
 </FUNCTION>
 <FUNCTION>
+<NAME>as_data_pool_get_watched_locations</NAME>
+<RETURNS>gchar 			**</RETURNS>
+AsDataPool *dpool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_pool_update</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsDataPool *dpool, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_pool_get_components</NAME>
+<RETURNS>GList 			*</RETURNS>
+AsDataPool *dpool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_pool_get_component_by_id</NAME>
+<RETURNS>AsComponent 		*</RETURNS>
+AsDataPool *dpool, const gchar *id
+</FUNCTION>
+<FUNCTION>
 <NAME>as_data_pool_set_data_source_directories</NAME>
 <RETURNS>void 			</RETURNS>
 AsDataPool *dpool, gchar **dirs
 </FUNCTION>
+<STRUCT>
+<NAME>AsDataPool</NAME>
+</STRUCT>

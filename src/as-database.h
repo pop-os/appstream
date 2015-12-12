@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -26,32 +26,16 @@
 #define __AS_DATABASE_H
 
 #include <glib-object.h>
-#include "as-search-query.h"
 #include "as-component.h"
-
-#define AS_TYPE_DATABASE (as_database_get_type ())
-#define AS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), AS_TYPE_DATABASE, AsDatabase))
-#define AS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), AS_TYPE_DATABASE, AsDatabaseClass))
-#define AS_IS_DATABASE(obj) (G_TYPE_CHECK_INSTANCE_TYPE ((obj), AS_TYPE_DATABASE))
-#define AS_IS_DATABASE_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), AS_TYPE_DATABASE))
-#define AS_DATABASE_GET_CLASS(obj) (G_TYPE_INSTANCE_GET_CLASS ((obj), AS_TYPE_DATABASE, AsDatabaseClass))
 
 G_BEGIN_DECLS
 
-typedef struct _AsDatabase AsDatabase;
-typedef struct _AsDatabaseClass AsDatabaseClass;
-typedef struct _AsDatabasePrivate AsDatabasePrivate;
-
-struct _AsDatabase
-{
-	GObject parent_instance;
-	AsDatabasePrivate *priv;
-};
+#define AS_TYPE_DATABASE (as_database_get_type ())
+G_DECLARE_DERIVABLE_TYPE (AsDatabase, as_database, AS, DATABASE, GObject)
 
 struct _AsDatabaseClass
 {
 	GObjectClass parent_class;
-	gboolean (*open) (AsDatabase* db);
 	/*< private >*/
 	void (*_as_reserved1)	(void);
 	void (*_as_reserved2)	(void);
@@ -59,35 +43,52 @@ struct _AsDatabaseClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
 
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (AsDatabase, g_object_unref)
+/**
+ * AsDatabaseError:
+ * @AS_DATABASE_ERROR_FAILED:		Generic failure
+ * @AS_DATABASE_ERROR_CLOSED:		Tried to perform action on a closed database.
+ * @AS_DATABASE_ERROR_TERM_INVALID:	A query term was invalid.
+ *
+ * A database query error.
+ **/
+typedef enum {
+	AS_DATABASE_ERROR_FAILED,
+	AS_DATABASE_ERROR_CLOSED,
+	AS_DATABASE_ERROR_TERM_INVALID,
+	/*< private >*/
+	AS_DATABASE_ERROR_LAST
+} AsDatabaseError;
 
-GType			as_database_get_type (void) G_GNUC_CONST;
+#define	AS_DATABASE_ERROR	as_database_error_quark ()
 
 AsDatabase		*as_database_new (void);
-AsDatabase		*as_database_construct (GType object_type);
-void			as_database_set_database_path (AsDatabase *db,
-						const gchar* value);
-gboolean		as_database_open (AsDatabase *db);
-const gchar		*as_database_get_database_path (AsDatabase *db);
-gboolean		as_database_db_exists (AsDatabase *db);
-GPtrArray		*as_database_get_all_components (AsDatabase *db);
+GQuark			as_database_error_quark (void);
+gboolean		as_database_open (AsDatabase *db,
+						GError **error);
+
+const gchar		*as_database_get_location (AsDatabase *db);
+void			as_database_set_location (AsDatabase *db,
+							const gchar *dir);
+
 GPtrArray		*as_database_find_components (AsDatabase *db,
-							AsSearchQuery* query);
-GPtrArray		*as_database_find_components_by_term (AsDatabase *db,
-								const gchar *search_term,
-								const gchar *categories_str);
+							const gchar *term,
+							const gchar *cats_str,
+							GError **error);
+
+GPtrArray		*as_database_get_all_components (AsDatabase *db,
+							 GError **error);
 AsComponent		*as_database_get_component_by_id (AsDatabase *db,
-								const gchar *idname);
-GPtrArray		*as_database_get_components_by_provides (AsDatabase* db,
-								 AsProvidesKind kind,
-								 const gchar *value,
-								 const gchar *data);
+								const gchar *cid,
+								GError **error);
+GPtrArray		*as_database_get_components_by_provided_item (AsDatabase *db,
+								 AsProvidedKind kind,
+								 const gchar *item,
+								 GError **error);
 GPtrArray		*as_database_get_components_by_kind (AsDatabase *db,
-								AsComponentKind kinds);
+								AsComponentKind kind,
+								GError **error);
 
 G_END_DECLS
 

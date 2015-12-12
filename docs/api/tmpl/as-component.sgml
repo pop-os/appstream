@@ -22,6 +22,20 @@ AsComponent
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_COMPONENT ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsComponentClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
 <!-- ##### ENUM AsComponentKind ##### -->
 <para>
 
@@ -35,19 +49,6 @@ AsComponent
 @AS_COMPONENT_KIND_INPUTMETHOD: 
 @AS_COMPONENT_KIND_ADDON: 
 @AS_COMPONENT_KIND_FIRMWARE: 
-@AS_COMPONENT_KIND_LAST: 
-
-<!-- ##### ENUM AsIconKind ##### -->
-<para>
-
-</para>
-
-@AS_ICON_KIND_UNKNOWN: 
-@AS_ICON_KIND_CACHED: 
-@AS_ICON_KIND_STOCK: 
-@AS_ICON_KIND_LOCAL: 
-@AS_ICON_KIND_REMOTE: 
-@AS_ICON_KIND_LAST: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
@@ -64,24 +65,6 @@ AsComponent
 </para>
 
 @kind_str: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_icon_kind_from_string ##### -->
-<para>
-
-</para>
-
-@kind_str: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_icon_kind_to_string ##### -->
-<para>
-
-</para>
-
-@kind: 
 @Returns: 
 
 
@@ -378,15 +361,6 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_set_categories_from_str ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@categories_str: 
-
-
 <!-- ##### FUNCTION as_component_has_category ##### -->
 <para>
 
@@ -434,13 +408,21 @@ AsComponent
 @locale: 
 
 
-<!-- ##### FUNCTION as_component_get_icon ##### -->
+<!-- ##### FUNCTION as_component_get_icons ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_icon_by_size ##### -->
+<para>
+
+</para>
+
+@cpt: 
 @width: 
 @height: 
 @Returns: 
@@ -452,75 +434,29 @@ AsComponent
 </para>
 
 @cpt: 
-@kind: 
-@width: 
-@height: 
-@value: 
+@icon: 
 
 
-<!-- ##### FUNCTION as_component_get_icon_url ##### -->
+<!-- ##### FUNCTION as_component_add_provided ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@width: 
-@height: 
-@Returns: 
+@prov: 
 
 
-<!-- ##### FUNCTION as_component_add_icon_url ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@width: 
-@height: 
-@value: 
-
-
-<!-- ##### FUNCTION as_component_get_icon_urls ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_provided_items ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_add_provided_item ##### -->
+<!-- ##### FUNCTION as_component_get_provided_for_kind ##### -->
 <para>
 
 </para>
 
 @cpt: 
 @kind: 
-@value: 
-@data: 
-
-
-<!-- ##### FUNCTION as_component_provides_item ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@kind: 
-@value: 
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_urls ##### -->
+<!-- ##### FUNCTION as_component_get_provided ##### -->
 <para>
 
 </para>
@@ -614,7 +550,7 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_bundle_ids ##### -->
+<!-- ##### FUNCTION as_component_has_bundle ##### -->
 <para>
 
 </para>
@@ -642,4 +578,80 @@ AsComponent
 @bundle_kind: 
 @id: 
 
+
+<!-- ##### STRUCT AsComponent ##### -->
+<para>
+
+</para>
+
+
+<!-- ##### ARG AsComponent:categories ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:description ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:developer-name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:icons ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:id ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:keywords ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:kind ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:pkgnames ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:project-group ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:project-license ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:screenshots ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:summary ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsComponent:urls ##### -->
+<para>
+
+</para>
 

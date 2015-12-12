@@ -22,9 +22,7 @@
 #define DATABASE_CWRAP_H
 
 #include <glib.h>
-#include "../as-provides.h"
 #include "../as-component.h"
-#include "../as-search-query.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -42,13 +40,13 @@ gboolean		xa_database_read_open (XADatabaseRead *db,
 						const gchar *db_path);
 GPtrArray		*xa_database_read_get_all_components (XADatabaseRead *db);
 GPtrArray		*xa_database_read_find_components (XADatabaseRead *db,
-								AsSearchQuery *query);
+								const gchar *term,
+								gchar **cats);
 AsComponent		*xa_database_read_get_component_by_id (XADatabaseRead *db,
 								const gchar *idname);
 GPtrArray		*xa_database_read_get_components_by_provides (XADatabaseRead *db,
-									AsProvidesKind kind,
-									const gchar *value,
-									const gchar *data);
+									AsProvidedKind kind,
+									const gchar *item);
 GPtrArray		*xa_database_read_get_components_by_kind (XADatabaseRead *db,
 									AsComponentKind kinds);
 

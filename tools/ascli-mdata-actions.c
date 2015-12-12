@@ -32,8 +32,8 @@
 int
 ascli_refresh_cache (const gchar *dbpath, const gchar *datapath, gboolean forced)
 {
-	AsBuilder *builder;
-	GError *error = NULL;
+	g_autoptr(AsCacheBuilder) cbuilder = NULL;
+	g_autoptr(GError) error = NULL;
 	gboolean ret;
 
 	if (dbpath == NULL) {
@@ -43,35 +43,38 @@ ascli_refresh_cache (const gchar *dbpath, const gchar *datapath, gboolean forced
 		}
 	}
 
-	if (dbpath == NULL)
-		builder = as_builder_new ();
-	else
-		builder = as_builder_new_path (dbpath);
+	cbuilder = as_cache_builder_new ();
 
 	if (datapath != NULL) {
 		gchar **strv;
 		/* the user wants data from a different path to be used */
 		strv = g_new0 (gchar*, 2);
 		strv[0] = g_strdup (datapath);
-		as_builder_set_data_source_directories (builder, strv);
+		as_cache_builder_set_data_source_directories (cbuilder, strv);
 		g_strfreev (strv);
 	}
 
-	as_builder_initialize (builder);
-	ret = as_builder_refresh_cache (builder, forced, &error);
-	g_object_unref (builder);
+	as_cache_builder_setup (cbuilder, dbpath);
+	ret = as_cache_builder_refresh (cbuilder, forced, &error);
 
-	if (error == NULL) {
-		g_print ("%s\n", _("AppStream cache update completed successfully."));
-	} else {
-		g_print ("%s\n", error->message);
-		g_error_free (error);
-	}
-
-	if (ret)
+	if (ret) {
+		/* we performed a cache refresh, check if we had errors */
+		if (error == NULL) {
+			g_print ("%s\n", _("AppStream cache update completed successfully."));
+		} else {
+			g_printerr ("%s\n", error->message);
+		}
 		return 0;
-	else
-		return 6;
+	} else {
+		/* cache wasn't updated, so the update wasn't necessary, or we have a fatal error */
+		if (error == NULL) {
+			g_print ("%s\n", _("AppStream cache update is not necessary."));
+			return 0;
+		} else {
+			g_printerr ("%s\n", error->message);
+			return 6;
+		}
+	}
 }
 
 /**
@@ -83,7 +86,7 @@ ascli_database_new_path (const gchar *dbpath)
 	AsDatabase *db;
 	db = as_database_new ();
 	if (dbpath != NULL)
-		as_database_set_database_path (db, dbpath);
+		as_database_set_location (db, dbpath);
 	return db;
 }
 
@@ -95,6 +98,7 @@ ascli_database_new_path (const gchar *dbpath)
 int
 ascli_get_component (const gchar *dbpath, const gchar *identifier, gboolean detailed, gboolean no_cache)
 {
+	g_autoptr(GError) error = NULL;
 	AsComponent *cpt = NULL;
 	gint exit_code = 0;
 
@@ -104,20 +108,34 @@ ascli_get_component (const gchar *dbpath, const gchar *identifier, gboolean deta
 	}
 
 	if (no_cache) {
-		AsDataPool *dpool;
+		g_autoptr(AsDataPool) dpool = NULL;
 
 		dpool = as_data_pool_new ();
-		as_data_pool_update (dpool);
+		as_data_pool_update (dpool, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			exit_code = 1;
+			goto out;
+		}
 		cpt = as_data_pool_get_component_by_id (dpool, identifier);
-		g_object_unref (dpool);
 	} else {
-		AsDatabase *db;
+		g_autoptr(AsDatabase) db = NULL;
 
 		db = ascli_database_new_path (dbpath);
-		as_database_open (db);
 
-		cpt = as_database_get_component_by_id (db, identifier);
-		g_object_unref (db);
+		as_database_open (db, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			exit_code = 1;
+			goto out;
+		}
+
+		cpt = as_database_get_component_by_id (db, identifier, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			exit_code = 1;
+			goto out;
+		}
 	}
 
 	if (cpt == NULL) {
@@ -140,9 +158,10 @@ out:
 int
 ascli_search_component (const gchar *dbpath, const gchar *search_term, gboolean detailed)
 {
-	AsDatabase *db;
+	g_autoptr(AsDatabase) db = NULL;
 	GPtrArray* cpt_list = NULL;
 	guint i;
+	g_autoptr(GError) error = NULL;
 	gint exit_code = 0;
 
 	db = ascli_database_new_path (dbpath);
@@ -154,8 +173,14 @@ ascli_search_component (const gchar *dbpath, const gchar *search_term, gboolean 
 	}
 
 	/* search for stuff */
-	as_database_open (db);
-	cpt_list = as_database_find_components_by_term (db, search_term, NULL);
+	as_database_open (db, NULL);
+	cpt_list = as_database_find_components (db, search_term, NULL, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		exit_code = 1;
+		goto out;
+	}
+
 	if (cpt_list == NULL) {
 		/* TRANSLATORS: We failed to find any component in the database due to an error */
 		ascli_print_stderr (_("Unable to find component matching %s!"), search_term);
@@ -181,7 +206,6 @@ ascli_search_component (const gchar *dbpath, const gchar *search_term, gboolean 
 out:
 	if (cpt_list != NULL)
 		g_ptr_array_unref (cpt_list);
-	g_object_unref (db);
 
 	return exit_code;
 }
@@ -192,42 +216,49 @@ out:
  * Get component providing an item
  */
 int
-ascli_what_provides (const gchar *dbpath, const gchar *kind_str, const gchar *value, const gchar *data, gboolean detailed)
+ascli_what_provides (const gchar *dbpath, const gchar *kind_str, const gchar *item, gboolean detailed)
 {
-	AsDatabase *db = NULL;
+	g_autoptr(AsDatabase) db = NULL;
 	GPtrArray* cpt_list = NULL;
-	AsProvidesKind kind;
+	AsProvidedKind kind;
 	guint i;
+	g_autoptr(GError) error = NULL;
 	gint exit_code = 0;
 
-	if (value == NULL) {
-		g_printerr ("%s\n", _("No value for the provides-item to search for defined."));
+	if (item == NULL) {
+		g_printerr ("%s\n", _("No value for the item to search for defined."));
 		exit_code = 1;
 		goto out;
 	}
 
-	kind = as_provides_kind_from_string (kind_str);
-	if (kind == AS_PROVIDES_KIND_UNKNOWN) {
+	kind = as_provided_kind_from_string (kind_str);
+	if (kind == AS_PROVIDED_KIND_UNKNOWN) {
 		uint i;
-		g_printerr ("%s\n", _("Invalid type for provides-item selected. Valid values are:"));
-		for (i = 1; i < AS_PROVIDES_KIND_LAST; i++)
-			fprintf (stdout, " * %s\n", as_provides_kind_to_string (i));
+		g_printerr ("%s\n", _("Invalid type for provided item selected. Valid values are:"));
+		for (i = 1; i < AS_PROVIDED_KIND_LAST; i++)
+			fprintf (stdout, " * %s\n", as_provided_kind_to_string (i));
 		exit_code = 5;
 		goto out;
 	}
 
 	db = ascli_database_new_path (dbpath);
-	as_database_open (db);
+	as_database_open (db, NULL);
 
-	cpt_list = as_database_get_components_by_provides (db, kind, value, data);
+	cpt_list = as_database_get_components_by_provided_item (db, kind, item, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		exit_code = 1;
+		goto out;
+	}
+
 	if (cpt_list == NULL) {
-		ascli_print_stderr (_("Unable to find component providing '%s:%s:%s'!"), kind_str, value, data);
+		ascli_print_stderr (_("Unable to find component providing '%s;%s'!"), kind_str, item);
 		exit_code = 4;
 		goto out;
 	}
 
 	if (cpt_list->len == 0) {
-		ascli_print_stdout (_("No component providing '%s:%s:%s' found."), kind_str, value, data);
+		ascli_print_stdout (_("No component providing '%s;%s' found."), kind_str, item);
 		goto out;
 	}
 
@@ -240,8 +271,6 @@ ascli_what_provides (const gchar *dbpath, const gchar *kind_str, const gchar *va
 	}
 
 out:
-	if (db != NULL)
-		g_object_unref (db);
 	if (cpt_list != NULL)
 		g_ptr_array_unref (cpt_list);
 
@@ -259,6 +288,7 @@ ascli_dump_component (const gchar *dbpath, const gchar *identifier, gboolean no_
 	AsComponent *cpt = NULL;
 	AsMetadata *metad;
 	gchar *tmp;
+	g_autoptr(GError) error = NULL;
 	gint exit_code = 0;
 
 	if (identifier == NULL) {
@@ -267,20 +297,28 @@ ascli_dump_component (const gchar *dbpath, const gchar *identifier, gboolean no_
 	}
 
 	if (no_cache) {
-		AsDataPool *dpool;
+		g_autoptr(AsDataPool) dpool = NULL;
 
 		dpool = as_data_pool_new ();
-		as_data_pool_update (dpool);
+		as_data_pool_update (dpool, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			exit_code = 1;
+			goto out;
+		}
 		cpt = as_data_pool_get_component_by_id (dpool, identifier);
-		g_object_unref (dpool);
 	} else {
-		AsDatabase *db;
+		g_autoptr(AsDatabase) db = NULL;
 
 		db = ascli_database_new_path (dbpath);
-		as_database_open (db);
+		as_database_open (db, NULL);
 
-		cpt = as_database_get_component_by_id (db, identifier);
-		g_object_unref (db);
+		cpt = as_database_get_component_by_id (db, identifier, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			exit_code = 1;
+			goto out;
+		}
 	}
 
 	if (cpt == NULL) {

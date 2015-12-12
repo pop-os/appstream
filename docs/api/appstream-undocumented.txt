@@ -1,100 +1,122 @@
-69% symbol docs coverage.
-301 symbols documented.
-76 symbols incomplete.
-133 not documented.
+60% symbol docs coverage.
+314 symbols documented.
+48 symbols incomplete.
+207 not documented.
 
 
-AS_BUILDER_ERROR
+AS_CACHE_BUILDER_ERROR
+AS_DATABASE_ERROR
+AS_DATA_POOL_ERROR
 AS_METADATA_ERROR
-AsChecksumKind (AS_CHECKSUM_KIND_LAST)
-AsComponentKind (AS_COMPONENT_KIND_LAST)
-AsIconKind (AS_ICON_KIND_UNKNOWN, AS_ICON_KIND_LAST)
-AsImageKind (AS_IMAGE_KIND_LAST)
+AS_TYPE_CACHE_BUILDER
+AS_TYPE_CATEGORY
+AS_TYPE_COMPONENT
+AS_TYPE_DATABASE
+AS_TYPE_DATA_POOL
+AS_TYPE_DEP11
+AS_TYPE_DISTRO_DETAILS
+AS_TYPE_ICON
+AS_TYPE_IMAGE
+AS_TYPE_MENU_PARSER
+AS_TYPE_METADATA
+AS_TYPE_PROVIDED
+AS_TYPE_RELEASE
+AS_TYPE_SCREENSHOT
+AS_TYPE_VALIDATOR
+AS_TYPE_VALIDATOR_ISSUE
+AsCacheBuilder
+AsCacheBuilderClass (<items>)
+AsCategory
+AsCategoryClass (<items>)
+AsComponent
+AsComponentClass (<items>)
+AsDEP11
+AsDEP11Class (<items>)
+AsDataPool
+AsDataPoolClass (<items>)
+AsDatabase
+AsDatabaseClass (<items>)
+AsDistroDetails
+AsDistroDetailsClass (<items>)
+AsIcon
+AsIconClass (<items>)
+AsImage
+AsImageClass (<items>)
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
-AsMetadataError (AS_METADATA_ERROR_LAST)
-AsParserMode (AS_PARSER_MODE_LAST)
+AsMenuParser
+AsMenuParserClass (<items>)
+AsMetadata
+AsMetadataClass (<items>)
+AsProvided
+AsProvidedClass (<items>)
+AsRelease
+AsReleaseClass (<items>)
+AsScreenshot
+AsScreenshotClass (<items>)
+AsValidator
+AsValidatorClass (<items>)
+AsValidatorIssue
+AsValidatorIssueClass (<items>)
 _as_metadata_desc_lang_hashtable_to_nodes
 _as_metadata_lang_hashtable_to_nodes
 _as_metadata_serialize_image
 _dep11_yaml_free_node
-as_builder_error_quark
-as_builder_initialize
-as_builder_new_path (dbpath)
-as_builder_refresh_cache (builder, force, error, Returns)
-as_builder_set_data_source_directories (self)
-as_category_add_subcategory
-as_category_complete
-as_category_construct (object_type)
-as_category_get_directory
+as_cache_builder_appstream_data_changed
+as_cache_builder_class_init
+as_cache_builder_error_quark
+as_cache_builder_extract_icons
+as_cache_builder_finalize
+as_cache_builder_get_yml_data_origin
+as_cache_builder_init
+as_cache_builder_refresh (error)
+as_cache_builder_set_data_source_directories (self)
+as_cache_builder_setup (Returns)
+as_category_class_init
+as_category_complete (cat)
+as_category_finalize
+as_category_get_directory (Returns)
 as_category_get_excluded
-as_category_get_icon
+as_category_get_icon (Returns)
 as_category_get_included
 as_category_get_level
-as_category_get_name
+as_category_get_name (Returns)
+as_category_get_property
 as_category_get_subcategories
-as_category_get_summary
-as_category_has_subcategory (self)
-as_category_remove_subcategory
-as_category_set_directory
-as_category_set_icon
+as_category_get_summary (Returns)
+as_category_init
+as_category_set_directory (value)
+as_category_set_icon (value)
 as_category_set_level
-as_category_set_name
-as_component_add_icon (kind, width, height, value)
-as_component_add_provided_item (value)
+as_category_set_name (value)
+as_category_set_property
 as_component_class_init
 as_component_finalize
-as_component_get_active_locale (cpt, Returns)
 as_component_get_categories
 as_component_get_compulsory_for_desktops
-as_component_get_description (cpt, Returns)
-as_component_get_developer_name (cpt, Returns)
-as_component_get_icon
-as_component_get_id (cpt, Returns)
+as_component_get_icons
 as_component_get_keywords
-as_component_get_kind (cpt, Returns)
-as_component_get_name (cpt, Returns)
 as_component_get_origin
-as_component_get_pkgnames (cpt)
-as_component_get_project_group (cpt, Returns)
-as_component_get_project_license (cpt, Returns)
 as_component_get_property
-as_component_get_provided_items (cpt)
-as_component_get_releases (cpt)
-as_component_get_screenshots (cpt)
 as_component_get_source_pkgname
-as_component_get_summary (cpt, Returns)
-as_component_has_category (category, Returns)
+as_component_has_bundle
 as_component_has_install_candidate
 as_component_init
-as_component_is_valid (cpt)
-as_component_set_active_locale (cpt, locale)
 as_component_set_categories
-as_component_set_compulsory_for_desktops (cpt, value)
-as_component_set_developer_name (cpt, value, locale)
-as_component_set_id (cpt, value)
-as_component_set_keywords (cpt)
-as_component_set_kind (cpt, value)
 as_component_set_origin
-as_component_set_pkgnames (cpt)
-as_component_set_project_group (cpt, value)
-as_component_set_project_license (cpt, value)
 as_component_set_property
 as_component_set_source_pkgname
-as_component_to_string (cpt)
 as_data_pool_class_init
+as_data_pool_error_quark
 as_data_pool_finalize
-as_data_pool_get_component_by_id (dpool, id)
-as_data_pool_get_components (dpool)
 as_data_pool_init
 as_data_pool_read_asxml
 as_data_pool_read_dep11
-as_data_pool_set_data_source_directories (dpool)
-as_data_pool_update (dpool)
-as_database_construct (object_type)
-as_database_db_exists
-as_database_get_database_path
-as_database_open
-as_database_set_database_path
+as_database_class_init
+as_database_error_quark
+as_database_finalize
+as_database_get_location (Returns)
+as_database_init
+as_database_test_opened
 as_dep11_add_component
 as_dep11_class_init
 as_dep11_clear_components
@@ -106,21 +128,40 @@ as_dep11_new
 as_dep11_parse_data
 as_dep11_process_component_node
 as_dep11_process_data
+as_dep11_process_icons
 as_dep11_process_screenshots
-as_distro_details_config_distro_get_bool
-as_distro_details_config_distro_get_str
-as_distro_details_construct (object_type)
-as_distro_details_get_distro_id
-as_distro_details_get_distro_name
-as_distro_details_get_distro_version
+as_distro_details_class_init
+as_distro_details_finalize
+as_distro_details_get_bool
+as_distro_details_get_id
+as_distro_details_get_name
+as_distro_details_get_property
+as_distro_details_get_str
+as_distro_details_get_version
+as_distro_details_init
+as_distro_details_set_distro_id
+as_distro_details_set_name
+as_distro_details_set_property
+as_distro_details_set_version
+as_icon_class_init
+as_icon_finalize
+as_icon_get_filename
+as_icon_get_height
+as_icon_get_name
+as_icon_get_width
+as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
-as_menu_parser_construct (object_type)
-as_menu_parser_construct_from_file (object_type, menu_file)
+as_menu_parser_class_init
+as_menu_parser_extend_category_name_list
+as_menu_parser_finalize
+as_menu_parser_get_property
 as_menu_parser_get_update_category_data
-as_menu_parser_new_from_file (menu_file)
-as_menu_parser_parse (self)
+as_menu_parser_init
+as_menu_parser_parse_category_entry
+as_menu_parser_parse_menu_entry
+as_menu_parser_set_property
 as_menu_parser_set_update_category_data
 as_metadata_add_component (metad, cpt)
 as_metadata_class_init
@@ -144,9 +185,10 @@ as_metadata_process_screenshots_tag
 as_metadata_save_distro_xml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
 as_metadata_save_xml
-as_provides_item_create (kind, value, data)
-as_provides_item_get_kind (item)
-as_provides_item_get_value (item)
+as_provided_add_item (item)
+as_provided_class_init
+as_provided_finalize
+as_provided_init
 as_ptr_array_to_strv
 as_release_add_location (release)
 as_release_class_init
@@ -156,7 +198,6 @@ as_release_get_checksum (release, kind)
 as_release_get_locations (release)
 as_release_init
 as_release_set_active_locale (release, locale)
-as_release_set_checksum (release, checksum, kind)
 as_release_set_description (locale)
 as_screenshot_class_init
 as_screenshot_finalize
@@ -164,20 +205,11 @@ as_screenshot_get_active_locale (screenshot, Returns)
 as_screenshot_init
 as_screenshot_set_active_locale (screenshot, locale)
 as_screenshot_set_caption (locale)
-as_search_query_construct (object_type, term)
-as_search_query_get_categories
-as_search_query_get_search_all_categories
-as_search_query_get_search_term (Returns)
-as_search_query_new (term)
-as_search_query_sanitize_search_term
-as_search_query_set_categories
-as_search_query_set_categories_from_string (self, categories_str)
 as_str_replace
-as_string_strip
+as_touch_location (Returns)
 as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_root
-as_utils_touch_dir
 as_validator_add_issue
 as_validator_check_appear_once
 as_validator_check_children_quick
@@ -186,21 +218,18 @@ as_validator_check_description_tag
 as_validator_check_nolocalized
 as_validator_check_type_property
 as_validator_class_init
-as_validator_clear_issues (validator)
 as_validator_finalize
-as_validator_get_issues (validator)
 as_validator_init
 as_validator_issue_class_init
 as_validator_issue_finalize
 as_validator_issue_init
 as_validator_open_xml_document
 as_validator_validate_component_node
-as_validator_validate_data (validator, metadata, Returns)
-as_validator_validate_file (validator, metadata_file, Returns)
-as_validator_validate_tree (validator, root_dir, Returns)
+as_validator_validate_data (Returns)
+as_validator_validate_file (Returns)
+as_validator_validate_tree (Returns)
 dep11_list_to_string_array
 dep11_print_unknown
-dep11_process_icons
 dep11_process_image
 dep11_process_provides
 dep11_process_urls
@@ -211,6 +240,7 @@ as-cache-builder:Short_Description
 as-dep11:Long_Description
 as-dep11:Short_Description
 as-enums:Long_Description
+as-icon:Long_Description
 as-metadata-private:Long_Description
 as-metadata-private:Short_Description
 as-utils-private:Long_Description

@@ -44,8 +44,8 @@
  * See also: #AsProvidesKind, #AsDatabase
  */
 
-typedef struct _AsComponentPrivate	AsComponentPrivate;
-struct _AsComponentPrivate {
+typedef struct
+{
 	AsComponentKind kind;
 	gchar			*active_locale;
 
@@ -65,23 +65,20 @@ struct _AsComponentPrivate {
 	gchar			*project_group;
 	gchar			**compulsory_for_desktops;
 
+	GPtrArray		*extends; /* of string */
 	GPtrArray		*screenshots; /* of AsScreenshot elements */
-	GPtrArray		*provided_items; /* of utf8:string */
-	GPtrArray		*releases; /* of AsRelease */
+	GPtrArray		*releases; /* of AsRelease elements */
 
-	GHashTable		*urls; /* of key:utf8 */
-	GHashTable		*icon_urls; /* of key:utf8 */
-	GPtrArray		*extends; /* of utf8:string */
-	GHashTable		*languages; /* of key:utf8 */
-	GHashTable		*bundles; /* of key:utf8 */
+	GHashTable		*provided; /* of int:object */
+	GHashTable		*urls; /* of int:utf8 */
+	GHashTable		*languages; /* of utf8:utf8 */
+	GHashTable		*bundles; /* of int:utf8 */
 
-	gchar			*icon_stock;
-	GHashTable		*icons_remote; /* of key:utf8 */
-	GHashTable		*icons_local; /* of key:utf8 */
-	GHashTable		*icons_cache; /* of key:utf8 */
+	GPtrArray		*icons; /* of AsIcon elements */
+	GHashTable		*icons_sizetab; /* of utf8:object (object owned by priv->icons array) */
 
 	gint			priority; /* used internally */
-};
+} AsComponentPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsComponent, as_component, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_component_get_instance_private (o))
@@ -95,7 +92,7 @@ enum  {
 	AS_COMPONENT_SUMMARY,
 	AS_COMPONENT_DESCRIPTION,
 	AS_COMPONENT_KEYWORDS,
-	AS_COMPONENT_ICON_URLS,
+	AS_COMPONENT_ICONS,
 	AS_COMPONENT_URLS,
 	AS_COMPONENT_CATEGORIES,
 	AS_COMPONENT_PROJECT_LICENSE,
@@ -190,50 +187,6 @@ as_component_kind_from_string (const gchar *kind_str)
 }
 
 /**
- * as_icon_kind_to_string:
- * @kind: the %AsIconKind.
- *
- * Converts the enumerated value to an text representation.
- *
- * Returns: string version of @kind
- **/
-const gchar*
-as_icon_kind_to_string (AsIconKind kind)
-{
-	if (kind == AS_ICON_KIND_CACHED)
-		return "cached";
-	if (kind == AS_ICON_KIND_LOCAL)
-		return "local";
-	if (kind == AS_ICON_KIND_REMOTE)
-		return "remote";
-	if (kind == AS_ICON_KIND_STOCK)
-		return "stock";
-	return "unknown";
-}
-
-/**
- * as_icon_kind_from_string:
- * @kind_str: the string.
- *
- * Converts the text representation to an enumerated value.
- *
- * Returns: a #AsIconKind or %AS_ICON_KIND_UNKNOWN for unknown
- **/
-AsIconKind
-as_icon_kind_from_string (const gchar *kind_str)
-{
-	if (g_strcmp0 (kind_str, "cached") == 0)
-		return AS_ICON_KIND_CACHED;
-	if (g_strcmp0 (kind_str, "local") == 0)
-		return AS_ICON_KIND_LOCAL;
-	if (g_strcmp0 (kind_str, "remote") == 0)
-		return AS_ICON_KIND_REMOTE;
-	if (g_strcmp0 (kind_str, "stock") == 0)
-		return AS_ICON_KIND_STOCK;
-	return AS_ICON_KIND_UNKNOWN;
-}
-
-/**
  * as_component_init:
  **/
 static void
@@ -241,9 +194,7 @@ as_component_init (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	as_component_set_id (cpt, "");
-	as_component_set_origin (cpt, "");
-	priv->categories = NULL;
+	/* our default locale is "unlocalized" */
 	priv->active_locale = g_strdup ("C");
 
 	/* translatable entities */
@@ -254,13 +205,16 @@ as_component_init (AsComponent *cpt)
 	priv->keywords = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_strfreev);
 
 	priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
-	priv->provided_items = g_ptr_array_new_with_free_func (g_free);
 	priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->extends = g_ptr_array_new_with_free_func (g_free);
-	priv->icon_urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-	priv->urls = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+
+	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	priv->provided = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_object_unref);
+	priv->urls = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
+	priv->bundles = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 	priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-	priv->bundles = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
 	as_component_set_priority (cpt, 0);
 }
@@ -290,27 +244,22 @@ as_component_finalize (GObject* object)
 	g_strfreev (priv->compulsory_for_desktops);
 
 	g_ptr_array_unref (priv->screenshots);
-	g_ptr_array_unref (priv->provided_items);
 	g_ptr_array_unref (priv->releases);
 	g_ptr_array_unref (priv->extends);
+	g_hash_table_unref (priv->provided);
 	g_hash_table_unref (priv->urls);
-	g_hash_table_unref (priv->icon_urls);
 	g_hash_table_unref (priv->languages);
 	g_hash_table_unref (priv->bundles);
 
-	g_free (priv->icon_stock);
-	if (priv->icons_remote != NULL)
-		g_hash_table_unref (priv->icons_remote);
-	if (priv->icons_local != NULL)
-		g_hash_table_unref (priv->icons_local);
-	if (priv->icons_cache != NULL)
-		g_hash_table_unref (priv->icons_cache);
+	g_ptr_array_unref (priv->icons);
+	g_hash_table_unref (priv->icons_sizetab);
 
 	G_OBJECT_CLASS (as_component_parent_class)->finalize (object);
 }
 
 /**
  * as_component_is_valid:
+ * @cpt: a #AsComponent instance.
  *
  * Check if the essential properties of this Component are
  * populated with useful data.
@@ -348,6 +297,7 @@ as_component_is_valid (AsComponent *cpt)
 
 /**
  * as_component_to_string:
+ * @cpt: a #AsComponent instance.
  *
  * Returns a string identifying this component.
  * (useful for debugging)
@@ -426,17 +376,17 @@ as_component_add_release (AsComponent *cpt, AsRelease* release)
 }
 
 /**
- * as_component_get_urls:
+ * as_component_get_urls_table:
  * @cpt: a #AsComponent instance.
  *
  * Gets the URLs set for the component.
  *
- * Returns: (transfer none) (element-type utf8 utf8): URLs
+ * Returns: (transfer none) (element-type AsUrlKind utf8): URLs
  *
  * Since: 0.6.2
  **/
 GHashTable*
-as_component_get_urls (AsComponent *cpt)
+as_component_get_urls_table (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return priv->urls;
@@ -449,16 +399,16 @@ as_component_get_urls (AsComponent *cpt)
  *
  * Gets a URL.
  *
- * Returns: string, or %NULL if unset
+ * Returns: (nullable): string, or %NULL if unset
  *
  * Since: 0.6.2
  **/
-const gchar *
+const gchar*
 as_component_get_url (AsComponent *cpt, AsUrlKind url_kind)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return g_hash_table_lookup (priv->urls,
-				    as_url_kind_to_string (url_kind));
+				    GINT_TO_POINTER (url_kind));
 }
 
 /**
@@ -472,13 +422,11 @@ as_component_get_url (AsComponent *cpt, AsUrlKind url_kind)
  * Since: 0.6.2
  **/
 void
-as_component_add_url (AsComponent *cpt,
-					  AsUrlKind url_kind,
-					  const gchar *url)
+as_component_add_url (AsComponent *cpt, AsUrlKind url_kind, const gchar *url)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_hash_table_insert (priv->urls,
-			     g_strdup (as_url_kind_to_string (url_kind)),
+			     GINT_TO_POINTER (url_kind),
 			     g_strdup (url));
 }
 
@@ -515,17 +463,17 @@ as_component_add_extends (AsComponent* cpt, const gchar* cpt_id)
 }
 
 /**
- * as_component_get_bundle_ids:
+ * as_component_get_bundles_table:
  * @cpt: a #AsComponent instance.
  *
  * Gets the bundle-ids set for the component.
  *
- * Returns: (transfer none) (element-type utf8 utf8): Bundle ids
+ * Returns: (transfer none) (element-type AsBundleKind utf8): Bundle ids
  *
  * Since: 0.8.0
  **/
 GHashTable*
-as_component_get_bundle_ids (AsComponent *cpt)
+as_component_get_bundles_table (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return priv->bundles;
@@ -538,7 +486,7 @@ as_component_get_bundle_ids (AsComponent *cpt)
  *
  * Gets a bundle identifier string.
  *
- * Returns: string, or %NULL if unset
+ * Returns: (nullable): string, or %NULL if unset
  *
  * Since: 0.8.0
  **/
@@ -547,7 +495,7 @@ as_component_get_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return g_hash_table_lookup (priv->bundles,
-				    as_bundle_kind_to_string (bundle_kind));
+				    GINT_TO_POINTER (bundle_kind));
 }
 
 /**
@@ -565,8 +513,21 @@ as_component_add_bundle_id (AsComponent *cpt, AsBundleKind bundle_kind, const gc
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_hash_table_insert (priv->bundles,
-			     g_strdup (as_bundle_kind_to_string (bundle_kind)),
+			     GINT_TO_POINTER (bundle_kind),
 			     g_strdup (id));
+}
+
+/**
+ * as_component_has_bundle:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: %TRUE if this component has a bundle-id associated.
+ **/
+gboolean
+as_component_has_bundle (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_size (priv->bundles) > 0;
 }
 
 /**
@@ -581,19 +542,6 @@ as_component_set_bundles_table (AsComponent *cpt, GHashTable *bundles)
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_hash_table_unref (priv->bundles);
 	priv->bundles = g_hash_table_ref (bundles);
-}
-
-/**
- * as_component_has_bundle:
- * @cpt: a #AsComponent instance.
- *
- * Internal function.
- **/
-gboolean
-as_component_has_bundle (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return g_hash_table_size (priv->bundles) > 0;
 }
 
 /**
@@ -622,41 +570,12 @@ as_component_has_install_candidate (AsComponent *cpt)
 }
 
 /**
- * as_component_provides_item:
- * @cpt: a valid #AsComponent
- * @kind: the kind of the provides-item
- * @value: the value of the provides-item
- *
- * Checks if this component provides an item of the specified type
- *
- * Returns: %TRUE if an item was found
- */
-gboolean
-as_component_provides_item (AsComponent *cpt, AsProvidesKind kind, const gchar *value)
-{
-	guint i;
-	gboolean ret = FALSE;
-	gchar *item;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	item = as_provides_item_create (kind, value, "");
-	for (i = 0; i < priv->provided_items->len; i++) {
-		gchar *cval;
-		cval = (gchar*) g_ptr_array_index (priv->provided_items, i);
-		if (g_strcmp0 (item, cval) == 0) {
-			ret = TRUE;
-			break;
-		}
-	}
-
-	g_free (item);
-	return ret;
-}
-
-/**
  * as_component_get_kind:
+ * @cpt: a #AsComponent instance.
  *
  * Returns the #AsComponentKind of this component.
+ *
+ * Returns: the kind of #this.
  */
 AsComponentKind
 as_component_get_kind (AsComponent *cpt)
@@ -667,6 +586,8 @@ as_component_get_kind (AsComponent *cpt)
 
 /**
  * as_component_set_kind:
+ * @cpt: a #AsComponent instance.
+ * @value: the #AsComponentKind.
  *
  * Sets the #AsComponentKind of this component.
  */
@@ -681,6 +602,7 @@ as_component_set_kind (AsComponent *cpt, AsComponentKind value)
 
 /**
  * as_component_get_pkgnames:
+ * @cpt: a #AsComponent instance.
  *
  * Get a list of package names which this component consists of.
  * This usually is just one package name.
@@ -696,6 +618,7 @@ as_component_get_pkgnames (AsComponent *cpt)
 
 /**
  * as_component_set_pkgnames:
+ * @cpt: a #AsComponent instance.
  * @value: (array zero-terminated=1):
  *
  * Set a list of package names this component consists of.
@@ -713,6 +636,9 @@ as_component_set_pkgnames (AsComponent *cpt, gchar** value)
 
 /**
  * as_component_get_source_pkgname:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: the source package name.
  */
 const gchar*
 as_component_get_source_pkgname (AsComponent *cpt)
@@ -723,6 +649,8 @@ as_component_get_source_pkgname (AsComponent *cpt)
 
 /**
  * as_component_set_source_pkgname:
+ * @cpt: a #AsComponent instance.
+ * @spkgname: the source package name.
  */
 void
 as_component_set_source_pkgname (AsComponent *cpt, const gchar* spkgname)
@@ -735,8 +663,11 @@ as_component_set_source_pkgname (AsComponent *cpt, const gchar* spkgname)
 
 /**
  * as_component_get_id:
+ * @cpt: a #AsComponent instance.
  *
  * Set the unique identifier for this component.
+ *
+ * Returns: the unique identifier.
  */
 const gchar*
 as_component_get_id (AsComponent *cpt)
@@ -747,6 +678,8 @@ as_component_get_id (AsComponent *cpt)
 
 /**
  * as_component_set_id:
+ * @cpt: a #AsComponent instance.
+ * @value: the unique identifier.
  *
  * Set the unique identifier for this component.
  */
@@ -762,6 +695,7 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 
 /**
  * as_component_get_origin:
+ * @cpt: a #AsComponent instance.
  */
 const gchar*
 as_component_get_origin (AsComponent *cpt)
@@ -772,6 +706,8 @@ as_component_get_origin (AsComponent *cpt)
 
 /**
  * as_component_set_origin:
+ * @cpt: a #AsComponent instance.
+ * @origin: the origin.
  */
 void
 as_component_set_origin (AsComponent *cpt, const gchar* origin)
@@ -787,9 +723,12 @@ as_component_set_origin (AsComponent *cpt, const gchar* origin)
 
 /**
  * as_component_get_active_locale:
+ * @cpt: a #AsComponent instance.
  *
  * Get the current active locale for this component, which
  * is used to get localized messages.
+ *
+ * Returns: the current active locale.
  */
 gchar*
 as_component_get_active_locale (AsComponent *cpt)
@@ -800,6 +739,8 @@ as_component_get_active_locale (AsComponent *cpt)
 
 /**
  * as_component_set_active_locale:
+ * @cpt: a #AsComponent instance.
+ * @locale: (nullable): the locale, or %NULL. e.g. "en_GB"
  *
  * Set the current active locale for this component, which
  * is used to get localized messages.
@@ -817,6 +758,8 @@ as_component_set_active_locale (AsComponent *cpt, const gchar *locale)
 
 /**
  * as_component_localized_get:
+ * @cpt: a #AsComponent instance.
+ * @lht: (element-type utf8 utf8): the #GHashTable on which the value will be retreived.
  *
  * Helper function to get a localized property using the current
  * active locale for this component.
@@ -838,6 +781,10 @@ as_component_localized_get (AsComponent *cpt, GHashTable *lht)
 
 /**
  * as_component_localized_set:
+ * @cpt: a #AsComponent instance.
+ * @lht: (element-type utf8 utf8): the #GHashTable on which the value will be added.
+ * @value: the value to add.
+ * @locale: (nullable): the locale, or %NULL. e.g. "en_GB".
  *
  * Helper function to set a localized property.
  */
@@ -862,8 +809,11 @@ as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* valu
 
 /**
  * as_component_get_name:
+ * @cpt: a #AsComponent instance.
  *
  * A human-readable name for this component.
+ *
+ * Returns: the name.
  */
 const gchar*
 as_component_get_name (AsComponent *cpt)
@@ -882,7 +832,7 @@ as_component_get_name (AsComponent *cpt)
  * as_component_set_name:
  * @cpt: A valid #AsComponent
  * @value: The name
- * @locale: The locale the used for this value, or %NULL to use the current active one.
+ * @locale: (nullable): The locale the used for this value, or %NULL to use the current active one.
  *
  * Set a human-readable name for this component.
  */
@@ -897,6 +847,7 @@ as_component_set_name (AsComponent *cpt, const gchar* value, const gchar *locale
 
 /**
  * as_component_get_name_table:
+ * @cpt: a #AsComponent instance.
  *
  * Internal method.
  */
@@ -909,8 +860,11 @@ as_component_get_name_table (AsComponent *cpt)
 
 /**
  * as_component_get_summary:
+ * @cpt: a #AsComponent instance.
  *
  * Get a short description of this component.
+ *
+ * Returns: the summary.
  */
 const gchar*
 as_component_get_summary (AsComponent *cpt)
@@ -929,7 +883,7 @@ as_component_get_summary (AsComponent *cpt)
  * as_component_set_summary:
  * @cpt: A valid #AsComponent
  * @value: The summary
- * @locale: The locale the used for this value, or %NULL to use the current active one.
+ * @locale: (nullable): The locale the used for this value, or %NULL to use the current active one.
  *
  * Set a short description for this component.
  */
@@ -944,6 +898,7 @@ as_component_set_summary (AsComponent *cpt, const gchar* value, const gchar *loc
 
 /**
  * as_component_get_summary_table:
+ * @cpt: a #AsComponent instance.
  *
  * Internal method.
  */
@@ -956,8 +911,11 @@ as_component_get_summary_table (AsComponent *cpt)
 
 /**
  * as_component_get_description:
+ * @cpt: a #AsComponent instance.
  *
  * Get the localized long description of this component.
+ *
+ * Returns: the description.
  */
 const gchar*
 as_component_get_description (AsComponent *cpt)
@@ -976,7 +934,7 @@ as_component_get_description (AsComponent *cpt)
  * as_component_set_description:
  * @cpt: A valid #AsComponent
  * @value: The long description
- * @locale: The locale the used for this value, or %NULL to use the current active one.
+ * @locale: (nullable): The locale the used for this value, or %NULL to use the current active one.
  *
  * Set long description for this component.
  */
@@ -991,6 +949,7 @@ as_component_set_description (AsComponent *cpt, const gchar* value, const gchar 
 
 /**
  * as_component_get_description_table:
+ * @cpt: a #AsComponent instance.
  *
  * Internal method.
  */
@@ -1003,6 +962,7 @@ as_component_get_description_table (AsComponent *cpt)
 
 /**
  * as_component_get_keywords:
+ * @cpt: a #AsComponent instance.
  *
  * Returns: (transfer none): String array of keywords
  */
@@ -1023,8 +983,9 @@ as_component_get_keywords (AsComponent *cpt)
 
 /**
  * as_component_set_keywords:
+ * @cpt: a #AsComponent instance.
  * @value: (array zero-terminated=1): String-array of keywords
- * @locale: Locale of the values, or %NULL to use current locale.
+ * @locale: (nullable): Locale of the values, or %NULL to use current locale.
  *
  * Set keywords for this component.
  */
@@ -1046,6 +1007,7 @@ as_component_set_keywords (AsComponent *cpt, gchar **value, const gchar *locale)
 
 /**
  * as_component_get_keywords_table:
+ * @cpt: a #AsComponent instance.
  *
  * Internal method.
  */
@@ -1057,170 +1019,70 @@ as_component_get_keywords_table (AsComponent *cpt)
 }
 
 /**
- * as_component_get_icon:
+ * as_component_get_icons:
  * @cpt: an #AsComponent instance
  *
- * Returns: The raw icon data found for the given icon kind and size.
- * If the icon kind is %AS_ICON_KIND_STOCK, the size is ignored.
- * %NULL is returned in case no icon was found.
+ * Returns: (element-type AsIcon) (transfer none): A #GPtrArray of all icons for this component.
  */
-const gchar*
-as_component_get_icon (AsComponent *cpt, AsIconKind kind, int width, int height)
+GPtrArray*
+as_component_get_icons (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->icons;
+}
+
+/**
+ * as_component_get_icon_by_size:
+ * @cpt: an #AsComponent instance
+ * @width: The icon width in pixels.
+ * @height: the icon height in pixels.
+ *
+ * Gets an icon matching the size constraints.
+ * The icons are not filtered by type, and the first icon
+ * which matches the size is returned.
+ * If you want more control over which icons you use for displaying,
+ * use the as_component_get_icons() function to get a list of all icons.
+ *
+ * Returns: (transfer none): An icon matching the given width/height, or %NULL if not found.
+ */
+AsIcon*
+as_component_get_icon_by_size (AsComponent *cpt, guint width, guint height)
 {
 	g_autofree gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	if (kind == AS_ICON_KIND_STOCK)
-		return priv->icon_stock;
+	if ((width == 0) && (height == 0))
+		return NULL;
 
 	size = g_strdup_printf ("%ix%i", width, height);
-
-	if (kind == AS_ICON_KIND_CACHED) {
-		if (priv->icons_cache == NULL)
-			return NULL;
-		return g_hash_table_lookup (priv->icons_cache, size);
-	}
-
-	if (kind == AS_ICON_KIND_LOCAL) {
-		if (priv->icons_local == NULL)
-			return NULL;
-		return g_hash_table_lookup (priv->icons_local, size);
-	}
-
-	if (kind == AS_ICON_KIND_REMOTE) {
-		if (priv->icons_remote == NULL)
-			return NULL;
-		return g_hash_table_lookup (priv->icons_remote, size);
-	}
-
-	return NULL;
+	return g_hash_table_lookup (priv->icons_sizetab, size);
 }
 
 /**
  * as_component_add_icon:
  * @cpt: an #AsComponent instance
+ * @icon: the valid #AsIcon instance to add.
  *
- * Add an icon of the given type to this component.
+ * Add an icon to this component.
  */
 void
-as_component_add_icon (AsComponent *cpt, AsIconKind kind, int width, int height, const gchar* value)
-{
-	g_autofree gchar *size = NULL;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	if (kind == AS_ICON_KIND_STOCK) {
-		g_free (priv->icon_stock);
-		priv->icon_stock = g_strdup (value);
-		return;
-	}
-
-	size = g_strdup_printf ("%ix%i", width, height);
-
-	if (kind == AS_ICON_KIND_CACHED) {
-		if (priv->icons_cache == NULL)
-			priv->icons_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-		g_hash_table_insert (priv->icons_cache, g_strdup (size), g_strdup (value));
-		return;
-	}
-
-	if (kind == AS_ICON_KIND_LOCAL) {
-		if (priv->icons_local == NULL)
-			priv->icons_local = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-		g_hash_table_insert (priv->icons_local, g_strdup (size), g_strdup (value));
-		return;
-	}
-
-	if (kind == AS_ICON_KIND_REMOTE) {
-		if (priv->icons_remote == NULL)
-			priv->icons_remote = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
-		g_hash_table_insert (priv->icons_remote, g_strdup (size), g_strdup (value));
-		return;
-	}
-}
-
-/**
- * as_component_add_icon_url:
- * @cpt: an #AsComponent instance
- * @width: An icon width
- * @height: An icon height
- * @value: The full icon url
- *
- * Set an icon url for this component, which can be a remote
- * or local location.
- *
- * The icon_url does not end up in XML generated for this component,
- * it is mereley designed to be a fast way to get icon information
- * for a component.
- * If you want to set an icon which gets serialized to AppStream xml,
- * use the as_component_add_icon() method instead.
- *
- * Since: 0.7.4
- */
-void
-as_component_add_icon_url (AsComponent *cpt, int width, int height, const gchar* value)
-{
-	gchar *size;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	/* safety measure, to protect against invalid path values */
-	if (value == NULL)
-		value = "";
-
-	size = g_strdup_printf ("%ix%i", width, height);
-	g_hash_table_insert (priv->icon_urls, size, g_strdup (value));
-}
-
-/**
- * as_component_get_icon_url:
- * @cpt: an #AsComponent instance
- * @width: An icon width
- * @height: An icon height
- *
- * A convenience method to retrieve an icon for this component.
- * This method is designed to be used by software center applications,
- * it will always return a full path or url to a valid icon, in contrast
- * to the as_component_get_icon() method, which returns unprocessed icon data.
- *
- * Returns: The full url for an icon with the given width and height.
- * In case no icon matching the size is found, %NULL is returned.
- * The returned path will either be a http link or an absolute, local
- * path to the image file of the icon.
- *
- * Since: 0.7.4
- */
-const gchar*
-as_component_get_icon_url (AsComponent *cpt, int width, int height)
-{
-	gchar *size;
-	gchar *icon_url;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	size = g_strdup_printf ("%ix%i", width, height);
-	icon_url = g_hash_table_lookup (priv->icon_urls, size);
-	g_free (size);
-
-	return icon_url;
-}
-
-/**
- * as_component_get_icon_urls:
- * @cpt: a #AsComponent instance.
- *
- * Gets the icon-urls has table for the component.
- *
- * Returns: (transfer none) (element-type utf8 utf8): A hash map of icon urls and sizes
- *
- * Since: 0.7.4
- **/
-GHashTable*
-as_component_get_icon_urls (AsComponent *cpt)
+as_component_add_icon (AsComponent *cpt, AsIcon *icon)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->icon_urls;
+
+	g_ptr_array_add (priv->icons, g_object_ref (icon));
+	if ((as_icon_get_width (icon) != 0) && (as_icon_get_height (icon) != 0)) {
+		gchar *size = NULL;
+		size = g_strdup_printf ("%ix%i",
+					as_icon_get_width (icon),
+					as_icon_get_height (icon));
+		g_hash_table_insert (priv->icons_sizetab, size, icon);
+	}
 }
 
 /**
  * as_component_get_categories:
+ * @cpt: a #AsComponent instance.
  *
  * Returns: (transfer none): String array of categories
  */
@@ -1233,7 +1095,8 @@ as_component_get_categories (AsComponent *cpt)
 
 /**
  * as_component_set_categories:
- * @value: (array zero-terminated=1):
+ * @cpt: a #AsComponent instance.
+ * @value: (array zero-terminated=1): the categories name
  */
 void
 as_component_set_categories (AsComponent *cpt, gchar** value)
@@ -1253,7 +1116,7 @@ as_component_set_categories (AsComponent *cpt, gchar** value)
  * Set the categories list from a string
  */
 void
-as_component_set_categories_from_str (AsComponent *cpt, const gchar* categories_str)
+as_component_set_categories_from_str (AsComponent *cpt, const gchar *categories_str)
 {
 	gchar** cats = NULL;
 
@@ -1267,8 +1130,11 @@ as_component_set_categories_from_str (AsComponent *cpt, const gchar* categories_
 /**
  * as_component_has_category:
  * @cpt: an #AsComponent object
+ * @category: the specified category to check
  *
  * Check if component is in the specified category.
+ *
+ * Returns: %TRUE if the component is in the specified category.
  **/
 gboolean
 as_component_has_category (AsComponent *cpt, const gchar* category)
@@ -1288,8 +1154,11 @@ as_component_has_category (AsComponent *cpt, const gchar* category)
 
 /**
  * as_component_get_project_license:
+ * @cpt: a #AsComponent instance.
  *
  * Get the license of the project this component belongs to.
+ *
+ * Returns: the license.
  */
 const gchar*
 as_component_get_project_license (AsComponent *cpt)
@@ -1300,6 +1169,8 @@ as_component_get_project_license (AsComponent *cpt)
 
 /**
  * as_component_set_project_license:
+ * @cpt: a #AsComponent instance.
+ * @value: the project license.
  *
  * Set the project license.
  */
@@ -1315,8 +1186,11 @@ as_component_set_project_license (AsComponent *cpt, const gchar* value)
 
 /**
  * as_component_get_project_group:
+ * @cpt: a #AsComponent instance.
  *
  * Get the component's project group.
+ *
+ * Returns: the project group.
  */
 const gchar*
 as_component_get_project_group (AsComponent *cpt)
@@ -1327,6 +1201,8 @@ as_component_get_project_group (AsComponent *cpt)
 
 /**
  * as_component_set_project_group:
+ * @cpt: a #AsComponent instance.
+ * @value: the project group.
  *
  * Set the component's project group.
  */
@@ -1341,8 +1217,11 @@ as_component_set_project_group (AsComponent *cpt, const gchar *value)
 
 /**
  * as_component_get_developer_name:
+ * @cpt: a #AsComponent instance.
  *
  * Get the component's developer or development team name.
+ *
+ * Returns: the developer name.
  */
 const gchar*
 as_component_get_developer_name (AsComponent *cpt)
@@ -1353,6 +1232,9 @@ as_component_get_developer_name (AsComponent *cpt)
 
 /**
  * as_component_set_developer_name:
+ * @cpt: a #AsComponent instance.
+ * @value: the developer or developer team name
+ * @locale: (nullable): the locale, or %NULL. e.g. "en_GB"
  *
  * Set the the component's developer or development team name.
  */
@@ -1365,6 +1247,7 @@ as_component_set_developer_name (AsComponent *cpt, const gchar *value, const gch
 
 /**
  * as_component_get_developer_name_table:
+ * @cpt: a #AsComponent instance.
  *
  * Internal method.
  */
@@ -1377,6 +1260,7 @@ as_component_get_developer_name_table (AsComponent *cpt)
 
 /**
  * as_component_get_screenshots:
+ * @cpt: a #AsComponent instance.
  *
  * Get a list of associated screenshots.
  *
@@ -1392,6 +1276,7 @@ as_component_get_screenshots (AsComponent *cpt)
 
 /**
  * as_component_get_compulsory_for_desktops:
+ * @cpt: a #AsComponent instance.
  *
  * Return value: (transfer none): A list of desktops where this component is compulsory
  **/
@@ -1405,6 +1290,8 @@ as_component_get_compulsory_for_desktops (AsComponent *cpt)
 
 /**
  * as_component_set_compulsory_for_desktops:
+ * @cpt: a #AsComponent instance.
+ * @value: (array zero-terminated=1): the array of desktop ids.
  *
  * Set a list of desktops where this component is compulsory.
  **/
@@ -1443,44 +1330,89 @@ as_component_is_compulsory_for_desktop (AsComponent *cpt, const gchar* desktop)
 }
 
 /**
- * as_component_get_provided_items:
+ * as_component_get_provided_for_kind:
+ * @cpt: a #AsComponent instance.
+ * @kind: kind of the provided item, e.g. %AS_PROVIDED_KIND_MIMETYPE
  *
- * Get an array of the provides-items this component is
- * associated with.
+ * Get an #AsProvided object for the given interface type,
+ * containing information about the public interfaces (mimetypes, firmware, DBus services, ...)
+ * this component provides.
  *
- * Return value: (element-type utf8) (transfer none): A list of desktops where this component is compulsory
+ * Returns: (transfer none): #AsProvided containing the items this component provides, or %NULL.
  **/
-GPtrArray*
-as_component_get_provided_items (AsComponent *cpt)
+AsProvided*
+as_component_get_provided_for_kind (AsComponent *cpt, AsProvidedKind kind)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return AS_PROVIDED (g_hash_table_lookup (priv->provided, GINT_TO_POINTER (kind)));
+}
 
-	return priv->provided_items;
+/**
+ * as_component_get_provided:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get a list of #AsProvided objects associated with this component.
+ *
+ * Returns: (transfer container) (element-type AsProvided): A list of #AsProvided objects.
+ **/
+GList*
+as_component_get_provided (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return g_hash_table_get_values (priv->provided);
+}
+
+/**
+ * as_component_add_provided:
+ * @cpt: a #AsComponent instance.
+ * @prov: a #AsProvided instance.
+ *
+ * Add a set of provided items to this component.
+ *
+ * Since: 0.6.2
+ **/
+void
+as_component_add_provided (AsComponent *cpt, AsProvided *prov)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_hash_table_insert (priv->provided,
+				GINT_TO_POINTER (as_provided_get_kind (prov)),
+				g_object_ref (prov));
 }
 
 /**
  * as_component_add_provided_item:
  * @cpt: a #AsComponent instance.
- * @kind: the kind of the provided item (e.g. %AS_PROVIDES_KIND_MIMETYPE)
- * @data: (allow-none) (default NULL): additional data associated with this item, or %NULL.
+ * @kind: the kind of the provided item (e.g. %AS_PROVIDED_KIND_MIMETYPE)
+ * @item: the item to add.
  *
  * Adds a provided item to the component.
  *
- * Since: 0.6.2
+ * Internal function for use by the metadata reading classes.
  **/
 void
-as_component_add_provided_item (AsComponent *cpt, AsProvidesKind kind, const gchar *value, const gchar *data)
+as_component_add_provided_item (AsComponent *cpt, AsProvidedKind kind, const gchar *item)
 {
+	AsProvided *prov;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
 	/* we just skip empty items */
-	if (as_str_empty (value))
+	if (as_str_empty (item))
 		return;
-	g_ptr_array_add (priv->provided_items,
-			     as_provides_item_create (kind, value, data));
+
+	prov = as_component_get_provided_for_kind (cpt, kind);
+	if (prov == NULL) {
+		prov = as_provided_new ();
+		as_provided_set_kind (prov, kind);
+		g_hash_table_insert (priv->provided, GINT_TO_POINTER (kind), prov);
+	}
+
+	as_provided_add_item (prov, item);
 }
 
 /**
  * as_component_get_releases:
+ * @cpt: a #AsComponent instance.
  *
  * Get an array of the #AsRelease items this component
  * provides.
@@ -1497,6 +1429,7 @@ as_component_get_releases (AsComponent *cpt)
 
 /**
  * as_component_get_priority:
+ * @cpt: a #AsComponent instance.
  *
  * Returns the priority of this component.
  * This method is used internally.
@@ -1512,6 +1445,8 @@ as_component_get_priority (AsComponent *cpt)
 
 /**
  * as_component_set_priority:
+ * @cpt: a #AsComponent instance.
+ * @priority: the given priority
  *
  * Sets the priority of this component.
  * This method is used internally.
@@ -1528,7 +1463,7 @@ as_component_set_priority (AsComponent *cpt, int priority)
 /**
  * as_component_add_language:
  * @cpt: an #AsComponent instance.
- * @locale: the locale, or %NULL. e.g. "en_GB"
+ * @locale: (nullable): the locale, or %NULL. e.g. "en_GB"
  * @percentage: the percentage completion of the translation, 0 for locales with unknown amount of translation
  *
  * Adds a language to the component.
@@ -1550,7 +1485,7 @@ as_component_add_language (AsComponent *cpt, const gchar *locale, gint percentag
 /**
  * as_component_get_language:
  * @cpt: an #AsComponent instance.
- * @locale: the locale, or %NULL. e.g. "en_GB"
+ * @locale: (nullable): the locale, or %NULL. e.g. "en_GB"
  *
  * Gets the translation coverage in percent for a specific locale
  *
@@ -1609,13 +1544,42 @@ as_component_get_languages_map (AsComponent *cpt)
 }
 
 /**
- * as_component_refine_icon:
+ * as_component_add_icon_full:
+ *
+ * Internal helper function for as_component_refine_icons()
+ */
+static void
+as_component_add_icon_full (AsComponent *cpt, AsIconKind kind, const gchar *size_str, const gchar *fname)
+{
+	g_autoptr(AsIcon) icon = NULL;
+
+	icon = as_icon_new ();
+	as_icon_set_kind (icon, kind);
+	as_icon_set_filename (icon, fname);
+
+	if (g_strcmp0 (size_str, "128x128") == 0) {
+		as_icon_set_width (icon, 128);
+		as_icon_set_height (icon, 128);
+	} else {
+		/* it's either "64x64", emptystring or NULL, in any case we assume 64x64
+		 * This has to be adapted as soon as we support more than 2 icon sizes, but
+		 * we are lazy here to not hurt performance too much. */
+		as_icon_set_width (icon, 64);
+		as_icon_set_height (icon, 64);
+	}
+
+	as_component_add_icon (cpt, icon);
+}
+
+/**
+ * as_component_refine_icons:
+ * @cpt: a #AsComponent instance.
  *
  * We use this method to ensure the "icon" and "icon_url" properties of
  * a component are properly set, by finding the icons in default directories.
  */
-void
-as_component_refine_icon (AsComponent *cpt, gchar **icon_paths)
+static void
+as_component_refine_icons (AsComponent *cpt, gchar **icon_paths)
 {
 	const gchar *exensions[] = { "png",
 				     "svg",
@@ -1626,85 +1590,107 @@ as_component_refine_icon (AsComponent *cpt, gchar **icon_paths)
 				     NULL };
 	const gchar *sizes[] = { "", "64x64", "128x128", NULL };
 	gchar *tmp_icon_path = NULL;
-	gchar *icon_url = NULL;
-	guint i, j, k;
+	const gchar *icon_url = NULL;
+	guint i, j, k, l;
+	g_autoptr(GPtrArray) icons = NULL;
+	g_autoptr(GHashTable) icons_sizetab = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* See if we have an icon without known size.
-	 * These icons have a zero-dimensional width and height (therefore the "0x0" key)
-	 */
-	icon_url = g_strdup (g_hash_table_lookup (priv->icon_urls, "0x0"));
-	if (icon_url == NULL) {
-		/* okay, see if we have a stock icon */
-		icon_url = g_strdup (as_component_get_icon (cpt, AS_ICON_KIND_STOCK, 0, 0));
-		if ((icon_url == NULL) || (g_strcmp0 (icon_url, "") == 0)) {
-			/* nothing to do... */
-			return;
+	if (priv->icons->len == 0)
+		return;
+
+	/* take control of the old icon list and hashtable and rewrite it */
+	icons = priv->icons;
+	icons_sizetab = priv->icons_sizetab;
+	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+
+	/* Process the icons we have and extract sizes */
+	for (i = 0; i < icons->len; i++) {
+		AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
+
+		/* we can't do anything about remote icons (yet?), so just don't do anything to them */
+		if (as_icon_get_kind (icon) == AS_ICON_KIND_REMOTE) {
+			as_component_add_icon (cpt, icon);
+			continue;
 		}
-	}
-	g_hash_table_remove (priv->icon_urls, "0x0");
 
-	if (g_str_has_prefix (icon_url, "/") ||
-		g_str_has_prefix (icon_url, "http://")) {
-		/* looks like this component already has a full icon path,
-		 * or is a weblink. We assume 64x64 in that case
-		 */
-		as_component_add_icon_url (cpt, 64, 64, icon_url);
-		goto out;
-	}
+		/* get some icon name we want to resolve */
+		if (as_icon_get_kind (icon) == AS_ICON_KIND_CACHED)
+			icon_url = as_icon_get_filename (icon);
+		if (as_icon_get_kind (icon) == AS_ICON_KIND_STOCK)
+			icon_url = as_icon_get_name (icon);
 
-	/* search local icon path */
-	for (i = 0; icon_paths[i] != NULL; i++) {
-		for (j = 0; sizes[j] != NULL; j++) {
-			/* sometimes, the file already has an extension */
-			tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s",
-							icon_paths[i],
-							priv->origin,
-							sizes[j],
-							icon_url);
-			if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
-				/* we have an icon! */
-				if (g_strcmp0 (sizes[j], "") == 0) {
-					/* old icon directory, so assume 64x64 */
-					as_component_add_icon_url (cpt, 64, 64, g_strdup (tmp_icon_path));
-				} else {
-					g_hash_table_insert (priv->icon_urls, g_strdup (sizes[j]), g_strdup (tmp_icon_path));
-				}
+		if (g_str_has_prefix (icon_url, "/") ||
+			g_str_has_prefix (icon_url, "http://")) {
+			/* looks like this component already has a full icon path,
+			 * or is a weblink. */
+			as_component_add_icon (cpt, icon);
+			continue;
+		}
 
-				g_free (tmp_icon_path);
-				tmp_icon_path = NULL;
-				continue;
-			}
-			g_free (tmp_icon_path);
-			tmp_icon_path = NULL;
-
-			/* file not found, try extensions (we will not do this forever, better fix AppStream data!) */
-			for (k = 0; exensions[k] != NULL; k++) {
-				tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s.%s",
-							icon_paths[i],
-							priv->origin,
-							sizes[j],
-							icon_url,
-							exensions[k]);
+		/* search local icon path */
+		for (l = 0; icon_paths[l] != NULL; l++) {
+			for (j = 0; sizes[j] != NULL; j++) {
+				/* sometimes, the file already has an extension */
+				tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s",
+								icon_paths[l],
+								priv->origin,
+								sizes[j],
+								icon_url);
 				if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
 					/* we have an icon! */
 					if (g_strcmp0 (sizes[j], "") == 0) {
 						/* old icon directory, so assume 64x64 */
-						as_component_add_icon_url (cpt, 64, 64, g_strdup (tmp_icon_path));
+						as_component_add_icon_full (cpt,
+									    as_icon_get_kind (icon),
+									    "64x64",
+									    tmp_icon_path);
 					} else {
-						g_hash_table_insert (priv->icon_urls, g_strdup (sizes[j]), g_strdup (tmp_icon_path));
+						as_component_add_icon_full (cpt,
+									    as_icon_get_kind (icon),
+									    sizes[j],
+									    tmp_icon_path);
 					}
-				}
 
+					g_free (tmp_icon_path);
+					tmp_icon_path = NULL;
+					continue;
+				}
 				g_free (tmp_icon_path);
 				tmp_icon_path = NULL;
+
+				/* file not found, try extensions (we will not do this forever, better fix AppStream data!) */
+				for (k = 0; exensions[k] != NULL; k++) {
+					tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s.%s",
+								icon_paths[l],
+								priv->origin,
+								sizes[j],
+								icon_url,
+								exensions[k]);
+					if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
+						/* we have an icon! */
+						if (g_strcmp0 (sizes[j], "") == 0) {
+							/* old icon directory, so assume 64x64 */
+							as_component_add_icon_full (cpt,
+									    as_icon_get_kind (icon),
+									    "64x64",
+									    tmp_icon_path);
+						} else {
+							as_component_add_icon_full (cpt,
+									    as_icon_get_kind (icon),
+									    sizes[j],
+									    tmp_icon_path);
+						}
+					}
+
+					g_free (tmp_icon_path);
+					tmp_icon_path = NULL;
+				}
 			}
 		}
 	}
 
-out:
-	if (icon_url != NULL)
-		g_free (icon_url);
 	if (tmp_icon_path != NULL) {
 		g_free (tmp_icon_path);
 	}
@@ -1712,6 +1698,7 @@ out:
 
 /**
  * as_component_complete:
+ * @cpt: a #AsComponent instance.
  * @scr_base_url: Base url for screenshot-service, obtain via #AsDistroDetails
  * @icon_paths: Zero-terminated string array of possible (cached) icon locations
  *
@@ -1773,7 +1760,7 @@ as_component_complete (AsComponent *cpt, gchar *scr_base_url, gchar **icon_paths
 	}
 
 	/* improve icon paths */
-	as_component_refine_icon (cpt, icon_paths);
+	as_component_refine_icons (cpt, icon_paths);
 }
 
 /**
@@ -1806,11 +1793,11 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 		case AS_COMPONENT_KEYWORDS:
 			g_value_set_boxed (value, as_component_get_keywords (cpt));
 			break;
-		case AS_COMPONENT_ICON_URLS:
-			g_value_set_boxed (value, as_component_get_icon_urls (cpt));
+		case AS_COMPONENT_ICONS:
+			g_value_set_pointer (value, as_component_get_icons (cpt));
 			break;
 		case AS_COMPONENT_URLS:
-			g_value_set_boxed (value, as_component_get_urls (cpt));
+			g_value_set_boxed (value, as_component_get_urls_table (cpt));
 			break;
 		case AS_COMPONENT_CATEGORIES:
 			g_value_set_boxed (value, as_component_get_categories (cpt));
@@ -1892,46 +1879,115 @@ as_component_class_init (AsComponentClass * klass)
 	object_class->finalize = as_component_finalize;
 	object_class->get_property = as_component_get_property;
 	object_class->set_property = as_component_set_property;
-
+	/**
+	 * AsComponent:kind:
+	 *
+	 * the #AsComponentKind of this component
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_KIND,
 					g_param_spec_enum ("kind", "kind", "kind", AS_TYPE_COMPONENT_KIND, 0, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:pkgnames:
+	 *
+	 * string array of packages name
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_PKGNAMES,
 					g_param_spec_boxed ("pkgnames", "pkgnames", "pkgnames", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:id:
+	 *
+	 * the unique identifier
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_ID,
 					g_param_spec_string ("id", "id", "id", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:name:
+	 *
+	 * the name
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_NAME,
 					g_param_spec_string ("name", "name", "name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:summary:
+	 *
+	 * the summary
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_SUMMARY,
 					g_param_spec_string ("summary", "summary", "summary", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:description:
+	 *
+	 * the description
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_DESCRIPTION,
 					g_param_spec_string ("description", "description", "description", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:keywords:
+	 *
+	 * string array of keywords
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_KEYWORDS,
 					g_param_spec_boxed ("keywords", "keywords", "keywords", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:icons: (type GList(AsIcon))
+	 *
+	 * hash map of icon urls and sizes
+	 */
 	g_object_class_install_property (object_class,
-					AS_COMPONENT_ICON_URLS,
-					g_param_spec_boxed ("icon-urls", "icon-urls", "icon-urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+					AS_COMPONENT_ICONS,
+					g_param_spec_pointer ("icons", "icons", "icons", G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+	/**
+	 * AsComponent:urls: (type GHashTable(AsUrlKind,utf8))
+	 *
+	 * the urls associated with this component
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_URLS,
 					g_param_spec_boxed ("urls", "urls", "urls", G_TYPE_HASH_TABLE, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+	/**
+	 * AsComponent:categories:
+	 *
+	 * string array of categories
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_CATEGORIES,
 					g_param_spec_boxed ("categories", "categories", "categories", G_TYPE_STRV, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:project-license:
+	 *
+	 * the project license
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_PROJECT_LICENSE,
 					g_param_spec_string ("project-license", "project-license", "project-license", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:project-group:
+	 *
+	 * the project group
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_PROJECT_GROUP,
 					g_param_spec_string ("project-group", "project-group", "project-group", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:developer-name:
+	 *
+	 * the developer name
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_DEVELOPER_NAME,
 					g_param_spec_string ("developer-name", "developer-name", "developer-name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	/**
+	 * AsComponent:screenshots: (type GPtrArray(AsScreenshot)):
+	 *
+	 * An array of #AsScreenshot instances
+	 */
 	g_object_class_install_property (object_class,
 					AS_COMPONENT_SCREENSHOTS,
 					g_param_spec_boxed ("screenshots", "screenshots", "screenshots", G_TYPE_PTR_ARRAY, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));

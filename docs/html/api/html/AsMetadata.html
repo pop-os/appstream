@@ -41,6 +41,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AS-TYPE-METADATA:CAPS" title="AS_TYPE_METADATA">AS_TYPE_METADATA</a></td>
+</tr>
+<tr>
 <td class="function_type">
 <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
 </td>
@@ -178,12 +182,20 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsMetadataClass" title="struct AsMetadataClass">AsMetadataClass</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="AsMetadata.html#AsMetadataError" title="enum AsMetadataError">AsMetadataError</a></td>
 </tr>
 <tr>
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="AsMetadata.html#AS-METADATA-ERROR:CAPS" title="AS_METADATA_ERROR">AS_METADATA_ERROR</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword"> </td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsMetadata-struct" title="AsMetadata">AsMetadata</a></td>
 </tr>
 </tbody>
 </table></div>
@@ -209,12 +221,20 @@ It returns an <a class="link" href="AsComponent.html" title="AsComponent"><span 
 <div class="refsect1">
 <a name="AsMetadata.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
+<a name="AS-TYPE-METADATA:CAPS"></a><h3>AS_TYPE_METADATA</h3>
+<pre class="programlisting">#define AS_TYPE_METADATA (as_metadata_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-metadata-new"></a><h3>as_metadata_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
 as_metadata_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.2.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.3.5"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -225,7 +245,7 @@ as_metadata_new (<em class="parameter"><code><span class="type">void</span></cod
 <pre class="programlisting"><span class="returnvalue">GQuark</span>
 as_metadata_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.8.8.3.4"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.4.4"></a><h4>Returns</h4>
 <p> An error quark.</p>
 </div>
 </div>
@@ -238,7 +258,7 @@ as_metadata_parse_file (<em class="parameter"><code><a class="link" href="AsMeta
                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Parses an AppStream upstream metadata file.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.4.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -274,7 +294,7 @@ as_metadata_parse_data (<em class="parameter"><code><a class="link" href="AsMeta
                         <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Parses AppStream metadata.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.5.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.6.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -310,7 +330,7 @@ as_metadata_get_component (<em class="parameter"><code><a class="link" href="AsM
 If the AppStream XML contained multiple components, return the first
 component that has been parsed.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.6.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -325,7 +345,7 @@ component that has been parsed.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.8.6.6"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.7.6"></a><h4>Returns</h4>
 <p> An <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> or <code class="literal">NULL</code>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -336,7 +356,7 @@ component that has been parsed.</p>
 <pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
 as_metadata_get_components (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.8.8.7.4"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.8.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -351,7 +371,7 @@ as_metadata_get_components (<em class="parameter"><code><a class="link" href="As
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.8.7.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.8.5"></a><h4>Returns</h4>
 <p> A <span class="type">GPtrArray</span> of all parsed components. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent]</span></p>
 </div>
@@ -383,7 +403,7 @@ was initially loaded)</p>
 <p>The first <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> added to the internal list will be transformed.
 In case no component is present, <code class="literal">NULL</code> is returned.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.10.6"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.11.6"></a><h4>Returns</h4>
 <p> A string containing the XML. Free with <code class="function">g_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -397,7 +417,7 @@ as_metadata_components_to_distro_xml (<em class="parameter"><code><a class="link
 distro-XML data.
 <code class="literal">NULL</code> is returned if there is nothing to serialize.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.11.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.12.5"></a><h4>Returns</h4>
 <p> A string containing the XML. Free with <code class="function">g_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -412,7 +432,7 @@ as_metadata_save_upstream_xml (<em class="parameter"><code><a class="link" href=
 <p>Serialize <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance to XML and save it to file.
 An existing file at the same location will be overridden.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.12.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.13.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -437,7 +457,7 @@ as_metadata_save_distro_xml (<em class="parameter"><code><a class="link" href="A
 <p>Serialize all <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances to XML and save the data to a file.
 An existing file at the same location will be overridden.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.13.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.14.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -463,7 +483,7 @@ All other locales are ignored, which increases parsing speed and
 reduces memory usage.
 If you set the locale to "ALL", all locales will be read.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.14.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.15.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -493,7 +513,7 @@ as_metadata_get_locale (<em class="parameter"><code><a class="link" href="AsMeta
 <p>Gets the current active locale for parsing metadata,
 or "ALL" if all locales are read.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.15.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.16.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -508,7 +528,7 @@ or "ALL" if all locales are read.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.8.15.6"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.16.6"></a><h4>Returns</h4>
 <p> Locale used for metadata parsing.</p>
 </div>
 </div>
@@ -518,7 +538,7 @@ or "ALL" if all locales are read.</p>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_metadata_get_origin (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.8.8.16.4"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.17.4"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -533,7 +553,7 @@ as_metadata_get_origin (<em class="parameter"><code><a class="link" href="AsMeta
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.8.16.5"></a><h4>Returns</h4>
+<a name="id-1.2.10.8.17.5"></a><h4>Returns</h4>
 <p> The origin of AppStream distro metadata</p>
 </div>
 </div>
@@ -545,7 +565,7 @@ as_metadata_set_origin (<em class="parameter"><code><a class="link" href="AsMeta
                         <em class="parameter"><code>const <span class="type">gchar</span> *origin</code></em>);</pre>
 <p>Set the origin of AppStream distro metadata</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.17.5"></a><h4>Parameters</h4>
+<a name="id-1.2.10.8.18.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -571,38 +591,48 @@ as_metadata_set_origin (<em class="parameter"><code><a class="link" href="AsMeta
 <div class="refsect1">
 <a name="AsMetadata.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AsMetadataClass"></a><h3>struct AsMetadataClass</h3>
+<pre class="programlisting">struct AsMetadataClass {
+	GObjectClass		parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsMetadataError"></a><h3>enum AsMetadataError</h3>
-<p>The error type.</p>
+<p>A metadata processing error.</p>
 <div class="refsect3">
-<a name="id-1.2.8.9.2.4"></a><h4>Members</h4>
+<a name="id-1.2.10.9.3.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
 <col class="enum_members_description">
 <col width="200px" class="enum_members_annotations">
 </colgroup>
-<tbody>
-<tr>
+<tbody><tr>
 <td class="enum_member_name"><p><a name="AS-METADATA-ERROR-FAILED:CAPS"></a>AS_METADATA_ERROR_FAILED</p></td>
 <td class="enum_member_description">
 <p>Generic failure</p>
 </td>
 <td class="enum_member_annotations"> </td>
-</tr>
-<tr>
-<td class="enum_member_name"><p><a name="AS-METADATA-ERROR-LAST:CAPS"></a>AS_METADATA_ERROR_LAST</p></td>
-<td class="enum_member_description"> </td>
-<td class="enum_member_annotations"> </td>
-</tr>
-</tbody>
+</tr></tbody>
 </table></div>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="AS-METADATA-ERROR:CAPS"></a><h3>AS_METADATA_ERROR</h3>
-<pre class="programlisting">#define AS_METADATA_ERROR		as_metadata_error_quark ()
+<pre class="programlisting">#define AS_METADATA_ERROR as_metadata_error_quark ()
 </pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsMetadata-struct"></a><h3>AsMetadata</h3>
+<pre class="programlisting">typedef struct _AsMetadata AsMetadata;</pre>
 <p>
 </p>
 </div>

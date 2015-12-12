@@ -45,8 +45,7 @@
 #include "as-component-private.h"
 #include "as-distro-details.h"
 
-typedef struct _AsMetadataPrivate	AsMetadataPrivate;
-struct _AsMetadataPrivate
+typedef struct
 {
 	gchar *locale;
 	gchar *locale_short;
@@ -56,13 +55,12 @@ struct _AsMetadataPrivate
 	gint default_priority;
 
 	GPtrArray *cpts;
-};
+} AsMetadataPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsMetadata, as_metadata, G_TYPE_OBJECT)
-
 #define GET_PRIVATE(o) (as_metadata_get_instance_private (o))
 
-static gchar**		as_metadata_get_children_as_strv (AsMetadata *metad, xmlNode* node, const gchar* element_name);
+static gchar	**as_metadata_get_children_as_strv (AsMetadata *metad, xmlNode *node, const gchar *element_name);
 
 /**
  * as_metadata_finalize:
@@ -94,7 +92,7 @@ as_metadata_init (AsMetadata *metad)
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	/* set active locale without UTF-8 suffix */
-	str = as_get_locale ();
+	str = as_get_current_locale ();
 	as_metadata_set_locale (metad, str);
 	g_free (str);
 
@@ -223,7 +221,8 @@ as_metadata_get_children_as_strv (AsMetadata *metad, xmlNode* node, const gchar*
 			content = (gchar*) xmlNodeGetContent (iter);
 			if (content != NULL) {
 				gchar *s;
-				s = as_string_strip (content);
+				s = g_strdup (content);
+				g_strstrip (s);
 				g_ptr_array_add (list, s);
 			}
 			g_free (content);
@@ -538,11 +537,9 @@ as_metadata_process_provides (AsMetadata *metad, xmlNode* node, AsComponent* cpt
 	xmlNode *iter;
 	gchar *node_name;
 	gchar *content = NULL;
-	GPtrArray *provided_items;
 	g_return_if_fail (metad != NULL);
 	g_return_if_fail (cpt != NULL);
 
-	provided_items = as_component_get_provided_items (cpt);
 	for (iter = node->children; iter != NULL; iter = iter->next) {
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
@@ -554,48 +551,34 @@ as_metadata_process_provides (AsMetadata *metad, xmlNode* node, AsComponent* cpt
 			continue;
 
 		if (g_strcmp0 (node_name, "library") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_LIBRARY, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_LIBRARY, content);
 		} else if (g_strcmp0 (node_name, "binary") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_BINARY, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_BINARY, content);
 		} else if (g_strcmp0 (node_name, "font") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_FONT, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FONT, content);
 		} else if (g_strcmp0 (node_name, "modalias") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_MODALIAS, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MODALIAS, content);
 		} else if (g_strcmp0 (node_name, "firmware") == 0) {
-			gchar *fwtype;
+			g_autofree gchar *fwtype = NULL;
 			fwtype = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 			if (fwtype != NULL) {
-				/* we don't add malformed provides types */
-				if ((g_strcmp0 (fwtype, "runtime") == 0) || (g_strcmp0 (fwtype, "flashed") == 0))
-					g_ptr_array_add (provided_items,
-							 as_provides_item_create (AS_PROVIDES_KIND_FIRMWARE, content, fwtype));
-				g_free (fwtype);
+				if (g_strcmp0 (fwtype, "runtime") == 0)
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FIRMWARE_RUNTIME, content);
+				else if (g_strcmp0 (fwtype, "flashed") == 0)
+					as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FIRMWARE_FLASHED, content);
 			}
 		} else if (g_strcmp0 (node_name, "python2") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_PYTHON2, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_PYTHON_2, content);
 		} else if (g_strcmp0 (node_name, "python3") == 0) {
-			g_ptr_array_add (provided_items,
-					 as_provides_item_create (AS_PROVIDES_KIND_PYTHON3, content, ""));
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_PYTHON, content);
 		} else if (g_strcmp0 (node_name, "dbus") == 0) {
-			gchar *dbustype_val;
-			const gchar *dbustype = NULL;
-			dbustype_val = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+			g_autofree gchar *dbustype = NULL;
+			dbustype = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 
-			if (g_strcmp0 (dbustype_val, "system") == 0)
-				dbustype = "system";
-			else if (g_strcmp0 (dbustype_val, "user") == 0)
-				dbustype = "user";
-			g_free (dbustype_val);
-
-			/* we don't add malformed provides types */
-			if (dbustype != NULL)
-				g_ptr_array_add (provided_items,
-						as_provides_item_create (AS_PROVIDES_KIND_DBUS, content, dbustype));
+			if (g_strcmp0 (dbustype, "system") == 0)
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_DBUS_SYSTEM, content);
+			else if ((g_strcmp0 (dbustype, "user") == 0) || (g_strcmp0 (dbustype, "session") == 0))
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_DBUS_USER, content);
 		}
 
 		g_free (content);
@@ -728,35 +711,38 @@ as_metadata_parse_component_node (AsMetadata *metad, xmlNode* node, gboolean all
 			}
 		} else if (g_strcmp0 (node_name, "icon") == 0) {
 			gchar *prop;
-			const gchar *icon_url;
+			g_autoptr(AsIcon) icon = NULL;
 			if (content == NULL)
 				continue;
+
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
+			icon = as_icon_new ();
+
 			if (g_strcmp0 (prop, "stock") == 0) {
-				as_component_add_icon (cpt, AS_ICON_KIND_STOCK, 0, 0, content);
+				as_icon_set_kind (icon, AS_ICON_KIND_STOCK);
+				as_icon_set_name (icon, content);
+				as_component_add_icon (cpt, icon);
 			} else if (g_strcmp0 (prop, "cached") == 0) {
-				as_component_add_icon (cpt, AS_ICON_KIND_CACHED, 0, 0, content);
-				icon_url = as_component_get_icon_url (cpt, 0, 0);
-				if ((icon_url == NULL) || (g_str_has_prefix (icon_url, "http://"))) {
-					as_component_add_icon_url (cpt, 0, 0, content);
-				}
+				as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+				as_icon_set_filename (icon, content);
+				as_component_add_icon (cpt, icon);
 			} else if (g_strcmp0 (prop, "local") == 0) {
-				as_component_add_icon_url (cpt, 0, 0, content);
-				as_component_add_icon (cpt, AS_ICON_KIND_LOCAL, 0, 0, content);
+				as_icon_set_kind (icon, AS_ICON_KIND_LOCAL);
+				as_icon_set_filename (icon, content);
+				as_component_add_icon (cpt, icon);
 			} else if (g_strcmp0 (prop, "remote") == 0) {
+				as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
 				if (priv->media_baseurl == NULL) {
 					/* no baseurl, we can just set the value as URL */
-					as_component_add_icon (cpt, AS_ICON_KIND_REMOTE, 0, 0, content);
+					as_icon_set_url (icon, content);
 				} else {
 					/* handle the media baseurl */
 					gchar *tmp;
 					tmp = g_build_filename (priv->media_baseurl, content, NULL);
-					as_component_add_icon (cpt, AS_ICON_KIND_REMOTE, 0, 0, content);
+					as_icon_set_url (icon, tmp);
 					g_free (tmp);
 				}
-				icon_url = as_component_get_icon_url (cpt, 0, 0);
-				if (icon_url == NULL)
-					as_component_add_icon_url (cpt, 0, 0, content);
+				as_component_add_icon (cpt, icon);
 			}
 		} else if (g_strcmp0 (node_name, "url") == 0) {
 			if (content != NULL) {
@@ -779,14 +765,16 @@ as_metadata_parse_component_node (AsMetadata *metad, xmlNode* node, gboolean all
 			as_component_set_keywords (cpt, kw_array, NULL);
 			g_strfreev (kw_array);
 		} else if (g_strcmp0 (node_name, "mimetypes") == 0) {
-			gchar **mime_array;
+			g_auto(GStrv) mime_array = NULL;
 			guint i;
 
+			/* Mimetypes are essentially provided interfaces, that's why they belong into Asprovided.
+			 * However, due to historic reasons, the spec has an own toplevel tag for them, so we need
+			 * to parse them here. */
 			mime_array = as_metadata_get_children_as_strv (metad, iter, "mimetype");
 			for (i = 0; mime_array[i] != NULL; i++) {
-				as_component_add_provided_item (cpt, AS_PROVIDES_KIND_MIMETYPE, mime_array[i], "");
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MIMETYPE, mime_array[i]);
 			}
-			g_strfreev (mime_array);
 		} else if (g_strcmp0 (node_name, "provides") == 0) {
 			as_metadata_process_provides (metad, iter, cpt);
 		} else if (g_strcmp0 (node_name, "screenshots") == 0) {
@@ -845,16 +833,12 @@ as_metadata_parse_component_node (AsMetadata *metad, xmlNode* node, gboolean all
 	if ((allow_invalid) || (as_component_is_valid (cpt))) {
 		return cpt;
 	} else {
-		gchar *cpt_str;
-		gchar *msg;
+		g_autofree gchar *cpt_str = NULL;
 		cpt_str = as_component_to_string (cpt);
-		msg = g_strdup_printf ("Invalid component: %s", cpt_str);
-		g_free (cpt_str);
-		g_set_error_literal (error,
+		g_set_error (error,
 				     AS_METADATA_ERROR,
 				     AS_METADATA_ERROR_FAILED,
-				     msg);
-		g_free (msg);
+				     "Invalid component: %s", cpt_str);
 		g_object_unref (cpt);
 	}
 
@@ -1529,6 +1513,7 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	gchar **strv;
 	GPtrArray *releases;
 	GPtrArray *screenshots;
+	GPtrArray *icons;
 	AsComponentKind kind;
 	AsLocaleWriteHelper helper;
 	guint i;
@@ -1595,16 +1580,27 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	}
 
 	/* icons */
-	for (i = AS_ICON_KIND_UNKNOWN; i < AS_ICON_KIND_LAST; i++) {
+	icons = as_component_get_icons (cpt);
+	for (i = 0; i < icons->len; i++) {
+		AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
 		xmlNode *n;
 		const gchar *value;
-		value = as_component_get_icon (cpt, i, 0, 0); /* TODO: Add size information to output XML */
+
+		if (as_icon_get_kind (icon) == AS_ICON_KIND_LOCAL)
+			value = as_icon_get_filename (icon);
+		else if (as_icon_get_kind (icon) == AS_ICON_KIND_REMOTE)
+			value = as_icon_get_url (icon);
+		else
+			value = as_icon_get_name (icon);
+
 		if (value == NULL)
 			continue;
 
 		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "icon", (xmlChar*) value);
 		xmlNewProp (n, (xmlChar*) "type",
-					(xmlChar*) as_icon_kind_to_string (i));
+					(xmlChar*) as_icon_kind_to_string (as_icon_get_kind (icon)));
+
+		/* TODO: Prevent adding the same icon node multiple times? */
 	}
 
 	/* bundles */
