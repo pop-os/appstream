@@ -3,9 +3,12 @@
 set -e
 
 if [ "$1" = "purge" ]; then
-        # remove the AppStream cache
-        rm -rf /var/cache/app-info
+    # remove the AppStream cache
+    rm -rf /var/cache/app-info/xapian
+    rmdir /var/cache/app-info/ | true
 
+    # remove the AppStream data
+    rm -rf /var/lib/app-info
 fi
 
 #DEBHELPER#
