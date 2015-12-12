@@ -1,0 +1,386 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsProvided">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsProvided.top_of_page">AsProvided</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsProvided</refname>
+<refpurpose>Description of the provided-items in components</refpurpose>
+</refnamediv>
+
+<refsect1 id="AsProvided.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-PROVIDED:CAPS">AS_TYPE_PROVIDED</link></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provided-kind-to-string">as_provided_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProvidedKind"><returnvalue>AsProvidedKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-kind-from-string">as_provided_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provided-kind-to-l10n-string">as_provided_kind_to_l10n_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProvided"><returnvalue>AsProvided</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-provided-new">as_provided_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsProvidedKind"><returnvalue>AsProvidedKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-get-kind">as_provided_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-set-kind">as_provided_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+</entry><entry role="function_name"><link linkend="as-provided-get-items">as_provided_get_items</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-add-item">as_provided_add_item</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-has-item">as_provided_has_item</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsProvided.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsProvidedClass">AsProvidedClass</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsProvidedKind">AsProvidedKind</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsProvided-struct">AsProvided</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsProvided.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsProvided
+</screen>
+</refsect1>
+
+<refsect1 id="AsProvided.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
+
+<refsect1 id="AsProvided.description" role="desc">
+<title role="desc.title">Description</title>
+<para>Components can provide various items, like libraries, Python-modules,
+firmware, binaries, etc.
+Functions to work with these items are provided here.</para>
+<para>See also: <link linkend="AsComponent"><type>AsComponent</type></link></para>
+
+</refsect1>
+<refsect1 id="AsProvided.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="AS-TYPE-PROVIDED:CAPS" role="macro">
+<title>AS_TYPE_PROVIDED</title>
+<indexterm zone="AS-TYPE-PROVIDED:CAPS"><primary>AS_TYPE_PROVIDED</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_PROVIDED (as_provided_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="as-provided-kind-to-string" role="function">
+<title>as_provided_kind_to_string&#160;()</title>
+<indexterm zone="as-provided-kind-to-string"><primary>as_provided_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_provided_kind_to_string (<parameter><link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to a text representation.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsProvidedKind"><type>AsProvidedKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-kind-from-string" role="function">
+<title>as_provided_kind_from_string&#160;()</title>
+<indexterm zone="as-provided-kind-from-string"><primary>as_provided_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsProvidedKind"><returnvalue>AsProvidedKind</returnvalue></link>
+as_provided_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> or <link linkend="AS-PROVIDED-KIND-UNKNOWN:CAPS"><literal>AS_PROVIDED_KIND_UNKNOWN</literal></link> for unknown</para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-kind-to-l10n-string" role="function">
+<title>as_provided_kind_to_l10n_string&#160;()</title>
+<indexterm zone="as-provided-kind-to-l10n-string"><primary>as_provided_kind_to_l10n_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_provided_kind_to_l10n_string (<parameter><link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to a localized text representation,
+using the plural forms (e.g. "Libraries" instead of "Library").</para>
+<para>This can be useful when displaying provided items in GUI dialogs.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsProvidedKind"><type>AsProvidedKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> Pluralized, l10n string version of <parameter>kind</parameter>
+</para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-new" role="function">
+<title>as_provided_new&#160;()</title>
+<indexterm zone="as-provided-new"><primary>as_provided_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsProvided"><returnvalue>AsProvided</returnvalue></link>&#160;*
+as_provided_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsProvided"><type>AsProvided</type></link>.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsProvided"><type>AsProvided</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-get-kind" role="function">
+<title>as_provided_get_kind&#160;()</title>
+<indexterm zone="as-provided-get-kind"><primary>as_provided_get_kind</primary></indexterm>
+<programlisting language="C"><link linkend="AsProvidedKind"><returnvalue>AsProvidedKind</returnvalue></link>
+as_provided_get_kind (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>);</programlisting>
+<para>The kind of items this <link linkend="AsProvided"><type>AsProvided</type></link> object stores.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> an enum of type <link linkend="AsProvidedKind"><type>AsProvidedKind</type></link></para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-set-kind" role="function">
+<title>as_provided_set_kind&#160;()</title>
+<indexterm zone="as-provided-set-kind"><primary>as_provided_set_kind</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_provided_set_kind (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>,
+                      <parameter><link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> kind</parameter>);</programlisting>
+<para>Set the kind of items this <link linkend="AsProvided"><type>AsProvided</type></link> object stores.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the new <link linkend="AsProvidedKind"><type>AsProvidedKind</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-provided-get-items" role="function">
+<title>as_provided_get_items&#160;()</title>
+<indexterm zone="as-provided-get-items"><primary>as_provided_get_items</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+as_provided_get_items (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>);</programlisting>
+<para>Get an array of provided data.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> An utf-8 array of provided items, free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer container</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-provided-add-item" role="function">
+<title>as_provided_add_item&#160;()</title>
+<indexterm zone="as-provided-add-item"><primary>as_provided_add_item</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_provided_add_item (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
+<para>Add a new provided item.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-provided-has-item" role="function">
+<title>as_provided_has_item&#160;()</title>
+<indexterm zone="as-provided-has-item"><primary>as_provided_has_item</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_provided_has_item (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>);</programlisting>
+<para>Check if the current <link linkend="AsProvided"><type>AsProvided</type></link> contains an item
+of the given name.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>item</para></entry>
+<entry role="parameter_description"><para>the name of a provided item, e.g. "audio/x-vorbis" (in case the provided kind is a mimetype)</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if found.</para>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsProvided.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AsProvidedClass" role="struct">
+<title>struct AsProvidedClass</title>
+<indexterm zone="AsProvidedClass"><primary>AsProvidedClass</primary></indexterm>
+<programlisting language="C">struct AsProvidedClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsProvidedKind" role="enum">
+<title>enum AsProvidedKind</title>
+<indexterm zone="AsProvidedKind"><primary>AsProvidedKind</primary></indexterm>
+<para>Type of the public interface components can provide.</para>
+<refsect3 role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-UNKNOWN:CAPS">AS_PROVIDED_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown kind</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-LIBRARY:CAPS">AS_PROVIDED_KIND_LIBRARY</para></entry>
+<entry role="enum_member_description"><para>A shared library</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-BINARY:CAPS">AS_PROVIDED_KIND_BINARY</para></entry>
+<entry role="enum_member_description"><para>A binary installed into a directory in PATH</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-MIMETYPE:CAPS">AS_PROVIDED_KIND_MIMETYPE</para></entry>
+<entry role="enum_member_description"><para>Provides a handler for a mimetype</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-FONT:CAPS">AS_PROVIDED_KIND_FONT</para></entry>
+<entry role="enum_member_description"><para>A font</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-MODALIAS:CAPS">AS_PROVIDED_KIND_MODALIAS</para></entry>
+<entry role="enum_member_description"><para>A modalias</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-PYTHON-2:CAPS">AS_PROVIDED_KIND_PYTHON_2</para></entry>
+<entry role="enum_member_description"><para>A Python2 module</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-PYTHON:CAPS">AS_PROVIDED_KIND_PYTHON</para></entry>
+<entry role="enum_member_description"><para>A Python3 module</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-DBUS-SYSTEM:CAPS">AS_PROVIDED_KIND_DBUS_SYSTEM</para></entry>
+<entry role="enum_member_description"><para>A DBus service name on the system bus.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-DBUS-USER:CAPS">AS_PROVIDED_KIND_DBUS_USER</para></entry>
+<entry role="enum_member_description"><para>A DBus service name on the user/session bus.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-FIRMWARE-RUNTIME:CAPS">AS_PROVIDED_KIND_FIRMWARE_RUNTIME</para></entry>
+<entry role="enum_member_description"><para>Firmware flashed at runtime.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-PROVIDED-KIND-FIRMWARE-FLASHED:CAPS">AS_PROVIDED_KIND_FIRMWARE_FLASHED</para></entry>
+<entry role="enum_member_description"><para>Firmware flashed permanently to the device.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsProvided-struct" role="struct">
+<title>AsProvided</title>
+<indexterm zone="AsProvided-struct"><primary>AsProvided</primary></indexterm>
+<programlisting language="C">typedef struct _AsProvided AsProvided;</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

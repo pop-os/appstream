@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
-<link rel="prev" href="AsRelease.html" title="AsRelease">
+<link rel="prev" href="AsProvided.html" title="AsProvided">
 <link rel="next" href="AsImage.html" title="AsImage">
 <meta name="generator" content="GTK-Doc V1.24 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -20,7 +20,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="AsRelease.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="AsProvided.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="AsImage.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -40,6 +40,10 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsScreenshot.html#AS-TYPE-SCREENSHOT:CAPS" title="AS_TYPE_SCREENSHOT">AS_TYPE_SCREENSHOT</a></td>
+</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="returnvalue">AsScreenshotKind</span></a>
@@ -144,10 +148,20 @@
 <col width="150px" class="name">
 <col class="description">
 </colgroup>
-<tbody><tr>
+<tbody>
+<tr>
+<td class="datatype_keyword">struct</td>
+<td class="function_name"><a class="link" href="AsScreenshot.html#AsScreenshotClass" title="struct AsScreenshotClass">AsScreenshotClass</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind">AsScreenshotKind</a></td>
-</tr></tbody>
+</tr>
+<tr>
+<td class="datatype_keyword"> </td>
+<td class="function_name"><a class="link" href="AsScreenshot.html#AsScreenshot-struct" title="AsScreenshot">AsScreenshot</a></td>
+</tr>
+</tbody>
 </table></div>
 </div>
 <div class="refsect1">
@@ -165,12 +179,20 @@ of different resolution.</p>
 <div class="refsect1">
 <a name="AsScreenshot.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
+<a name="AS-TYPE-SCREENSHOT:CAPS"></a><h3>AS_TYPE_SCREENSHOT</h3>
+<pre class="programlisting">#define AS_TYPE_SCREENSHOT (as_screenshot_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-screenshot-kind-from-string"></a><h3>as_screenshot_kind_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="returnvalue">AsScreenshotKind</span></a>
 as_screenshot_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.2.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.3.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -185,7 +207,7 @@ as_screenshot_kind_from_string (<em class="parameter"><code>const <span class="t
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.2.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.3.6"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><code class="literal">AsScreenshotKind</code></a>, or
 <a class="link" href="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"><code class="literal">AS_SCREENSHOT_KIND_UNKNOWN</code></a> if not known. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
@@ -198,7 +220,7 @@ as_screenshot_kind_from_string (<em class="parameter"><code>const <span class="t
 as_screenshot_kind_to_string (<em class="parameter"><code><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="type">AsScreenshotKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.3.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.4.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -213,7 +235,7 @@ as_screenshot_kind_to_string (<em class="parameter"><code><a class="link" href="
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.3.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.4.6"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 </div>
@@ -225,7 +247,7 @@ as_screenshot_kind_to_string (<em class="parameter"><code><a class="link" href="
 as_screenshot_is_valid (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Performs a quick validation on this screenshot</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.4.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.5.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -240,7 +262,7 @@ as_screenshot_is_valid (<em class="parameter"><code><a class="link" href="AsScre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.4.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.5.6"></a><h4>Returns</h4>
 <p> TRUE if the screenshot is a complete <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a></p>
 </div>
 </div>
@@ -251,7 +273,7 @@ as_screenshot_is_valid (<em class="parameter"><code><a class="link" href="AsScre
 as_screenshot_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.5.5"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.6.5"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -263,7 +285,7 @@ as_screenshot_new (<em class="parameter"><code><span class="type">void</span></c
 as_screenshot_get_kind (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Gets the screenshot kind.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.6.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.7.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -278,7 +300,7 @@ as_screenshot_get_kind (<em class="parameter"><code><a class="link" href="AsScre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.6.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.7.6"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="type">AsScreenshotKind</span></a></p>
 </div>
 </div>
@@ -290,7 +312,7 @@ as_screenshot_set_kind (<em class="parameter"><code><a class="link" href="AsScre
                         <em class="parameter"><code><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="type">AsScreenshotKind</span></a> kind</code></em>);</pre>
 <p>Sets the screenshot kind.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.7.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.8.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -319,7 +341,7 @@ as_screenshot_set_kind (<em class="parameter"><code><a class="link" href="AsScre
 as_screenshot_get_caption (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Gets the image caption</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.8.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.9.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -334,7 +356,7 @@ as_screenshot_get_caption (<em class="parameter"><code><a class="link" href="AsS
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.8.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.9.6"></a><h4>Returns</h4>
 <p> the caption</p>
 </div>
 </div>
@@ -347,7 +369,7 @@ as_screenshot_set_caption (<em class="parameter"><code><a class="link" href="AsS
                            <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Sets a caption on the screenshot</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.9.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.10.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -376,7 +398,7 @@ as_screenshot_set_caption (<em class="parameter"><code><a class="link" href="AsS
 as_screenshot_get_images (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Gets the image sizes included in the screenshot.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.10.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.11.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -391,7 +413,7 @@ as_screenshot_get_images (<em class="parameter"><code><a class="link" href="AsSc
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.7.10.6"></a><h4>Returns</h4>
+<a name="id-1.2.7.7.11.6"></a><h4>Returns</h4>
 <p> an array. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsImage][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -404,7 +426,7 @@ as_screenshot_add_image (<em class="parameter"><code><a class="link" href="AsScr
                          <em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
 <p>Adds an image to the screenshot.</p>
 <div class="refsect3">
-<a name="id-1.2.4.7.11.5"></a><h4>Parameters</h4>
+<a name="id-1.2.7.7.12.5"></a><h4>Parameters</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -450,10 +472,20 @@ one locale is available.</p>
 <div class="refsect1">
 <a name="AsScreenshot.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AsScreenshotClass"></a><h3>struct AsScreenshotClass</h3>
+<pre class="programlisting">struct AsScreenshotClass {
+	GObjectClass		parent_class;
+};
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsScreenshotKind"></a><h3>enum AsScreenshotKind</h3>
 <p>The screenshot type.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.2.4"></a><h4>Members</h4>
+<a name="id-1.2.7.8.3.4"></a><h4>Members</h4>
 <div class="informaltable"><table width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -469,22 +501,29 @@ one locale is available.</p>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="AS-SCREENSHOT-KIND-NORMAL:CAPS"></a>AS_SCREENSHOT_KIND_NORMAL</p></td>
+<td class="enum_member_name"><p><a name="AS-SCREENSHOT-KIND-DEFAULT:CAPS"></a>AS_SCREENSHOT_KIND_DEFAULT</p></td>
 <td class="enum_member_description">
-<p>Optional screenshot</p>
+<p>The primary screenshot to show by default</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="AS-SCREENSHOT-KIND-DEFAULT:CAPS"></a>AS_SCREENSHOT_KIND_DEFAULT</p></td>
+<td class="enum_member_name"><p><a name="AS-SCREENSHOT-KIND-EXTRA:CAPS"></a>AS_SCREENSHOT_KIND_EXTRA</p></td>
 <td class="enum_member_description">
-<p>Screenshot to show by default</p>
+<p>Optional screenshot</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsScreenshot-struct"></a><h3>AsScreenshot</h3>
+<pre class="programlisting">typedef struct _AsScreenshot AsScreenshot;</pre>
+<p>
+</p>
 </div>
 </div>
 </div>

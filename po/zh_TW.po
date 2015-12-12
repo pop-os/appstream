@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-11-05 02:36+0100\n"
-"PO-Revision-Date: 2015-09-19 16:23+0000\n"
+"POT-Creation-Date: 2015-12-12 18:14+0100\n"
+"PO-Revision-Date: 2015-12-11 14:49+0000\n"
 "Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/freedesktop/"
 "appstream/language/zh_TW/)\n"
@@ -38,9 +38,15 @@ msgstr "AppStream 快取更新完成，但有些中介資料因為錯誤而被�
 msgid "AppStream cache update failed."
 msgstr "AppStream 快取更新失敗。"
 
+msgid "AppStream cache update is not necessary."
+msgstr "不必更新 AppStream 快取。"
+
 #. TRANSLATORS: This is the header to the --help menu
 msgid "AppStream command-line interface"
 msgstr "AppStream 指令列介面"
+
+msgid "Binaries"
+msgstr "二進位檔"
 
 msgid "Bundle"
 msgstr "套組"
@@ -52,8 +58,18 @@ msgstr "類別"
 msgid "Command '%s' is unknown."
 msgstr "指令「%s」未知。"
 
+#, c-format
+msgid "Component '%s' has no installation candidate."
+msgstr "「%s」組件尚無安裝候選。"
+
 msgid "Compulsory for"
 msgstr "強制項目為"
+
+msgid "DBus Session Services"
+msgstr "DBus 作業階段服務"
+
+msgid "DBus System Services"
+msgstr "DBus 系統服務"
 
 msgid "Description"
 msgstr "描述"
@@ -78,6 +94,12 @@ msgstr "強制快取重新整理"
 msgid "File %s not found or permission denied!"
 msgstr "找不到檔案 %s，或未獲得存取許可！"
 
+msgid "Flashed Firmware"
+msgstr "快閃記憶韌體"
+
+msgid "Fonts"
+msgstr "字型"
+
 msgid "Get components which provide the given item"
 msgstr "取得可提供給定項目的組件"
 
@@ -93,8 +115,11 @@ msgstr "圖示"
 msgid "Identifier"
 msgstr "辨識碼"
 
-msgid "Invalid type for provides-item selected. Valid values are:"
-msgstr "選取的提供項目其類型無效。有效的值為："
+msgid "Invalid type for provided item selected. Valid values are:"
+msgstr "選取的供應項目類型無效。有效的值有："
+
+msgid "Libraries"
+msgstr "函式庫"
 
 #. license
 msgid "License"
@@ -106,6 +131,12 @@ msgstr "手動設定快取重製用的 AppStream 中介資料位置"
 msgid "Manually set the location of the AppStream cache"
 msgstr "手動設定 AppStream 快取的位置"
 
+msgid "Mimetypes"
+msgstr "Mimetypes"
+
+msgid "Modaliases"
+msgstr "Modaliases"
+
 msgid "Name"
 msgstr "名稱"
 
@@ -114,11 +145,16 @@ msgid "No component matching '%s' found."
 msgstr "找不到符合「%s」的組件。"
 
 #, c-format
-msgid "No component providing '%s:%s:%s' found."
-msgstr "找不到提供「%s:%s:%s」的組件。"
+msgid "No component providing '%s;%s' found."
+msgstr "找不到供應「%s;%s」的組件。"
 
-msgid "No value for the provides-item to search for defined."
-msgstr "沒有定義要搜尋的提供項目值。"
+msgid ""
+"No suitable package manager CLI found. Please make sure that e.g. \"pkcon"
+"\" (part of PackageKit) is available."
+msgstr "s"
+
+msgid "No value for the item to search for defined."
+msgstr "要搜尋的項目未定義該值。"
 
 msgid "Package"
 msgstr "軟體包"
@@ -136,12 +172,21 @@ msgstr "專案群組"
 msgid "Provided Items"
 msgstr "提供的項目"
 
+msgid "Python (Version 2)"
+msgstr "Python (第 2 版)"
+
+msgid "Python 3"
+msgstr "Python 3"
+
 msgid "Rebuild the component information cache"
 msgstr "重建組件資訊快取"
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr "執行「%s --help」查看可用指令列選項的完整清單。"
+
+msgid "Runtime Firmware"
+msgstr "執行時期韌體"
 
 msgid "Sample Screenshot URL"
 msgstr "樣本螢幕快照 URL"
@@ -165,18 +210,28 @@ msgstr "子指令："
 msgid "Summary"
 msgstr "摘要"
 
+msgid "Tried to perform query on closed database."
+msgstr "已試圖查詢關閉的資料庫。"
+
 #. TRANSLATORS: We failed to find any component in the database due to an error
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "找不到符合 %s 的組件！"
 
 #, c-format
-msgid "Unable to find component providing '%s:%s:%s'!"
-msgstr "找不到提供「%s:%s:%s」的組件！"
+msgid "Unable to find component providing '%s;%s'!"
+msgstr "找不到供應「%s;%s」的組件！"
 
 #, c-format
 msgid "Unable to find component with id '%s'!"
 msgstr "找不到 id 為「%s」的組件！"
+
+msgid "Unable to open the AppStream software component cache."
+msgstr "無法開啟 AppStream 軟體組件快取。"
+
+#, c-format
+msgid "Unable to spawn package manager: %s"
+msgstr "無法多重啟動軟體包管理程式：%s"
 
 msgid "Validate AppStream XML files for issues"
 msgstr "根據問題驗證 AppStream XML 檔案"

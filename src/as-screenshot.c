@@ -31,14 +31,13 @@
 
 #include "as-screenshot.h"
 
-typedef struct _AsScreenshotPrivate	AsScreenshotPrivate;
-struct _AsScreenshotPrivate
+typedef struct
 {
-	AsScreenshotKind	kind;
-	GHashTable			*caption;
-	GPtrArray			*images;
-	gchar				*active_locale;
-};
+	AsScreenshotKind kind;
+	GHashTable *caption;
+	GPtrArray *images;
+	gchar *active_locale;
+} AsScreenshotPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsScreenshot, as_screenshot, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_screenshot_get_instance_private (o))
@@ -68,7 +67,7 @@ as_screenshot_init (AsScreenshot *screenshot)
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 
 	priv->active_locale = g_strdup ("C");
-	priv->kind = AS_SCREENSHOT_KIND_NORMAL;
+	priv->kind = AS_SCREENSHOT_KIND_EXTRA;
 	priv->images = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 	priv->caption = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 }
@@ -96,10 +95,10 @@ as_screenshot_class_init (AsScreenshotClass *klass)
 AsScreenshotKind
 as_screenshot_kind_from_string (const gchar *kind)
 {
-	if (g_strcmp0 (kind, "normal") == 0)
-		return AS_SCREENSHOT_KIND_NORMAL;
 	if (g_strcmp0 (kind, "default") == 0)
 		return AS_SCREENSHOT_KIND_DEFAULT;
+	if (g_strcmp0 (kind, "extra") == 0)
+		return AS_SCREENSHOT_KIND_EXTRA;
 	return AS_SCREENSHOT_KIND_UNKNOWN;
 }
 
@@ -115,10 +114,10 @@ as_screenshot_kind_from_string (const gchar *kind)
 const gchar *
 as_screenshot_kind_to_string (AsScreenshotKind kind)
 {
-	if (kind == AS_SCREENSHOT_KIND_NORMAL)
-		return "normal";
 	if (kind == AS_SCREENSHOT_KIND_DEFAULT)
 		return "default";
+	if (kind == AS_SCREENSHOT_KIND_EXTRA)
+		return "extra";
 	return NULL;
 }
 

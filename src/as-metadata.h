@@ -31,22 +31,10 @@
 
 #include "as-component.h"
 
-#define AS_TYPE_METADATA		(as_metadata_get_type())
-#define AS_METADATA(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_METADATA, AsMetadata))
-#define AS_METADATA_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_METADATA, AsMetadataClass))
-#define AS_IS_METADATA(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_METADATA))
-#define AS_IS_METADATA_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_METADATA))
-#define AS_METADATA_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_METADATA, AsMetadataClass))
-
 G_BEGIN_DECLS
 
-typedef struct _AsMetadata	AsMetadata;
-typedef struct _AsMetadataClass	AsMetadataClass;
-
-struct _AsMetadata
-{
-	GObject			parent;
-};
+#define AS_TYPE_METADATA (as_metadata_get_type ())
+G_DECLARE_DERIVABLE_TYPE (AsMetadata, as_metadata, AS, METADATA, GObject)
 
 struct _AsMetadataClass
 {
@@ -58,28 +46,24 @@ struct _AsMetadataClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
-
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (AsMetadata, g_object_unref)
 
 /**
  * AsMetadataError:
- * @AS_METADATA_ERROR_FAILED: Generic failure
+ * @AS_METADATA_ERROR_FAILED:	Generic failure
  *
- * The error type.
+ * A metadata processing error.
  **/
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
+	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
 
-#define	AS_METADATA_ERROR		as_metadata_error_quark ()
+#define	AS_METADATA_ERROR	as_metadata_error_quark ()
 
-GType		 	as_metadata_get_type (void);
-AsMetadata*		as_metadata_new (void);
-GQuark			as_metadata_error_quark	(void);
+AsMetadata		*as_metadata_new (void);
+GQuark			as_metadata_error_quark (void);
 
 void			as_metadata_parse_file (AsMetadata *metad,
 							GFile *file,
@@ -92,9 +76,9 @@ AsComponent		*as_metadata_get_component (AsMetadata *metad);
 GPtrArray		*as_metadata_get_components (AsMetadata *metad);
 
 void			as_metadata_clear_components (AsMetadata *metad);
-
 void			as_metadata_add_component (AsMetadata *metad,
 							AsComponent *cpt);
+
 gchar			*as_metadata_component_to_upstream_xml (AsMetadata *metad);
 gchar			*as_metadata_components_to_distro_xml (AsMetadata *metad);
 

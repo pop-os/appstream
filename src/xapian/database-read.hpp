@@ -27,7 +27,6 @@
 #include <xapian.h>
 #include <glib.h>
 
-#include "../as-search-query.h"
 #include "../as-component.h"
 
 using namespace std;
@@ -47,9 +46,9 @@ public:
 	string		getLocale ();
 
 	GPtrArray	*getAllComponents ();
-	GPtrArray	*findComponents (AsSearchQuery *asQuery);
+	GPtrArray	*findComponents (const gchar *term, gchar **cats);
 	AsComponent	*getComponentById (const gchar *idname);
-	GPtrArray	*getComponentsByProvides (AsProvidesKind kind, const gchar *value, const gchar *data);
+	GPtrArray	*getComponentsByProvides (AsProvidedKind kind, const gchar *item);
 	GPtrArray	*getComponentsByKind (AsComponentKind kinds);
 
 private:
@@ -65,7 +64,7 @@ private:
 	Xapian::Query		getQueryForPkgNames (vector<string> pkgnames);
 	Xapian::Query		getQueryForCategory (gchar *cat_id);
 	void			appendSearchResults (Xapian::Enquire enquire, GPtrArray *cptArray);
-	vector<Xapian::Query>	queryListFromSearchEntry (AsSearchQuery *asQuery);
+	vector<Xapian::Query>	queryListForTermCats (const gchar *term, gchar **categories);
 };
 
 inline DatabaseRead* realDbRead (XADatabaseRead* d) { return static_cast<DatabaseRead*>(d); }

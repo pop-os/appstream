@@ -146,15 +146,6 @@ ascli_print_stdout (const gchar *format, ...)
 }
 
 /**
- * string_hashtable_to_str:
- */
-static void
-string_hashtable_to_str (gchar *key, gchar *value, GString *gstr)
-{
-	g_string_append_printf (gstr, "%s:%s, ", key, value);
-}
-
-/**
  * ascli_set_colored_output:
  */
 void
@@ -169,15 +160,25 @@ ascli_set_colored_output (gboolean colored)
 static gchar*
 as_get_bundle_str (AsComponent *cpt)
 {
-	GHashTable *bundle_ids;
+	guint i;
 	GString *gstr;
 
-	bundle_ids = as_component_get_bundle_ids (cpt);
-	if (g_hash_table_size (bundle_ids) <= 0)
+	if (!as_component_has_bundle (cpt))
 		return NULL;
 
 	gstr = g_string_new ("");
-	g_hash_table_foreach (bundle_ids, (GHFunc) string_hashtable_to_str, gstr);
+	for (i = 0; i < AS_BUNDLE_KIND_LAST; i++) {
+		AsBundleKind kind = (AsBundleKind) i;
+		const gchar *bundle_id;
+
+		bundle_id = as_component_get_bundle_id (cpt, kind);
+		if (bundle_id == NULL)
+			continue;
+		g_string_append_printf (gstr, "%s:%s, ",
+					as_bundle_kind_to_string (kind),
+					bundle_id);
+
+	}
 	if (gstr->len > 0)
 		g_string_truncate (gstr, gstr->len - 2);
 
@@ -195,6 +196,7 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 	gchar *short_idline;
 	gchar *pkgs_str = NULL;
 	gchar *bundles_str = NULL;
+	AsIcon *icon = NULL;
 	guint j;
 
 	short_idline = g_strdup_printf ("%s [%s]",
@@ -204,13 +206,15 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 		pkgs_str = g_strjoinv (", ", as_component_get_pkgnames (cpt));
 	bundles_str = as_get_bundle_str (cpt);
 
+	icon = as_component_get_icon_by_size (cpt, 64, 64);
+
 	ascli_print_key_value (_("Identifier"), short_idline, FALSE);
 	ascli_print_key_value (_("Name"), as_component_get_name (cpt), FALSE);
 	ascli_print_key_value (_("Summary"), as_component_get_summary (cpt), FALSE);
 	ascli_print_key_value (_("Package"), pkgs_str, FALSE);
 	ascli_print_key_value (_("Bundle"), bundles_str, FALSE);
 	ascli_print_key_value (_("Homepage"), as_component_get_url (cpt, AS_URL_KIND_HOMEPAGE), FALSE);
-	ascli_print_key_value (_("Icon"), as_component_get_icon_url (cpt, 64, 64), FALSE);
+	ascli_print_key_value (_("Icon"), icon == NULL ? NULL : as_icon_get_name (icon), FALSE);
 	g_free (short_idline);
 	g_free (pkgs_str);
 	g_free (bundles_str);
@@ -219,7 +223,8 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 	if (show_detailed) {
 		GPtrArray *sshot_array;
 		GPtrArray *imgs = NULL;
-		GPtrArray *provided_items;
+		GList *provided;
+		GList *l;
 		AsScreenshot *sshot;
 		AsImage *img;
 		gchar *str;
@@ -279,13 +284,24 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 		}
 
 		/* Provided Items */
-		provided_items = as_component_get_provided_items (cpt);
-		strv = as_ptr_array_to_strv (provided_items);
-		if (strv != NULL) {
-			str = g_strjoinv (" ", strv);
-			ascli_print_key_value (_("Provided Items"), str, FALSE);
-			g_free (str);
+		provided = as_component_get_provided (cpt);
+		if (provided != NULL)
+			ascli_print_key_value (_("Provided Items"), "↓", FALSE);
+		for (l = provided; l != NULL; l = l->next) {
+			g_autofree gchar **items = NULL;
+			AsProvided *prov = AS_PROVIDED (l->data);
+
+			items = as_provided_get_items (prov);
+			if (items != NULL) {
+				g_autofree gchar *keyname = NULL;
+
+				str = g_strjoinv (" ", items);
+				keyname = g_strdup_printf (" %s",
+								as_provided_kind_to_l10n_string (as_provided_get_kind (prov)));
+
+				ascli_print_key_value (keyname, str, FALSE);
+				g_free (str);
+			}
 		}
-		g_strfreev (strv);
 	}
 }

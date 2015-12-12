@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-11-05 02:36+0100\n"
-"PO-Revision-Date: 2015-09-16 10:15+0000\n"
-"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"POT-Creation-Date: 2015-12-12 18:14+0100\n"
+"PO-Revision-Date: 2015-12-10 22:56+0000\n"
+"Last-Translator: Matthias K. <matthias@tenstral.net>\n"
 "Language-Team: Turkish (http://www.transifex.com/freedesktop/appstream/"
 "language/tr/)\n"
 "Language: tr\n"
@@ -41,9 +41,15 @@ msgstr ""
 msgid "AppStream cache update failed."
 msgstr "AppStream ön bellek güncellemesi başarısız oldu."
 
+msgid "AppStream cache update is not necessary."
+msgstr ""
+
 #. TRANSLATORS: This is the header to the --help menu
 msgid "AppStream command-line interface"
 msgstr "AppStream komut satırı arayüzü"
+
+msgid "Binaries"
+msgstr ""
 
 msgid "Bundle"
 msgstr "Takım"
@@ -55,8 +61,18 @@ msgstr "Sınıflandırmalar"
 msgid "Command '%s' is unknown."
 msgstr "'%s' komutu bilinmiyor."
 
+#, c-format
+msgid "Component '%s' has no installation candidate."
+msgstr ""
+
 msgid "Compulsory for"
 msgstr "Zorunlu"
+
+msgid "DBus Session Services"
+msgstr ""
+
+msgid "DBus System Services"
+msgstr ""
 
 msgid "Description"
 msgstr "Tanımlama"
@@ -81,6 +97,12 @@ msgstr "Ön belleğin yenilenmesini zorla"
 msgid "File %s not found or permission denied!"
 msgstr "%s dosyası bulunamadı veya izin verilmedi!"
 
+msgid "Flashed Firmware"
+msgstr ""
+
+msgid "Fonts"
+msgstr ""
+
 msgid "Get components which provide the given item"
 msgstr "Verilen ögeyi sağlayan bileşenleri alın"
 
@@ -96,8 +118,11 @@ msgstr "Simge"
 msgid "Identifier"
 msgstr "Tanımlayıcı"
 
-msgid "Invalid type for provides-item selected. Valid values are:"
-msgstr "Seçilen sağlanan öge için geçersiz tür. Geçerli değerler:"
+msgid "Invalid type for provided item selected. Valid values are:"
+msgstr ""
+
+msgid "Libraries"
+msgstr ""
 
 #. license
 msgid "License"
@@ -111,6 +136,12 @@ msgstr ""
 msgid "Manually set the location of the AppStream cache"
 msgstr "AppStream ön belleğinin konumunu elle ayarlayın"
 
+msgid "Mimetypes"
+msgstr ""
+
+msgid "Modaliases"
+msgstr ""
+
 msgid "Name"
 msgstr "İsim"
 
@@ -119,11 +150,16 @@ msgid "No component matching '%s' found."
 msgstr "'%s' ile eşleşen bileşen bulunamadı."
 
 #, c-format
-msgid "No component providing '%s:%s:%s' found."
-msgstr "'%s:%s:%s' sağlayan bileşen bulunamadı."
+msgid "No component providing '%s;%s' found."
+msgstr ""
 
-msgid "No value for the provides-item to search for defined."
-msgstr "Sağlanan öge için arama değeri tanımlanmamış."
+msgid ""
+"No suitable package manager CLI found. Please make sure that e.g. \"pkcon"
+"\" (part of PackageKit) is available."
+msgstr ""
+
+msgid "No value for the item to search for defined."
+msgstr ""
 
 msgid "Package"
 msgstr "Paket"
@@ -141,6 +177,12 @@ msgstr "Proje Grubu"
 msgid "Provided Items"
 msgstr "Sağlanan Ögeler"
 
+msgid "Python (Version 2)"
+msgstr ""
+
+msgid "Python 3"
+msgstr ""
+
 msgid "Rebuild the component information cache"
 msgstr "Bileşen bilgisi ön belleğini yeniden oluştur"
 
@@ -148,6 +190,9 @@ msgstr "Bileşen bilgisi ön belleğini yeniden oluştur"
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
 "Tüm komut satırı işlemlerini görmek için '%s --help' komutunu çalıştırın."
+
+msgid "Runtime Firmware"
+msgstr ""
 
 msgid "Sample Screenshot URL"
 msgstr "Örnek Ekran Görüntüsü Adresi"
@@ -171,18 +216,28 @@ msgstr "Alt komutlar:"
 msgid "Summary"
 msgstr "Özet"
 
+msgid "Tried to perform query on closed database."
+msgstr ""
+
 #. TRANSLATORS: We failed to find any component in the database due to an error
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "%s ile eşleşen bileşen bulunamadı!"
 
 #, c-format
-msgid "Unable to find component providing '%s:%s:%s'!"
-msgstr "'%s:%s:%s' bileşeni bulunamadı!"
+msgid "Unable to find component providing '%s;%s'!"
+msgstr ""
 
 #, c-format
 msgid "Unable to find component with id '%s'!"
 msgstr "'%s' kimliğine sahip bileşen bulunamadı!"
+
+msgid "Unable to open the AppStream software component cache."
+msgstr ""
+
+#, c-format
+msgid "Unable to spawn package manager: %s"
+msgstr ""
 
 msgid "Validate AppStream XML files for issues"
 msgstr "AppStream XML dosyalarını sorunlar için doğrula"

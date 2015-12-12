@@ -22,30 +22,12 @@ as-utils-private
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### FUNCTION as_utils_touch_dir ##### -->
-<para>
-
-</para>
-
-@dirname: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_utils_delete_dir_recursive ##### -->
 <para>
 
 </para>
 
 @dirname: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_string_strip ##### -->
-<para>
-
-</para>
-
-@str: 
 @Returns: 
 
 
@@ -77,6 +59,7 @@ as-utils-private
 @dir: 
 @pattern: 
 @recursive: 
+@error: 
 @Returns: 
 
 
@@ -87,6 +70,7 @@ as-utils-private
 
 @dir: 
 @recursive: 
+@error: 
 @Returns: 
 
 
@@ -110,12 +94,21 @@ as-utils-private
 @Returns: 
 
 
-<!-- ##### FUNCTION as_get_locale ##### -->
+<!-- ##### FUNCTION as_ptr_array_to_strv ##### -->
 <para>
 
 </para>
 
-@void: 
+@array: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_touch_location ##### -->
+<para>
+
+</para>
+
+@fname: 
 @Returns: 
 
 

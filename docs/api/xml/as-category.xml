@@ -22,42 +22,43 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-CATEGORY:CAPS">AS_TYPE_CATEGORY</link></entry></row>
 <row><entry role="function_type"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-new">as_category_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-category-construct">as_category_construct</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-complete">as_category_complete</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-directory">as_category_get_directory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-directory">as_category_set_directory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-name">as_category_get_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-category-set-icon">as_category_set_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-set-name">as_category_set_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-summary">as_category_get_summary</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-summary">as_category_set_summary</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-icon">as_category_get_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-set-icon">as_category_set_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-category-has-subcategory">as_category_has_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-add-subcategory">as_category_add_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-remove-subcategory">as_category_remove_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-category-has-subcategory">as_category_has_subcategory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-category-set-directory">as_category_set_directory</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-included">as_category_get_included</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-category-get-excluded">as_category_get_excluded</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-category-get-subcategories">as_category_get_subcategories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-get-level">as_category_get_level</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-category-set-level">as_category_set_level</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-category-get-subcategories">as_category_get_subcategories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -79,6 +80,20 @@
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--name">name</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gpointer"><type>gpointer</type></link></entry><entry role="property_name"><link linkend="AsCategory--subcategories">subcategories</link></entry><entry role="property_flags">Read</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsCategory--summary">summary</link></entry><entry role="property_flags">Read</entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsCategory.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsCategoryClass">AsCategoryClass</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsCategory-struct">AsCategory</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -107,6 +122,14 @@ which are use to thematically group applications.</para>
 </refsect1>
 <refsect1 id="AsCategory.functions_details" role="details">
 <title role="details.title">Functions</title>
+<refsect2 id="AS-TYPE-CATEGORY:CAPS" role="macro">
+<title>AS_TYPE_CATEGORY</title>
+<indexterm zone="AS-TYPE-CATEGORY:CAPS"><primary>AS_TYPE_CATEGORY</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_CATEGORY (as_category_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="as-category-new" role="function">
 <title>as_category_new&#160;()</title>
 <indexterm zone="as-category-new"><primary>as_category_new</primary></indexterm>
@@ -118,163 +141,342 @@ as_category_new (<parameter><type>void</type></parameter>);</programlisting>
 <para> a new <link linkend="AsCategory"><type>AsCategory</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-category-construct" role="function">
-<title>as_category_construct&#160;()</title>
-<indexterm zone="as-category-construct"><primary>as_category_construct</primary></indexterm>
-<programlisting language="C"><link linkend="AsCategory"><returnvalue>AsCategory</returnvalue></link>&#160;*
-as_category_construct (<parameter><link linkend="GType"><type>GType</type></link> object_type</parameter>);</programlisting>
-<para>Construct a new <link linkend="AsCategory"><type>AsCategory</type></link>.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-<para> a new <link linkend="AsCategory"><type>AsCategory</type></link>. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
 <refsect2 id="as-category-complete" role="function">
 <title>as_category_complete&#160;()</title>
 <indexterm zone="as-category-complete"><primary>as_category_complete</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_complete (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
+as_category_complete (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Update incomplete category data with information from
+"/usr/share/desktop-directories".</para>
 </refsect2>
 <refsect2 id="as-category-get-directory" role="function">
 <title>as_category_get_directory&#160;()</title>
 <indexterm zone="as-category-get-directory"><primary>as_category_get_directory</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_category_get_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-get-name" role="function">
-<title>as_category_get_name&#160;()</title>
-<indexterm zone="as-category-get-name"><primary>as_category_get_name</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_category_get_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-set-icon" role="function">
-<title>as_category_set_icon&#160;()</title>
-<indexterm zone="as-category-set-icon"><primary>as_category_set_icon</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_set_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-set-name" role="function">
-<title>as_category_set_name&#160;()</title>
-<indexterm zone="as-category-set-name"><primary>as_category_set_name</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_set_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-get-summary" role="function">
-<title>as_category_get_summary&#160;()</title>
-<indexterm zone="as-category-get-summary"><primary>as_category_get_summary</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_category_get_summary (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-get-icon" role="function">
-<title>as_category_get_icon&#160;()</title>
-<indexterm zone="as-category-get-icon"><primary>as_category_get_icon</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_category_get_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-add-subcategory" role="function">
-<title>as_category_add_subcategory&#160;()</title>
-<indexterm zone="as-category-add-subcategory"><primary>as_category_add_subcategory</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_add_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                             <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-remove-subcategory" role="function">
-<title>as_category_remove_subcategory&#160;()</title>
-<indexterm zone="as-category-remove-subcategory"><primary>as_category_remove_subcategory</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_remove_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
-                                <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
-<refsect2 id="as-category-has-subcategory" role="function">
-<title>as_category_has_subcategory&#160;()</title>
-<indexterm zone="as-category-has-subcategory"><primary>as_category_has_subcategory</primary></indexterm>
-<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_category_has_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>Test for sub-categories.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-<para> TRUE if this category has any subcategory</para>
+as_category_get_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Get associated XDG directory name for this category,
+in case one exists in "/usr/share/desktop-directories/".</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
 </refsect3></refsect2>
 <refsect2 id="as-category-set-directory" role="function">
 <title>as_category_set_directory&#160;()</title>
 <indexterm zone="as-category-set-directory"><primary>as_category_set_directory</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_set_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+as_category_set_directory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
+<para>Set associated XDG directory name for this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-get-name" role="function">
+<title>as_category_get_name&#160;()</title>
+<indexterm zone="as-category-get-name"><primary>as_category_get_name</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Get the name of this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-set-name" role="function">
+<title>as_category_set_name&#160;()</title>
+<indexterm zone="as-category-set-name"><primary>as_category_set_name</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_name (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Set the name of this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-get-summary" role="function">
+<title>as_category_get_summary&#160;()</title>
+<indexterm zone="as-category-get-summary"><primary>as_category_get_summary</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_summary (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Get the summary (short description) of this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-set-summary" role="function">
+<title>as_category_set_summary&#160;()</title>
+<indexterm zone="as-category-set-summary"><primary>as_category_set_summary</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_summary (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Get the summary (short description) of this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>A new short summary of this category.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-get-icon" role="function">
+<title>as_category_get_icon&#160;()</title>
+<indexterm zone="as-category-get-icon"><primary>as_category_get_icon</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_category_get_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Get the stock icon name for this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-set-icon" role="function">
+<title>as_category_set_icon&#160;()</title>
+<indexterm zone="as-category-set-icon"><primary>as_category_set_icon</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_set_icon (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Set the stock icon name for this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-has-subcategory" role="function">
+<title>as_category_has_subcategory&#160;()</title>
+<indexterm zone="as-category-has-subcategory"><primary>as_category_has_subcategory</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_category_has_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<para>Test for sub-categories.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if this category has any subcategory</para>
+</refsect3></refsect2>
+<refsect2 id="as-category-add-subcategory" role="function">
+<title>as_category_add_subcategory&#160;()</title>
+<indexterm zone="as-category-add-subcategory"><primary>as_category_add_subcategory</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_add_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
+                             <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *subcat</parameter>);</programlisting>
+<para>Add a subcategory to this category.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>subcat</para></entry>
+<entry role="parameter_description"><para>A subcategory to add.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-category-remove-subcategory" role="function">
+<title>as_category_remove_subcategory&#160;()</title>
+<indexterm zone="as-category-remove-subcategory"><primary>as_category_remove_subcategory</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_category_remove_subcategory (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
+                                <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *subcat</parameter>);</programlisting>
+<para>Drop a subcategory from this <link linkend="AsCategory"><type>AsCategory</type></link>.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>subcat</para></entry>
+<entry role="parameter_description"><para>A subcategory to remove.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-category-get-included" role="function">
 <title>as_category_get_included&#160;()</title>
 <indexterm zone="as-category-get-included"><primary>as_category_get_included</primary></indexterm>
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-as_category_get_included (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<refsect3 role="returns">
+as_category_get_included (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> an array of category names. </para>
+<para> A list of category names. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-category-get-excluded" role="function">
 <title>as_category_get_excluded&#160;()</title>
 <indexterm zone="as-category-get-excluded"><primary>as_category_get_excluded</primary></indexterm>
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-as_category_get_excluded (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<refsect3 role="returns">
+as_category_get_excluded (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
 <title>Returns</title>
-<para> an array of category names. </para>
+<para> A list of category names. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-category-get-subcategories" role="function">
+<title>as_category_get_subcategories&#160;()</title>
+<indexterm zone="as-category-get-subcategories"><primary>as_category_get_subcategories</primary></indexterm>
+<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+as_category_get_subcategories (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cat</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsCategory"><type>AsCategory</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> A list of subcategories. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer none</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-category-get-level" role="function">
 <title>as_category_get_level&#160;()</title>
 <indexterm zone="as-category-get-level"><primary>as_category_get_level</primary></indexterm>
 <programlisting language="C"><link linkend="gint"><returnvalue>gint</returnvalue></link>
-as_category_get_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<para>
-</para>
+as_category_get_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>);</programlisting>
 </refsect2>
 <refsect2 id="as-category-set-level" role="function">
 <title>as_category_set_level&#160;()</title>
 <indexterm zone="as-category-set-level"><primary>as_category_set_level</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_category_set_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>,
+as_category_set_level (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *cat</parameter>,
                        <parameter><link linkend="gint"><type>gint</type></link> value</parameter>);</programlisting>
-<para>
-</para>
 </refsect2>
-<refsect2 id="as-category-get-subcategories" role="function">
-<title>as_category_get_subcategories&#160;()</title>
-<indexterm zone="as-category-get-subcategories"><primary>as_category_get_subcategories</primary></indexterm>
-<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-as_category_get_subcategories (<parameter><link linkend="AsCategory"><type>AsCategory</type></link> *self</parameter>);</programlisting>
-<refsect3 role="returns">
-<title>Returns</title>
-<para> an array of category names. </para>
-<para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsCategory.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AsCategoryClass" role="struct">
+<title>struct AsCategoryClass</title>
+<indexterm zone="AsCategoryClass"><primary>AsCategoryClass</primary></indexterm>
+<programlisting language="C">struct AsCategoryClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsCategory-struct" role="struct">
+<title>AsCategory</title>
+<indexterm zone="AsCategory-struct"><primary>AsCategory</primary></indexterm>
+<programlisting language="C">typedef struct _AsCategory AsCategory;</programlisting>
+<para>
+</para>
+</refsect2>
 
 </refsect1>
 <refsect1 id="AsCategory.property-details" role="property_details">

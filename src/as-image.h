@@ -27,22 +27,10 @@
 
 #include <glib-object.h>
 
-#define AS_TYPE_IMAGE		(as_image_get_type())
-#define AS_IMAGE(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_IMAGE, AsImage))
-#define AS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_IMAGE, AsImageClass))
-#define AS_IS_IMAGE(obj)	(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_IMAGE))
-#define AS_IS_IMAGE_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_IMAGE))
-#define AS_IMAGE_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_IMAGE, AsImageClass))
-
 G_BEGIN_DECLS
 
-typedef struct _AsImage		AsImage;
-typedef struct _AsImageClass	AsImageClass;
-
-struct _AsImage
-{
-	GObject			parent;
-};
+#define AS_TYPE_IMAGE (as_image_get_type ())
+G_DECLARE_DERIVABLE_TYPE (AsImage, as_image, AS, IMAGE, GObject)
 
 struct _AsImageClass
 {
@@ -54,17 +42,13 @@ struct _AsImageClass
 	void (*_as_reserved4)	(void);
 	void (*_as_reserved5)	(void);
 	void (*_as_reserved6)	(void);
-	void (*_as_reserved7)	(void);
-	void (*_as_reserved8)	(void);
 };
-
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (AsImage, g_object_unref)
 
 /**
  * AsImageKind:
- * @AS_IMAGE_KIND_UNKNOWN:		Type invalid or not known
- * @AS_IMAGE_KIND_SOURCE:		The source image at full resolution
- * @AS_IMAGE_KIND_THUMBNAIL:		A thumbnail at reduced resolution
+ * @AS_IMAGE_KIND_UNKNOWN:	Type invalid or not known
+ * @AS_IMAGE_KIND_SOURCE:	The source image at full resolution
+ * @AS_IMAGE_KIND_THUMBNAIL:	A thumbnail at reduced resolution
  *
  * The image type.
  **/
@@ -72,13 +56,13 @@ typedef enum {
 	AS_IMAGE_KIND_UNKNOWN,
 	AS_IMAGE_KIND_SOURCE,
 	AS_IMAGE_KIND_THUMBNAIL,
+	/*< private >*/
 	AS_IMAGE_KIND_LAST
 } AsImageKind;
 
-AsImageKind	 as_image_kind_from_string (const gchar	*kind);
-const gchar	*as_image_kind_to_string (AsImageKind	 kind);
+AsImageKind	 as_image_kind_from_string (const gchar *kind);
+const gchar	*as_image_kind_to_string (AsImageKind kind);
 
-GType		 as_image_get_type (void);
 AsImage		*as_image_new (void);
 
 const gchar	*as_image_get_url (AsImage *image);

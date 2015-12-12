@@ -81,10 +81,12 @@ langs_hashtable_to_langentry (gchar *key, gint value, Languages *pb_langs)
  * Helper function to serialize bundle data for storage in the database
  */
 static void
-bundles_hashtable_to_bundleentry (gchar *key, gchar *value, Bundles *bundles)
+bundles_hashtable_to_bundleentry (gpointer bkind_ptr, gchar *value, Bundles *bundles)
 {
+	AsBundleKind bkind = (AsBundleKind) GPOINTER_TO_INT (bkind_ptr);
+
 	Bundles_Bundle *bdl = bundles->add_bundle ();
-	bdl->set_type ((Bundles_BundleType) as_bundle_kind_from_string (key));
+	bdl->set_type ((Bundles_BundleType) bkind);
 	bdl->set_id (value);
 }
 
@@ -92,22 +94,13 @@ bundles_hashtable_to_bundleentry (gchar *key, gchar *value, Bundles *bundles)
  * Helper function to serialize urls for storage in the database
  */
 static void
-urls_hashtable_to_urlentry (gchar *key, gchar *value, Urls *urls)
+urls_hashtable_to_urlentry (gpointer ukind_ptr, gchar *value, Urls *urls)
 {
-	Urls_Url *url = urls->add_url ();
-	url->set_type ((Urls_UrlType) as_url_kind_from_string (key));
-	url->set_url (value);
-}
+	AsUrlKind ukind = (AsUrlKind) GPOINTER_TO_INT (ukind_ptr);
 
-/**
- * Helper function to serialize icon urls for storage in the database
- */
-static void
-icon_urls_hashtable_to_iconentry (gchar *key, gchar *value, IconUrls *iurls)
-{
-	IconUrls_Icon *icon = iurls->add_icon ();
-	icon->set_size (key);
-	icon->set_url (value);
+	Urls_Url *url = urls->add_url ();
+	url->set_type ((Urls_UrlType) ukind);
+	url->set_url (value);
 }
 
 /**
@@ -140,7 +133,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 	string db_locale;
 
 	// Create the rebuild directory
-	if (!as_utils_touch_dir (rebuild_path.c_str ())) {
+	if (g_mkdir_with_parents (rebuild_path.c_str (), 0755) != 0) {
 		g_warning ("Unable to create database rebuild directory.");
 		return false;
 	}
@@ -235,7 +228,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 		// Bundles
 		Bundles bundles;
-		GHashTable *bundle_ids = as_component_get_bundle_ids (cpt);
+		GHashTable *bundle_ids = as_component_get_bundles_table (cpt);
 		if (g_hash_table_size (bundle_ids) > 0) {
 			string ostr;
 			g_hash_table_foreach (bundle_ids,
@@ -274,7 +267,7 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 		// URLs
 		GHashTable *urls_table;
-		urls_table = as_component_get_urls (cpt);
+		urls_table = as_component_get_urls_table (cpt);
 		if (g_hash_table_size (urls_table) > 0) {
 			Urls urls;
 			string ostr;
@@ -286,24 +279,29 @@ DatabaseWrite::rebuild (GList *cpt_list)
 				doc.add_value (XapianValues::URLS, ostr);
 		}
 
-		// Stock icon
-		const gchar *stock_icon = as_component_get_icon (cpt, AS_ICON_KIND_STOCK, 0, 0);
-		if (stock_icon != NULL)
-			doc.add_value (XapianValues::ICON, stock_icon);
+		// Icons
+		GPtrArray *icons = as_component_get_icons (cpt);
+		Icons pbIcons;
+		for (uint i = 0; i < icons->len; i++) {
+			AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
 
-		// Icon urls
-		GHashTable *icon_urls;
-		icon_urls = as_component_get_icon_urls (cpt);
-		if (g_hash_table_size (icon_urls) > 0) {
-			IconUrls iurls;
-			string ostr;
+			Icons_Icon *pbIcon = pbIcons.add_icon ();
+			pbIcon->set_width (as_icon_get_width (icon));
+			pbIcon->set_height (as_icon_get_height (icon));
 
-			g_hash_table_foreach(icon_urls,
-						(GHFunc) icon_urls_hashtable_to_iconentry,
-						&iurls);
-			if (iurls.SerializeToString (&ostr))
-				doc.add_value (XapianValues::ICON_URLS, ostr);
+			if (as_icon_get_kind (icon) == AS_ICON_KIND_REMOTE) {
+				pbIcon->set_type (Icons_IconType_REMOTE);
+				pbIcon->set_url (as_icon_get_url (icon));
+			} else {
+				/* TODO: Properly support STOCK and LOCAL icons */
+				pbIcon->set_type (Icons_IconType_CACHED);
+				pbIcon->set_url (as_icon_get_filename (icon));
+			}
 		}
+		string icons_ostr;
+		if (pbIcons.SerializeToString (&icons_ostr))
+			doc.add_value (XapianValues::ICONS, icons_ostr);
+
 
 		// Summary
 		string cptSummary = as_component_get_summary (cpt);
@@ -346,21 +344,29 @@ DatabaseWrite::rebuild (GList *cpt_list)
 		}
 
 		// Data of provided items
-		gchar **provides_items = as_ptr_array_to_strv (as_component_get_provided_items (cpt));
-		if (provides_items != NULL) {
-			ProvidedItems items;
-			string ostr;
+		ASCache::ProvidedItems pbPI;
+		for (uint j = 0; j < AS_PROVIDED_KIND_LAST; j++) {
+			AsProvidedKind kind = (AsProvidedKind) j;
+			string kind_str;
+			AsProvided *prov = as_component_get_provided_for_kind (cpt, kind);
+			if (prov == NULL)
+				continue;
 
-			for (uint i = 0; provides_items[i] != NULL; i++) {
-				string item_str = provides_items[i];
-				items.add_item (item_str);
-				doc.add_term ("AE" + item_str);
+			auto *pbProv = pbPI.add_provided ();
+			pbProv->set_type ((ProvidedItems_ItemType) kind);
+
+			kind_str = as_provided_kind_to_string (kind);
+			gchar **items = as_provided_get_items (prov);
+			for (uint j = 0; items[j] != NULL; j++) {
+				string item = items[j];
+				pbProv->add_item (item);
+				doc.add_term ("AE" + kind_str + ";" + item);
 			}
-			if (items.SerializeToString (&ostr))
-				doc.add_value (XapianValues::PROVIDED_ITEMS, ostr);
-
+			g_free (items);
 		}
-		g_strfreev (provides_items);
+		string pitems_ostr;
+		if (pbPI.SerializeToString (&pitems_ostr))
+				doc.add_value (XapianValues::PROVIDED_ITEMS, pitems_ostr);
 
 		// Add screenshot information
 		Screenshots screenshots;

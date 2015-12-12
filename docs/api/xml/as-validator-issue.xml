@@ -22,6 +22,7 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-VALIDATOR-ISSUE:CAPS">AS_TYPE_VALIDATOR_ISSUE</link></entry></row>
 <row><entry role="function_type"><link linkend="AsValidatorIssue"><returnvalue>AsValidatorIssue</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-validator-issue-new">as_validator_issue_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsIssueKind"><returnvalue>AsIssueKind</returnvalue></link>
@@ -52,8 +53,10 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsValidatorIssueClass">AsValidatorIssueClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsIssueImportance">AsIssueImportance</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsIssueKind">AsIssueKind</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsValidatorIssue-struct">AsValidatorIssue</link></entry></row>
 
 </tbody>
 </tgroup>
@@ -76,6 +79,14 @@
 </refsect1>
 <refsect1 id="AsValidatorIssue.functions_details" role="details">
 <title role="details.title">Functions</title>
+<refsect2 id="AS-TYPE-VALIDATOR-ISSUE:CAPS" role="macro">
+<title>AS_TYPE_VALIDATOR_ISSUE</title>
+<indexterm zone="AS-TYPE-VALIDATOR-ISSUE:CAPS"><primary>AS_TYPE_VALIDATOR_ISSUE</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_VALIDATOR_ISSUE (as_validator_issue_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="as-validator-issue-new" role="function">
 <title>as_validator_issue_new&#160;()</title>
 <indexterm zone="as-validator-issue-new"><primary>as_validator_issue_new</primary></indexterm>
@@ -271,6 +282,16 @@ as_validator_issue_set_location (<parameter><link linkend="AsValidatorIssue"><ty
 </refsect1>
 <refsect1 id="AsValidatorIssue.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AsValidatorIssueClass" role="struct">
+<title>struct AsValidatorIssueClass</title>
+<indexterm zone="AsValidatorIssueClass"><primary>AsValidatorIssueClass</primary></indexterm>
+<programlisting language="C">struct AsValidatorIssueClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsIssueImportance" role="enum">
 <title>enum AsIssueImportance</title>
 <indexterm zone="AsIssueImportance"><primary>AsIssueImportance</primary></indexterm>
@@ -398,6 +419,13 @@ as_validator_issue_set_location (<parameter><link linkend="AsValidatorIssue"><ty
 </row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="AsValidatorIssue-struct" role="struct">
+<title>AsValidatorIssue</title>
+<indexterm zone="AsValidatorIssue-struct"><primary>AsValidatorIssue</primary></indexterm>
+<programlisting language="C">typedef struct _AsValidatorIssue AsValidatorIssue;</programlisting>
+<para>
+</para>
+</refsect2>
 
 </refsect1>
 

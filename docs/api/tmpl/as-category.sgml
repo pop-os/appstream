@@ -22,6 +22,20 @@ AsCategory
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_TYPE_CATEGORY ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### STRUCT AsCategoryClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
 <!-- ##### FUNCTION as_category_new ##### -->
 <para>
 
@@ -31,21 +45,12 @@ AsCategory
 @Returns: 
 
 
-<!-- ##### FUNCTION as_category_construct ##### -->
-<para>
-
-</para>
-
-@object_type: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_category_complete ##### -->
 <para>
 
 </para>
 
-@self: 
+@cat: 
 
 
 <!-- ##### FUNCTION as_category_get_directory ##### -->
@@ -53,79 +58,7 @@ AsCategory
 
 </para>
 
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_category_get_name ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_category_set_icon ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_category_set_name ##### -->
-<para>
-
-</para>
-
-@self: 
-@value: 
-
-
-<!-- ##### FUNCTION as_category_get_summary ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_category_get_icon ##### -->
-<para>
-
-</para>
-
-@self: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_category_add_subcategory ##### -->
-<para>
-
-</para>
-
-@self: 
 @cat: 
-
-
-<!-- ##### FUNCTION as_category_remove_subcategory ##### -->
-<para>
-
-</para>
-
-@self: 
-@cat: 
-
-
-<!-- ##### FUNCTION as_category_has_subcategory ##### -->
-<para>
-
-</para>
-
-@self: 
 @Returns: 
 
 
@@ -134,8 +67,89 @@ AsCategory
 
 </para>
 
-@self: 
+@cat: 
 @value: 
+
+
+<!-- ##### FUNCTION as_category_get_name ##### -->
+<para>
+
+</para>
+
+@cat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_category_set_name ##### -->
+<para>
+
+</para>
+
+@cat: 
+@value: 
+
+
+<!-- ##### FUNCTION as_category_get_summary ##### -->
+<para>
+
+</para>
+
+@cat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_category_set_summary ##### -->
+<para>
+
+</para>
+
+@cat: 
+@value: 
+
+
+<!-- ##### FUNCTION as_category_get_icon ##### -->
+<para>
+
+</para>
+
+@cat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_category_set_icon ##### -->
+<para>
+
+</para>
+
+@cat: 
+@value: 
+
+
+<!-- ##### FUNCTION as_category_has_subcategory ##### -->
+<para>
+
+</para>
+
+@cat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_category_add_subcategory ##### -->
+<para>
+
+</para>
+
+@cat: 
+@subcat: 
+
+
+<!-- ##### FUNCTION as_category_remove_subcategory ##### -->
+<para>
+
+</para>
+
+@cat: 
+@subcat: 
 
 
 <!-- ##### FUNCTION as_category_get_included ##### -->
@@ -143,7 +157,7 @@ AsCategory
 
 </para>
 
-@self: 
+@cat: 
 @Returns: 
 
 
@@ -152,7 +166,16 @@ AsCategory
 
 </para>
 
-@self: 
+@cat: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_category_get_subcategories ##### -->
+<para>
+
+</para>
+
+@cat: 
 @Returns: 
 
 
@@ -161,7 +184,7 @@ AsCategory
 
 </para>
 
-@self: 
+@cat: 
 @Returns: 
 
 
@@ -170,16 +193,53 @@ AsCategory
 
 </para>
 
-@self: 
+@cat: 
 @value: 
 
 
-<!-- ##### FUNCTION as_category_get_subcategories ##### -->
+<!-- ##### STRUCT AsCategory ##### -->
 <para>
 
 </para>
 
-@self: 
-@Returns: 
 
+<!-- ##### ARG AsCategory:directory ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:excluded ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:icon ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:included ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:level ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:name ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:subcategories ##### -->
+<para>
+
+</para>
+
+<!-- ##### ARG AsCategory:summary ##### -->
+<para>
+
+</para>
 

@@ -1,5 +1,5 @@
 <!-- ##### SECTION Title ##### -->
-AsBuilder
+AsCacheBuilder
 
 <!-- ##### SECTION Short_Description ##### -->
 
@@ -22,14 +22,28 @@ AsBuilder
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### MACRO AS_BUILDER_ERROR ##### -->
+<!-- ##### MACRO AS_TYPE_CACHE_BUILDER ##### -->
 <para>
 
 </para>
 
 
 
-<!-- ##### FUNCTION as_builder_error_quark ##### -->
+<!-- ##### STRUCT AsCacheBuilderClass ##### -->
+<para>
+
+</para>
+
+@parent_class: 
+
+<!-- ##### MACRO AS_CACHE_BUILDER_ERROR ##### -->
+<para>
+
+</para>
+
+
+
+<!-- ##### FUNCTION as_cache_builder_error_quark ##### -->
 <para>
 
 </para>
@@ -38,15 +52,15 @@ AsBuilder
 @Returns: 
 
 
-<!-- ##### ENUM AsBuilderError ##### -->
+<!-- ##### ENUM AsCacheBuilderError ##### -->
 <para>
 
 </para>
 
-@AS_BUILDER_ERROR_FAILED: 
-@AS_BUILDER_ERROR_PARTIALLY_FAILED: 
+@AS_CACHE_BUILDER_ERROR_FAILED: 
+@AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED: 
 
-<!-- ##### FUNCTION as_builder_new ##### -->
+<!-- ##### FUNCTION as_cache_builder_new ##### -->
 <para>
 
 </para>
@@ -55,25 +69,17 @@ AsBuilder
 @Returns: 
 
 
-<!-- ##### FUNCTION as_builder_new_path ##### -->
-<para>
-
-</para>
-
-@dbpath: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_builder_initialize ##### -->
+<!-- ##### FUNCTION as_cache_builder_setup ##### -->
 <para>
 
 </para>
 
 @builder: 
+@dbpath: 
 @Returns: 
 
 
-<!-- ##### FUNCTION as_builder_refresh_cache ##### -->
+<!-- ##### FUNCTION as_cache_builder_refresh ##### -->
 <para>
 
 </para>
@@ -84,12 +90,18 @@ AsBuilder
 @Returns: 
 
 
-<!-- ##### FUNCTION as_builder_set_data_source_directories ##### -->
+<!-- ##### FUNCTION as_cache_builder_set_data_source_directories ##### -->
 <para>
 
 </para>
 
 @self: 
 @dirs: 
+
+
+<!-- ##### STRUCT AsCacheBuilder ##### -->
+<para>
+
+</para>
 
 

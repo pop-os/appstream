@@ -26,29 +26,16 @@
 #define __AS_COMPONENT_H
 
 #include <glib-object.h>
-#include "as-screenshot.h"
-#include "as-provides.h"
-#include "as-release.h"
 #include "as-enums.h"
-
-#define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
-
-#define AS_TYPE_COMPONENT		(as_component_get_type())
-#define AS_COMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_CAST((obj), AS_TYPE_COMPONENT, AsComponent))
-#define AS_COMPONENT_CLASS(cls)		(G_TYPE_CHECK_CLASS_CAST((cls), AS_TYPE_COMPONENT, AsComponentClass))
-#define AS_IS_COMPONENT(obj)		(G_TYPE_CHECK_INSTANCE_TYPE((obj), AS_TYPE_COMPONENT))
-#define AS_IS_COMPONENT_CLASS(cls)	(G_TYPE_CHECK_CLASS_TYPE((cls), AS_TYPE_COMPONENT))
-#define AS_COMPONENT_GET_CLASS(obj)	(G_TYPE_INSTANCE_GET_CLASS((obj), AS_TYPE_COMPONENT, AsComponentClass))
+#include "as-provided.h"
+#include "as-icon.h"
+#include "as-screenshot.h"
+#include "as-release.h"
 
 G_BEGIN_DECLS
 
-typedef struct _AsComponent		AsComponent;
-typedef struct _AsComponentClass	AsComponentClass;
-
-struct _AsComponent
-{
-	GObject			parent;
-};
+#define AS_TYPE_COMPONENT (as_component_get_type ())
+G_DECLARE_DERIVABLE_TYPE (AsComponent, as_component, AS, COMPONENT, GObject)
 
 struct _AsComponentClass
 {
@@ -62,8 +49,6 @@ struct _AsComponentClass
 	void (*_as_reserved6)	(void);
 };
 
-G_DEFINE_AUTOPTR_CLEANUP_FUNC (AsComponent, g_object_unref)
-
 /**
  * AsComponentKind:
  * @AS_COMPONENT_KIND_UNKNOWN:		Type invalid or not known
@@ -75,46 +60,27 @@ G_DEFINE_AUTOPTR_CLEANUP_FUNC (AsComponent, g_object_unref)
  * @AS_COMPONENT_KIND_ADDON:		An extension of existing software, which does not run standalone
  * @AS_COMPONENT_KIND_FIRMWARE:		Firmware
  *
- * The URL type.
+ * The type of an #AsComponent.
  **/
 typedef enum  {
-	AS_COMPONENT_KIND_UNKNOWN = 0,
-	AS_COMPONENT_KIND_GENERIC = 1 << 0,
-	AS_COMPONENT_KIND_DESKTOP_APP = 1 << 1,
-	AS_COMPONENT_KIND_FONT = 1 << 2,
-	AS_COMPONENT_KIND_CODEC = 1 << 3,
-	AS_COMPONENT_KIND_INPUTMETHOD = 1 << 4,
-	AS_COMPONENT_KIND_ADDON = 1 << 5,
-	AS_COMPONENT_KIND_FIRMWARE = 1 << 6,
-	AS_COMPONENT_KIND_LAST = 7
+	AS_COMPONENT_KIND_UNKNOWN,
+	AS_COMPONENT_KIND_GENERIC,
+	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_FONT,
+	AS_COMPONENT_KIND_CODEC,
+	AS_COMPONENT_KIND_INPUTMETHOD,
+	AS_COMPONENT_KIND_ADDON,
+	AS_COMPONENT_KIND_FIRMWARE,
+	/*< private >*/
+	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
 
-/**
- * AsIconKind:
- * @AS_ICON_KIND_CACHED:	Icon in the internal caches
- * @AS_ICON_KIND_STOCK:		Stock icon name
- * @AS_ICON_KIND_LOCAL:		Local icon name
- * @AS_ICON_KIND_REMOTE:	Remote icon URL
- *
- * The icon type.
- **/
-typedef enum  {
-	AS_ICON_KIND_UNKNOWN,
-	AS_ICON_KIND_CACHED,
-	AS_ICON_KIND_STOCK,
-	AS_ICON_KIND_LOCAL,
-	AS_ICON_KIND_REMOTE,
-	AS_ICON_KIND_LAST
-} AsIconKind;
+#define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
 
 GType			as_component_kind_get_type (void) G_GNUC_CONST;
 const gchar		*as_component_kind_to_string (AsComponentKind kind);
 AsComponentKind		as_component_kind_from_string (const gchar *kind_str);
 
-AsIconKind		as_icon_kind_from_string (const gchar *kind_str);
-const gchar*		as_icon_kind_to_string (AsIconKind kind);
-
-GType			as_component_get_type (void) G_GNUC_CONST;
 AsComponent		*as_component_new (void);
 
 gboolean		as_component_is_valid (AsComponent *cpt);
@@ -130,11 +96,11 @@ void			as_component_set_kind (AsComponent *cpt,
 
 const gchar		*as_component_get_id (AsComponent *cpt);
 void			as_component_set_id (AsComponent *cpt,
-						const gchar* value);
+						const gchar *value);
 
 const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
-							const gchar* origin);
+							const gchar *origin);
 
 gchar			**as_component_get_pkgnames (AsComponent *cpt);
 void			as_component_set_pkgnames (AsComponent *cpt,
@@ -156,12 +122,12 @@ void			as_component_set_summary (AsComponent *cpt,
 
 const gchar		*as_component_get_description (AsComponent *cpt);
 void			as_component_set_description (AsComponent *cpt,
-							const gchar* value,
+							const gchar *value,
 							const gchar *locale);
 
 const gchar		*as_component_get_project_license (AsComponent *cpt);
 void			as_component_set_project_license (AsComponent *cpt,
-								const gchar* value);
+								const gchar *value);
 
 const gchar		*as_component_get_project_group (AsComponent *cpt);
 void			as_component_set_project_group (AsComponent *cpt,
@@ -176,54 +142,36 @@ gchar			**as_component_get_compulsory_for_desktops (AsComponent *cpt);
 void			as_component_set_compulsory_for_desktops (AsComponent *cpt,
 									gchar **value);
 gboolean		as_component_is_compulsory_for_desktop (AsComponent *cpt,
-									const gchar* desktop);
+									const gchar *desktop);
 
 gchar			**as_component_get_categories (AsComponent *cpt);
 void			as_component_set_categories (AsComponent *cpt,
 							gchar **value);
-void			as_component_set_categories_from_str (AsComponent *cpt,
-							const gchar* categories_str);
 gboolean		as_component_has_category (AsComponent *cpt,
 							const gchar *category);
 
 GPtrArray		*as_component_get_screenshots (AsComponent *cpt);
 void			as_component_add_screenshot (AsComponent *cpt,
-							AsScreenshot* sshot);
+							AsScreenshot *sshot);
 
 gchar			**as_component_get_keywords (AsComponent *cpt);
 void			as_component_set_keywords (AsComponent *cpt,
 							gchar **value,
 							const gchar *locale);
 
-const gchar		*as_component_get_icon (AsComponent *cpt,
-							AsIconKind kind,
-							int width,
-							int height);
+GPtrArray		*as_component_get_icons (AsComponent *cpt);
+AsIcon			*as_component_get_icon_by_size (AsComponent *cpt,
+							guint width,
+							guint height);
 void			as_component_add_icon (AsComponent *cpt,
-						AsIconKind kind,
-						int width,
-						int height,
-						const gchar* value);
+						AsIcon *icon);
 
-const gchar		*as_component_get_icon_url (AsComponent *cpt,
-							int width,
-							int height);
-void			as_component_add_icon_url (AsComponent *cpt,
-							int width,
-							int height,
-							const gchar* value);
-GHashTable		*as_component_get_icon_urls (AsComponent *cpt);
+void			as_component_add_provided (AsComponent *cpt,
+							AsProvided *prov);
+AsProvided		*as_component_get_provided_for_kind (AsComponent *cpt,
+							AsProvidedKind kind);
+GList			*as_component_get_provided (AsComponent *cpt);
 
-GPtrArray		*as_component_get_provided_items (AsComponent *cpt);
-void			as_component_add_provided_item (AsComponent *cpt,
-							AsProvidesKind kind,
-							const gchar *value,
-							const gchar *data);
-gboolean		as_component_provides_item (AsComponent *cpt,
-							AsProvidesKind kind,
-							const gchar *value);
-
-GHashTable		*as_component_get_urls (AsComponent *cpt);
 const gchar		*as_component_get_url (AsComponent *cpt,
 						AsUrlKind url_kind);
 void			as_component_add_url (AsComponent *cpt,
@@ -245,7 +193,7 @@ gint			as_component_get_language (AsComponent *cpt,
 							const gchar *locale);
 GList*			as_component_get_languages (AsComponent *cpt);
 
-GHashTable		*as_component_get_bundle_ids (AsComponent *cpt);
+gboolean		as_component_has_bundle (AsComponent *cpt);
 const gchar		*as_component_get_bundle_id (AsComponent *cpt,
 							AsBundleKind bundle_kind);
 void			as_component_add_bundle_id (AsComponent *cpt,

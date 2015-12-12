@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -28,14 +28,14 @@ extern "C" {
 
 #include <as-component.h>
 #include <as-enums.h>
-#include <as-provides.h>
+#include <as-provided.h>
 #include <as-metadata.h>
 #include <as-data-pool.h>
 #include <as-database.h>
-#include <as-search-query.h>
 #include <as-category.h>
 #include <as-menu-parser.h>
 #include <as-distro-details.h>
+#include <as-icon.h>
 #include <as-screenshot.h>
 #include <as-image.h>
 

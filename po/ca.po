@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2015-11-05 02:36+0100\n"
-"PO-Revision-Date: 2015-10-12 10:35+0000\n"
+"POT-Creation-Date: 2015-12-12 18:14+0100\n"
+"PO-Revision-Date: 2015-12-11 09:02+0000\n"
 "Last-Translator: Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>\n"
 "Language-Team: Catalan (http://www.transifex.com/freedesktop/appstream/"
 "language/ca/)\n"
@@ -24,27 +24,33 @@ msgstr "Un tipus provides-item (p. ex. lib, bin, python3, etc.)"
 
 #, c-format
 msgid "AppStream CLI tool version: %s"
-msgstr "Versió de l'eina de la interfície de línia d'ordres de l'AppStream: %s"
+msgstr "Versió de l'eina de la interfície de línia d'ordres d'AppStream: %s"
 
 msgid "AppStream cache update completed successfully."
 msgstr ""
-"S'ha completat correctament l'actualització de la memòria cau de l'AppStream."
+"S'ha completat correctament l'actualització de la memòria cau d'AppStream."
 
 #, c-format
 msgid ""
 "AppStream cache update completed, but some metadata was ignored due to "
 "errors."
 msgstr ""
-"S'ha completat l'actualització de la memòria cau de l'AppStream, però es van "
+"S'ha completat l'actualització de la memòria cau d'AppStream, però es van "
 "ignorar algunes metadades a causa d'errors."
 
 #, c-format
 msgid "AppStream cache update failed."
-msgstr "Ha fallat l'actualització de la memòria cau de l'AppStream."
+msgstr "Ha fallat l'actualització de la memòria cau d'AppStream."
+
+msgid "AppStream cache update is not necessary."
+msgstr "L'actualització de memòria cau d'AppStream no és necessària."
 
 #. TRANSLATORS: This is the header to the --help menu
 msgid "AppStream command-line interface"
-msgstr "Interfície de línia d'ordres de l'AppStream"
+msgstr "Interfície de línia d'ordres d'AppStream"
+
+msgid "Binaries"
+msgstr "Binaris"
 
 msgid "Bundle"
 msgstr "Agrupació"
@@ -56,8 +62,18 @@ msgstr "Categories"
 msgid "Command '%s' is unknown."
 msgstr "Es desconeix l'ordre «%s»."
 
+#, c-format
+msgid "Component '%s' has no installation candidate."
+msgstr "El component «%s» no té cap candidat d'instal·lació."
+
 msgid "Compulsory for"
 msgstr "Obligatori per"
+
+msgid "DBus Session Services"
+msgstr "Serveis de sistema de DBus"
+
+msgid "DBus System Services"
+msgstr "Serveis de sistema de DBus"
 
 msgid "Description"
 msgstr "Descripció"
@@ -83,6 +99,12 @@ msgstr "Força una actualització de la memòria cau"
 msgid "File %s not found or permission denied!"
 msgstr "No es va trobar el fitxer %s o es va denegar el permís!"
 
+msgid "Flashed Firmware"
+msgstr "Microprogramari flaix"
+
+msgid "Fonts"
+msgstr "Tipus de lletres"
+
 msgid "Get components which provide the given item"
 msgstr "Obté els components que proporcionen un element indicat"
 
@@ -98,9 +120,13 @@ msgstr "Icona"
 msgid "Identifier"
 msgstr "Identificador"
 
-msgid "Invalid type for provides-item selected. Valid values are:"
+msgid "Invalid type for provided item selected. Valid values are:"
 msgstr ""
-"Tipus no vàlid per al provides-item seleccionat. Els valors vàlids són:"
+"Tipus no vàlid per a l'ítem proporcionat que s'ha seleccionat. Els valors "
+"vàlids són:"
+
+msgid "Libraries"
+msgstr "Biblioteques"
 
 #. license
 msgid "License"
@@ -108,11 +134,17 @@ msgstr "Llicència"
 
 msgid "Manually set the location of AppStream metadata for cache regeneration"
 msgstr ""
-"Estableix manualment la ubicació de les metadades de l'AppStream per a la "
+"Estableix manualment la ubicació de les metadades d'AppStream per a la "
 "regeneració de la memòria cau"
 
 msgid "Manually set the location of the AppStream cache"
-msgstr "Estableix manualment la ubicació de la memòria cau de l'AppStream."
+msgstr "Estableix manualment la ubicació de la memòria cau d'AppStream."
+
+msgid "Mimetypes"
+msgstr "Mini tipus"
+
+msgid "Modaliases"
+msgstr "Modaliases"
 
 msgid "Name"
 msgstr "Nom"
@@ -122,11 +154,18 @@ msgid "No component matching '%s' found."
 msgstr "No s'ha trobat cap component que coincideixi «%s»."
 
 #, c-format
-msgid "No component providing '%s:%s:%s' found."
-msgstr "No s'ha trobat el component que proporciona '%s:%s:%s'."
+msgid "No component providing '%s;%s' found."
+msgstr "No s'ha trobat cap component que proporcioni '%s;%s'."
 
-msgid "No value for the provides-item to search for defined."
-msgstr "No s'ha definit cap valor a provides-item per a la cerca."
+msgid ""
+"No suitable package manager CLI found. Please make sure that e.g. \"pkcon"
+"\" (part of PackageKit) is available."
+msgstr ""
+"No s'ha trobat cap interfície de línia d'ordres adequada. Si us plau, "
+"assegureu-vos que p. ex. «pkcon» (part de PackageKit) estigui disponible."
+
+msgid "No value for the item to search for defined."
+msgstr "Es desconeix el valor de l'ítem definit en la cerca."
 
 msgid "Package"
 msgstr "Paquet"
@@ -144,6 +183,12 @@ msgstr "Grup del projecte"
 msgid "Provided Items"
 msgstr "Elements proporcionats"
 
+msgid "Python (Version 2)"
+msgstr "Python (versió 2)"
+
+msgid "Python 3"
+msgstr "Python 3"
+
 msgid "Rebuild the component information cache"
 msgstr "Reconstrueix la memòria cau de la informació del component"
 
@@ -152,6 +197,9 @@ msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
 "Executeu '%s --help' per veure una llista completa de les opcions "
 "disponibles de la línia d'ordres."
+
+msgid "Runtime Firmware"
+msgstr "Microprogramari en temps d'execució"
 
 msgid "Sample Screenshot URL"
 msgstr "URL de la captura de pantalla de mostra"
@@ -175,21 +223,32 @@ msgstr "Subordres:"
 msgid "Summary"
 msgstr "Resum"
 
+msgid "Tried to perform query on closed database."
+msgstr "Es va intentar de fer la consulta sobre la base de dades tancada."
+
 #. TRANSLATORS: We failed to find any component in the database due to an error
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "No es pot trobar la coincidència del component %s!"
 
 #, c-format
-msgid "Unable to find component providing '%s:%s:%s'!"
-msgstr "No s'ha pogut trobar el component que proporciona '%s:%s:%s'!"
+msgid "Unable to find component providing '%s;%s'!"
+msgstr "No s'ha pogut trobar el component que proporciona '%s;%s'!"
 
 #, c-format
 msgid "Unable to find component with id '%s'!"
 msgstr "No s'ha pogut trobar cap component amb l'id. «%s»!"
 
+msgid "Unable to open the AppStream software component cache."
+msgstr ""
+"No s'ha pogut obrir la memòria cau dels components de programari d'AppStream."
+
+#, c-format
+msgid "Unable to spawn package manager: %s"
+msgstr "No s'ha pogut generar el gestor de paquets: %s"
+
 msgid "Validate AppStream XML files for issues"
-msgstr "Valida els fitxers XML de l'AppStream per incidències"
+msgstr "Valida els fitxers XML d'AppStream per incidències"
 
 msgid "Validate an installed file-tree of an application for valid metadata"
 msgstr ""
