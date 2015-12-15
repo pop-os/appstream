@@ -32,12 +32,15 @@ Description: Software component index
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format,
- screenshot services and various other things needed to make handling
- of software smarter. Also, the AppStream data allows building
- application-centric software management tools.
+ screenshot and icon services and various other metadata to describe software in
+ repositories. Those are the building blocks which allow writing application-centric
+ software management tools.
  .
- This package provides tools to generate, maintain and access the
+ This package provides tools to generate, maintain and query the
  AppStream database of installed and available software.
+ .
+ It also allows AppStream metadata to be validated using the appstreamcli utility,
+ and enables the AppStream integration on Debian.
 
 Package: libappstream3
 Architecture: any
@@ -51,7 +54,7 @@ Description: Library to access AppStream services
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package contains a GObject-based library to access AppStream
  services, like the software component metadata database.
@@ -69,7 +72,7 @@ Description: Library to access AppStream services (development files)
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package contains development files necessary to develop
  software-management tools which use the AppStream library.
@@ -86,7 +89,7 @@ Description: Library to access AppStream services (introspection data)
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package contains introspection data for the AppStream library.
 
@@ -103,7 +106,7 @@ Description: Qt5 library to access AppStream services
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package contains a Qt-based library to access AppStream
  services, like the software component metadata database.
@@ -119,7 +122,7 @@ Description: Qt5 library to access AppStream services (development files)
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package contains development files necessary to develop
  software-management tools which use the Qt5-based AppStream library.
@@ -134,7 +137,7 @@ Description: Developer documentation for AppStream
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format
- and various other things needed to make handling of software smarter.
+ and provides tools to read, write and validate the metadata.
  .
  This package provides developer documentation for AppStream.
 
