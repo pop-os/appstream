@@ -32,15 +32,19 @@ Description: Software component index
  metadata of software components available in the package repositories
  of a distribution.
  It provides specifications for an unified software component metadata format,
- screenshot and icon services and various other metadata to describe software in
- repositories. Those are the building blocks which allow writing application-centric
- software management tools.
+ screenshot and icon services and various other metadata to describe software
+ in repositories.
+ The metadata can be used to show details about the actual software in software
+ management tools instead of just listing packages, making software management
+ intuitive and easy.
  .
  This package provides tools to generate, maintain and query the
- AppStream database of installed and available software.
+ AppStream database of installed and available software, and enables AppStream
+ integration in APT.
  .
- It also allows AppStream metadata to be validated using the appstreamcli utility,
- and enables the AppStream integration on Debian.
+ The 'appstreamcli' tool can be used for accessing the software component
+ database as well as for working with AppStream XML metadata directly, including
+ validating it for compliance with the specification.
 
 Package: libappstream3
 Architecture: any
