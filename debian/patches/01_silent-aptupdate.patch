@@ -1,0 +1,20 @@
+From 4032a237de95abd363bfaeda6e1fd393a3c7584a Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Tue, 15 Dec 2015 14:19:06 +0100
+Subject: [PATCH] apt: Hide appstreamcli stdout output
+
+---
+ contrib/apt-conf/50appstream | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/apt-conf/50appstream b/contrib/apt-conf/50appstream
+index 961afb0..913490b 100644
+--- a/contrib/apt-conf/50appstream
++++ b/contrib/apt-conf/50appstream
+@@ -41,5 +41,5 @@ Acquire::IndexTargets {
+ 
+ # Refresh AppStream cache when APT's cache is updated (i.e. apt-cache update)
+ APT::Update::Post-Invoke-Success {
+-    "/usr/bin/test -e /usr/bin/appstreamcli && appstreamcli refresh";
++    "/usr/bin/test -e /usr/bin/appstreamcli && appstreamcli refresh > /dev/null";
+ };
