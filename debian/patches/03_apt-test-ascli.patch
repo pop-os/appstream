@@ -1,0 +1,23 @@
+From 3711840d47c38adaacfcbece0db9377cb6581db7 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Thu, 14 Jan 2016 21:21:01 +0100
+Subject: [PATCH] apt: Correctly test for appstreamcli
+
+This resolves https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=810832
+Many thanks to Sam Morris for providing the good bug report and also a
+working solution to the problem.
+---
+ contrib/apt-conf/50appstream | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/apt-conf/50appstream b/contrib/apt-conf/50appstream
+index b483143..046a462 100644
+--- a/contrib/apt-conf/50appstream
++++ b/contrib/apt-conf/50appstream
+@@ -44,5 +44,5 @@ Acquire::IndexTargets {
+ 
+ # Refresh AppStream cache when APT's cache is updated (i.e. apt-cache update)
+ APT::Update::Post-Invoke-Success {
+-    "/usr/bin/test -e /usr/bin/appstreamcli && appstreamcli refresh > /dev/null";
++    "if /usr/bin/test -e /usr/bin/appstreamcli; then appstreamcli refresh > /dev/null; fi";
+ };
