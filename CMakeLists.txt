@@ -1,12 +1,12 @@
 # CMakeLists for the AppStream Project
 project(appstream)
-cmake_minimum_required(VERSION 3.2.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
 
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "9")
-set(AS_VERSION_PATCH  "0")
+set(AS_VERSION_PATCH  "1")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "3")
 

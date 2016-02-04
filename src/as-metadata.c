@@ -253,7 +253,7 @@ as_metadata_process_screenshot (AsMetadata *metad, xmlNode* node, AsScreenshot* 
 		node_name = (gchar*) iter->name;
 		content = as_metadata_get_node_value (metad, iter);
 		if (g_strcmp0 (node_name, "image") == 0) {
-			AsImage *img;
+			g_autoptr(AsImage) img = NULL;
 			guint64 width;
 			guint64 height;
 			gchar *stype;
@@ -455,6 +455,18 @@ as_metadata_process_releases_tag (AsMetadata *metad, xmlNode* node, AsComponent*
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "version");
 			as_release_set_version (release, prop);
 			g_free (prop);
+
+			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "date");
+			if (prop != NULL) {
+				g_autoptr(GDateTime) time;
+				time = as_iso8601_to_datetime (prop);
+				if (time != NULL) {
+					as_release_set_timestamp (release, g_date_time_to_unix (time));
+				} else {
+					g_debug ("Invalid ISO-8601 date in releases of %s", as_component_get_id (cpt));
+				}
+				g_free (prop);
+			}
 
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "timestamp");
 			if (prop != NULL) {
@@ -1055,13 +1067,13 @@ as_metadata_parse_file (AsMetadata *metad, GFile* file, GError **error)
 static void
 as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_data, GError **error)
 {
-	GFile *file;
+	g_autoptr(GFile) file = NULL;
 	GError *tmp_error = NULL;
 
 	file = g_file_new_for_path (fname);
 	if (g_str_has_suffix (fname, ".gz")) {
-		GOutputStream *out2 = NULL;
-		GOutputStream *out = NULL;
+		g_autoptr(GOutputStream) out2 = NULL;
+		g_autoptr(GOutputStream) out = NULL;
 		GZlibCompressor *compressor = NULL;
 
 		/* write a gzip compressed file */
@@ -1076,17 +1088,14 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 
 		if (!g_output_stream_write_all (out2, xml_data, strlen (xml_data),
 					NULL, NULL, &tmp_error)) {
-			g_object_unref (out2);
-			g_object_unref (out);
 			g_propagate_error (error, tmp_error);
-			goto out;
+			return;
 		}
 
 		g_output_stream_close (out2, NULL, &tmp_error);
-		g_object_unref (out2);
 		if (tmp_error != NULL) {
 			g_propagate_error (error, tmp_error);
-			goto out;
+			return;
 		}
 
 		if (!g_file_replace_contents (file,
@@ -1098,13 +1107,9 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 						NULL,
 						NULL,
 						&tmp_error)) {
-			g_object_unref (out);
 			g_propagate_error (error, tmp_error);
-			goto out;
+			return;
 		}
-
-		g_object_unref (out);
-
 	} else {
 		GFileOutputStream *fos = NULL;
 		GDataOutputStream *dos = NULL;
@@ -1124,7 +1129,7 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 		if (tmp_error != NULL) {
 			g_object_unref (fos);
 			g_propagate_error (error, tmp_error);
-			goto out;
+			return;
 		}
 
 		dos = g_data_output_stream_new (G_OUTPUT_STREAM (fos));
@@ -1135,12 +1140,9 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 
 		if (tmp_error != NULL) {
 			g_propagate_error (error, tmp_error);
-			goto out;
+			return;
 		}
 	}
-
-out:
-	g_object_unref (file);
 }
 
 
@@ -1415,17 +1417,18 @@ as_metadata_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
  * Add release nodes to a root node
  */
 static void
-as_metadata_add_release_subnodes (AsComponent *cpt, xmlNode *root)
+as_metadata_add_release_subnodes (AsMetadata *metad, AsComponent *cpt, xmlNode *root)
 {
 	GPtrArray* releases;
 	AsRelease *release;
 	guint i;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 
 	releases = as_component_get_releases (cpt);
 	for (i = 0; i < releases->len; i++) {
 		xmlNode *subnode;
 		const gchar *str;
-		gchar *timestamp;
+		glong unixtime;
 		GPtrArray *locations;
 		guint j;
 		release = (AsRelease*) g_ptr_array_index (releases, i);
@@ -1435,11 +1438,24 @@ as_metadata_add_release_subnodes (AsComponent *cpt, xmlNode *root)
 		xmlNewProp (subnode, (xmlChar*) "version",
 					(xmlChar*) as_release_get_version (release));
 
-		/* set release timestamp */
-		timestamp = g_strdup_printf ("%ld", as_release_get_timestamp (release));
-		xmlNewProp (subnode, (xmlChar*) "timestamp",
-					(xmlChar*) timestamp);
-		g_free (timestamp);
+		/* set release timestamp / date */
+		unixtime = as_release_get_timestamp (release);
+		if (unixtime > 0 ) {
+			g_autofree gchar *time_str = NULL;
+
+			if (priv->mode == AS_PARSER_MODE_DISTRO) {
+				time_str = g_strdup_printf ("%ld", unixtime);
+				xmlNewProp (subnode, (xmlChar*) "timestamp",
+						(xmlChar*) time_str);
+			} else {
+				GTimeVal time;
+				time.tv_sec = unixtime;
+				time.tv_usec = 0;
+				time_str = g_time_val_to_iso8601 (&time);
+				xmlNewProp (subnode, (xmlChar*) "date",
+						(xmlChar*) time_str);
+			}
+		}
 
 		/* set release urgency, if we have one */
 		if (as_release_get_urgency (release) != AS_URGENCY_KIND_UNKNOWN) {
@@ -1534,26 +1550,26 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	helper.nd = NULL;
 	helper.node_name = "name";
 	g_hash_table_foreach (as_component_get_name_table (cpt),
-						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
-						&helper);
+					(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "summary";
 	g_hash_table_foreach (as_component_get_summary_table (cpt),
-						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
-						&helper);
+					(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "developer_name";
 	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
-						(GHFunc) _as_metadata_lang_hashtable_to_nodes,
-						&helper);
+					(GHFunc) _as_metadata_lang_hashtable_to_nodes,
+					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "description";
 	g_hash_table_foreach (as_component_get_description_table (cpt),
-						(GHFunc) _as_metadata_desc_lang_hashtable_to_nodes,
-						&helper);
+					(GHFunc) _as_metadata_desc_lang_hashtable_to_nodes,
+					&helper);
 
 	as_metadata_xml_add_node (cnode, "project_license", as_component_get_project_license (cpt));
 	as_metadata_xml_add_node (cnode, "project_group", as_component_get_project_group (cpt));
@@ -1620,7 +1636,7 @@ as_metadata_component_to_node (AsMetadata *metad, AsComponent *cpt)
 	releases = as_component_get_releases (cpt);
 	if (releases->len > 0) {
 		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "releases", NULL);
-		as_metadata_add_release_subnodes (cpt, node);
+		as_metadata_add_release_subnodes (metad, cpt, node);
 	}
 
 	/* screenshots node */
