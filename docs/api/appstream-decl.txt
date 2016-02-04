@@ -640,6 +640,7 @@ struct _AsDatabaseClass
 <NAME>AsDatabaseError</NAME>
 typedef enum {
 	AS_DATABASE_ERROR_FAILED,
+	AS_DATABASE_ERROR_MISSING,
 	AS_DATABASE_ERROR_CLOSED,
 	AS_DATABASE_ERROR_TERM_INVALID,
 	/*< private >*/

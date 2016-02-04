@@ -93,10 +93,13 @@
 		<term>&lt;metadata_license/&gt;</term>
 		<listitem>
 		<para>
-			The <code>&lt;metadata_license/&gt;</code> tag is indicating the content licence that you are releasing the one
-			Metainfo XML file as. This is not typically the same as the project licence. By ommitting the licence value would
-			probably mean your data would not be incorporated into the distribution metadata (so this is a required tag).
-			Permissible licence codes include:
+			The <code>&lt;metadata_license/&gt;</code> tag indicates the content licence that you are releasing the one
+			Metainfo XML file under. This is not typically the same as the project licence. Omitting the license value can result
+			in your data not being incorporated into the distribution metadata (so this is a required tag).
+		</para>
+		<para>
+			A permissive license ensures your data can be combined with arbitrary other data in one file.
+			Primissive licence names include:
 		</para>
 		<itemizedlist>
 			<listitem>
@@ -117,7 +120,8 @@
 		</itemizedlist>
 		<para>
 			The licence codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
-			For instance, CC-BY-SA-3.0 corresponds to http://creativecommons.org/licenses/by-sa/3.0/
+			For instance, CC-BY-SA-3.0 corresponds to the license at
+			<ulink url="http://creativecommons.org/licenses/by-sa/3.0/">creativecommons.org/licenses/by-sa/3.0</ulink>.
 		</para>
 		</listitem>
 		</varlistentry>
@@ -126,7 +130,7 @@
 		<term>&lt;name/&gt;</term>
 		<listitem>
 			<para>
-			A human-readable name for this software component. For example, if the component id was "libc", it's name might be "GNU Standard C Library".
+			A human-readable name for this software component. For example, if the component id was "libc", its name might be "GNU Standard C Library".
 			</para>
 		</listitem>
 		</varlistentry>
@@ -215,8 +219,14 @@
 				describe some metainformation about the current release of the described software.
 				The <code>&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for
 				the current version must always be present.
-				A <literal>release</literal> tag can have the properties <literal>version</literal> and <literal>timestamp</literal> which contain the version number
-				and a release timestamp in form of a UNIX epoch.
+			</para>
+			<para>
+				A <literal>release</literal> tag can have the properties <literal>version</literal>, <literal>date</literal> and <literal>timestamp</literal>.
+				The <literal>date</literal> property can have any time in <ulink url="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</ulink> format as value and
+				should be present for every release.
+				The <literal>timestamp</literal> tag contains the release time in form of a UNIX epoch. This tag should not be used in metainfo files in newly
+				written metadata, but will still be parsed in case it is present. The the <literal>timestamp</literal> property is mainly used in generated distro-meadata.
+				In case both release-time tags are present, the <literal>timestamp</literal> tag will take precedence over <literal>date</literal>.
 			</para>
 			<para>
 				Optionally, the <code>&lt;release/&gt;</code> tag may also have an <literal>urgency</literal> property, having one of the following values:
@@ -248,11 +258,11 @@
 			Examples for a valid releases tag:
 			</para>
 			<programlisting language="XML"><![CDATA[<releases>
-  <release version="1.2" timestamp="1397253600 urgency="high">
+  <release version="1.2" date="2014-04-12" urgency="high">
     <size type="download">12345678</size>
     <size type="installed">42424242</size>
   </release>
-  <release version="1.0" timestamp="1345932000" />
+  <release version="1.0" date="2012-08-26" />
 </releases>]]></programlisting>
 		</listitem>
 		</varlistentry>
@@ -506,7 +516,7 @@
     <binary>foobar</binary>
   </provides>
   <releases>
-    <release version="1.2" timestamp="1365768000" />
+    <release version="1.2" date="2015-02-16" />
   </releases>
   <developer_name>FooBar Team</developer_name>
 </component>]]>

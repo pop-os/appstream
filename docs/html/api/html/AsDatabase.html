@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>AsDatabase: AppStream Library Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsImage.html" title="AsImage">
@@ -34,7 +34,7 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="AsDatabase.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -128,7 +128,7 @@
 </div>
 <div class="refsect1">
 <a name="AsDatabase.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -214,7 +214,7 @@ as_database_open (<em class="parameter"><code><a class="link" href="AsDatabase.h
 <p>Open the current AppStream metadata cache for reading.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.5.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -247,7 +247,7 @@ as_database_get_location (<em class="parameter"><code><a class="link" href="AsDa
 <p>Get the current path of the AppStream database we use.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.6.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -270,7 +270,7 @@ as_database_set_location (<em class="parameter"><code><a class="link" href="AsDa
 <p>Set the location of the AppStream database we use.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.7.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -304,7 +304,7 @@ You can limit the search to a specific set of categories by setting the categori
 a semicolon-separated list of lower-cased category names.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.8.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -349,7 +349,7 @@ as_database_get_all_components (<em class="parameter"><code><a class="link" href
 <p>Dump a list of all software components found in the database.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.9.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -385,7 +385,7 @@ as_database_get_component_by_id (<em class="parameter"><code><a class="link" hre
 <p>Get a component by its AppStream-ID.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.10.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -428,7 +428,7 @@ as_database_get_components_by_provided_item
 <p>Find components in the Appstream database.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.11.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -474,7 +474,7 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 <p>Return a list of all components in the database which match a certain kind.</p>
 <div class="refsect3">
 <a name="id-1.2.9.8.12.5"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -523,7 +523,7 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 <p>A database query error.</p>
 <div class="refsect3">
 <a name="id-1.2.9.9.3.4"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
 <col class="enum_members_description">
@@ -534,6 +534,13 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 <td class="enum_member_name"><p><a name="AS-DATABASE-ERROR-FAILED:CAPS"></a>AS_DATABASE_ERROR_FAILED</p></td>
 <td class="enum_member_description">
 <p>Generic failure</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-DATABASE-ERROR-MISSING:CAPS"></a>AS_DATABASE_ERROR_MISSING</p></td>
+<td class="enum_member_description">
+<p>Database was not found</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
