@@ -63,7 +63,6 @@ Files: ./src/appstream.h
  ./src/as-image.h
  ./src/as-menu-parser.c
  ./src/as-menu-parser.h
- ./src/as-metadata-private.h
  ./src/as-metadata.c
  ./src/as-metadata.h
  ./src/as-provided.c
@@ -78,14 +77,16 @@ Files: ./src/appstream.h
  ./src/as-validator-issue.c
  ./src/as-validator.c
  ./src/as-validator.h
- ./src/as-dep11.c
- ./src/as-dep11.h
+ ./src/as-xmldata.c
+ ./src/as-xmldata.h
+ ./src/as-yamldata.c
+ ./src/as-yamldata.h
  ./src/xapian/database-schema.hpp
  ./src/xapian/database-cwrap.hpp
  ./src/xapian/database-read.hpp
  ./src/xapian/database-write.cpp
  ./src/xapian/database-write.hpp
-Copyright: 2012-2015, Matthias Klumpp <matthias@tenstral.net>
+Copyright: 2012-2016, Matthias Klumpp <matthias@tenstral.net>
 License: LGPL-2.1+
 
 Files: ./qt/component.cpp
@@ -98,11 +99,11 @@ Files: ./qt/component.cpp
  ./qt/screenshot.cpp
  ./qt/screenshot.h
 Copyright: 2014, Sune Vuorela <sune@vuorela.dk>
- 2015, Matthias Klumpp <matthias@tenstral.net>
+ 2016, Matthias Klumpp <matthias@tenstral.net>
 License: LGPL-2.1+
 
 Files: ./tools/*
-Copyright: 2012-2015, Matthias Klumpp <matthias@tenstral.net>
+Copyright: 2012-2016, Matthias Klumpp <matthias@tenstral.net>
 License: GPL-2+
 
 Files: ./src/xapian/database-read.cpp
@@ -111,6 +112,6 @@ Copyright: 2009, Michael Vogt <mvo@debian.org>
 License: LGPL-2.1+
 
 Files: ./qt/database.cpp
-Copyright: 2012-2015, Matthias Klumpp <matthias@tenstral.net>
+Copyright: 2012-2016, Matthias Klumpp <matthias@tenstral.net>
   2014, Sune Vuorela <sune@vuorela.dk>
 License: LGPL-2.1+
