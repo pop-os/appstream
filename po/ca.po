@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the appstream package.
 #
 # Translators:
-# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2015
+# Robert Antoni Buj i Gelonch <rbuj@fedoraproject.org>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:33+0000\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 17:50+0000\n"
 "Last-Translator: Matthias K. <matthias@tenstral.net>\n"
 "Language-Team: Catalan (http://www.transifex.com/freedesktop/appstream/"
 "language/ca/)\n"
@@ -54,12 +54,19 @@ msgid ""
 "was set up incorrectly, or your distribution does not provide any AppStream "
 "metadata."
 msgstr ""
+"No s'ha trobat la memòria cau dels components de programari d'AppStream. "
+"Això podria significar que AppStream estigui configurat de forma incorrecta, "
+"o la vostra distribució no proporciona cap metadada AppStream."
 
 msgid "Binaries"
 msgstr "Binaris"
 
 msgid "Bundle"
 msgstr "Agrupació"
+
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr "L'àrea d'emmagatzematge temporal «%s» no és d'escriptura."
 
 msgid "Categories"
 msgstr "Categories"
@@ -94,12 +101,17 @@ msgstr "No utilitzis la memòria cau del Xapian quan facis una petició"
 msgid "Don't show colored output"
 msgstr "No mostris una sortida acolorida"
 
-msgid "Dump raw XML metadata for a component matching the ID"
+msgid "Dump raw XML metadata for a component matching the ID."
 msgstr ""
-"Bolca les metadades XML en pla per a un component que coincideixi amb l'id."
 
 msgid "Enforce a cache refresh"
 msgstr "Força una actualització de la memòria cau"
+
+msgid "Extends"
+msgstr "Estén"
+
+msgid "Extensions"
+msgstr ""
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -111,11 +123,11 @@ msgstr "Microprogramari flaix"
 msgid "Fonts"
 msgstr "Tipus de lletres"
 
-msgid "Get components which provide the given item"
-msgstr "Obté els components que proporcionen un element indicat"
+msgid "Get components which provide the given item."
+msgstr ""
 
-msgid "Get information about a component by its ID"
-msgstr "Obté la informació sobre un component amb el seu id."
+msgid "Get information about a component by its ID."
+msgstr ""
 
 msgid "Homepage"
 msgstr "Pàgina inicial"
@@ -125,6 +137,9 @@ msgstr "Icona"
 
 msgid "Identifier"
 msgstr "Identificador"
+
+msgid "Install software matching the component-id."
+msgstr ""
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr ""
@@ -195,8 +210,8 @@ msgstr "Python (versió 2)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Reconstrueix la memòria cau de la informació del component"
+msgid "Rebuild the component information cache."
+msgstr ""
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -210,11 +225,11 @@ msgstr "Microprogramari en temps d'execució"
 msgid "Sample Screenshot URL"
 msgstr "URL de la captura de pantalla de mostra"
 
-msgid "Search the component database"
-msgstr "Cerca el component a la base de dades."
+msgid "Search the component database."
+msgstr ""
 
-msgid "Select a value for the provides-item which needs to be found"
-msgstr "Selecciona un valor per al provides-item que s'hagi de trobar"
+msgid "Select a value for the provides-item which needs to be found."
+msgstr ""
 
 msgid "Show extra debugging information"
 msgstr "Mostra la informació extra de depuració"
@@ -253,12 +268,11 @@ msgstr ""
 msgid "Unable to spawn package manager: %s"
 msgstr "No s'ha pogut generar el gestor de paquets: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "Valida els fitxers XML d'AppStream per incidències"
-
-msgid "Validate an installed file-tree of an application for valid metadata"
+msgid "Validate AppStream XML files for issues."
 msgstr ""
-"Valida un file-tree instal·lat d'una aplicació per validar les metadades"
+
+msgid "Validate an installed file-tree of an application for valid metadata."
+msgstr ""
 
 msgid "Validation failed."
 msgstr "Ha fallat la validació."
@@ -270,8 +284,10 @@ msgstr "S'ha validat correctament."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "El fitxer XML del menú XDG «%s» està malmès."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Heu d'executar aquesta ordre amb els permisos del superusuari!"
+msgid "You might need superuser permissions to perform this action."
+msgstr ""
+"És probable que es necessitin els permisos de super usuari per realitzar "
+"aquesta acció."
 
 msgid "You need to specify a command."
 msgstr "Heu d'especificar una ordre."

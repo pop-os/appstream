@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the appstream package.
 #
 # Translators:
-# Piotr Drąg <piotrdrag@gmail.com>, 2014-2015
+# Piotr Drąg <piotrdrag@gmail.com>, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:33+0000\n"
-"Last-Translator: Matthias K. <matthias@tenstral.net>\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 17:56+0000\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/freedesktop/appstream/"
 "language/pl/)\n"
 "Language: pl\n"
@@ -54,12 +54,19 @@ msgid ""
 "was set up incorrectly, or your distribution does not provide any AppStream "
 "metadata."
 msgstr ""
+"Nie odnaleziono pamięci podręcznej składników oprogramowania AppStream. Może "
+"to oznaczać, że niepoprawnie ustawiono AppStream lub dystrybucja nie "
+"dostarcza metadanych AppStream."
 
 msgid "Binaries"
 msgstr "Pliki binarne"
 
 msgid "Bundle"
 msgstr "Paczka"
+
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr "Położenie pamięci podręcznej „%s” nie jest zapisywalne."
 
 msgid "Categories"
 msgstr "Kategorie"
@@ -94,11 +101,17 @@ msgstr "Bez używania pamięci podręcznej Xapian podczas wykonywania żądania"
 msgid "Don't show colored output"
 msgstr "Bez kolorowania wyjścia"
 
-msgid "Dump raw XML metadata for a component matching the ID"
-msgstr "Zrzuca surowe metadane XML dla składnika pasującego do identyfikatora"
+msgid "Dump raw XML metadata for a component matching the ID."
+msgstr "Zrzuca surowe metadane XML dla składnika pasującego do identyfikatora."
 
 msgid "Enforce a cache refresh"
 msgstr "Wymusza odświeżenie pamięci podręcznej"
+
+msgid "Extends"
+msgstr "Rozszerza"
+
+msgid "Extensions"
+msgstr "Rozszerzenia"
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -110,11 +123,11 @@ msgstr "Wgrane oprogramowanie sprzętowe"
 msgid "Fonts"
 msgstr "Czcionki"
 
-msgid "Get components which provide the given item"
-msgstr "Uzyskuje składniki dostarczające podany element"
+msgid "Get components which provide the given item."
+msgstr "Uzyskuje składniki dostarczające podany element."
 
-msgid "Get information about a component by its ID"
-msgstr "Uzyskuje informacje o składniku według jego identyfikatora"
+msgid "Get information about a component by its ID."
+msgstr "Uzyskuje informacje o składniku według jego identyfikatora."
 
 msgid "Homepage"
 msgstr "Strona domowa"
@@ -124,6 +137,9 @@ msgstr "Ikona"
 
 msgid "Identifier"
 msgstr "Identyfikator"
+
+msgid "Install software matching the component-id."
+msgstr "Instaluje oprogramowanie pasujące do identyfikatora składnika."
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "Wybrano nieprawidłowy typ dla podanego elementu. Prawidłowe wartości:"
@@ -193,8 +209,8 @@ msgstr "Python (wersja 2)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Ponownie buduje pamięć podręczną informacji o składnikach"
+msgid "Rebuild the component information cache."
+msgstr "Ponownie buduje pamięć podręczną informacji o składnikach."
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -207,11 +223,11 @@ msgstr "Oprogramowanie sprzętowe wgrywane podczas uruchamiania systemu"
 msgid "Sample Screenshot URL"
 msgstr "Przykładowy adres URL zrzutu ekranu"
 
-msgid "Search the component database"
-msgstr "Przeszukuje bazę danych składników"
+msgid "Search the component database."
+msgstr "Przeszukuje bazę danych składników."
 
-msgid "Select a value for the provides-item which needs to be found"
-msgstr "Proszę wybrać wartość dla elementu Provides, który należy odnaleźć"
+msgid "Select a value for the provides-item which needs to be found."
+msgstr "Proszę wybrać wartość dla elementu Provides, który należy odnaleźć."
 
 msgid "Show extra debugging information"
 msgstr "Wyświetla dodatkowe informacje debugowania"
@@ -250,11 +266,11 @@ msgstr ""
 msgid "Unable to spawn package manager: %s"
 msgstr "Nie można wywołać menedżera pakietów: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "Sprawdza poprawność plików XML AppStream"
+msgid "Validate AppStream XML files for issues."
+msgstr "Sprawdza poprawność plików XML AppStream."
 
-msgid "Validate an installed file-tree of an application for valid metadata"
-msgstr "Sprawdza poprawność metadanych zainstalowanego drzewa plików programu"
+msgid "Validate an installed file-tree of an application for valid metadata."
+msgstr "Sprawdza poprawność metadanych zainstalowanego drzewa plików programu."
 
 msgid "Validation failed."
 msgstr "Sprawdzenie poprawności się nie powiodło."
@@ -266,8 +282,8 @@ msgstr "Pomyślnie sprawdzono poprawność."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "Plik menu XDG w formacie XML „%s” jest uszkodzony."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Należy wykonać to polecenie z uprawnieniami superużytkownika."
+msgid "You might need superuser permissions to perform this action."
+msgstr "Wymagane są uprawnienia administratora, aby wykonać to działanie."
 
 msgid "You need to specify a command."
 msgstr "Należy podać polecenie."

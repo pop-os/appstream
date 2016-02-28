@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -31,6 +31,7 @@
 #include "as-icon.h"
 #include "as-screenshot.h"
 #include "as-release.h"
+#include "as-translation.h"
 
 G_BEGIN_DECLS
 
@@ -186,12 +187,20 @@ GPtrArray		*as_component_get_extends (AsComponent *cpt);
 void			as_component_add_extends (AsComponent *cpt,
 							const gchar *cpt_id);
 
+GPtrArray		*as_component_get_extensions (AsComponent *cpt);
+void			as_component_add_extension (AsComponent *cpt,
+							const gchar *cpt_id);
+
+GList			*as_component_get_languages (AsComponent *cpt);
+gint			as_component_get_language (AsComponent *cpt,
+							const gchar *locale);
 void			as_component_add_language (AsComponent *cpt,
 							const gchar *locale,
 							gint percentage);
-gint			as_component_get_language (AsComponent *cpt,
-							const gchar *locale);
-GList*			as_component_get_languages (AsComponent *cpt);
+
+GPtrArray		*as_component_get_translations (AsComponent *cpt);
+void			as_component_add_translation (AsComponent *cpt,
+							AsTranslation *tr);
 
 gboolean		as_component_has_bundle (AsComponent *cpt);
 const gchar		*as_component_get_bundle_id (AsComponent *cpt,

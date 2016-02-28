@@ -103,7 +103,8 @@ as_cache_builder_new (<parameter><type>void</type></parameter>);</programlisting
 <indexterm zone="as-cache-builder-setup"><primary>as_cache_builder_setup</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_cache_builder_setup (<parameter><link linkend="AsCacheBuilder"><type>AsCacheBuilder</type></link> *builder</parameter>,
-                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *dbpath</parameter>);</programlisting>
+                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *dbpath</parameter>,
+                        <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Initialize the cache builder.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
@@ -211,8 +212,13 @@ AppStream XML or DEP-11 YAML in it.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-BUILDER-ERROR-PARTIALLY-FAILED:CAPS">AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED</para></entry>
-<entry role="enum_member_description"><para>Some parts of the current action have been failed</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-BUILDER-ERROR-CACHE-INCOMPLETE:CAPS">AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE</para></entry>
+<entry role="enum_member_description"><para>The cache was built, but we had to ignore some metadata.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-BUILDER-ERROR-TARGET-NOT-WRITABLE:CAPS">AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE</para></entry>
+<entry role="enum_member_description"><para>We do not have write-access to the cache target location.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

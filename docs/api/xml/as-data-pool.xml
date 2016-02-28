@@ -31,16 +31,16 @@
 </entry><entry role="function_name"><link linkend="as-data-pool-get-locale">as_data_pool_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-pool-set-locale">as_data_pool_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-</entry><entry role="function_name"><link linkend="as-data-pool-get-watched-locations">as_data_pool_get_watched_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-pool-update">as_data_pool_update</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-component-by-id">as_data_pool_get_component_by_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-metadata-locations">as_data_pool_get_metadata_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-data-pool-set-data-source-directories">as_data_pool_set_data_source_directories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-data-pool-set-metadata-locations">as_data_pool_set_metadata_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -154,29 +154,6 @@ as_data_pool_set_locale (<parameter><link linkend="AsDataPool"><type>AsDataPool<
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-data-pool-get-watched-locations" role="function">
-<title>as_data_pool_get_watched_locations&#160;()</title>
-<indexterm zone="as-data-pool-get-watched-locations"><primary>as_data_pool_get_watched_locations</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-as_data_pool_get_watched_locations (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
-<para>Return a list of all locations which are searched for metadata.</para>
-<refsect3 role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>dpool</para></entry>
-<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
-<title>Returns</title>
-<para> A string-list of watched (absolute) filepaths. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
 <refsect2 id="as-data-pool-update" role="function">
 <title>as_data_pool_update&#160;()</title>
 <indexterm zone="as-data-pool-update"><primary>as_data_pool_update</primary></indexterm>
@@ -255,13 +232,35 @@ as_data_pool_get_component_by_id (<parameter><link linkend="AsDataPool"><type>As
 <para> An <link linkend="AsComponent"><type>AsComponent</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-data-pool-set-data-source-directories" role="function">
-<title>as_data_pool_set_data_source_directories&#160;()</title>
-<indexterm zone="as-data-pool-set-data-source-directories"><primary>as_data_pool_set_data_source_directories</primary></indexterm>
+<refsect2 id="as-data-pool-get-metadata-locations" role="function">
+<title>as_data_pool_get_metadata_locations&#160;()</title>
+<indexterm zone="as-data-pool-get-metadata-locations"><primary>as_data_pool_get_metadata_locations</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_data_pool_get_metadata_locations (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Return a list of all locations which are searched for metadata.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> A string-list of watched (absolute) filepaths. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-set-metadata-locations" role="function">
+<title>as_data_pool_set_metadata_locations&#160;()</title>
+<indexterm zone="as-data-pool-set-metadata-locations"><primary>as_data_pool_set_metadata_locations</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_data_pool_set_data_source_directories
-                               (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
-                                <parameter><link linkend="gchar"><type>gchar</type></link> **dirs</parameter>);</programlisting>
+as_data_pool_set_metadata_locations (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                                     <parameter><link linkend="gchar"><type>gchar</type></link> **dirs</parameter>);</programlisting>
 <para>Set locations for the data pool to read it's data from.
 This is mainly used for testing purposes. Each location should have an
 "xmls" and/or "yaml" subdirectory with the actual data as (compressed)

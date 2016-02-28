@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -66,6 +66,7 @@ typedef struct
 	gchar			**compulsory_for_desktops;
 
 	GPtrArray		*extends; /* of string */
+	GPtrArray		*extensions; /* of string */
 	GPtrArray		*screenshots; /* of AsScreenshot elements */
 	GPtrArray		*releases; /* of AsRelease elements */
 
@@ -73,6 +74,8 @@ typedef struct
 	GHashTable		*urls; /* of int:utf8 */
 	GHashTable		*languages; /* of utf8:utf8 */
 	GHashTable		*bundles; /* of int:utf8 */
+
+	GPtrArray		*translations; /* of AsTranslation */
 
 	GPtrArray		*icons; /* of AsIcon elements */
 	GHashTable		*icons_sizetab; /* of utf8:object (object owned by priv->icons array) */
@@ -206,7 +209,6 @@ as_component_init (AsComponent *cpt)
 
 	priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
-	priv->extends = g_ptr_array_new_with_free_func (g_free);
 
 	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -245,11 +247,17 @@ as_component_finalize (GObject* object)
 
 	g_ptr_array_unref (priv->screenshots);
 	g_ptr_array_unref (priv->releases);
-	g_ptr_array_unref (priv->extends);
 	g_hash_table_unref (priv->provided);
 	g_hash_table_unref (priv->urls);
 	g_hash_table_unref (priv->languages);
 	g_hash_table_unref (priv->bundles);
+
+	if (priv->extends != NULL)
+		g_ptr_array_unref (priv->extends);
+	if (priv->extensions != NULL)
+		g_ptr_array_unref (priv->extensions);
+	if (priv->translations != NULL)
+		g_ptr_array_unref (priv->translations);
 
 	g_ptr_array_unref (priv->icons);
 	g_hash_table_unref (priv->icons_sizetab);
@@ -280,9 +288,8 @@ as_component_is_valid (AsComponent *cpt)
 	cname = as_component_get_name (cpt);
 
 	if ((as_component_has_install_candidate (cpt)) &&
-		(g_strcmp0 (priv->id, "") != 0) &&
-		(cname != NULL) &&
-		(g_strcmp0 (cname, "") != 0)) {
+		(!as_str_empty (priv->id)) &&
+		(!as_str_empty (cname))) {
 			ret = TRUE;
 	}
 
@@ -430,14 +437,16 @@ as_component_add_url (AsComponent *cpt, AsUrlKind url_kind, const gchar *url)
 			     g_strdup (url));
 }
 
- /**
+/**
   * as_component_get_extends:
   * @cpt: an #AsComponent instance.
   *
   * Returns a string list of IDs of components which
   * are extended by this addon.
   *
-  * Returns: (element-type utf8) (transfer none): an array
+  * See %as_component_get_extends() for the reverse.
+  *
+  * Returns: (element-type utf8) (transfer none): A #GPtrArray or %NULL if not set.
   *
   * Since: 0.7.0
 **/
@@ -445,6 +454,8 @@ GPtrArray*
 as_component_get_extends (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->extends == NULL)
+		priv->extends = g_ptr_array_new_with_free_func (g_free);
 	return priv->extends;
 }
 
@@ -454,12 +465,56 @@ as_component_get_extends (AsComponent *cpt)
  * @cpt_id: The id of a component which is extended by this component
  *
  * Add a reference to the extended component
+ *
+ * Since: 0.7.0
  **/
 void
 as_component_add_extends (AsComponent* cpt, const gchar* cpt_id)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->extends == NULL)
+		priv->extends = g_ptr_array_new_with_free_func (g_free);
 	g_ptr_array_add (priv->extends, g_strdup (cpt_id));
+}
+
+/**
+  * as_component_get_extensions:
+  * @cpt: an #AsComponent instance.
+  *
+  * Returns a string list of IDs of components which
+  * are addons extending this component in functionality.
+  *
+  * This is the reverse of %as_component_get_extends()
+  *
+  * Returns: (element-type utf8) (transfer none): A #GPtrArray or %NULL if not set.
+  *
+  * Since: 0.9.2
+**/
+GPtrArray*
+as_component_get_extensions (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->extensions == NULL)
+		priv->extensions = g_ptr_array_new_with_free_func (g_free);
+	return priv->extensions;
+}
+
+/**
+ * as_component_add_extension:
+ * @cpt: a #AsComponent instance.
+ * @cpt_id: The id of a component extending this component.
+ *
+ * Add a reference to the extension enhancing this component.
+ *
+ * Since: 0.9.2
+ **/
+void
+as_component_add_extension (AsComponent* cpt, const gchar* cpt_id)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->extensions == NULL)
+		priv->extensions = g_ptr_array_new_with_free_func (g_free);
+	g_ptr_array_add (priv->extensions, g_strdup (cpt_id));
 }
 
 /**
@@ -713,10 +768,6 @@ void
 as_component_set_origin (AsComponent *cpt, const gchar* origin)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	/* safety measure, so we never set this to NULL */
-	if (origin == NULL)
-		origin = "";
 	g_free (priv->origin);
 	priv->origin = g_strdup (origin);
 }
@@ -793,18 +844,14 @@ as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* valu
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* safety measure, so we can always convert this to a C++ string */
-	if (value == NULL)
-		value = "";
-
 	/* if no locale was specified, we assume the default locale */
 	/* CAVE: %NULL does NOT mean lang=C! */
 	if (locale == NULL)
 		locale = priv->active_locale;
 
 	g_hash_table_insert (lht,
-						 g_strdup (locale),
-						 g_strdup (value));
+				g_strdup (locale),
+				g_strdup (value));
 }
 
 /**
@@ -818,14 +865,8 @@ as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* valu
 const gchar*
 as_component_get_name (AsComponent *cpt)
 {
-	const gchar *name;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	name = as_component_localized_get (cpt, priv->name);
-	/* prevent issues when converting to a C++ string */
-	if (name == NULL)
-		return "";
-	return name;
+	return as_component_localized_get (cpt, priv->name);
 }
 
 /**
@@ -869,14 +910,8 @@ as_component_get_name_table (AsComponent *cpt)
 const gchar*
 as_component_get_summary (AsComponent *cpt)
 {
-	const gchar *summary;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	summary = as_component_localized_get (cpt, priv->summary);
-	/* prevent issues when converting to a C++ string */
-	if (summary == NULL)
-		return "";
-	return summary;
+	return as_component_localized_get (cpt, priv->summary);
 }
 
 /**
@@ -920,14 +955,8 @@ as_component_get_summary_table (AsComponent *cpt)
 const gchar*
 as_component_get_description (AsComponent *cpt)
 {
-	const gchar *desc;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	desc = as_component_localized_get (cpt, priv->description);
-	/* prevent issues when converting to a C++ string */
-	if (desc == NULL)
-		return "";
-	return desc;
+	return as_component_localized_get (cpt, priv->description);
 }
 
 /**
@@ -1541,6 +1570,48 @@ as_component_get_languages_map (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return priv->languages;
+}
+
+/**
+ * as_component_get_translations:
+ * @cpt: an #AsComponent instance.
+ *
+ * Get a #GPtrArray of #AsTranslation objects describing the
+ * translation systems and translation-ids (e.g. Gettext domains) used
+ * by this software component.
+ *
+ * Only set for metainfo files.
+ *
+ * Returns: (transfer none) (element-type AsTranslation): An array of #AsTranslation objects.
+ *
+ * Since: 0.9.2
+ */
+GPtrArray*
+as_component_get_translations (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->translations == NULL)
+		priv->translations = g_ptr_array_new_with_free_func (g_object_unref);
+	return priv->translations;
+}
+
+/**
+ * as_component_add_translation:
+ * @cpt: an #AsComponent instance.
+ * @tr: an #AsTranslation instance.
+ *
+ * Assign an #AsTranslation object describing the translation system used
+ * by this component.
+ *
+ * Since: 0.9.2
+ */
+void
+as_component_add_translation (AsComponent *cpt, AsTranslation *tr)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->translations == NULL)
+		priv->translations = g_ptr_array_new_with_free_func (g_object_unref);
+	g_ptr_array_add (priv->translations, g_object_ref (tr));
 }
 
 /**

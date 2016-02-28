@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:33+0000\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 17:50+0000\n"
 "Last-Translator: Matthias K. <matthias@tenstral.net>\n"
 "Language-Team: Hungarian (http://www.transifex.com/freedesktop/appstream/"
 "language/hu/)\n"
@@ -61,6 +61,10 @@ msgstr "Binárisok"
 msgid "Bundle"
 msgstr "Csomag"
 
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr ""
+
 msgid "Categories"
 msgstr "Kategóriák"
 
@@ -94,11 +98,17 @@ msgstr "Ne használja a Xapian gyorsítótárat a kérés végrehajtásakor"
 msgid "Don't show colored output"
 msgstr "Ne jelenítsen meg színes kimenetet"
 
-msgid "Dump raw XML metadata for a component matching the ID"
-msgstr "Nyers XML-metaadatok kiírása az azonosítóra illeszkedő összetevőhöz"
+msgid "Dump raw XML metadata for a component matching the ID."
+msgstr ""
 
 msgid "Enforce a cache refresh"
 msgstr "Gyorsítótár-frissítés kényszerítése"
+
+msgid "Extends"
+msgstr ""
+
+msgid "Extensions"
+msgstr ""
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -110,11 +120,11 @@ msgstr "Flashelt firmware"
 msgid "Fonts"
 msgstr "Betűkészletek"
 
-msgid "Get components which provide the given item"
-msgstr "Összetevők lekérése, amelyek a megadott elemet biztosítják"
+msgid "Get components which provide the given item."
+msgstr ""
 
-msgid "Get information about a component by its ID"
-msgstr "Információk kérése egy összetevőről az azonosítója szerint"
+msgid "Get information about a component by its ID."
+msgstr ""
 
 msgid "Homepage"
 msgstr "Honlap"
@@ -124,6 +134,9 @@ msgstr "Ikon"
 
 msgid "Identifier"
 msgstr "Azonosító"
+
+msgid "Install software matching the component-id."
+msgstr ""
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr ""
@@ -193,8 +206,8 @@ msgstr "Python (2-es verzió)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Az összetevő információs gyorsítótár újraépítése"
+msgid "Rebuild the component information cache."
+msgstr ""
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -208,12 +221,11 @@ msgstr "Futásidejű firmware"
 msgid "Sample Screenshot URL"
 msgstr "Minta képernyőkép URL"
 
-msgid "Search the component database"
-msgstr "Az összetevő adatbázis keresése"
-
-msgid "Select a value for the provides-item which needs to be found"
+msgid "Search the component database."
 msgstr ""
-"Válasszon egy értéket ahhoz a szolgáltatás-elemhez, amelyet meg kell találni"
+
+msgid "Select a value for the provides-item which needs to be found."
+msgstr ""
 
 msgid "Show extra debugging information"
 msgstr "További hibakeresési információk megjelenítése"
@@ -251,12 +263,11 @@ msgstr "Nem nyitható meg az AppStream szoftverösszetevő-gyorsítótár."
 msgid "Unable to spawn package manager: %s"
 msgstr "Nem lehet elindítani a csomagkezelőt: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "AppStream XML-fájlok ellenőrzése a kiadásoknál"
-
-msgid "Validate an installed file-tree of an application for valid metadata"
+msgid "Validate AppStream XML files for issues."
 msgstr ""
-"Egy alkalmazás telepített fájl-fájnak ellenőrzése az érvényes metaadatoknál"
+
+msgid "Validate an installed file-tree of an application for valid metadata."
+msgstr ""
 
 msgid "Validation failed."
 msgstr "Az ellenőrzés nem sikerült."
@@ -268,8 +279,8 @@ msgstr "Az ellenőrzés sikeres volt."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "A(z) „%s” XDG menü XML fájl sérült."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Ezt a parancsot rendszergazdai jogosultságokkal kell futtatnia!"
+msgid "You might need superuser permissions to perform this action."
+msgstr ""
 
 msgid "You need to specify a command."
 msgstr "Meg kell adnia egy parancsot."

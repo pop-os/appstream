@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,7 +18,7 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "as-dep11.h"
+#include "as-yamldata.h"
 
 #include <glib.h>
 #include <glib-object.h>
@@ -33,15 +33,14 @@ typedef struct
 {
 	gchar *locale;
 	gchar *locale_short;
-	gchar *origin_name;
+	gchar *origin;
 	gchar *media_baseurl;
+
 	gint default_priority;
+} AsYAMLDataPrivate;
 
-	GPtrArray *cpts;
-} AsDEP11Private;
-
-G_DEFINE_TYPE_WITH_PRIVATE (AsDEP11, as_dep11, G_TYPE_OBJECT)
-#define GET_PRIVATE(o) (as_dep11_get_instance_private (o))
+G_DEFINE_TYPE_WITH_PRIVATE (AsYAMLData, as_yamldata, G_TYPE_OBJECT)
+#define GET_PRIVATE(o) (as_yamldata_get_instance_private (o))
 
 enum YamlNodeKind {
 	YAML_VAR,
@@ -50,50 +49,66 @@ enum YamlNodeKind {
 };
 
 /**
- * as_dep11_init:
+ * as_yamldata_init:
  **/
 static void
-as_dep11_init (AsDEP11 *dep11)
+as_yamldata_init (AsYAMLData *ydt)
 {
 	g_autofree gchar *str;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	/* set active locale without UTF-8 suffix */
 	str = as_get_current_locale ();
-	as_dep11_set_locale (dep11, str);
+	as_yamldata_set_locale (ydt, str);
 
-	priv->origin_name = NULL;
+	priv->origin = NULL;
 	priv->media_baseurl = NULL;
 	priv->default_priority = 0;
-	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
 }
 
 /**
- * as_dep11_finalize:
+ * as_yamldata_finalize:
  **/
 static void
-as_dep11_finalize (GObject *object)
+as_yamldata_finalize (GObject *object)
 {
-	AsDEP11 *dep11 = AS_DEP11 (object);
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLData *ydt = AS_YAMLDATA (object);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	g_free (priv->locale);
 	g_free (priv->locale_short);
-	g_free (priv->origin_name);
+	g_free (priv->origin);
 	g_free (priv->media_baseurl);
-	g_ptr_array_unref (priv->cpts);
 
-	G_OBJECT_CLASS (as_dep11_parent_class)->finalize (object);
+	G_OBJECT_CLASS (as_yamldata_parent_class)->finalize (object);
 }
 
 /**
- * as_dep11_add_component:
+ * as_yamldata_initialize:
+ * @ydt: An instance of #AsYAMLData
+ *
+ * Initialize the YAML handler.
  */
-static void
-as_dep11_add_component (AsDEP11 *dep11, AsComponent *cpt)
+void
+as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority)
 {
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
-	g_ptr_array_add (priv->cpts, g_object_ref (cpt));
+	g_auto(GStrv) strv = NULL;
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
+
+	g_free (priv->locale);
+	g_free (priv->locale_short);
+	priv->locale = g_strdup (locale);
+
+	strv = g_strsplit (priv->locale, "_", 0);
+	priv->locale_short = g_strdup (strv[0]);
+
+	g_free (priv->origin);
+	priv->origin = g_strdup (origin);
+
+	g_free (priv->media_baseurl);
+	priv->media_baseurl = g_strdup (media_baseurl);
+
+	priv->default_priority = priority;
 }
 
 /**
@@ -106,10 +121,10 @@ dep11_print_unknown (const gchar *root, const gchar *key)
 }
 
 /**
- * _dep11_yaml_free_node:
+ * as_yamldata_free_node:
  */
 static gboolean
-_dep11_yaml_free_node (GNode *node, gpointer data)
+as_yamldata_free_node (GNode *node, gpointer data)
 {
 	if (node->data != NULL)
 		g_free (node->data);
@@ -177,17 +192,17 @@ dep11_yaml_process_layer (yaml_parser_t *parser, GNode *data)
 }
 
 /**
- * as_dep11_get_localized_node:
+ * as_yamldata_get_localized_node:
  */
 static GNode*
-as_dep11_get_localized_node (AsDEP11 *dep11, GNode *node, gchar *locale_override)
+as_yamldata_get_localized_node (AsYAMLData *ydt, GNode *node, gchar *locale_override)
 {
 	GNode *n;
 	GNode *tnode = NULL;
 	gchar *key;
 	const gchar *locale;
 	const gchar *locale_short = NULL;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	if (locale_override == NULL) {
 		locale = priv->locale;
@@ -222,16 +237,16 @@ out:
 }
 
 /**
- * as_dep11_get_localized_value:
+ * as_yamldata_get_localized_value:
  *
  * Get localized string from a translated DEP-11 key
  */
 static gchar*
-as_dep11_get_localized_value (AsDEP11 *dep11, GNode *node, gchar *locale_override)
+as_yamldata_get_localized_value (AsYAMLData *ydt, GNode *node, gchar *locale_override)
 {
 	GNode *tnode;
 
-	tnode = as_dep11_get_localized_node (dep11, node, locale_override);
+	tnode = as_yamldata_get_localized_node (ydt, node, locale_override);
 	if (tnode == NULL)
 		return NULL;
 
@@ -252,12 +267,12 @@ dep11_list_to_string_array (GNode *node, GPtrArray *array)
 }
 
 /**
- * as_dep11_process_keywords:
+ * as_yamldata_process_keywords:
  *
  * Process a keywords node and add the data to an #AsComponent
  */
 static void
-as_dep11_process_keywords (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
+as_yamldata_process_keywords (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 {
 	GNode *tnode;
 	GPtrArray *keywords;
@@ -265,7 +280,7 @@ as_dep11_process_keywords (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 
 	keywords = g_ptr_array_new_with_free_func (g_free);
 
-	tnode = as_dep11_get_localized_node (dep11, node, NULL);
+	tnode = as_yamldata_get_localized_node (ydt, node, NULL);
 	/* no node found? */
 	if (tnode == NULL)
 		return;
@@ -300,15 +315,15 @@ dep11_process_urls (GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_dep11_process_icons:
+ * as_yamldata_process_icons:
  */
 static void
-as_dep11_process_icons (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
+as_yamldata_process_icons (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 {
 	GNode *n;
 	gchar *key;
 	gchar *value;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	for (n = node->children; n != NULL; n = n->next) {
 		g_autoptr(AsIcon) icon = NULL;
@@ -453,11 +468,11 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
  * dep11_process_image:
  */
 static void
-dep11_process_image (AsDEP11 *dep11, GNode *node, AsScreenshot *scr)
+dep11_process_image (AsYAMLData *ydt, GNode *node, AsScreenshot *scr)
 {
 	GNode *n;
 	AsImage *img;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	img = as_image_new ();
 
@@ -499,10 +514,10 @@ dep11_process_image (AsDEP11 *dep11, GNode *node, AsScreenshot *scr)
 }
 
 /**
- * as_dep11_process_screenshots:
+ * as_yamldata_process_screenshots:
  */
 static void
-as_dep11_process_screenshots (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
+as_yamldata_process_screenshots (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -533,15 +548,15 @@ as_dep11_process_screenshots (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 			} else if (g_strcmp0 (key, "caption") == 0) {
 				gchar *lvalue;
 				/* the caption is a localized element */
-				lvalue = as_dep11_get_localized_value (dep11, n, NULL);
+				lvalue = as_yamldata_get_localized_value (ydt, n, NULL);
 				as_screenshot_set_caption (scr, lvalue, NULL);
 			} else if (g_strcmp0 (key, "source-image") == 0) {
 				/* there can only be one source image */
-				dep11_process_image (dep11, n, scr);
+				dep11_process_image (ydt, n, scr);
 			} else if (g_strcmp0 (key, "thumbnails") == 0) {
 				/* the thumbnails are a list of images */
 				for (in = n->children; in != NULL; in = in->next) {
-					dep11_process_image (dep11, in, scr);
+					dep11_process_image (ydt, in, scr);
 				}
 			} else {
 				dep11_print_unknown ("screenshot", key);
@@ -555,12 +570,12 @@ as_dep11_process_screenshots (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_dep11_process_releases:
+ * as_yamldata_process_releases:
  *
  * Add #AsRelease instances to the #AsComponent
  */
 static void
-as_dep11_process_releases (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
+as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -596,7 +611,7 @@ as_dep11_process_releases (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 				as_release_set_version (rel, value);
 			} else if (g_strcmp0 (key, "description") == 0) {
 				gchar *lvalue;
-				lvalue = as_dep11_get_localized_value (dep11, node, NULL);
+				lvalue = as_yamldata_get_localized_value (ydt, node, NULL);
 				as_release_set_description (rel, lvalue, NULL);
 				g_free (lvalue);
 			} else {
@@ -611,10 +626,10 @@ as_dep11_process_releases (AsDEP11 *dep11, GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_dep11_process_component_node:
+ * as_yamldata_process_component_node:
  */
 AsComponent*
-as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
+as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 {
 	GNode *node;
 	AsComponent *cpt;
@@ -622,7 +637,7 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 	gchar **strv;
 	GPtrArray *categories;
 	GPtrArray *compulsory_for_desktops;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	cpt = as_component_new ();
 
@@ -639,6 +654,7 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 
 		key = (gchar*) node->data;
 		value = (gchar*) node->children->data;
+		g_strstrip (value);
 
 		if (g_strcmp0 (key, "Type") == 0) {
 			if (g_strcmp0 (value, "desktop-app") == 0)
@@ -660,24 +676,28 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 		} else if (g_strcmp0 (key, "SourcePackage") == 0) {
 			as_component_set_source_pkgname (cpt, value);
 		} else if (g_strcmp0 (key, "Name") == 0) {
-			lvalue = as_dep11_get_localized_value (dep11, node, "C");
+			lvalue = as_yamldata_get_localized_value (ydt, node, "C");
+			g_strstrip (lvalue);
 			if (lvalue != NULL) {
 				as_component_set_name (cpt, lvalue, "C"); /* Unlocalized */
 				g_free (lvalue);
 			}
-			lvalue = as_dep11_get_localized_value (dep11, node, NULL);
+			lvalue = as_yamldata_get_localized_value (ydt, node, NULL);
 			as_component_set_name (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "Summary") == 0) {
-			lvalue = as_dep11_get_localized_value (dep11, node, NULL);
+			lvalue = as_yamldata_get_localized_value (ydt, node, NULL);
+			g_strstrip (lvalue);
 			as_component_set_summary (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "Description") == 0) {
-			lvalue = as_dep11_get_localized_value (dep11, node, NULL);
+			lvalue = as_yamldata_get_localized_value (ydt, node, NULL);
+			g_strstrip (lvalue);
 			as_component_set_description (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "DeveloperName") == 0) {
-			lvalue = as_dep11_get_localized_value (dep11, node, NULL);
+			lvalue = as_yamldata_get_localized_value (ydt, node, NULL);
+			g_strstrip (lvalue);
 			as_component_set_developer_name (cpt, lvalue, NULL);
 			g_free (lvalue);
 		} else if (g_strcmp0 (key, "ProjectLicense") == 0) {
@@ -691,24 +711,24 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 		} else if (g_strcmp0 (key, "Extends") == 0) {
 			dep11_list_to_string_array (node, as_component_get_extends (cpt));
 		} else if (g_strcmp0 (key, "Keywords") == 0) {
-			as_dep11_process_keywords (dep11, node, cpt);
+			as_yamldata_process_keywords (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Url") == 0) {
 			dep11_process_urls (node, cpt);
 		} else if (g_strcmp0 (key, "Icon") == 0) {
-			as_dep11_process_icons (dep11, node, cpt);
+			as_yamldata_process_icons (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Provides") == 0) {
 			dep11_process_provides (node, cpt);
 		} else if (g_strcmp0 (key, "Screenshots") == 0) {
-			as_dep11_process_screenshots (dep11, node, cpt);
+			as_yamldata_process_screenshots (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Releases") == 0) {
-			as_dep11_process_releases (dep11, node, cpt);
+			as_yamldata_process_releases (ydt, node, cpt);
 		} else {
 			dep11_print_unknown ("root", key);
 		}
 	}
 
 	/* set component origin */
-	as_component_set_origin (cpt, priv->origin_name);
+	as_component_set_origin (cpt, priv->origin);
 
 	/* set component priority */
 	as_component_set_priority (cpt, priv->default_priority);
@@ -729,27 +749,47 @@ as_dep11_process_component_node (AsDEP11 *dep11, GNode *root)
 }
 
 /**
- * as_dep11_process_data:
+ * as_yamldata_parse_distro_data:
+ * @ydt: An instance of #AsYAMLData
+ * @data: YAML metadata to parse
+ *
+ * Read an array of #AsComponent from AppStream YAML metadata.
+ *
+ * Returns: (transfer full) (element-type AsComponent): An array of #AsComponent or %NULL
  */
-void
-as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
+GPtrArray*
+as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **error)
 {
 	yaml_parser_t parser;
 	yaml_event_t event;
 	gboolean header = TRUE;
 	gboolean parse = TRUE;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	GPtrArray *cpts = NULL;;
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	/* we ignore empty data - usually happens if the file is broken, e.g. by disk corruption
 	 * or download interruption. */
 	if (data == NULL)
-		return;
+		return NULL;
 
+	/* create container for the components we find */
+	cpts = g_ptr_array_new_with_free_func (g_object_unref);
+
+	/* reset the global document properties */
+	g_free (priv->origin);
+	priv->origin = NULL;
+
+	g_free (priv->media_baseurl);
+	priv->media_baseurl = NULL;
+
+	priv->default_priority = 0;
+
+	/* initialize YAML parser */
 	yaml_parser_initialize (&parser);
-	yaml_parser_set_input_string (&parser, (unsigned char*) data, strlen(data));
+	yaml_parser_set_input_string (&parser, (unsigned char*) data, strlen (data));
 
 	while (parse) {
-		yaml_parser_parse(&parser, &event);
+		yaml_parser_parse (&parser, &event);
 		if (event.type == YAML_DOCUMENT_START_EVENT) {
 			GNode *n;
 			gchar *key;
@@ -761,8 +801,18 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 
 			if (header) {
 				for (n = root->children; n != NULL; n = n->next) {
+					if ((n->data == NULL) || (n->children == NULL)) {
+						parse = FALSE;
+						g_set_error_literal (error,
+								AS_METADATA_ERROR,
+								AS_METADATA_ERROR_FAILED,
+								"Invalid DEP-11 file found: Header invalid");
+						break;
+					}
+
 					key = (gchar*) n->data;
 					value = (gchar*) n->children->data;
+
 					if (g_strcmp0 (key, "File") == 0) {
 						if (g_strcmp0 (value, "DEP-11") != 0) {
 							parse = FALSE;
@@ -772,8 +822,8 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 									"Invalid DEP-11 file found: Header invalid");
 						}
 					} else if (g_strcmp0 (key, "Origin") == 0) {
-						if ((value != NULL) && (priv->origin_name == NULL)) {
-							priv->origin_name = g_strdup (value);
+						if ((value != NULL) && (priv->origin == NULL)) {
+							priv->origin = g_strdup (value);
 						} else {
 							parse = FALSE;
 							g_set_error_literal (error,
@@ -792,23 +842,19 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 					}
 				}
 			} else {
-				cpt = as_dep11_process_component_node (dep11, root);
+				cpt = as_yamldata_process_component_node (ydt, root);
 				if (cpt == NULL)
 					parse = FALSE;
 
 				if (as_component_is_valid (cpt)) {
 					/* everything is fine with this component, we can emit it */
-					as_dep11_add_component (dep11, cpt);
+					g_ptr_array_add (cpts, cpt);
 				} else {
-					gchar *str;
-					gchar *str2;
+					g_autofree gchar *str = NULL;
 					str = as_component_to_string (cpt);
-					str2 = g_strdup_printf ("Invalid component found: %s\n", str);
-					g_debug ("DEP-11-Warning: %s", str2);
-					g_free (str);
-					g_free (str2);
+					g_debug ("WARNING: Invalid component found: %s", str);
+					g_object_unref (cpt);
 				}
-				g_object_unref (cpt);
 			}
 
 			header = FALSE;
@@ -817,7 +863,7 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 					G_IN_ORDER,
 					G_TRAVERSE_ALL,
 					-1,
-					_dep11_yaml_free_node,
+					as_yamldata_free_node,
 					NULL);
 			g_node_destroy (root);
 		}
@@ -831,96 +877,12 @@ as_dep11_parse_data (AsDEP11 *dep11, const gchar *data, GError **error)
 
 	yaml_parser_delete (&parser);
 
-	/* reset the global document properties */
-	g_free (priv->origin_name);
-	priv->origin_name = NULL;
-
-	g_free (priv->media_baseurl);
-	priv->media_baseurl = NULL;
-
-	priv->default_priority = 0;
+	return cpts;
 }
 
 /**
- * as_dep11_parse_file:
- * @dep11: A valid #AsDEP11 instance
- * @file: #GFile for the upstream metadata
- * @error: A #GError or %NULL.
- *
- * Parses an AppStream upstream metadata file in DEP-11-YAML format.
- *
- **/
-void
-as_dep11_parse_file (AsDEP11 *dep11, GFile* file, GError **error)
-{
-	gchar *yaml_doc;
-	GFileInputStream* fistream;
-	GFileInfo *info = NULL;
-	const gchar *content_type = NULL;
-
-	g_return_if_fail (file != NULL);
-
-	info = g_file_query_info (file,
-				G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE,
-				G_FILE_QUERY_INFO_NONE,
-				NULL, NULL);
-	if (info != NULL)
-		content_type = g_file_info_get_attribute_string (info, G_FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE);
-
-	if ((g_strcmp0 (content_type, "application/gzip") == 0) || (g_strcmp0 (content_type, "application/x-gzip") == 0)) {
-		GFileInputStream *fistream;
-		GMemoryOutputStream *mem_os;
-		GInputStream *conv_stream;
-		GZlibDecompressor *zdecomp;
-		guint8 *data;
-
-		/* load a GZip compressed file */
-		fistream = g_file_read (file, NULL, NULL);
-		mem_os = (GMemoryOutputStream*) g_memory_output_stream_new (NULL, 0, g_realloc, g_free);
-		zdecomp = g_zlib_decompressor_new (G_ZLIB_COMPRESSOR_FORMAT_GZIP);
-		conv_stream = g_converter_input_stream_new (G_INPUT_STREAM (fistream), G_CONVERTER (zdecomp));
-		g_object_unref (zdecomp);
-
-		g_output_stream_splice (G_OUTPUT_STREAM (mem_os), conv_stream, 0, NULL, NULL);
-		data = g_memory_output_stream_get_data (mem_os);
-
-		yaml_doc = g_strdup ((const gchar*) data);
-
-		g_object_unref (conv_stream);
-		g_object_unref (mem_os);
-		g_object_unref (fistream);
-	} else {
-		gchar *line = NULL;
-		GString *str;
-		GDataInputStream *dis;
-
-		/* load a plaintext file */
-		str = g_string_new ("");
-		fistream = g_file_read (file, NULL, NULL);
-		dis = g_data_input_stream_new ((GInputStream*) fistream);
-		g_object_unref (fistream);
-
-		while (TRUE) {
-			line = g_data_input_stream_read_line (dis, NULL, NULL, NULL);
-			if (line == NULL) {
-				break;
-			}
-
-			g_string_append_printf (str, "%s\n", line);
-		}
-
-		yaml_doc = g_string_free (str, FALSE);
-		g_object_unref (dis);
-	}
-
-	/* parse YAML data */
-	as_dep11_parse_data (dep11, yaml_doc, error);
-	g_free (yaml_doc);
-}
-
-/**
- * as_dep11_set_locale:
- * @dep11: a #AsDEP11 instance.
+ * as_yamldata_set_locale:
+ * @ydt: a #AsYAMLData instance.
  * @locale: the locale.
  *
  * Sets the locale which should be read when processing DEP-11 metadata.
@@ -929,10 +891,10 @@ as_dep11_parse_file (AsDEP11 *dep11, GFile* file, GError **error)
  * If you set the locale to "ALL", all locales will be read.
  **/
 void
-as_dep11_set_locale (AsDEP11 *dep11, const gchar *locale)
+as_yamldata_set_locale (AsYAMLData *ydt, const gchar *locale)
 {
 	gchar **strv;
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	g_free (priv->locale);
 	g_free (priv->locale_short);
@@ -944,8 +906,8 @@ as_dep11_set_locale (AsDEP11 *dep11, const gchar *locale)
 }
 
 /**
- * as_dep11_get_locale:
- * @dep11: a #AsDEP11 instance.
+ * as_yamldata_get_locale:
+ * @ydt: a #AsYAMLData instance.
  *
  * Gets the current active locale for parsing DEP-11 metadata.,
  * or "ALL" if all locales are read.
@@ -953,53 +915,29 @@ as_dep11_set_locale (AsDEP11 *dep11, const gchar *locale)
  * Returns: Locale used for metadata parsing.
  **/
 const gchar *
-as_dep11_get_locale (AsDEP11 *dep11)
+as_yamldata_get_locale (AsYAMLData *ydt)
 {
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 	return priv->locale;
 }
 
 /**
- * as_dep11_get_components:
- * @dep11: an #AsDEP11 instance.
- *
- * Returns: (transfer none) (element-type AsComponent): A #GPtrArray of all parsed components
- **/
-GPtrArray*
-as_dep11_get_components (AsDEP11 *dep11)
-{
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
-	return priv->cpts;
-}
-
-/**
- * as_dep11_clear_components:
- **/
-void
-as_dep11_clear_components (AsDEP11 *dep11)
-{
-	AsDEP11Private *priv = GET_PRIVATE (dep11);
-	g_ptr_array_unref (priv->cpts);
-	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
-}
-
-/**
- * as_dep11_class_init:
+ * as_yamldata_class_init:
  **/
 static void
-as_dep11_class_init (AsDEP11Class *klass)
+as_yamldata_class_init (AsYAMLDataClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = as_dep11_finalize;
+	object_class->finalize = as_yamldata_finalize;
 }
 
 /**
- * as_dep11_new:
+ * as_yamldata_new:
  */
-AsDEP11*
-as_dep11_new (void)
+AsYAMLData*
+as_yamldata_new (void)
 {
-	AsDEP11 *dep11;
-	dep11 = g_object_new (AS_TYPE_DEP11, NULL);
-	return AS_DEP11 (dep11);
+	AsYAMLData *ydt;
+	ydt = g_object_new (AS_TYPE_YAMLDATA, NULL);
+	return AS_YAMLDATA (ydt);
 }

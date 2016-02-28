@@ -125,6 +125,33 @@ images_array_to_imageentry (AsImage *img, Screenshots_Screenshot *pb_sshot)
 	}
 }
 
+/**
+ * Turn a GPtrArray (containing C strings) into a semicolon-separated list
+ * of strings as sdt__string
+ */
+static string
+ptrarray_to_semicolon_str (GPtrArray *array)
+{
+	if (array == NULL)
+		return string();
+	if (array->len == 0)
+		return string();
+
+	ostringstream res_sstr;
+	for (uint i = 0; i < array->len; i++) {
+		const gchar *acstr = (const gchar*) g_ptr_array_index (array, i);
+		if (i == array->len-1)
+			res_sstr << acstr;
+		else
+			res_sstr << acstr << ";";
+	}
+
+	return res_sstr.str ();
+}
+
+/**
+ * Recreate the database from a given component list.
+ */
 bool
 DatabaseWrite::rebuild (GList *cpt_list)
 {
@@ -226,6 +253,22 @@ DatabaseWrite::rebuild (GList *cpt_list)
 			}
 		}
 
+		// Type identifier
+		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
+		doc.add_value (XapianValues::TYPE, type_str);
+		doc.add_term ("AT" + type_str);
+
+		// Identifier
+		string idname = as_component_get_id (cpt);
+		doc.add_value (XapianValues::IDENTIFIER, idname);
+		doc.add_term("AI" + idname);
+		term_generator.index_text_without_positions (idname, WEIGHT_PKGNAME);
+
+		// Origin
+		const gchar *cptOrigin = as_component_get_origin (cpt);
+		if (cptOrigin != NULL)
+			doc.add_value (XapianValues::ORIGIN, cptOrigin);
+
 		// Bundles
 		Bundles bundles;
 		GHashTable *bundle_ids = as_component_get_bundles_table (cpt);
@@ -238,32 +281,33 @@ DatabaseWrite::rebuild (GList *cpt_list)
 				doc.add_value (XapianValues::BUNDLES, ostr);
 		}
 
-		// Identifier
-		string idname = as_component_get_id (cpt);
-		doc.add_value (XapianValues::IDENTIFIER, idname);
-		doc.add_term("AI" + idname);
-		term_generator.index_text_without_positions (idname, WEIGHT_PKGNAME);
-
 		// Component name
-		string cptName = as_component_get_name (cpt);
-		doc.add_value (XapianValues::CPTNAME, cptName);
+		const gchar *cptName = as_component_get_name (cpt);
+		if (cptName != NULL)
+			doc.add_value (XapianValues::CPTNAME, cptName);
 
 		// Untranslated component name
-		string clocale = as_component_get_active_locale (cpt);
+		string clocale = as_component_get_active_locale (cpt)? as_component_get_active_locale (cpt) : "";
 		as_component_set_active_locale (cpt, "C");
-		string cptNameGeneric = as_component_get_name (cpt);
-		doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
-		as_component_set_active_locale (cpt, clocale.c_str());
-		term_generator.index_text_without_positions (cptNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
 
-		// Type identifier
-		string type_str = as_component_kind_to_string (as_component_get_kind (cpt));
-		doc.add_value (XapianValues::TYPE, type_str);
-		doc.add_term ("AT" + type_str);
+		const gchar *cptNameGeneric = as_component_get_name (cpt);
+		if (cptNameGeneric != NULL) {
+			doc.add_value (XapianValues::CPTNAME_UNTRANSLATED, cptNameGeneric);
+			term_generator.index_text_without_positions (cptNameGeneric, WEIGHT_DESKTOP_GENERICNAME);
+		}
 
-		// Origin
-		string cptOrigin = as_component_get_origin (cpt);
-		doc.add_value (XapianValues::ORIGIN, cptOrigin);
+		if (clocale.empty ())
+			as_component_set_active_locale (cpt, NULL);
+		else
+			as_component_set_active_locale (cpt, clocale.c_str());
+
+		// Extends
+		GPtrArray *extends = as_component_get_extends (cpt);
+		doc.add_value (XapianValues::EXTENDS, ptrarray_to_semicolon_str (extends));
+
+		// Extensions
+		GPtrArray *exts = as_component_get_extensions (cpt);
+		doc.add_value (XapianValues::EXTENSIONS, ptrarray_to_semicolon_str (exts));
 
 		// URLs
 		GHashTable *urls_table;
@@ -304,19 +348,23 @@ DatabaseWrite::rebuild (GList *cpt_list)
 
 
 		// Summary
-		string cptSummary = as_component_get_summary (cpt);
-		doc.add_value (XapianValues::SUMMARY, cptSummary);
-		term_generator.index_text_without_positions (cptSummary, WEIGHT_DESKTOP_SUMMARY);
+		const gchar *cptSummary = as_component_get_summary (cpt);
+		if (cptSummary != NULL) {
+			doc.add_value (XapianValues::SUMMARY, cptSummary);
+			term_generator.index_text_without_positions (cptSummary, WEIGHT_DESKTOP_SUMMARY);
+		}
 
 		// Long description
-		string description = as_component_get_description (cpt);
-		doc.add_value (XapianValues::DESCRIPTION, description);
-		term_generator.index_text_without_positions (description, WEIGHT_DESKTOP_SUMMARY);
+		const gchar *description = as_component_get_description (cpt);
+		if (description != NULL) {
+			doc.add_value (XapianValues::DESCRIPTION, description);
+			term_generator.index_text_without_positions (description, WEIGHT_DESKTOP_SUMMARY);
+		}
 
 		// Categories
 		gchar **categories = as_component_get_categories (cpt);
 		if (categories != NULL) {
-			string categories_str = "";
+			ostringstream categories_sstr;
 			for (uint i = 0; categories[i] != NULL; i++) {
 				if (as_str_empty (categories[i]))
 					continue;
@@ -326,9 +374,9 @@ DatabaseWrite::rebuild (GList *cpt_list)
 				transform (tmp.begin (), tmp.end (),
 						tmp.begin (), ::tolower);
 				doc.add_term ("AC" + tmp);
-				categories_str += cat + ";";
+				categories_sstr << cat << ";";
 			}
-			doc.add_value (XapianValues::CATEGORIES, categories_str);
+			doc.add_value (XapianValues::CATEGORIES, categories_sstr.str ());
 		}
 
 		// Add our keywords (with high priority)

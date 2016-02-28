@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -66,16 +66,15 @@ const gchar 		*as_data_pool_get_locale (AsDataPool *dpool);
 void			as_data_pool_set_locale (AsDataPool *dpool,
 							const gchar *locale);
 
-gchar			**as_data_pool_get_watched_locations (AsDataPool *dpool);
-
 gboolean		as_data_pool_update (AsDataPool *dpool, GError **error);
 
 GList			*as_data_pool_get_components (AsDataPool *dpool);
 AsComponent		*as_data_pool_get_component_by_id (AsDataPool *dpool,
 								const gchar *id);
 
-void			as_data_pool_set_data_source_directories (AsDataPool *dpool,
-									gchar **dirs);
+GPtrArray		*as_data_pool_get_metadata_locations (AsDataPool *dpool);
+void			as_data_pool_set_metadata_locations (AsDataPool *dpool,
+								gchar **dirs);
 
 G_END_DECLS
 

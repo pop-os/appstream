@@ -1,10 +1,10 @@
 <MACRO>
-<NAME>AS_TYPE_DEP11</NAME>
-#define AS_TYPE_DEP11 (as_dep11_get_type ())
+<NAME>AS_TYPE_YAMLDATA</NAME>
+#define AS_TYPE_YAMLDATA (as_yamldata_get_type ())
 </MACRO>
 <STRUCT>
-<NAME>AsDEP11Class</NAME>
-struct _AsDEP11Class
+<NAME>AsYAMLDataClass</NAME>
+struct _AsYAMLDataClass
 {
 	GObjectClass		parent_class;
 	/*< private >*/
@@ -17,42 +17,32 @@ struct _AsDEP11Class
 };
 </STRUCT>
 <FUNCTION>
-<NAME>as_dep11_new</NAME>
-<RETURNS>AsDEP11 *		</RETURNS>
+<NAME>as_yamldata_new</NAME>
+<RETURNS>AsYAMLData 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_dep11_get_locale</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsDEP11 *dep11
-</FUNCTION>
-<FUNCTION>
-<NAME>as_dep11_set_locale</NAME>
+<NAME>as_yamldata_initialize</NAME>
 <RETURNS>void 			</RETURNS>
-AsDEP11 *dep11, const gchar *locale
+AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority
 </FUNCTION>
 <FUNCTION>
-<NAME>as_dep11_parse_data</NAME>
-<RETURNS>void 			</RETURNS>
-AsDEP11 *dep11, const gchar *data, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_dep11_parse_file</NAME>
-<RETURNS>void 			</RETURNS>
-AsDEP11 *dep11, GFile* file, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_dep11_get_components</NAME>
+<NAME>as_yamldata_parse_distro_data</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDEP11 *dep11
+AsYAMLData *ydt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_dep11_clear_components</NAME>
+<NAME>as_yamldata_get_locale</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsYAMLData *ydt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yamldata_set_locale</NAME>
 <RETURNS>void 			</RETURNS>
-AsDEP11 *dep11
+AsYAMLData *ydt, const gchar *locale
 </FUNCTION>
 <STRUCT>
-<NAME>AsDEP11</NAME>
+<NAME>AsYAMLData</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
@@ -171,6 +161,11 @@ const gchar *dir, gboolean recursive, GError **error
 void
 </FUNCTION>
 <FUNCTION>
+<NAME>as_utils_is_writable</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar *path
+</FUNCTION>
+<FUNCTION>
 <NAME>as_str_replace</NAME>
 <RETURNS>gchar 			*</RETURNS>
 const gchar *str, const gchar *old_str, const gchar *new_str
@@ -235,6 +230,72 @@ AsValidator *validator
 </FUNCTION>
 <STRUCT>
 <NAME>AsValidator</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_TRANSLATION</NAME>
+#define AS_TYPE_TRANSLATION (as_translation_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsTranslationClass</NAME>
+struct _AsTranslationClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsTranslationKind</NAME>
+typedef enum {
+	AS_TRANSLATION_KIND_UNKNOWN,
+	AS_TRANSLATION_KIND_GETTEXT,
+	AS_TRANSLATION_KIND_QT,
+	/*< private >*/
+	AS_TRANSLATION_KIND_LAST
+} AsTranslationKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_translation_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsTranslationKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_kind_from_string</NAME>
+<RETURNS>AsTranslationKind 	</RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_new</NAME>
+<RETURNS>AsTranslation 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_get_kind</NAME>
+<RETURNS>AsTranslationKind 	</RETURNS>
+AsTranslation *tr
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsTranslation *tr, AsTranslationKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_get_id</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsTranslation *tr
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_set_id</NAME>
+<RETURNS>void 			</RETURNS>
+AsTranslation *tr, const gchar *id
+</FUNCTION>
+<STRUCT>
+<NAME>AsTranslation</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR_ISSUE</NAME>
@@ -336,30 +397,6 @@ AsValidatorIssue *issue, const gchar *location
 <STRUCT>
 <NAME>AsValidatorIssue</NAME>
 </STRUCT>
-<ENUM>
-<NAME>AsParserMode</NAME>
-typedef enum {
-	AS_PARSER_MODE_UPSTREAM,
-	AS_PARSER_MODE_DISTRO,
-	/*< private >*/
-	AS_PARSER_MODE_LAST
-} AsParserMode;
-</ENUM>
-<FUNCTION>
-<NAME>as_metadata_parse_component_node</NAME>
-<RETURNS>AsComponent 	*</RETURNS>
-AsMetadata* metad, xmlNode* node, gboolean allow_invalid, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_set_parser_mode</NAME>
-<RETURNS>void 		</RETURNS>
-AsMetadata *metad, AsParserMode mode
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_get_parser_mode</NAME>
-<RETURNS>AsParserMode 	</RETURNS>
-AsMetadata *metad
-</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
@@ -1002,9 +1039,19 @@ AsComponent *cpt
 AsComponent *cpt, const gchar *cpt_id
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_add_language</NAME>
+<NAME>as_component_get_extensions</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_extension</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar *locale, gint percentage
+AsComponent *cpt, const gchar *cpt_id
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_languages</NAME>
+<RETURNS>GList 			*</RETURNS>
+AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_language</NAME>
@@ -1012,9 +1059,19 @@ AsComponent *cpt, const gchar *locale, gint percentage
 AsComponent *cpt, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_languages</NAME>
-<RETURNS>GList *			</RETURNS>
+<NAME>as_component_add_language</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, const gchar *locale, gint percentage
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_translations</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
 AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_translation</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsTranslation *tr
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_has_bundle</NAME>
@@ -1161,9 +1218,19 @@ struct _AsMetadataClass
 };
 </STRUCT>
 <ENUM>
+<NAME>AsParserMode</NAME>
+typedef enum {
+	AS_PARSER_MODE_UPSTREAM,
+	AS_PARSER_MODE_DISTRO,
+	/*< private >*/
+	AS_PARSER_MODE_LAST
+} AsParserMode;
+</ENUM>
+<ENUM>
 <NAME>AsMetadataError</NAME>
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
+	AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
@@ -1188,7 +1255,12 @@ void
 AsMetadata *metad, GFile *file, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_parse_data</NAME>
+<NAME>as_metadata_parse_xml</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_parse_yaml</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *data, GError **error
 </FUNCTION>
@@ -1251,6 +1323,16 @@ AsMetadata *metad
 <NAME>as_metadata_set_origin</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *origin
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_parser_mode</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, AsParserMode mode
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_parser_mode</NAME>
+<RETURNS>AsParserMode 		</RETURNS>
+AsMetadata *metad
 </FUNCTION>
 <STRUCT>
 <NAME>AsMetadata</NAME>
@@ -1453,6 +1535,67 @@ AsRelease *release, guint64 size, AsSizeKind kind
 <NAME>AsRelease</NAME>
 </STRUCT>
 <MACRO>
+<NAME>AS_TYPE_XMLDATA</NAME>
+#define AS_TYPE_XMLDATA (as_xmldata_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsXMLDataClass</NAME>
+struct _AsXMLDataClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+};
+</STRUCT>
+<FUNCTION>
+<NAME>as_xmldata_new</NAME>
+<RETURNS>AsXMLData 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_initialize</NAME>
+<RETURNS>void 			</RETURNS>
+AsXMLData *xdt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_parse_upstream_data</NAME>
+<RETURNS>AsComponent 		*</RETURNS>
+AsXMLData *xdt, const gchar *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_parse_distro_data</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsXMLData *xdt, const gchar *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_serialize_to_upstream</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsXMLData *xdt, AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_serialize_to_distro</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsXMLData *xdt, GPtrArray *cpts
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_set_parser_mode</NAME>
+<RETURNS>void 			</RETURNS>
+AsXMLData *xdt, AsParserMode mode
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_parse_component_node</NAME>
+<RETURNS>AsComponent 		*</RETURNS>
+AsXMLData *metad, xmlNode *node, gboolean allow_invalid, GError **error
+</FUNCTION>
+<STRUCT>
+<NAME>AsXMLData</NAME>
+</STRUCT>
+<MACRO>
 <NAME>AS_TYPE_CACHE_BUILDER</NAME>
 #define AS_TYPE_CACHE_BUILDER (as_cache_builder_get_type ())
 </MACRO>
@@ -1482,7 +1625,8 @@ void
 <NAME>AsCacheBuilderError</NAME>
 typedef enum {
 	AS_CACHE_BUILDER_ERROR_FAILED,
-	AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED,
+	AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE,
+	AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE,
 	/*< private >*/
 	AS_CACHE_BUILDER_ERROR_LAST
 } AsCacheBuilderError;
@@ -1495,7 +1639,7 @@ void
 <FUNCTION>
 <NAME>as_cache_builder_setup</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsCacheBuilder *builder, const gchar *dbpath
+AsCacheBuilder *builder, const gchar *dbpath, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_cache_builder_refresh</NAME>
@@ -1711,11 +1855,6 @@ AsDataPool *dpool
 AsDataPool *dpool, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_pool_get_watched_locations</NAME>
-<RETURNS>gchar 			**</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
 <NAME>as_data_pool_update</NAME>
 <RETURNS>gboolean 		</RETURNS>
 AsDataPool *dpool, GError **error
@@ -1731,7 +1870,12 @@ AsDataPool *dpool
 AsDataPool *dpool, const gchar *id
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_pool_set_data_source_directories</NAME>
+<NAME>as_data_pool_get_metadata_locations</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsDataPool *dpool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_data_pool_set_metadata_locations</NAME>
 <RETURNS>void 			</RETURNS>
 AsDataPool *dpool, gchar **dirs
 </FUNCTION>

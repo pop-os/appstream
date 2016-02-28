@@ -22,7 +22,7 @@
 #include <glib/gprintf.h>
 
 #include "appstream.h"
-#include "as-dep11.h"
+#include "as-yamldata.h"
 
 static gchar *datadir = NULL;
 
@@ -35,7 +35,7 @@ println (const gchar *s)
 void
 test_basic ()
 {
-	AsDEP11 *dep11;
+	g_autoptr(AsMetadata) mdata = NULL;
 	gchar *path;
 	GFile *file;
 	GPtrArray *cpts;
@@ -43,18 +43,19 @@ test_basic ()
 	AsComponent *cpt_tomatoes;
 	GError *error = NULL;
 
-	dep11 = as_dep11_new ();
-	as_dep11_set_locale (dep11, "C");
+	mdata = as_metadata_new ();
+	as_metadata_set_locale (mdata, "C");
+	as_metadata_set_parser_mode (mdata, AS_PARSER_MODE_DISTRO);
 
 	path = g_build_filename (datadir, "dep11-0.8.yml", NULL);
 	file = g_file_new_for_path (path);
 	g_free (path);
 
-	as_dep11_parse_file (dep11, file, &error);
+	as_metadata_parse_file (mdata, file, &error);
 	g_object_unref (file);
 	g_assert_no_error (error);
 
-	cpts = as_dep11_get_components (dep11);
+	cpts = as_metadata_get_components (mdata);
 	g_assert (cpts->len == 6);
 
 	for (i = 0; i < cpts->len; i++) {
@@ -69,8 +70,6 @@ test_basic ()
 	g_assert (cpt_tomatoes != NULL);
 	g_assert_cmpstr (as_component_get_summary (cpt_tomatoes), ==, "How many tomatoes can you smash in ten short minutes?");
 	g_assert_cmpstr (as_component_get_pkgnames (cpt_tomatoes)[0], ==, "tomatoes");
-
-	g_object_unref (dep11);
 }
 
 int

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -49,13 +49,32 @@ struct _AsMetadataClass
 };
 
 /**
+ * AsParserMode:
+ * @AS_PARSER_MODE_UPSTREAM:	Parse Appstream upstream metadata
+ * @AS_PARSER_MODE_DISTRO:	Parse Appstream distribution metadata
+ *
+ * There are a few differences between Appstream's upstream metadata
+ * and the distribution metadata.
+ * The parser mode indicates which style we should process.
+ * Usually you don't want to change this.
+ **/
+typedef enum {
+	AS_PARSER_MODE_UPSTREAM,
+	AS_PARSER_MODE_DISTRO,
+	/*< private >*/
+	AS_PARSER_MODE_LAST
+} AsParserMode;
+
+/**
  * AsMetadataError:
- * @AS_METADATA_ERROR_FAILED:	Generic failure
+ * @AS_METADATA_ERROR_FAILED:			Generic failure
+ * @AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND:	Expected upstream metadata but got distro metadata, or vice versa.
  *
  * A metadata processing error.
  **/
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
+	AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
@@ -68,7 +87,11 @@ GQuark			as_metadata_error_quark (void);
 void			as_metadata_parse_file (AsMetadata *metad,
 							GFile *file,
 							GError **error);
-void			as_metadata_parse_data (AsMetadata *metad,
+
+void			as_metadata_parse_xml (AsMetadata *metad,
+							const gchar *data,
+							GError **error);
+void			as_metadata_parse_yaml (AsMetadata *metad,
 							const gchar *data,
 							GError **error);
 
@@ -97,6 +120,9 @@ const gchar		*as_metadata_get_origin (AsMetadata *metad);
 void			as_metadata_set_origin (AsMetadata *metad,
 							const gchar *origin);
 
+void			as_metadata_set_parser_mode (AsMetadata *metad,
+							AsParserMode mode);
+AsParserMode		as_metadata_get_parser_mode (AsMetadata *metad);
 
 G_END_DECLS
 

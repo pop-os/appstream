@@ -7,11 +7,20 @@ find_package(LibXml2 REQUIRED)
 find_package(Xapian 1.2 REQUIRED)
 find_package(Protobuf REQUIRED)
 find_library(M_LIB m)
+pkg_check_modules(YAML REQUIRED yaml-0.1)
 
 include(GObjectIntrospectionMacros)
 set(INTROSPECTION_GIRS)
 set(INTROSPECTION_SCANNER_ARGS "--identifier-prefix=As" "--symbol-prefix=as" "--warn-all" "--add-include-path=${CMAKE_CURRENT_SOURCE_DIR}")
 set(INTROSPECTION_COMPILER_ARGS "--includedir=${CMAKE_CURRENT_SOURCE_DIR}")
+
+# check if the git tools are really found.
+if (INTROSPECTION_SCANNER STREQUAL "INTROSPECTION_SCANNER-NOTFOUND")
+	message (FATAL_ERROR "GObject introspection scanner was not found! Please install it to continue.")
+endif ()
+if (INTROSPECTION_COMPILER STREQUAL "INTROSPECTION_SCANNER-NOTFOUND")
+	message (FATAL_ERROR "GObject introspection compiler was not found! Please install it to continue.")
+endif ()
 
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
 set(AS_VERSION_BASE "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
@@ -36,6 +45,8 @@ set(APPSTREAM_LIB_SRC
 		as-utils.c
 		# internal stuff to build the database
 		as-cache-builder.c
+		as-xmldata.c
+		as-yamldata.c
 		# (mostly) public API
 		as-metadata.c
 		as-component.c
@@ -52,6 +63,7 @@ set(APPSTREAM_LIB_SRC
 		as-validator.c
 		as-validator-issue.c
 		as-icon.c
+		as-translation.c
 )
 
 set(APPSTREAM_LIB_PUBLIC_HEADERS
@@ -72,21 +84,16 @@ set(APPSTREAM_LIB_PUBLIC_HEADERS
 		as-validator.h
 		as-validator-issue.h
 		as-icon.h
+		as-translation.h
 )
 
 set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-utils-private.h
-		as-metadata-private.h
+		as-xmldata.h
+		as-yamldata.h
 		as-component-private.h
 		as-cache-builder.h
 )
-
-# find stuff necessary to build libappstream with DEP-11 support
-if(DEP11)
-	pkg_check_modules(YAML REQUIRED yaml-0.1)
-	set(APPSTREAM_LIB_SRC ${APPSTREAM_LIB_SRC} as-dep11.c)
-	set(APPSTREAM_LIB_PRIVATE_HEADERS ${APPSTREAM_LIB_PRIVATE_HEADERS} as-dep11.h)
-endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
 		    ${CMAKE_BINARY_DIR}

@@ -1,7 +1,7 @@
-60% symbol docs coverage.
-315 symbols documented.
-48 symbols incomplete.
-207 not documented.
+61% symbol docs coverage.
+341 symbols documented.
+57 symbols incomplete.
+215 not documented.
 
 
 AS_CACHE_BUILDER_ERROR
@@ -13,7 +13,6 @@ AS_TYPE_CATEGORY
 AS_TYPE_COMPONENT
 AS_TYPE_DATABASE
 AS_TYPE_DATA_POOL
-AS_TYPE_DEP11
 AS_TYPE_DISTRO_DETAILS
 AS_TYPE_ICON
 AS_TYPE_IMAGE
@@ -22,16 +21,17 @@ AS_TYPE_METADATA
 AS_TYPE_PROVIDED
 AS_TYPE_RELEASE
 AS_TYPE_SCREENSHOT
+AS_TYPE_TRANSLATION
 AS_TYPE_VALIDATOR
 AS_TYPE_VALIDATOR_ISSUE
+AS_TYPE_XMLDATA
+AS_TYPE_YAMLDATA
 AsCacheBuilder
 AsCacheBuilderClass (<items>)
 AsCategory
 AsCategoryClass (<items>)
 AsComponent
 AsComponentClass (<items>)
-AsDEP11
-AsDEP11Class (<items>)
 AsDataPool
 AsDataPoolClass (<items>)
 AsDatabase
@@ -53,16 +53,22 @@ AsRelease
 AsReleaseClass (<items>)
 AsScreenshot
 AsScreenshotClass (<items>)
+AsTranslation
+AsTranslationClass (<items>)
 AsValidator
 AsValidatorClass (<items>)
 AsValidatorIssue
 AsValidatorIssueClass (<items>)
-_as_metadata_desc_lang_hashtable_to_nodes
-_as_metadata_lang_hashtable_to_nodes
-_as_metadata_serialize_image
-_dep11_yaml_free_node
+AsXMLData
+AsXMLDataClass (<items>)
+AsYAMLData
+AsYAMLDataClass (<items>)
+_as_xmldata_desc_lang_hashtable_to_nodes
+_as_xmldata_lang_hashtable_to_nodes
+_as_xmldata_serialize_image
 as_cache_builder_appstream_data_changed
 as_cache_builder_class_init
+as_cache_builder_ctime_newer
 as_cache_builder_error_quark
 as_cache_builder_extract_icons
 as_cache_builder_finalize
@@ -70,7 +76,7 @@ as_cache_builder_get_yml_data_origin
 as_cache_builder_init
 as_cache_builder_refresh (error)
 as_cache_builder_set_data_source_directories (self)
-as_cache_builder_setup (Returns)
+as_cache_builder_setup (error, Returns)
 as_category_class_init
 as_category_complete (cat)
 as_category_finalize
@@ -109,27 +115,13 @@ as_data_pool_class_init
 as_data_pool_error_quark
 as_data_pool_finalize
 as_data_pool_init
-as_data_pool_read_asxml
-as_data_pool_read_dep11
+as_data_pool_load_metadata
 as_database_class_init
 as_database_error_quark
 as_database_finalize
 as_database_get_location (Returns)
 as_database_init
 as_database_test_opened
-as_dep11_add_component
-as_dep11_class_init
-as_dep11_clear_components
-as_dep11_finalize
-as_dep11_get_components
-as_dep11_get_localized_node
-as_dep11_init
-as_dep11_new
-as_dep11_parse_data
-as_dep11_process_component_node
-as_dep11_process_data
-as_dep11_process_icons
-as_dep11_process_screenshots
 as_distro_details_class_init
 as_distro_details_finalize
 as_distro_details_get_bool
@@ -168,20 +160,15 @@ as_metadata_class_init
 as_metadata_clear_components
 as_metadata_component_to_upstream_xml (metad)
 as_metadata_components_to_distro_xml (metad)
-as_metadata_dump_node_children
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_components
-as_metadata_get_node_locale
-as_metadata_get_node_value
 as_metadata_get_origin
 as_metadata_init
-as_metadata_parse_component_node
-as_metadata_parse_components_node
-as_metadata_parse_upstream_description_tag
-as_metadata_process_document
-as_metadata_process_screenshot
-as_metadata_process_screenshots_tag
+as_metadata_init_xml
+as_metadata_init_yaml
+as_metadata_parse_xml (error)
+as_metadata_reload_parsers
 as_metadata_save_distro_xml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
 as_metadata_save_xml
@@ -207,9 +194,14 @@ as_screenshot_set_active_locale (screenshot, locale)
 as_screenshot_set_caption (locale)
 as_str_replace
 as_touch_location (Returns)
+as_translation_class_init
+as_translation_finalize
+as_translation_get_id (Returns)
+as_translation_init
 as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_root
+as_utils_is_writable (Returns)
 as_validator_add_issue
 as_validator_check_appear_once
 as_validator_check_children_quick
@@ -228,6 +220,32 @@ as_validator_validate_component_node
 as_validator_validate_data (Returns)
 as_validator_validate_file (Returns)
 as_validator_validate_tree (Returns)
+as_xmldata_class_init
+as_xmldata_dump_node_children
+as_xmldata_finalize
+as_xmldata_get_node_locale
+as_xmldata_get_node_value
+as_xmldata_init
+as_xmldata_initialize (locale, origin, media_baseurl, priority)
+as_xmldata_new
+as_xmldata_parse_component_node
+as_xmldata_parse_components_node
+as_xmldata_parse_upstream_description_tag
+as_xmldata_process_screenshot
+as_xmldata_process_screenshots_tag
+as_xmldata_serialize_to_distro (cpts)
+as_xmldata_set_parser_mode
+as_yamldata_class_init
+as_yamldata_finalize
+as_yamldata_free_node
+as_yamldata_get_localized_node
+as_yamldata_init
+as_yamldata_initialize (locale, origin, media_baseurl, priority)
+as_yamldata_new
+as_yamldata_parse_distro_data (error)
+as_yamldata_process_component_node
+as_yamldata_process_icons
+as_yamldata_process_screenshots
 dep11_list_to_string_array
 dep11_print_unknown
 dep11_process_image
@@ -237,11 +255,8 @@ dep11_process_urls
 
 as-cache-builder:Long_Description
 as-cache-builder:Short_Description
-as-dep11:Long_Description
-as-dep11:Short_Description
 as-enums:Long_Description
 as-icon:Long_Description
-as-metadata-private:Long_Description
-as-metadata-private:Short_Description
 as-utils-private:Long_Description
 as-utils-private:Short_Description
+as-yamldata:Short_Description

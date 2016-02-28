@@ -12,9 +12,9 @@
 			</div></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-appdata-filespec">
       ⁠</a>2.2.2. File specification</h3></div></div></div><div class="para">
 			The basic structure for a generic component as described at <a class="xref" href="chap-Metadata.html#spec-component-filespec">Section 2.1.3, “XML Specification”</a> applies. Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">desktop</code>, which in a generic component this property can be omitted. This clearly identified this metainfo document as describing an application.
-		</div><div xmlns:d="http://docbook.org/ns/docbook" class="tip"><div class="admonition_header"><p><strong>Tip</strong></p></div><div class="admonition"><div class="para">
-			All tags defined in the generic component specification are valid in AppData as well, an application is just defined as a specialized component, which has the additional benefit of being displayed in a software-center application.
-		</div></div></div><div class="para">
+		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
+				All tags defined in the generic component specification are valid in AppData as well, an application is just defined as a specialized component, which has the additional benefit of being displayed in a software-center application.
+			</div></div></div><div class="para">
 			The following list describes the special tags for application upstream metadata and provides some additional information about the values the tags are expected to have. If no information is given about a tag, refer to the respective tag in <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>.
 		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-application">
       ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
@@ -50,4 +50,6 @@
 						If your application ships a binary in a location in the default <code class="envar">PATH</code>, you should add at least a child of type <code class="code">&lt;binary/&gt;</code> to make that new executable known to the distribution.
 					</div></dd><dt><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
 						The application metainfo should at least provide one <code class="code">&lt;releases/&gt;</code> tag, which has one or more <code class="code">&lt;release/&gt;</code> childs to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> .
-					</div></dd></dl></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong>Chapter 2. Upstream Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Addon.html"><strong>Next</strong>2.3. Addons</a></li></ul></body></html>
+					</div></dd></dl></div><div class="para">
+			For a component of type <code class="literal">desktop</code>, the following tags are required and must always be present: <a class="xref" href="sect-Metadata-Application.html#tag-id-application">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-description">&lt;description/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>.
+		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong>Chapter 2. Upstream Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Addon.html"><strong>Next</strong>2.3. Addons</a></li></ul></body></html>

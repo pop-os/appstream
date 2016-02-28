@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -54,14 +54,7 @@ G_DEFINE_TYPE_WITH_PRIVATE (AsCacheBuilder, as_cache_builder, G_TYPE_OBJECT)
  *
  * Return value: An error quark.
  **/
-GQuark
-as_cache_builder_error_quark (void)
-{
-	static GQuark quark = 0;
-	if (!quark)
-		quark = g_quark_from_static_string ("AsCacheBuilderError");
-	return quark;
-}
+G_DEFINE_QUARK (as-cache-builder-error-quark, as_cache_builder_error)
 
 /**
  * as_cache_builder_init:
@@ -106,6 +99,7 @@ as_cache_builder_class_init (AsCacheBuilderClass *klass)
 
 /**
  * as_cache_builder_check_cache_ctime:
+ * @builder: An instance of #AsCacheBuilder
  *
  * Update the cached cache-ctime. We need to cache it prior to potentially
  * creating a new database, so we will always rebuild the database in case
@@ -131,7 +125,7 @@ as_cache_builder_check_cache_ctime (AsCacheBuilder *builder)
  * Initialize the cache builder.
  */
 gboolean
-as_cache_builder_setup (AsCacheBuilder *builder, const gchar *dbpath)
+as_cache_builder_setup (AsCacheBuilder *builder, const gchar *dbpath, GError **error)
 {
 	gboolean ret;
 	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
@@ -151,8 +145,36 @@ as_cache_builder_setup (AsCacheBuilder *builder, const gchar *dbpath)
 	/* try to create db directory, in case it doesn't exist */
 	g_mkdir_with_parents (priv->db_path, 0755);
 
+	if (!as_utils_is_writable (priv->db_path)) {
+		g_set_error (error,
+				AS_CACHE_BUILDER_ERROR,
+				AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE,
+				_("Cache location '%s' is not writable."), priv->db_path);
+		return FALSE;
+	}
+
 	ret = xa_database_write_initialize (priv->db_w, priv->db_path);
 	return ret;
+}
+
+/**
+ * as_cache_builder_ctime_newer:
+ *
+ * Returns: %TRUE if ctime of file is newer than the cached time.
+ */
+static gboolean
+as_cache_builder_ctime_newer (AsCacheBuilder *builder, const gchar *dir)
+{
+	struct stat sb;
+	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
+
+	if (stat (dir, &sb) < 0)
+		return FALSE;
+
+	if (sb.st_ctime > priv->cache_ctime)
+		return TRUE;
+
+	return FALSE;
 }
 
 /**
@@ -162,19 +184,24 @@ static gboolean
 as_cache_builder_appstream_data_changed (AsCacheBuilder *builder)
 {
 	guint i;
-	g_auto(GStrv) locations = NULL;
+	GPtrArray *locations;
 	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
 
-	locations = as_data_pool_get_watched_locations (priv->dpool);
-	for (i = 0; locations[i] != NULL; i++) {
-		struct stat sb;
-		gchar *fname;
+	locations = as_data_pool_get_metadata_locations (priv->dpool);
+	for (i = 0; i < locations->len; i++) {
+		g_autofree gchar *xml_dir = NULL;
+		g_autofree gchar *yaml_dir = NULL;
+		const gchar *dir_root = (const gchar*) g_ptr_array_index (locations, i);
 
-		fname = locations[i];
-		if (stat (fname, &sb) < 0)
-			continue;
+		if (as_cache_builder_ctime_newer (builder, dir_root))
+			return TRUE;
 
-		if (sb.st_ctime > priv->cache_ctime)
+		xml_dir = g_build_filename (dir_root, "xmls", NULL);
+		if (as_cache_builder_ctime_newer (builder, xml_dir))
+			return TRUE;
+
+		yaml_dir = g_build_filename (dir_root, "yaml", NULL);
+		if (as_cache_builder_ctime_newer (builder, yaml_dir))
 			return TRUE;
 	}
 
@@ -182,6 +209,11 @@ as_cache_builder_appstream_data_changed (AsCacheBuilder *builder)
 }
 
 #ifdef APT_SUPPORT
+
+#define YAML_SEPARATOR "---"
+/* Compilers will optimise this to a constant */
+#define YAML_SEPARATOR_LEN strlen(YAML_SEPARATOR)
+
 /**
  * as_cache_builder_get_yml_data_origin:
  */
@@ -197,7 +229,7 @@ as_cache_builder_get_yml_data_origin (const gchar *fname)
 	g_autofree gchar *str = NULL;
 	g_auto(GStrv) strv = NULL;
 	guint i;
-	gchar *tmp;
+	gchar *start, *end;
 	gchar *origin = NULL;
 
 	file = g_file_new_for_path (fname);
@@ -215,10 +247,14 @@ as_cache_builder_get_yml_data_origin (const gchar *fname)
 	 */
 	if (data == NULL)
 		return NULL;
-	tmp = g_strstr_len (data, 400, "---");
-	if (tmp == NULL)
+	/* start points to the start of the document, i.e. "File:" normally */
+	start = g_strstr_len (data, 400, YAML_SEPARATOR) + YAML_SEPARATOR_LEN;
+	if (start == NULL)
 		return NULL;
-	str = g_strndup (tmp+3, strlen(tmp) - strlen (g_strstr_len (tmp+3, -1, "---")) - 3);
+	/* Find the end of the first document - can be NULL if there is only one,
+	 * for example if we're given YAML for an empty archive */
+	end = g_strstr_len (start, -1, YAML_SEPARATOR);
+	str = g_strndup (start, strlen(start) - (end ? strlen(end) : 0));
 
 	strv = g_strsplit (str, "\n", -1);
 	for (i = 0; strv[i] != NULL; i++) {
@@ -255,7 +291,15 @@ as_cache_builder_extract_icons (const gchar *asicons_target, const gchar *origin
 	}
 
 	target_dir = g_build_filename (asicons_target, origin, icons_size, NULL);
-	g_mkdir_with_parents (target_dir, 0755);
+	if (g_mkdir_with_parents (target_dir, 0755) > 0) {
+		g_debug ("Unable to create '%s': %s", target_dir, g_strerror (errno));
+		return;
+	}
+
+	if (!as_utils_is_writable (target_dir)) {
+		g_debug ("Unable to write to '%s': Can't add AppStream icon-cache from APT to the pool.", target_dir);
+		return;
+	}
 
 	cmd = g_strdup_printf ("/bin/tar -xzf '%s' -C '%s'", icons_tarball, target_dir);
 	g_spawn_command_line_sync (cmd, NULL, &stderr_txt, &res, &tmp_error);
@@ -284,19 +328,20 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 	guint i;
 	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
 
-	/* we can't do anything here if we're not root */
-	if (!as_utils_is_root ())
-		return;
-
 	/* skip this step if the APT lists directory doesn't exist */
 	if (!g_file_test (apt_lists_dir, G_FILE_TEST_IS_DIR)) {
 		g_debug ("APT lists directory (%s) not found!", apt_lists_dir);
 		return;
 	}
 
-
 	if (g_file_test (appstream_yml_target, G_FILE_TEST_IS_DIR)) {
 		g_autoptr(GPtrArray) ytfiles = NULL;
+
+		/* we can't modify the files here if we don't have write access */
+		if (!as_utils_is_writable (appstream_yml_target)) {
+			g_debug ("Unable to write to '%s': Can't add AppStream data from APT to the pool.", appstream_yml_target);
+			return;
+		}
 
 		ytfiles = as_utils_find_files_matching (appstream_yml_target, "*", FALSE, &tmp_error);
 		if (tmp_error != NULL) {
@@ -351,7 +396,10 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 	 * will land in /usr/share/app-info anyway)
 	 */
 	as_utils_delete_dir_recursive (appstream_icons_target);
-	g_mkdir_with_parents (appstream_yml_target, 0755);
+	if (g_mkdir_with_parents (appstream_yml_target, 0755) > 0) {
+		g_debug ("Unable to create '%s': %s", appstream_yml_target, g_strerror (errno));
+		return;
+	}
 
 	for (i = 0; i < yml_files->len; i++) {
 		g_autofree gchar *fbasename = NULL;
@@ -467,7 +515,7 @@ as_cache_builder_refresh (AsCacheBuilder *builder, gboolean force, GError **erro
 		if (!ret_poolupdate) {
 			g_set_error (error,
 				AS_CACHE_BUILDER_ERROR,
-				AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED,
+				AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE,
 				_("AppStream cache update completed, but some metadata was ignored due to errors."));
 		}
 		/* update the cache mtime, to not needlessly rebuild it again */
@@ -497,7 +545,7 @@ void
 as_cache_builder_set_data_source_directories (AsCacheBuilder *builder, gchar **dirs)
 {
 	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-	as_data_pool_set_data_source_directories (priv->dpool, dirs);
+	as_data_pool_set_metadata_locations (priv->dpool, dirs);
 }
 
 /**

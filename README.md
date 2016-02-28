@@ -17,6 +17,8 @@ generated from AppStream metadata.
 [Releases](http://www.freedesktop.org/software/appstream/releases/) - All releases of AppStream  
 [AppStream on Freedesktop](http://www.freedesktop.org/wiki/Distributions/AppStream/) - The original Freedesktop.org page  
 
+For help and development discussion, check out the [AppStream mailinglist](https://lists.freedesktop.org/mailman/listinfo/appstream).
+
 ## Developers
 [![Build Status](https://semaphoreci.com/api/v1/projects/c406ea75-a977-4100-8ae1-66b7ccc54f48/559622/badge.svg)](https://semaphoreci.com/ximion/appstream)
 
@@ -27,12 +29,12 @@ generated from AppStream metadata.
  * glib2 (>= 2.36)
  * GObject-Introspection
  * libxml2
+ * libyaml
  * Xapian
  * ProtoBuf
 
 #### Optional
  * Vala Compiler (vapigen) (for Vala VAPI file)
- * libyaml (for DEP-11 support)
 
 #### Documentation / Specification
  * Publican
@@ -56,7 +58,6 @@ make test
 Possible AppStream-specific flags are:  
  -DQT=ON              -- Build the Qt5 interface library.  
  -DVAPI=ON            -- Build Vala API to use library with the Vala programming language.  
- -DDEP11=ON           -- Enable support for the YAML-based DEP-11 AppStream format (ON by default).  
  -DDOCUMENTATION=ON   -- (Re)generate API documentation.  
  -DMAINTAINER=ON      -- Enable strict compiler options - use this if you write a patch for AppStream.  
  -DAPT_SUPPORT=ON     -- Enable integration with the APT package manager on Debian.
