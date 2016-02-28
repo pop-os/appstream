@@ -58,7 +58,8 @@ AsCacheBuilder
 </para>
 
 @AS_CACHE_BUILDER_ERROR_FAILED: 
-@AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED: 
+@AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE: 
+@AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE: 
 
 <!-- ##### FUNCTION as_cache_builder_new ##### -->
 <para>
@@ -76,6 +77,7 @@ AsCacheBuilder
 
 @builder: 
 @dbpath: 
+@error: 
 @Returns: 
 
 

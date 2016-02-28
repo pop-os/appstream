@@ -34,6 +34,8 @@
 </entry><entry role="function_name"><link linkend="as-utils-find-files">as_utils_find_files</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-is-root">as_utils_is_root</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-is-writable">as_utils_is_writable</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-str-replace">as_str_replace</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
@@ -154,6 +156,25 @@ as_utils_find_files (<parameter>const <link linkend="gchar"><type>gchar</type></
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_utils_is_root (<parameter><type>void</type></parameter>);</programlisting>
 </refsect2>
+<refsect2 id="as-utils-is-writable" role="function">
+<title>as_utils_is_writable&#160;()</title>
+<indexterm zone="as-utils-is-writable"><primary>as_utils_is_writable</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_utils_is_writable (<parameter>const <link linkend="gchar"><type>gchar</type></link> *path</parameter>);</programlisting>
+<para>Checks if a path is writable.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>path</para></entry>
+<entry role="parameter_description"><para>the path to check.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-str-replace" role="function">
 <title>as_str_replace&#160;()</title>
 <indexterm zone="as-str-replace"><primary>as_str_replace</primary></indexterm>

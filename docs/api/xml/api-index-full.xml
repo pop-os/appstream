@@ -70,11 +70,13 @@
 <indexentry><primaryie linkends="AsComponentKind"><link linkend="AsComponentKind">AsComponentKind</link>, enum in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-bundle-id"><link linkend="as-component-add-bundle-id">as_component_add_bundle_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-extends"><link linkend="as-component-add-extends">as_component_add_extends</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-add-extension"><link linkend="as-component-add-extension">as_component_add_extension</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-icon"><link linkend="as-component-add-icon">as_component_add_icon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-language"><link linkend="as-component-add-language">as_component_add_language</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-provided"><link linkend="as-component-add-provided">as_component_add_provided</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-release"><link linkend="as-component-add-release">as_component_add_release</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-screenshot"><link linkend="as-component-add-screenshot">as_component_add_screenshot</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-add-translation"><link linkend="as-component-add-translation">as_component_add_translation</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-url"><link linkend="as-component-add-url">as_component_add_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-active-locale"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-bundle-id"><link linkend="as-component-get-bundle-id">as_component_get_bundle_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -83,6 +85,7 @@
 <indexentry><primaryie linkends="as-component-get-description"><link linkend="as-component-get-description">as_component_get_description</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-developer-name"><link linkend="as-component-get-developer-name">as_component_get_developer_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-extends"><link linkend="as-component-get-extends">as_component_get_extends</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-extensions"><link linkend="as-component-get-extensions">as_component_get_extensions</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icons"><link linkend="as-component-get-icons">as_component_get_icons</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-icon-by-size"><link linkend="as-component-get-icon-by-size">as_component_get_icon_by_size</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-id"><link linkend="as-component-get-id">as_component_get_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -101,6 +104,7 @@
 <indexentry><primaryie linkends="as-component-get-screenshots"><link linkend="as-component-get-screenshots">as_component_get_screenshots</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-source-pkgname"><link linkend="as-component-get-source-pkgname">as_component_get_source_pkgname</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-summary"><link linkend="as-component-get-summary">as_component_get_summary</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-translations"><link linkend="as-component-get-translations">as_component_get_translations</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-url"><link linkend="as-component-get-url">as_component_get_url</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-has-bundle"><link linkend="as-component-has-bundle">as_component_has_bundle</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-has-category"><link linkend="as-component-has-category">as_component_has_category</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -149,20 +153,11 @@
 <indexentry><primaryie linkends="as-data-pool-get-components"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-component-by-id"><link linkend="as-data-pool-get-component-by-id">as_data_pool_get_component_by_id</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-locale"><link linkend="as-data-pool-get-locale">as_data_pool_get_locale</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-data-pool-get-watched-locations"><link linkend="as-data-pool-get-watched-locations">as_data_pool_get_watched_locations</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-metadata-locations"><link linkend="as-data-pool-get-metadata-locations">as_data_pool_get_metadata_locations</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-new"><link linkend="as-data-pool-new">as_data_pool_new</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-data-pool-set-data-source-directories"><link linkend="as-data-pool-set-data-source-directories">as_data_pool_set_data_source_directories</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-set-locale"><link linkend="as-data-pool-set-locale">as_data_pool_set_locale</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-set-metadata-locations"><link linkend="as-data-pool-set-metadata-locations">as_data_pool_set_metadata_locations</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-update"><link linkend="as-data-pool-update">as_data_pool_update</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsDEP11-struct"><link linkend="AsDEP11-struct">AsDEP11</link>, struct in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsDEP11Class"><link linkend="AsDEP11Class">AsDEP11Class</link>, struct in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-clear-components"><link linkend="as-dep11-clear-components">as_dep11_clear_components</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-get-components"><link linkend="as-dep11-get-components">as_dep11_get_components</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-get-locale"><link linkend="as-dep11-get-locale">as_dep11_get_locale</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-new"><link linkend="as-dep11-new">as_dep11_new</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-parse-data"><link linkend="as-dep11-parse-data">as_dep11_parse_data</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-parse-file"><link linkend="as-dep11-parse-file">as_dep11_parse_file</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-dep11-set-locale"><link linkend="as-dep11-set-locale">as_dep11_set_locale</link>, function in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsDistroDetails-struct"><link linkend="AsDistroDetails-struct">AsDistroDetails</link>, struct in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsDistroDetails--id"><link linkend="AsDistroDetails--id">AsDistroDetails:id</link>, object property in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsDistroDetails--name"><link linkend="AsDistroDetails--name">AsDistroDetails:name</link>, object property in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
@@ -237,19 +232,19 @@
 <indexentry><primaryie linkends="as-metadata-get-components"><link linkend="as-metadata-get-components">as_metadata_get_components</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-locale"><link linkend="as-metadata-get-locale">as_metadata_get_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-origin"><link linkend="as-metadata-get-origin">as_metadata_get_origin</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-metadata-get-parser-mode"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-parser-mode"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-new"><link linkend="as-metadata-new">as_metadata_new</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-metadata-parse-component-node"><link linkend="as-metadata-parse-component-node">as_metadata_parse_component_node</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-metadata-parse-data"><link linkend="as-metadata-parse-data">as_metadata_parse_data</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-file"><link linkend="as-metadata-parse-file">as_metadata_parse_file</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-parse-xml"><link linkend="as-metadata-parse-xml">as_metadata_parse_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-parse-yaml"><link linkend="as-metadata-parse-yaml">as_metadata_parse_yaml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-distro-xml"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-upstream-xml"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-locale"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-origin"><link linkend="as-metadata-set-origin">as_metadata_set_origin</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>P</title>
-<indexentry><primaryie linkends="AsParserMode"><link linkend="AsParserMode">AsParserMode</link>, enum in <link linkend="appstream-as-metadata-private">as-metadata-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsParserMode"><link linkend="AsParserMode">AsParserMode</link>, enum in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsProvided-struct"><link linkend="AsProvided-struct">AsProvided</link>, struct in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsProvidedClass"><link linkend="AsProvidedClass">AsProvidedClass</link>, struct in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsProvidedKind"><link linkend="AsProvidedKind">AsProvidedKind</link>, enum in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
@@ -308,12 +303,21 @@
 </indexdiv>
 <indexdiv><title>T</title>
 <indexentry><primaryie linkends="as-touch-location"><link linkend="as-touch-location">as_touch_location</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsTranslation-struct"><link linkend="AsTranslation-struct">AsTranslation</link>, struct in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsTranslationClass"><link linkend="AsTranslationClass">AsTranslationClass</link>, struct in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsTranslationKind"><link linkend="AsTranslationKind">AsTranslationKind</link>, enum in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-get-id"><link linkend="as-translation-get-id">as_translation_get_id</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-get-kind"><link linkend="as-translation-get-kind">as_translation_get_kind</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-kind-from-string"><link linkend="as-translation-kind-from-string">as_translation_kind_from_string</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-kind-to-string"><link linkend="as-translation-kind-to-string">as_translation_kind_to_string</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-new"><link linkend="as-translation-new">as_translation_new</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-set-id"><link linkend="as-translation-set-id">as_translation_set_id</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-translation-set-kind"><link linkend="as-translation-set-kind">as_translation_set_kind</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-CACHE-BUILDER:CAPS"><link linkend="AS-TYPE-CACHE-BUILDER:CAPS">AS_TYPE_CACHE_BUILDER</link>, macro in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-CATEGORY:CAPS"><link linkend="AS-TYPE-CATEGORY:CAPS">AS_TYPE_CATEGORY</link>, macro in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-COMPONENT:CAPS"><link linkend="AS-TYPE-COMPONENT:CAPS">AS_TYPE_COMPONENT</link>, macro in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-DATABASE:CAPS"><link linkend="AS-TYPE-DATABASE:CAPS">AS_TYPE_DATABASE</link>, macro in <link linkend="AsDatabase">AsDatabase</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-DATA-POOL:CAPS"><link linkend="AS-TYPE-DATA-POOL:CAPS">AS_TYPE_DATA_POOL</link>, macro in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AS-TYPE-DEP11:CAPS"><link linkend="AS-TYPE-DEP11:CAPS">AS_TYPE_DEP11</link>, macro in <link linkend="AsDEP11">AsDEP11</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-DISTRO-DETAILS:CAPS"><link linkend="AS-TYPE-DISTRO-DETAILS:CAPS">AS_TYPE_DISTRO_DETAILS</link>, macro in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-ICON:CAPS"><link linkend="AS-TYPE-ICON:CAPS">AS_TYPE_ICON</link>, macro in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-IMAGE:CAPS"><link linkend="AS-TYPE-IMAGE:CAPS">AS_TYPE_IMAGE</link>, macro in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
@@ -322,8 +326,11 @@
 <indexentry><primaryie linkends="AS-TYPE-PROVIDED:CAPS"><link linkend="AS-TYPE-PROVIDED:CAPS">AS_TYPE_PROVIDED</link>, macro in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-RELEASE:CAPS"><link linkend="AS-TYPE-RELEASE:CAPS">AS_TYPE_RELEASE</link>, macro in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-SCREENSHOT:CAPS"><link linkend="AS-TYPE-SCREENSHOT:CAPS">AS_TYPE_SCREENSHOT</link>, macro in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-TRANSLATION:CAPS"><link linkend="AS-TYPE-TRANSLATION:CAPS">AS_TYPE_TRANSLATION</link>, macro in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-VALIDATOR:CAPS"><link linkend="AS-TYPE-VALIDATOR:CAPS">AS_TYPE_VALIDATOR</link>, macro in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-VALIDATOR-ISSUE:CAPS"><link linkend="AS-TYPE-VALIDATOR-ISSUE:CAPS">AS_TYPE_VALIDATOR_ISSUE</link>, macro in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-XMLDATA:CAPS"><link linkend="AS-TYPE-XMLDATA:CAPS">AS_TYPE_XMLDATA</link>, macro in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-YAMLDATA:CAPS"><link linkend="AS-TYPE-YAMLDATA:CAPS">AS_TYPE_YAMLDATA</link>, macro in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>U</title>
 <indexentry><primaryie linkends="AsUrgencyKind"><link linkend="AsUrgencyKind">AsUrgencyKind</link>, enum in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
@@ -338,6 +345,7 @@
 <indexentry><primaryie linkends="as-utils-find-files"><link linkend="as-utils-find-files">as_utils_find_files</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-utils-find-files-matching"><link linkend="as-utils-find-files-matching">as_utils_find_files_matching</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-utils-is-root"><link linkend="as-utils-is-root">as_utils_is_root</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-utils-is-writable"><link linkend="as-utils-is-writable">as_utils_is_writable</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>V</title>
 <indexentry><primaryie linkends="AsValidator-struct"><link linkend="AsValidator-struct">AsValidator</link>, struct in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
@@ -359,5 +367,26 @@
 <indexentry><primaryie linkends="as-validator-validate-data"><link linkend="as-validator-validate-data">as_validator_validate_data</link>, function in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-validator-validate-file"><link linkend="as-validator-validate-file">as_validator_validate_file</link>, function in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-validator-validate-tree"><link linkend="as-validator-validate-tree">as_validator_validate_tree</link>, function in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>X</title>
+<indexentry><primaryie linkends="AsXMLData-struct"><link linkend="AsXMLData-struct">AsXMLData</link>, struct in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsXMLDataClass"><link linkend="AsXMLDataClass">AsXMLDataClass</link>, struct in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-initialize"><link linkend="as-xmldata-initialize">as_xmldata_initialize</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-new"><link linkend="as-xmldata-new">as_xmldata_new</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-parse-component-node"><link linkend="as-xmldata-parse-component-node">as_xmldata_parse_component_node</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-parse-distro-data"><link linkend="as-xmldata-parse-distro-data">as_xmldata_parse_distro_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-parse-upstream-data"><link linkend="as-xmldata-parse-upstream-data">as_xmldata_parse_upstream_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-serialize-to-distro"><link linkend="as-xmldata-serialize-to-distro">as_xmldata_serialize_to_distro</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-serialize-to-upstream"><link linkend="as-xmldata-serialize-to-upstream">as_xmldata_serialize_to_upstream</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-set-parser-mode"><link linkend="as-xmldata-set-parser-mode">as_xmldata_set_parser_mode</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>Y</title>
+<indexentry><primaryie linkends="AsYAMLData-struct"><link linkend="AsYAMLData-struct">AsYAMLData</link>, struct in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsYAMLDataClass"><link linkend="AsYAMLDataClass">AsYAMLDataClass</link>, struct in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-get-locale"><link linkend="as-yamldata-get-locale">as_yamldata_get_locale</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-initialize"><link linkend="as-yamldata-initialize">as_yamldata_initialize</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-new"><link linkend="as-yamldata-new">as_yamldata_new</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-parse-distro-data"><link linkend="as-yamldata-parse-distro-data">as_yamldata_parse_distro_data</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-set-locale"><link linkend="as-yamldata-set-locale">as_yamldata_set_locale</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 </indexdiv>
 </indexdiv>

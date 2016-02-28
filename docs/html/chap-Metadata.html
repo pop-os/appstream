@@ -187,7 +187,20 @@
 						Upstream authors might decide to add an email address in cleartext, but spam protection using <code class="code">_AT_</code> is also valid.
 					</div><div class="para">
 						Example:
-					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd></dl></div><div class="para">
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd><dt><a id="tag-translation">
+      ⁠</a><span class="term">&lt;translation/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;translation/&gt;</code> tag is an optional tag which can be added to specify the translation domain used for this software component. It may be used by the AppStream distro metadata generator to determine the translation status of the respective software.
+					</div><div class="para">
+						The tag must have a <code class="literal">type</code> property, assuming the value of the translation system which is used. Right now, allowed trabslation systems and values for <code class="literal">type</code> are: 
+						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+									gettext
+								</div></li><li class="listitem"><div class="para">
+									qt
+								</div></li></ul></div>
+						 In case a software components gets its translation from multiple translation domains, the <code class="code">&lt;translation/&gt;</code> tag may be defined more than once.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;translation</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"gettext"</span><span xmlns="" class="perl_Keyword">&gt;</span>foobar<span xmlns="" class="perl_Keyword">&lt;/translation&gt;</span></pre></dd></dl></div><div class="para">
 			An example for a very basic component file could look like this:
 		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
@@ -196,7 +209,7 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Foo Bar<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>A foo-ish bar<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.example.org<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;metadata_license&gt;</span>CC0<span xmlns="" class="perl_Keyword">&lt;/metadata_license&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;metadata_license&gt;</span>CC0-1.0<span xmlns="" class="perl_Keyword">&lt;/metadata_license&gt;</span>
 <span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;library&gt;</span>libfoobar.so.2<span xmlns="" class="perl_Keyword">&lt;/library&gt;</span>

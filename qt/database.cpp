@@ -123,6 +123,7 @@ Component xapianDocToComponent(Xapian::Document document) {
     str = document.get_value (XapianValues::BUNDLES);
     pb_bundles.ParseFromString (str);
     QHash<Component::BundleKind, QString> bundles;
+    bundles.reserve (pb_bundles.bundle_size ());
     for (int i = 0; i < pb_bundles.bundle_size (); i++) {
         const Bundles_Bundle& bdl = pb_bundles.bundle (i);
         auto bkind = (Component::BundleKind) bdl.type ();
@@ -196,21 +197,31 @@ Component xapianDocToComponent(Xapian::Document document) {
     QStringList categories = value(document, XapianValues::CATEGORIES).split(QLatin1Char(';'));
     component.setCategories(categories);
 
+    // Extends
+    const QStringList extends = value(document, XapianValues::EXTENDS).split(QLatin1Char(';'));
+    component.setExtends(extends);
+
+    // Extensions
+    const QStringList extensions = value(document, XapianValues::EXTENSIONS).split(QLatin1Char(';'));
+    component.setExtensions(extensions);
+
     // Screenshots
     ASCache::Screenshots pb_scrs;
     str = document.get_value (XapianValues::SCREENSHOTS);
     pb_scrs.ParseFromString (str);
     QList<Appstream::Screenshot> screenshots;
+    screenshots.reserve(pb_scrs.screenshot_size ());
     for (int i = 0; i < pb_scrs.screenshot_size (); i++) {
         const Screenshots_Screenshot& pb_scr = pb_scrs.screenshot (i);
         Appstream::Screenshot scr;
-        QList<Appstream::Image> images;
 
         if (pb_scr.primary())
             scr.setDefault(true);
         if (pb_scr.has_caption())
             scr.setCaption(QString::fromStdString(pb_scr.caption()));
 
+        QList<Appstream::Image> images;
+        images.reserve(pb_scr.image_size());
         for (int j = 0; j < pb_scr.image_size(); j++) {
             const Screenshots_Image& pb_img = pb_scr.image(j);
             Appstream::Image image;
@@ -227,6 +238,7 @@ Component xapianDocToComponent(Xapian::Document document) {
 
             images.append(image);
         }
+        scr.setImages(images);
 
         screenshots.append(scr);
     }
@@ -259,6 +271,7 @@ Component xapianDocToComponent(Xapian::Document document) {
 
 QList<Component> parseSearchResults(Xapian::MSet matches) {
     QList<Component> components;
+    components.reserve(matches.size());
     for (Xapian::MSetIterator it = matches.begin(); it != matches.end(); ++it) {
         Xapian::Document document = it.get_document ();
         components << xapianDocToComponent(document);
@@ -268,6 +281,7 @@ QList<Component> parseSearchResults(Xapian::MSet matches) {
 
 QList< Component > Database::allComponents() const {
     QList<Component> components;
+    components.reserve(d->m_db.get_termfreq(std::string()));
 
     // Iterate through all Xapian documents
     Xapian::PostingIterator it = d->m_db.postlist_begin (std::string());

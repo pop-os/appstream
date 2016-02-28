@@ -32,19 +32,21 @@ static const int AS_DB_SCHEMA_VERSION = 2;
 namespace XapianValues {
 
 enum XapianValues {
-	TYPE = 120,
-	IDENTIFIER = 121,
-	CPTNAME = 122,
-	CPTNAME_UNTRANSLATED = 123,
-	PKGNAMES = 124,       // semicolon-separated list of strings
-	SOURCE_PKGNAME = 125,
-	BUNDLES = 126,        // protobuf serialization: Bundles
+	TYPE = 100,
+	IDENTIFIER = 101,
+	CPTNAME = 120,
+	CPTNAME_UNTRANSLATED = 121,
+	PKGNAMES = 122,       // semicolon-separated list of strings
+	SOURCE_PKGNAME = 123,
+	BUNDLES = 124,        // protobuf serialization: Bundles
+	EXTENDS = 125,        // semicolon-separated list of strings
+	EXTENSIONS = 126,     // semicolon-separated list of strings
 
-	SUMMARY = 127,
-	DESCRIPTION = 128,
-	CATEGORIES = 129,     // semicolon-separated list of strings
+	SUMMARY = 130,
+	DESCRIPTION = 131,
+	CATEGORIES = 132,     // semicolon-separated list of strings
 
-	ICONS = 130,          // protobuf serialization: Icons
+	ICONS = 133,          // protobuf serialization: Icons
 
 	PROVIDED_ITEMS = 140, // protobuf serialization: ProvidedItems
 	SCREENSHOTS = 141,    // protobuf serialization: Screenshots

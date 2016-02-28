@@ -78,10 +78,14 @@
     <keyword type="function" name="as_component_get_releases ()" link="AsComponent.html#as-component-get-releases"/>
     <keyword type="function" name="as_component_add_release ()" link="AsComponent.html#as-component-add-release"/>
     <keyword type="function" name="as_component_get_extends ()" link="AsComponent.html#as-component-get-extends" since="0.7.0"/>
-    <keyword type="function" name="as_component_add_extends ()" link="AsComponent.html#as-component-add-extends"/>
-    <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
-    <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
+    <keyword type="function" name="as_component_add_extends ()" link="AsComponent.html#as-component-add-extends" since="0.7.0"/>
+    <keyword type="function" name="as_component_get_extensions ()" link="AsComponent.html#as-component-get-extensions" since="0.9.2"/>
+    <keyword type="function" name="as_component_add_extension ()" link="AsComponent.html#as-component-add-extension" since="0.9.2"/>
     <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
+    <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
+    <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
+    <keyword type="function" name="as_component_get_translations ()" link="AsComponent.html#as-component-get-translations" since="0.9.2"/>
+    <keyword type="function" name="as_component_add_translation ()" link="AsComponent.html#as-component-add-translation" since="0.9.2"/>
     <keyword type="function" name="as_component_has_bundle ()" link="AsComponent.html#as-component-has-bundle"/>
     <keyword type="function" name="as_component_get_bundle_id ()" link="AsComponent.html#as-component-get-bundle-id" since="0.8.0"/>
     <keyword type="function" name="as_component_add_bundle_id ()" link="AsComponent.html#as-component-add-bundle-id" since="0.8.0"/>
@@ -219,7 +223,8 @@
     <keyword type="function" name="as_metadata_new ()" link="AsMetadata.html#as-metadata-new"/>
     <keyword type="function" name="as_metadata_error_quark ()" link="AsMetadata.html#as-metadata-error-quark"/>
     <keyword type="function" name="as_metadata_parse_file ()" link="AsMetadata.html#as-metadata-parse-file"/>
-    <keyword type="function" name="as_metadata_parse_data ()" link="AsMetadata.html#as-metadata-parse-data"/>
+    <keyword type="function" name="as_metadata_parse_xml ()" link="AsMetadata.html#as-metadata-parse-xml"/>
+    <keyword type="function" name="as_metadata_parse_yaml ()" link="AsMetadata.html#as-metadata-parse-yaml"/>
     <keyword type="function" name="as_metadata_get_component ()" link="AsMetadata.html#as-metadata-get-component"/>
     <keyword type="function" name="as_metadata_get_components ()" link="AsMetadata.html#as-metadata-get-components"/>
     <keyword type="function" name="as_metadata_clear_components ()" link="AsMetadata.html#as-metadata-clear-components"/>
@@ -232,7 +237,10 @@
     <keyword type="function" name="as_metadata_get_locale ()" link="AsMetadata.html#as-metadata-get-locale"/>
     <keyword type="function" name="as_metadata_get_origin ()" link="AsMetadata.html#as-metadata-get-origin"/>
     <keyword type="function" name="as_metadata_set_origin ()" link="AsMetadata.html#as-metadata-set-origin"/>
+    <keyword type="function" name="as_metadata_set_parser_mode ()" link="AsMetadata.html#as-metadata-set-parser-mode"/>
+    <keyword type="function" name="as_metadata_get_parser_mode ()" link="AsMetadata.html#as-metadata-get-parser-mode"/>
     <keyword type="struct" name="struct AsMetadataClass" link="AsMetadata.html#AsMetadataClass"/>
+    <keyword type="enum" name="enum AsParserMode" link="AsMetadata.html#AsParserMode"/>
     <keyword type="enum" name="enum AsMetadataError" link="AsMetadata.html#AsMetadataError"/>
     <keyword type="macro" name="AS_METADATA_ERROR" link="AsMetadata.html#AS-METADATA-ERROR:CAPS"/>
     <keyword type="struct" name="AsMetadata" link="AsMetadata.html#AsMetadata-struct"/>
@@ -241,11 +249,11 @@
     <keyword type="function" name="as_data_pool_new ()" link="AsDataPool.html#as-data-pool-new"/>
     <keyword type="function" name="as_data_pool_get_locale ()" link="AsDataPool.html#as-data-pool-get-locale"/>
     <keyword type="function" name="as_data_pool_set_locale ()" link="AsDataPool.html#as-data-pool-set-locale"/>
-    <keyword type="function" name="as_data_pool_get_watched_locations ()" link="AsDataPool.html#as-data-pool-get-watched-locations"/>
     <keyword type="function" name="as_data_pool_update ()" link="AsDataPool.html#as-data-pool-update"/>
     <keyword type="function" name="as_data_pool_get_components ()" link="AsDataPool.html#as-data-pool-get-components"/>
     <keyword type="function" name="as_data_pool_get_component_by_id ()" link="AsDataPool.html#as-data-pool-get-component-by-id"/>
-    <keyword type="function" name="as_data_pool_set_data_source_directories ()" link="AsDataPool.html#as-data-pool-set-data-source-directories"/>
+    <keyword type="function" name="as_data_pool_get_metadata_locations ()" link="AsDataPool.html#as-data-pool-get-metadata-locations"/>
+    <keyword type="function" name="as_data_pool_set_metadata_locations ()" link="AsDataPool.html#as-data-pool-set-metadata-locations"/>
     <keyword type="struct" name="struct AsDataPoolClass" link="AsDataPool.html#AsDataPoolClass"/>
     <keyword type="enum" name="enum AsDataPoolError" link="AsDataPool.html#AsDataPoolError"/>
     <keyword type="macro" name="AS_DATA_POOL_ERROR" link="AsDataPool.html#AS-DATA-POOL-ERROR:CAPS"/>
@@ -380,7 +388,10 @@
     <keyword type="constant" name="AS_DATABASE_ERROR_MISSING" link="AsDatabase.html#AS-DATABASE-ERROR-MISSING:CAPS"/>
     <keyword type="constant" name="AS_DATABASE_ERROR_CLOSED" link="AsDatabase.html#AS-DATABASE-ERROR-CLOSED:CAPS"/>
     <keyword type="constant" name="AS_DATABASE_ERROR_TERM_INVALID" link="AsDatabase.html#AS-DATABASE-ERROR-TERM-INVALID:CAPS"/>
+    <keyword type="constant" name="AS_PARSER_MODE_UPSTREAM" link="AsMetadata.html#AS-PARSER-MODE-UPSTREAM:CAPS"/>
+    <keyword type="constant" name="AS_PARSER_MODE_DISTRO" link="AsMetadata.html#AS-PARSER-MODE-DISTRO:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FAILED" link="AsMetadata.html#AS-METADATA-ERROR-FAILED:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND" link="AsMetadata.html#AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS"/>
     <keyword type="constant" name="AS_DATA_POOL_ERROR_FAILED" link="AsDataPool.html#AS-DATA-POOL-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_ERROR" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-ERROR:CAPS"/>

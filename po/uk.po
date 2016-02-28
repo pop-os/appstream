@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:50+0000\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 18:00+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/freedesktop/appstream/"
 "language/uk/)\n"
@@ -64,6 +64,10 @@ msgstr "Двійкові файли"
 msgid "Bundle"
 msgstr "Кортеж"
 
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr "Запис до адреси каталогу кешу, «%s», неможливий."
+
 msgid "Categories"
 msgstr "Категорії"
 
@@ -97,13 +101,19 @@ msgstr "Не використовувати кеш Xapian під час вико
 msgid "Don't show colored output"
 msgstr "Не розфарбовувати виведені дані"
 
-msgid "Dump raw XML metadata for a component matching the ID"
+msgid "Dump raw XML metadata for a component matching the ID."
 msgstr ""
 "Створити дамп необроблених метаданих XML для компонента з відповідним "
-"ідентифікатором"
+"ідентифікатором."
 
 msgid "Enforce a cache refresh"
 msgstr "Примусове оновлення кешу"
+
+msgid "Extends"
+msgstr "Розширення"
+
+msgid "Extensions"
+msgstr "Розширення"
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -115,11 +125,11 @@ msgstr "Записувані мікропрограми"
 msgid "Fonts"
 msgstr "Шрифти"
 
-msgid "Get components which provide the given item"
-msgstr "Отримати компоненти, які надають вказаний запис"
+msgid "Get components which provide the given item."
+msgstr "Отримати компоненти, які надають вказаний запис."
 
-msgid "Get information about a component by its ID"
-msgstr "Отримати дані щодо компонента за його ідентифікатором"
+msgid "Get information about a component by its ID."
+msgstr "Отримати інформацію щодо компонента за його ідентифікатором."
 
 msgid "Homepage"
 msgstr "Домашня сторінка"
@@ -129,6 +139,10 @@ msgstr "Піктограма"
 
 msgid "Identifier"
 msgstr "Ідентифікатор"
+
+msgid "Install software matching the component-id."
+msgstr ""
+"Встановити програмне забезпечення, що відповідає ідентифікатору компонента."
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "Вибрано некоректний тип для запису «provided». Коректні значення:"
@@ -196,8 +210,8 @@ msgstr "Python (версія 2)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Перебудувати кеш інформації щодо компонентів"
+msgid "Rebuild the component information cache."
+msgstr "Перебудувати кеш інформації щодо компонентів."
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -211,11 +225,11 @@ msgstr "Виконувана мікропрограма"
 msgid "Sample Screenshot URL"
 msgstr "Адреса простого знімка вікна"
 
-msgid "Search the component database"
-msgstr "Шукати у базі даних компонентів"
+msgid "Search the component database."
+msgstr "Шукати у базі даних компонентів."
 
-msgid "Select a value for the provides-item which needs to be found"
-msgstr "Вибрати значення для запису provides, яке слід знайти"
+msgid "Select a value for the provides-item which needs to be found."
+msgstr "Вибрати значення для запису provides, яке слід знайти."
 
 msgid "Show extra debugging information"
 msgstr "Показати додаткові діагностичні дані"
@@ -254,12 +268,12 @@ msgstr ""
 msgid "Unable to spawn package manager: %s"
 msgstr "Не вдалося запустити засіб керування пакунками: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "Перевірити файли XML AppStream на вади"
+msgid "Validate AppStream XML files for issues."
+msgstr "Перевірити файли XML AppStream на вади."
 
-msgid "Validate an installed file-tree of an application for valid metadata"
+msgid "Validate an installed file-tree of an application for valid metadata."
 msgstr ""
-"Перевіряти на коректність метаданих усю встановлену ієрархію файлів програми"
+"Перевіряти на коректність метаданих усю встановлену ієрархію файлів програми."
 
 msgid "Validation failed."
 msgstr "Спроба перевірки зазнала невдачі."
@@ -271,8 +285,8 @@ msgstr "Перевірку пройдено."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "Файл XML меню XDG «%s» пошкоджено."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Цю команду слід віддавати від імені привілейованого користувача!"
+msgid "You might need superuser permissions to perform this action."
+msgstr "Для виконання цієї дії потрібні права адміністративного доступу."
 
 msgid "You need to specify a command."
 msgstr "Вам слід вказати команду."

@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "9")
-set(AS_VERSION_PATCH  "1")
+set(AS_VERSION_PATCH  "2")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "3")
 
@@ -20,7 +20,6 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 #
 # Options
 #
-option(DEP11 "Enable DEP11 data provider" ON)
 option(L18N "Enable localization" ON)
 option(VAPI "Create and install a Vala API file" OFF)
 option(QT "Build libappstream-qt" OFF)
@@ -28,9 +27,6 @@ option(MAINTAINER "Enable maintainer mode" OFF)
 option(DOCUMENTATION "Enable target to build documentation" OFF)
 option(APT_SUPPORT "Enable integration with APT on Debian" OFF)
 
-if(DEP11)
-	add_definitions ("-DDEP11")
-endif()
 if(APT_SUPPORT)
 	add_definitions ("-DAPT_SUPPORT")
 endif()

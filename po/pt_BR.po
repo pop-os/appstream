@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the appstream package.
 #
 # Translators:
-# Rafael Fontenelle <rffontenelle@gmail.com>, 2015
+# Rafael Fontenelle <rffontenelle@gmail.com>, 2015-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:33+0000\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 17:50+0000\n"
 "Last-Translator: Matthias K. <matthias@tenstral.net>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/freedesktop/"
 "appstream/language/pt_BR/)\n"
@@ -53,12 +53,19 @@ msgid ""
 "was set up incorrectly, or your distribution does not provide any AppStream "
 "metadata."
 msgstr ""
+"O cache de componente de software do AppStream não foi encontrado. Isso pode "
+"significar que o AppStream foi configurado incorretamente ou  que sua "
+"distribuição não fornece qualquer metadados de AppStream."
 
 msgid "Binaries"
 msgstr "Binários"
 
 msgid "Bundle"
 msgstr "Bundle"
+
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr "A localização de cache \"%s\" não é gravável"
 
 msgid "Categories"
 msgstr "Categorias"
@@ -93,12 +100,17 @@ msgstr "Não usar o cache do Xapian ao realizar a requisição"
 msgid "Don't show colored output"
 msgstr "Não mostrar saída colorida"
 
-msgid "Dump raw XML metadata for a component matching the ID"
+msgid "Dump raw XML metadata for a component matching the ID."
 msgstr ""
-"Despejar metadados XML não tratados para um componente coincidindo com o ID"
 
 msgid "Enforce a cache refresh"
 msgstr "Reforçar uma renovação do cache"
+
+msgid "Extends"
+msgstr "Estende"
+
+msgid "Extensions"
+msgstr ""
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -110,11 +122,11 @@ msgstr "Firmware descarregado"
 msgid "Fonts"
 msgstr "Fontes"
 
-msgid "Get components which provide the given item"
-msgstr "Obter componentes que fornecem o item dado"
+msgid "Get components which provide the given item."
+msgstr ""
 
-msgid "Get information about a component by its ID"
-msgstr "Obter informação sobre um componente por seu ID"
+msgid "Get information about a component by its ID."
+msgstr ""
 
 msgid "Homepage"
 msgstr "Página inícial"
@@ -124,6 +136,9 @@ msgstr "Ícone"
 
 msgid "Identifier"
 msgstr "Identificador"
+
+msgid "Install software matching the component-id."
+msgstr ""
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "Tipo inválido para o item fornecido selecionado. Valores válidos são:"
@@ -192,8 +207,8 @@ msgstr "Python (Versão 2)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Recompilar o cache de informação do componente"
+msgid "Rebuild the component information cache."
+msgstr ""
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -207,11 +222,11 @@ msgstr "Firmware de tempo real"
 msgid "Sample Screenshot URL"
 msgstr "URL de amostra de captura de tela"
 
-msgid "Search the component database"
-msgstr "Pesquisar a base de dados de componente"
+msgid "Search the component database."
+msgstr ""
 
-msgid "Select a value for the provides-item which needs to be found"
-msgstr "Selecionar um valor para o provides-item que precisa ser encontrado"
+msgid "Select a value for the provides-item which needs to be found."
+msgstr ""
 
 msgid "Show extra debugging information"
 msgstr "Mostrar informação extra de depuração"
@@ -250,13 +265,11 @@ msgstr ""
 msgid "Unable to spawn package manager: %s"
 msgstr "Não foi possível invocar o gerenciador de pacotes: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "Validar arquivos XML AppStream por problemas"
-
-msgid "Validate an installed file-tree of an application for valid metadata"
+msgid "Validate AppStream XML files for issues."
 msgstr ""
-"Validar uma árvore de arquivo instalado de um aplicativo para metadados "
-"válidos"
+
+msgid "Validate an installed file-tree of an application for valid metadata."
+msgstr ""
 
 msgid "Validation failed."
 msgstr "Validação falhou."
@@ -268,8 +281,9 @@ msgstr "Validação bem sucedida."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "O arquivo XML \"%s\" de Menu XDG está corrompido."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Você precisa executar esse comando com permissões de superusuário!"
+msgid "You might need superuser permissions to perform this action."
+msgstr ""
+"Você pode precisar de permissões de super-usuário para realizar esta ação"
 
 msgid "You need to specify a command."
 msgstr "Você precisa especificar um comando."

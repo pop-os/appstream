@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -49,13 +49,15 @@ GQuark as_cache_builder_error_quark (void);
 /**
  * AsCacheBuilderError:
  * @AS_CACHE_BUILDER_ERROR_FAILED:		Generic failure
- * @AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED:	Some parts of the current action have been failed
+ * @AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE:	The cache was built, but we had to ignore some metadata.
+ * @AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE:	We do not have write-access to the cache target location.
  *
  * The error type.
  **/
 typedef enum {
 	AS_CACHE_BUILDER_ERROR_FAILED,
-	AS_CACHE_BUILDER_ERROR_PARTIALLY_FAILED,
+	AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE,
+	AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE,
 	/*< private >*/
 	AS_CACHE_BUILDER_ERROR_LAST
 } AsCacheBuilderError;
@@ -63,7 +65,8 @@ typedef enum {
 AsCacheBuilder		*as_cache_builder_new (void);
 
 gboolean		as_cache_builder_setup (AsCacheBuilder *builder,
-						const gchar *dbpath);
+						const gchar *dbpath,
+						GError **error);
 gboolean		as_cache_builder_refresh (AsCacheBuilder *builder,
 							gboolean force,
 							GError **error);

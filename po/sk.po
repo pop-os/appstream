@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the appstream package.
 #
 # Translators:
-# Dušan Kazik <prescott66@gmail.com>, 2015
+# Dušan Kazik <prescott66@gmail.com>, 2015-2016
 # helix84 <helix84@centrum.sk>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-02-04 17:19+0100\n"
-"PO-Revision-Date: 2016-02-04 15:33+0000\n"
-"Last-Translator: Matthias K. <matthias@tenstral.net>\n"
+"POT-Creation-Date: 2016-02-28 17:01+0100\n"
+"PO-Revision-Date: 2016-02-27 19:05+0000\n"
+"Last-Translator: Dušan Kazik <prescott66@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/freedesktop/appstream/"
 "language/sk/)\n"
 "Language: sk\n"
@@ -54,12 +54,19 @@ msgid ""
 "was set up incorrectly, or your distribution does not provide any AppStream "
 "metadata."
 msgstr ""
+"Vyrovnávacia pamäť softvérovej súčasti AppStreamu nebola nájdená. Toto môže "
+"znamenať, že AppStream nebol nainštalovaný správne, alebo že vaša "
+"distribúcia neposkytuje žiadne metaúdaje pre AppStream."
 
 msgid "Binaries"
 msgstr "Binárne súbory"
 
 msgid "Bundle"
 msgstr "Balík"
+
+#, c-format
+msgid "Cache location '%s' is not writable."
+msgstr "Umiestnenie vyrovnávacej pamäte „%s“ nie je zapisovateľné."
 
 msgid "Categories"
 msgstr "Kategórie"
@@ -94,11 +101,17 @@ msgstr "Nepoužije vyrovnávaciu pamäť Xapian pri vykonávaní požiadavky"
 msgid "Don't show colored output"
 msgstr "Nebude zobrazovať farebný výstup"
 
-msgid "Dump raw XML metadata for a component matching the ID"
-msgstr "Vyprázdni súrové metaúdaje XML súčasti zhodujúcej sa s ID"
+msgid "Dump raw XML metadata for a component matching the ID."
+msgstr ""
 
 msgid "Enforce a cache refresh"
 msgstr "Vynúti aktualizáciu vyrovnávacej pamäte"
+
+msgid "Extends"
+msgstr ""
+
+msgid "Extensions"
+msgstr "Rozšírenia"
 
 #, c-format
 msgid "File %s not found or permission denied!"
@@ -110,11 +123,11 @@ msgstr "Nainštalovaný firmvér"
 msgid "Fonts"
 msgstr "Písma"
 
-msgid "Get components which provide the given item"
-msgstr "Získa súčasti poskytujúce danú položku"
+msgid "Get components which provide the given item."
+msgstr "Získa komponenty, ktoré poskytujú zadanú položku."
 
-msgid "Get information about a component by its ID"
-msgstr "Získa informácie o súčasti podľa jej ID"
+msgid "Get information about a component by its ID."
+msgstr "Získa informácie o komponente podľa jeho ID."
 
 msgid "Homepage"
 msgstr "Domovská stránka"
@@ -124,6 +137,9 @@ msgstr "Ikona"
 
 msgid "Identifier"
 msgstr "Identifikátor"
+
+msgid "Install software matching the component-id."
+msgstr "Nainštaluje softvér zhodujúci sa s položkou component-id."
 
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "Vybratý neplatný typ pre poskytnutú položku. Platné hodnoty sú:"
@@ -192,8 +208,8 @@ msgstr "Python (verzia 2)"
 msgid "Python 3"
 msgstr "Python 3"
 
-msgid "Rebuild the component information cache"
-msgstr "Znovu vytvorí vyrovnávaciu pamäť informácií o súčastiach"
+msgid "Rebuild the component information cache."
+msgstr "Znovu zostaví vyrovnávaciu pamäť informácií o komponentoch."
 
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
@@ -207,11 +223,11 @@ msgstr "Firmvér rozhrania"
 msgid "Sample Screenshot URL"
 msgstr "Vzorový URL snímky obrazovky"
 
-msgid "Search the component database"
-msgstr "Hľadať v databáze komponentov"
+msgid "Search the component database."
+msgstr "Vyhľadá databázu komponentov."
 
-msgid "Select a value for the provides-item which needs to be found"
-msgstr "Vyberte hodnotu poskytuje-položku, ktorú treba nájsť"
+msgid "Select a value for the provides-item which needs to be found."
+msgstr "Vyberte hodnotu položky provides-item, ktorú treba nájsť."
 
 msgid "Show extra debugging information"
 msgstr "Zobrazí ladiace informácie naviac"
@@ -251,11 +267,11 @@ msgstr ""
 msgid "Unable to spawn package manager: %s"
 msgstr "Nie je možné spustiť správcu balíkov: %s"
 
-msgid "Validate AppStream XML files for issues"
-msgstr "Overí súbory XML AppStream prípadov"
+msgid "Validate AppStream XML files for issues."
+msgstr ""
 
-msgid "Validate an installed file-tree of an application for valid metadata"
-msgstr "Overí nainštalovaný strom súborov aplikácie pre platné metaúdaje"
+msgid "Validate an installed file-tree of an application for valid metadata."
+msgstr ""
 
 msgid "Validation failed."
 msgstr "Overenie zlyhalo."
@@ -267,8 +283,9 @@ msgstr "Overenie bolo úspešné."
 msgid "XDG Menu XML file '%s' is damaged."
 msgstr "XML súbor XDG Menu „%s“ je poškodený."
 
-msgid "You need to run this command with superuser permissions!"
-msgstr "Tento príkaz musíte spúšťať s oprávnením správcu!"
+msgid "You might need superuser permissions to perform this action."
+msgstr ""
+"Na vykonanie tejto akcie možno budete musieť mať oprávnenia administrátora."
 
 msgid "You need to specify a command."
 msgstr "Musíte uviesť príkaz."

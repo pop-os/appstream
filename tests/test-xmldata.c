@@ -22,6 +22,7 @@
 #include <glib/gprintf.h>
 
 #include "appstream.h"
+#include "as-xmldata.h"
 #include "as-component-private.h"
 
 static gchar *datadir = NULL;
@@ -44,6 +45,7 @@ test_screenshot_handling ()
 	guint i;
 
 	metad = as_metadata_new ();
+	as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
 
 	path = g_build_filename (datadir, "appstream-dxml.xml", NULL);
 	file = g_file_new_for_path (path);
@@ -103,10 +105,14 @@ test_appstream_parser_legacy ()
 void
 test_appstream_parser_locale ()
 {
-	AsMetadata *metad;
-	GFile *file;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(GFile) file = NULL;
 	gchar *path;
 	AsComponent *cpt;
+
+	GPtrArray *trs;
+	AsTranslation *tr;
+
 	GError *error = NULL;
 
 	metad = as_metadata_new ();
@@ -137,6 +143,7 @@ test_appstream_parser_locale ()
 	cpt = as_metadata_get_component (metad);
 	g_assert_no_error (error);
 
+	as_component_set_active_locale (cpt, "C");
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Firefox");
 	as_component_set_active_locale (cpt, "de_DE");
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Feuerfuchs");
@@ -144,8 +151,11 @@ test_appstream_parser_locale ()
 	as_component_set_active_locale (cpt, "fr_FR");
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Firefoux");
 
-	g_object_unref (file);
-	g_object_unref (metad);
+	/* check if reading <translation/> tag succeeded */
+	trs = as_component_get_translations (cpt);
+	g_assert_cmpint (trs->len, ==, 1);
+	tr = AS_TRANSLATION (g_ptr_array_index (trs, 0));
+	g_assert_cmpstr (as_translation_get_id (tr), ==, "firefox");
 }
 
 void

@@ -39,11 +39,9 @@
 #include "as-validator.h"
 #include "as-validator-issue.h"
 
-#include "as-metadata.h"
-#include "as-metadata-private.h"
-
 #include "as-utils.h"
 #include "as-utils-private.h"
+#include "as-xmldata.h"
 #include "as-component.h"
 #include "as-component-private.h"
 
@@ -425,20 +423,21 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 {
 	gchar *cpttype;
 	xmlNode *iter;
-	AsMetadata *metad;
+	AsXMLData *xdt;
 	AsComponent *cpt;
 	gchar *metadata_license = NULL;
 	GHashTable *found_tags;
+	const gchar *summary;
 
 	found_tags = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	/* validate the resulting AsComponent for sanity */
-	metad = as_metadata_new ();
-	as_metadata_set_locale (metad, "C");
-	as_metadata_set_parser_mode (metad, mode);
+	xdt = as_xmldata_new ();
+	as_xmldata_initialize (xdt, "C", NULL, NULL, 0);
+	as_xmldata_set_parser_mode (xdt, mode);
 
-	cpt = as_metadata_parse_component_node (metad, root, TRUE, NULL);
-	g_object_unref (metad);
+	cpt = as_xmldata_parse_component_node (xdt, root, TRUE, NULL);
+	g_object_unref (xdt);
 	g_assert (cpt != NULL);
 
 	as_validator_set_current_cpt (validator, cpt);
@@ -482,7 +481,7 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 					as_validator_add_issue (validator,
 								AS_ISSUE_IMPORTANCE_WARNING,
 								AS_ISSUE_KIND_VALUE_WRONG,
-								"Component id belongs to a desktop-application, but doesn't resemble the .desktop file name: \"%s\"",
+								"Component id belongs to a desktop-application, but does not resemble the .desktop file name: \"%s\"",
 								node_content);
 			}
 		} else if (g_strcmp0 (node_name, "metadata_license") == 0) {
@@ -557,9 +556,20 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 		} else if ((g_strcmp0 (node_name, "languages") == 0) && (mode == AS_PARSER_MODE_DISTRO)) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "lang", cpt);
+		} else if ((g_strcmp0 (node_name, "translation") == 0) && (mode == AS_PARSER_MODE_UPSTREAM)) {
+			g_autofree gchar *prop = NULL;
+			AsTranslationKind trkind;
+			prop = as_validator_check_type_property (validator, cpt, iter);
+			trkind = as_translation_kind_from_string (prop);
+			if (trkind == AS_TRANSLATION_KIND_UNKNOWN) {
+				as_validator_add_issue (validator,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"Unknown type '%s' for <translation/> tag.", prop);
+			}
 		} else if (g_strcmp0 (node_name, "extends") == 0) {
 		} else if (g_strcmp0 (node_name, "bundle") == 0) {
-			gchar *prop;
+			g_autofree gchar *prop = NULL;
 			prop = as_validator_check_type_property (validator, cpt, iter);
 			if ((g_strcmp0 (prop, "limba") != 0) && (g_strcmp0 (prop, "xdg-app") != 0)) {
 				as_validator_add_issue (validator,
@@ -567,7 +577,6 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 							AS_ISSUE_KIND_VALUE_WRONG,
 							"Unknown type '%s' for <bundle/> tag.", prop);
 			}
-			g_free (prop);
 		} else if (g_strcmp0 (node_name, "update_contact") == 0) {
 			if (mode == AS_PARSER_MODE_DISTRO) {
 				as_validator_add_issue (validator,
@@ -615,6 +624,34 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 						"The essential tag 'metadata_license' is missing.");
 	} else {
 		g_free (metadata_license);
+	}
+
+	/* check if the summary is sane */
+	summary = as_component_get_summary (cpt);
+	if ((summary != NULL) && ((strstr (summary, "\n") != NULL) || (strstr (summary, "\t") != NULL))) {
+		as_validator_add_issue (validator,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"The summary tag must not contain tabs or linebreaks.");
+	}
+
+	/* check if we have a description */
+	if (as_str_empty (as_component_get_description (cpt))) {
+		AsComponentKind cpt_kind;
+		cpt_kind = as_component_get_kind (cpt);
+
+		if ((cpt_kind == AS_COMPONENT_KIND_DESKTOP_APP) ||
+			(cpt_kind == AS_COMPONENT_KIND_FONT)) {
+			as_validator_add_issue (validator,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"The component is missing a long description. Components of this type must have a long description.");
+		} else {
+			as_validator_add_issue (validator,
+					AS_ISSUE_IMPORTANCE_INFO,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"The component is missing a long description. It is recommended to add one.");
+		}
 	}
 
 	/* validate font specific stuff */

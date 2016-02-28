@@ -36,12 +36,21 @@ AsMetadata
 
 @parent_class: 
 
+<!-- ##### ENUM AsParserMode ##### -->
+<para>
+
+</para>
+
+@AS_PARSER_MODE_UPSTREAM: 
+@AS_PARSER_MODE_DISTRO: 
+
 <!-- ##### ENUM AsMetadataError ##### -->
 <para>
 
 </para>
 
 @AS_METADATA_ERROR_FAILED: 
+@AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND: 
 
 <!-- ##### MACRO AS_METADATA_ERROR ##### -->
 <para>
@@ -78,7 +87,17 @@ AsMetadata
 @error: 
 
 
-<!-- ##### FUNCTION as_metadata_parse_data ##### -->
+<!-- ##### FUNCTION as_metadata_parse_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@data: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_parse_yaml ##### -->
 <para>
 
 </para>
@@ -195,6 +214,24 @@ AsMetadata
 
 @metad: 
 @origin: 
+
+
+<!-- ##### FUNCTION as_metadata_set_parser_mode ##### -->
+<para>
+
+</para>
+
+@metad: 
+@mode: 
+
+
+<!-- ##### FUNCTION as_metadata_get_parser_mode ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
 
 
 <!-- ##### STRUCT AsMetadata ##### -->
