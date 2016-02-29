@@ -1,3 +1,4 @@
+# SymbolsHelper-Confirmed: 0.9.2 alpha amd64 arm64 armel armhf hppa hurd-i386 i386 kfreebsd-i386 mips64el mipsel powerpc ppc64el sparc64 x32
 libappstream.so.3 libappstream3 #MINVER#
  AS_APPSTREAM_METADATA_PATHS@Base 0.9.2
  _ZN12DatabaseRead14docToComponentEN6Xapian8DocumentE@Base 0.9.2
@@ -27,6 +28,8 @@ libappstream.so.3 libappstream3 #MINVER#
  _ZN13DatabaseWriteD1Ev@Base 0.9.2
  _ZN13DatabaseWriteD2Ev@Base 0.9.2
  _ZN6google8protobuf2io16CodedInputStream12ReadVarint32EPj@Base 0.9.2
+ (arch=armel armhf)_ZN6google8protobuf8internal19pLinuxKernelCmpxchgE@Base 0.9.2
+ (arch=armel armhf)_ZN6google8protobuf8internal25pLinuxKernelMemoryBarrierE@Base 0.9.2
  _ZN7ASCache10Icons_Icon10SharedCtorEv@Base 0.9.2
  _ZN7ASCache10Icons_Icon10SharedDtorEv@Base 0.9.2
  _ZN7ASCache10Icons_Icon15kUrlFieldNumberE@Base 0.9.2
@@ -436,8 +439,12 @@ libappstream.so.3 libappstream3 #MINVER#
  _ZN7ASCache9LanguagesD0Ev@Base 0.9.2
  _ZN7ASCache9LanguagesD1Ev@Base 0.9.2
  _ZN7ASCache9LanguagesD2Ev@Base 0.9.2
- _ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_P13__va_list_tagEmSB_z@Base 0.9.2
- _ZNK6google8protobuf8internal20RepeatedPtrFieldBase3GetINS0_16RepeatedPtrFieldIN7ASCache16Releases_ReleaseEE11TypeHandlerEEERKNT_4TypeEi@Base 0.9.2
+ (optional=templinst|arch=alpha)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_13__va_list_tagEmSB_z@Base 0.9.2
+ (optional=templinst|arch=amd64 powerpc x32|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_P13__va_list_tagE{size_t}SB_z@Base 0.9.2
+ (optional=templinst|arch=hurd-i386 i386 kfreebsd-i386 ppc64el|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_PcE{size_t}SB_z@Base 0.9.2
+ (optional=templinst|arch=hppa mips64el mipsel sparc64|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_PvE{size_t}SB_z@Base 0.9.2
+ (optional=templinst|arch=arm64 armel armhf|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_St9__va_listE{size_t}SB_z@Base 0.9.2
+ (optional=templinst)_ZNK6google8protobuf8internal20RepeatedPtrFieldBase3GetINS0_16RepeatedPtrFieldIN7ASCache16Releases_ReleaseEE11TypeHandlerEEERKNT_4TypeEi@Base 0.9.2
  _ZNK7ASCache10Icons_Icon11GetTypeNameB5cxx11Ev@Base 0.9.2
  _ZNK7ASCache10Icons_Icon13GetCachedSizeEv@Base 0.9.2
  _ZNK7ASCache10Icons_Icon13IsInitializedEv@Base 0.9.2
@@ -557,14 +564,14 @@ libappstream.so.3 libappstream3 #MINVER#
  _ZNK7ASCache9Languages24SerializeWithCachedSizesEPN6google8protobuf2io17CodedOutputStreamE@Base 0.9.2
  _ZNK7ASCache9Languages3NewEv@Base 0.9.2
  _ZNK7ASCache9Languages8ByteSizeEv@Base 0.9.2
- _ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIIRKS5_EEEvDpOT_@Base 0.9.2
- _ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIJRKS5_EEEvDpOT_@Base 0.9.2
- _ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EED1Ev@Base 0.9.2
- _ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EED2Ev@Base 0.9.2
- _ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED0Ev@Base 0.9.2
- _ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED1Ev@Base 0.9.2
- _ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED2Ev@Base 0.9.2
- _ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_RKS8_@Base 0.9.2
+ (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIIRKS5_EEEvDpOT_@Base 0.9.2
+ (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIJRKS5_EEEvDpOT_@Base 0.9.2
+ (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EED1Ev@Base 0.9.2
+ (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EED2Ev@Base 0.9.2
+ (optional=templinst)_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED0Ev@Base 0.9.2
+ (optional=templinst)_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED1Ev@Base 0.9.2
+ (optional=templinst)_ZNSt7__cxx1115basic_stringbufIcSt11char_traitsIcESaIcEED2Ev@Base 0.9.2
+ (optional=templinst)_ZStplIcSt11char_traitsIcESaIcEENSt7__cxx1112basic_stringIT_T0_T1_EEPKS5_RKS8_@Base 0.9.2
  _ZTIN6Xapian10LogicErrorE@Base 0.9.2
  _ZTIN6Xapian18UnimplementedErrorE@Base 0.9.2
  _ZTIN6Xapian5ErrorE@Base 0.9.2
