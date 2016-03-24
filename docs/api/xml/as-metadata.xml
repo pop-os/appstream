@@ -43,12 +43,16 @@
 </entry><entry role="function_name"><link linkend="as-metadata-add-component">as_metadata_add_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-component-to-upstream-xml">as_metadata_component_to_upstream_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-components-to-distro-xml">as_metadata_components_to_distro_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-metadata-components-to-distro-yaml">as_metadata_components_to_distro_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-save-distro-yaml">as_metadata_save_distro_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -57,6 +61,14 @@
 </entry><entry role="function_name"><link linkend="as-metadata-get-origin">as_metadata_get_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-set-origin">as_metadata_set_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-get-update-existing">as_metadata_get_update_existing</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-set-update-existing">as_metadata_set_update_existing</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-get-write-header">as_metadata_get_write_header</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-set-write-header">as_metadata_set_write_header</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
@@ -287,19 +299,6 @@ In case no component is present, <link linkend="NULL:CAPS"><literal>NULL</litera
 <para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-metadata-components-to-distro-xml" role="function">
-<title>as_metadata_components_to_distro_xml&#160;()</title>
-<indexterm zone="as-metadata-components-to-distro-xml"><primary>as_metadata_components_to_distro_xml</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_metadata_components_to_distro_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
-<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances into AppStream
-distro-XML data.
-<link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned if there is nothing to serialize.</para>
-<refsect3 role="returns">
-<title>Returns</title>
-<para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
 <refsect2 id="as-metadata-save-upstream-xml" role="function">
 <title>as_metadata_save_upstream_xml&#160;()</title>
 <indexterm zone="as-metadata-save-upstream-xml"><primary>as_metadata_save_upstream_xml</primary></indexterm>
@@ -322,6 +321,19 @@ An existing file at the same location will be overridden.</para>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-metadata-components-to-distro-xml" role="function">
+<title>as_metadata_components_to_distro_xml&#160;()</title>
+<indexterm zone="as-metadata-components-to-distro-xml"><primary>as_metadata_components_to_distro_xml</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_metadata_components_to_distro_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances into AppStream
+distro-XML data.
+<link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned if there is nothing to serialize.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-metadata-save-distro-xml" role="function">
 <title>as_metadata_save_distro_xml&#160;()</title>
 <indexterm zone="as-metadata-save-distro-xml"><primary>as_metadata_save_distro_xml</primary></indexterm>
@@ -341,6 +353,41 @@ An existing file at the same location will be overridden.</para>
 <tbody>
 <row><entry role="parameter_name"><para>fname</para></entry>
 <entry role="parameter_description"><para>The filename for the new XML file.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-components-to-distro-yaml" role="function">
+<title>as_metadata_components_to_distro_yaml&#160;()</title>
+<indexterm zone="as-metadata-components-to-distro-yaml"><primary>as_metadata_components_to_distro_yaml</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_metadata_components_to_distro_yaml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances into AppStream DEP-11
+distro-YAML data.
+<link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned if there is nothing to serialize.</para>
+<refsect3 role="returns">
+<title>Returns</title>
+<para> A string containing the YAML markup. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-save-distro-yaml" role="function">
+<title>as_metadata_save_distro_yaml&#160;()</title>
+<indexterm zone="as-metadata-save-distro-yaml"><primary>as_metadata_save_distro_yaml</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_save_distro_yaml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
+                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances to XML and save the data to a file.
+An existing file at the same location will be overridden.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>The filename for the new YAML file.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
@@ -434,6 +481,103 @@ as_metadata_set_origin (<parameter><link linkend="AsMetadata"><type>AsMetadata</
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>origin</para></entry>
 <entry role="parameter_description"><para>the origin of AppStream distro metadata.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-get-update-existing" role="function">
+<title>as_metadata_get_update_existing&#160;()</title>
+<indexterm zone="as-metadata-get-update-existing"><primary>as_metadata_get_update_existing</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_metadata_get_update_existing (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> Whether existing components should be updates with the parsed data,
+instead of creating new ones.</para>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-set-update-existing" role="function">
+<title>as_metadata_set_update_existing&#160;()</title>
+<indexterm zone="as-metadata-set-update-existing"><primary>as_metadata_set_update_existing</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_set_update_existing (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                                 <parameter><link linkend="gboolean"><type>gboolean</type></link> update</parameter>);</programlisting>
+<para>If set to <link linkend="TRUE:CAPS"><literal>TRUE</literal></link>, the parser will not create new components but
+instead update existing components in the pool with new metadata.</para>
+<para>NOTE: Right now, this feature is only implemented for metainfo XML parsing!</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>update</para></entry>
+<entry role="parameter_description"><para>A boolean value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-get-write-header" role="function">
+<title>as_metadata_get_write_header&#160;()</title>
+<indexterm zone="as-metadata-get-write-header"><primary>as_metadata_get_write_header</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_metadata_get_write_header (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 role="returns">
+<title>Returns</title>
+<para> Whether we will write a header/root node in distro metadata.</para>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-set-write-header" role="function">
+<title>as_metadata_set_write_header&#160;()</title>
+<indexterm zone="as-metadata-set-write-header"><primary>as_metadata_set_write_header</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_set_write_header (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                              <parameter><link linkend="gboolean"><type>gboolean</type></link> wheader</parameter>);</programlisting>
+<para>If set to <link linkend="TRUE:CAPS"><literal>TRUE</literal></link>, tehe metadata writer will omit writing a DEP-11
+header document when in YAML mode, and will not write a root components node
+when writing XML data.
+Please keep in mind that this will create an invalid DEP-11 YAML AppStream
+distro metadata file, and an invalid XML file.
+This parameter should only be changed e.g. by the appstream-generator tool.</para>
+<para>NOTE: Right now, this feature is only implemented for YAML!</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>wheader</para></entry>
+<entry role="parameter_description"><para>A boolean value.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
@@ -542,6 +686,11 @@ Usually you don't want to change this.</para>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS">AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND</para></entry>
 <entry role="enum_member_description"><para>Expected upstream metadata but got distro metadata, or vice versa.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-METADATA-ERROR-NO-COMPONENT:CAPS">AS_METADATA_ERROR_NO_COMPONENT</para></entry>
+<entry role="enum_member_description"><para>We expected a component in the pool, but couldn't find one.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

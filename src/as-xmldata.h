@@ -58,16 +58,22 @@ AsComponent		*as_xmldata_parse_upstream_data (AsXMLData *xdt,
 GPtrArray		*as_xmldata_parse_distro_data (AsXMLData *xdt,
 							const gchar *data,
 							GError **error);
+gboolean		as_xmldata_update_cpt_with_upstream_data (AsXMLData *xdt,
+								const gchar *data,
+								AsComponent *cpt,
+								GError **error);
 
 gchar			*as_xmldata_serialize_to_upstream (AsXMLData *xdt,
 								AsComponent *cpt);
 gchar			*as_xmldata_serialize_to_distro (AsXMLData *xdt,
-								GPtrArray *cpts);
+							 GPtrArray *cpts,
+							 gboolean write_header);
 
 void			as_xmldata_set_parser_mode (AsXMLData *xdt,
 							AsParserMode mode);
-AsComponent		*as_xmldata_parse_component_node (AsXMLData *metad,
+gboolean		as_xmldata_parse_component_node (AsXMLData *metad,
 								xmlNode *node,
+								AsComponent *cpt,
 								gboolean allow_invalid,
 								GError **error);
 

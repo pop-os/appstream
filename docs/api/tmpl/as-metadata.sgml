@@ -51,6 +51,7 @@ AsMetadata
 
 @AS_METADATA_ERROR_FAILED: 
 @AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND: 
+@AS_METADATA_ERROR_NO_COMPONENT: 
 
 <!-- ##### MACRO AS_METADATA_ERROR ##### -->
 <para>
@@ -151,15 +152,6 @@ AsMetadata
 @Returns: 
 
 
-<!-- ##### FUNCTION as_metadata_components_to_distro_xml ##### -->
-<para>
-
-</para>
-
-@metad: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_metadata_save_upstream_xml ##### -->
 <para>
 
@@ -170,7 +162,35 @@ AsMetadata
 @error: 
 
 
+<!-- ##### FUNCTION as_metadata_components_to_distro_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_metadata_save_distro_xml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@fname: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_components_to_distro_yaml ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_save_distro_yaml ##### -->
 <para>
 
 </para>
@@ -214,6 +234,42 @@ AsMetadata
 
 @metad: 
 @origin: 
+
+
+<!-- ##### FUNCTION as_metadata_get_update_existing ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_set_update_existing ##### -->
+<para>
+
+</para>
+
+@metad: 
+@update: 
+
+
+<!-- ##### FUNCTION as_metadata_get_write_header ##### -->
+<para>
+
+</para>
+
+@metad: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_set_write_header ##### -->
+<para>
+
+</para>
+
+@metad: 
+@wheader: 
 
 
 <!-- ##### FUNCTION as_metadata_set_parser_mode ##### -->

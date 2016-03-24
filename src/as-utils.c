@@ -34,6 +34,7 @@
 #include <time.h>
 #include <utime.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #include "as-category.h"
 
@@ -549,5 +550,61 @@ as_touch_location (const gchar *fname)
 	if (utime (fname, &new_times) < 0)
 		return FALSE;
 
+	return TRUE;
+}
+
+/**
+ * as_reset_umask:
+ *
+ * Reset umask potentially set by the user to a default value,
+ * so we can create files with the correct permissions.
+ */
+void
+as_reset_umask (void)
+{
+	umask (0022);
+}
+
+/**
+ * as_copy_file:
+ *
+ * Copy a file.
+ */
+gboolean
+as_copy_file (const gchar *source, const gchar *destination, GError **error)
+{
+	FILE *fsrc, *fdest;
+	int a;
+
+	fsrc = fopen (source, "rb");
+	if (fsrc == NULL) {
+		g_set_error (error,
+				G_FILE_ERROR,
+				G_FILE_ERROR_FAILED,
+				"Could not copy file: %s", g_strerror (errno));
+		return FALSE;
+	}
+
+	fdest = fopen (destination, "wb");
+	if (fdest == NULL) {
+		g_set_error (error,
+				G_FILE_ERROR,
+				G_FILE_ERROR_FAILED,
+				"Could not copy file: %s", g_strerror (errno));
+		fclose (fsrc);
+		return FALSE;
+	}
+
+	while (TRUE) {
+		a = fgetc (fsrc);
+
+		if (!feof (fsrc))
+			fputc (a, fdest);
+		else
+			break;
+	}
+
+	fclose (fdest);
+	fclose (fsrc);
 	return TRUE;
 }

@@ -52,6 +52,9 @@ typedef struct
 	gchar *media_baseurl;
 	gint default_priority;
 
+	gboolean update_existing;
+	gboolean write_header;
+
 	AsXMLData *xdt;
 	AsYAMLData *ydt;
 
@@ -77,6 +80,8 @@ as_metadata_init (AsMetadata *metad)
 
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
 	priv->default_priority = 0;
+	priv->write_header = TRUE;
+	priv->update_existing = FALSE;
 
 	priv->cpts = g_ptr_array_new_with_free_func (g_object_unref);
 }
@@ -205,9 +210,22 @@ as_metadata_parse_xml (AsMetadata *metad, const gchar *data, GError **error)
 	} else {
 		AsComponent *cpt;
 
-		cpt = as_xmldata_parse_upstream_data (priv->xdt, data, error);
-		if (cpt != NULL)
-			g_ptr_array_add (priv->cpts, cpt);
+		if (priv->update_existing) {
+			/* we should update the existing component with new metadata */
+			cpt = as_metadata_get_component (metad);
+			if (cpt == NULL) {
+				g_set_error_literal (error,
+						AS_METADATA_ERROR,
+						AS_METADATA_ERROR_NO_COMPONENT,
+						"No component found that could be updated.");
+				return;
+			}
+			as_xmldata_update_cpt_with_upstream_data (priv->xdt, data, cpt, error);
+		} else {
+			cpt = as_xmldata_parse_upstream_data (priv->xdt, data, error);
+			if (cpt != NULL)
+				g_ptr_array_add (priv->cpts, cpt);
+		}
 	}
 }
 
@@ -338,10 +356,10 @@ as_metadata_parse_file (AsMetadata *metad, GFile* file, GError **error)
 }
 
 /**
- * as_metadata_save_xml:
+ * as_metadata_save_data:
  */
 static void
-as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_data, GError **error)
+as_metadata_save_data (AsMetadata *metad, const gchar *fname, const gchar *metadata, GError **error)
 {
 	g_autoptr(GFile) file = NULL;
 	GError *tmp_error = NULL;
@@ -359,10 +377,10 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 		g_object_unref (compressor);
 
 		/* ensure data is not NULL */
-		if (xml_data == NULL)
-			xml_data = "";
+		if (metadata == NULL)
+			return;
 
-		if (!g_output_stream_write_all (out2, xml_data, strlen (xml_data),
+		if (!g_output_stream_write_all (out2, metadata, strlen (metadata),
 					NULL, NULL, &tmp_error)) {
 			g_propagate_error (error, tmp_error);
 			return;
@@ -409,7 +427,7 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 		}
 
 		dos = g_data_output_stream_new (G_OUTPUT_STREAM (fos));
-		g_data_output_stream_put_string (dos, xml_data, NULL, &tmp_error);
+		g_data_output_stream_put_string (dos, metadata, NULL, &tmp_error);
 
 		g_object_unref (dos);
 		g_object_unref (fos);
@@ -421,7 +439,6 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 	}
 }
 
-
 /**
  * as_metadata_save_upstream_xml:
  * @fname: The filename for the new XML file.
@@ -432,12 +449,10 @@ as_metadata_save_xml (AsMetadata *metad, const gchar *fname, const gchar *xml_da
 void
 as_metadata_save_upstream_xml (AsMetadata *metad, const gchar *fname, GError **error)
 {
-	gchar *xml_data;
+	g_autofree gchar *xml_data = NULL;
 
 	xml_data = as_metadata_component_to_upstream_xml (metad);
-	as_metadata_save_xml (metad, fname, xml_data, error);
-
-	g_free (xml_data);
+	as_metadata_save_data (metad, fname, xml_data, error);
 }
 
 /**
@@ -450,12 +465,53 @@ as_metadata_save_upstream_xml (AsMetadata *metad, const gchar *fname, GError **e
 void
 as_metadata_save_distro_xml (AsMetadata *metad, const gchar *fname, GError **error)
 {
-	gchar *xml_data;
+	g_autofree gchar *xml_data = NULL;
 
 	xml_data = as_metadata_components_to_distro_xml (metad);
-	as_metadata_save_xml (metad, fname, xml_data, error);
+	as_metadata_save_data (metad, fname, xml_data, error);
+}
 
-	g_free (xml_data);
+/**
+ * as_metadata_components_to_distro_yaml:
+ *
+ * Serialize all #AsComponent instances into AppStream DEP-11
+ * distro-YAML data.
+ * %NULL is returned if there is nothing to serialize.
+ *
+ * Returns: (transfer full): A string containing the YAML markup. Free with g_free()
+ */
+gchar*
+as_metadata_components_to_distro_yaml (AsMetadata *metad)
+{
+	gchar *yamlstr = NULL;
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+
+	as_metadata_init_yaml (metad);
+	if (priv->cpts->len == 0)
+		return NULL;
+
+	yamlstr = as_yamldata_serialize_to_distro (priv->ydt,
+							priv->cpts,
+							priv->write_header,
+							TRUE, /* add timestamp */
+							NULL);
+	return yamlstr;
+}
+
+/**
+ * as_metadata_save_distro_yaml:
+ * @fname: The filename for the new YAML file.
+ *
+ * Serialize all #AsComponent instances to XML and save the data to a file.
+ * An existing file at the same location will be overridden.
+ */
+void
+as_metadata_save_distro_yaml (AsMetadata *metad, const gchar *fname, GError **error)
+{
+	g_autofree gchar *yaml_data = NULL;
+
+	yaml_data = as_metadata_components_to_distro_yaml (metad);
+	as_metadata_save_data (metad, fname, yaml_data, error);
 }
 
 /**
@@ -506,7 +562,7 @@ as_metadata_components_to_distro_xml (AsMetadata *metad)
 	if (priv->cpts->len == 0)
 		return NULL;
 
-	xmlstr = as_xmldata_serialize_to_distro (priv->xdt, priv->cpts);
+	xmlstr = as_xmldata_serialize_to_distro (priv->xdt, priv->cpts, priv->write_header);
 	return xmlstr;
 }
 
@@ -634,6 +690,71 @@ as_metadata_set_parser_mode (AsMetadata *metad, AsParserMode mode)
 {
 	AsMetadataPrivate *priv = GET_PRIVATE (metad);
 	priv->mode = mode;
+}
+
+/**
+ * as_metadata_set_update_existing:
+ * @metad: an #AsMetadata instance.
+ * @update: A boolean value.
+ *
+ * If set to %TRUE, the parser will not create new components but
+ * instead update existing components in the pool with new metadata.
+ *
+ * NOTE: Right now, this feature is only implemented for metainfo XML parsing!
+ **/
+void
+as_metadata_set_update_existing (AsMetadata *metad, gboolean update)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	priv->update_existing = update;
+}
+
+/**
+ * as_metadata_get_update_existing:
+ * @metad: an #AsMetadata instance.
+ *
+ * Returns: Whether existing components should be updates with the parsed data,
+ *          instead of creating new ones.
+ **/
+gboolean
+as_metadata_get_update_existing (AsMetadata *metad)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	return priv->update_existing;
+}
+
+/**
+ * as_metadata_set_write_header:
+ * @metad: an #AsMetadata instance.
+ * @wheader: A boolean value.
+ *
+ * If set to %TRUE, tehe metadata writer will omit writing a DEP-11
+ * header document when in YAML mode, and will not write a root components node
+ * when writing XML data.
+ * Please keep in mind that this will create an invalid DEP-11 YAML AppStream
+ * distro metadata file, and an invalid XML file.
+ * This parameter should only be changed e.g. by the appstream-generator tool.
+ *
+ * NOTE: Right now, this feature is only implemented for YAML!
+ **/
+void
+as_metadata_set_write_header (AsMetadata *metad, gboolean wheader)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	priv->write_header = wheader;
+}
+
+/**
+ * as_metadata_get_write_header:
+ * @metad: an #AsMetadata instance.
+ *
+ * Returns: Whether we will write a header/root node in distro metadata.
+ **/
+gboolean
+as_metadata_get_write_header (AsMetadata *metad)
+{
+	AsMetadataPrivate *priv = GET_PRIVATE (metad);
+	return priv->write_header;
 }
 
 /**

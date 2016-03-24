@@ -129,6 +129,7 @@
 <indexentry><primaryie linkends="as-component-set-source-pkgname"><link linkend="as-component-set-source-pkgname">as_component_set_source_pkgname</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-summary"><link linkend="as-component-set-summary">as_component_set_summary</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-to-string"><link linkend="as-component-to-string">as_component_to_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-copy-file"><link linkend="as-copy-file">as_copy_file</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>D</title>
 <indexentry><primaryie linkends="AsDatabase-struct"><link linkend="AsDatabase-struct">AsDatabase</link>, struct in <link linkend="AsDatabase">AsDatabase</link></primaryie></indexentry>
@@ -225,6 +226,7 @@
 <indexentry><primaryie linkends="as-metadata-add-component"><link linkend="as-metadata-add-component">as_metadata_add_component</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-clear-components"><link linkend="as-metadata-clear-components">as_metadata_clear_components</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-components-to-distro-xml"><link linkend="as-metadata-components-to-distro-xml">as_metadata_components_to_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-components-to-distro-yaml"><link linkend="as-metadata-components-to-distro-yaml">as_metadata_components_to_distro_yaml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-component-to-upstream-xml"><link linkend="as-metadata-component-to-upstream-xml">as_metadata_component_to_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-METADATA-ERROR:CAPS"><link linkend="AS-METADATA-ERROR:CAPS">AS_METADATA_ERROR</link>, macro in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-error-quark"><link linkend="as-metadata-error-quark">as_metadata_error_quark</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
@@ -233,15 +235,20 @@
 <indexentry><primaryie linkends="as-metadata-get-locale"><link linkend="as-metadata-get-locale">as_metadata_get_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-origin"><link linkend="as-metadata-get-origin">as_metadata_get_origin</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-parser-mode"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-update-existing"><link linkend="as-metadata-get-update-existing">as_metadata_get_update_existing</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-write-header"><link linkend="as-metadata-get-write-header">as_metadata_get_write_header</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-new"><link linkend="as-metadata-new">as_metadata_new</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-file"><link linkend="as-metadata-parse-file">as_metadata_parse_file</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-xml"><link linkend="as-metadata-parse-xml">as_metadata_parse_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-parse-yaml"><link linkend="as-metadata-parse-yaml">as_metadata_parse_yaml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-distro-xml"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-save-distro-yaml"><link linkend="as-metadata-save-distro-yaml">as_metadata_save_distro_yaml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-upstream-xml"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-locale"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-origin"><link linkend="as-metadata-set-origin">as_metadata_set_origin</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-set-update-existing"><link linkend="as-metadata-set-update-existing">as_metadata_set_update_existing</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-set-write-header"><link linkend="as-metadata-set-write-header">as_metadata_set_write_header</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>P</title>
 <indexentry><primaryie linkends="AsParserMode"><link linkend="AsParserMode">AsParserMode</link>, enum in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
@@ -279,6 +286,7 @@
 <indexentry><primaryie linkends="as-release-set-timestamp"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-urgency"><link linkend="as-release-set-urgency">as_release_set_urgency</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-version"><link linkend="as-release-set-version">as_release_set_version</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-reset-umask"><link linkend="as-reset-umask">as_reset_umask</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>S</title>
 <indexentry><primaryie linkends="AsScreenshot-struct"><link linkend="AsScreenshot-struct">AsScreenshot</link>, struct in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
@@ -287,6 +295,7 @@
 <indexentry><primaryie linkends="as-screenshot-add-image"><link linkend="as-screenshot-add-image">as_screenshot_add_image</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-active-locale"><link linkend="as-screenshot-get-active-locale">as_screenshot_get_active_locale</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-caption"><link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-get-caption-table"><link linkend="as-screenshot-get-caption-table">as_screenshot_get_caption_table</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-images"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-kind"><link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-is-valid"><link linkend="as-screenshot-is-valid">as_screenshot_is_valid</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
@@ -379,6 +388,7 @@
 <indexentry><primaryie linkends="as-xmldata-serialize-to-distro"><link linkend="as-xmldata-serialize-to-distro">as_xmldata_serialize_to_distro</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-serialize-to-upstream"><link linkend="as-xmldata-serialize-to-upstream">as_xmldata_serialize_to_upstream</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-set-parser-mode"><link linkend="as-xmldata-set-parser-mode">as_xmldata_set_parser_mode</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-update-cpt-with-upstream-data"><link linkend="as-xmldata-update-cpt-with-upstream-data">as_xmldata_update_cpt_with_upstream_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>Y</title>
 <indexentry><primaryie linkends="AsYAMLData-struct"><link linkend="AsYAMLData-struct">AsYAMLData</link>, struct in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
@@ -387,6 +397,7 @@
 <indexentry><primaryie linkends="as-yamldata-initialize"><link linkend="as-yamldata-initialize">as_yamldata_initialize</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-yamldata-new"><link linkend="as-yamldata-new">as_yamldata_new</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-yamldata-parse-distro-data"><link linkend="as-yamldata-parse-distro-data">as_yamldata_parse_distro_data</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-yamldata-serialize-to-distro"><link linkend="as-yamldata-serialize-to-distro">as_yamldata_serialize_to_distro</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-yamldata-set-locale"><link linkend="as-yamldata-set-locale">as_yamldata_set_locale</link>, function in <link linkend="AsYAMLData">AsYAMLData</link></primaryie></indexentry>
 </indexdiv>
 </indexdiv>

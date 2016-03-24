@@ -31,13 +31,15 @@
 </entry><entry role="function_name"><link linkend="as-xmldata-parse-upstream-data">as_xmldata_parse_upstream_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-xmldata-parse-distro-data">as_xmldata_parse_distro_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-xmldata-update-cpt-with-upstream-data">as_xmldata_update_cpt_with_upstream_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-xmldata-serialize-to-upstream">as_xmldata_serialize_to_upstream</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-xmldata-serialize-to-distro">as_xmldata_serialize_to_distro</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-xmldata-set-parser-mode">as_xmldata_set_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-xmldata-parse-component-node">as_xmldata_parse_component_node</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
@@ -177,6 +179,38 @@ as_xmldata_parse_distro_data (<parameter><link linkend="AsXMLData"><type>AsXMLDa
 <para> An array of <link linkend="AsComponent"><type>AsComponent</type></link>, deserialized from the XML. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>][<acronym>element-type</acronym> AsComponent]</emphasis></para>
 </refsect3></refsect2>
+<refsect2 id="as-xmldata-update-cpt-with-upstream-data" role="function">
+<title>as_xmldata_update_cpt_with_upstream_data&#160;()</title>
+<indexterm zone="as-xmldata-update-cpt-with-upstream-data"><primary>as_xmldata_update_cpt_with_upstream_data</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_xmldata_update_cpt_with_upstream_data
+                               (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *xdt</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
+                                <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Parse AppStream upstream metadata.</para>
+<refsect3 role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>xdt</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsXMLData"><type>AsXMLData</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>data</para></entry>
+<entry role="parameter_description"><para>XML representing upstream metadata.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>Component that should be updated.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-xmldata-serialize-to-upstream" role="function">
 <title>as_xmldata_serialize_to_upstream&#160;()</title>
 <indexterm zone="as-xmldata-serialize-to-upstream"><primary>as_xmldata_serialize_to_upstream</primary></indexterm>
@@ -208,7 +242,8 @@ as_xmldata_serialize_to_upstream (<parameter><link linkend="AsXMLData"><type>AsX
 <indexterm zone="as-xmldata-serialize-to-distro"><primary>as_xmldata_serialize_to_distro</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_xmldata_serialize_to_distro (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *xdt</parameter>,
-                                <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *cpts</parameter>);</programlisting>
+                                <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *cpts</parameter>,
+                                <parameter><link linkend="gboolean"><type>gboolean</type></link> write_header</parameter>);</programlisting>
 <para>Serialize an <link linkend="AsComponent"><type>AsComponent</type></link> to distro XML.</para>
 <refsect3 role="parameters">
 <title>Parameters</title>
@@ -236,9 +271,10 @@ as_xmldata_set_parser_mode (<parameter><link linkend="AsXMLData"><type>AsXMLData
 <refsect2 id="as-xmldata-parse-component-node" role="function">
 <title>as_xmldata_parse_component_node&#160;()</title>
 <indexterm zone="as-xmldata-parse-component-node"><primary>as_xmldata_parse_component_node</primary></indexterm>
-<programlisting language="C"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_xmldata_parse_component_node (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *metad</parameter>,
                                  <parameter><link linkend="xmlNode"><type>xmlNode</type></link> *node</parameter>,
+                                 <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                  <parameter><link linkend="gboolean"><type>gboolean</type></link> allow_invalid</parameter>,
                                  <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 </refsect2>
