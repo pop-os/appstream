@@ -139,6 +139,9 @@ as_cache_builder_setup (AsCacheBuilder *builder, const gchar *dbpath, GError **e
 	}
 	priv->db_path = g_build_filename (priv->cache_path, "xapian", "default", NULL);
 
+	/* users umask shouldn't interfere with us creating new files */
+	as_reset_umask ();
+
 	/* check the ctime of the cache directory, if it exists at all */
 	as_cache_builder_check_cache_ctime (builder);
 
@@ -367,6 +370,25 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 	if (yml_files->len <= 0) {
 		g_debug ("Couldn't find DEP-11 data in APT directories.");
 		return;
+	}
+
+	/* We have to check if our metadata is in the target directory at all, and - if not - trigger a cache refresh.
+	 * This is needed because APT is putting files with the *server* ctime/mtime into it's lists directory,
+	 * and that time might be lower than the time the metadata cache was last updated, which may result
+	 * in no cache update being triggered at all.
+	 */
+	for (i = 0; i < yml_files->len; i++) {
+		g_autofree gchar *fbasename = NULL;
+		g_autofree gchar *dest_fname = NULL;
+		const gchar *fname = (const gchar*) g_ptr_array_index (yml_files, i);
+
+		fbasename = g_path_get_basename (fname);
+		dest_fname = g_build_filename (appstream_yml_target, fbasename, NULL);
+		if (!g_file_test (dest_fname, G_FILE_TEST_EXISTS)) {
+			data_changed = TRUE;
+			g_debug ("File '%s' missing, cache update is needed.", dest_fname);
+			break;
+		}
 	}
 
 	/* get the last time we touched the database */

@@ -33,7 +33,7 @@ println (const gchar *s)
 }
 
 void
-test_basic ()
+test_basic (void)
 {
 	g_autoptr(AsMetadata) mdata = NULL;
 	gchar *path;
@@ -72,6 +72,86 @@ test_basic ()
 	g_assert_cmpstr (as_component_get_pkgnames (cpt_tomatoes)[0], ==, "tomatoes");
 }
 
+static AsScreenshot*
+test_h_create_dummy_screenshot (void)
+{
+	AsScreenshot *scr;
+	AsImage *img;
+
+	scr = as_screenshot_new ();
+	as_screenshot_set_caption (scr, "The FooBar mainwindow", "C");
+	as_screenshot_set_caption (scr, "Le FooBar mainwindow", "fr");
+
+	img = as_image_new ();
+	as_image_set_kind (img, AS_IMAGE_KIND_SOURCE);
+	as_image_set_width (img, 840);
+	as_image_set_height (img, 560);
+	as_image_set_url (img, "https://example.org/images/foobar-full.png");
+	as_screenshot_add_image (scr, img);
+	g_object_unref (img);
+
+	img = as_image_new ();
+	as_image_set_kind (img, AS_IMAGE_KIND_THUMBNAIL);
+	as_image_set_width (img, 400);
+	as_image_set_height (img, 200);
+	as_image_set_url (img, "https://example.org/images/foobar-small.png");
+	as_screenshot_add_image (scr, img);
+	g_object_unref (img);
+
+	img = as_image_new ();
+	as_image_set_kind (img, AS_IMAGE_KIND_THUMBNAIL);
+	as_image_set_width (img, 210);
+	as_image_set_height (img, 120);
+	as_image_set_url (img, "https://example.org/images/foobar-smaller.png");
+	as_screenshot_add_image (scr, img);
+	g_object_unref (img);
+
+	return scr;
+}
+
+void
+test_yamlwrite (void)
+{
+	g_autoptr(AsYAMLData) ydata = NULL;
+	g_autoptr(GPtrArray) cpts = NULL;
+	g_autoptr(AsScreenshot) scr = NULL;
+	g_autofree gchar *resdata = NULL;
+	AsComponent *cpt = NULL;
+	GError *error = NULL;
+	gchar *_PKGNAME1[2] = {"fwdummy", NULL};
+	gchar *_PKGNAME2[2] = {"foobar-pkg", NULL};
+
+	ydata = as_yamldata_new ();
+	cpts = g_ptr_array_new_with_free_func (g_object_unref);
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_FIRMWARE);
+	as_component_set_id (cpt, "org.example.test.firmware");
+	as_component_set_pkgnames (cpt, _PKGNAME1);
+	as_component_set_name (cpt, "Unittest Firmware", "C");
+	as_component_set_name (cpt, "Ünittest Fürmwäre (dummy Eintrag)", "de_DE");
+	as_component_add_extends (cpt, "org.example.alpha");
+	as_component_add_extends (cpt, "org.example.beta");
+	as_component_add_url (cpt, AS_URL_KIND_HOMEPAGE, "https://example.com");
+	g_ptr_array_add (cpts, cpt);
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
+	as_component_set_id (cpt, "org.freedesktop.foobar.desktop");
+	as_component_set_pkgnames (cpt, _PKGNAME2);
+	as_component_set_name (cpt, "TEST!!", "C");
+	scr = test_h_create_dummy_screenshot ();
+	as_component_add_screenshot (cpt, scr);
+
+	g_ptr_array_add (cpts, cpt);
+
+	resdata = as_yamldata_serialize_to_distro (ydata, cpts, TRUE, FALSE, &error);
+	g_assert_no_error (error);
+	g_debug ("%s", resdata);
+
+	/* TODO: Actually test the resulting output */
+}
+
 int
 main (int argc, char **argv)
 {
@@ -93,7 +173,8 @@ main (int argc, char **argv)
 	/* only critical and error are fatal */
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
-	g_test_add_func ("/DEP-11/Basic", test_basic);
+	g_test_add_func ("/YAML/Basic", test_basic);
+	g_test_add_func ("/YAML/Write", test_yamlwrite);
 
 	ret = g_test_run ();
 	g_free (datadir);

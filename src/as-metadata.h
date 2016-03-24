@@ -69,12 +69,14 @@ typedef enum {
  * AsMetadataError:
  * @AS_METADATA_ERROR_FAILED:			Generic failure
  * @AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND:	Expected upstream metadata but got distro metadata, or vice versa.
+ * @AS_METADATA_ERROR_NO_COMPONENT:		We expected a component in the pool, but couldn't find one.
  *
  * A metadata processing error.
  **/
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
 	AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND,
+	AS_METADATA_ERROR_NO_COMPONENT,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
@@ -103,12 +105,16 @@ void			as_metadata_add_component (AsMetadata *metad,
 							AsComponent *cpt);
 
 gchar			*as_metadata_component_to_upstream_xml (AsMetadata *metad);
-gchar			*as_metadata_components_to_distro_xml (AsMetadata *metad);
-
 void			as_metadata_save_upstream_xml (AsMetadata *metad,
 							const gchar *fname,
 							GError **error);
+gchar			*as_metadata_components_to_distro_xml (AsMetadata *metad);
 void			as_metadata_save_distro_xml (AsMetadata *metad,
+							const gchar *fname,
+							GError **error);
+
+gchar			*as_metadata_components_to_distro_yaml (AsMetadata *metad);
+void			as_metadata_save_distro_yaml (AsMetadata *metad,
 							const gchar *fname,
 							GError **error);
 
@@ -119,6 +125,14 @@ const gchar		*as_metadata_get_locale (AsMetadata *metad);
 const gchar		*as_metadata_get_origin (AsMetadata *metad);
 void			as_metadata_set_origin (AsMetadata *metad,
 							const gchar *origin);
+
+gboolean		as_metadata_get_update_existing (AsMetadata *metad);
+void			as_metadata_set_update_existing (AsMetadata *metad,
+								gboolean update);
+
+gboolean		as_metadata_get_write_header (AsMetadata *metad);
+void			as_metadata_set_write_header (AsMetadata *metad,
+								gboolean wheader);
 
 void			as_metadata_set_parser_mode (AsMetadata *metad,
 							AsParserMode mode);

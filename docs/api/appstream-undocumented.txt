@@ -1,7 +1,7 @@
-61% symbol docs coverage.
-341 symbols documented.
-57 symbols incomplete.
-215 not documented.
+60% symbol docs coverage.
+352 symbols documented.
+62 symbols incomplete.
+235 not documented.
 
 
 AS_CACHE_BUILDER_ERROR
@@ -111,6 +111,7 @@ as_component_set_categories
 as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
+as_copy_file (source, destination, error, Returns)
 as_data_pool_class_init
 as_data_pool_error_quark
 as_data_pool_finalize
@@ -160,18 +161,22 @@ as_metadata_class_init
 as_metadata_clear_components
 as_metadata_component_to_upstream_xml (metad)
 as_metadata_components_to_distro_xml (metad)
+as_metadata_components_to_distro_yaml (metad)
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_components
 as_metadata_get_origin
+as_metadata_get_update_existing
+as_metadata_get_write_header
 as_metadata_init
 as_metadata_init_xml
 as_metadata_init_yaml
 as_metadata_parse_xml (error)
 as_metadata_reload_parsers
+as_metadata_save_data
 as_metadata_save_distro_xml (metad, error)
+as_metadata_save_distro_yaml (metad, error)
 as_metadata_save_upstream_xml (metad, error)
-as_metadata_save_xml
 as_provided_add_item (item)
 as_provided_class_init
 as_provided_finalize
@@ -189,6 +194,7 @@ as_release_set_description (locale)
 as_screenshot_class_init
 as_screenshot_finalize
 as_screenshot_get_active_locale (screenshot, Returns)
+as_screenshot_get_caption_table (screenshot, Returns)
 as_screenshot_init
 as_screenshot_set_active_locale (screenshot, locale)
 as_screenshot_set_caption (locale)
@@ -233,8 +239,24 @@ as_xmldata_parse_components_node
 as_xmldata_parse_upstream_description_tag
 as_xmldata_process_screenshot
 as_xmldata_process_screenshots_tag
-as_xmldata_serialize_to_distro (cpts)
+as_xmldata_serialize_to_distro (cpts, write_header)
+as_xmldata_serialize_to_distro_with_rootnode
+as_xmldata_serialize_to_distro_without_rootnode
 as_xmldata_set_parser_mode
+as_xmldata_update_cpt_with_upstream_data (Returns)
+as_yaml_emit_entry
+as_yaml_emit_lang_hashtable_entries
+as_yaml_emit_localized_entry
+as_yaml_emit_localized_lists
+as_yaml_emit_provides
+as_yaml_emit_screenshots
+as_yaml_emit_sequence
+as_yaml_emit_sequence_from_strv
+as_yaml_localized_list_helper
+as_yaml_mapping_end
+as_yaml_mapping_start
+as_yaml_sequence_end
+as_yaml_sequence_start
 as_yamldata_class_init
 as_yamldata_finalize
 as_yamldata_free_node
@@ -246,6 +268,7 @@ as_yamldata_parse_distro_data (error)
 as_yamldata_process_component_node
 as_yamldata_process_icons
 as_yamldata_process_screenshots
+as_yamldata_serialize_to_distro
 dep11_list_to_string_array
 dep11_print_unknown
 dep11_process_image
@@ -257,6 +280,8 @@ as-cache-builder:Long_Description
 as-cache-builder:Short_Description
 as-enums:Long_Description
 as-icon:Long_Description
+as-screenshot-private:Long_Description
+as-screenshot-private:Short_Description
 as-utils-private:Long_Description
 as-utils-private:Short_Description
 as-yamldata:Short_Description

@@ -29,6 +29,8 @@
 </entry><entry role="function_name"><link linkend="as-yamldata-initialize">as_yamldata_initialize</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-yamldata-parse-distro-data">as_yamldata_parse_distro_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-yamldata-serialize-to-distro">as_yamldata_serialize_to_distro</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-yamldata-get-locale">as_yamldata_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -133,6 +135,16 @@ as_yamldata_parse_distro_data (<parameter><link linkend="AsYAMLData"><type>AsYAM
 <para> An array of <link linkend="AsComponent"><type>AsComponent</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>][<acronym>element-type</acronym> AsComponent]</emphasis></para>
 </refsect3></refsect2>
+<refsect2 id="as-yamldata-serialize-to-distro" role="function">
+<title>as_yamldata_serialize_to_distro&#160;()</title>
+<indexterm zone="as-yamldata-serialize-to-distro"><primary>as_yamldata_serialize_to_distro</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_yamldata_serialize_to_distro (<parameter><link linkend="AsYAMLData"><type>AsYAMLData</type></link> *ydt</parameter>,
+                                 <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *cpts</parameter>,
+                                 <parameter><link linkend="gboolean"><type>gboolean</type></link> write_header</parameter>,
+                                 <parameter><link linkend="gboolean"><type>gboolean</type></link> add_timestamp</parameter>,
+                                 <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+</refsect2>
 <refsect2 id="as-yamldata-get-locale" role="function">
 <title>as_yamldata_get_locale&#160;()</title>
 <indexterm zone="as-yamldata-get-locale"><primary>as_yamldata_get_locale</primary></indexterm>

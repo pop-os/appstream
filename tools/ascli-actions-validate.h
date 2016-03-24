@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -18,26 +18,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __ASCLI_UTILS_H
-#define __ASCLI_UTILS_H
+#ifndef __ASCLI_ACTIONS_VALIDATE_H
+#define __ASCLI_ACTIONS_VALIDATE_H
 
 #include <glib-object.h>
-#include "appstream.h"
 
 G_BEGIN_DECLS
 
-gchar		*ascli_format_long_output (const gchar *str);
-void		ascli_print_key_value (const gchar* key, const gchar* val, gboolean highlight);
-void		ascli_print_separator (void);
+gboolean		ascli_validate_file (gchar *fname,
+						gboolean pretty,
+						gboolean pedantic);
 
-void		ascli_print_stdout (const gchar *format, ...);
-void		ascli_print_stderr (const gchar *format, ...);
-void		ascli_print_highlight (const gchar* msg);
+gint			ascli_validate_files (gchar **argv,
+						gint argc,
+						gboolean no_color,
+						gboolean pedantic);
 
-void		ascli_print_component (AsComponent *cpt, gboolean show_detailed);
-
-void		ascli_set_colored_output (gboolean colored);
+gint			ascli_validate_tree (const gchar *root_dir,
+						gboolean no_color,
+						gboolean pedantic);
 
 G_END_DECLS
 
-#endif /* __ASCLI_UTILS_H */
+#endif /* __ASCLI_ACTIONS_VALIDATE_H */

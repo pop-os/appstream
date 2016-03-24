@@ -230,13 +230,19 @@
     <keyword type="function" name="as_metadata_clear_components ()" link="AsMetadata.html#as-metadata-clear-components"/>
     <keyword type="function" name="as_metadata_add_component ()" link="AsMetadata.html#as-metadata-add-component"/>
     <keyword type="function" name="as_metadata_component_to_upstream_xml ()" link="AsMetadata.html#as-metadata-component-to-upstream-xml"/>
-    <keyword type="function" name="as_metadata_components_to_distro_xml ()" link="AsMetadata.html#as-metadata-components-to-distro-xml"/>
     <keyword type="function" name="as_metadata_save_upstream_xml ()" link="AsMetadata.html#as-metadata-save-upstream-xml"/>
+    <keyword type="function" name="as_metadata_components_to_distro_xml ()" link="AsMetadata.html#as-metadata-components-to-distro-xml"/>
     <keyword type="function" name="as_metadata_save_distro_xml ()" link="AsMetadata.html#as-metadata-save-distro-xml"/>
+    <keyword type="function" name="as_metadata_components_to_distro_yaml ()" link="AsMetadata.html#as-metadata-components-to-distro-yaml"/>
+    <keyword type="function" name="as_metadata_save_distro_yaml ()" link="AsMetadata.html#as-metadata-save-distro-yaml"/>
     <keyword type="function" name="as_metadata_set_locale ()" link="AsMetadata.html#as-metadata-set-locale"/>
     <keyword type="function" name="as_metadata_get_locale ()" link="AsMetadata.html#as-metadata-get-locale"/>
     <keyword type="function" name="as_metadata_get_origin ()" link="AsMetadata.html#as-metadata-get-origin"/>
     <keyword type="function" name="as_metadata_set_origin ()" link="AsMetadata.html#as-metadata-set-origin"/>
+    <keyword type="function" name="as_metadata_get_update_existing ()" link="AsMetadata.html#as-metadata-get-update-existing"/>
+    <keyword type="function" name="as_metadata_set_update_existing ()" link="AsMetadata.html#as-metadata-set-update-existing"/>
+    <keyword type="function" name="as_metadata_get_write_header ()" link="AsMetadata.html#as-metadata-get-write-header"/>
+    <keyword type="function" name="as_metadata_set_write_header ()" link="AsMetadata.html#as-metadata-set-write-header"/>
     <keyword type="function" name="as_metadata_set_parser_mode ()" link="AsMetadata.html#as-metadata-set-parser-mode"/>
     <keyword type="function" name="as_metadata_get_parser_mode ()" link="AsMetadata.html#as-metadata-get-parser-mode"/>
     <keyword type="struct" name="struct AsMetadataClass" link="AsMetadata.html#AsMetadataClass"/>
@@ -392,6 +398,7 @@
     <keyword type="constant" name="AS_PARSER_MODE_DISTRO" link="AsMetadata.html#AS-PARSER-MODE-DISTRO:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FAILED" link="AsMetadata.html#AS-METADATA-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND" link="AsMetadata.html#AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_NO_COMPONENT" link="AsMetadata.html#AS-METADATA-ERROR-NO-COMPONENT:CAPS"/>
     <keyword type="constant" name="AS_DATA_POOL_ERROR_FAILED" link="AsDataPool.html#AS-DATA-POOL-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_ERROR" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-ERROR:CAPS"/>

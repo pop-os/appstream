@@ -32,6 +32,11 @@ AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_ba
 AsYAMLData *ydt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
+<NAME>as_yamldata_serialize_to_distro</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsYAMLData *ydt, GPtrArray *cpts, gboolean write_header, gboolean add_timestamp, GError **error
+</FUNCTION>
+<FUNCTION>
 <NAME>as_yamldata_get_locale</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsYAMLData *ydt
@@ -44,6 +49,11 @@ AsYAMLData *ydt, const gchar *locale
 <STRUCT>
 <NAME>AsYAMLData</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_screenshot_get_caption_table</NAME>
+<RETURNS>GHashTable 		*</RETURNS>
+AsScreenshot *screenshot
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
 #define AS_TYPE_IMAGE (as_image_get_type ())
@@ -179,6 +189,16 @@ GPtrArray *array
 <NAME>as_touch_location</NAME>
 <RETURNS>gboolean 		</RETURNS>
 const gchar *fname
+</FUNCTION>
+<FUNCTION>
+<NAME>as_copy_file</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar *source, const gchar *destination, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_reset_umask</NAME>
+<RETURNS>void 			</RETURNS>
+void
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR</NAME>
@@ -1231,6 +1251,7 @@ typedef enum {
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
 	AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND,
+	AS_METADATA_ERROR_NO_COMPONENT,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
@@ -1290,17 +1311,27 @@ AsMetadata *metad, AsComponent *cpt
 AsMetadata *metad
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_components_to_distro_xml</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsMetadata *metad
-</FUNCTION>
-<FUNCTION>
 <NAME>as_metadata_save_upstream_xml</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *fname, GError **error
 </FUNCTION>
 <FUNCTION>
+<NAME>as_metadata_components_to_distro_xml</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsMetadata *metad
+</FUNCTION>
+<FUNCTION>
 <NAME>as_metadata_save_distro_xml</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *fname, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_components_to_distro_yaml</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsMetadata *metad
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_save_distro_yaml</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *fname, GError **error
 </FUNCTION>
@@ -1323,6 +1354,26 @@ AsMetadata *metad
 <NAME>as_metadata_set_origin</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *origin
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_update_existing</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsMetadata *metad
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_update_existing</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, gboolean update
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_write_header</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsMetadata *metad
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_write_header</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, gboolean wheader
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_set_parser_mode</NAME>
@@ -1573,6 +1624,11 @@ AsXMLData *xdt, const gchar *data, GError **error
 AsXMLData *xdt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
+<NAME>as_xmldata_update_cpt_with_upstream_data</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsXMLData *xdt, const gchar *data, AsComponent *cpt, GError **error
+</FUNCTION>
+<FUNCTION>
 <NAME>as_xmldata_serialize_to_upstream</NAME>
 <RETURNS>gchar 			*</RETURNS>
 AsXMLData *xdt, AsComponent *cpt
@@ -1580,7 +1636,7 @@ AsXMLData *xdt, AsComponent *cpt
 <FUNCTION>
 <NAME>as_xmldata_serialize_to_distro</NAME>
 <RETURNS>gchar 			*</RETURNS>
-AsXMLData *xdt, GPtrArray *cpts
+AsXMLData *xdt, GPtrArray *cpts, gboolean write_header
 </FUNCTION>
 <FUNCTION>
 <NAME>as_xmldata_set_parser_mode</NAME>
@@ -1589,8 +1645,8 @@ AsXMLData *xdt, AsParserMode mode
 </FUNCTION>
 <FUNCTION>
 <NAME>as_xmldata_parse_component_node</NAME>
-<RETURNS>AsComponent 		*</RETURNS>
-AsXMLData *metad, xmlNode *node, gboolean allow_invalid, GError **error
+<RETURNS>gboolean 		</RETURNS>
+AsXMLData *metad, xmlNode *node, AsComponent *cpt, gboolean allow_invalid, GError **error
 </FUNCTION>
 <STRUCT>
 <NAME>AsXMLData</NAME>

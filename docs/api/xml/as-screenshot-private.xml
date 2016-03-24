@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-screenshot-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-screenshot-private.top_of_page">as-screenshot-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-screenshot-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-screenshot-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-get-caption-table">as_screenshot_get_caption_table</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+
+<refsect1 id="appstream-as-screenshot-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-screenshot-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-screenshot-get-caption-table" role="function">
+<title>as_screenshot_get_caption_table&#160;()</title>
+<indexterm zone="as-screenshot-get-caption-table"><primary>as_screenshot_get_caption_table</primary></indexterm>
+<programlisting language="C"><link linkend="GHashTable"><returnvalue>GHashTable</returnvalue></link>&#160;*
+as_screenshot_get_caption_table (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Internal function.</para>
+</refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-screenshot-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

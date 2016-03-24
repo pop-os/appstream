@@ -255,13 +255,19 @@ as_metadata_get_components
 as_metadata_clear_components
 as_metadata_add_component
 as_metadata_component_to_upstream_xml
-as_metadata_components_to_distro_xml
 as_metadata_save_upstream_xml
+as_metadata_components_to_distro_xml
 as_metadata_save_distro_xml
+as_metadata_components_to_distro_yaml
+as_metadata_save_distro_yaml
 as_metadata_set_locale
 as_metadata_get_locale
 as_metadata_get_origin
 as_metadata_set_origin
+as_metadata_get_update_existing
+as_metadata_set_update_existing
+as_metadata_get_write_header
+as_metadata_set_write_header
 as_metadata_set_parser_mode
 as_metadata_get_parser_mode
 AsMetadata
@@ -338,6 +344,11 @@ AsScreenshot
 </SECTION>
 
 <SECTION>
+<FILE>as-screenshot-private</FILE>
+as_screenshot_get_caption_table
+</SECTION>
+
+<SECTION>
 <FILE>as-translation</FILE>
 <TITLE>AsTranslation</TITLE>
 AS_TYPE_TRANSLATION
@@ -365,6 +376,8 @@ as_utils_is_writable
 as_str_replace
 as_ptr_array_to_strv
 as_touch_location
+as_copy_file
+as_reset_umask
 </SECTION>
 
 <SECTION>
@@ -409,6 +422,7 @@ as_xmldata_new
 as_xmldata_initialize
 as_xmldata_parse_upstream_data
 as_xmldata_parse_distro_data
+as_xmldata_update_cpt_with_upstream_data
 as_xmldata_serialize_to_upstream
 as_xmldata_serialize_to_distro
 as_xmldata_set_parser_mode
@@ -424,6 +438,7 @@ AsYAMLDataClass
 as_yamldata_new
 as_yamldata_initialize
 as_yamldata_parse_distro_data
+as_yamldata_serialize_to_distro
 as_yamldata_get_locale
 as_yamldata_set_locale
 AsYAMLData
