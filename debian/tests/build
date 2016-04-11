@@ -25,7 +25,7 @@ int main()
 	as_component_set_summary (cpt, "It does things", "C");
 
 	strv = g_new0 (gchar*, 1 + 2);
-	strv[0] = g_strdup ("fedex");
+	strv[0] = g_strdup ("foobar");
 	strv[1] = NULL;
 	as_component_set_pkgnames (cpt, strv);
 	g_strfreev (strv);
@@ -39,8 +39,20 @@ int main()
 	g_debug ("Upstream XML: %s", xml_upstream);
 	g_debug ("Distro XML: %s", xml_distro);
 
-	g_assert_cmpstr (xml_upstream, ==, "<?xml version=\"1.0\"?>\n<component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component>\n");
-	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\"?>\n<components version=\"0.8\"><component type=\"desktop\"><name>Test</name><summary>It does things</summary><pkgname>fedex</pkgname></component></components>\n");
+	g_assert_cmpstr (xml_upstream, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+					   "<component type=\"desktop\">\n"
+					   "  <name>Test</name>\n"
+					   "  <summary>It does things</summary>\n"
+					   "  <pkgname>foobar</pkgname>\n"
+					   "</component>\n");
+	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+					 "<components version=\"0.8\">\n"
+					 "  <component type=\"desktop\">\n"
+					 "    <name>Test</name>\n"
+					 "    <summary>It does things</summary>\n"
+					 "    <pkgname>foobar</pkgname>\n"
+					 "  </component>\n"
+					 "</components>\n");
 
 	g_free (xml_upstream);
 	g_free (xml_distro);
