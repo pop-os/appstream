@@ -21,6 +21,7 @@ int main()
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
 
+	as_component_set_id (cpt, "org.example.Test.desktop");
 	as_component_set_name (cpt, "Test", "C");
 	as_component_set_summary (cpt, "It does things", "C");
 
@@ -41,6 +42,7 @@ int main()
 
 	g_assert_cmpstr (xml_upstream, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 					   "<component type=\"desktop\">\n"
+					   "  <id>org.example.Test.desktop</id>\n"
 					   "  <name>Test</name>\n"
 					   "  <summary>It does things</summary>\n"
 					   "  <pkgname>foobar</pkgname>\n"
@@ -48,6 +50,7 @@ int main()
 	g_assert_cmpstr (xml_distro, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 					 "<components version=\"0.8\">\n"
 					 "  <component type=\"desktop\">\n"
+					 "    <id>org.example.Test.desktop</id>\n"
 					 "    <name>Test</name>\n"
 					 "    <summary>It does things</summary>\n"
 					 "    <pkgname>foobar</pkgname>\n"
