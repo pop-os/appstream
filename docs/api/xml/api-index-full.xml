@@ -5,6 +5,9 @@
   <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
 ]>
 <indexdiv id="api-index-full">
+<indexdiv><title>A</title>
+<indexentry><primaryie linkends="as-arch-compatible"><link linkend="as-arch-compatible">as_arch_compatible</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+</indexdiv>
 <indexdiv><title>B</title>
 <indexentry><primaryie linkends="AsBundleKind"><link linkend="AsBundleKind">AsBundleKind</link>, enum in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-kind-from-string"><link linkend="as-bundle-kind-from-string">as_bundle_kind_from_string</link>, function in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
@@ -172,6 +175,7 @@
 <indexentry><primaryie linkends="as-distro-details-new"><link linkend="as-distro-details-new">as_distro_details_new</link>, function in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>G</title>
+<indexentry><primaryie linkends="as-get-current-arch"><link linkend="as-get-current-arch">as_get_current_arch</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-get-icon-repository-paths"><link linkend="as-get-icon-repository-paths">as_get_icon_repository_paths</link>, function in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-get-system-categories"><link linkend="as-get-system-categories">as_get_system_categories</link>, function in <link linkend="AsMenuParser">AsMenuParser</link></primaryie></indexentry>
 </indexdiv>
@@ -210,6 +214,10 @@
 <indexentry><primaryie linkends="as-image-set-width"><link linkend="as-image-set-width">as_image_set_width</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueImportance"><link linkend="AsIssueImportance">AsIssueImportance</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueKind"><link linkend="AsIssueKind">AsIssueKind</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-is-cruft-locale"><link linkend="as-is-cruft-locale">as_is_cruft_locale</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+</indexdiv>
+<indexdiv><title>L</title>
+<indexentry><primaryie linkends="as-locale-strip-encoding"><link linkend="as-locale-strip-encoding">as_locale_strip_encoding</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>M</title>
 <indexentry><primaryie linkends="AsMenuParser-struct"><link linkend="AsMenuParser-struct">AsMenuParser</link>, struct in <link linkend="AsMenuParser">AsMenuParser</link></primaryie></indexentry>
@@ -230,6 +238,7 @@
 <indexentry><primaryie linkends="as-metadata-component-to-upstream-xml"><link linkend="as-metadata-component-to-upstream-xml">as_metadata_component_to_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-METADATA-ERROR:CAPS"><link linkend="AS-METADATA-ERROR:CAPS">AS_METADATA_ERROR</link>, macro in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-error-quark"><link linkend="as-metadata-error-quark">as_metadata_error_quark</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-get-architecture"><link linkend="as-metadata-get-architecture">as_metadata_get_architecture</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-component"><link linkend="as-metadata-get-component">as_metadata_get_component</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-components"><link linkend="as-metadata-get-components">as_metadata_get_components</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-get-locale"><link linkend="as-metadata-get-locale">as_metadata_get_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
@@ -244,6 +253,7 @@
 <indexentry><primaryie linkends="as-metadata-save-distro-xml"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-distro-yaml"><link linkend="as-metadata-save-distro-yaml">as_metadata_save_distro_yaml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-save-upstream-xml"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-metadata-set-architecture"><link linkend="as-metadata-set-architecture">as_metadata_set_architecture</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-locale"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-origin"><link linkend="as-metadata-set-origin">as_metadata_set_origin</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-metadata-set-parser-mode"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>, function in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>

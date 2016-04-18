@@ -433,11 +433,11 @@ as_validator_validate_component_node (AsValidator *validator, xmlNode *root, AsP
 
 	/* validate the resulting AsComponent for sanity */
 	xdt = as_xmldata_new ();
-	as_xmldata_initialize (xdt, "C", NULL, NULL, 0);
+	as_xmldata_initialize (xdt, "C", NULL, NULL, NULL, 0);
 	as_xmldata_set_parser_mode (xdt, mode);
 
 	cpt = as_component_new ();
-	as_xmldata_parse_component_node (xdt, root, cpt, TRUE, NULL);
+	as_xmldata_parse_component_node (xdt, root, cpt, NULL);
 	g_object_unref (xdt);
 
 	as_validator_set_current_cpt (validator, cpt);
@@ -1004,7 +1004,7 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 	/* cleanup */
 	as_validator_clear_issues (validator);
 
-	metainfo_dir = g_build_filename (root_dir, "usr", "share", "appdata", NULL);
+	metainfo_dir = g_build_filename (root_dir, "usr", "share", "metainfo", NULL);
 	apps_dir = g_build_filename (root_dir, "usr", "share", "applications", NULL);
 
 	/* check if we actually have a directory which could hold metadata */

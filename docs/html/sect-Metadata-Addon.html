@@ -4,7 +4,7 @@
       ⁠</a>2.3.1. Introduction</h3></div></div></div><div class="para">
 			Some software is not standalone, but rather extends existing software installed on the system. The "Addon" component type exists to reflect that.
 		</div><div class="para">
-			Software which provides addons can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>.
+			Software which provides addons can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-addoncdata-example">
       ⁠</a>2.3.2. Example file</h3></div></div></div><div class="para">
 			A addon meta-info file should look like this:
@@ -21,7 +21,8 @@
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/component&gt;</span></pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-addondata-filespec">
       ⁠</a>2.3.3. File specification</h3></div></div></div><div class="para">
 			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">addon</code>. This clearly identified this metainfo document as describing an addon to an existing software.
-		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
+		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-addon">
+      ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						For addons, there are no special requirements for what their <code class="literal">%{id}</code> should be. You might want to prefix your id with "addon-" though, to make it easily recognizable.
 					</div></dd><dt><a id="tag-extends">
       ⁠</a><span class="term">&lt;extends/&gt;</span></dt><dd><div class="para">
@@ -31,5 +32,5 @@
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;extends&gt;</span>gwenview.desktop<span xmlns="" class="perl_Keyword">&lt;/extends&gt;</span></pre><div class="para">
 						The <code class="code">&lt;extends/&gt;</code> tag may be specified multiple times.
 					</div></dd></dl></div><div class="para">
-			For a component of type <code class="literal">addon</code>, the following tags are required and must be present: <a class="xref" href="chap-Metadata.html#tag-id-generic">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Addon.html#tag-extends">&lt;extends/&gt;</a>.
+			For a component of type <code class="literal">addon</code>, the following tags are required and must be present: <a class="xref" href="sect-Metadata-Addon.html#tag-id-addon">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Addon.html#tag-extends">&lt;extends/&gt;</a>.
 		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Application.html"><strong>Prev</strong>2.2. Desktop Applications</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Fonts.html"><strong>Next</strong>2.4. Fonts</a></li></ul></body></html>

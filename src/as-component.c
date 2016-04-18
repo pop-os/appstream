@@ -80,6 +80,7 @@ typedef struct
 	GPtrArray		*icons; /* of AsIcon elements */
 	GHashTable		*icons_sizetab; /* of utf8:object (object owned by priv->icons array) */
 
+	gchar			*arch; /* the architecture this data was generated from */
 	gint			priority; /* used internally */
 } AsComponentPrivate;
 
@@ -235,6 +236,7 @@ as_component_finalize (GObject* object)
 	g_free (priv->project_license);
 	g_free (priv->project_group);
 	g_free (priv->active_locale);
+	g_free (priv->arch);
 
 	g_hash_table_unref (priv->name);
 	g_hash_table_unref (priv->summary);
@@ -279,6 +281,7 @@ as_component_is_valid (AsComponent *cpt)
 {
 	gboolean ret = FALSE;
 	const gchar *cname;
+	const gchar *csummary;
 	AsComponentKind ctype;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
@@ -286,18 +289,13 @@ as_component_is_valid (AsComponent *cpt)
 	if (ctype == AS_COMPONENT_KIND_UNKNOWN)
 		return FALSE;
 	cname = as_component_get_name (cpt);
+	csummary = as_component_get_summary (cpt);
 
-	if ((as_component_has_install_candidate (cpt)) &&
-		(!as_str_empty (priv->id)) &&
-		(!as_str_empty (cname))) {
+	if ((!as_str_empty (priv->id)) &&
+		(!as_str_empty (cname)) &&
+		(!as_str_empty (csummary))) {
 			ret = TRUE;
 	}
-
-#if 0
-	if ((ret) && ctype == AS_COMPONENT_KIND_DESKTOP_APP) {
-		ret = g_strcmp0 (priv->desktop_file, "") != 0;
-	}
-#endif
 
 	return ret;
 }
@@ -765,11 +763,37 @@ as_component_get_origin (AsComponent *cpt)
  * @origin: the origin.
  */
 void
-as_component_set_origin (AsComponent *cpt, const gchar* origin)
+as_component_set_origin (AsComponent *cpt, const gchar *origin)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_free (priv->origin);
 	priv->origin = g_strdup (origin);
+}
+
+/**
+ * as_component_get_architecture:
+ * @cpt: a #AsComponent instance.
+ *
+ * The architecture of the software component this data was generated from.
+ */
+const gchar*
+as_component_get_architecture (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->arch;
+}
+
+/**
+ * as_component_set_architecture:
+ * @cpt: a #AsComponent instance.
+ * @arch: the architecture string.
+ */
+void
+as_component_set_architecture (AsComponent *cpt, const gchar *arch)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_free (priv->arch);
+	priv->arch = g_strdup (arch);
 }
 
 /**
@@ -850,7 +874,7 @@ as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* valu
 		locale = priv->active_locale;
 
 	g_hash_table_insert (lht,
-				g_strdup (locale),
+				as_locale_strip_encoding (g_strdup (locale)),
 				g_strdup (value));
 }
 
@@ -1097,16 +1121,14 @@ as_component_get_icon_by_size (AsComponent *cpt, guint width, guint height)
 void
 as_component_add_icon (AsComponent *cpt, AsIcon *icon)
 {
+	gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	g_ptr_array_add (priv->icons, g_object_ref (icon));
-	if ((as_icon_get_width (icon) != 0) && (as_icon_get_height (icon) != 0)) {
-		gchar *size = NULL;
-		size = g_strdup_printf ("%ix%i",
-					as_icon_get_width (icon),
-					as_icon_get_height (icon));
-		g_hash_table_insert (priv->icons_sizetab, size, icon);
-	}
+	size = g_strdup_printf ("%ix%i",
+				as_icon_get_width (icon),
+				as_icon_get_height (icon));
+	g_hash_table_insert (priv->icons_sizetab, size, icon);
 }
 
 /**
@@ -1698,6 +1720,32 @@ as_component_refine_icons (AsComponent *cpt, gchar **icon_paths)
 			 * or is a weblink. */
 			as_component_add_icon (cpt, icon);
 			continue;
+		}
+
+		/* skip the full cache search if we already have size information */
+		if (as_icon_get_kind (icon) == AS_ICON_KIND_CACHED) {
+			if (as_icon_get_width (icon) > 0) {
+				gboolean icon_found = FALSE;
+
+				for (l = 0; icon_paths[l] != NULL; l++) {
+					tmp_icon_path = g_strdup_printf ("%s/%s/%ix%i/%s",
+									icon_paths[l],
+									priv->origin,
+									as_icon_get_width (icon),
+									as_icon_get_height (icon),
+									icon_url);
+					if (g_file_test (tmp_icon_path, G_FILE_TEST_EXISTS)) {
+						as_icon_set_filename (icon, tmp_icon_path);
+						as_component_add_icon (cpt, icon);
+						icon_found = TRUE;
+					}
+					g_free (tmp_icon_path);
+					if (icon_found)
+						break;
+				}
+				if (icon_found)
+					continue;
+			}
 		}
 
 		/* search local icon path */

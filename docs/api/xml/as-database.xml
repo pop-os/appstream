@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-DATABASE:CAPS">AS_TYPE_DATABASE</link></entry></row>
 <row><entry role="function_type"><link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-database-new">as_database_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GQuark"><returnvalue>GQuark</returnvalue></link>
@@ -55,6 +54,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-DATABASE:CAPS">AS_TYPE_DATABASE</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsDatabaseClass">AsDatabaseClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsDatabaseError">AsDatabaseError</link></entry></row>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-DATABASE-ERROR:CAPS">AS_DATABASE_ERROR</link></entry></row>
@@ -87,21 +87,13 @@ is explicitly defined via <link linkend="as-database-set-location"><literal>as_d
 </refsect1>
 <refsect1 id="AsDatabase.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-DATABASE:CAPS" role="macro">
-<title>AS_TYPE_DATABASE</title>
-<indexterm zone="AS-TYPE-DATABASE:CAPS"><primary>AS_TYPE_DATABASE</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_DATABASE (as_database_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-database-new" role="function">
 <title>as_database_new&#160;()</title>
 <indexterm zone="as-database-new"><primary>as_database_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link>&#160;*
 as_database_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsDatabase"><type>AsDatabase</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-database-new.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsDatabase"><type>AsDatabase</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -111,7 +103,7 @@ as_database_new (<parameter><type>void</type></parameter>);</programlisting>
 <indexterm zone="as-database-error-quark"><primary>as_database_error_quark</primary></indexterm>
 <programlisting language="C"><link linkend="GQuark"><returnvalue>GQuark</returnvalue></link>
 as_database_error_quark (<parameter><type>void</type></parameter>);</programlisting>
-<refsect3 role="returns">
+<refsect3 id="as-database-error-quark.returns" role="returns">
 <title>Returns</title>
 <para> An error quark.</para>
 </refsect3></refsect2>
@@ -122,7 +114,7 @@ as_database_error_quark (<parameter><type>void</type></parameter>);</programlist
 as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Open the current AppStream metadata cache for reading.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-open.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -137,7 +129,7 @@ as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type><
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-open.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> on error.</para>
 </refsect3></refsect2>
@@ -147,7 +139,7 @@ as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type><
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_database_get_location (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
 <para>Get the current path of the AppStream database we use.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-get-location.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -167,7 +159,7 @@ as_database_get_location (<parameter><link linkend="AsDatabase"><type>AsDatabase
 as_database_set_location (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>);</programlisting>
 <para>Set the location of the AppStream database we use.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-set-location.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -194,7 +186,7 @@ as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatab
 <para>Find components in the AppStream database, which match a given term.
 You can limit the search to a specific set of categories by setting the categories string to
 a semicolon-separated list of lower-cased category names.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-find-components.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -215,7 +207,7 @@ a semicolon-separated list of lower-cased category names.</para>
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-find-components.returns" role="returns">
 <title>Returns</title>
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
@@ -227,7 +219,7 @@ a semicolon-separated list of lower-cased category names.</para>
 as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                 <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Dump a list of all software components found in the database.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-get-all-components.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -242,7 +234,7 @@ as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDa
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-get-all-components.returns" role="returns">
 <title>Returns</title>
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
@@ -255,7 +247,7 @@ as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsD
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *cid</parameter>,
                                  <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Get a component by its AppStream-ID.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-get-component-by-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -273,7 +265,7 @@ as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsD
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-get-component-by-id.returns" role="returns">
 <title>Returns</title>
 <para> an <link linkend="AsComponent"><type>AsComponent</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if none was found. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -288,7 +280,7 @@ as_database_get_components_by_provided_item
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>,
                                 <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Find components in the Appstream database.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-get-components-by-provided-item.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -309,7 +301,7 @@ as_database_get_components_by_provided_item
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-get-components-by-provided-item.returns" role="returns">
 <title>Returns</title>
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found, NULL on error. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
@@ -322,7 +314,7 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
                                     <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>,
                                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Return a list of all components in the database which match a certain kind.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-database-get-components-by-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -340,7 +332,7 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-database-get-components-by-kind.returns" role="returns">
 <title>Returns</title>
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found, <link linkend="NULL:CAPS"><literal>NULL</literal></link> on error. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
@@ -349,6 +341,14 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
 </refsect1>
 <refsect1 id="AsDatabase.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-DATABASE:CAPS" role="macro">
+<title>AS_TYPE_DATABASE</title>
+<indexterm zone="AS-TYPE-DATABASE:CAPS"><primary>AS_TYPE_DATABASE</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_DATABASE (as_database_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsDatabaseClass" role="struct">
 <title>struct AsDatabaseClass</title>
 <indexterm zone="AsDatabaseClass"><primary>AsDatabaseClass</primary></indexterm>
@@ -363,7 +363,7 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
 <title>enum AsDatabaseError</title>
 <indexterm zone="AsDatabaseError"><primary>AsDatabaseError</primary></indexterm>
 <para>A database query error.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsDatabaseError.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">

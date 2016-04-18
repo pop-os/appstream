@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsScreenshot.html" title="AsScreenshot">
 <link rel="next" href="AsDatabase.html" title="AsDatabase">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsImage.html#AS-TYPE-IMAGE:CAPS" title="AS_TYPE_IMAGE">AS_TYPE_IMAGE</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>
@@ -142,6 +138,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsImage.html#AS-TYPE-IMAGE:CAPS" title="AS_TYPE_IMAGE">AS_TYPE_IMAGE</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsImage.html#AsImageClass" title="struct AsImageClass">AsImageClass</a></td>
 </tr>
@@ -172,20 +172,12 @@ single image.</p>
 <div class="refsect1">
 <a name="AsImage.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-IMAGE:CAPS"></a><h3>AS_TYPE_IMAGE</h3>
-<pre class="programlisting">#define AS_TYPE_IMAGE (as_image_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-image-kind-from-string"></a><h3>as_image_kind_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="returnvalue">AsImageKind</span></a>
 as_image_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.3.5"></a><h4>Parameters</h4>
+<a name="as-image-kind-from-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -200,7 +192,7 @@ as_image_kind_from_string (<em class="parameter"><code>const <span class="type">
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.3.6"></a><h4>Returns</h4>
+<a name="as-image-kind-from-string.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a>, or <a class="link" href="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"><code class="literal">AS_IMAGE_KIND_UNKNOWN</code></a> for unknown. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -212,7 +204,7 @@ as_image_kind_from_string (<em class="parameter"><code>const <span class="type">
 as_image_kind_to_string (<em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.4.5"></a><h4>Parameters</h4>
+<a name="as-image-kind-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -227,7 +219,7 @@ as_image_kind_to_string (<em class="parameter"><code><a class="link" href="AsIma
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.4.6"></a><h4>Returns</h4>
+<a name="as-image-kind-to-string.returns"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 </div>
@@ -239,7 +231,7 @@ as_image_kind_to_string (<em class="parameter"><code><a class="link" href="AsIma
 as_image_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.5.5"></a><h4>Returns</h4>
+<a name="as-image-new.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -251,7 +243,7 @@ as_image_new (<em class="parameter"><code><span class="type">void</span></code><
 as_image_get_url (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
 <p>Gets the full qualified URL for the image, usually pointing at some mirror.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.6.5"></a><h4>Parameters</h4>
+<a name="as-image-get-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -266,7 +258,7 @@ as_image_get_url (<em class="parameter"><code><a class="link" href="AsImage.html
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.6.6"></a><h4>Returns</h4>
+<a name="as-image-get-url.returns"></a><h4>Returns</h4>
 <p> URL</p>
 </div>
 </div>
@@ -278,7 +270,7 @@ as_image_set_url (<em class="parameter"><code><a class="link" href="AsImage.html
                   <em class="parameter"><code>const <span class="type">gchar</span> *url</code></em>);</pre>
 <p>Sets the fully-qualified mirror URL to use for the image.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.7.5"></a><h4>Parameters</h4>
+<a name="as-image-set-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -307,7 +299,7 @@ as_image_set_url (<em class="parameter"><code><a class="link" href="AsImage.html
 as_image_get_width (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
 <p>Gets the image width.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.8.5"></a><h4>Parameters</h4>
+<a name="as-image-get-width.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -322,7 +314,7 @@ as_image_get_width (<em class="parameter"><code><a class="link" href="AsImage.ht
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.8.6"></a><h4>Returns</h4>
+<a name="as-image-get-width.returns"></a><h4>Returns</h4>
 <p> width in pixels</p>
 </div>
 </div>
@@ -334,7 +326,7 @@ as_image_set_width (<em class="parameter"><code><a class="link" href="AsImage.ht
                     <em class="parameter"><code><span class="type">guint</span> width</code></em>);</pre>
 <p>Sets the image width.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.9.5"></a><h4>Parameters</h4>
+<a name="as-image-set-width.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -363,7 +355,7 @@ as_image_set_width (<em class="parameter"><code><a class="link" href="AsImage.ht
 as_image_get_height (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
 <p>Gets the image height.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.10.5"></a><h4>Parameters</h4>
+<a name="as-image-get-height.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -378,7 +370,7 @@ as_image_get_height (<em class="parameter"><code><a class="link" href="AsImage.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.10.6"></a><h4>Returns</h4>
+<a name="as-image-get-height.returns"></a><h4>Returns</h4>
 <p> height in pixels</p>
 </div>
 </div>
@@ -390,7 +382,7 @@ as_image_set_height (<em class="parameter"><code><a class="link" href="AsImage.h
                      <em class="parameter"><code><span class="type">guint</span> height</code></em>);</pre>
 <p>Sets the image height.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.11.5"></a><h4>Parameters</h4>
+<a name="as-image-set-height.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -419,7 +411,7 @@ as_image_set_height (<em class="parameter"><code><a class="link" href="AsImage.h
 as_image_get_kind (<em class="parameter"><code><a class="link" href="AsImage.html" title="AsImage"><span class="type">AsImage</span></a> *image</code></em>);</pre>
 <p>Gets the image kind.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.12.5"></a><h4>Parameters</h4>
+<a name="as-image-get-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -434,7 +426,7 @@ as_image_get_kind (<em class="parameter"><code><a class="link" href="AsImage.htm
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.8.7.12.6"></a><h4>Returns</h4>
+<a name="as-image-get-kind.returns"></a><h4>Returns</h4>
 <p> the <a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a></p>
 </div>
 </div>
@@ -446,7 +438,7 @@ as_image_set_kind (<em class="parameter"><code><a class="link" href="AsImage.htm
                    <em class="parameter"><code><a class="link" href="AsImage.html#AsImageKind" title="enum AsImageKind"><span class="type">AsImageKind</span></a> kind</code></em>);</pre>
 <p>Sets the image kind.</p>
 <div class="refsect3">
-<a name="id-1.2.8.7.13.5"></a><h4>Parameters</h4>
+<a name="as-image-set-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -472,6 +464,14 @@ as_image_set_kind (<em class="parameter"><code><a class="link" href="AsImage.htm
 <div class="refsect1">
 <a name="AsImage.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AS-TYPE-IMAGE:CAPS"></a><h3>AS_TYPE_IMAGE</h3>
+<pre class="programlisting">#define AS_TYPE_IMAGE (as_image_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsImageClass"></a><h3>struct AsImageClass</h3>
 <pre class="programlisting">struct AsImageClass {
 	GObjectClass		parent_class;
@@ -485,7 +485,7 @@ as_image_set_kind (<em class="parameter"><code><a class="link" href="AsImage.htm
 <a name="AsImageKind"></a><h3>enum AsImageKind</h3>
 <p>The image type.</p>
 <div class="refsect3">
-<a name="id-1.2.8.8.3.4"></a><h4>Members</h4>
+<a name="AsImageKind.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -528,6 +528,6 @@ as_image_set_kind (<em class="parameter"><code><a class="link" href="AsImage.htm
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

@@ -25,6 +25,8 @@
 						Defines the repository-id this file belongs to. This usually matches the filename without extension. On Debian systems, it is the <code class="code">&lt;suite&gt;-&lt;component&gt;</code> combination, e.g. <strong class="userinput"><code>jessie-main</code></strong>.
 					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><span class="term">MediaBaseUrl</span></dt><dd><div class="para">
 						The base URL for media (screenshots, icons, ...) referenced in the metadata file. If this is set, all urls in the document referencing media will be treated relative to the base url.
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><span class="term">Architecture</span></dt><dd><div class="para">
+						Defines the architecture this data belongs to. This information is useful to resolve AppStream-ID conflicts on multiarch systems, which appear if the user has metadata for two architectures installed.
 					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><span class="term">Priority</span></dt><dd><div class="para">
 						The priorization of this metadata file over other metadata.
 					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-translated">
@@ -52,7 +54,12 @@
 						The <code class="literal">ID</code> field is a short unique and usually lower-cases identifier for the component. Depending on the component's type, different naming conventions apply.
 					</div><div class="para">
 						See <a class="xref" href="chap-DistroData.html#tag-distro-component-id">&lt;id/&gt;</a>.
-					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><a id="field-dep11-type">
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><a id="field-dep11-priority">
+      ⁠</a><span class="term">Priority</span></dt><dd><div class="para">
+						The <code class="literal">Priority</code> field sets the priority this component's metadata should have over other meadata in the pool. Data with a higher priority replaces data with a lower priority.
+					</div><div class="para">
+						See <a class="xref" href="chap-DistroData.html#spec-asxml-tags">Section 3.1.4, “Valid tags for all component types”</a>.
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><a id="field-dep11-type">
       ⁠</a><span class="term">Type</span></dt><dd><div class="para">
 						The type of this component. Allowed values are:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
@@ -106,8 +113,16 @@
       ⁠</a><span class="term">Icon</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-DistroData.html#tag-distro-icon">&lt;icon/&gt;</a>.
 					</div><div class="para">
-						The <code class="literal">Icon</code> field has the different icon types as keys for its dict. Currently, only the <code class="literal">stock</code> and <code class="literal">cached</code> icon types are supported, with a value of type <span class="emphasis"><em>str</em></span>.
-					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-categories">
+						The <code class="literal">Icon</code> field has the different icon types as keys for its dict.
+					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">stock</span></dt><dd><div class="para">
+									Contains the stock icon name.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span></p></div></dd><dt><span class="term">cached</span></dt><dd><div class="para">
+									Contains a list of dictionaries with the keys <code class="literal">width</code> and <code class="literal">height</code> of type <span class="emphasis"><em>int</em></span> specifying the dimensions of the icon, as well as the key <code class="literal">name</code> of type <span class="emphasis"><em>str</em></span> specifying the name of the icon in the cache.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list ➟ dict</em></span></p></div></dd><dt><span class="term">local</span></dt><dd><div class="para">
+									Contains a list of dictionaries with the keys <code class="literal">width</code> and <code class="literal">height</code> of type <span class="emphasis"><em>int</em></span> specifying the dimensions of the icon, as well as the key <code class="literal">name</code> of type <span class="emphasis"><em>str</em></span> specifying the absolute filename pointing to the right icon.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list ➟ dict</em></span></p></div></dd><dt><span class="term">remote</span></dt><dd><div class="para">
+									Contains a list of dictionaries with the keys <code class="literal">width</code> and <code class="literal">height</code> of type <span class="emphasis"><em>int</em></span> specifying the dimensions of the icon, as well as the key <code class="literal">url</code> of type <span class="emphasis"><em>str</em></span> which contains a HTTP(S) or FTP URL to the icon.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list ➟ dict</em></span></p></div></dd></dl></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-categories">
       ⁠</a><span class="term">Categories</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-DistroData.html#tag-distro-categories">&lt;categories/&gt;</a>.
 					</div><div class="para">

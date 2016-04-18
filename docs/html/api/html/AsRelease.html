@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="appstream-as-enums.html" title="as-enums">
 <link rel="next" href="AsIcon.html" title="AsIcon">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsRelease.html#AS-TYPE-RELEASE:CAPS" title="AS_TYPE_RELEASE">AS_TYPE_RELEASE</a></td>
-</tr>
 <tr>
 <td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
@@ -219,6 +215,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsRelease.html#AS-TYPE-RELEASE:CAPS" title="AS_TYPE_RELEASE">AS_TYPE_RELEASE</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsRelease.html#AsReleaseClass" title="struct AsReleaseClass">AsReleaseClass</a></td>
 </tr>
@@ -260,20 +260,12 @@ and also have a version number and timestamp.</p>
 <div class="refsect1">
 <a name="AsRelease.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-RELEASE:CAPS"></a><h3>AS_TYPE_RELEASE</h3>
-<pre class="programlisting">#define AS_TYPE_RELEASE (as_release_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-checksum-kind-to-string"></a><h3>as_checksum_kind_to_string ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_checksum_kind_to_string (<em class="parameter"><code><a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind"><span class="type">AsChecksumKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.3.5"></a><h4>Parameters</h4>
+<a name="as-checksum-kind-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -288,7 +280,7 @@ as_checksum_kind_to_string (<em class="parameter"><code><a class="link" href="As
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.3.6"></a><h4>Returns</h4>
+<a name="as-checksum-kind-to-string.returns"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 </div>
@@ -300,7 +292,7 @@ as_checksum_kind_to_string (<em class="parameter"><code><a class="link" href="As
 as_checksum_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind_str</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.4.5"></a><h4>Parameters</h4>
+<a name="as-checksum-kind-from-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -315,7 +307,7 @@ as_checksum_kind_from_string (<em class="parameter"><code>const <span class="typ
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.4.6"></a><h4>Returns</h4>
+<a name="as-checksum-kind-from-string.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind"><span class="type">AsChecksumKind</span></a> or <a class="link" href="AsRelease.html#AS-CHECKSUM-KIND-NONE:CAPS"><code class="literal">AS_CHECKSUM_KIND_NONE</code></a> for unknown</p>
 </div>
 </div>
@@ -326,7 +318,7 @@ as_checksum_kind_from_string (<em class="parameter"><code>const <span class="typ
 as_size_kind_to_string (<em class="parameter"><code><a class="link" href="AsRelease.html#AsSizeKind" title="enum AsSizeKind"><span class="type">AsSizeKind</span></a> size_kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.5.5"></a><h4>Parameters</h4>
+<a name="as-size-kind-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -341,7 +333,7 @@ as_size_kind_to_string (<em class="parameter"><code><a class="link" href="AsRele
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.5.6"></a><h4>Returns</h4>
+<a name="as-size-kind-to-string.returns"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>size_kind</code></em>
 </p>
 </div>
@@ -354,7 +346,7 @@ as_size_kind_to_string (<em class="parameter"><code><a class="link" href="AsRele
 as_size_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *size_kind</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.6.5"></a><h4>Parameters</h4>
+<a name="as-size-kind-from-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -369,7 +361,7 @@ as_size_kind_from_string (<em class="parameter"><code>const <span class="type">g
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.6.6"></a><h4>Returns</h4>
+<a name="as-size-kind-from-string.returns"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsRelease.html#AsSizeKind" title="enum AsSizeKind"><span class="type">AsSizeKind</span></a> or <a class="link" href="AsRelease.html#AS-SIZE-KIND-UNKNOWN:CAPS"><code class="literal">AS_SIZE_KIND_UNKNOWN</code></a> for unknown</p>
 </div>
 <p class="since">Since: 0.8.6</p>
@@ -381,7 +373,7 @@ as_size_kind_from_string (<em class="parameter"><code>const <span class="type">g
 as_release_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.7.5"></a><h4>Returns</h4>
+<a name="as-release-new.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -393,7 +385,7 @@ as_release_new (<em class="parameter"><code><span class="type">void</span></code
 as_release_get_version (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Gets the release version.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.8.5"></a><h4>Parameters</h4>
+<a name="as-release-get-version.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -408,7 +400,7 @@ as_release_get_version (<em class="parameter"><code><a class="link" href="AsRele
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.8.6"></a><h4>Returns</h4>
+<a name="as-release-get-version.returns"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> for not set or invalid</p>
 </div>
 </div>
@@ -420,7 +412,7 @@ as_release_set_version (<em class="parameter"><code><a class="link" href="AsRele
                         <em class="parameter"><code>const <span class="type">gchar</span> *version</code></em>);</pre>
 <p>Sets the release version.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.9.5"></a><h4>Parameters</h4>
+<a name="as-release-set-version.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -449,7 +441,7 @@ as_release_set_version (<em class="parameter"><code><a class="link" href="AsRele
 as_release_get_timestamp (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Gets the release timestamp.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.10.5"></a><h4>Parameters</h4>
+<a name="as-release-get-timestamp.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -464,7 +456,7 @@ as_release_get_timestamp (<em class="parameter"><code><a class="link" href="AsRe
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.10.6"></a><h4>Returns</h4>
+<a name="as-release-get-timestamp.returns"></a><h4>Returns</h4>
 <p> timestamp, or 0 for unset</p>
 </div>
 </div>
@@ -476,7 +468,7 @@ as_release_set_timestamp (<em class="parameter"><code><a class="link" href="AsRe
                           <em class="parameter"><code><span class="type">guint64</span> timestamp</code></em>);</pre>
 <p>Sets the release timestamp.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.11.5"></a><h4>Parameters</h4>
+<a name="as-release-set-timestamp.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -505,7 +497,7 @@ as_release_set_timestamp (<em class="parameter"><code><a class="link" href="AsRe
 as_release_get_description (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Gets the release description markup for a given locale.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.12.5"></a><h4>Parameters</h4>
+<a name="as-release-get-description.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -520,7 +512,7 @@ as_release_get_description (<em class="parameter"><code><a class="link" href="As
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.12.6"></a><h4>Returns</h4>
+<a name="as-release-get-description.returns"></a><h4>Returns</h4>
 <p> markup, or <code class="literal">NULL</code> for not set or invalid</p>
 </div>
 </div>
@@ -533,7 +525,7 @@ as_release_set_description (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Sets the description release markup.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.13.5"></a><h4>Parameters</h4>
+<a name="as-release-set-description.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -582,7 +574,7 @@ one locale is available.</p>
 as_release_get_locations (<em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Gets the release locations, typically URLs.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.16.5"></a><h4>Returns</h4>
+<a name="as-release-get-locations.returns"></a><h4>Returns</h4>
 <p> list of locations. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
@@ -596,7 +588,7 @@ as_release_add_location (<em class="parameter"><code><a class="link" href="AsRel
                          <em class="parameter"><code>const <span class="type">gchar</span> *location</code></em>);</pre>
 <p>Adds a release location.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.17.5"></a><h4>Parameters</h4>
+<a name="as-release-add-location.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -620,7 +612,7 @@ as_release_get_checksum (<em class="parameter"><code><a class="link" href="AsRel
                          <em class="parameter"><code><a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind"><span class="type">AsChecksumKind</span></a> kind</code></em>);</pre>
 <p>Gets the release checksum</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.18.5"></a><h4>Returns</h4>
+<a name="as-release-get-checksum.returns"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> for not set or invalid</p>
 </div>
 <p class="since">Since: 0.8.2</p>
@@ -634,7 +626,7 @@ as_release_set_checksum (<em class="parameter"><code><a class="link" href="AsRel
                          <em class="parameter"><code><a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind"><span class="type">AsChecksumKind</span></a> kind</code></em>);</pre>
 <p>Set the release checksum.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.19.5"></a><h4>Parameters</h4>
+<a name="as-release-set-checksum.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -670,7 +662,7 @@ as_release_get_urgency (<em class="parameter"><code><a class="link" href="AsRele
 <p>Gets the urgency of the release
 (showing how important it is to update to a more recent release)</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.20.5"></a><h4>Parameters</h4>
+<a name="as-release-get-urgency.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -685,7 +677,7 @@ as_release_get_urgency (<em class="parameter"><code><a class="link" href="AsRele
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.20.6"></a><h4>Returns</h4>
+<a name="as-release-get-urgency.returns"></a><h4>Returns</h4>
 <p> <a class="link" href="appstream-as-enums.html#AsUrgencyKind" title="enum AsUrgencyKind"><span class="type">AsUrgencyKind</span></a>, or <a class="link" href="appstream-as-enums.html#AS-URGENCY-KIND-UNKNOWN:CAPS"><code class="literal">AS_URGENCY_KIND_UNKNOWN</code></a> for not set</p>
 </div>
 <p class="since">Since: 0.6.5</p>
@@ -698,7 +690,7 @@ as_release_set_urgency (<em class="parameter"><code><a class="link" href="AsRele
                         <em class="parameter"><code><a class="link" href="appstream-as-enums.html#AsUrgencyKind" title="enum AsUrgencyKind"><span class="type">AsUrgencyKind</span></a> urgency</code></em>);</pre>
 <p>Sets the release urgency.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.21.5"></a><h4>Parameters</h4>
+<a name="as-release-set-urgency.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -729,7 +721,7 @@ as_release_get_size (<em class="parameter"><code><a class="link" href="AsRelease
                      <em class="parameter"><code><a class="link" href="AsRelease.html#AsSizeKind" title="enum AsSizeKind"><span class="type">AsSizeKind</span></a> kind</code></em>);</pre>
 <p>Gets the release size.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.22.5"></a><h4>Parameters</h4>
+<a name="as-release-get-size.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -751,7 +743,7 @@ as_release_get_size (<em class="parameter"><code><a class="link" href="AsRelease
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.4.8.22.6"></a><h4>Returns</h4>
+<a name="as-release-get-size.returns"></a><h4>Returns</h4>
 <p> The size of the given kind of this release.</p>
 </div>
 <p class="since">Since: 0.8.6</p>
@@ -765,7 +757,7 @@ as_release_set_size (<em class="parameter"><code><a class="link" href="AsRelease
                      <em class="parameter"><code><a class="link" href="AsRelease.html#AsSizeKind" title="enum AsSizeKind"><span class="type">AsSizeKind</span></a> kind</code></em>);</pre>
 <p>Sets the release size for the given kind.</p>
 <div class="refsect3">
-<a name="id-1.2.4.8.23.5"></a><h4>Parameters</h4>
+<a name="as-release-set-size.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -797,6 +789,14 @@ as_release_set_size (<em class="parameter"><code><a class="link" href="AsRelease
 <div class="refsect1">
 <a name="AsRelease.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AS-TYPE-RELEASE:CAPS"></a><h3>AS_TYPE_RELEASE</h3>
+<pre class="programlisting">#define AS_TYPE_RELEASE (as_release_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsReleaseClass"></a><h3>struct AsReleaseClass</h3>
 <pre class="programlisting">struct AsReleaseClass {
 	GObjectClass		parent_class;
@@ -810,7 +810,7 @@ as_release_set_size (<em class="parameter"><code><a class="link" href="AsRelease
 <a name="AsChecksumKind"></a><h3>enum AsChecksumKind</h3>
 <p>Checksums supported by <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a></p>
 <div class="refsect3">
-<a name="id-1.2.4.9.3.4"></a><h4>Members</h4>
+<a name="AsChecksumKind.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -848,7 +848,7 @@ as_release_set_size (<em class="parameter"><code><a class="link" href="AsRelease
 <a name="AsSizeKind"></a><h3>enum AsSizeKind</h3>
 <p>The release size kind.</p>
 <div class="refsect3">
-<a name="id-1.2.4.9.4.4"></a><h4>Members</h4>
+<a name="AsSizeKind.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -892,6 +892,6 @@ as_release_set_size (<em class="parameter"><code><a class="link" href="AsRelease
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

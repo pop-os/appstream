@@ -1,7 +1,7 @@
 60% symbol docs coverage.
-352 symbols documented.
-62 symbols incomplete.
-235 not documented.
+363 symbols documented.
+47 symbols incomplete.
+246 not documented.
 
 
 AS_CACHE_BUILDER_ERROR
@@ -27,52 +27,52 @@ AS_TYPE_VALIDATOR_ISSUE
 AS_TYPE_XMLDATA
 AS_TYPE_YAMLDATA
 AsCacheBuilder
-AsCacheBuilderClass (<items>)
+AsCacheBuilderClass
 AsCategory
-AsCategoryClass (<items>)
+AsCategoryClass
 AsComponent
-AsComponentClass (<items>)
+AsComponentClass
 AsDataPool
-AsDataPoolClass (<items>)
+AsDataPoolClass
 AsDatabase
-AsDatabaseClass (<items>)
+AsDatabaseClass
 AsDistroDetails
-AsDistroDetailsClass (<items>)
+AsDistroDetailsClass
 AsIcon
-AsIconClass (<items>)
+AsIconClass
 AsImage
-AsImageClass (<items>)
+AsImageClass
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
 AsMenuParser
-AsMenuParserClass (<items>)
+AsMenuParserClass
 AsMetadata
-AsMetadataClass (<items>)
+AsMetadataClass
 AsProvided
-AsProvidedClass (<items>)
+AsProvidedClass
 AsRelease
-AsReleaseClass (<items>)
+AsReleaseClass
 AsScreenshot
-AsScreenshotClass (<items>)
+AsScreenshotClass
 AsTranslation
-AsTranslationClass (<items>)
+AsTranslationClass
 AsValidator
-AsValidatorClass (<items>)
+AsValidatorClass
 AsValidatorIssue
-AsValidatorIssueClass (<items>)
+AsValidatorIssueClass
 AsXMLData
-AsXMLDataClass (<items>)
+AsXMLDataClass
 AsYAMLData
-AsYAMLDataClass (<items>)
+AsYAMLDataClass
 _as_xmldata_desc_lang_hashtable_to_nodes
 _as_xmldata_lang_hashtable_to_nodes
 _as_xmldata_serialize_image
+as_arch_compatible (Returns)
 as_cache_builder_appstream_data_changed
 as_cache_builder_class_init
 as_cache_builder_ctime_newer
 as_cache_builder_error_quark
 as_cache_builder_extract_icons
 as_cache_builder_finalize
-as_cache_builder_get_yml_data_origin
 as_cache_builder_init
 as_cache_builder_refresh (error)
 as_cache_builder_set_data_source_directories (self)
@@ -107,6 +107,7 @@ as_component_get_source_pkgname
 as_component_has_bundle
 as_component_has_install_candidate
 as_component_init
+as_component_set_architecture
 as_component_set_categories
 as_component_set_origin
 as_component_set_property
@@ -146,6 +147,8 @@ as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
+as_is_cruft_locale (locale, Returns)
+as_locale_strip_encoding (locale, Returns)
 as_menu_parser_class_init
 as_menu_parser_extend_category_name_list
 as_menu_parser_finalize
@@ -164,6 +167,7 @@ as_metadata_components_to_distro_xml (metad)
 as_metadata_components_to_distro_yaml (metad)
 as_metadata_error_quark
 as_metadata_finalize
+as_metadata_get_architecture
 as_metadata_get_components
 as_metadata_get_origin
 as_metadata_get_update_existing
@@ -226,13 +230,15 @@ as_validator_validate_component_node
 as_validator_validate_data (Returns)
 as_validator_validate_file (Returns)
 as_validator_validate_tree (Returns)
+as_xml_icon_set_size_from_node
 as_xmldata_class_init
+as_xmldata_clear_error
 as_xmldata_dump_node_children
 as_xmldata_finalize
 as_xmldata_get_node_locale
 as_xmldata_get_node_value
 as_xmldata_init
-as_xmldata_initialize (locale, origin, media_baseurl, priority)
+as_xmldata_initialize (locale, origin, media_baseurl, arch, priority)
 as_xmldata_new
 as_xmldata_parse_component_node
 as_xmldata_parse_components_node
@@ -246,9 +252,15 @@ as_xmldata_set_parser_mode
 as_xmldata_update_cpt_with_upstream_data (Returns)
 as_yaml_emit_entry
 as_yaml_emit_lang_hashtable_entries
+as_yaml_emit_lang_hashtable_entries_long
 as_yaml_emit_localized_entry
+as_yaml_emit_localized_entry_with_func
 as_yaml_emit_localized_lists
+as_yaml_emit_long_entry
+as_yaml_emit_long_localized_entry
 as_yaml_emit_provides
+as_yaml_emit_scalar
+as_yaml_emit_scalar_key
 as_yaml_emit_screenshots
 as_yaml_emit_sequence
 as_yaml_emit_sequence_from_strv
@@ -257,15 +269,17 @@ as_yaml_mapping_end
 as_yaml_mapping_start
 as_yaml_sequence_end
 as_yaml_sequence_start
+as_yaml_serialize_component
 as_yamldata_class_init
 as_yamldata_finalize
 as_yamldata_free_node
 as_yamldata_get_localized_node
 as_yamldata_init
-as_yamldata_initialize (locale, origin, media_baseurl, priority)
+as_yamldata_initialize (locale, origin, media_baseurl, arch, priority)
 as_yamldata_new
 as_yamldata_parse_distro_data (error)
 as_yamldata_process_component_node
+as_yamldata_process_icon
 as_yamldata_process_icons
 as_yamldata_process_screenshots
 as_yamldata_serialize_to_distro
@@ -274,7 +288,6 @@ dep11_print_unknown
 dep11_process_image
 dep11_process_provides
 dep11_process_urls
-
 
 as-cache-builder:Long_Description
 as-cache-builder:Short_Description

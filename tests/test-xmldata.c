@@ -61,14 +61,14 @@ test_screenshot_handling ()
 	// dirty...
 	g_debug ("%s", as_component_to_string (cpt));
 	screenshots = as_component_get_screenshots (cpt);
-	g_assert (screenshots->len > 0);
+	g_assert_cmpint (screenshots->len, >, 0);
 
 	for (i = 0; i < screenshots->len; i++) {
 		GPtrArray *imgs;
 		AsScreenshot *sshot = (AsScreenshot*) g_ptr_array_index (screenshots, i);
 
 		imgs = as_screenshot_get_images (sshot);
-		g_assert (imgs->len == 2);
+		g_assert_cmpint (imgs->len, ==, 2);
 		g_debug ("%s", as_screenshot_get_caption (sshot));
 	}
 
@@ -82,6 +82,7 @@ test_appstream_parser_legacy ()
 	GFile *file;
 	gchar *path;
 	AsComponent *cpt;
+	GPtrArray *screenshots;
 	GError *error = NULL;
 
 	metad = as_metadata_new ();
@@ -98,6 +99,9 @@ test_appstream_parser_legacy ()
 
 	g_assert_cmpstr (as_component_get_summary (cpt), ==, "Application manager for GNOME");
 	g_assert (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DESKTOP_APP);
+
+	screenshots = as_component_get_screenshots (cpt);
+	g_assert_cmpint (screenshots->len, ==, 5);
 
 	g_object_unref (metad);
 }
@@ -156,6 +160,9 @@ test_appstream_parser_locale ()
 	g_assert_cmpint (trs->len, ==, 1);
 	tr = AS_TRANSLATION (g_ptr_array_index (trs, 0));
 	g_assert_cmpstr (as_translation_get_id (tr), ==, "firefox");
+
+	/* check if we loaded the right amount of icons */
+	g_assert_cmpint (as_component_get_icons (cpt)->len, ==, 2);
 }
 
 void
@@ -190,44 +197,115 @@ test_appstream_write_locale ()
 void
 test_appstream_write_description ()
 {
-	AsMetadata *metad;
+	guint i;
 	gchar *tmp;
 	AsRelease *rel;
-	AsComponent *cpt;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
 
 	const gchar *EXPECTED_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 				    "<component>\n"
+				    "  <id>org.example.Test</id>\n"
 				    "  <name>Test</name>\n"
-				    "  <description><p>First paragraph</p>\n"
-				    "<ol><li>One</li><li>Two</li><li>Three</li></ol>\n"
-				    "<p>Paragraph2</p><ul><li>First</li><li>Second</li></ul><p>Paragraph3</p></description>\n"
+				    "  <summary>Just a unittest.</summary>\n"
+				    "  <description>\n"
+				    "    <p>First paragraph</p>\n"
+				    "    <ol>\n"
+				    "      <li>One</li>\n"
+				    "      <li>Two</li>\n"
+				    "      <li>Three is &gt; 2 &amp; 1</li>\n"
+				    "    </ol>\n"
+				    "    <p>Paragraph2</p>\n"
+				    "    <ul>\n"
+				    "      <li>First</li>\n"
+				    "      <li>Second</li>\n"
+				    "    </ul>\n"
+				    "    <p>Paragraph3 &amp; the last one</p>\n"
+				    "  </description>\n"
+				    "  <icon type=\"cached\" width=\"20\" height=\"20\">test_writetest.png</icon>\n"
+				    "  <icon type=\"cached\" width=\"40\" height=\"40\">test_writetest.png</icon>\n"
+				    "  <icon type=\"stock\">xml-writetest</icon>\n"
 				    "  <releases>\n"
 				    "    <release version=\"1.0\" date=\"2016-04-11T22:00:00Z\"><description/></release>\n"
 				    "  </releases>\n"
 				    "</component>\n";
 
 	const gchar *EXPECTED_XML_LOCALIZED = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-					      "<component>\n"
-					      "  <name>Test</name>\n"
-					      "  <description><p>First paragraph</p>\n"
-					      "<ol><li>One</li><li>Two</li><li>Three</li></ol>\n"
-					      "<p>Paragraph2</p><ul><li>First</li><li>Second</li></ul><p>Paragraph3</p><p xml:lang=\"de\">First paragraph</p>\n"
-					      "<ol><li xml:lang=\"de\">One</li><li xml:lang=\"de\">Two</li><li xml:lang=\"de\">Three</li></ol><ul>"
-					      "<li xml:lang=\"de\">First</li><li xml:lang=\"de\">Second</li></ul><p xml:lang=\"de\">Paragraph2</p></description>\n"
-					      "  <releases>\n"
-					      "    <release version=\"1.0\" date=\"2016-04-11T22:00:00Z\"><description/></release>\n"
-					      "  </releases>\n"
-					      "</component>\n";
+						"<component>\n"
+						"  <id>org.example.Test</id>\n"
+						"  <name>Test</name>\n"
+						"  <summary>Just a unittest.</summary>\n"
+						"  <summary xml:lang=\"de\">Nur ein Unittest.</summary>\n"
+						"  <description>\n"
+						"    <p>First paragraph</p>\n"
+						"    <ol>\n"
+						"      <li>One</li>\n"
+						"      <li>Two</li>\n"
+						"      <li>Three is &gt; 2 &amp; 1</li>\n"
+						"    </ol>\n"
+						"    <p>Paragraph2</p>\n"
+						"    <ul>\n"
+						"      <li>First</li>\n"
+						"      <li>Second</li>\n"
+						"    </ul>\n"
+						"    <p>Paragraph3 &amp; the last one</p>\n"
+						"    <p xml:lang=\"de\">First paragraph</p>\n"
+						"    <ol>\n"
+						"      <li xml:lang=\"de\">One</li>\n"
+						"      <li xml:lang=\"de\">Two</li>\n"
+						"      <li xml:lang=\"de\">Three</li>\n"
+						"    </ol>\n"
+						"    <ul>\n"
+						"      <li xml:lang=\"de\">First</li>\n"
+						"      <li xml:lang=\"de\">Second</li>\n"
+						"    </ul>\n"
+						"    <p xml:lang=\"de\">Paragraph2</p>\n"
+						"  </description>\n"
+						"  <icon type=\"cached\" width=\"20\" height=\"20\">test_writetest.png</icon>\n"
+						"  <icon type=\"cached\" width=\"40\" height=\"40\">test_writetest.png</icon>\n"
+						"  <icon type=\"stock\">xml-writetest</icon>\n"
+						"  <releases>\n"
+						"    <release version=\"1.0\" date=\"2016-04-11T22:00:00Z\"><description/></release>\n"
+						"  </releases>\n"
+						"</component>\n";
 
 	const gchar *EXPECTED_XML_DISTRO = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
 					   "<components version=\"0.8\">\n"
 					   "  <component>\n"
+					   "    <id>org.example.Test</id>\n"
 					   "    <name>Test</name>\n"
-					   "    <description><p>First paragraph</p>\n"
-					   "<ol><li>One</li><li>Two</li><li>Three</li></ol>\n"
-					   "<p>Paragraph2</p><ul><li>First</li><li>Second</li></ul><p>Paragraph3</p></description>\n"
-					   "    <description xml:lang=\"de\"><p>First paragraph</p>\n"
-					   "<ol><li>One</li><li>Two</li><li>Three</li></ol><ul><li>First</li><li>Second</li></ul><p>Paragraph2</p></description>\n"
+					   "    <summary>Just a unittest.</summary>\n"
+					   "    <summary xml:lang=\"de\">Nur ein Unittest.</summary>\n"
+					   "    <description>\n"
+					   "      <p>First paragraph</p>\n"
+					   "      <ol>\n"
+					   "        <li>One</li>\n"
+					   "        <li>Two</li>\n"
+					   "        <li>Three is &gt; 2 &amp; 1</li>\n"
+					   "      </ol>\n"
+					   "      <p>Paragraph2</p>\n"
+					   "      <ul>\n"
+					   "        <li>First</li>\n"
+					   "        <li>Second</li>\n"
+					   "      </ul>\n"
+					   "      <p>Paragraph3 &amp; the last one</p>\n"
+					   "    </description>\n"
+					   "    <description xml:lang=\"de\">\n"
+					   "      <p>First paragraph</p>\n"
+					   "      <ol>\n"
+					   "        <li>One</li>\n"
+					   "        <li>Two</li>\n"
+					   "        <li>Three</li>\n"
+					   "      </ol>\n"
+					   "      <ul>\n"
+					   "        <li>First</li>\n"
+					   "        <li>Second</li>\n"
+					   "      </ul>\n"
+					   "      <p>Paragraph2</p>\n"
+					   "    </description>\n"
+					   "    <icon type=\"cached\" width=\"20\" height=\"20\">test_writetest.png</icon>\n"
+					   "    <icon type=\"cached\" width=\"40\" height=\"40\">test_writetest.png</icon>\n"
+					   "    <icon type=\"stock\">xml-writetest</icon>\n"
 					   "    <releases>\n"
 					   "      <release version=\"1.0\" timestamp=\"1460412000\"><description/></release>\n"
 					   "    </releases>\n"
@@ -237,15 +315,37 @@ test_appstream_write_description ()
 	metad = as_metadata_new ();
 
 	cpt = as_component_new ();
-	as_component_set_name (cpt, "Test", NULL);
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.Test");
+	as_component_set_name (cpt, "Test", "C");
+	as_component_set_summary (cpt, "Just a unittest.", "C");
 	as_component_set_description (cpt,
-				"<p>First paragraph</p>\n<ol><li>One</li><li>Two</li><li>Three</li></ol>\n<p>Paragraph2</p><ul><li>First</li><li>Second</li></ul><p>Paragraph3</p>",
+				"<p>First paragraph</p>\n<ol><li>One</li><li>Two</li><li>Three is &gt; 2 &amp; 1</li></ol>\n<p>Paragraph2</p><ul><li>First</li><li>Second</li></ul><p>Paragraph3 &amp; the last one</p>",
 				NULL);
 	rel = as_release_new ();
 	as_release_set_version (rel, "1.0");
 	as_release_set_timestamp (rel, 1460412000);
 	as_component_add_release (cpt, rel);
 	g_object_unref (rel);
+
+	for (i = 1; i <= 3; i++) {
+		g_autoptr(AsIcon) icon = NULL;
+
+		icon = as_icon_new ();
+		if (i != 3)
+			as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+		else
+			as_icon_set_kind (icon, AS_ICON_KIND_STOCK);
+		as_icon_set_width (icon, i * 20);
+		as_icon_set_height (icon, i * 20);
+
+		if (i != 3)
+			as_icon_set_filename (icon, "test_writetest.png");
+		else
+			as_icon_set_filename (icon, "xml-writetest");
+
+		as_component_add_icon (cpt, icon);
+	}
 
 	as_metadata_add_component (metad, cpt);
 
@@ -254,6 +354,7 @@ test_appstream_write_description ()
 	g_free (tmp);
 
 	/* add localization */
+	as_component_set_summary (cpt, "Nur ein Unittest.", "de");
 	as_component_set_description (cpt,
 				"<p>First paragraph</p>\n<ol><li>One</li><li>Two</li><li>Three</li></ol><ul><li>First</li><li>Second</li></ul><p>Paragraph2</p>",
 				"de");
@@ -265,9 +366,6 @@ test_appstream_write_description ()
 	tmp = as_metadata_components_to_distro_xml (metad);
 	g_assert_cmpstr (tmp, ==, EXPECTED_XML_DISTRO);
 	g_free (tmp);
-
-	g_object_unref (metad);
-	g_object_unref (cpt);
 }
 
 int

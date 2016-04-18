@@ -4,7 +4,7 @@
       ⁠</a>2.7.1. Introduction</h3></div></div></div><div class="para">
 			Device firmware can be accompanied by AppStream upstream metadata, to be incorporated by a distribution. Tools like <a href="https://github.com/hughsie/fwupd">fwupd</a> make use of this metadata to automatically update flashed firmware of devices found in the machine. Additionally, this component type can also be used for firmware which is loaded to the device at runtime.
 		</div><div class="para">
-			Firmware can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>.
+			Firmware can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-firmware-example">
       ⁠</a>2.7.2. Example file</h3></div></div></div><div class="para">
 			A firmware meta-info file should look like this:
@@ -44,7 +44,8 @@
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-firmware-filespec">
       ⁠</a>2.7.3. File specification</h3></div></div></div><div class="para">
 			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">firmware</code>. This clearly identified this metainfo document as describing firmware.
-		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
+		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-firmware">
+      ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						For firmware, the value of the <code class="code">&lt;id/&gt;</code> tag must be a unique name for the device the firmware belongs to, constsing of the vendor domain and the device name. A reverse URL scheme in form of <code class="literal">&lt;tld&gt;.&lt;vendor&gt;.&lt;product&gt;.firmware</code> is used, e.g. <code class="code">com.hughski.ColorHug2.firmware</code>.
 					</div></dd><dt><a id="tag-firmware-releases">
       ⁠</a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
@@ -79,5 +80,5 @@
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"flashed"</span><span xmlns="" class="perl_Keyword">&gt;</span>84f40464-9272-4ef7-9399-cd95f12da696<span xmlns="" class="perl_Keyword">&lt;/firmware&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd></dl></div><div class="para">
-			For a component of type <code class="literal">firmware</code>, the following tags are required and must be present for a valid document: <a class="xref" href="chap-Metadata.html#tag-id-generic">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-provides">&lt;provides/&gt; ↪ &lt;firmware/&gt;</a>.
+			For a component of type <code class="literal">firmware</code>, the following tags are required and must be present for a valid document: <a class="xref" href="sect-Metadata-Firmware.html#tag-id-firmware">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-provides">&lt;provides/&gt; ↪ &lt;firmware/&gt;</a>.
 		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-InputMethod.html"><strong>Prev</strong>2.6. Input Methods</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="chap-DistroData.html"><strong>Next</strong>Chapter 3. Distribution Metadata and Services</a></li></ul></body></html>

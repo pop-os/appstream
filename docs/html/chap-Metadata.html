@@ -16,12 +16,12 @@
 			Several specialized component-metainfo files exist, for example for applications or fonts. These are all based on this generic component XML specification, and are described in the following chapters.
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-location">
       ⁠</a>2.1.2. Filesystem locations</h3></div></div></div><div class="para">
-			Upstream projects can ship one or more metainfo files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>, where <code class="literal">id</code> is a unique identifier of this specific component.
+			Upstream projects can ship one or more metainfo files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>, where <code class="literal">id</code> is a unique identifier of this specific component.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
-				Applications are a special case here, because they are special in some ways (and also for historical reasons). If your metainfo file covers only an application, as described in the AppData section, install it as <code class="filename">/usr/share/appdata/%{id}.appdata.xml</code>.
-			</div></div></div><div class="para">
-			Please note that the <code class="filename">/usr/share/appdata/symbols</code> directory is reserved for a possible future use for storing upstream-generated symbols files for libraries.
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-filespec">
+				Applications are a special case here, because they are usually treated differently by software centers (and also for historical reasons). If your metainfo file covers only an application, as described in the AppData section, install it as <code class="filename">/usr/share/metainfo/%{id}.appdata.xml</code>.
+			</div></div></div><div xmlns:d="http://docbook.org/ns/docbook" class="important"><div class="admonition_header"><p><strong>Legacy Path</strong></p></div><div class="admonition"><div class="para">
+				The <code class="filename">/usr/share/appdata/</code> path must be scanned by AppStream tools as well, to support legacy applications installing metadata there. For new software components, it is advised not to use this directory.
+			</div></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-filespec">
       ⁠</a>2.1.3. XML Specification</h3></div></div></div><div class="para">
 			The XML for a generic component definition starts with an <code class="code">&lt;component&gt;</code> tag as root element. The <code class="code">&lt;component&gt;</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code> and <code class="literal">releases</code> tag, a <code class="literal">provides</code> tag with appropriate children is highly recommended. All possible tags in the generic set are:
 		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-generic">
@@ -221,4 +221,6 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;developer_name&gt;</span>FooBar Team<span xmlns="" class="perl_Keyword">&lt;/developer_name&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/component&gt;</span>
-</pre></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong>Chapter 1. About AppStream</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong>2.2. Desktop Applications</a></li></ul></body></html>
+</pre><div class="para">
+			For a component of type <code class="literal">generic</code>, the minimal amount of required tags is: <a class="xref" href="chap-Metadata.html#tag-id-generic">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>.
+		</div></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong>Chapter 1. About AppStream</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong>2.2. Desktop Applications</a></li></ul></body></html>

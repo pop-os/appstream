@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-DISTRO-DETAILS:CAPS">AS_TYPE_DISTRO_DETAILS</link></entry></row>
 <row><entry role="function_type"><link linkend="AsDistroDetails"><returnvalue>AsDistroDetails</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-distro-details-new">as_distro_details_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -65,6 +64,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-DISTRO-DETAILS:CAPS">AS_TYPE_DISTRO_DETAILS</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsDistroDetailsClass">AsDistroDetailsClass</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsDistroDetails-struct">AsDistroDetails</link></entry></row>
 
@@ -93,21 +93,13 @@ service distributors may want to provide.</para>
 </refsect1>
 <refsect1 id="AsDistroDetails.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-DISTRO-DETAILS:CAPS" role="macro">
-<title>AS_TYPE_DISTRO_DETAILS</title>
-<indexterm zone="AS-TYPE-DISTRO-DETAILS:CAPS"><primary>AS_TYPE_DISTRO_DETAILS</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_DISTRO_DETAILS (as_distro_details_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-distro-details-new" role="function">
 <title>as_distro_details_new&#160;()</title>
 <indexterm zone="as-distro-details-new"><primary>as_distro_details_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsDistroDetails"><returnvalue>AsDistroDetails</returnvalue></link>&#160;*
 as_distro_details_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new instance of <link linkend="AsDistroDetails"><type>AsDistroDetails</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-distro-details-new.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsDistroDetails"><type>AsDistroDetails</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -152,7 +144,7 @@ as_get_icon_repository_paths (<parameter><type>void</type></parameter>);</progra
 <para>Returns list of icon-paths for software-center applications to use.
 Icons of software (even if it is not installed) are stored in these
 locations.</para>
-<refsect3 role="returns">
+<refsect3 id="as-get-icon-repository-paths.returns" role="returns">
 <title>Returns</title>
 <para> A NULL-terminated array of paths. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -161,6 +153,14 @@ locations.</para>
 </refsect1>
 <refsect1 id="AsDistroDetails.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-DISTRO-DETAILS:CAPS" role="macro">
+<title>AS_TYPE_DISTRO_DETAILS</title>
+<indexterm zone="AS-TYPE-DISTRO-DETAILS:CAPS"><primary>AS_TYPE_DISTRO_DETAILS</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_DISTRO_DETAILS (as_distro_details_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsDistroDetailsClass" role="struct">
 <title>struct AsDistroDetailsClass</title>
 <indexterm zone="AsDistroDetailsClass"><primary>AsDistroDetailsClass</primary></indexterm>

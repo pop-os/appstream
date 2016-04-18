@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsCategory.html" title="AsCategory">
 <link rel="next" href="AsValidatorIssue.html" title="AsValidatorIssue">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsValidator.html#AS-TYPE-VALIDATOR:CAPS" title="AS_TYPE_VALIDATOR">AS_TYPE_VALIDATOR</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsValidator.html" title="AsValidator"><span class="returnvalue">AsValidator</span></a> *
@@ -104,6 +100,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsValidator.html#AS-TYPE-VALIDATOR:CAPS" title="AS_TYPE_VALIDATOR">AS_TYPE_VALIDATOR</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsValidator.html#AsValidatorClass" title="struct AsValidatorClass">AsValidatorClass</a></td>
 </tr>
@@ -134,20 +134,12 @@ and to generate a report about issues found with it.</p>
 <div class="refsect1">
 <a name="AsValidator.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-VALIDATOR:CAPS"></a><h3>AS_TYPE_VALIDATOR</h3>
-<pre class="programlisting">#define AS_TYPE_VALIDATOR (as_validator_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-validator-new"></a><h3>as_validator_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsValidator.html" title="AsValidator"><span class="returnvalue">AsValidator</span></a> *
 as_validator_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsValidator.html" title="AsValidator"><span class="type">AsValidator</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.3.5"></a><h4>Returns</h4>
+<a name="as-validator-new.returns"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsValidator.html" title="AsValidator"><span class="type">AsValidator</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -159,7 +151,7 @@ as_validator_new (<em class="parameter"><code><span class="type">void</span></co
 as_validator_clear_issues (<em class="parameter"><code><a class="link" href="AsValidator.html" title="AsValidator"><span class="type">AsValidator</span></a> *validator</code></em>);</pre>
 <p>Clears the list of issues</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.4.5"></a><h4>Parameters</h4>
+<a name="as-validator-clear-issues.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -182,7 +174,7 @@ as_validator_validate_file (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code><span class="type">GFile</span> *metadata_file</code></em>);</pre>
 <p>Validate an AppStream XML file</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.5.5"></a><h4>Parameters</h4>
+<a name="as-validator-validate-file.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -212,7 +204,7 @@ as_validator_validate_data (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code>const <span class="type">gchar</span> *metadata</code></em>);</pre>
 <p>Validate AppStream XML data</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.6.5"></a><h4>Parameters</h4>
+<a name="as-validator-validate-data.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -242,7 +234,7 @@ as_validator_validate_tree (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code>const <span class="type">gchar</span> *root_dir</code></em>);</pre>
 <p>Validate a full directory tree for issues in AppStream metadata.</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.7.5"></a><h4>Parameters</h4>
+<a name="as-validator-validate-tree.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -271,7 +263,7 @@ as_validator_validate_tree (<em class="parameter"><code><a class="link" href="As
 as_validator_get_issues (<em class="parameter"><code><a class="link" href="AsValidator.html" title="AsValidator"><span class="type">AsValidator</span></a> *validator</code></em>);</pre>
 <p>Get a list of found metadata format issues.</p>
 <div class="refsect3">
-<a name="id-1.2.15.8.8.5"></a><h4>Parameters</h4>
+<a name="as-validator-get-issues.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -286,7 +278,7 @@ as_validator_get_issues (<em class="parameter"><code><a class="link" href="AsVal
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.15.8.8.6"></a><h4>Returns</h4>
+<a name="as-validator-get-issues.returns"></a><h4>Returns</h4>
 <p> a list of <a class="link" href="AsValidatorIssue.html" title="AsValidatorIssue"><span class="type">AsValidatorIssue</span></a> instances, free with <code class="function">g_list_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsValidatorIssue][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></p>
 </div>
@@ -294,6 +286,14 @@ as_validator_get_issues (<em class="parameter"><code><a class="link" href="AsVal
 </div>
 <div class="refsect1">
 <a name="AsValidator.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="AS-TYPE-VALIDATOR:CAPS"></a><h3>AS_TYPE_VALIDATOR</h3>
+<pre class="programlisting">#define AS_TYPE_VALIDATOR (as_validator_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
 <div class="refsect2">
 <a name="AsValidatorClass"></a><h3>struct AsValidatorClass</h3>
 <pre class="programlisting">struct AsValidatorClass {
@@ -313,6 +313,6 @@ as_validator_get_issues (<em class="parameter"><code><a class="link" href="AsVal
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

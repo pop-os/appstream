@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -33,6 +33,7 @@
 #include <libxml/parser.h>
 #include <time.h>
 #include <utime.h>
+#include <sys/utsname.h>
 #include <sys/stat.h>
 #include <errno.h>
 
@@ -65,6 +66,9 @@ as_description_markup_convert_simple (const gchar *markup)
 	gchar *xmldata;
 	gchar *formatted = NULL;
 	GString *str = NULL;
+
+	if (markup == NULL)
+		return NULL;
 
 	/* is this actually markup */
 	if (g_strrstr (markup, "<") == NULL) {
@@ -607,4 +611,86 @@ as_copy_file (const gchar *source, const gchar *destination, GError **error)
 	fclose (fdest);
 	fclose (fsrc);
 	return TRUE;
+}
+
+/**
+ * as_is_cruft_locale:
+ *
+ * Checks whether the given locale is valid or a cruft or dummy
+ * locale.
+ */
+gboolean
+as_is_cruft_locale (const gchar *locale)
+{
+	if (locale == NULL)
+		return FALSE;
+	if (g_strcmp0 (locale, "x-test") == 0)
+		return TRUE;
+	if (g_strcmp0 (locale, "xx") == 0)
+		return TRUE;
+	return FALSE;
+}
+
+/**
+ * as_locale_strip_encoding:
+ *
+ * Remove the encoding from a locale string.
+ * The function modifies the string directly.
+ */
+gchar*
+as_locale_strip_encoding (gchar *locale)
+{
+	gchar *tmp;
+	tmp = g_strstr_len (locale, -1, ".UTF-8");
+	if (tmp != NULL)
+		*tmp = '\0';
+	return locale;
+}
+
+/**
+ * as_get_current_arch:
+ *
+ * Get the current architecture as vendor strings
+ * (e.g. "amd64" instead of "x86_64").
+ *
+ * Returns: (transfer full): The current OS architecture as string
+ */
+gchar*
+as_get_current_arch (void)
+{
+	gchar *arch;
+	struct utsname uts;
+
+	uname (&uts);
+
+	if (g_strcmp0 (uts.machine, "x86_64") == 0) {
+		arch = g_strdup ("amd64");
+	} else if (g_pattern_match_simple ("i?86", uts.machine)) {
+		arch = g_strdup ("ia32");
+	} else if (g_strcmp0 (uts.machine, "aarch64")) {
+		arch = g_strdup ("arm64");
+	} else {
+		arch = g_strdup (uts.machine);
+	}
+
+	return arch;
+}
+
+/**
+ * as_arch_compatible:
+ * @arch1: Architecture 1
+ * @arch2: Architecture 2
+ *
+ * Compares two architectures and returns %TRUE if they are compatible.
+ */
+gboolean
+as_arch_compatible (const gchar *arch1, const gchar *arch2)
+{
+	if (g_strcmp0 (arch1, arch2) == 0)
+		return TRUE;
+	if (g_strcmp0 (arch1, "all") == 0)
+		return TRUE;
+	if (g_strcmp0 (arch2, "all") == 0)
+		return TRUE;
+	return FALSE;
 }

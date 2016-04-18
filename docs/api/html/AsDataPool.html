@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsMetadata.html" title="AsMetadata">
 <link rel="next" href="AsDistroDetails.html" title="AsDistroDetails">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsDataPool.html#AS-TYPE-DATA-POOL:CAPS" title="AS_TYPE_DATA_POOL">AS_TYPE_DATA_POOL</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <span class="returnvalue">GQuark</span>
@@ -127,6 +123,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsDataPool.html#AS-TYPE-DATA-POOL:CAPS" title="AS_TYPE_DATA_POOL">AS_TYPE_DATA_POOL</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsDataPool.html#AsDataPoolClass" title="struct AsDataPoolClass">AsDataPoolClass</a></td>
 </tr>
@@ -162,19 +162,11 @@ This class is used by internally by the cache builder, but might be useful for o
 <div class="refsect1">
 <a name="AsDataPool.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-DATA-POOL:CAPS"></a><h3>AS_TYPE_DATA_POOL</h3>
-<pre class="programlisting">#define AS_TYPE_DATA_POOL (as_data_pool_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-data-pool-error-quark"></a><h3>as_data_pool_error_quark ()</h3>
 <pre class="programlisting"><span class="returnvalue">GQuark</span>
 as_data_pool_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.11.7.3.4"></a><h4>Returns</h4>
+<a name="as-data-pool-error-quark.returns"></a><h4>Returns</h4>
 <p> An error quark.</p>
 </div>
 </div>
@@ -185,7 +177,7 @@ as_data_pool_error_quark (<em class="parameter"><code><span class="type">void</s
 as_data_pool_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.4.5"></a><h4>Returns</h4>
+<a name="as-data-pool-new.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -197,7 +189,7 @@ as_data_pool_new (<em class="parameter"><code><span class="type">void</span></co
 as_data_pool_get_locale (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Gets the currently used locale.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.5.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-get-locale.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -212,7 +204,7 @@ as_data_pool_get_locale (<em class="parameter"><code><a class="link" href="AsDat
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.11.7.5.6"></a><h4>Returns</h4>
+<a name="as-data-pool-get-locale.returns"></a><h4>Returns</h4>
 <p> Locale used for metadata parsing.</p>
 </div>
 </div>
@@ -224,7 +216,7 @@ as_data_pool_set_locale (<em class="parameter"><code><a class="link" href="AsDat
                          <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Sets the current locale which should be used when parsing metadata.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.6.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-set-locale.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -256,7 +248,7 @@ as_data_pool_update (<em class="parameter"><code><a class="link" href="AsDataPoo
 The function will try to get as much data into the pool as possible, so even if
 the updates completes with <code class="literal">FALSE</code>, it might still add components to the pool.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.7.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-update.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -278,7 +270,7 @@ the updates completes with <code class="literal">FALSE</code>, it might still ad
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.11.7.7.6"></a><h4>Returns</h4>
+<a name="as-data-pool-update.returns"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if update completed without error.</p>
 </div>
 </div>
@@ -289,7 +281,7 @@ the updates completes with <code class="literal">FALSE</code>, it might still ad
 as_data_pool_get_components (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Get a list of found components.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.8.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-get-components.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -304,7 +296,7 @@ as_data_pool_get_components (<em class="parameter"><code><a class="link" href="A
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.11.7.8.6"></a><h4>Returns</h4>
+<a name="as-data-pool-get-components.returns"></a><h4>Returns</h4>
 <p> a list of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances, free with <code class="function">g_list_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></p>
 </div>
@@ -317,7 +309,7 @@ as_data_pool_get_component_by_id (<em class="parameter"><code><a class="link" hr
                                   <em class="parameter"><code>const <span class="type">gchar</span> *id</code></em>);</pre>
 <p>Get a specific component by its ID.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.9.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-get-component-by-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -339,7 +331,7 @@ as_data_pool_get_component_by_id (<em class="parameter"><code><a class="link" hr
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.11.7.9.6"></a><h4>Returns</h4>
+<a name="as-data-pool-get-component-by-id.returns"></a><h4>Returns</h4>
 <p> An <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -351,7 +343,7 @@ as_data_pool_get_component_by_id (<em class="parameter"><code><a class="link" hr
 as_data_pool_get_metadata_locations (<em class="parameter"><code><a class="link" href="AsDataPool.html" title="AsDataPool"><span class="type">AsDataPool</span></a> *dpool</code></em>);</pre>
 <p>Return a list of all locations which are searched for metadata.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.10.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-get-metadata-locations.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -366,9 +358,9 @@ as_data_pool_get_metadata_locations (<em class="parameter"><code><a class="link"
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.11.7.10.6"></a><h4>Returns</h4>
+<a name="as-data-pool-get-metadata-locations.returns"></a><h4>Returns</h4>
 <p> A string-list of watched (absolute) filepaths. </p>
-<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
 </div>
 <hr>
@@ -382,7 +374,7 @@ This is mainly used for testing purposes. Each location should have an
 "xmls" and/or "yaml" subdirectory with the actual data as (compressed)
 AppStream XML or DEP-11 YAML in it.</p>
 <div class="refsect3">
-<a name="id-1.2.11.7.11.5"></a><h4>Parameters</h4>
+<a name="as-data-pool-set-metadata-locations.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -408,6 +400,14 @@ AppStream XML or DEP-11 YAML in it.</p>
 <div class="refsect1">
 <a name="AsDataPool.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AS-TYPE-DATA-POOL:CAPS"></a><h3>AS_TYPE_DATA_POOL</h3>
+<pre class="programlisting">#define AS_TYPE_DATA_POOL (as_data_pool_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsDataPoolClass"></a><h3>struct AsDataPoolClass</h3>
 <pre class="programlisting">struct AsDataPoolClass {
 	GObjectClass parent_class;
@@ -421,7 +421,7 @@ AppStream XML or DEP-11 YAML in it.</p>
 <a name="AsDataPoolError"></a><h3>enum AsDataPoolError</h3>
 <p>A metadata pool error.</p>
 <div class="refsect3">
-<a name="id-1.2.11.8.3.4"></a><h4>Members</h4>
+<a name="AsDataPoolError.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -456,6 +456,6 @@ AppStream XML or DEP-11 YAML in it.</p>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

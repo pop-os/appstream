@@ -44,9 +44,10 @@
 
 typedef struct
 {
-	GHashTable* cpt_table;
+	GHashTable *cpt_table;
 	gchar *scr_base_url;
 	gchar *locale;
+	gchar *current_arch;
 
 	GPtrArray *mdata_dirs;
 
@@ -100,6 +101,9 @@ as_data_pool_init (AsDataPool *dpool)
 
 	/* set default icon search locations */
 	priv->icon_paths = as_get_icon_repository_paths ();
+
+	/* set the current architecture */
+	priv->current_arch = as_get_current_arch ();
 }
 
 /**
@@ -117,6 +121,8 @@ as_data_pool_finalize (GObject *object)
 	g_ptr_array_unref (priv->mdata_dirs);
 	g_strfreev (priv->icon_paths);
 
+	g_free (priv->current_arch);
+
 	G_OBJECT_CLASS (as_data_pool_parent_class)->finalize (object);
 }
 
@@ -131,6 +137,49 @@ as_data_pool_class_init (AsDataPoolClass *klass)
 }
 
 /**
+ * as_data_pool_merge_components:
+ *
+ * Merge selected data from two components.
+ */
+static void
+as_data_pool_merge_components (AsDataPool *dpool, AsComponent *src_cpt, AsComponent *dest_cpt)
+{
+	guint i;
+	gchar **cats;
+	gchar **pkgnames;
+
+	/* FIXME: We only do this for GNOME Software compatibility. In future, we need better rules on what to merge how, and
+	 * whether we want to merge stuff at all. */
+
+	cats = as_component_get_categories (src_cpt);
+	if (cats != NULL) {
+		g_autoptr(GHashTable) cat_table = NULL;
+		gchar **new_cats = NULL;
+
+		cat_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
+		for (i = 0; cats[i] != NULL; i++) {
+			g_hash_table_add (cat_table, g_strdup (cats[i]));
+		}
+		cats = as_component_get_categories (dest_cpt);
+		if (cats != NULL) {
+			for (i = 0; cats[i] != NULL; i++) {
+				g_hash_table_add (cat_table, g_strdup (cats[i]));
+			}
+		}
+
+		new_cats = (gchar**) g_hash_table_get_keys_as_array (cat_table, NULL);
+		as_component_set_categories (dest_cpt, new_cats);
+	}
+
+	pkgnames = as_component_get_pkgnames (src_cpt);
+	if ((pkgnames != NULL) && (pkgnames[0] != '\0'))
+		as_component_set_pkgnames (dest_cpt, as_component_get_pkgnames (src_cpt));
+
+	if (as_component_has_bundle (src_cpt))
+		as_component_set_bundles_table (dest_cpt, as_component_get_bundles_table (src_cpt));
+}
+
+/**
  * as_data_pool_add_new_component:
  *
  * Register a new component in the global AppStream metadata pool.
@@ -140,6 +189,7 @@ as_data_pool_add_new_component (AsDataPool *dpool, AsComponent *cpt)
 {
 	const gchar *cpt_id;
 	AsComponent *existing_cpt;
+	int priority;
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
 	g_return_if_fail (cpt != NULL);
 
@@ -150,71 +200,164 @@ as_data_pool_add_new_component (AsDataPool *dpool, AsComponent *cpt)
 	 * the component's icon paths */
 	as_component_complete (cpt, priv->scr_base_url, priv->icon_paths);
 
-	if (existing_cpt) {
-		int priority;
-		priority = as_component_get_priority (existing_cpt);
-		if (priority < as_component_get_priority (cpt)) {
-			g_hash_table_replace (priv->cpt_table,
-						g_strdup (cpt_id),
-						g_object_ref (cpt));
-			g_debug ("Replaced '%s' with data of higher priority.", cpt_id);
-		} else {
-			if ((!as_component_has_bundle (existing_cpt)) && (as_component_has_bundle (cpt))) {
-				GHashTable *bundles;
-				/* propagate bundle information to existing component */
-				bundles = as_component_get_bundles_table (cpt);
-				as_component_set_bundles_table (existing_cpt, bundles);
-			} else if (priority == as_component_get_priority (cpt)) {
-				g_debug ("Detected colliding ids: %s was already added with the same priority.", cpt_id);
-			}
-		}
-	} else {
+	if (existing_cpt == NULL) {
 		g_hash_table_insert (priv->cpt_table,
 					g_strdup (cpt_id),
 					g_object_ref (cpt));
+		return;
+	}
+
+	/* if we are here, we have duplicates */
+	priority = as_component_get_priority (existing_cpt);
+	if (priority < as_component_get_priority (cpt)) {
+		g_hash_table_replace (priv->cpt_table,
+					g_strdup (cpt_id),
+					g_object_ref (cpt));
+		g_debug ("Replaced '%s' with data of higher priority.", cpt_id);
+	} else {
+		gboolean ecpt_has_name;
+		gboolean ncpt_has_name;
+
+		if ((!as_component_has_bundle (existing_cpt)) && (as_component_has_bundle (cpt))) {
+			GHashTable *bundles;
+			/* propagate bundle information to existing component */
+			bundles = as_component_get_bundles_table (cpt);
+			as_component_set_bundles_table (existing_cpt, bundles);
+			return;
+		}
+
+		ecpt_has_name = as_component_get_name (existing_cpt) != NULL;
+		ncpt_has_name = as_component_get_name (cpt) != NULL;
+		if ((ecpt_has_name) && (!ncpt_has_name)) {
+			/* existing component is updated with data from the new one */
+			as_data_pool_merge_components (dpool, cpt, existing_cpt);
+			g_debug ("Merged stub data for component %s (<-, based on name)", cpt_id);
+			return;
+		}
+
+		if ((!ecpt_has_name) && (ncpt_has_name)) {
+			/* new component is updated with data from the existing component,
+			 * then it replaces the prior metadata */
+			as_data_pool_merge_components (dpool, existing_cpt, cpt);
+			g_hash_table_replace (priv->cpt_table,
+					g_strdup (cpt_id),
+					g_object_ref (cpt));
+			g_debug ("Merged stub data for component %s (->, based on name)", cpt_id);
+			return;
+		}
+
+		if (as_component_get_architecture (cpt) != NULL) {
+			if (as_arch_compatible (as_component_get_architecture (cpt), priv->current_arch)) {
+				const gchar *earch;
+				/* this component is compatible with our current architecture */
+
+				earch = as_component_get_architecture (existing_cpt);
+				if (earch != NULL) {
+					if (as_arch_compatible (earch, priv->current_arch)) {
+						g_hash_table_replace (priv->cpt_table,
+									g_strdup (cpt_id),
+									g_object_ref (cpt));
+						g_debug ("Preferred component for native architecture for %s (was %s)", cpt_id, earch);
+						return;
+					} else {
+						g_debug ("Ignored additional entry for '%s' on architecture %s.", cpt_id, earch);
+						return;
+					}
+				}
+			}
+		}
+
+		if (priority == as_component_get_priority (cpt)) {
+			g_debug ("Detected colliding ids: %s was already added with the same priority.", cpt_id);
+			return;
+		} else {
+			g_debug ("Detected colliding ids: %s was already added with a higher priority.", cpt_id);
+			return;
+		}
 	}
 }
 
 /**
  * as_data_pool_update_extension_info:
  *
- * Populate the "extensions" property of each #AsComponent, using the
+ * Populate the "extensions" property of an #AsComponent, using the
  * "extends" information from other components.
  */
 static void
-as_data_pool_update_extension_info (AsDataPool *dpool)
+as_data_pool_update_extension_info (AsDataPool *dpool, AsComponent *cpt)
+{
+	guint i;
+	GPtrArray *extends;
+	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
+
+	extends = as_component_get_extends (cpt);
+	if ((extends == NULL) || (extends->len == 0))
+		return;
+
+	for (i = 0; i < extends->len; i++) {
+		AsComponent *extended_cpt;
+		const gchar *extended_cid = (const gchar*) g_ptr_array_index (extends, i);
+
+		extended_cpt = g_hash_table_lookup (priv->cpt_table, extended_cid);
+		if (extended_cpt == NULL) {
+			g_debug ("%s extends %s, but %s was not found.", as_component_get_id (cpt), extended_cid, extended_cid);
+			return;
+		}
+
+		as_component_add_extension (extended_cpt, as_component_get_id (cpt));
+	}
+}
+
+/**
+ * as_data_pool_refine_data:
+ *
+ * Automatically refine the data we have about software components in the pool.
+ *
+ * Returns: %TRUE if all metadata was used, %FALSE if we skipped some stuff.
+ */
+static gboolean
+as_data_pool_refine_data (AsDataPool *dpool)
 {
 	GHashTableIter iter;
 	gpointer key, value;
+	GHashTable *refined_cpts;
+	gboolean ret = TRUE;
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
+
+	/* since we might remove stuff from the pool, we need a new table to store the result */
+	refined_cpts = g_hash_table_new_full (g_str_hash,
+						g_str_equal,
+						g_free,
+						(GDestroyNotify) g_object_unref);
 
 	g_hash_table_iter_init (&iter, priv->cpt_table);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		AsComponent *cpt;
-		GPtrArray *extends;
 		const gchar *cid;
-		guint i;
-
 		cpt = AS_COMPONENT (value);
 		cid = (const gchar*) key;
 
-		extends = as_component_get_extends (cpt);
-		if ((extends == NULL) || (extends->len == 0))
+		/* validate the component */
+		if (!as_component_is_valid (cpt)) {
+			g_debug ("WARNING: Skipped component '%s': The component is invalid.", as_component_get_id (cpt));
+			ret = FALSE;
 			continue;
-
-		for (i = 0; i < extends->len; i++) {
-			AsComponent *extended_cpt;
-			const gchar *extended_cid = (const gchar*) g_ptr_array_index (extends, i);
-
-			extended_cpt = g_hash_table_lookup (priv->cpt_table, extended_cid);
-			if (extended_cpt == NULL) {
-				g_debug ("%s extends %s, but %s was not found.", as_component_get_id (cpt), extended_cid, extended_cid);
-				continue;
-			}
-
-			as_component_add_extension (extended_cpt, cid);
 		}
+
+		/* set the "extension" information */
+		as_data_pool_update_extension_info (dpool, cpt);
+
+		/* add to results table */
+		g_hash_table_insert (refined_cpts,
+					g_strdup (cid),
+					g_object_ref (cpt));
 	}
+
+	/* set refined components as new pool content */
+	g_hash_table_unref (priv->cpt_table);
+	priv->cpt_table = refined_cpts;
+
+	return ret;
 }
 
 /**
@@ -223,7 +366,7 @@ as_data_pool_update_extension_info (AsDataPool *dpool)
  *
  * Return a list of all locations which are searched for metadata.
  *
- * Returns: (transfer none): A string-list of watched (absolute) filepaths
+ * Returns: (transfer none) (element-type utf8): A string-list of watched (absolute) filepaths
  **/
 GPtrArray*
 as_data_pool_get_metadata_locations (AsDataPool *dpool)
@@ -352,23 +495,26 @@ as_data_pool_load_metadata (AsDataPool *dpool)
 gboolean
 as_data_pool_update (AsDataPool *dpool, GError **error)
 {
-	gboolean ret = TRUE;
+	gboolean ret;
+	gboolean ret2;
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
 
 	/* just in case, clear the components table */
-	g_hash_table_unref (priv->cpt_table);
-	priv->cpt_table = g_hash_table_new_full (g_str_hash,
-							g_str_equal,
-							g_free,
-							(GDestroyNotify) g_object_unref);
+	if (g_hash_table_size (priv->cpt_table) > 0) {
+		g_hash_table_unref (priv->cpt_table);
+		priv->cpt_table = g_hash_table_new_full (g_str_hash,
+							 g_str_equal,
+							 g_free,
+							 (GDestroyNotify) g_object_unref);
+	}
 
 	/* read all AppStream metadata that we can find */
 	ret = as_data_pool_load_metadata (dpool);
 
-	/* set the "extension" information */
-	as_data_pool_update_extension_info (dpool);
+	/* automatically refine the metadata we have in the pool */
+	ret2 = as_data_pool_refine_data (dpool);
 
-	return ret;
+	return ret && ret2;
 }
 
 /**

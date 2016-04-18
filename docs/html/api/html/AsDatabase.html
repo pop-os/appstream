@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsImage.html" title="AsImage">
 <link rel="next" href="AsMetadata.html" title="AsMetadata">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsDatabase.html#AS-TYPE-DATABASE:CAPS" title="AS_TYPE_DATABASE">AS_TYPE_DATABASE</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
@@ -135,6 +131,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsDatabase.html#AS-TYPE-DATABASE:CAPS" title="AS_TYPE_DATABASE">AS_TYPE_DATABASE</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsDatabase.html#AsDatabaseClass" title="struct AsDatabaseClass">AsDatabaseClass</a></td>
 </tr>
@@ -177,20 +177,12 @@ is explicitly defined via <a class="link" href="AsDatabase.html#as-database-set-
 <div class="refsect1">
 <a name="AsDatabase.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-DATABASE:CAPS"></a><h3>AS_TYPE_DATABASE</h3>
-<pre class="programlisting">#define AS_TYPE_DATABASE (as_database_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-database-new"></a><h3>as_database_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="returnvalue">AsDatabase</span></a> *
 as_database_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.3.5"></a><h4>Returns</h4>
+<a name="as-database-new.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -201,7 +193,7 @@ as_database_new (<em class="parameter"><code><span class="type">void</span></cod
 <pre class="programlisting"><span class="returnvalue">GQuark</span>
 as_database_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.9.8.4.4"></a><h4>Returns</h4>
+<a name="as-database-error-quark.returns"></a><h4>Returns</h4>
 <p> An error quark.</p>
 </div>
 </div>
@@ -213,7 +205,7 @@ as_database_open (<em class="parameter"><code><a class="link" href="AsDatabase.h
                   <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Open the current AppStream metadata cache for reading.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.5.5"></a><h4>Parameters</h4>
+<a name="as-database-open.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -235,7 +227,7 @@ as_database_open (<em class="parameter"><code><a class="link" href="AsDatabase.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.5.6"></a><h4>Returns</h4>
+<a name="as-database-open.returns"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> on success, <code class="literal">FALSE</code> on error.</p>
 </div>
 </div>
@@ -246,7 +238,7 @@ as_database_open (<em class="parameter"><code><a class="link" href="AsDatabase.h
 as_database_get_location (<em class="parameter"><code><a class="link" href="AsDatabase.html" title="AsDatabase"><span class="type">AsDatabase</span></a> *db</code></em>);</pre>
 <p>Get the current path of the AppStream database we use.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.6.5"></a><h4>Parameters</h4>
+<a name="as-database-get-location.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -269,7 +261,7 @@ as_database_set_location (<em class="parameter"><code><a class="link" href="AsDa
                           <em class="parameter"><code>const <span class="type">gchar</span> *dir</code></em>);</pre>
 <p>Set the location of the AppStream database we use.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.7.5"></a><h4>Parameters</h4>
+<a name="as-database-set-location.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -303,7 +295,7 @@ as_database_find_components (<em class="parameter"><code><a class="link" href="A
 You can limit the search to a specific set of categories by setting the categories string to
 a semicolon-separated list of lower-cased category names.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.8.5"></a><h4>Parameters</h4>
+<a name="as-database-find-components.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -335,7 +327,7 @@ a semicolon-separated list of lower-cased category names.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.8.6"></a><h4>Returns</h4>
+<a name="as-database-find-components.returns"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -348,7 +340,7 @@ as_database_get_all_components (<em class="parameter"><code><a class="link" href
                                 <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Dump a list of all software components found in the database.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.9.5"></a><h4>Parameters</h4>
+<a name="as-database-get-all-components.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -370,7 +362,7 @@ as_database_get_all_components (<em class="parameter"><code><a class="link" href
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.9.6"></a><h4>Returns</h4>
+<a name="as-database-get-all-components.returns"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -384,7 +376,7 @@ as_database_get_component_by_id (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Get a component by its AppStream-ID.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.10.5"></a><h4>Parameters</h4>
+<a name="as-database-get-component-by-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -411,7 +403,7 @@ as_database_get_component_by_id (<em class="parameter"><code><a class="link" hre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.10.6"></a><h4>Returns</h4>
+<a name="as-database-get-component-by-id.returns"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> or <code class="literal">NULL</code> if none was found. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -427,7 +419,7 @@ as_database_get_components_by_provided_item
                                 <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Find components in the Appstream database.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.11.5"></a><h4>Parameters</h4>
+<a name="as-database-get-components-by-provided-item.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -459,7 +451,7 @@ as_database_get_components_by_provided_item
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.11.6"></a><h4>Returns</h4>
+<a name="as-database-get-components-by-provided-item.returns"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found, NULL on error. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -473,7 +465,7 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
                                     <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Return a list of all components in the database which match a certain kind.</p>
 <div class="refsect3">
-<a name="id-1.2.9.8.12.5"></a><h4>Parameters</h4>
+<a name="as-database-get-components-by-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -500,7 +492,7 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.9.8.12.6"></a><h4>Returns</h4>
+<a name="as-database-get-components-by-kind.returns"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> objects which have been found, <code class="literal">NULL</code> on error. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -508,6 +500,14 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 </div>
 <div class="refsect1">
 <a name="AsDatabase.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="AS-TYPE-DATABASE:CAPS"></a><h3>AS_TYPE_DATABASE</h3>
+<pre class="programlisting">#define AS_TYPE_DATABASE (as_database_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
 <div class="refsect2">
 <a name="AsDatabaseClass"></a><h3>struct AsDatabaseClass</h3>
 <pre class="programlisting">struct AsDatabaseClass {
@@ -522,7 +522,7 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 <a name="AsDatabaseError"></a><h3>enum AsDatabaseError</h3>
 <p>A database query error.</p>
 <div class="refsect3">
-<a name="id-1.2.9.9.3.4"></a><h4>Members</h4>
+<a name="AsDatabaseError.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -580,6 +580,6 @@ as_database_get_components_by_kind (<em class="parameter"><code><a class="link" 
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

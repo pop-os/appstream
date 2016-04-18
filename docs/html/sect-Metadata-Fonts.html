@@ -4,7 +4,7 @@
       ⁠</a>2.4.1. Introduction</h3></div></div></div><div class="para">
 			A software center can allow users to install additional fonts using font metadata. Also, applications can use font metadata to find missing fonts (e.g. a special methematical font is needed) in the distribution's software sources. This meta-info specification describes how metadata for fonts / font collections should be structured.
 		</div><div class="para">
-			Font packages can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.metainfo.xml</code>.
+			Font packages can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
 		</div><div class="para">
 			Font metadata files can - just likle all other metainfo files - be translated. See the section about translation for more information about that.
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-fontdata-example">
@@ -46,8 +46,11 @@
 						See the generic component <a class="xref" href="chap-Metadata.html#tag-screenshots">&lt;screenshots/&gt;</a> for a detailed description of this tag.
 					</div></dd><dt><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
 						This is a recommended tag for links of type <code class="code">homepage</code>. Links of type <code class="code">homepage</code> should be a link to the upstream homepage for the application. See the generic component <a class="xref" href="chap-Metadata.html#tag-url">&lt;url/&gt;</a> for a description of this tag.
-					</div></dd><dt><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
+					</div></dd><dt><a id="tag-font-provides">
+      ⁠</a><span class="term">&lt;provides/&gt; ↪ &lt;font/&gt;</span></dt><dd><div class="para">
 						This tag is described in detail for generic components at <a class="xref" href="chap-Metadata.html#tag-provides">&lt;provides/&gt;</a>.
 					</div><div class="para">
 						You should add one or more children of type <code class="code">&lt;font/&gt;</code> to make the font filenames and names known to the system. If this tag is not present, the <code class="literal">name</code> and <code class="literal">id</code> tag values can be used by the distribution's AppStream-generator to recreate this tag.
-					</div></dd></dl></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Addon.html"><strong>Prev</strong>2.3. Addons</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong>2.5. Codecs</a></li></ul></body></html>
+					</div></dd></dl></div><div class="para">
+			For a component of type <code class="literal">font</code>, the following tags are required and must be present: <a class="xref" href="chap-Metadata.html#tag-id-generic">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>.
+		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Addon.html"><strong>Prev</strong>2.3. Addons</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Codec.html"><strong>Next</strong>2.5. Codecs</a></li></ul></body></html>

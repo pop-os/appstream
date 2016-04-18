@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-MENU-PARSER:CAPS">AS_TYPE_MENU_PARSER</link></entry></row>
 <row><entry role="function_type"><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-menu-parser-new">as_menu_parser_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link>&#160;*
@@ -61,6 +60,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-MENU-PARSER:CAPS">AS_TYPE_MENU_PARSER</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsMenuParserClass">AsMenuParserClass</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsMenuParser-struct">AsMenuParser</link></entry></row>
 
@@ -89,21 +89,13 @@ A custom menu file may be specified using the alternative class constructor.</pa
 </refsect1>
 <refsect1 id="AsMenuParser.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-MENU-PARSER:CAPS" role="macro">
-<title>AS_TYPE_MENU_PARSER</title>
-<indexterm zone="AS-TYPE-MENU-PARSER:CAPS"><primary>AS_TYPE_MENU_PARSER</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-menu-parser-new" role="function">
 <title>as_menu_parser_new&#160;()</title>
 <indexterm zone="as-menu-parser-new"><primary>as_menu_parser_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link>&#160;*
 as_menu_parser_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsMenuParser"><type>AsMenuParser</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-menu-parser-new.returns" role="returns">
 <title>Returns</title>
 <para> an <link linkend="AsMenuParser"><type>AsMenuParser</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -114,7 +106,7 @@ as_menu_parser_new (<parameter><type>void</type></parameter>);</programlisting>
 <programlisting language="C"><link linkend="AsMenuParser"><returnvalue>AsMenuParser</returnvalue></link>&#160;*
 as_menu_parser_new_from_file (<parameter>const <link linkend="gchar"><type>gchar</type></link> *menu_file</parameter>);</programlisting>
 <para>Creates a new <link linkend="AsMenuParser"><type>AsMenuParser</type></link> using a custom XDG menu XML file.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-menu-parser-new-from-file.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -126,7 +118,7 @@ as_menu_parser_new_from_file (<parameter>const <link linkend="gchar"><type>gchar
 <entry role="parameter_description"><para>The menu-file to parse.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-menu-parser-new-from-file.returns" role="returns">
 <title>Returns</title>
 <para> an <link linkend="AsMenuParser"><type>AsMenuParser</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -137,7 +129,7 @@ as_menu_parser_new_from_file (<parameter>const <link linkend="gchar"><type>gchar
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 as_menu_parser_parse (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *mp</parameter>);</programlisting>
 <para>Parse the menu file</para>
-<refsect3 role="parameters">
+<refsect3 id="as-menu-parser-parse.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -149,7 +141,7 @@ as_menu_parser_parse (<parameter><link linkend="AsMenuParser"><type>AsMenuParser
 <entry role="parameter_description"><para>An instance of <link linkend="AsMenuParser"><type>AsMenuParser</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-menu-parser-parse.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="GList"><type>GList</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objects found in the menu, or NULL if there was an error. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer full</acronym>]</emphasis></para>
@@ -160,7 +152,7 @@ as_menu_parser_parse (<parameter><link linkend="AsMenuParser"><type>AsMenuParser
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_menu_parser_get_update_category_data
                                (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *mp</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-menu-parser-get-update-category-data.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -180,7 +172,7 @@ as_menu_parser_get_update_category_data
 as_menu_parser_set_update_category_data
                                (<parameter><link linkend="AsMenuParser"><type>AsMenuParser</type></link> *mp</parameter>,
                                 <parameter><link linkend="gboolean"><type>gboolean</type></link> value</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-menu-parser-set-update-category-data.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -199,7 +191,7 @@ as_menu_parser_set_update_category_data
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 as_get_system_categories (<parameter><type>void</type></parameter>);</programlisting>
 <para>Get a GList of the default AppStream categories</para>
-<refsect3 role="returns">
+<refsect3 id="as-get-system-categories.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="GList"><type>GList</type></link> of <link linkend="AsCategory"><type>AsCategory</type></link> objects. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory][<acronym>transfer full</acronym>]</emphasis></para>
@@ -208,6 +200,14 @@ as_get_system_categories (<parameter><type>void</type></parameter>);</programlis
 </refsect1>
 <refsect1 id="AsMenuParser.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-MENU-PARSER:CAPS" role="macro">
+<title>AS_TYPE_MENU_PARSER</title>
+<indexterm zone="AS-TYPE-MENU-PARSER:CAPS"><primary>AS_TYPE_MENU_PARSER</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsMenuParserClass" role="struct">
 <title>struct AsMenuParserClass</title>
 <indexterm zone="AsMenuParserClass"><primary>AsMenuParserClass</primary></indexterm>
