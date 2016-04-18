@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="ch01.html" title="AppStream API Reference">
 <link rel="next" href="appstream-as-enums.html" title="as-enums">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -41,10 +41,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsComponent.html#AS-TYPE-COMPONENT:CAPS" title="AS_TYPE_COMPONENT">AS_TYPE_COMPONENT</a></td>
-</tr>
 <tr>
 <td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
@@ -624,6 +620,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsComponent.html#AS-TYPE-COMPONENT:CAPS" title="AS_TYPE_COMPONENT">AS_TYPE_COMPONENT</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsComponent.html#AsComponentClass" title="struct AsComponentClass">AsComponentClass</a></td>
 </tr>
@@ -665,20 +665,12 @@ find out which kind of component we're dealing with.</p>
 <div class="refsect1">
 <a name="AsComponent.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-COMPONENT:CAPS"></a><h3>AS_TYPE_COMPONENT</h3>
-<pre class="programlisting">#define AS_TYPE_COMPONENT (as_component_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-component-kind-to-string"></a><h3>as_component_kind_to_string ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_kind_to_string (<em class="parameter"><code><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.3.5"></a><h4>Parameters</h4>
+<a name="as-component-kind-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -693,7 +685,7 @@ as_component_kind_to_string (<em class="parameter"><code><a class="link" href="A
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.3.6"></a><h4>Returns</h4>
+<a name="as-component-kind-to-string.returns"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 </div>
@@ -705,7 +697,7 @@ as_component_kind_to_string (<em class="parameter"><code><a class="link" href="A
 as_component_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind_str</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.4.5"></a><h4>Parameters</h4>
+<a name="as-component-kind-from-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -720,7 +712,7 @@ as_component_kind_from_string (<em class="parameter"><code>const <span class="ty
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.4.6"></a><h4>Returns</h4>
+<a name="as-component-kind-from-string.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> or <a class="link" href="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"><code class="literal">AS_COMPONENT_KIND_UNKNOWN</code></a> for unknown</p>
 </div>
 </div>
@@ -731,7 +723,7 @@ as_component_kind_from_string (<em class="parameter"><code>const <span class="ty
 as_component_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.5.5"></a><h4>Returns</h4>
+<a name="as-component-new.returns"></a><h4>Returns</h4>
 <p> a new <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -744,7 +736,7 @@ as_component_is_valid (<em class="parameter"><code><a class="link" href="AsCompo
 <p>Check if the essential properties of this Component are
 populated with useful data.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.6.5"></a><h4>Parameters</h4>
+<a name="as-component-is-valid.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -759,7 +751,7 @@ populated with useful data.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.6.6"></a><h4>Returns</h4>
+<a name="as-component-is-valid.returns"></a><h4>Returns</h4>
 <p> TRUE if the component data was validated successfully.</p>
 </div>
 </div>
@@ -771,7 +763,7 @@ as_component_to_string (<em class="parameter"><code><a class="link" href="AsComp
 <p>Returns a string identifying this component.
 (useful for debugging)</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.7.5"></a><h4>Parameters</h4>
+<a name="as-component-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -786,7 +778,7 @@ as_component_to_string (<em class="parameter"><code><a class="link" href="AsComp
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.7.6"></a><h4>Returns</h4>
+<a name="as-component-to-string.returns"></a><h4>Returns</h4>
 <p> A descriptive string. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -799,7 +791,7 @@ as_component_get_active_locale (<em class="parameter"><code><a class="link" href
 <p>Get the current active locale for this component, which
 is used to get localized messages.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.8.5"></a><h4>Parameters</h4>
+<a name="as-component-get-active-locale.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -814,7 +806,7 @@ is used to get localized messages.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.8.6"></a><h4>Returns</h4>
+<a name="as-component-get-active-locale.returns"></a><h4>Returns</h4>
 <p> the current active locale.</p>
 </div>
 </div>
@@ -829,7 +821,7 @@ is used to get localized messages.
 If the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> was fetched from a localized database, usually only
 one locale is available.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.9.5"></a><h4>Parameters</h4>
+<a name="as-component-set-active-locale.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -858,7 +850,7 @@ one locale is available.</p>
 as_component_get_kind (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Returns the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.10.5"></a><h4>Parameters</h4>
+<a name="as-component-get-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -873,7 +865,7 @@ as_component_get_kind (<em class="parameter"><code><a class="link" href="AsCompo
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.10.6"></a><h4>Returns</h4>
+<a name="as-component-get-kind.returns"></a><h4>Returns</h4>
 <p> the kind of <span class="type">this</span>.</p>
 </div>
 </div>
@@ -885,7 +877,7 @@ as_component_set_kind (<em class="parameter"><code><a class="link" href="AsCompo
                        <em class="parameter"><code><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> value</code></em>);</pre>
 <p>Sets the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.11.5"></a><h4>Parameters</h4>
+<a name="as-component-set-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -914,7 +906,7 @@ as_component_set_kind (<em class="parameter"><code><a class="link" href="AsCompo
 as_component_get_id (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Set the unique identifier for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.12.5"></a><h4>Parameters</h4>
+<a name="as-component-get-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -929,7 +921,7 @@ as_component_get_id (<em class="parameter"><code><a class="link" href="AsCompone
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.12.6"></a><h4>Returns</h4>
+<a name="as-component-get-id.returns"></a><h4>Returns</h4>
 <p> the unique identifier.</p>
 </div>
 </div>
@@ -941,7 +933,7 @@ as_component_set_id (<em class="parameter"><code><a class="link" href="AsCompone
                      <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Set the unique identifier for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.13.5"></a><h4>Parameters</h4>
+<a name="as-component-set-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -969,7 +961,7 @@ as_component_set_id (<em class="parameter"><code><a class="link" href="AsCompone
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_origin (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.14.4"></a><h4>Parameters</h4>
+<a name="as-component-get-origin.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -991,7 +983,7 @@ as_component_get_origin (<em class="parameter"><code><a class="link" href="AsCom
 as_component_set_origin (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
                          <em class="parameter"><code>const <span class="type">gchar</span> *origin</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.15.4"></a><h4>Parameters</h4>
+<a name="as-component-set-origin.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1021,7 +1013,7 @@ as_component_get_pkgnames (<em class="parameter"><code><a class="link" href="AsC
 <p>Get a list of package names which this component consists of.
 This usually is just one package name.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.16.5"></a><h4>Parameters</h4>
+<a name="as-component-get-pkgnames.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1036,7 +1028,7 @@ This usually is just one package name.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.16.6"></a><h4>Returns</h4>
+<a name="as-component-get-pkgnames.returns"></a><h4>Returns</h4>
 <p> String array of package names. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1050,7 +1042,7 @@ as_component_set_pkgnames (<em class="parameter"><code><a class="link" href="AsC
 <p>Set a list of package names this component consists of.
 (This should usually be just one package name)</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.17.5"></a><h4>Parameters</h4>
+<a name="as-component-set-pkgnames.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1078,7 +1070,7 @@ as_component_set_pkgnames (<em class="parameter"><code><a class="link" href="AsC
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_source_pkgname (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.18.4"></a><h4>Parameters</h4>
+<a name="as-component-get-source-pkgname.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1093,7 +1085,7 @@ as_component_get_source_pkgname (<em class="parameter"><code><a class="link" hre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.18.5"></a><h4>Returns</h4>
+<a name="as-component-get-source-pkgname.returns"></a><h4>Returns</h4>
 <p> the source package name.</p>
 </div>
 </div>
@@ -1104,7 +1096,7 @@ as_component_get_source_pkgname (<em class="parameter"><code><a class="link" hre
 as_component_set_source_pkgname (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
                                  <em class="parameter"><code>const <span class="type">gchar</span> *spkgname</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.19.4"></a><h4>Parameters</h4>
+<a name="as-component-set-source-pkgname.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1133,7 +1125,7 @@ as_component_set_source_pkgname (<em class="parameter"><code><a class="link" hre
 as_component_get_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>A human-readable name for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.20.5"></a><h4>Parameters</h4>
+<a name="as-component-get-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1148,7 +1140,7 @@ as_component_get_name (<em class="parameter"><code><a class="link" href="AsCompo
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.20.6"></a><h4>Returns</h4>
+<a name="as-component-get-name.returns"></a><h4>Returns</h4>
 <p> the name.</p>
 </div>
 </div>
@@ -1161,7 +1153,7 @@ as_component_set_name (<em class="parameter"><code><a class="link" href="AsCompo
                        <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set a human-readable name for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.21.5"></a><h4>Parameters</h4>
+<a name="as-component-set-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1195,7 +1187,7 @@ as_component_set_name (<em class="parameter"><code><a class="link" href="AsCompo
 as_component_get_summary (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get a short description of this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.22.5"></a><h4>Parameters</h4>
+<a name="as-component-get-summary.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1210,7 +1202,7 @@ as_component_get_summary (<em class="parameter"><code><a class="link" href="AsCo
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.22.6"></a><h4>Returns</h4>
+<a name="as-component-get-summary.returns"></a><h4>Returns</h4>
 <p> the summary.</p>
 </div>
 </div>
@@ -1223,7 +1215,7 @@ as_component_set_summary (<em class="parameter"><code><a class="link" href="AsCo
                           <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set a short description for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.23.5"></a><h4>Parameters</h4>
+<a name="as-component-set-summary.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1257,7 +1249,7 @@ as_component_set_summary (<em class="parameter"><code><a class="link" href="AsCo
 as_component_get_description (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the localized long description of this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.24.5"></a><h4>Parameters</h4>
+<a name="as-component-get-description.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1272,7 +1264,7 @@ as_component_get_description (<em class="parameter"><code><a class="link" href="
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.24.6"></a><h4>Returns</h4>
+<a name="as-component-get-description.returns"></a><h4>Returns</h4>
 <p> the description.</p>
 </div>
 </div>
@@ -1285,7 +1277,7 @@ as_component_set_description (<em class="parameter"><code><a class="link" href="
                               <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set long description for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.25.5"></a><h4>Parameters</h4>
+<a name="as-component-set-description.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1319,7 +1311,7 @@ as_component_set_description (<em class="parameter"><code><a class="link" href="
 as_component_get_project_license (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the license of the project this component belongs to.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.26.5"></a><h4>Parameters</h4>
+<a name="as-component-get-project-license.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1334,7 +1326,7 @@ as_component_get_project_license (<em class="parameter"><code><a class="link" hr
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.26.6"></a><h4>Returns</h4>
+<a name="as-component-get-project-license.returns"></a><h4>Returns</h4>
 <p> the license.</p>
 </div>
 </div>
@@ -1346,7 +1338,7 @@ as_component_set_project_license (<em class="parameter"><code><a class="link" hr
                                   <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Set the project license.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.27.5"></a><h4>Parameters</h4>
+<a name="as-component-set-project-license.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1375,7 +1367,7 @@ as_component_set_project_license (<em class="parameter"><code><a class="link" hr
 as_component_get_project_group (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the component's project group.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.28.5"></a><h4>Parameters</h4>
+<a name="as-component-get-project-group.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1390,7 +1382,7 @@ as_component_get_project_group (<em class="parameter"><code><a class="link" href
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.28.6"></a><h4>Returns</h4>
+<a name="as-component-get-project-group.returns"></a><h4>Returns</h4>
 <p> the project group.</p>
 </div>
 </div>
@@ -1402,7 +1394,7 @@ as_component_set_project_group (<em class="parameter"><code><a class="link" href
                                 <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Set the component's project group.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.29.5"></a><h4>Parameters</h4>
+<a name="as-component-set-project-group.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1431,7 +1423,7 @@ as_component_set_project_group (<em class="parameter"><code><a class="link" href
 as_component_get_developer_name (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get the component's developer or development team name.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.30.5"></a><h4>Parameters</h4>
+<a name="as-component-get-developer-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1446,7 +1438,7 @@ as_component_get_developer_name (<em class="parameter"><code><a class="link" hre
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.30.6"></a><h4>Returns</h4>
+<a name="as-component-get-developer-name.returns"></a><h4>Returns</h4>
 <p> the developer name.</p>
 </div>
 </div>
@@ -1459,7 +1451,7 @@ as_component_set_developer_name (<em class="parameter"><code><a class="link" hre
                                  <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set the the component's developer or development team name.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.31.5"></a><h4>Parameters</h4>
+<a name="as-component-set-developer-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1493,7 +1485,7 @@ as_component_set_developer_name (<em class="parameter"><code><a class="link" hre
 as_component_get_compulsory_for_desktops
                                (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.32.4"></a><h4>Parameters</h4>
+<a name="as-component-get-compulsory-for-desktops.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1508,7 +1500,7 @@ as_component_get_compulsory_for_desktops
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.32.5"></a><h4>Returns</h4>
+<a name="as-component-get-compulsory-for-desktops.returns"></a><h4>Returns</h4>
 <p> A list of desktops where this component is compulsory. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1522,7 +1514,7 @@ as_component_set_compulsory_for_desktops
                                 <em class="parameter"><code><span class="type">gchar</span> **value</code></em>);</pre>
 <p>Set a list of desktops where this component is compulsory.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.33.5"></a><h4>Parameters</h4>
+<a name="as-component-set-compulsory-for-desktops.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1553,7 +1545,7 @@ as_component_is_compulsory_for_desktop
                                 <em class="parameter"><code>const <span class="type">gchar</span> *desktop</code></em>);</pre>
 <p>Check if this component is compulsory for the given desktop.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.34.5"></a><h4>Parameters</h4>
+<a name="as-component-is-compulsory-for-desktop.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1575,7 +1567,7 @@ as_component_is_compulsory_for_desktop
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.34.6"></a><h4>Returns</h4>
+<a name="as-component-is-compulsory-for-desktop.returns"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if compulsory, <code class="literal">FALSE</code> otherwise.</p>
 </div>
 </div>
@@ -1585,7 +1577,7 @@ as_component_is_compulsory_for_desktop
 <pre class="programlisting"><span class="returnvalue">gchar</span> **
 as_component_get_categories (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.35.4"></a><h4>Parameters</h4>
+<a name="as-component-get-categories.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1600,7 +1592,7 @@ as_component_get_categories (<em class="parameter"><code><a class="link" href="A
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.35.5"></a><h4>Returns</h4>
+<a name="as-component-get-categories.returns"></a><h4>Returns</h4>
 <p> String array of categories. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1612,7 +1604,7 @@ as_component_get_categories (<em class="parameter"><code><a class="link" href="A
 as_component_set_categories (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
                              <em class="parameter"><code><span class="type">gchar</span> **value</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.36.4"></a><h4>Parameters</h4>
+<a name="as-component-set-categories.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1642,7 +1634,7 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code>const <span class="type">gchar</span> *category</code></em>);</pre>
 <p>Check if component is in the specified category.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.37.5"></a><h4>Parameters</h4>
+<a name="as-component-has-category.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1664,7 +1656,7 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.37.6"></a><h4>Returns</h4>
+<a name="as-component-has-category.returns"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if the component is in the specified category.</p>
 </div>
 </div>
@@ -1675,7 +1667,7 @@ as_component_has_category (<em class="parameter"><code><a class="link" href="AsC
 as_component_get_screenshots (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get a list of associated screenshots.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.38.5"></a><h4>Parameters</h4>
+<a name="as-component-get-screenshots.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1690,7 +1682,7 @@ as_component_get_screenshots (<em class="parameter"><code><a class="link" href="
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.38.6"></a><h4>Returns</h4>
+<a name="as-component-get-screenshots.returns"></a><h4>Returns</h4>
 <p> an array of <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> instances. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsScreenshot][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1703,7 +1695,7 @@ as_component_add_screenshot (<em class="parameter"><code><a class="link" href="A
                              <em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *sshot</code></em>);</pre>
 <p>Add an <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.39.5"></a><h4>Parameters</h4>
+<a name="as-component-add-screenshot.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1731,7 +1723,7 @@ as_component_add_screenshot (<em class="parameter"><code><a class="link" href="A
 <pre class="programlisting"><span class="returnvalue">gchar</span> **
 as_component_get_keywords (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.40.4"></a><h4>Parameters</h4>
+<a name="as-component-get-keywords.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1746,7 +1738,7 @@ as_component_get_keywords (<em class="parameter"><code><a class="link" href="AsC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.40.5"></a><h4>Returns</h4>
+<a name="as-component-get-keywords.returns"></a><h4>Returns</h4>
 <p> String array of keywords. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1760,7 +1752,7 @@ as_component_set_keywords (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set keywords for this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.41.5"></a><h4>Parameters</h4>
+<a name="as-component-set-keywords.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1793,7 +1785,7 @@ as_component_set_keywords (<em class="parameter"><code><a class="link" href="AsC
 <pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
 as_component_get_icons (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.42.4"></a><h4>Parameters</h4>
+<a name="as-component-get-icons.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1808,7 +1800,7 @@ as_component_get_icons (<em class="parameter"><code><a class="link" href="AsComp
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.42.5"></a><h4>Returns</h4>
+<a name="as-component-get-icons.returns"></a><h4>Returns</h4>
 <p> A <span class="type">GPtrArray</span> of all icons for this component. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsIcon][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1826,7 +1818,7 @@ which matches the size is returned.
 If you want more control over which icons you use for displaying,
 use the <a class="link" href="AsComponent.html#as-component-get-icons" title="as_component_get_icons ()"><code class="function">as_component_get_icons()</code></a> function to get a list of all icons.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.43.5"></a><h4>Parameters</h4>
+<a name="as-component-get-icon-by-size.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1853,7 +1845,7 @@ use the <a class="link" href="AsComponent.html#as-component-get-icons" title="as
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.43.6"></a><h4>Returns</h4>
+<a name="as-component-get-icon-by-size.returns"></a><h4>Returns</h4>
 <p> An icon matching the given width/height, or <code class="literal">NULL</code> if not found. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1866,7 +1858,7 @@ as_component_add_icon (<em class="parameter"><code><a class="link" href="AsCompo
                        <em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <p>Add an icon to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.44.5"></a><h4>Parameters</h4>
+<a name="as-component-add-icon.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1896,7 +1888,7 @@ as_component_add_provided (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code><a class="link" href="AsProvided.html" title="AsProvided"><span class="type">AsProvided</span></a> *prov</code></em>);</pre>
 <p>Add a set of provided items to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.45.5"></a><h4>Parameters</h4>
+<a name="as-component-add-provided.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1929,7 +1921,7 @@ as_component_get_provided_for_kind (<em class="parameter"><code><a class="link" 
 containing information about the public interfaces (mimetypes, firmware, DBus services, ...)
 this component provides.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.46.5"></a><h4>Parameters</h4>
+<a name="as-component-get-provided-for-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1951,7 +1943,7 @@ this component provides.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.46.6"></a><h4>Returns</h4>
+<a name="as-component-get-provided-for-kind.returns"></a><h4>Returns</h4>
 <p> <a class="link" href="AsProvided.html" title="AsProvided"><span class="type">AsProvided</span></a> containing the items this component provides, or <code class="literal">NULL</code>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -1963,7 +1955,7 @@ this component provides.</p>
 as_component_get_provided (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get a list of <a class="link" href="AsProvided.html" title="AsProvided"><span class="type">AsProvided</span></a> objects associated with this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.47.5"></a><h4>Parameters</h4>
+<a name="as-component-get-provided.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -1978,7 +1970,7 @@ as_component_get_provided (<em class="parameter"><code><a class="link" href="AsC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.47.6"></a><h4>Returns</h4>
+<a name="as-component-get-provided.returns"></a><h4>Returns</h4>
 <p> A list of <a class="link" href="AsProvided.html" title="AsProvided"><span class="type">AsProvided</span></a> objects. </p>
 <p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsProvided]</span></p>
 </div>
@@ -1991,7 +1983,7 @@ as_component_get_url (<em class="parameter"><code><a class="link" href="AsCompon
                       <em class="parameter"><code><a class="link" href="appstream-as-enums.html#AsUrlKind" title="enum AsUrlKind"><span class="type">AsUrlKind</span></a> url_kind</code></em>);</pre>
 <p>Gets a URL.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.48.5"></a><h4>Parameters</h4>
+<a name="as-component-get-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2013,7 +2005,7 @@ as_component_get_url (<em class="parameter"><code><a class="link" href="AsCompon
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.48.6"></a><h4>Returns</h4>
+<a name="as-component-get-url.returns"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> if unset. </p>
 <p><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></p>
 </div>
@@ -2028,7 +2020,7 @@ as_component_add_url (<em class="parameter"><code><a class="link" href="AsCompon
                       <em class="parameter"><code>const <span class="type">gchar</span> *url</code></em>);</pre>
 <p>Adds some URL data to the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.49.5"></a><h4>Parameters</h4>
+<a name="as-component-add-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2064,7 +2056,7 @@ as_component_get_releases (<em class="parameter"><code><a class="link" href="AsC
 <p>Get an array of the <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> items this component
 provides.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.50.5"></a><h4>Parameters</h4>
+<a name="as-component-get-releases.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2079,7 +2071,7 @@ provides.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.50.6"></a><h4>Returns</h4>
+<a name="as-component-get-releases.returns"></a><h4>Returns</h4>
 <p> A list of releases. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsRelease][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -2092,7 +2084,7 @@ as_component_add_release (<em class="parameter"><code><a class="link" href="AsCo
                           <em class="parameter"><code><a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> *release</code></em>);</pre>
 <p>Add an <a class="link" href="AsRelease.html" title="AsRelease"><span class="type">AsRelease</span></a> to this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.51.5"></a><h4>Parameters</h4>
+<a name="as-component-add-release.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2123,7 +2115,7 @@ as_component_get_extends (<em class="parameter"><code><a class="link" href="AsCo
 are extended by this addon.</p>
 <p>See <a class="link" href="AsComponent.html#as-component-get-extends" title="as_component_get_extends ()"><code class="literal">as_component_get_extends</code></a>() for the reverse.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.52.6"></a><h4>Parameters</h4>
+<a name="as-component-get-extends.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2138,7 +2130,7 @@ are extended by this addon.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.52.7"></a><h4>Returns</h4>
+<a name="as-component-get-extends.returns"></a><h4>Returns</h4>
 <p> A <span class="type">GPtrArray</span> or <code class="literal">NULL</code> if not set. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -2152,7 +2144,7 @@ as_component_add_extends (<em class="parameter"><code><a class="link" href="AsCo
                           <em class="parameter"><code>const <span class="type">gchar</span> *cpt_id</code></em>);</pre>
 <p>Add a reference to the extended component</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.53.5"></a><h4>Parameters</h4>
+<a name="as-component-add-extends.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2184,7 +2176,7 @@ as_component_get_extensions (<em class="parameter"><code><a class="link" href="A
 are addons extending this component in functionality.</p>
 <p>This is the reverse of <a class="link" href="AsComponent.html#as-component-get-extends" title="as_component_get_extends ()"><code class="literal">as_component_get_extends</code></a>()</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.54.6"></a><h4>Parameters</h4>
+<a name="as-component-get-extensions.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2199,7 +2191,7 @@ are addons extending this component in functionality.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.54.7"></a><h4>Returns</h4>
+<a name="as-component-get-extensions.returns"></a><h4>Returns</h4>
 <p> A <span class="type">GPtrArray</span> or <code class="literal">NULL</code> if not set. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -2213,7 +2205,7 @@ as_component_add_extension (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code>const <span class="type">gchar</span> *cpt_id</code></em>);</pre>
 <p>Add a reference to the extension enhancing this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.55.5"></a><h4>Parameters</h4>
+<a name="as-component-add-extension.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2243,7 +2235,7 @@ as_component_add_extension (<em class="parameter"><code><a class="link" href="As
 as_component_get_languages (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <p>Get a list of all languages.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.56.5"></a><h4>Parameters</h4>
+<a name="as-component-get-languages.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2258,7 +2250,7 @@ as_component_get_languages (<em class="parameter"><code><a class="link" href="As
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.56.6"></a><h4>Returns</h4>
+<a name="as-component-get-languages.returns"></a><h4>Returns</h4>
 <p> list of locales. </p>
 <p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
@@ -2272,7 +2264,7 @@ as_component_get_language (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Gets the translation coverage in percent for a specific locale</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.57.5"></a><h4>Parameters</h4>
+<a name="as-component-get-language.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2294,7 +2286,7 @@ as_component_get_language (<em class="parameter"><code><a class="link" href="AsC
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.57.6"></a><h4>Returns</h4>
+<a name="as-component-get-language.returns"></a><h4>Returns</h4>
 <p> a percentage value, -1 if locale was not found</p>
 </div>
 <p class="since">Since: 0.7.0</p>
@@ -2308,7 +2300,7 @@ as_component_add_language (<em class="parameter"><code><a class="link" href="AsC
                            <em class="parameter"><code><span class="type">gint</span> percentage</code></em>);</pre>
 <p>Adds a language to the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.58.5"></a><h4>Parameters</h4>
+<a name="as-component-add-language.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2341,12 +2333,12 @@ as_component_add_language (<em class="parameter"><code><a class="link" href="AsC
 <a name="as-component-get-translations"></a><h3>as_component_get_translations ()</h3>
 <pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
 as_component_get_translations (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
-<p>Get a <span class="type">GPtrArray</span> of <a href="../appstream-glib/AsTranslation.html"><span class="type">AsTranslation</span></a> objects describing the
+<p>Get a <span class="type">GPtrArray</span> of <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct"><span class="type">AsTranslation</span></a> objects describing the
 translation systems and translation-ids (e.g. Gettext domains) used
 by this software component.</p>
 <p>Only set for metainfo files.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.59.6"></a><h4>Parameters</h4>
+<a name="as-component-get-translations.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2361,8 +2353,8 @@ by this software component.</p>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.59.7"></a><h4>Returns</h4>
-<p> An array of <a href="../appstream-glib/AsTranslation.html"><span class="type">AsTranslation</span></a> objects. </p>
+<a name="as-component-get-translations.returns"></a><h4>Returns</h4>
+<p> An array of <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct"><span class="type">AsTranslation</span></a> objects. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsTranslation]</span></p>
 </div>
 <p class="since">Since: 0.9.2</p>
@@ -2372,11 +2364,11 @@ by this software component.</p>
 <a name="as-component-add-translation"></a><h3>as_component_add_translation ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_component_add_translation (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
-                              <em class="parameter"><code><a href="../appstream-glib/AsTranslation.html"><span class="type">AsTranslation</span></a> *tr</code></em>);</pre>
-<p>Assign an <a href="../appstream-glib/AsTranslation.html"><span class="type">AsTranslation</span></a> object describing the translation system used
+                              <em class="parameter"><code><a href="../appstream-glib/AsTranslation.html#AsTranslation-struct"><span class="type">AsTranslation</span></a> *tr</code></em>);</pre>
+<p>Assign an <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct"><span class="type">AsTranslation</span></a> object describing the translation system used
 by this component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.60.5"></a><h4>Parameters</h4>
+<a name="as-component-add-translation.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2391,7 +2383,7 @@ by this component.</p>
 </tr>
 <tr>
 <td class="parameter_name"><p>tr</p></td>
-<td class="parameter_description"><p>an <a href="../appstream-glib/AsTranslation.html"><span class="type">AsTranslation</span></a> instance.</p></td>
+<td class="parameter_description"><p>an <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct"><span class="type">AsTranslation</span></a> instance.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -2405,7 +2397,7 @@ by this component.</p>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_component_has_bundle (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.2.9.61.4"></a><h4>Parameters</h4>
+<a name="as-component-has-bundle.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2420,7 +2412,7 @@ as_component_has_bundle (<em class="parameter"><code><a class="link" href="AsCom
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.61.5"></a><h4>Returns</h4>
+<a name="as-component-has-bundle.returns"></a><h4>Returns</h4>
 <p> <code class="literal">TRUE</code> if this component has a bundle-id associated.</p>
 </div>
 </div>
@@ -2432,7 +2424,7 @@ as_component_get_bundle_id (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code><a class="link" href="appstream-as-enums.html#AsBundleKind" title="enum AsBundleKind"><span class="type">AsBundleKind</span></a> bundle_kind</code></em>);</pre>
 <p>Gets a bundle identifier string.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.62.5"></a><h4>Parameters</h4>
+<a name="as-component-get-bundle-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2454,7 +2446,7 @@ as_component_get_bundle_id (<em class="parameter"><code><a class="link" href="As
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.2.9.62.6"></a><h4>Returns</h4>
+<a name="as-component-get-bundle-id.returns"></a><h4>Returns</h4>
 <p> string, or <code class="literal">NULL</code> if unset. </p>
 <p><span class="annotation">[<acronym title="NULL may be passed as the value in, out, in-out; or as a return value."><span class="acronym">nullable</span></acronym>]</span></p>
 </div>
@@ -2469,7 +2461,7 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
                             <em class="parameter"><code>const <span class="type">gchar</span> *id</code></em>);</pre>
 <p>Adds a bundle identifier to the component.</p>
 <div class="refsect3">
-<a name="id-1.2.2.9.63.5"></a><h4>Parameters</h4>
+<a name="as-component-add-bundle-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -2501,6 +2493,14 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
 <div class="refsect1">
 <a name="AsComponent.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AS-TYPE-COMPONENT:CAPS"></a><h3>AS_TYPE_COMPONENT</h3>
+<pre class="programlisting">#define AS_TYPE_COMPONENT (as_component_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsComponentClass"></a><h3>struct AsComponentClass</h3>
 <pre class="programlisting">struct AsComponentClass {
 	GObjectClass		parent_class;
@@ -2514,7 +2514,7 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
 <a name="AsComponentKind"></a><h3>enum AsComponentKind</h3>
 <p>The type of an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.2.10.3.4"></a><h4>Members</h4>
+<a name="AsComponentKind.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -2701,6 +2701,6 @@ as_component_add_bundle_id (<em class="parameter"><code><a class="link" href="As
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

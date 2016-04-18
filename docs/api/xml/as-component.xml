@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-COMPONENT:CAPS">AS_TYPE_COMPONENT</link></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-kind-to-string">as_component_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
@@ -184,6 +183,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-COMPONENT:CAPS">AS_TYPE_COMPONENT</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsComponentClass">AsComponentClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsComponentKind">AsComponentKind</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsComponent-struct">AsComponent</link></entry></row>
@@ -218,21 +218,13 @@ find out which kind of component we're dealing with.</para>
 </refsect1>
 <refsect1 id="AsComponent.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-COMPONENT:CAPS" role="macro">
-<title>AS_TYPE_COMPONENT</title>
-<indexterm zone="AS-TYPE-COMPONENT:CAPS"><primary>AS_TYPE_COMPONENT</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_COMPONENT (as_component_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-component-kind-to-string" role="function">
 <title>as_component_kind_to_string&#160;()</title>
 <indexterm zone="as-component-kind-to-string"><primary>as_component_kind_to_string</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_kind_to_string (<parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -244,7 +236,7 @@ as_component_kind_to_string (<parameter><link linkend="AsComponentKind"><type>As
 <entry role="parameter_description"><para>the <link linkend="AsComponentKind"><literal>AsComponentKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
@@ -255,7 +247,7 @@ as_component_kind_to_string (<parameter><link linkend="AsComponentKind"><type>As
 <programlisting language="C"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 as_component_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -267,7 +259,7 @@ as_component_kind_from_string (<parameter>const <link linkend="gchar"><type>gcha
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsComponentKind"><type>AsComponentKind</type></link> or <link linkend="AS-COMPONENT-KIND-UNKNOWN:CAPS"><literal>AS_COMPONENT_KIND_UNKNOWN</literal></link> for unknown</para>
 </refsect3></refsect2>
@@ -277,7 +269,7 @@ as_component_kind_from_string (<parameter>const <link linkend="gchar"><type>gcha
 <programlisting language="C"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 as_component_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsComponent"><type>AsComponent</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-component-new.returns" role="returns">
 <title>Returns</title>
 <para> a new <link linkend="AsComponent"><type>AsComponent</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -289,7 +281,7 @@ as_component_new (<parameter><type>void</type></parameter>);</programlisting>
 as_component_is_valid (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Check if the essential properties of this Component are
 populated with useful data.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-is-valid.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -301,7 +293,7 @@ populated with useful data.</para>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-is-valid.returns" role="returns">
 <title>Returns</title>
 <para> TRUE if the component data was validated successfully.</para>
 </refsect3></refsect2>
@@ -312,7 +304,7 @@ populated with useful data.</para>
 as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Returns a string identifying this component.
 (useful for debugging)</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -324,7 +316,7 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-to-string.returns" role="returns">
 <title>Returns</title>
 <para> A descriptive string. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -336,7 +328,7 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 as_component_get_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the current active locale for this component, which
 is used to get localized messages.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-active-locale.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -348,7 +340,7 @@ is used to get localized messages.</para>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-active-locale.returns" role="returns">
 <title>Returns</title>
 <para> the current active locale.</para>
 </refsect3></refsect2>
@@ -362,7 +354,7 @@ as_component_set_active_locale (<parameter><link linkend="AsComponent"><type>AsC
 is used to get localized messages.
 If the <link linkend="AsComponent"><type>AsComponent</type></link> was fetched from a localized database, usually only
 one locale is available.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-active-locale.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -384,7 +376,7 @@ one locale is available.</para>
 <programlisting language="C"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
 as_component_get_kind (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Returns the <link linkend="AsComponentKind"><type>AsComponentKind</type></link> of this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -396,7 +388,7 @@ as_component_get_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-kind.returns" role="returns">
 <title>Returns</title>
 <para> the kind of <link linkend="this"><type>this</type></link>.</para>
 </refsect3></refsect2>
@@ -407,7 +399,7 @@ as_component_get_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                        <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> value</parameter>);</programlisting>
 <para>Sets the <link linkend="AsComponentKind"><type>AsComponentKind</type></link> of this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -429,7 +421,7 @@ as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Set the unique identifier for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -441,7 +433,7 @@ as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</t
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-id.returns" role="returns">
 <title>Returns</title>
 <para> the unique identifier.</para>
 </refsect3></refsect2>
@@ -452,7 +444,7 @@ as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</t
 as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set the unique identifier for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -473,7 +465,7 @@ as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</t
 <indexterm zone="as-component-get-origin"><primary>as_component_get_origin</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_origin (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-origin.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -492,7 +484,7 @@ as_component_get_origin (<parameter><link linkend="AsComponent"><type>AsComponen
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_component_set_origin (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *origin</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-origin.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -515,7 +507,7 @@ as_component_set_origin (<parameter><link linkend="AsComponent"><type>AsComponen
 as_component_get_pkgnames (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a list of package names which this component consists of.
 This usually is just one package name.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-pkgnames.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -527,7 +519,7 @@ This usually is just one package name.</para>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-pkgnames.returns" role="returns">
 <title>Returns</title>
 <para> String array of package names. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -540,7 +532,7 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
                            <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
 <para>Set a list of package names this component consists of.
 (This should usually be just one package name)</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-pkgnames.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -561,7 +553,7 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-source-pkgname"><primary>as_component_get_source_pkgname</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_source_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-source-pkgname.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -573,7 +565,7 @@ as_component_get_source_pkgname (<parameter><link linkend="AsComponent"><type>As
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-source-pkgname.returns" role="returns">
 <title>Returns</title>
 <para> the source package name.</para>
 </refsect3></refsect2>
@@ -583,7 +575,7 @@ as_component_get_source_pkgname (<parameter><link linkend="AsComponent"><type>As
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_component_set_source_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *spkgname</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-source-pkgname.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -605,7 +597,7 @@ as_component_set_source_pkgname (<parameter><link linkend="AsComponent"><type>As
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>A human-readable name for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -617,7 +609,7 @@ as_component_get_name (<parameter><link linkend="AsComponent"><type>AsComponent<
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-name.returns" role="returns">
 <title>Returns</title>
 <para> the name.</para>
 </refsect3></refsect2>
@@ -629,7 +621,7 @@ as_component_set_name (<parameter><link linkend="AsComponent"><type>AsComponent<
                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Set a human-readable name for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -654,7 +646,7 @@ as_component_set_name (<parameter><link linkend="AsComponent"><type>AsComponent<
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_summary (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a short description of this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-summary.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -666,7 +658,7 @@ as_component_get_summary (<parameter><link linkend="AsComponent"><type>AsCompone
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-summary.returns" role="returns">
 <title>Returns</title>
 <para> the summary.</para>
 </refsect3></refsect2>
@@ -678,7 +670,7 @@ as_component_set_summary (<parameter><link linkend="AsComponent"><type>AsCompone
                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Set a short description for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-summary.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -703,7 +695,7 @@ as_component_set_summary (<parameter><link linkend="AsComponent"><type>AsCompone
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_description (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the localized long description of this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-description.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -715,7 +707,7 @@ as_component_get_description (<parameter><link linkend="AsComponent"><type>AsCom
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-description.returns" role="returns">
 <title>Returns</title>
 <para> the description.</para>
 </refsect3></refsect2>
@@ -727,7 +719,7 @@ as_component_set_description (<parameter><link linkend="AsComponent"><type>AsCom
                               <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
                               <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Set long description for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-description.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -752,7 +744,7 @@ as_component_set_description (<parameter><link linkend="AsComponent"><type>AsCom
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_project_license (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the license of the project this component belongs to.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-project-license.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -764,7 +756,7 @@ as_component_get_project_license (<parameter><link linkend="AsComponent"><type>A
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-project-license.returns" role="returns">
 <title>Returns</title>
 <para> the license.</para>
 </refsect3></refsect2>
@@ -775,7 +767,7 @@ as_component_get_project_license (<parameter><link linkend="AsComponent"><type>A
 as_component_set_project_license (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                   <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set the project license.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-project-license.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -797,7 +789,7 @@ as_component_set_project_license (<parameter><link linkend="AsComponent"><type>A
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_project_group (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the component's project group.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-project-group.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -809,7 +801,7 @@ as_component_get_project_group (<parameter><link linkend="AsComponent"><type>AsC
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-project-group.returns" role="returns">
 <title>Returns</title>
 <para> the project group.</para>
 </refsect3></refsect2>
@@ -820,7 +812,7 @@ as_component_get_project_group (<parameter><link linkend="AsComponent"><type>AsC
 as_component_set_project_group (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
 <para>Set the component's project group.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-project-group.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -842,7 +834,7 @@ as_component_set_project_group (<parameter><link linkend="AsComponent"><type>AsC
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_developer_name (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the component's developer or development team name.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-developer-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -854,7 +846,7 @@ as_component_get_developer_name (<parameter><link linkend="AsComponent"><type>As
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-developer-name.returns" role="returns">
 <title>Returns</title>
 <para> the developer name.</para>
 </refsect3></refsect2>
@@ -866,7 +858,7 @@ as_component_set_developer_name (<parameter><link linkend="AsComponent"><type>As
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>,
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Set the the component's developer or development team name.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-developer-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -891,7 +883,7 @@ as_component_set_developer_name (<parameter><link linkend="AsComponent"><type>As
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 as_component_get_compulsory_for_desktops
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-compulsory-for-desktops.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -903,7 +895,7 @@ as_component_get_compulsory_for_desktops
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-compulsory-for-desktops.returns" role="returns">
 <title>Returns</title>
 <para> A list of desktops where this component is compulsory. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -916,7 +908,7 @@ as_component_set_compulsory_for_desktops
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                 <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
 <para>Set a list of desktops where this component is compulsory.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-compulsory-for-desktops.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -940,7 +932,7 @@ as_component_is_compulsory_for_desktop
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *desktop</parameter>);</programlisting>
 <para>Check if this component is compulsory for the given desktop.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-is-compulsory-for-desktop.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -955,7 +947,7 @@ as_component_is_compulsory_for_desktop
 <entry role="parameter_description"><para>the desktop-id to test for</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-is-compulsory-for-desktop.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if compulsory, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> otherwise.</para>
 </refsect3></refsect2>
@@ -964,7 +956,7 @@ as_component_is_compulsory_for_desktop
 <indexterm zone="as-component-get-categories"><primary>as_component_get_categories</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 as_component_get_categories (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-categories.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -976,7 +968,7 @@ as_component_get_categories (<parameter><link linkend="AsComponent"><type>AsComp
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-categories.returns" role="returns">
 <title>Returns</title>
 <para> String array of categories. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -987,7 +979,7 @@ as_component_get_categories (<parameter><link linkend="AsComponent"><type>AsComp
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_component_set_categories (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                              <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-categories.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1010,7 +1002,7 @@ as_component_set_categories (<parameter><link linkend="AsComponent"><type>AsComp
 as_component_has_category (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *category</parameter>);</programlisting>
 <para>Check if component is in the specified category.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-has-category.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1025,7 +1017,7 @@ as_component_has_category (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para>the specified category to check</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-has-category.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the component is in the specified category.</para>
 </refsect3></refsect2>
@@ -1035,7 +1027,7 @@ as_component_has_category (<parameter><link linkend="AsComponent"><type>AsCompon
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_component_get_screenshots (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a list of associated screenshots.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-screenshots.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1047,7 +1039,7 @@ as_component_get_screenshots (<parameter><link linkend="AsComponent"><type>AsCom
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-screenshots.returns" role="returns">
 <title>Returns</title>
 <para> an array of <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instances. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsScreenshot][<acronym>transfer none</acronym>]</emphasis></para>
@@ -1059,7 +1051,7 @@ as_component_get_screenshots (<parameter><link linkend="AsComponent"><type>AsCom
 as_component_add_screenshot (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                              <parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *sshot</parameter>);</programlisting>
 <para>Add an <link linkend="AsScreenshot"><type>AsScreenshot</type></link> to this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-screenshot.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1080,7 +1072,7 @@ as_component_add_screenshot (<parameter><link linkend="AsComponent"><type>AsComp
 <indexterm zone="as-component-get-keywords"><primary>as_component_get_keywords</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 as_component_get_keywords (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-keywords.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1092,7 +1084,7 @@ as_component_get_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-keywords.returns" role="returns">
 <title>Returns</title>
 <para> String array of keywords. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -1105,7 +1097,7 @@ as_component_set_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
                            <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Set keywords for this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-set-keywords.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1129,7 +1121,7 @@ as_component_set_keywords (<parameter><link linkend="AsComponent"><type>AsCompon
 <indexterm zone="as-component-get-icons"><primary>as_component_get_icons</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_component_get_icons (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-icons.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1141,7 +1133,7 @@ as_component_get_icons (<parameter><link linkend="AsComponent"><type>AsComponent
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-icons.returns" role="returns">
 <title>Returns</title>
 <para> A <link linkend="GPtrArray"><type>GPtrArray</type></link> of all icons for this component. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsIcon][<acronym>transfer none</acronym>]</emphasis></para>
@@ -1158,7 +1150,7 @@ The icons are not filtered by type, and the first icon
 which matches the size is returned.
 If you want more control over which icons you use for displaying,
 use the <link linkend="as-component-get-icons"><function>as_component_get_icons()</function></link> function to get a list of all icons.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-icon-by-size.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1176,7 +1168,7 @@ use the <link linkend="as-component-get-icons"><function>as_component_get_icons(
 <entry role="parameter_description"><para>the icon height in pixels.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-icon-by-size.returns" role="returns">
 <title>Returns</title>
 <para> An icon matching the given width/height, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not found. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -1188,7 +1180,7 @@ use the <link linkend="as-component-get-icons"><function>as_component_get_icons(
 as_component_add_icon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                        <parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
 <para>Add an icon to this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-icon.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1211,7 +1203,7 @@ as_component_add_icon (<parameter><link linkend="AsComponent"><type>AsComponent<
 as_component_add_provided (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                            <parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>);</programlisting>
 <para>Add a set of provided items to this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-provided.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1236,7 +1228,7 @@ as_component_get_provided_for_kind (<parameter><link linkend="AsComponent"><type
 <para>Get an <link linkend="AsProvided"><type>AsProvided</type></link> object for the given interface type,
 containing information about the public interfaces (mimetypes, firmware, DBus services, ...)
 this component provides.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-provided-for-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1251,7 +1243,7 @@ this component provides.</para>
 <entry role="parameter_description"><para>kind of the provided item, e.g. <link linkend="AS-PROVIDED-KIND-MIMETYPE:CAPS"><literal>AS_PROVIDED_KIND_MIMETYPE</literal></link></para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-provided-for-kind.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="AsProvided"><type>AsProvided</type></link> containing the items this component provides, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
@@ -1262,7 +1254,7 @@ this component provides.</para>
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 as_component_get_provided (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a list of <link linkend="AsProvided"><type>AsProvided</type></link> objects associated with this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-provided.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1274,7 +1266,7 @@ as_component_get_provided (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-provided.returns" role="returns">
 <title>Returns</title>
 <para> A list of <link linkend="AsProvided"><type>AsProvided</type></link> objects. </para>
 <para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> AsProvided]</emphasis></para>
@@ -1286,7 +1278,7 @@ as_component_get_provided (<parameter><link linkend="AsComponent"><type>AsCompon
 as_component_get_url (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                       <parameter><link linkend="AsUrlKind"><type>AsUrlKind</type></link> url_kind</parameter>);</programlisting>
 <para>Gets a URL.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1301,7 +1293,7 @@ as_component_get_url (<parameter><link linkend="AsComponent"><type>AsComponent</
 <entry role="parameter_description"><para>the URL kind, e.g. <link linkend="AS-URL-KIND-HOMEPAGE:CAPS"><literal>AS_URL_KIND_HOMEPAGE</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-url.returns" role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset. </para>
 <para><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></para>
@@ -1314,7 +1306,7 @@ as_component_add_url (<parameter><link linkend="AsComponent"><type>AsComponent</
                       <parameter><link linkend="AsUrlKind"><type>AsUrlKind</type></link> url_kind</parameter>,
                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);</programlisting>
 <para>Adds some URL data to the component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1340,7 +1332,7 @@ as_component_add_url (<parameter><link linkend="AsComponent"><type>AsComponent</
 as_component_get_releases (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get an array of the <link linkend="AsRelease"><type>AsRelease</type></link> items this component
 provides.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-releases.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1352,7 +1344,7 @@ provides.</para>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-releases.returns" role="returns">
 <title>Returns</title>
 <para> A list of releases. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsRelease][<acronym>transfer none</acronym>]</emphasis></para>
@@ -1364,7 +1356,7 @@ provides.</para>
 as_component_add_release (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                           <parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
 <para>Add an <link linkend="AsRelease"><type>AsRelease</type></link> to this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-release.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1388,7 +1380,7 @@ as_component_get_extends (<parameter><link linkend="AsComponent"><type>AsCompone
 <para>Returns a string list of IDs of components which
 are extended by this addon.</para>
 <para>See <link linkend="as-component-get-extends"><literal>as_component_get_extends</literal></link>() for the reverse.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-extends.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1400,7 +1392,7 @@ are extended by this addon.</para>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-extends.returns" role="returns">
 <title>Returns</title>
 <para> A <link linkend="GPtrArray"><type>GPtrArray</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not set. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
@@ -1412,7 +1404,7 @@ are extended by this addon.</para>
 as_component_add_extends (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *cpt_id</parameter>);</programlisting>
 <para>Add a reference to the extended component</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-extends.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1436,7 +1428,7 @@ as_component_get_extensions (<parameter><link linkend="AsComponent"><type>AsComp
 <para>Returns a string list of IDs of components which
 are addons extending this component in functionality.</para>
 <para>This is the reverse of <link linkend="as-component-get-extends"><literal>as_component_get_extends</literal></link>()</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-extensions.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1448,7 +1440,7 @@ are addons extending this component in functionality.</para>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-extensions.returns" role="returns">
 <title>Returns</title>
 <para> A <link linkend="GPtrArray"><type>GPtrArray</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not set. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
@@ -1460,7 +1452,7 @@ are addons extending this component in functionality.</para>
 as_component_add_extension (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *cpt_id</parameter>);</programlisting>
 <para>Add a reference to the extension enhancing this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-extension.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1482,7 +1474,7 @@ as_component_add_extension (<parameter><link linkend="AsComponent"><type>AsCompo
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 as_component_get_languages (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get a list of all languages.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-languages.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1494,7 +1486,7 @@ as_component_get_languages (<parameter><link linkend="AsComponent"><type>AsCompo
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-languages.returns" role="returns">
 <title>Returns</title>
 <para> list of locales. </para>
 <para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
@@ -1506,7 +1498,7 @@ as_component_get_languages (<parameter><link linkend="AsComponent"><type>AsCompo
 as_component_get_language (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
 <para>Gets the translation coverage in percent for a specific locale</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-language.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1521,7 +1513,7 @@ as_component_get_language (<parameter><link linkend="AsComponent"><type>AsCompon
 <entry role="parameter_description"><para> the locale, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. e.g. "en_GB". </para></entry>
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-language.returns" role="returns">
 <title>Returns</title>
 <para> a percentage value, -1 if locale was not found</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
@@ -1533,7 +1525,7 @@ as_component_add_language (<parameter><link linkend="AsComponent"><type>AsCompon
                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>,
                            <parameter><link linkend="gint"><type>gint</type></link> percentage</parameter>);</programlisting>
 <para>Adds a language to the component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-language.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1561,7 +1553,7 @@ as_component_get_translations (<parameter><link linkend="AsComponent"><type>AsCo
 translation systems and translation-ids (e.g. Gettext domains) used
 by this software component.</para>
 <para>Only set for metainfo files.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-translations.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1573,7 +1565,7 @@ by this software component.</para>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-translations.returns" role="returns">
 <title>Returns</title>
 <para> An array of <link linkend="AsTranslation"><type>AsTranslation</type></link> objects. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> AsTranslation]</emphasis></para>
@@ -1586,7 +1578,7 @@ as_component_add_translation (<parameter><link linkend="AsComponent"><type>AsCom
                               <parameter><link linkend="AsTranslation"><type>AsTranslation</type></link> *tr</parameter>);</programlisting>
 <para>Assign an <link linkend="AsTranslation"><type>AsTranslation</type></link> object describing the translation system used
 by this component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-translation.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1607,7 +1599,7 @@ by this component.</para>
 <indexterm zone="as-component-has-bundle"><primary>as_component_has_bundle</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_component_has_bundle (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-component-has-bundle.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1619,7 +1611,7 @@ as_component_has_bundle (<parameter><link linkend="AsComponent"><type>AsComponen
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-has-bundle.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if this component has a bundle-id associated.</para>
 </refsect3></refsect2>
@@ -1630,7 +1622,7 @@ as_component_has_bundle (<parameter><link linkend="AsComponent"><type>AsComponen
 as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                             <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
 <para>Gets a bundle identifier string.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-get-bundle-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1645,7 +1637,7 @@ as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <entry role="parameter_description"><para>the bundle kind, e.g. <link linkend="AS-BUNDLE-KIND-LIMBA:CAPS"><literal>AS_BUNDLE_KIND_LIMBA</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-component-get-bundle-id.returns" role="returns">
 <title>Returns</title>
 <para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset. </para>
 <para><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></para>
@@ -1658,7 +1650,7 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
                             <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *id</parameter>);</programlisting>
 <para>Adds a bundle identifier to the component.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-component-add-bundle-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1681,6 +1673,14 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-COMPONENT:CAPS" role="macro">
+<title>AS_TYPE_COMPONENT</title>
+<indexterm zone="AS-TYPE-COMPONENT:CAPS"><primary>AS_TYPE_COMPONENT</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_COMPONENT (as_component_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsComponentClass" role="struct">
 <title>struct AsComponentClass</title>
 <indexterm zone="AsComponentClass"><primary>AsComponentClass</primary></indexterm>
@@ -1695,7 +1695,7 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <title>enum AsComponentKind</title>
 <indexterm zone="AsComponentKind"><primary>AsComponentKind</primary></indexterm>
 <para>The type of an <link linkend="AsComponent"><type>AsComponent</type></link>.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsComponentKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">

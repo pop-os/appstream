@@ -23,9 +23,11 @@
 		</div><div class="para">
 			The <code class="code">&lt;components&gt;</code> root node has these properties, where the first two are required:
 		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">version</span></dt><dd><div class="para">
-						This property declares the AppStream spec version this file is based on (currently 0.6). The property is required.
+						This property declares the AppStream spec version this file is based on (currently 0.9). The property is required.
 					</div></dd><dt><span class="term">origin</span></dt><dd><div class="para">
 						Defines the repository-id this AppStream XML file belongs to. This usually matches the filename without extension (see the explanation on how to pick a good filename above). It is also used to associate the right cached icons with AppStream metadata. This property is required.
+					</div></dd><dt><span class="term">architecture</span></dt><dd><div class="para">
+						Defines the architecture this data belongs to. This information is useful to resolve AppStream-ID conflicts on multiarch systems, which appear if the user has metadata for two architectures installed. This property is optional.
 					</div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-asxml-tags">
       ⁠</a>3.1.4. Valid tags for all component types</h3></div></div></div><div class="para">
 			These tags can be applied to every component type (application, component, font, inputmethod) which is described in the AppStream metadata.
@@ -238,14 +240,7 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>This stable release fixes problems.<span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/release&gt;</span></pre></dd><dt><a id="tag-distro-architectures">
-      ⁠</a><span class="term">&lt;architectures/&gt;</span></dt><dd><div class="para">
-						If the <code class="literal">architectures</code> tag is present, the component is not available on all architectures the distribution supports. Supported architectures for this component are specified as children using the <code class="literal">arch</code> tag.
-					</div><div class="para">
-						For example, this marks a component to only be available on i686:
-					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;architectures&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;arch&gt;</span>i686<span xmlns="" class="perl_Keyword">&lt;/arch&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/architectures&gt;</span></pre></dd><dt><a id="tag-distro-languages">
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/release&gt;</span></pre></dd><dt><a id="tag-distro-languages">
       ⁠</a><span class="term">&lt;languages/&gt;</span></dt><dd><div class="para">
 						This tag gives information about the translations a component provides, and to which extent the software is translated.
 					</div><div class="para">

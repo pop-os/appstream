@@ -70,7 +70,7 @@
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_url_kind_to_string (<parameter><link linkend="AsUrlKind"><type>AsUrlKind</type></link> url_kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-url-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -82,7 +82,7 @@ as_url_kind_to_string (<parameter><link linkend="AsUrlKind"><type>AsUrlKind</typ
 <entry role="parameter_description"><para>the <link linkend="AsUrlKind"><literal>AsUrlKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-url-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>url_kind</parameter>
 </para>
@@ -93,7 +93,7 @@ as_url_kind_to_string (<parameter><link linkend="AsUrlKind"><type>AsUrlKind</typ
 <programlisting language="C"><link linkend="AsUrlKind"><returnvalue>AsUrlKind</returnvalue></link>
 as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *url_kind</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-url-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -105,7 +105,7 @@ as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</typ
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-url-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsUrlKind"><type>AsUrlKind</type></link> or <link linkend="AS-URL-KIND-UNKNOWN:CAPS"><literal>AS_URL_KIND_UNKNOWN</literal></link> for unknown</para>
 </refsect3></refsect2>
@@ -115,7 +115,7 @@ as_url_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</typ
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-bundle-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -127,7 +127,7 @@ as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundle
 <entry role="parameter_description"><para>the <link linkend="AsBundleKind"><literal>AsBundleKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-bundle-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>bundle_kind</parameter>
 </para>
@@ -138,7 +138,7 @@ as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundle
 <programlisting language="C"><link linkend="AsBundleKind"><returnvalue>AsBundleKind</returnvalue></link>
 as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *bundle_kind</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-bundle-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -150,7 +150,7 @@ as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-bundle-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsBundleKind"><type>AsBundleKind</type></link> or <link linkend="AS-BUNDLE-KIND-UNKNOWN:CAPS"><literal>AS_BUNDLE_KIND_UNKNOWN</literal></link> for unknown</para>
 </refsect3></refsect2>
@@ -160,7 +160,7 @@ as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_urgency_kind_to_string (<parameter><link linkend="AsUrgencyKind"><type>AsUrgencyKind</type></link> urgency_kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-urgency-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -172,7 +172,7 @@ as_urgency_kind_to_string (<parameter><link linkend="AsUrgencyKind"><type>AsUrge
 <entry role="parameter_description"><para>the <link linkend="AsUrgencyKind"><literal>AsUrgencyKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-urgency-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>urgency_kind</parameter>
 </para>
@@ -183,7 +183,7 @@ as_urgency_kind_to_string (<parameter><link linkend="AsUrgencyKind"><type>AsUrge
 <programlisting language="C"><link linkend="AsUrgencyKind"><returnvalue>AsUrgencyKind</returnvalue></link>
 as_urgency_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *urgency_kind</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-urgency-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -195,7 +195,7 @@ as_urgency_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar<
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-urgency-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsUrgencyKind"><literal>AsUrgencyKind</literal></link> or <link linkend="AS-URGENCY-KIND-UNKNOWN:CAPS"><literal>AS_URGENCY_KIND_UNKNOWN</literal></link> for unknown</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.6.5">0.6.5</link></para></refsect2>
@@ -207,7 +207,7 @@ as_urgency_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar<
 <title>enum AsUrlKind</title>
 <indexterm zone="AsUrlKind"><primary>AsUrlKind</primary></indexterm>
 <para>The URL type.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsUrlKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -251,7 +251,7 @@ as_urgency_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar<
 <title>enum AsBundleKind</title>
 <indexterm zone="AsBundleKind"><primary>AsBundleKind</primary></indexterm>
 <para>The bundle type.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsBundleKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -280,7 +280,7 @@ as_urgency_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar<
 <title>enum AsUrgencyKind</title>
 <indexterm zone="AsUrgencyKind"><primary>AsUrgencyKind</primary></indexterm>
 <para>The urgency of an <link linkend="AsRelease"><type>AsRelease</type></link></para>
-<refsect3 role="enum_members">
+<refsect3 id="AsUrgencyKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">

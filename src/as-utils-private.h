@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -52,6 +52,13 @@ gchar			**as_ptr_array_to_strv (GPtrArray *array);
 gboolean		as_touch_location (const gchar *fname);
 gboolean		as_copy_file (const gchar *source, const gchar *destination, GError **error);
 void			as_reset_umask (void);
+
+gboolean		as_is_cruft_locale (const gchar *locale);
+gchar			*as_locale_strip_encoding (gchar *locale);
+
+gchar			*as_get_current_arch (void);
+gboolean		as_arch_compatible (const gchar *arch1,
+					    const gchar *arch2);
 
 G_END_DECLS
 

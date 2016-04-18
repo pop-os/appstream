@@ -37,6 +37,7 @@ typedef struct
 	gchar *origin;
 	gchar *media_baseurl;
 
+	gchar *arch;
 	gint default_priority;
 } AsYAMLDataPrivate;
 
@@ -80,6 +81,7 @@ as_yamldata_finalize (GObject *object)
 	g_free (priv->locale_short);
 	g_free (priv->origin);
 	g_free (priv->media_baseurl);
+	g_free (priv->arch);
 
 	G_OBJECT_CLASS (as_yamldata_parent_class)->finalize (object);
 }
@@ -91,7 +93,7 @@ as_yamldata_finalize (GObject *object)
  * Initialize the YAML handler.
  */
 void
-as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority)
+as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority)
 {
 	g_auto(GStrv) strv = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
@@ -108,6 +110,9 @@ as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origi
 
 	g_free (priv->media_baseurl);
 	priv->media_baseurl = g_strdup (media_baseurl);
+
+	g_free (priv->arch);
+	priv->origin = g_strdup (arch);
 
 	priv->default_priority = priority;
 }
@@ -214,23 +219,23 @@ as_yamldata_get_localized_node (AsYAMLData *ydt, GNode *node, gchar *locale_over
 	}
 
 	for (n = node->children; n != NULL; n = n->next) {
-			key = (gchar*) n->data;
+		key = (gchar*) n->data;
 
-			if ((tnode == NULL)	&& (g_strcmp0 (key, "C") == 0)) {
-				tnode = n;
-				if (locale == NULL)
-					goto out;
-			}
-
-			if (g_strcmp0 (key, locale) == 0) {
-				tnode = n;
+		if ((tnode == NULL) && (g_strcmp0 (key, "C") == 0)) {
+			tnode = n;
+			if (locale == NULL)
 				goto out;
-			}
+		}
 
-			if (g_strcmp0 (key, locale_short) == 0) {
-				tnode = n;
-				goto out;
-			}
+		if (g_strcmp0 (key, locale) == 0) {
+			tnode = n;
+			goto out;
+		}
+
+		if (g_strcmp0 (key, locale_short) == 0) {
+			tnode = n;
+			goto out;
+		}
 	}
 
 out:
@@ -316,6 +321,57 @@ dep11_process_urls (GNode *node, AsComponent *cpt)
 }
 
 /**
+ * as_yamldata_process_icon:
+ */
+static void
+as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIconKind kind)
+{
+	GNode *n;
+	gchar *key;
+	gchar *value;
+	guint64 size;
+	g_autoptr(AsIcon) icon = NULL;
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
+
+	icon = as_icon_new ();
+	as_icon_set_kind (icon, kind);
+
+	for (n = node->children; n != NULL; n = n->next) {
+		key = (gchar*) n->data;
+		value = (gchar*) n->children->data;
+
+		if (g_strcmp0 (key, "width") == 0) {
+			size = g_ascii_strtoll (value, NULL, 10);
+			as_icon_set_width (icon, size);
+		} else if (g_strcmp0 (key, "height") == 0) {
+			size = g_ascii_strtoll (value, NULL, 10);
+			as_icon_set_height (icon, size);
+		} else {
+			if (kind == AS_ICON_KIND_REMOTE) {
+				if (g_strcmp0 (key, "url") == 0) {
+					if (priv->media_baseurl == NULL) {
+						/* no baseurl, we can just set the value as URL */
+						as_icon_set_url (icon, value);
+					} else {
+						/* handle the media baseurl */
+						gchar *tmp;
+						tmp = g_build_filename (priv->media_baseurl, value, NULL);
+						as_icon_set_url (icon, tmp);
+						g_free (tmp);
+					}
+				}
+			} else {
+				if (g_strcmp0 (key, "name") == 0) {
+					as_icon_set_filename (icon, value);
+				}
+			}
+		}
+	}
+
+	as_component_add_icon (cpt, icon);
+}
+
+/**
  * as_yamldata_process_icons:
  */
 static void
@@ -324,40 +380,37 @@ as_yamldata_process_icons (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 	GNode *n;
 	gchar *key;
 	gchar *value;
-	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	for (n = node->children; n != NULL; n = n->next) {
-		g_autoptr(AsIcon) icon = NULL;
-
 		key = (gchar*) n->data;
 		value = (gchar*) n->children->data;
-		icon = as_icon_new ();
 
 		if (g_strcmp0 (key, "stock") == 0) {
+			g_autoptr(AsIcon) icon = as_icon_new ();
 			as_icon_set_kind (icon, AS_ICON_KIND_STOCK);
 			as_icon_set_name (icon, value);
 			as_component_add_icon (cpt, icon);
 		} else if (g_strcmp0 (key, "cached") == 0) {
-			as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
-			as_icon_set_filename (icon, value);
-			as_component_add_icon (cpt, icon);
-		} else if (g_strcmp0 (key, "local") == 0) {
-			as_icon_set_kind (icon, AS_ICON_KIND_LOCAL);
-			as_icon_set_filename (icon, value);
-			as_component_add_icon (cpt, icon);
-		} else if (g_strcmp0 (key, "remote") == 0) {
-			as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
-			if (priv->media_baseurl == NULL) {
-				/* no baseurl, we can just set the value as URL */
-				as_icon_set_url (icon, value);
+			if (n->children->next == NULL) {
+				g_autoptr(AsIcon) icon = as_icon_new ();
+				/* we have a legacy YAML file */
+				as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+				as_icon_set_filename (icon, value);
+				as_component_add_icon (cpt, icon);
 			} else {
-				/* handle the media baseurl */
-				gchar *tmp;
-				tmp = g_build_filename (priv->media_baseurl, value, NULL);
-				as_icon_set_url (icon, tmp);
-				g_free (tmp);
+				GNode *sn;
+				/* we have a recent YAML file */
+				for (sn = n->children; sn != NULL; sn = sn->next)
+					as_yamldata_process_icon (ydt, sn, cpt, AS_ICON_KIND_CACHED);
 			}
-			as_component_add_icon (cpt, icon);
+		} else if (g_strcmp0 (key, "local") == 0) {
+			GNode *sn;
+			for (sn = n->children; sn != NULL; sn = sn->next)
+				as_yamldata_process_icon (ydt, sn, cpt, AS_ICON_KIND_LOCAL);
+		} else if (g_strcmp0 (key, "remote") == 0) {
+			GNode *sn;
+			for (sn = n->children; sn != NULL; sn = sn->next)
+				as_yamldata_process_icon (ydt, sn, cpt, AS_ICON_KIND_REMOTE);
 		}
 	}
 }
@@ -648,10 +701,16 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 	/* set active locale for this component */
 	as_component_set_active_locale (cpt, priv->locale);
 
+	/* set component default priority */
+	as_component_set_priority (cpt, priv->default_priority);
+
 	for (node = root->children; node != NULL; node = node->next) {
 		gchar *key;
 		gchar *value;
 		gchar *lvalue;
+
+		if (node->children == NULL)
+			continue;
 
 		key = (gchar*) node->data;
 		value = (gchar*) node->children->data;
@@ -666,14 +725,15 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 				as_component_set_kind (cpt, as_component_kind_from_string (value));
 		} else if (g_strcmp0 (key, "ID") == 0) {
 			as_component_set_id (cpt, value);
+		} else if (g_strcmp0 (key, "Priority") == 0) {
+			as_component_set_priority (cpt, g_ascii_strtoll (value, NULL, 10));
 		} else if (g_strcmp0 (key, "Package") == 0) {
-			gchar **strv;
-			strv = g_new0 (gchar*, 1 + 2);
+			g_auto(GStrv) strv = NULL;
+			strv = g_new0 (gchar*, 1 + 1);
 			strv[0] = g_strdup (value);
 			strv[1] = NULL;
 
 			as_component_set_pkgnames (cpt, strv);
-			g_strfreev (strv);
 		} else if (g_strcmp0 (key, "SourcePackage") == 0) {
 			as_component_set_source_pkgname (cpt, value);
 		} else if (g_strcmp0 (key, "Name") == 0) {
@@ -731,8 +791,8 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 	/* set component origin */
 	as_component_set_origin (cpt, priv->origin);
 
-	/* set component priority */
-	as_component_set_priority (cpt, priv->default_priority);
+	/* set component architecture */
+	as_component_set_architecture (cpt, priv->arch);
 
 	/* add category information to component */
 	strv = as_ptr_array_to_strv (categories);
@@ -750,7 +810,7 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 }
 
 /**
- * as_yaml_mapping_start:
+ * as_yaml_emit_scalar:
  */
 static void
 as_yaml_emit_scalar (yaml_emitter_t *emitter, const gchar *value)
@@ -760,6 +820,29 @@ as_yaml_emit_scalar (yaml_emitter_t *emitter, const gchar *value)
 	g_assert (value != NULL);
 
 	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) value, strlen (value), TRUE, TRUE, YAML_ANY_SCALAR_STYLE);
+	ret = yaml_emitter_emit (emitter, &event);
+	g_assert (ret);
+}
+
+/**
+ * as_yaml_emit_scalar_key:
+ */
+static void
+as_yaml_emit_scalar_key (yaml_emitter_t *emitter, const gchar *key)
+{
+	yaml_scalar_style_t keystyle;
+	yaml_event_t event;
+	gint ret;
+
+	/* Some locale are "no", which - if unquoted - are interpreted as booleans.
+	 * Since we hever have boolean keys, we can disallow creating bool keys for all keys. */
+	keystyle = YAML_ANY_SCALAR_STYLE;
+	if (g_strcmp0 (key, "no") == 0)
+		keystyle = YAML_SINGLE_QUOTED_SCALAR_STYLE;
+	if (g_strcmp0 (key, "yes") == 0)
+		keystyle = YAML_SINGLE_QUOTED_SCALAR_STYLE;
+
+	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) key, strlen (key), TRUE, TRUE, keystyle);
 	ret = yaml_emitter_emit (emitter, &event);
 	g_assert (ret);
 }
@@ -776,11 +859,28 @@ as_yaml_emit_entry (yaml_emitter_t *emitter, const gchar *key, const gchar *valu
 	if (value == NULL)
 		return;
 
-	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) key, strlen (key), TRUE, TRUE, YAML_ANY_SCALAR_STYLE);
-	ret = yaml_emitter_emit (emitter, &event);
-	g_assert (ret);
+	as_yaml_emit_scalar_key (emitter, key);
 
 	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) value, strlen (value), TRUE, TRUE, YAML_ANY_SCALAR_STYLE);
+	ret = yaml_emitter_emit (emitter, &event);
+	g_assert (ret);
+}
+
+/**
+ * as_yaml_emit_long_entry:
+ */
+static void
+as_yaml_emit_long_entry (yaml_emitter_t *emitter, const gchar *key, const gchar *value)
+{
+	yaml_event_t event;
+	gint ret;
+
+	if (value == NULL)
+		return;
+
+	as_yaml_emit_scalar_key (emitter, key);
+
+	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) value, strlen (value), TRUE, TRUE, YAML_FOLDED_SCALAR_STYLE);
 	ret = yaml_emitter_emit (emitter, &event);
 	g_assert (ret);
 }
@@ -842,15 +942,36 @@ as_yaml_emit_lang_hashtable_entries (gchar *key, gchar *value, yaml_emitter_t *e
 	if (as_str_empty (value))
 		return;
 
+	/* skip cruft */
+	if (as_is_cruft_locale (key))
+		return;
+
 	g_strstrip (value);
 	as_yaml_emit_entry (emitter, key, value);
 }
 
 /**
- * as_yaml_emit_localized_entry:
+ * as_yaml_emit_lang_hashtable_entries_long:
  */
 static void
-as_yaml_emit_localized_entry (yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab)
+as_yaml_emit_lang_hashtable_entries_long (gchar *key, gchar *value, yaml_emitter_t *emitter)
+{
+	if (as_str_empty (value))
+		return;
+
+	/* skip cruft */
+	if (as_is_cruft_locale (key))
+		return;
+
+	g_strstrip (value);
+	as_yaml_emit_long_entry (emitter, key, value);
+}
+
+/**
+ * as_yaml_emit_localized_entry_with_func:
+ */
+static void
+as_yaml_emit_localized_entry_with_func (yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab, GHFunc tfunc)
 {
 	if (ltab == NULL)
 		return;
@@ -863,10 +984,34 @@ as_yaml_emit_localized_entry (yaml_emitter_t *emitter, const gchar *key, GHashTa
 	as_yaml_mapping_start (emitter);
 	/* emit entries */
 	g_hash_table_foreach (ltab,
-				(GHFunc) as_yaml_emit_lang_hashtable_entries,
+				tfunc,
 				emitter);
 	/* finalize */
 	as_yaml_mapping_end (emitter);
+}
+
+/**
+ * as_yaml_emit_localized_entry:
+ */
+static void
+as_yaml_emit_localized_entry (yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab)
+{
+	as_yaml_emit_localized_entry_with_func (emitter,
+						key,
+						ltab,
+						(GHFunc) as_yaml_emit_lang_hashtable_entries);
+}
+
+/**
+ * as_yaml_emit_long_localized_entry:
+ */
+static void
+as_yaml_emit_long_localized_entry (yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab)
+{
+	as_yaml_emit_localized_entry_with_func (emitter,
+						key,
+						ltab,
+						(GHFunc) as_yaml_emit_lang_hashtable_entries_long);
 }
 
 /**
@@ -905,7 +1050,7 @@ as_yaml_emit_sequence_from_strv (yaml_emitter_t *emitter, const gchar *key, gcha
 	if (strv[0] == '\0')
 		return;
 
-	as_yaml_emit_scalar (emitter, key);
+	as_yaml_emit_scalar_key (emitter, key);
 
 	as_yaml_sequence_start (emitter);
 	for (i = 0; strv[i] != NULL; i++) {
@@ -924,6 +1069,10 @@ as_yaml_localized_list_helper (gchar *key, gchar **strv, yaml_emitter_t *emitter
 {
 	guint i;
 	if (strv == NULL)
+		return;
+
+	/* skip cruft */
+	if (as_is_cruft_locale (key))
 		return;
 
 	as_yaml_emit_scalar (emitter, key);
@@ -988,9 +1137,7 @@ as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 		if (items == NULL)
 			continue;
 
-
 		kind = as_provided_get_kind (prov);
-
 		switch (kind) {
 			case AS_PROVIDED_KIND_LIBRARY:
 				as_yaml_emit_sequence_from_strv (emitter,
@@ -1222,8 +1369,89 @@ as_yaml_emit_screenshots (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent 
 
 }
 
+static void
+as_yaml_emit_icons (yaml_emitter_t *emitter, GPtrArray *icons)
+{
+	guint i;
+	GHashTableIter iter;
+	gpointer key, value;
+	gboolean stock_icon_added = FALSE;
+	g_autoptr(GHashTable) icons_table = NULL;
+
+	/* we need to emit the icons in order, so we first need to sort them properly */
+	icons_table = g_hash_table_new_full (g_direct_hash,
+					     g_direct_equal,
+					     NULL,
+					     (GDestroyNotify) g_ptr_array_unref);
+	for (i = 0; i < icons->len; i++) {
+		GPtrArray *ilist;
+		AsIconKind ikind;
+		AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
+
+		ikind = as_icon_get_kind (icon);
+		ilist = g_hash_table_lookup (icons_table, GINT_TO_POINTER (ikind));
+		if (ilist == NULL) {
+			ilist = g_ptr_array_new ();
+			g_hash_table_insert (icons_table, GINT_TO_POINTER (ikind), ilist);
+		}
+
+		g_ptr_array_add (ilist, icon);
+	}
+
+	g_hash_table_iter_init (&iter, icons_table);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		GPtrArray *ilist;
+		AsIconKind ikind;
+
+		ikind = (AsIconKind) GPOINTER_TO_INT (key);
+		ilist = (GPtrArray*) value;
+
+		if (ikind == AS_ICON_KIND_STOCK) {
+			/* there can always be only one stock icon, so this is easy */
+			if (!stock_icon_added)
+				as_yaml_emit_entry (emitter,
+						    as_icon_kind_to_string (ikind),
+						    as_icon_get_name (AS_ICON (g_ptr_array_index (ilist, 0))));
+			stock_icon_added = TRUE;
+		} else {
+			as_yaml_emit_scalar (emitter, as_icon_kind_to_string (ikind));
+			as_yaml_sequence_start (emitter);
+
+			for (i = 0; i < ilist->len; i++) {
+				gchar *size;
+				AsIcon *icon = AS_ICON (g_ptr_array_index (ilist, i));
+
+				as_yaml_mapping_start (emitter);
+
+				if (ikind == AS_ICON_KIND_REMOTE)
+					as_yaml_emit_entry (emitter, "url", as_icon_get_url (icon));
+				else if (ikind == AS_ICON_KIND_LOCAL)
+					as_yaml_emit_entry (emitter, "name", as_icon_get_filename (icon));
+				else
+					as_yaml_emit_entry (emitter, "name", as_icon_get_name (icon));
+
+				if (as_icon_get_width (icon) > 0) {
+					size = g_strdup_printf("%i", as_icon_get_width (icon));
+					as_yaml_emit_entry (emitter, "width", size);
+					g_free (size);
+				}
+
+				if (as_icon_get_height (icon) > 0) {
+					size = g_strdup_printf("%i", as_icon_get_height (icon));
+					as_yaml_emit_entry (emitter, "height", size);
+					g_free (size);
+				}
+
+				as_yaml_mapping_end (emitter);
+			}
+
+			as_yaml_sequence_end (emitter);
+		}
+	}
+}
+
 /**
- * as_yamldata_process_component_node:
+ * as_yaml_serialize_component:
  */
 static void
 as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
@@ -1238,8 +1466,10 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	GPtrArray *icons;
 
 	/* we only serialize a component with minimal necessary information */
-	if (!as_component_is_valid (cpt))
+	if (!as_component_is_valid (cpt)) {
+		g_debug ("Can not serialize '%s': Component is invalid.", as_component_get_id (cpt));
 		return;
+	}
 
 	/* new document for this component */
 	yaml_document_start_event_initialize (&event, NULL, NULL, NULL, FALSE);
@@ -1287,7 +1517,7 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 					as_component_get_summary_table (cpt));
 
 	/* Description */
-	as_yaml_emit_localized_entry (emitter,
+	as_yaml_emit_long_localized_entry (emitter,
 					"Description",
 					as_component_get_description_table (cpt));
 
@@ -1320,7 +1550,7 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	/* Urls */
 	htable = as_component_get_urls_table (cpt);
 	if ((htable != NULL) && (g_hash_table_size (htable) > 0)) {
-		as_yaml_emit_scalar (emitter, "Urls");
+		as_yaml_emit_scalar (emitter, "Url");
 
 		as_yaml_mapping_start (emitter);
 		for (i = AS_URL_KIND_UNKNOWN; i < AS_URL_KIND_LAST; i++) {
@@ -1337,59 +1567,9 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	/* Icons */
 	icons = as_component_get_icons (cpt);
 	if (icons->len > 0) {
-		gboolean stock_icon_added = FALSE;
-		gboolean cache_icon_added = FALSE;
-
 		as_yaml_emit_scalar (emitter, "Icon");
 		as_yaml_mapping_start (emitter);
-		for (i = 0; i < icons->len; i++) {
-			const gchar *value;
-			AsIconKind ikind;
-			AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
-
-			ikind = as_icon_get_kind (icon);
-			if (ikind == AS_ICON_KIND_LOCAL)
-				value = as_icon_get_filename (icon);
-			else if (ikind == AS_ICON_KIND_REMOTE)
-				value = as_icon_get_url (icon);
-			else
-				value = as_icon_get_name (icon);
-
-			if (value == NULL)
-				continue;
-
-			switch (ikind) {
-				case AS_ICON_KIND_REMOTE:
-					/* remote icons get special treatment */
-
-					g_warning ("Handling of 'remote' type DEP-11 icons is not yet implemented!");
-					/* NOTE: A remote node is specified like this:
-					* Icons:
-					*   cached: foobar.png
-					*   remote:
-					*     - width: 64
-					*       height: 64
-					*       url: http://example.org/icons/foobar.png
-					*/
-					break;
-				case AS_ICON_KIND_LOCAL:
-					g_warning ("The DEP-11 spec does not support type:local icons!");
-					break;
-				case AS_ICON_KIND_CACHED:
-					if (!cache_icon_added)
-						as_yaml_emit_entry (emitter, as_icon_kind_to_string (ikind), value);
-					cache_icon_added = TRUE;
-					break;
-				case AS_ICON_KIND_STOCK:
-					if (!stock_icon_added)
-						as_yaml_emit_entry (emitter, as_icon_kind_to_string (ikind), value);
-					stock_icon_added = TRUE;
-					break;
-				default:
-					g_warning ("Unknown icon type: %s", as_icon_kind_to_string (ikind));
-					break;
-			}
-		}
+		as_yaml_emit_icons (emitter, icons);
 		as_yaml_mapping_end (emitter);
 	}
 
@@ -1427,15 +1607,16 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 }
 
 /**
- * as_yaml_write_header:
+ * as_yamldata_write_header:
  *
  * Emit a DEP-11 header for the new document.
  */
 static void
-as_yaml_write_header (yaml_emitter_t *emitter, const gchar *origin, const gchar *media_baseurl)
+as_yamldata_write_header (AsYAMLData *ydt, yaml_emitter_t *emitter)
 {
 	gint res;
 	yaml_event_t event;
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	yaml_document_start_event_initialize (&event, NULL, NULL, NULL, FALSE);
 	res = yaml_emitter_emit (emitter, &event);
@@ -1445,9 +1626,13 @@ as_yaml_write_header (yaml_emitter_t *emitter, const gchar *origin, const gchar 
 
 	as_yaml_emit_entry (emitter, "File", "DEP-11");
 	as_yaml_emit_entry (emitter, "Version", "0.8");
-	as_yaml_emit_entry (emitter, "Origin", origin);
-	if (media_baseurl != NULL)
-		as_yaml_emit_entry (emitter, "MediaBaseUrl", media_baseurl);
+	as_yaml_emit_entry (emitter, "Origin", priv->origin);
+	if (priv->media_baseurl != NULL)
+		as_yaml_emit_entry (emitter, "MediaBaseUrl", priv->media_baseurl);
+	if (priv->arch != NULL)
+		as_yaml_emit_entry (emitter, "Architecture", priv->arch);
+	if (priv->default_priority != 0)
+		as_yaml_emit_entry (emitter, "Priority", priv->arch);
 
 	as_yaml_mapping_end (emitter);
 
@@ -1482,7 +1667,6 @@ as_yamldata_serialize_to_distro (AsYAMLData *ydt, GPtrArray *cpts, gboolean writ
 	GString *out_data;
 	gboolean res = FALSE;
 	guint i;
-	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	if (cpts->len == 0)
 		return NULL;
@@ -1503,7 +1687,7 @@ as_yamldata_serialize_to_distro (AsYAMLData *ydt, GPtrArray *cpts, gboolean writ
 
 	/* write header */
 	if (write_header)
-		as_yaml_write_header (&emitter, priv->origin, priv->media_baseurl);
+		as_yamldata_write_header (ydt, &emitter);
 
 	/* write components as YAML documents */
 	for (i = 0; i < cpts->len; i++) {
@@ -1571,6 +1755,9 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 	g_free (priv->origin);
 	priv->origin = NULL;
 
+	g_free (priv->arch);
+	priv->arch = NULL;
+
 	g_free (priv->media_baseurl);
 	priv->media_baseurl = NULL;
 
@@ -1587,6 +1774,7 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 			gchar *key;
 			gchar *value;
 			AsComponent *cpt;
+			gboolean header_found = FALSE;
 			GNode *root = g_node_new (g_strdup (""));
 
 			dep11_yaml_process_layer (&parser, root);
@@ -1613,7 +1801,13 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 									AS_METADATA_ERROR_FAILED,
 									"Invalid DEP-11 file found: Header invalid");
 						}
-					} else if (g_strcmp0 (key, "Origin") == 0) {
+						header_found = TRUE;
+					}
+
+					if (!header_found)
+						break;
+
+					if (g_strcmp0 (key, "Origin") == 0) {
 						if ((value != NULL) && (priv->origin == NULL)) {
 							priv->origin = g_strdup (value);
 						} else {
@@ -1631,25 +1825,25 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 						if ((value != NULL) && (priv->media_baseurl == NULL)) {
 							priv->media_baseurl = g_strdup (value);
 						}
+					} else if (g_strcmp0 (key, "Architecture") == 0) {
+						if ((value != NULL) && (priv->arch == NULL)) {
+							priv->arch = g_strdup (value);
+						}
 					}
 				}
-			} else {
-				cpt = as_yamldata_process_component_node (ydt, root);
-				if (cpt == NULL)
-					parse = FALSE;
-
-				if (as_component_is_valid (cpt)) {
-					/* everything is fine with this component, we can emit it */
-					g_ptr_array_add (cpts, cpt);
-				} else {
-					g_autofree gchar *str = NULL;
-					str = as_component_to_string (cpt);
-					g_debug ("WARNING: Invalid component found: %s", str);
-					g_object_unref (cpt);
-				}
 			}
-
 			header = FALSE;
+
+			if (!header_found) {
+				cpt = as_yamldata_process_component_node (ydt, root);
+				if (cpt == NULL) {
+					g_warning ("Parsing of YAML metadata failed: Could not read data for component.");
+					parse = FALSE;
+				}
+
+				/* add found component to the results set */
+				g_ptr_array_add (cpts, cpt);
+			}
 
 			g_node_traverse (root,
 					G_IN_ORDER,

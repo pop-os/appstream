@@ -24,7 +24,7 @@ void
 <FUNCTION>
 <NAME>as_yamldata_initialize</NAME>
 <RETURNS>void 			</RETURNS>
-AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority
+AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
 </FUNCTION>
 <FUNCTION>
 <NAME>as_yamldata_parse_distro_data</NAME>
@@ -199,6 +199,26 @@ const gchar *source, const gchar *destination, GError **error
 <NAME>as_reset_umask</NAME>
 <RETURNS>void 			</RETURNS>
 void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_is_cruft_locale</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar *locale
+</FUNCTION>
+<FUNCTION>
+<NAME>as_locale_strip_encoding</NAME>
+<RETURNS>gchar 			*</RETURNS>
+gchar *locale
+</FUNCTION>
+<FUNCTION>
+<NAME>as_get_current_arch</NAME>
+<RETURNS>gchar 			*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_arch_compatible</NAME>
+<RETURNS>gboolean 		</RETURNS>
+const gchar *arch1, const gchar *arch2
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR</NAME>
@@ -1385,6 +1405,16 @@ AsMetadata *metad, AsParserMode mode
 <RETURNS>AsParserMode 		</RETURNS>
 AsMetadata *metad
 </FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_architecture</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsMetadata *metad
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_set_architecture</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *arch
+</FUNCTION>
 <STRUCT>
 <NAME>AsMetadata</NAME>
 </STRUCT>
@@ -1611,7 +1641,7 @@ void
 <FUNCTION>
 <NAME>as_xmldata_initialize</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, gint priority
+AsXMLData *xdt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
 </FUNCTION>
 <FUNCTION>
 <NAME>as_xmldata_parse_upstream_data</NAME>
@@ -1645,8 +1675,8 @@ AsXMLData *xdt, AsParserMode mode
 </FUNCTION>
 <FUNCTION>
 <NAME>as_xmldata_parse_component_node</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsXMLData *metad, xmlNode *node, AsComponent *cpt, gboolean allow_invalid, GError **error
+<RETURNS>void 			</RETURNS>
+AsXMLData *metad, xmlNode *node, AsComponent *cpt, GError **error
 </FUNCTION>
 <STRUCT>
 <NAME>AsXMLData</NAME>

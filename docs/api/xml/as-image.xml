@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-IMAGE:CAPS">AS_TYPE_IMAGE</link></entry></row>
 <row><entry role="function_type"><link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-image-kind-from-string">as_image_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -57,6 +56,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-IMAGE:CAPS">AS_TYPE_IMAGE</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsImageClass">AsImageClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsImageKind">AsImageKind</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsImage-struct">AsImage</link></entry></row>
@@ -83,21 +83,13 @@ single image.</para>
 </refsect1>
 <refsect1 id="AsImage.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-IMAGE:CAPS" role="macro">
-<title>AS_TYPE_IMAGE</title>
-<indexterm zone="AS-TYPE-IMAGE:CAPS"><primary>AS_TYPE_IMAGE</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_IMAGE (as_image_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-image-kind-from-string" role="function">
 <title>as_image_kind_from_string&#160;()</title>
 <indexterm zone="as-image-kind-from-string"><primary>as_image_kind_from_string</primary></indexterm>
 <programlisting language="C"><link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>
 as_image_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -109,7 +101,7 @@ as_image_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</t
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsImageKind"><type>AsImageKind</type></link>, or <link linkend="AS-IMAGE-KIND-UNKNOWN:CAPS"><literal>AS_IMAGE_KIND_UNKNOWN</literal></link> for unknown. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -120,7 +112,7 @@ as_image_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</t
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_image_kind_to_string (<parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -132,7 +124,7 @@ as_image_kind_to_string (<parameter><link linkend="AsImageKind"><type>AsImageKin
 <entry role="parameter_description"><para>the <link linkend="AsImageKind"><type>AsImageKind</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
@@ -143,7 +135,7 @@ as_image_kind_to_string (<parameter><link linkend="AsImageKind"><type>AsImageKin
 <programlisting language="C"><link linkend="AsImage"><returnvalue>AsImage</returnvalue></link>&#160;*
 as_image_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsImage"><type>AsImage</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-image-new.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsImage"><type>AsImage</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -154,7 +146,7 @@ as_image_new (<parameter><type>void</type></parameter>);</programlisting>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_image_get_url (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
 <para>Gets the full qualified URL for the image, usually pointing at some mirror.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-get-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -166,7 +158,7 @@ as_image_get_url (<parameter><link linkend="AsImage"><type>AsImage</type></link>
 <entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-get-url.returns" role="returns">
 <title>Returns</title>
 <para> URL</para>
 </refsect3></refsect2>
@@ -177,7 +169,7 @@ as_image_get_url (<parameter><link linkend="AsImage"><type>AsImage</type></link>
 as_image_set_url (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                   <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);</programlisting>
 <para>Sets the fully-qualified mirror URL to use for the image.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-set-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -199,7 +191,7 @@ as_image_set_url (<parameter><link linkend="AsImage"><type>AsImage</type></link>
 <programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
 as_image_get_width (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
 <para>Gets the image width.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-get-width.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -211,7 +203,7 @@ as_image_get_width (<parameter><link linkend="AsImage"><type>AsImage</type></lin
 <entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-get-width.returns" role="returns">
 <title>Returns</title>
 <para> width in pixels</para>
 </refsect3></refsect2>
@@ -222,7 +214,7 @@ as_image_get_width (<parameter><link linkend="AsImage"><type>AsImage</type></lin
 as_image_set_width (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                     <parameter><link linkend="guint"><type>guint</type></link> width</parameter>);</programlisting>
 <para>Sets the image width.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-set-width.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -244,7 +236,7 @@ as_image_set_width (<parameter><link linkend="AsImage"><type>AsImage</type></lin
 <programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
 as_image_get_height (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
 <para>Gets the image height.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-get-height.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -256,7 +248,7 @@ as_image_get_height (<parameter><link linkend="AsImage"><type>AsImage</type></li
 <entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-get-height.returns" role="returns">
 <title>Returns</title>
 <para> height in pixels</para>
 </refsect3></refsect2>
@@ -267,7 +259,7 @@ as_image_get_height (<parameter><link linkend="AsImage"><type>AsImage</type></li
 as_image_set_height (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                      <parameter><link linkend="guint"><type>guint</type></link> height</parameter>);</programlisting>
 <para>Sets the image height.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-set-height.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -289,7 +281,7 @@ as_image_set_height (<parameter><link linkend="AsImage"><type>AsImage</type></li
 <programlisting language="C"><link linkend="AsImageKind"><returnvalue>AsImageKind</returnvalue></link>
 as_image_get_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>);</programlisting>
 <para>Gets the image kind.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-get-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -301,7 +293,7 @@ as_image_get_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link
 <entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-image-get-kind.returns" role="returns">
 <title>Returns</title>
 <para> the <link linkend="AsImageKind"><type>AsImageKind</type></link></para>
 </refsect3></refsect2>
@@ -312,7 +304,7 @@ as_image_get_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link
 as_image_set_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                    <parameter><link linkend="AsImageKind"><type>AsImageKind</type></link> kind</parameter>);</programlisting>
 <para>Sets the image kind.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-image-set-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -332,6 +324,14 @@ as_image_set_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link
 </refsect1>
 <refsect1 id="AsImage.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-IMAGE:CAPS" role="macro">
+<title>AS_TYPE_IMAGE</title>
+<indexterm zone="AS-TYPE-IMAGE:CAPS"><primary>AS_TYPE_IMAGE</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_IMAGE (as_image_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsImageClass" role="struct">
 <title>struct AsImageClass</title>
 <indexterm zone="AsImageClass"><primary>AsImageClass</primary></indexterm>
@@ -346,7 +346,7 @@ as_image_set_kind (<parameter><link linkend="AsImage"><type>AsImage</type></link
 <title>enum AsImageKind</title>
 <indexterm zone="AsImageKind"><primary>AsImageKind</primary></indexterm>
 <para>The image type.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsImageKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">

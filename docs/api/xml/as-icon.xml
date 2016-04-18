@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-ICON:CAPS">AS_TYPE_ICON</link></entry></row>
 <row><entry role="function_type"><link linkend="AsIconKind"><returnvalue>AsIconKind</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-icon-kind-from-string">as_icon_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -65,6 +64,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-ICON:CAPS">AS_TYPE_ICON</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsIconClass">AsIconClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsIconKind">AsIconKind</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsIcon-struct">AsIcon</link></entry></row>
@@ -89,21 +89,13 @@
 </refsect1>
 <refsect1 id="AsIcon.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-ICON:CAPS" role="macro">
-<title>AS_TYPE_ICON</title>
-<indexterm zone="AS-TYPE-ICON:CAPS"><primary>AS_TYPE_ICON</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_ICON (as_icon_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-icon-kind-from-string" role="function">
 <title>as_icon_kind_from_string&#160;()</title>
 <indexterm zone="as-icon-kind-from-string"><primary>as_icon_kind_from_string</primary></indexterm>
 <programlisting language="C"><link linkend="AsIconKind"><returnvalue>AsIconKind</returnvalue></link>
 as_icon_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -115,7 +107,7 @@ as_icon_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</ty
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-kind-from-string.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsIconKind"><type>AsIconKind</type></link> or <link linkend="AS-ICON-KIND-UNKNOWN:CAPS"><literal>AS_ICON_KIND_UNKNOWN</literal></link> for unknown</para>
 </refsect3></refsect2>
@@ -125,7 +117,7 @@ as_icon_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</ty
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_icon_kind_to_string (<parameter><link linkend="AsIconKind"><type>AsIconKind</type></link> kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -137,7 +129,7 @@ as_icon_kind_to_string (<parameter><link linkend="AsIconKind"><type>AsIconKind</
 <entry role="parameter_description"><para>the <link linkend="AsIconKind"><literal>AsIconKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-kind-to-string.returns" role="returns">
 <title>Returns</title>
 <para> string version of <parameter>kind</parameter>
 </para>
@@ -148,7 +140,7 @@ as_icon_kind_to_string (<parameter><link linkend="AsIconKind"><type>AsIconKind</
 <programlisting language="C"><link linkend="AsIcon"><returnvalue>AsIcon</returnvalue></link>&#160;*
 as_icon_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsIcon"><type>AsIcon</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-icon-new.returns" role="returns">
 <title>Returns</title>
 <para> a <link linkend="AsIcon"><type>AsIcon</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -159,7 +151,7 @@ as_icon_new (<parameter><type>void</type></parameter>);</programlisting>
 <programlisting language="C"><link linkend="AsIconKind"><returnvalue>AsIconKind</returnvalue></link>
 as_icon_get_kind (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
 <para>Gets the icon kind.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -171,7 +163,7 @@ as_icon_get_kind (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-kind.returns" role="returns">
 <title>Returns</title>
 <para> the <link linkend="AsIconKind"><type>AsIconKind</type></link></para>
 </refsect3></refsect2>
@@ -182,7 +174,7 @@ as_icon_get_kind (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 as_icon_set_kind (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                   <parameter><link linkend="AsIconKind"><type>AsIconKind</type></link> kind</parameter>);</programlisting>
 <para>Sets the icon kind.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-kind.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -203,7 +195,7 @@ as_icon_set_kind (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 <indexterm zone="as-icon-get-name"><primary>as_icon_get_name</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_icon_get_name (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -215,7 +207,7 @@ as_icon_get_name (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-name.returns" role="returns">
 <title>Returns</title>
 <para> the stock name of the icon. In case the icon is not of kind
 "stock", the basename of the icon filename or URL is returned.</para>
@@ -227,7 +219,7 @@ as_icon_get_name (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 as_icon_set_name (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                   <parameter>const <link linkend="gchar"><type>gchar</type></link> *name</parameter>);</programlisting>
 <para>Sets the stock name or basename to use for the icon.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-name.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -250,7 +242,7 @@ as_icon_set_name (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *
 as_icon_get_url (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
 <para>Gets the icon URL, pointing at a remote location. HTTPS and FTP urls are allowed.
 This property is only set for icons of type <link linkend="AS-ICON-KIND-REMOTE:CAPS"><literal>AS_ICON_KIND_REMOTE</literal></link></para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -262,7 +254,7 @@ This property is only set for icons of type <link linkend="AS-ICON-KIND-REMOTE:C
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-url.returns" role="returns">
 <title>Returns</title>
 <para> the URL</para>
 </refsect3></refsect2>
@@ -273,7 +265,7 @@ This property is only set for icons of type <link linkend="AS-ICON-KIND-REMOTE:C
 as_icon_set_url (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);</programlisting>
 <para>Sets the icon URL.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -294,7 +286,7 @@ as_icon_set_url (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *i
 <indexterm zone="as-icon-get-filename"><primary>as_icon_get_filename</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_icon_get_filename (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-filename.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -306,7 +298,7 @@ as_icon_get_filename (<parameter><link linkend="AsIcon"><type>AsIcon</type></lin
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-filename.returns" role="returns">
 <title>Returns</title>
 <para> The absolute path for the icon on disk.
 This is only set for icons of kind <link linkend="AS-ICON-KIND-LOCAL:CAPS"><literal>AS_ICON_KIND_LOCAL</literal></link> or
@@ -319,7 +311,7 @@ This is only set for icons of kind <link linkend="AS-ICON-KIND-LOCAL:CAPS"><lite
 as_icon_set_filename (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *filename</parameter>);</programlisting>
 <para>Sets the icon absolute filename.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-filename.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -340,7 +332,7 @@ as_icon_set_filename (<parameter><link linkend="AsIcon"><type>AsIcon</type></lin
 <indexterm zone="as-icon-get-width"><primary>as_icon_get_width</primary></indexterm>
 <programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
 as_icon_get_width (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-width.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -352,7 +344,7 @@ as_icon_get_width (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> 
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-width.returns" role="returns">
 <title>Returns</title>
 <para> The icon width in pixels, or 0 if unknown.</para>
 </refsect3></refsect2>
@@ -363,7 +355,7 @@ as_icon_get_width (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> 
 as_icon_set_width (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                    <parameter><link linkend="guint"><type>guint</type></link> width</parameter>);</programlisting>
 <para>Sets the icon width.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-width.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -384,7 +376,7 @@ as_icon_set_width (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> 
 <indexterm zone="as-icon-get-height"><primary>as_icon_get_height</primary></indexterm>
 <programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
 as_icon_get_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-get-height.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -396,7 +388,7 @@ as_icon_get_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link>
 <entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-icon-get-height.returns" role="returns">
 <title>Returns</title>
 <para> The icon height in pixels, or 0 if unknown.</para>
 </refsect3></refsect2>
@@ -407,7 +399,7 @@ as_icon_get_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link>
 as_icon_set_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
                     <parameter><link linkend="guint"><type>guint</type></link> height</parameter>);</programlisting>
 <para>Sets the icon height.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-icon-set-height.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -427,6 +419,14 @@ as_icon_set_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link>
 </refsect1>
 <refsect1 id="AsIcon.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-ICON:CAPS" role="macro">
+<title>AS_TYPE_ICON</title>
+<indexterm zone="AS-TYPE-ICON:CAPS"><primary>AS_TYPE_ICON</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_ICON (as_icon_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsIconClass" role="struct">
 <title>struct AsIconClass</title>
 <indexterm zone="AsIconClass"><primary>AsIconClass</primary></indexterm>
@@ -441,7 +441,7 @@ as_icon_set_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link>
 <title>enum AsIconKind</title>
 <indexterm zone="AsIconKind"><primary>AsIconKind</primary></indexterm>
 <para>The icon type.</para>
-<refsect3 role="enum_members">
+<refsect3 id="AsIconKind.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">

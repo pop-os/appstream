@@ -50,6 +50,7 @@ void			as_xmldata_initialize (AsXMLData *xdt,
 						const gchar *locale,
 						const gchar *origin,
 						const gchar *media_baseurl,
+						const gchar *arch,
 						gint priority);
 
 AsComponent		*as_xmldata_parse_upstream_data (AsXMLData *xdt,
@@ -71,10 +72,9 @@ gchar			*as_xmldata_serialize_to_distro (AsXMLData *xdt,
 
 void			as_xmldata_set_parser_mode (AsXMLData *xdt,
 							AsParserMode mode);
-gboolean		as_xmldata_parse_component_node (AsXMLData *metad,
+void			as_xmldata_parse_component_node (AsXMLData *metad,
 								xmlNode *node,
 								AsComponent *cpt,
-								gboolean allow_invalid,
 								GError **error);
 
 

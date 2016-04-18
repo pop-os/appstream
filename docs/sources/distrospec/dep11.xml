@@ -96,6 +96,17 @@
 			</varlistentry>
 
 			<varlistentry>
+			<term>Architecture</term>
+			<listitem>
+				<para>
+					Defines the architecture this data belongs to. This information is useful to resolve AppStream-ID conflicts on multiarch systems,
+					which appear if the user has metadata for two architectures installed.
+				</para>
+				<literallayout>Field info: <property>value-type</property>:<emphasis>str</emphasis>, <property>required</property>:<emphasis>no</emphasis></literallayout>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
 			<term>Priority</term>
 			<listitem>
 				<para>
@@ -153,6 +164,18 @@
 				</para>
 				<para>See <xref linkend="tag-distro-component-id"/>.</para>
 				<literallayout>Field info: <property>value-type</property>:<emphasis>str</emphasis>, <property>required</property>:<emphasis>yes</emphasis></literallayout>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry id="field-dep11-priority">
+			<term>Priority</term>
+			<listitem>
+				<para>
+					The <literal>Priority</literal> field sets the priority this component's metadata should have over other meadata in the pool.
+					Data with a higher priority replaces data with a lower priority.
+				</para>
+				<para>See <xref linkend="spec-asxml-tags"/>.</para>
+				<literallayout>Field info: <property>value-type</property>:<emphasis>int</emphasis>, <property>required</property>:<emphasis>no</emphasis></literallayout>
 			</listitem>
 			</varlistentry>
 
@@ -266,9 +289,55 @@
 
 					<para>
 						The <literal>Icon</literal> field has the different icon types as keys for its dict.
-						Currently, only the <literal>stock</literal> and <literal>cached</literal> icon types are supported,
-						with a value of type <emphasis>str</emphasis>.
 					</para>
+
+					<variablelist>
+						<varlistentry>
+						<term>stock</term>
+						<listitem>
+							<para>
+								Contains the stock icon name.
+							</para>
+							<literallayout>Field info: <property>value-type</property>:<emphasis>str</emphasis></literallayout>
+						</listitem>
+						</varlistentry>
+
+						<varlistentry>
+						<term>cached</term>
+						<listitem>
+							<para>
+								Contains a list of dictionaries with the keys <literal>width</literal> and <literal>height</literal> of type
+								<emphasis>int</emphasis> specifying the dimensions of the icon, as well as the key <literal>name</literal>
+								of type <emphasis>str</emphasis> specifying the name of the icon in the cache.
+							</para>
+							<literallayout>Field info: <property>value-type</property>:<emphasis>list ➟ dict</emphasis></literallayout>
+						</listitem>
+						</varlistentry>
+
+						<varlistentry>
+						<term>local</term>
+						<listitem>
+							<para>
+								Contains a list of dictionaries with the keys <literal>width</literal> and <literal>height</literal> of type
+								<emphasis>int</emphasis> specifying the dimensions of the icon, as well as the key <literal>name</literal>
+								of type <emphasis>str</emphasis> specifying the absolute filename pointing to the right icon.
+							</para>
+							<literallayout>Field info: <property>value-type</property>:<emphasis>list ➟ dict</emphasis></literallayout>
+						</listitem>
+						</varlistentry>
+
+						<varlistentry>
+						<term>remote</term>
+						<listitem>
+							<para>
+								Contains a list of dictionaries with the keys <literal>width</literal> and <literal>height</literal> of type
+								<emphasis>int</emphasis> specifying the dimensions of the icon, as well as the key <literal>url</literal>
+								of type <emphasis>str</emphasis> which contains a HTTP(S) or FTP URL to the icon.
+							</para>
+							<literallayout>Field info: <property>value-type</property>:<emphasis>list ➟ dict</emphasis></literallayout>
+						</listitem>
+						</varlistentry>
+					</variablelist>
 
 					<literallayout>Field info: <property>value-type</property>:<emphasis>dict</emphasis></literallayout>
 				</listitem>

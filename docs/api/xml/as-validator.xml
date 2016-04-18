@@ -22,7 +22,6 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
-<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-VALIDATOR:CAPS">AS_TYPE_VALIDATOR</link></entry></row>
 <row><entry role="function_type"><link linkend="AsValidator"><returnvalue>AsValidator</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-validator-new">as_validator_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -47,6 +46,7 @@
 <colspec colname="name" colwidth="150px"/>
 <colspec colname="description"/>
 <tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-VALIDATOR:CAPS">AS_TYPE_VALIDATOR</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsValidatorClass">AsValidatorClass</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsValidator-struct">AsValidator</link></entry></row>
 
@@ -73,21 +73,13 @@ and to generate a report about issues found with it.</para>
 </refsect1>
 <refsect1 id="AsValidator.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="AS-TYPE-VALIDATOR:CAPS" role="macro">
-<title>AS_TYPE_VALIDATOR</title>
-<indexterm zone="AS-TYPE-VALIDATOR:CAPS"><primary>AS_TYPE_VALIDATOR</primary></indexterm>
-<programlisting language="C">#define AS_TYPE_VALIDATOR (as_validator_get_type ())
-</programlisting>
-<para>
-</para>
-</refsect2>
 <refsect2 id="as-validator-new" role="function">
 <title>as_validator_new&#160;()</title>
 <indexterm zone="as-validator-new"><primary>as_validator_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsValidator"><returnvalue>AsValidator</returnvalue></link>&#160;*
 as_validator_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsValidator"><type>AsValidator</type></link>.</para>
-<refsect3 role="returns">
+<refsect3 id="as-validator-new.returns" role="returns">
 <title>Returns</title>
 <para> an <link linkend="AsValidator"><type>AsValidator</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
@@ -98,7 +90,7 @@ as_validator_new (<parameter><type>void</type></parameter>);</programlisting>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_validator_clear_issues (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>);</programlisting>
 <para>Clears the list of issues</para>
-<refsect3 role="parameters">
+<refsect3 id="as-validator-clear-issues.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -118,7 +110,7 @@ as_validator_clear_issues (<parameter><link linkend="AsValidator"><type>AsValida
 as_validator_validate_file (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter><link linkend="GFile"><type>GFile</type></link> *metadata_file</parameter>);</programlisting>
 <para>Validate an AppStream XML file</para>
-<refsect3 role="parameters">
+<refsect3 id="as-validator-validate-file.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -141,7 +133,7 @@ as_validator_validate_file (<parameter><link linkend="AsValidator"><type>AsValid
 as_validator_validate_data (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *metadata</parameter>);</programlisting>
 <para>Validate AppStream XML data</para>
-<refsect3 role="parameters">
+<refsect3 id="as-validator-validate-data.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -164,7 +156,7 @@ as_validator_validate_data (<parameter><link linkend="AsValidator"><type>AsValid
 as_validator_validate_tree (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *root_dir</parameter>);</programlisting>
 <para>Validate a full directory tree for issues in AppStream metadata.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-validator-validate-tree.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -186,7 +178,7 @@ as_validator_validate_tree (<parameter><link linkend="AsValidator"><type>AsValid
 <programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 as_validator_get_issues (<parameter><link linkend="AsValidator"><type>AsValidator</type></link> *validator</parameter>);</programlisting>
 <para>Get a list of found metadata format issues.</para>
-<refsect3 role="parameters">
+<refsect3 id="as-validator-get-issues.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -198,7 +190,7 @@ as_validator_get_issues (<parameter><link linkend="AsValidator"><type>AsValidato
 <entry role="parameter_description"><para>An instance of <link linkend="AsValidator"><type>AsValidator</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 role="returns">
+</refsect3><refsect3 id="as-validator-get-issues.returns" role="returns">
 <title>Returns</title>
 <para> a list of <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instances, free with <link linkend="g-list-free"><function>g_list_free()</function></link>. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsValidatorIssue][<acronym>transfer container</acronym>]</emphasis></para>
@@ -207,6 +199,14 @@ as_validator_get_issues (<parameter><link linkend="AsValidator"><type>AsValidato
 </refsect1>
 <refsect1 id="AsValidator.other_details" role="details">
 <title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-VALIDATOR:CAPS" role="macro">
+<title>AS_TYPE_VALIDATOR</title>
+<indexterm zone="AS-TYPE-VALIDATOR:CAPS"><primary>AS_TYPE_VALIDATOR</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_VALIDATOR (as_validator_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsValidatorClass" role="struct">
 <title>struct AsValidatorClass</title>
 <indexterm zone="AsValidatorClass"><primary>AsValidatorClass</primary></indexterm>

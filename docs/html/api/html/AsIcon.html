@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsRelease.html" title="AsRelease">
 <link rel="next" href="AsProvided.html" title="AsProvided">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -40,10 +40,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsIcon.html#AS-TYPE-ICON:CAPS" title="AS_TYPE_ICON">AS_TYPE_ICON</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="returnvalue">AsIconKind</span></a>
@@ -172,6 +168,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsIcon.html#AS-TYPE-ICON:CAPS" title="AS_TYPE_ICON">AS_TYPE_ICON</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsIcon.html#AsIconClass" title="struct AsIconClass">AsIconClass</a></td>
 </tr>
@@ -203,20 +203,12 @@
 <div class="refsect1">
 <a name="AsIcon.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-ICON:CAPS"></a><h3>AS_TYPE_ICON</h3>
-<pre class="programlisting">#define AS_TYPE_ICON (as_icon_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-icon-kind-from-string"></a><h3>as_icon_kind_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="returnvalue">AsIconKind</span></a>
 as_icon_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind_str</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.3.5"></a><h4>Parameters</h4>
+<a name="as-icon-kind-from-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -231,7 +223,7 @@ as_icon_kind_from_string (<em class="parameter"><code>const <span class="type">g
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.3.6"></a><h4>Returns</h4>
+<a name="as-icon-kind-from-string.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="type">AsIconKind</span></a> or <a class="link" href="AsIcon.html#AS-ICON-KIND-UNKNOWN:CAPS"><code class="literal">AS_ICON_KIND_UNKNOWN</code></a> for unknown</p>
 </div>
 </div>
@@ -242,7 +234,7 @@ as_icon_kind_from_string (<em class="parameter"><code>const <span class="type">g
 as_icon_kind_to_string (<em class="parameter"><code><a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="type">AsIconKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.4.5"></a><h4>Parameters</h4>
+<a name="as-icon-kind-to-string.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -257,7 +249,7 @@ as_icon_kind_to_string (<em class="parameter"><code><a class="link" href="AsIcon
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.4.6"></a><h4>Returns</h4>
+<a name="as-icon-kind-to-string.returns"></a><h4>Returns</h4>
 <p> string version of <em class="parameter"><code>kind</code></em>
 </p>
 </div>
@@ -269,7 +261,7 @@ as_icon_kind_to_string (<em class="parameter"><code><a class="link" href="AsIcon
 as_icon_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.5.5"></a><h4>Returns</h4>
+<a name="as-icon-new.returns"></a><h4>Returns</h4>
 <p> a <a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -281,7 +273,7 @@ as_icon_new (<em class="parameter"><code><span class="type">void</span></code></
 as_icon_get_kind (<em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <p>Gets the icon kind.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.6.5"></a><h4>Parameters</h4>
+<a name="as-icon-get-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -296,7 +288,7 @@ as_icon_get_kind (<em class="parameter"><code><a class="link" href="AsIcon.html"
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.6.6"></a><h4>Returns</h4>
+<a name="as-icon-get-kind.returns"></a><h4>Returns</h4>
 <p> the <a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="type">AsIconKind</span></a></p>
 </div>
 </div>
@@ -308,7 +300,7 @@ as_icon_set_kind (<em class="parameter"><code><a class="link" href="AsIcon.html"
                   <em class="parameter"><code><a class="link" href="AsIcon.html#AsIconKind" title="enum AsIconKind"><span class="type">AsIconKind</span></a> kind</code></em>);</pre>
 <p>Sets the icon kind.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.7.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-kind.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -336,7 +328,7 @@ as_icon_set_kind (<em class="parameter"><code><a class="link" href="AsIcon.html"
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_icon_get_name (<em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.5.8.8.4"></a><h4>Parameters</h4>
+<a name="as-icon-get-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -351,7 +343,7 @@ as_icon_get_name (<em class="parameter"><code><a class="link" href="AsIcon.html"
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.8.5"></a><h4>Returns</h4>
+<a name="as-icon-get-name.returns"></a><h4>Returns</h4>
 <p> the stock name of the icon. In case the icon is not of kind
 "stock", the basename of the icon filename or URL is returned.</p>
 </div>
@@ -364,7 +356,7 @@ as_icon_set_name (<em class="parameter"><code><a class="link" href="AsIcon.html"
                   <em class="parameter"><code>const <span class="type">gchar</span> *name</code></em>);</pre>
 <p>Sets the stock name or basename to use for the icon.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.9.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -394,7 +386,7 @@ as_icon_get_url (<em class="parameter"><code><a class="link" href="AsIcon.html" 
 <p>Gets the icon URL, pointing at a remote location. HTTPS and FTP urls are allowed.
 This property is only set for icons of type <a class="link" href="AsIcon.html#AS-ICON-KIND-REMOTE:CAPS"><code class="literal">AS_ICON_KIND_REMOTE</code></a></p>
 <div class="refsect3">
-<a name="id-1.2.5.8.10.5"></a><h4>Parameters</h4>
+<a name="as-icon-get-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -409,7 +401,7 @@ This property is only set for icons of type <a class="link" href="AsIcon.html#AS
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.10.6"></a><h4>Returns</h4>
+<a name="as-icon-get-url.returns"></a><h4>Returns</h4>
 <p> the URL</p>
 </div>
 </div>
@@ -421,7 +413,7 @@ as_icon_set_url (<em class="parameter"><code><a class="link" href="AsIcon.html" 
                  <em class="parameter"><code>const <span class="type">gchar</span> *url</code></em>);</pre>
 <p>Sets the icon URL.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.11.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-url.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -449,7 +441,7 @@ as_icon_set_url (<em class="parameter"><code><a class="link" href="AsIcon.html" 
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_icon_get_filename (<em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.5.8.12.4"></a><h4>Parameters</h4>
+<a name="as-icon-get-filename.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -464,7 +456,7 @@ as_icon_get_filename (<em class="parameter"><code><a class="link" href="AsIcon.h
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.12.5"></a><h4>Returns</h4>
+<a name="as-icon-get-filename.returns"></a><h4>Returns</h4>
 <p> The absolute path for the icon on disk.
 This is only set for icons of kind <a class="link" href="AsIcon.html#AS-ICON-KIND-LOCAL:CAPS"><code class="literal">AS_ICON_KIND_LOCAL</code></a> or
 <a class="link" href="AsIcon.html#AS-ICON-KIND-CACHED:CAPS"><code class="literal">AS_ICON_KIND_CACHED</code></a>.</p>
@@ -478,7 +470,7 @@ as_icon_set_filename (<em class="parameter"><code><a class="link" href="AsIcon.h
                       <em class="parameter"><code>const <span class="type">gchar</span> *filename</code></em>);</pre>
 <p>Sets the icon absolute filename.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.13.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-filename.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -506,7 +498,7 @@ as_icon_set_filename (<em class="parameter"><code><a class="link" href="AsIcon.h
 <pre class="programlisting"><span class="returnvalue">guint</span>
 as_icon_get_width (<em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.5.8.14.4"></a><h4>Parameters</h4>
+<a name="as-icon-get-width.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -521,7 +513,7 @@ as_icon_get_width (<em class="parameter"><code><a class="link" href="AsIcon.html
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.14.5"></a><h4>Returns</h4>
+<a name="as-icon-get-width.returns"></a><h4>Returns</h4>
 <p> The icon width in pixels, or 0 if unknown.</p>
 </div>
 </div>
@@ -533,7 +525,7 @@ as_icon_set_width (<em class="parameter"><code><a class="link" href="AsIcon.html
                    <em class="parameter"><code><span class="type">guint</span> width</code></em>);</pre>
 <p>Sets the icon width.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.15.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-width.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -561,7 +553,7 @@ as_icon_set_width (<em class="parameter"><code><a class="link" href="AsIcon.html
 <pre class="programlisting"><span class="returnvalue">guint</span>
 as_icon_get_height (<em class="parameter"><code><a class="link" href="AsIcon.html" title="AsIcon"><span class="type">AsIcon</span></a> *icon</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.5.8.16.4"></a><h4>Parameters</h4>
+<a name="as-icon-get-height.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -576,7 +568,7 @@ as_icon_get_height (<em class="parameter"><code><a class="link" href="AsIcon.htm
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.5.8.16.5"></a><h4>Returns</h4>
+<a name="as-icon-get-height.returns"></a><h4>Returns</h4>
 <p> The icon height in pixels, or 0 if unknown.</p>
 </div>
 </div>
@@ -588,7 +580,7 @@ as_icon_set_height (<em class="parameter"><code><a class="link" href="AsIcon.htm
                     <em class="parameter"><code><span class="type">guint</span> height</code></em>);</pre>
 <p>Sets the icon height.</p>
 <div class="refsect3">
-<a name="id-1.2.5.8.17.5"></a><h4>Parameters</h4>
+<a name="as-icon-set-height.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -614,6 +606,14 @@ as_icon_set_height (<em class="parameter"><code><a class="link" href="AsIcon.htm
 <div class="refsect1">
 <a name="AsIcon.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
+<a name="AS-TYPE-ICON:CAPS"></a><h3>AS_TYPE_ICON</h3>
+<pre class="programlisting">#define AS_TYPE_ICON (as_icon_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="AsIconClass"></a><h3>struct AsIconClass</h3>
 <pre class="programlisting">struct AsIconClass {
 	GObjectClass		parent_class;
@@ -627,7 +627,7 @@ as_icon_set_height (<em class="parameter"><code><a class="link" href="AsIcon.htm
 <a name="AsIconKind"></a><h3>enum AsIconKind</h3>
 <p>The icon type.</p>
 <div class="refsect3">
-<a name="id-1.2.5.9.3.4"></a><h4>Members</h4>
+<a name="AsIconKind.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -684,6 +684,6 @@ as_icon_set_height (<em class="parameter"><code><a class="link" href="AsIcon.htm
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsDistroDetails.html" title="AsDistroDetails">
 <link rel="next" href="AsCategory.html" title="AsCategory">
-<meta name="generator" content="GTK-Doc V1.24 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -41,10 +41,6 @@
 <col class="functions_name">
 </colgroup>
 <tbody>
-<tr>
-<td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsMenuParser.html#AS-TYPE-MENU-PARSER:CAPS" title="AS_TYPE_MENU_PARSER">AS_TYPE_MENU_PARSER</a></td>
-</tr>
 <tr>
 <td class="function_type">
 <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *
@@ -120,6 +116,10 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsMenuParser.html#AS-TYPE-MENU-PARSER:CAPS" title="AS_TYPE_MENU_PARSER">AS_TYPE_MENU_PARSER</a></td>
+</tr>
+<tr>
 <td class="datatype_keyword">struct</td>
 <td class="function_name"><a class="link" href="AsMenuParser.html#AsMenuParserClass" title="struct AsMenuParserClass">AsMenuParserClass</a></td>
 </tr>
@@ -152,20 +152,12 @@ A custom menu file may be specified using the alternative class constructor.</p>
 <div class="refsect1">
 <a name="AsMenuParser.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
-<a name="AS-TYPE-MENU-PARSER:CAPS"></a><h3>AS_TYPE_MENU_PARSER</h3>
-<pre class="programlisting">#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
-</pre>
-<p>
-</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-menu-parser-new"></a><h3>as_menu_parser_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="returnvalue">AsMenuParser</span></a> *
 as_menu_parser_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Creates a new <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>.</p>
 <div class="refsect3">
-<a name="id-1.2.13.9.3.5"></a><h4>Returns</h4>
+<a name="as-menu-parser-new.returns"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -177,7 +169,7 @@ as_menu_parser_new (<em class="parameter"><code><span class="type">void</span></
 as_menu_parser_new_from_file (<em class="parameter"><code>const <span class="type">gchar</span> *menu_file</code></em>);</pre>
 <p>Creates a new <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> using a custom XDG menu XML file.</p>
 <div class="refsect3">
-<a name="id-1.2.13.9.4.5"></a><h4>Parameters</h4>
+<a name="as-menu-parser-new-from-file.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -192,7 +184,7 @@ as_menu_parser_new_from_file (<em class="parameter"><code>const <span class="typ
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.13.9.4.6"></a><h4>Returns</h4>
+<a name="as-menu-parser-new-from-file.returns"></a><h4>Returns</h4>
 <p> an <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -204,7 +196,7 @@ as_menu_parser_new_from_file (<em class="parameter"><code>const <span class="typ
 as_menu_parser_parse (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *mp</code></em>);</pre>
 <p>Parse the menu file</p>
 <div class="refsect3">
-<a name="id-1.2.13.9.5.5"></a><h4>Parameters</h4>
+<a name="as-menu-parser-parse.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -219,7 +211,7 @@ as_menu_parser_parse (<em class="parameter"><code><a class="link" href="AsMenuPa
 </table></div>
 </div>
 <div class="refsect3">
-<a name="id-1.2.13.9.5.6"></a><h4>Returns</h4>
+<a name="as-menu-parser-parse.returns"></a><h4>Returns</h4>
 <p> <span class="type">GList</span> of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> objects found in the menu, or NULL if there was an error. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -231,7 +223,7 @@ as_menu_parser_parse (<em class="parameter"><code><a class="link" href="AsMenuPa
 as_menu_parser_get_update_category_data
                                (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *mp</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.13.9.6.4"></a><h4>Parameters</h4>
+<a name="as-menu-parser-get-update-category-data.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -254,7 +246,7 @@ as_menu_parser_set_update_category_data
                                (<em class="parameter"><code><a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> *mp</code></em>,
                                 <em class="parameter"><code><span class="type">gboolean</span> value</code></em>);</pre>
 <div class="refsect3">
-<a name="id-1.2.13.9.7.4"></a><h4>Parameters</h4>
+<a name="as-menu-parser-set-update-category-data.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -276,7 +268,7 @@ as_menu_parser_set_update_category_data
 as_get_system_categories (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <p>Get a GList of the default AppStream categories</p>
 <div class="refsect3">
-<a name="id-1.2.13.9.8.5"></a><h4>Returns</h4>
+<a name="as-get-system-categories.returns"></a><h4>Returns</h4>
 <p> <span class="type">GList</span> of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> objects. </p>
 <p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -284,6 +276,14 @@ as_get_system_categories (<em class="parameter"><code><span class="type">void</s
 </div>
 <div class="refsect1">
 <a name="AsMenuParser.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="AS-TYPE-MENU-PARSER:CAPS"></a><h3>AS_TYPE_MENU_PARSER</h3>
+<pre class="programlisting">#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
+</pre>
+<p>
+</p>
+</div>
+<hr>
 <div class="refsect2">
 <a name="AsMenuParserClass"></a><h3>struct AsMenuParserClass</h3>
 <pre class="programlisting">struct AsMenuParserClass {
@@ -313,6 +313,6 @@ as_get_system_categories (<em class="parameter"><code><span class="type">void</s
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.24</div>
+<hr>Generated by GTK-Doc V1.25</div>
 </body>
 </html>
