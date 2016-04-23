@@ -1,7 +1,11 @@
-# SymbolsHelper-Confirmed: 0.9.4 amd64
+# SymbolsHelper-Confirmed: 0.9.4 alpha amd64 arm64 armel armhf hppa hurd-i386 i386 kfreebsd-i386 mips mips64el mipsel powerpc ppc64el sh4 sparc64 x32
 libappstream.so.3 libappstream3 #MINVER#
  AS_APPSTREAM_METADATA_PATHS@Base 0.9.2
- (optional=templinst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_mPKS8_P13__va_list_tagEmSB_z@Base 0.9.4
+ (optional=templinst|arch=alpha sh4|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_13__va_list_tagE{size_t}SB_z@Base 0.9.4
+ (optional=templinst|arch=powerpc x32|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_P13__va_list_tagE{size_t}SB_z@Base 0.9.4
+ (optional=templinst|arch=hurd-i386 i386 kfreebsd-i386 ppc64el|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_PcE{size_t}SB_z@Base 0.9.4
+ (optional=templinst|arch=hppa mips mips64el mipsel sparc64|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_PvE{size_t}SB_z@Base 0.9.4
+ (optional=templinst|arch=arm64 armel armhf|subst)_ZN9__gnu_cxx12__to_xstringINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEcEET_PFiPT0_{size_t}PKS8_St9__va_listE{size_t}SB_z@Base 0.9.4
  (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIIRKS5_EEEvDpOT_@Base 0.9.4
  (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EE19_M_emplace_back_auxIJRKS5_EEEvDpOT_@Base 0.9.4
  (optional=templinst)_ZNSt6vectorINSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESaIS5_EED1Ev@Base 0.9.4
