@@ -46,6 +46,8 @@
 </entry><entry role="function_name"><link linkend="as-screenshot-get-active-locale">as_screenshot_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-screenshot-set-active-locale">as_screenshot_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-screenshot-get-images-localized">as_screenshot_get_images_localized</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -321,6 +323,29 @@ If the <link linkend="AsComponent"><type>AsComponent</type></link> linking this 
 from a localized database, usually only
 one locale is available.</para>
 </refsect2>
+<refsect2 id="as-screenshot-get-images-localized" role="function" condition="since:0.9.5">
+<title>as_screenshot_get_images_localized&#160;()</title>
+<indexterm zone="as-screenshot-get-images-localized" role="0.9.5"><primary>as_screenshot_get_images_localized</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_screenshot_get_images_localized (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
+<para>Returns all images that are compatible with a specific locale.</para>
+<refsect3 id="as-screenshot-get-images-localized.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>screenshot</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsScreenshot"><type>AsScreenshot</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-screenshot-get-images-localized.returns" role="returns">
+<title>Returns</title>
+<para> an array. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsImage][<acronym>transfer container</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.5">0.9.5</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsScreenshot.other_details" role="details">

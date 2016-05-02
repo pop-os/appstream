@@ -1,3 +1,8 @@
+<FUNCTION>
+<NAME>as_release_get_description_table</NAME>
+<RETURNS>GHashTable 	*</RETURNS>
+AsRelease *release
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_YAMLDATA</NAME>
 #define AS_TYPE_YAMLDATA (as_yamldata_get_type ())
@@ -98,6 +103,16 @@ AsImageKind kind
 void
 </FUNCTION>
 <FUNCTION>
+<NAME>as_image_get_kind</NAME>
+<RETURNS>AsImageKind 	 </RETURNS>
+AsImage *image
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_kind</NAME>
+<RETURNS>void 		 </RETURNS>
+AsImage *image, AsImageKind kind
+</FUNCTION>
+<FUNCTION>
 <NAME>as_image_get_url</NAME>
 <RETURNS>const gchar 	*</RETURNS>
 AsImage *image
@@ -128,14 +143,14 @@ AsImage *image
 AsImage *image, guint height
 </FUNCTION>
 <FUNCTION>
-<NAME>as_image_get_kind</NAME>
-<RETURNS>AsImageKind 	 </RETURNS>
+<NAME>as_image_get_locale</NAME>
+<RETURNS>const gchar 	*</RETURNS>
 AsImage *image
 </FUNCTION>
 <FUNCTION>
-<NAME>as_image_set_kind</NAME>
+<NAME>as_image_set_locale</NAME>
 <RETURNS>void 		 </RETURNS>
-AsImage *image, AsImageKind kind
+AsImage *image, const gchar *locale
 </FUNCTION>
 <STRUCT>
 <NAME>AsImage</NAME>
@@ -691,6 +706,11 @@ AsScreenshot *screenshot
 <NAME>as_screenshot_set_active_locale</NAME>
 <RETURNS>void 				</RETURNS>
 AsScreenshot *screenshot, const gchar *locale
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_get_images_localized</NAME>
+<RETURNS>GPtrArray 			*</RETURNS>
+AsScreenshot *screenshot
 </FUNCTION>
 <STRUCT>
 <NAME>AsScreenshot</NAME>
@@ -1669,6 +1689,11 @@ AsXMLData *xdt, AsComponent *cpt
 AsXMLData *xdt, GPtrArray *cpts, gboolean write_header
 </FUNCTION>
 <FUNCTION>
+<NAME>as_xmldata_get_parser_mode</NAME>
+<RETURNS>AsParserMode 		</RETURNS>
+AsXMLData *xdt
+</FUNCTION>
+<FUNCTION>
 <NAME>as_xmldata_set_parser_mode</NAME>
 <RETURNS>void 			</RETURNS>
 AsXMLData *xdt, AsParserMode mode
@@ -1677,6 +1702,16 @@ AsXMLData *xdt, AsParserMode mode
 <NAME>as_xmldata_parse_component_node</NAME>
 <RETURNS>void 			</RETURNS>
 AsXMLData *metad, xmlNode *node, AsComponent *cpt, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_parse_document</NAME>
+<RETURNS>xmlDoc 			*</RETURNS>
+AsXMLData *xdt, const gchar *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_set_check_valid</NAME>
+<RETURNS>void 			</RETURNS>
+AsXMLData *xdt, gboolean check
 </FUNCTION>
 <STRUCT>
 <NAME>AsXMLData</NAME>
