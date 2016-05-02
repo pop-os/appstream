@@ -36,10 +36,16 @@
 </entry><entry role="function_name"><link linkend="as-xmldata-serialize-to-upstream">as_xmldata_serialize_to_upstream</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-xmldata-serialize-to-distro">as_xmldata_serialize_to_distro</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-xmldata-get-parser-mode">as_xmldata_get_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-xmldata-set-parser-mode">as_xmldata_set_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-xmldata-parse-component-node">as_xmldata_parse_component_node</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="xmlDoc"><returnvalue>xmlDoc</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-xmldata-parse-document">as_xmldata_parse_document</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-xmldata-set-check-valid">as_xmldata_set_check_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -254,6 +260,12 @@ as_xmldata_serialize_to_distro (<parameter><link linkend="AsXMLData"><type>AsXML
 <title>Returns</title>
 <para> XML metadata.</para>
 </refsect3></refsect2>
+<refsect2 id="as-xmldata-get-parser-mode" role="function">
+<title>as_xmldata_get_parser_mode&#160;()</title>
+<indexterm zone="as-xmldata-get-parser-mode"><primary>as_xmldata_get_parser_mode</primary></indexterm>
+<programlisting language="C"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
+as_xmldata_get_parser_mode (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *xdt</parameter>);</programlisting>
+</refsect2>
 <refsect2 id="as-xmldata-set-parser-mode" role="function">
 <title>as_xmldata_set_parser_mode&#160;()</title>
 <indexterm zone="as-xmldata-set-parser-mode"><primary>as_xmldata_set_parser_mode</primary></indexterm>
@@ -270,6 +282,35 @@ as_xmldata_parse_component_node (<parameter><link linkend="AsXMLData"><type>AsXM
                                  <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
                                  <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 </refsect2>
+<refsect2 id="as-xmldata-parse-document" role="function">
+<title>as_xmldata_parse_document&#160;()</title>
+<indexterm zone="as-xmldata-parse-document"><primary>as_xmldata_parse_document</primary></indexterm>
+<programlisting language="C"><link linkend="xmlDoc"><returnvalue>xmlDoc</returnvalue></link>&#160;*
+as_xmldata_parse_document (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *xdt</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
+                           <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+</refsect2>
+<refsect2 id="as-xmldata-set-check-valid" role="function">
+<title>as_xmldata_set_check_valid&#160;()</title>
+<indexterm zone="as-xmldata-set-check-valid"><primary>as_xmldata_set_check_valid</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_xmldata_set_check_valid (<parameter><link linkend="AsXMLData"><type>AsXMLData</type></link> *xdt</parameter>,
+                            <parameter><link linkend="gboolean"><type>gboolean</type></link> check</parameter>);</programlisting>
+<para>Set whether we should perform basic validity checks on the component
+before serializing it to XML.</para>
+<refsect3 id="as-xmldata-set-check-valid.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>check</para></entry>
+<entry role="parameter_description"><para><link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if check should be enabled.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsXMLData.other_details" role="details">

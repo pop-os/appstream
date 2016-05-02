@@ -1,7 +1,7 @@
-60% symbol docs coverage.
-363 symbols documented.
-47 symbols incomplete.
-246 not documented.
+59% symbol docs coverage.
+368 symbols documented.
+50 symbols incomplete.
+255 not documented.
 
 
 AS_CACHE_BUILDER_ERROR
@@ -63,8 +63,6 @@ AsXMLData
 AsXMLDataClass
 AsYAMLData
 AsYAMLDataClass
-_as_xmldata_desc_lang_hashtable_to_nodes
-_as_xmldata_lang_hashtable_to_nodes
 _as_xmldata_serialize_image
 as_arch_compatible (Returns)
 as_cache_builder_appstream_data_changed
@@ -147,6 +145,8 @@ as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
+as_image_set_locale
+as_image_set_url (url)
 as_is_cruft_locale (locale, Returns)
 as_locale_strip_encoding (locale, Returns)
 as_menu_parser_class_init
@@ -191,6 +191,7 @@ as_release_class_init
 as_release_finalize
 as_release_get_active_locale (release, Returns)
 as_release_get_checksum (release, kind)
+as_release_get_description_table (release, Returns)
 as_release_get_locations (release)
 as_release_init
 as_release_set_active_locale (release, locale)
@@ -212,6 +213,7 @@ as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_root
 as_utils_is_writable (Returns)
+as_utils_locale_to_language
 as_validator_add_issue
 as_validator_check_appear_once
 as_validator_check_children_quick
@@ -230,29 +232,36 @@ as_validator_validate_component_node
 as_validator_validate_data (Returns)
 as_validator_validate_file (Returns)
 as_validator_validate_tree (Returns)
+as_xml_desc_lang_hashtable_to_nodes_cb
 as_xml_icon_set_size_from_node
+as_xml_lang_hashtable_to_nodes_cb
+as_xml_serialize_languages
 as_xmldata_class_init
 as_xmldata_clear_error
 as_xmldata_dump_node_children
 as_xmldata_finalize
 as_xmldata_get_node_locale
 as_xmldata_get_node_value
+as_xmldata_get_parser_mode
 as_xmldata_init
 as_xmldata_initialize (locale, origin, media_baseurl, arch, priority)
 as_xmldata_new
 as_xmldata_parse_component_node
 as_xmldata_parse_components_node
+as_xmldata_parse_document
 as_xmldata_parse_upstream_description_tag
 as_xmldata_process_screenshot
 as_xmldata_process_screenshots_tag
 as_xmldata_serialize_to_distro (cpts, write_header)
 as_xmldata_serialize_to_distro_with_rootnode
 as_xmldata_serialize_to_distro_without_rootnode
+as_xmldata_set_check_valid (xdt)
 as_xmldata_set_parser_mode
 as_xmldata_update_cpt_with_upstream_data (Returns)
 as_yaml_emit_entry
 as_yaml_emit_lang_hashtable_entries
 as_yaml_emit_lang_hashtable_entries_long
+as_yaml_emit_languages
 as_yaml_emit_localized_entry
 as_yaml_emit_localized_entry_with_func
 as_yaml_emit_localized_lists
@@ -281,6 +290,7 @@ as_yamldata_parse_distro_data (error)
 as_yamldata_process_component_node
 as_yamldata_process_icon
 as_yamldata_process_icons
+as_yamldata_process_languages
 as_yamldata_process_screenshots
 as_yamldata_serialize_to_distro
 dep11_list_to_string_array
@@ -293,6 +303,8 @@ as-cache-builder:Long_Description
 as-cache-builder:Short_Description
 as-enums:Long_Description
 as-icon:Long_Description
+as-release-private:Long_Description
+as-release-private:Short_Description
 as-screenshot-private:Long_Description
 as-screenshot-private:Short_Description
 as-utils-private:Long_Description

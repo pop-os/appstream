@@ -109,6 +109,7 @@ urls_hashtable_to_urlentry (gpointer ukind_ptr, gchar *value, Urls *urls)
 static void
 images_array_to_imageentry (AsImage *img, Screenshots_Screenshot *pb_sshot)
 {
+	const gchar *locale;
 	Screenshots_Image *pb_img;
 
 	pb_img = pb_sshot->add_image ();
@@ -119,10 +120,12 @@ images_array_to_imageentry (AsImage *img, Screenshots_Screenshot *pb_sshot)
 	else
 		pb_img->set_source (true);
 
-	if ((as_image_get_width (img) > 0) && (as_image_get_height (img) > 0)) {
-		pb_img->set_width (as_image_get_width (img));
-		pb_img->set_height (as_image_get_height (img));
-	}
+	pb_img->set_width (as_image_get_width (img));
+	pb_img->set_height (as_image_get_height (img));
+
+	locale = as_image_get_locale (img);
+	if (locale != NULL)
+		pb_img->set_locale (locale);
 }
 
 /**
@@ -335,13 +338,16 @@ DatabaseWrite::rebuild (GList *cpt_list)
 			pbIcon->set_width (as_icon_get_width (icon));
 			pbIcon->set_height (as_icon_get_height (icon));
 
-			if (as_icon_get_kind (icon) == AS_ICON_KIND_REMOTE) {
+			if (as_icon_get_kind (icon) == AS_ICON_KIND_STOCK) {
+				pbIcon->set_type (Icons_IconType_STOCK);
+				pbIcon->set_value (as_icon_get_name (icon));
+			} else if (as_icon_get_kind (icon) == AS_ICON_KIND_REMOTE) {
 				pbIcon->set_type (Icons_IconType_REMOTE);
-				pbIcon->set_url (as_icon_get_url (icon));
+				pbIcon->set_value (as_icon_get_url (icon));
 			} else {
-				/* TODO: Properly support STOCK and LOCAL icons */
+				/* TODO: Do we want to support icons of type LOCAL? */
 				pbIcon->set_type (Icons_IconType_CACHED);
-				pbIcon->set_url (as_icon_get_filename (icon));
+				pbIcon->set_value (as_icon_get_filename (icon));
 			}
 		}
 		string icons_ostr;

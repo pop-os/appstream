@@ -185,6 +185,7 @@
     <keyword type="function" name="as_screenshot_add_image ()" link="AsScreenshot.html#as-screenshot-add-image"/>
     <keyword type="function" name="as_screenshot_get_active_locale ()" link="AsScreenshot.html#as-screenshot-get-active-locale"/>
     <keyword type="function" name="as_screenshot_set_active_locale ()" link="AsScreenshot.html#as-screenshot-set-active-locale"/>
+    <keyword type="function" name="as_screenshot_get_images_localized ()" link="AsScreenshot.html#as-screenshot-get-images-localized" since="0.9.5"/>
     <keyword type="macro" name="AS_TYPE_SCREENSHOT" link="AsScreenshot.html#AS-TYPE-SCREENSHOT:CAPS"/>
     <keyword type="struct" name="struct AsScreenshotClass" link="AsScreenshot.html#AsScreenshotClass"/>
     <keyword type="enum" name="enum AsScreenshotKind" link="AsScreenshot.html#AsScreenshotKind"/>
@@ -192,14 +193,16 @@
     <keyword type="function" name="as_image_kind_from_string ()" link="AsImage.html#as-image-kind-from-string"/>
     <keyword type="function" name="as_image_kind_to_string ()" link="AsImage.html#as-image-kind-to-string"/>
     <keyword type="function" name="as_image_new ()" link="AsImage.html#as-image-new"/>
+    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
+    <keyword type="function" name="as_image_set_kind ()" link="AsImage.html#as-image-set-kind"/>
     <keyword type="function" name="as_image_get_url ()" link="AsImage.html#as-image-get-url"/>
-    <keyword type="function" name="as_image_set_url ()" link="AsImage.html#as-image-set-url"/>
+    <keyword type="function" name="as_image_set_url ()" link="AsImage.html#as-image-set-url" since="0.9.5"/>
     <keyword type="function" name="as_image_get_width ()" link="AsImage.html#as-image-get-width"/>
     <keyword type="function" name="as_image_set_width ()" link="AsImage.html#as-image-set-width"/>
     <keyword type="function" name="as_image_get_height ()" link="AsImage.html#as-image-get-height"/>
     <keyword type="function" name="as_image_set_height ()" link="AsImage.html#as-image-set-height"/>
-    <keyword type="function" name="as_image_get_kind ()" link="AsImage.html#as-image-get-kind"/>
-    <keyword type="function" name="as_image_set_kind ()" link="AsImage.html#as-image-set-kind"/>
+    <keyword type="function" name="as_image_get_locale ()" link="AsImage.html#as-image-get-locale" since="0.9.5"/>
+    <keyword type="function" name="as_image_set_locale ()" link="AsImage.html#as-image-set-locale"/>
     <keyword type="macro" name="AS_TYPE_IMAGE" link="AsImage.html#AS-TYPE-IMAGE:CAPS"/>
     <keyword type="struct" name="struct AsImageClass" link="AsImage.html#AsImageClass"/>
     <keyword type="enum" name="enum AsImageKind" link="AsImage.html#AsImageKind"/>

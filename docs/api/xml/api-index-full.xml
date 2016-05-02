@@ -203,6 +203,7 @@
 <indexentry><primaryie linkends="AsImageKind"><link linkend="AsImageKind">AsImageKind</link>, enum in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-get-height"><link linkend="as-image-get-height">as_image_get_height</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-get-kind"><link linkend="as-image-get-kind">as_image_get_kind</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-image-get-locale"><link linkend="as-image-get-locale">as_image_get_locale</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-get-url"><link linkend="as-image-get-url">as_image_get_url</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-get-width"><link linkend="as-image-get-width">as_image_get_width</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-kind-from-string"><link linkend="as-image-kind-from-string">as_image_kind_from_string</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
@@ -210,6 +211,7 @@
 <indexentry><primaryie linkends="as-image-new"><link linkend="as-image-new">as_image_new</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-height"><link linkend="as-image-set-height">as_image_set_height</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-kind"><link linkend="as-image-set-kind">as_image_set_kind</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-image-set-locale"><link linkend="as-image-set-locale">as_image_set_locale</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-url"><link linkend="as-image-set-url">as_image_set_url</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-width"><link linkend="as-image-set-width">as_image_set_width</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueImportance"><link linkend="AsIssueImportance">AsIssueImportance</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
@@ -283,6 +285,7 @@
 <indexentry><primaryie linkends="as-release-get-active-locale"><link linkend="as-release-get-active-locale">as_release_get_active_locale</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-checksum"><link linkend="as-release-get-checksum">as_release_get_checksum</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-description"><link linkend="as-release-get-description">as_release_get_description</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-get-description-table"><link linkend="as-release-get-description-table">as_release_get_description_table</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-locations"><link linkend="as-release-get-locations">as_release_get_locations</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-size"><link linkend="as-release-get-size">as_release_get_size</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-timestamp"><link linkend="as-release-get-timestamp">as_release_get_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
@@ -307,6 +310,7 @@
 <indexentry><primaryie linkends="as-screenshot-get-caption"><link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-caption-table"><link linkend="as-screenshot-get-caption-table">as_screenshot_get_caption_table</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-images"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-get-images-localized"><link linkend="as-screenshot-get-images-localized">as_screenshot_get_images_localized</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-kind"><link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-is-valid"><link linkend="as-screenshot-is-valid">as_screenshot_is_valid</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-kind-from-string"><link linkend="as-screenshot-kind-from-string">as_screenshot_kind_from_string</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
@@ -390,13 +394,16 @@
 <indexdiv><title>X</title>
 <indexentry><primaryie linkends="AsXMLData-struct"><link linkend="AsXMLData-struct">AsXMLData</link>, struct in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsXMLDataClass"><link linkend="AsXMLDataClass">AsXMLDataClass</link>, struct in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-get-parser-mode"><link linkend="as-xmldata-get-parser-mode">as_xmldata_get_parser_mode</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-initialize"><link linkend="as-xmldata-initialize">as_xmldata_initialize</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-new"><link linkend="as-xmldata-new">as_xmldata_new</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-parse-component-node"><link linkend="as-xmldata-parse-component-node">as_xmldata_parse_component_node</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-parse-distro-data"><link linkend="as-xmldata-parse-distro-data">as_xmldata_parse_distro_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-parse-document"><link linkend="as-xmldata-parse-document">as_xmldata_parse_document</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-parse-upstream-data"><link linkend="as-xmldata-parse-upstream-data">as_xmldata_parse_upstream_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-serialize-to-distro"><link linkend="as-xmldata-serialize-to-distro">as_xmldata_serialize_to_distro</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-serialize-to-upstream"><link linkend="as-xmldata-serialize-to-upstream">as_xmldata_serialize_to_upstream</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-xmldata-set-check-valid"><link linkend="as-xmldata-set-check-valid">as_xmldata_set_check_valid</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-set-parser-mode"><link linkend="as-xmldata-set-parser-mode">as_xmldata_set_parser_mode</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-xmldata-update-cpt-with-upstream-data"><link linkend="as-xmldata-update-cpt-with-upstream-data">as_xmldata_update_cpt_with_upstream_data</link>, function in <link linkend="AsXMLData">AsXMLData</link></primaryie></indexentry>
 </indexdiv>

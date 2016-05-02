@@ -212,14 +212,16 @@ AsImageKind
 as_image_kind_from_string
 as_image_kind_to_string
 as_image_new
+as_image_get_kind
+as_image_set_kind
 as_image_get_url
 as_image_set_url
 as_image_get_width
 as_image_set_width
 as_image_get_height
 as_image_set_height
-as_image_get_kind
-as_image_set_kind
+as_image_get_locale
+as_image_set_locale
 AsImage
 </SECTION>
 
@@ -325,6 +327,11 @@ AsRelease
 </SECTION>
 
 <SECTION>
+<FILE>as-release-private</FILE>
+as_release_get_description_table
+</SECTION>
+
+<SECTION>
 <FILE>as-screenshot</FILE>
 <TITLE>AsScreenshot</TITLE>
 AS_TYPE_SCREENSHOT
@@ -342,6 +349,7 @@ as_screenshot_get_images
 as_screenshot_add_image
 as_screenshot_get_active_locale
 as_screenshot_set_active_locale
+as_screenshot_get_images_localized
 AsScreenshot
 </SECTION>
 
@@ -431,8 +439,11 @@ as_xmldata_parse_distro_data
 as_xmldata_update_cpt_with_upstream_data
 as_xmldata_serialize_to_upstream
 as_xmldata_serialize_to_distro
+as_xmldata_get_parser_mode
 as_xmldata_set_parser_mode
 as_xmldata_parse_component_node
+as_xmldata_parse_document
+as_xmldata_set_check_valid
 AsXMLData
 </SECTION>
 

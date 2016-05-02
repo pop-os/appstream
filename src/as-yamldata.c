@@ -33,7 +33,6 @@
 typedef struct
 {
 	gchar *locale;
-	gchar *locale_short;
 	gchar *origin;
 	gchar *media_baseurl;
 
@@ -78,7 +77,6 @@ as_yamldata_finalize (GObject *object)
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	g_free (priv->locale);
-	g_free (priv->locale_short);
 	g_free (priv->origin);
 	g_free (priv->media_baseurl);
 	g_free (priv->arch);
@@ -95,15 +93,10 @@ as_yamldata_finalize (GObject *object)
 void
 as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority)
 {
-	g_auto(GStrv) strv = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	g_free (priv->locale);
-	g_free (priv->locale_short);
 	priv->locale = g_strdup (locale);
-
-	strv = g_strsplit (priv->locale, "_", 0);
-	priv->locale_short = g_strdup (strv[0]);
 
 	g_free (priv->origin);
 	priv->origin = g_strdup (origin);
@@ -207,35 +200,29 @@ as_yamldata_get_localized_node (AsYAMLData *ydt, GNode *node, gchar *locale_over
 	GNode *tnode = NULL;
 	gchar *key;
 	const gchar *locale;
-	const gchar *locale_short = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
-	if (locale_override == NULL) {
+	if (locale_override == NULL)
 		locale = priv->locale;
-		locale_short = priv->locale_short;
-	} else {
+	else
 		locale = locale_override;
-		locale_short = NULL;
-	}
 
 	for (n = node->children; n != NULL; n = n->next) {
 		key = (gchar*) n->data;
 
 		if ((tnode == NULL) && (g_strcmp0 (key, "C") == 0)) {
 			tnode = n;
-			if (locale == NULL)
+			if (g_strcmp0 (locale, "C") == 0)
 				goto out;
 		}
 
-		if (g_strcmp0 (key, locale) == 0) {
+		if (g_strcmp0 (locale, key) == 0) {
 			tnode = n;
 			goto out;
 		}
 
-		if (g_strcmp0 (key, locale_short) == 0) {
+		if (as_utils_locale_is_compatible (locale, key))
 			tnode = n;
-			goto out;
-		}
 	}
 
 out:
@@ -354,10 +341,9 @@ as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIcon
 						as_icon_set_url (icon, value);
 					} else {
 						/* handle the media baseurl */
-						gchar *tmp;
-						tmp = g_build_filename (priv->media_baseurl, value, NULL);
-						as_icon_set_url (icon, tmp);
-						g_free (tmp);
+						g_autofree gchar *url = NULL;
+						url = g_build_filename (priv->media_baseurl, value, NULL);
+						as_icon_set_url (icon, url);
 					}
 				}
 			} else {
@@ -378,12 +364,12 @@ static void
 as_yamldata_process_icons (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 {
 	GNode *n;
-	gchar *key;
-	gchar *value;
+	const gchar *key;
+	const gchar *value;
 
 	for (n = node->children; n != NULL; n = n->next) {
-		key = (gchar*) n->data;
-		value = (gchar*) n->children->data;
+		key = (const gchar*) n->data;
+		value = (const gchar*) n->children->data;
 
 		if (g_strcmp0 (key, "stock") == 0) {
 			g_autoptr(AsIcon) icon = as_icon_new ();
@@ -558,6 +544,8 @@ dep11_process_image (AsYAMLData *ydt, GNode *node, AsScreenshot *scr)
 				as_image_set_url (img, tmp);
 				g_free (tmp);
 			}
+		} else if (g_strcmp0 (key, "lang") == 0) {
+			as_image_set_locale (img, value);
 		} else {
 			dep11_print_unknown ("image", key);
 		}
@@ -680,6 +668,47 @@ as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 }
 
 /**
+ * as_yamldata_process_languages:
+ */
+static void
+as_yamldata_process_languages (GNode *node, AsComponent *cpt)
+{
+	GNode *sn;
+
+	for (sn = node->children; sn != NULL; sn = sn->next) {
+		GNode *n;
+		g_autofree gchar *locale = NULL;
+		g_autofree gchar *percentage_str = NULL;
+
+		for (n = sn->children; n != NULL; n = n->next) {
+			gchar *key;
+			gchar *value;
+
+			key = (gchar*) n->data;
+			if (n->children)
+				value = (gchar*) n->children->data;
+			else
+				value = NULL;
+
+			if (g_strcmp0 (key, "locale") == 0) {
+				if (locale == NULL)
+					locale = g_strdup (value);
+			} else if (g_strcmp0 (key, "percentage") == 0) {
+				if (percentage_str == NULL)
+					percentage_str = g_strdup (value);
+			} else {
+				dep11_print_unknown ("languages", key);
+			}
+		}
+
+		if ((locale != NULL) && (percentage_str != NULL))
+			as_component_add_language (cpt,
+						   locale,
+						   g_ascii_strtoll (percentage_str, NULL, 10));
+	}
+}
+
+/**
  * as_yamldata_process_component_node:
  */
 static AsComponent*
@@ -781,6 +810,8 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 			dep11_process_provides (node, cpt);
 		} else if (g_strcmp0 (key, "Screenshots") == 0) {
 			as_yamldata_process_screenshots (ydt, node, cpt);
+		} else if (g_strcmp0 (key, "Languages") == 0) {
+			as_yamldata_process_languages (node, cpt);
 		} else if (g_strcmp0 (key, "Releases") == 0) {
 			as_yamldata_process_releases (ydt, node, cpt);
 		} else {
@@ -1113,7 +1144,7 @@ void
 as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 {
 	GList *l;
-	GList *plist;
+	g_autoptr(GList) plist = NULL;
 	guint i;
 
 	g_auto(GStrv) dbus_system = NULL;
@@ -1308,6 +1339,7 @@ as_yaml_emit_image (AsYAMLData *ydt, yaml_emitter_t *emitter, AsImage *img)
 		as_yaml_emit_entry (emitter, "height", size);
 		g_free (size);
 	}
+	as_yaml_emit_entry (emitter, "lang", as_image_get_locale (img));
 	as_yaml_mapping_end (emitter);
 }
 
@@ -1448,6 +1480,42 @@ as_yaml_emit_icons (yaml_emitter_t *emitter, GPtrArray *icons)
 			as_yaml_sequence_end (emitter);
 		}
 	}
+}
+
+/**
+ * as_yaml_emit_languages:
+ */
+void
+as_yaml_emit_languages (yaml_emitter_t *emitter, AsComponent *cpt)
+{
+	GHashTableIter iter;
+	gpointer key, value;
+	GHashTable *lang_table;
+
+	lang_table = as_component_get_languages_map (cpt);
+	if (g_hash_table_size (lang_table) == 0)
+		return;
+
+	as_yaml_emit_scalar (emitter, "Languages");
+	as_yaml_sequence_start (emitter);
+
+	g_hash_table_iter_init (&iter, lang_table);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		guint percentage;
+		const gchar *locale;
+		g_autofree gchar *percentage_str = NULL;
+
+		locale = (const gchar*) key;
+		percentage = GPOINTER_TO_INT (value);
+		percentage_str = g_strdup_printf("%i", percentage);
+
+		as_yaml_mapping_start (emitter);
+		as_yaml_emit_entry (emitter, "locale", locale);
+		as_yaml_emit_entry (emitter, "percentage", percentage_str);
+		as_yaml_mapping_end (emitter);
+	}
+
+	as_yaml_sequence_end (emitter);
 }
 
 /**
@@ -1595,7 +1663,10 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	/* Screenshots */
 	as_yaml_emit_screenshots (ydt, emitter, cpt);
 
-	/* TODO: Releases, Translations */
+	/* Translation details */
+	as_yaml_emit_languages (emitter, cpt);
+
+	/* TODO: Releases */
 
 	/* close main mapping */
 	as_yaml_mapping_end (emitter);
@@ -1879,16 +1950,9 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 void
 as_yamldata_set_locale (AsYAMLData *ydt, const gchar *locale)
 {
-	gchar **strv;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
-
 	g_free (priv->locale);
-	g_free (priv->locale_short);
 	priv->locale = g_strdup (locale);
-
-	strv = g_strsplit (priv->locale, "_", 0);
-	priv->locale_short = g_strdup (strv[0]);
-	g_strfreev (strv);
 }
 
 /**

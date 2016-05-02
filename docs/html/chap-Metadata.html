@@ -173,12 +173,44 @@
       ⁠</a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
 					</div><div class="para">
-						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the primary screenshot of the software. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child.
 					</div><div class="para">
-						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more then 255 characters!) description of what the user can see on the referenced screenshot.
+						The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS/FTP URL to a screenshot uploaded to a public location on the web. The <code class="code">&lt;image/&gt;</code> tag may have the following properties: 
+						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+									<code class="code">type</code>
+								</div><div class="para">
+									The type of the image, <code class="code">source</code> for the source image, and <code class="code">thumbnail</code> for a thumbnail image. In case the type is <code class="code">thumbnail</code>, the <code class="code">width</code> and <code class="code">height</code> properties must be present.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">width</code>
+								</div><div class="para">
+									The width of the image in pixels.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">height</code>
+								</div><div class="para">
+									The height of the image in pixels.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">xml:lang</code>
+								</div><div class="para">
+									The language this screenshot image is translated in. This property should only be present if there are multiple images with different locales present.
+								</div></li></ul></div>
+
+					</div><div class="para">
+						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a translatable <code class="code">&lt;caption/&gt;</code> child, defining a short (ideally not more then 256 characters) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
 						Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620px. They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
-					</div></dd><dt><a id="tag-update_contact">
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;screenshots&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"default"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;caption&gt;</span>The FooBar main window.<span xmlns="" class="perl_Keyword">&lt;/caption&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"source"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"1600"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"900"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://example.com/foobar/screenshot-1.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;caption&gt;</span>Foobar showing the frobnicate functionality.<span xmlns="" class="perl_Keyword">&lt;/caption&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"source"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"1600"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"900"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://example.com/foobar/screenshot-2.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
+<span xmlns="" class="line">​</span> <span xmlns="" class="perl_Keyword">&lt;/screenshots&gt;</span></pre></dd><dt><a id="tag-update_contact">
       ⁠</a><span class="term">&lt;update_contact/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;update_contact/&gt;</code> tag is an optional tag which can be added to provide an email address distributors can use to contact the project about invalid or incomplete metadata, or in case the specification has changed, about old metadata. It can also be used to ask general questions in case of an update of the component described in the metadata file.
 					</div><div class="para">
@@ -191,7 +223,7 @@
       ⁠</a><span class="term">&lt;translation/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;translation/&gt;</code> tag is an optional tag which can be added to specify the translation domain used for this software component. It may be used by the AppStream distro metadata generator to determine the translation status of the respective software.
 					</div><div class="para">
-						The tag must have a <code class="literal">type</code> property, assuming the value of the translation system which is used. Right now, allowed trabslation systems and values for <code class="literal">type</code> are: 
+						The tag must have a <code class="literal">type</code> property, assuming the value of the translation system which is used. Right now, allowed translation systems and values for <code class="literal">type</code> are: 
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 									gettext
 								</div></li><li class="listitem"><div class="para">

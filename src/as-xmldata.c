@@ -42,11 +42,11 @@
 #include "as-utils-private.h"
 #include "as-metadata.h"
 #include "as-component-private.h"
+#include "as-release-private.h"
 
 typedef struct
 {
 	gchar *locale;
-	gchar *locale_short;
 	gchar *origin;
 	gchar *media_baseurl;
 
@@ -54,6 +54,8 @@ typedef struct
 	gint default_priority;
 
 	AsParserMode mode;
+	gboolean check_valid;
+
 	gchar *last_error_msg;
 } AsXMLDataPrivate;
 
@@ -68,24 +70,20 @@ static gchar	**as_xmldata_get_children_as_strv (AsXMLData *xdt, xmlNode *node, c
  * Catch out-of-context errors emitted by libxml2.
  */
 static void
-libxml_generic_error (AsXMLData *xdt, const char *msg, ...)
+libxml_generic_error (AsXMLData *xdt, const char *format, ...)
 {
-	gchar *tmp;
-	gchar str[1024];
+	GString *str;
 	va_list arg_ptr;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
-	va_start (arg_ptr, msg);
-	vsnprintf (str, 1024, msg, arg_ptr);
+	str = g_string_new (priv->last_error_msg? priv->last_error_msg : "");
+
+	va_start (arg_ptr, format);
+	g_string_append_vprintf (str, format, arg_ptr);
 	va_end (arg_ptr);
 
-	if (priv->last_error_msg == NULL)
-		tmp = g_strdup (str);
-	else
-		tmp = g_strdup_printf ("%s%s", priv->last_error_msg, str);
-
 	g_free (priv->last_error_msg);
-	priv->last_error_msg = tmp;
+	priv->last_error_msg = g_string_free (str, FALSE);
 }
 
 /**
@@ -98,6 +96,8 @@ as_xmldata_init (AsXMLData *xdt)
 
 	priv->default_priority = 0;
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
+	priv->last_error_msg = NULL;
+	priv->check_valid = TRUE;
 	xmlSetGenericErrorFunc (xdt, (xmlGenericErrorFunc) libxml_generic_error);
 }
 
@@ -111,13 +111,23 @@ as_xmldata_finalize (GObject *object)
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
 	g_free (priv->locale);
-	g_free (priv->locale_short);
 	g_free (priv->origin);
 	g_free (priv->media_baseurl);
 	g_free (priv->arch);
 	g_free (priv->last_error_msg);
 
 	G_OBJECT_CLASS (as_xmldata_parent_class)->finalize (object);
+}
+
+/**
+ * as_xmldata_clear_error:
+ */
+static void
+as_xmldata_clear_error (AsXMLData *xdt)
+{
+	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+	g_free (priv->last_error_msg);
+	priv->last_error_msg = NULL;
 }
 
 /**
@@ -129,15 +139,10 @@ as_xmldata_finalize (GObject *object)
 void
 as_xmldata_initialize (AsXMLData *xdt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority)
 {
-	g_auto(GStrv) strv = NULL;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
 	g_free (priv->locale);
-	g_free (priv->locale_short);
 	priv->locale = g_strdup (locale);
-
-	strv = g_strsplit (priv->locale, "_", 0);
-	priv->locale_short = g_strdup (strv[0]);
 
 	g_free (priv->origin);
 	priv->origin = g_strdup (origin);
@@ -149,17 +154,8 @@ as_xmldata_initialize (AsXMLData *xdt, const gchar *locale, const gchar *origin,
 	priv->arch = g_strdup (arch);
 
 	priv->default_priority = priority;
-}
 
-/**
- * as_xmldata_clear_error:
- */
-void
-as_xmldata_clear_error (AsXMLData *xdt)
-{
-	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
-	g_free (priv->last_error_msg);
-	priv->last_error_msg = NULL;
+	as_xmldata_clear_error (xdt);
 }
 
 /**
@@ -227,13 +223,7 @@ as_xmldata_get_node_locale (AsXMLData *xdt, xmlNode *node)
 		goto out;
 	}
 
-	if (g_strcmp0 (lang, priv->locale) == 0) {
-		goto out;
-	}
-
-	if (g_strcmp0 (lang, priv->locale_short) == 0) {
-		g_free (lang);
-		lang = g_strdup (priv->locale);
+	if (as_utils_locale_is_compatible (priv->locale, lang)) {
 		goto out;
 	}
 
@@ -286,13 +276,15 @@ as_xmldata_get_children_as_strv (AsXMLData *xdt, xmlNode* node, const gchar* ele
  * Read node as image node and add it to an existing screenshot.
  */
 static void
-as_xmldata_process_image (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
+as_xmldata_process_image (AsXMLData *xdt, AsComponent *cpt, xmlNode *node, AsScreenshot *scr)
 {
 	g_autoptr(AsImage) img = NULL;
 	g_autofree gchar *content = NULL;
+	g_autofree gchar *stype = NULL;
+	g_autofree gchar *lang = NULL;
 	guint64 width;
 	guint64 height;
-	gchar *stype;
+	AsImageKind ikind;
 	gchar *str;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
@@ -302,6 +294,12 @@ as_xmldata_process_image (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
 	g_strstrip (content);
 
 	img = as_image_new ();
+	lang = as_xmldata_get_node_locale (xdt, node);
+
+	/* check if this image is for us */
+	if (lang == NULL)
+		return;
+	as_image_set_locale (img, lang);
 
 	str = (gchar*) xmlGetProp (node, (xmlChar*) "width");
 	if (str == NULL) {
@@ -318,23 +316,29 @@ as_xmldata_process_image (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
 		g_free (str);
 	}
 
-	/* discard invalid elements */
-	if (priv->mode == AS_PARSER_MODE_DISTRO) {
-		/* no sizes are okay for upstream XML, but not for distro XML */
-		if ((width == 0) || (height == 0))
-			return;
-	}
-
 	as_image_set_width (img, width);
 	as_image_set_height (img, height);
 
 	stype = (gchar*) xmlGetProp (node, (xmlChar*) "type");
 	if (g_strcmp0 (stype, "thumbnail") == 0) {
-		as_image_set_kind (img, AS_IMAGE_KIND_THUMBNAIL);
+		ikind = AS_IMAGE_KIND_THUMBNAIL;
+		as_image_set_kind (img, ikind);
 	} else {
-		as_image_set_kind (img, AS_IMAGE_KIND_SOURCE);
+		ikind = AS_IMAGE_KIND_SOURCE;
+		as_image_set_kind (img, ikind);
 	}
-	g_free (stype);
+
+	/* discard invalid elements */
+	if (priv->mode == AS_PARSER_MODE_DISTRO) {
+		/* no sizes are okay for upstream XML, but not for distro XML */
+		if ((width == 0) || (height == 0)) {
+			if (ikind != AS_IMAGE_KIND_SOURCE) {
+				/* thumbnails w/o size information must never happen */
+				g_debug ("WARNING: Ignored screenshot thumbnail image without size information for %s", as_component_get_id (cpt));
+				return;
+			}
+		}
+	}
 
 	if (priv->media_baseurl == NULL) {
 		/* no baseurl, we can just set the value as URL */
@@ -354,7 +358,7 @@ as_xmldata_process_image (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
  * as_xmldata_process_screenshot:
  */
 static void
-as_xmldata_process_screenshot (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
+as_xmldata_process_screenshot (AsXMLData *xdt, AsComponent *cpt, xmlNode *node, AsScreenshot *scr)
 {
 	xmlNode *iter;
 	gchar *node_name;
@@ -369,7 +373,7 @@ as_xmldata_process_screenshot (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
 		node_name = (gchar*) iter->name;
 
 		if (g_strcmp0 (node_name, "image") == 0) {
-			as_xmldata_process_image (xdt, iter, scr);
+			as_xmldata_process_image (xdt, cpt, iter, scr);
 		} else if (g_strcmp0 (node_name, "caption") == 0) {
 			g_autofree gchar *content = NULL;
 			g_autofree gchar *lang = NULL;
@@ -391,7 +395,7 @@ as_xmldata_process_screenshot (AsXMLData *xdt, xmlNode *node, AsScreenshot *scr)
 		 * We are dealing with a legacy screenshots tag in the form of
 		 * <screenshot>URL</screenshot>.
 		 * We treat it as an <image/> tag here, which is roughly equivalent. */
-		as_xmldata_process_image (xdt, node, scr);
+		as_xmldata_process_image (xdt, cpt, node, scr);
 	}
 }
 
@@ -421,7 +425,7 @@ as_xmldata_process_screenshots_tag (AsXMLData *xdt, xmlNode* node, AsComponent* 
 			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "type");
 			if (g_strcmp0 (prop, "default") == 0)
 				as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
-			as_xmldata_process_screenshot (xdt, iter, sshot);
+			as_xmldata_process_screenshot (xdt, cpt, iter, sshot);
 			if (as_screenshot_is_valid (sshot))
 				as_component_add_screenshot (cpt, sshot);
 			g_free (prop);
@@ -734,7 +738,6 @@ static void
 as_xmldata_process_languages_tag (AsXMLData *xdt, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
-	gchar *prop;
 	g_return_if_fail (xdt != NULL);
 	g_return_if_fail (cpt != NULL);
 
@@ -745,16 +748,15 @@ as_xmldata_process_languages_tag (AsXMLData *xdt, xmlNode* node, AsComponent* cp
 
 		if (g_strcmp0 ((gchar*) iter->name, "lang") == 0) {
 			guint64 percentage = 0;
-			gchar *locale;
-			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "percentage");
-			if (prop != NULL) {
-				percentage = g_ascii_strtoll (prop, NULL, 10);
-				g_free (prop);
-			}
+			g_autofree gchar *locale = NULL;
+			g_autofree gchar *prop = NULL;
 
-			locale = as_xmldata_get_node_locale (xdt, iter);
+			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "percentage");
+			if (prop != NULL)
+				percentage = g_ascii_strtoll (prop, NULL, 10);
+
+			locale = as_xmldata_get_node_value (xdt, iter);
 			as_component_add_language (cpt, locale, percentage);
-			g_free (locale);
 		}
 	}
 }
@@ -1087,7 +1089,10 @@ as_xmldata_xml_add_description (AsXMLData *xdt, xmlNode *root, xmlNode **desc_no
 		return FALSE;
 
 	xmldata = g_strdup_printf ("<root>%s</root>", description_markup);
-	doc = xmlParseDoc ((xmlChar*) xmldata);
+	doc = xmlReadMemory (xmldata, strlen (xmldata),
+			     NULL,
+			     "utf-8",
+			     XML_PARSE_NOBLANKS | XML_PARSE_NONET);
 	if (doc == NULL) {
 		ret = FALSE;
 		goto out;
@@ -1189,10 +1194,10 @@ typedef struct {
 } AsLocaleWriteHelper;
 
 /**
- * _as_xmldata_lang_hashtable_to_nodes:
+ * as_xml_lang_hashtable_to_nodes_cb:
  */
 static void
-_as_xmldata_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
+as_xml_lang_hashtable_to_nodes_cb (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
 {
 	xmlNode *cnode;
 	if (as_str_empty (value))
@@ -1211,10 +1216,10 @@ _as_xmldata_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHelp
 }
 
 /**
- * _as_xmldata_desc_lang_hashtable_to_nodes:
+ * as_xml_desc_lang_hashtable_to_nodes_cb:
  */
 static void
-_as_xmldata_desc_lang_hashtable_to_nodes (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
+as_xml_desc_lang_hashtable_to_nodes_cb (gchar *key, gchar *value, AsLocaleWriteHelper *helper)
 {
 	if (as_str_empty (value))
 		return;
@@ -1230,6 +1235,7 @@ _as_xmldata_serialize_image (AsImage *img, xmlNode *subnode)
 {
 	xmlNode* n_image = NULL;
 	gchar *size;
+	const gchar *locale;
 	g_return_if_fail (img != NULL);
 	g_return_if_fail (subnode != NULL);
 
@@ -1248,6 +1254,11 @@ _as_xmldata_serialize_image (AsImage *img, xmlNode *subnode)
 		size = g_strdup_printf("%i", as_image_get_height (img));
 		xmlNewProp (n_image, (xmlChar*) "height", (xmlChar*) size);
 		g_free (size);
+	}
+
+	locale = as_image_get_locale (img);
+	if (locale != NULL) {
+		xmlNewProp (n_image, (xmlChar*) "xml:lang", (xmlChar*) locale);
 	}
 
 	xmlAddChild (subnode, n_image);
@@ -1296,22 +1307,26 @@ as_xmldata_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
 static void
 as_xmldata_add_release_subnodes (AsXMLData *xdt, AsComponent *cpt, xmlNode *root)
 {
-	GPtrArray* releases;
+	GPtrArray *releases;
 	AsRelease *release;
 	guint i;
+	AsLocaleWriteHelper helper;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+
+	/* prepare helper */
+	helper.xdt = xdt;
+	helper.nd = NULL;
 
 	releases = as_component_get_releases (cpt);
 	for (i = 0; i < releases->len; i++) {
 		xmlNode *subnode;
-		const gchar *str;
 		glong unixtime;
 		GPtrArray *locations;
 		guint j;
 		release = (AsRelease*) g_ptr_array_index (releases, i);
 
 		/* set release version */
-		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "release", (xmlChar*) "");
+		subnode = xmlNewChild (root, NULL, (xmlChar*) "release", (xmlChar*) "");
 		xmlNewProp (subnode, (xmlChar*) "version",
 					(xmlChar*) as_release_get_version (release));
 
@@ -1382,12 +1397,48 @@ as_xmldata_add_release_subnodes (AsXMLData *xdt, AsComponent *cpt, xmlNode *root
 		}
 
 		/* add description */
-		str = as_release_get_description (release);
-		if (g_strcmp0 (str, "") != 0) {
-			xmlNode* n_desc;
-			n_desc = xmlNewTextChild (subnode, NULL, (xmlChar*) "description", (xmlChar*) str);
-			xmlAddChild (subnode, n_desc);
-		}
+		helper.parent = subnode;
+		helper.node_name = "description";
+		g_hash_table_foreach (as_release_get_description_table (release),
+				      (GHFunc) as_xml_desc_lang_hashtable_to_nodes_cb,
+				      &helper);
+	}
+}
+
+/**
+ * as_xml_serialize_languages:
+ */
+static void
+as_xml_serialize_languages (AsComponent *cpt, xmlNode *cnode)
+{
+	xmlNode *node;
+	GHashTable *lang_table;
+	GHashTableIter iter;
+	gpointer key, value;
+
+	lang_table = as_component_get_languages_map (cpt);
+	if (g_hash_table_size (lang_table) == 0)
+		return;
+
+	node = xmlNewTextChild (cnode, NULL, (xmlChar*) "languages", NULL);
+	g_hash_table_iter_init (&iter, lang_table);
+	while (g_hash_table_iter_next (&iter, &key, &value)) {
+		guint percentage;
+		const gchar *locale;
+		xmlNode *l_node;
+		g_autofree gchar *percentage_str = NULL;
+
+		locale = (const gchar*) key;
+		percentage = GPOINTER_TO_INT (value);
+		percentage_str = g_strdup_printf("%i", percentage);
+
+		l_node = xmlNewTextChild (node,
+					  NULL,
+					  (xmlChar*) "lang",
+					  (xmlChar*) locale);
+		xmlNewProp (l_node,
+			    (xmlChar*) "percentage",
+			    (xmlChar*) percentage_str);
 	}
 }
 
@@ -1407,10 +1458,10 @@ as_xmldata_component_to_node (AsXMLData *xdt, AsComponent *cpt)
 	GPtrArray *releases;
 	GPtrArray *screenshots;
 	GPtrArray *icons;
-	GPtrArray *translations;
 	AsComponentKind kind;
 	AsLocaleWriteHelper helper;
 	guint i;
+	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 	g_return_val_if_fail (cpt != NULL, NULL);
 
 	/* define component root node */
@@ -1428,25 +1479,25 @@ as_xmldata_component_to_node (AsXMLData *xdt, AsComponent *cpt)
 	helper.nd = NULL;
 	helper.node_name = "name";
 	g_hash_table_foreach (as_component_get_name_table (cpt),
-					(GHFunc) _as_xmldata_lang_hashtable_to_nodes,
+					(GHFunc) as_xml_lang_hashtable_to_nodes_cb,
 					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "summary";
 	g_hash_table_foreach (as_component_get_summary_table (cpt),
-					(GHFunc) _as_xmldata_lang_hashtable_to_nodes,
+					(GHFunc) as_xml_lang_hashtable_to_nodes_cb,
 					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "developer_name";
 	g_hash_table_foreach (as_component_get_developer_name_table (cpt),
-					(GHFunc) _as_xmldata_lang_hashtable_to_nodes,
+					(GHFunc) as_xml_lang_hashtable_to_nodes_cb,
 					&helper);
 
 	helper.nd = NULL;
 	helper.node_name = "description";
 	g_hash_table_foreach (as_component_get_description_table (cpt),
-					(GHFunc) _as_xmldata_desc_lang_hashtable_to_nodes,
+					(GHFunc) as_xml_desc_lang_hashtable_to_nodes_cb,
 					&helper);
 
 	as_xmldata_xml_add_node (cnode, "project_license", as_component_get_project_license (cpt));
@@ -1525,13 +1576,25 @@ as_xmldata_component_to_node (AsXMLData *xdt, AsComponent *cpt)
 	}
 
 	/* translations */
-	translations = as_component_get_translations (cpt);
-	for (i = 0; i < translations->len; i++) {
-		AsTranslation *tr = AS_TRANSLATION (g_ptr_array_index (translations, i));
-		xmlNode *n;
-		n = xmlNewTextChild (cnode, NULL, (xmlChar*) "translation", (xmlChar*) as_translation_get_id (tr));
-		xmlNewProp (n, (xmlChar*) "type",
-					(xmlChar*) as_translation_kind_to_string (as_translation_get_kind (tr)));
+	if (priv->mode == AS_PARSER_MODE_UPSTREAM) {
+		GPtrArray *translations;
+
+		/* the translations tag is only valid in metainfo files */
+		translations = as_component_get_translations (cpt);
+		for (i = 0; i < translations->len; i++) {
+			AsTranslation *tr = AS_TRANSLATION (g_ptr_array_index (translations, i));
+			xmlNode *n;
+			n = xmlNewTextChild (cnode, NULL, (xmlChar*) "translation", (xmlChar*) as_translation_get_id (tr));
+			xmlNewProp (n, (xmlChar*) "type",
+						(xmlChar*) as_translation_kind_to_string (as_translation_get_kind (tr)));
+		}
+	}
+
+	/* screenshots node */
+	screenshots = as_component_get_screenshots (cpt);
+	if (screenshots->len > 0) {
+		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
+		as_xmldata_add_screenshot_subnodes (cpt, node);
 	}
 
 	/* releases node */
@@ -1541,12 +1604,8 @@ as_xmldata_component_to_node (AsXMLData *xdt, AsComponent *cpt)
 		as_xmldata_add_release_subnodes (xdt, cpt, node);
 	}
 
-	/* screenshots node */
-	screenshots = as_component_get_screenshots (cpt);
-	if (screenshots->len > 0) {
-		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
-		as_xmldata_add_screenshot_subnodes (cpt, node);
-	}
+	/* languages node */
+	as_xml_serialize_languages (cpt, cnode);
 
 	return cnode;
 }
@@ -1573,24 +1632,10 @@ as_xmldata_update_cpt_with_upstream_data (AsXMLData *xdt, const gchar *data, AsC
 		return FALSE;
 	}
 
-	doc = xmlParseDoc ((xmlChar*) data);
-	if (doc == NULL) {
-		g_set_error (error,
-			     AS_METADATA_ERROR,
-			     AS_METADATA_ERROR_FAILED,
-			     "Could not parse XML: %s", priv->last_error_msg);
-		as_xmldata_clear_error (xdt);
+	doc = as_xmldata_parse_document (xdt, data, error);
+	if (doc == NULL)
 		return FALSE;
-	}
-
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL) {
-		g_set_error_literal (error,
-				     AS_METADATA_ERROR,
-				     AS_METADATA_ERROR_FAILED,
-				     "The XML document appears to be empty.");
-		goto out;
-	}
 
 	/* switch to upstream format parsing */
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
@@ -1647,6 +1692,47 @@ as_xmldata_parse_upstream_data (AsXMLData *xdt, const gchar *data, GError **erro
 }
 
 /**
+ * as_xmldata_parse_document:
+ */
+xmlDoc*
+as_xmldata_parse_document (AsXMLData *xdt, const gchar *data, GError **error)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+
+	if (data == NULL) {
+		/* empty document means no components */
+		return NULL;
+	}
+
+	doc = xmlReadMemory (data, strlen (data),
+			     NULL,
+			     "utf-8",
+			     XML_PARSE_NOBLANKS | XML_PARSE_NONET);
+	if (doc == NULL) {
+		g_set_error (error,
+				AS_METADATA_ERROR,
+				AS_METADATA_ERROR_FAILED,
+				"Could not parse XML data: %s", priv->last_error_msg);
+		as_xmldata_clear_error (xdt);
+		return NULL;
+	}
+
+	root = xmlDocGetRootElement (doc);
+	if (root == NULL) {
+		g_set_error_literal (error,
+				     AS_METADATA_ERROR,
+				     AS_METADATA_ERROR_FAILED,
+				     "The XML document is empty.");
+		xmlFreeDoc (doc);
+		return NULL;
+	}
+
+	return doc;
+}
+
+/**
  * as_xmldata_parse_distro_data:
  * @xdt: An instance of #AsXMLData
  * @data: XML representing distro metadata.
@@ -1659,34 +1745,15 @@ as_xmldata_parse_upstream_data (AsXMLData *xdt, const gchar *data, GError **erro
 GPtrArray*
 as_xmldata_parse_distro_data (AsXMLData *xdt, const gchar *data, GError **error)
 {
-	xmlDoc* doc;
-	xmlNode* root;
+	xmlDoc *doc;
+	xmlNode *root;
 	GPtrArray *cpts = NULL;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
-	if (data == NULL) {
-		/* empty document means no components */
+	doc = as_xmldata_parse_document (xdt, data, error);
+	if (doc == NULL)
 		return NULL;
-	}
-
-	doc = xmlParseDoc ((xmlChar*) data);
-	if (doc == NULL) {
-		g_set_error (error,
-				AS_METADATA_ERROR,
-				AS_METADATA_ERROR_FAILED,
-				"Could not parse XML: %s", priv->last_error_msg);
-		as_xmldata_clear_error (xdt);
-		return NULL;
-	}
-
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL) {
-		g_set_error_literal (error,
-				     AS_METADATA_ERROR,
-				     AS_METADATA_ERROR_FAILED,
-				     "The XML document is empty.");
-		goto out;
-	}
 
 	priv->mode = AS_PARSER_MODE_DISTRO;
 	cpts = g_ptr_array_new_with_free_func (g_object_unref);
@@ -1731,7 +1798,7 @@ as_xmldata_serialize_to_upstream (AsXMLData *xdt, AsComponent *cpt)
 	gchar *xmlstr = NULL;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
-	if (!as_component_is_valid (cpt)) {
+	if ((priv->check_valid) && (!as_component_is_valid (cpt))) {
 		g_debug ("Can not serialize '%s': Component is invalid.", as_component_get_id (cpt));
 		return NULL;
 	}
@@ -1779,7 +1846,7 @@ as_xmldata_serialize_to_distro_with_rootnode (AsXMLData *xdt, GPtrArray *cpts)
 		xmlNode *node;
 		cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
 
-		if (!as_component_is_valid (cpt)) {
+		if ((priv->check_valid) && (!as_component_is_valid (cpt))) {
 			g_debug ("Can not serialize '%s': Component is invalid.", as_component_get_id (cpt));
 			continue;
 		}
@@ -1864,6 +1931,16 @@ as_xmldata_serialize_to_distro (AsXMLData *xdt, GPtrArray *cpts, gboolean write_
 }
 
 /**
+ * as_xmldata_get_parser_mode:
+ */
+AsParserMode
+as_xmldata_get_parser_mode (AsXMLData *xdt)
+{
+	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+	return priv->mode;
+}
+
+/**
  * as_xmldata_set_parser_mode:
  */
 void
@@ -1871,6 +1948,20 @@ as_xmldata_set_parser_mode (AsXMLData *xdt, AsParserMode mode)
 {
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 	priv->mode = mode;
+}
+
+/**
+ * as_xmldata_set_check_valid:
+ * @check: %TRUE if check should be enabled.
+ *
+ * Set whether we should perform basic validity checks on the component
+ * before serializing it to XML.
+ */
+void
+as_xmldata_set_check_valid (AsXMLData *xdt, gboolean check)
+{
+	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+	priv->check_valid = check;
 }
 
 /**

@@ -130,8 +130,6 @@
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting">Categories:
-  - GNOME
-  - GTK
   - Network
   - Telephony</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span></p></div></dd><dt><a id="field-dep11-keywords">
       ⁠</a><span class="term">Keywords</span></dt><dd><div class="para">
@@ -158,14 +156,24 @@
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>bool</em></span></p></div></dd><dt><span class="term">source-image</span></dt><dd><div class="para">
 									Describes the source image for this screenshot. It has the following keys:
 								</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
-											<code class="literal">height</code>, describing the image height (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
+											<code class="literal">height</code>
+										</div><div class="para">
+											The image height (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
 										</div></li><li class="listitem"><div class="para">
-											<code class="literal">width</code>, describing the image width (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
+											<code class="literal">width</code>
+										</div><div class="para">
+											The image width (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
 										</div></li><li class="listitem"><div class="para">
-											<code class="literal">url</code>, the full image url, or the url component added to <code class="literal">AssetsUrl</code>, if defined (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>)
+											<code class="literal">url</code>
+										</div><div class="para">
+											The full image url, or the url component added to <code class="literal">MediaBaseUrl</code>, if defined (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>).
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">lang</code>
+										</div><div class="para">
+											The language this screenshot image is translated in. The value is a locale string. (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span>)
 										</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><span class="term">thumbnails</span></dt><dd><div class="para">
 									A list of an arbitrary number of screenshots. All screenshots are of type <span class="emphasis"><em>dict</em></span> and must contain the same keys as described for <code class="literal">source-image</code>.
-								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span></p></div></dd><dt><span class="term">caption</span></dt><dd><div class="para">
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><span class="term">caption</span></dt><dd><div class="para">
 									A caption for this screenshot.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd></dl></div><div class="para">
 						Example for a <code class="literal">Screenshots</code> field containing one screenshot:
@@ -274,7 +282,7 @@
 File: DEP-11
 Version: '0.8'
 Origin: chromodoris-main
-AssetsUrl: http://metadata.tanglu.org/dep11/assets/main/
+MediaBaseUrl: http://metadata.tanglu.org/appstream/media/
 ---
 Categories:
   - GNOME

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,19 +18,15 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __AS_UTILS_H
-#define __AS_UTILS_H
+#ifndef __AS_RELEASE_PRIVATE_H
+#define __AS_RELEASE_PRIVATE_H
 
-#include <glib-object.h>
+#include "as-release.h"
 
 G_BEGIN_DECLS
 
-gchar		*as_description_markup_convert_simple (const gchar *markup);
-gchar		*as_get_current_locale (void);
-gboolean	as_str_empty (const gchar* str);
-GDateTime	*as_iso8601_to_datetime (const gchar *iso_date);
-gboolean	as_utils_locale_is_compatible (const gchar *locale1, const gchar *locale2);
+GHashTable	*as_release_get_description_table (AsRelease *release);
 
 G_END_DECLS
 
-#endif /* __AS_UTILS_H */
+#endif /* __AS_RELEASE_PRIVATE_H */
