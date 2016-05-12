@@ -1,7 +1,7 @@
 59% symbol docs coverage.
-368 symbols documented.
-50 symbols incomplete.
-255 not documented.
+369 symbols documented.
+49 symbols incomplete.
+256 not documented.
 
 
 AS_CACHE_BUILDER_ERROR
@@ -145,8 +145,6 @@ as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
-as_image_set_locale
-as_image_set_url (url)
 as_is_cruft_locale (locale, Returns)
 as_locale_strip_encoding (locale, Returns)
 as_menu_parser_class_init
@@ -258,7 +256,9 @@ as_xmldata_serialize_to_distro_without_rootnode
 as_xmldata_set_check_valid (xdt)
 as_xmldata_set_parser_mode
 as_xmldata_update_cpt_with_upstream_data (Returns)
+as_yaml_data_emit_screenshots
 as_yaml_emit_entry
+as_yaml_emit_icons
 as_yaml_emit_lang_hashtable_entries
 as_yaml_emit_lang_hashtable_entries_long
 as_yaml_emit_languages
@@ -268,11 +268,12 @@ as_yaml_emit_localized_lists
 as_yaml_emit_long_entry
 as_yaml_emit_long_localized_entry
 as_yaml_emit_provides
+as_yaml_emit_releases
 as_yaml_emit_scalar
 as_yaml_emit_scalar_key
-as_yaml_emit_screenshots
 as_yaml_emit_sequence
 as_yaml_emit_sequence_from_strv
+as_yaml_free_node
 as_yaml_localized_list_helper
 as_yaml_mapping_end
 as_yaml_mapping_start
@@ -281,7 +282,6 @@ as_yaml_sequence_start
 as_yaml_serialize_component
 as_yamldata_class_init
 as_yamldata_finalize
-as_yamldata_free_node
 as_yamldata_get_localized_node
 as_yamldata_init
 as_yamldata_initialize (locale, origin, media_baseurl, arch, priority)

@@ -29,6 +29,7 @@
 #include "as-metadata.h"
 #include "as-component-private.h"
 #include "as-screenshot-private.h"
+#include "as-release-private.h"
 
 typedef struct
 {
@@ -38,6 +39,7 @@ typedef struct
 
 	gchar *arch;
 	gint default_priority;
+	AsParserMode mode;
 } AsYAMLDataPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsYAMLData, as_yamldata, G_TYPE_OBJECT)
@@ -65,6 +67,9 @@ as_yamldata_init (AsYAMLData *ydt)
 	priv->origin = NULL;
 	priv->media_baseurl = NULL;
 	priv->default_priority = 0;
+
+	/* the YAML data is only for distro-metadata at time */
+	priv->mode = AS_PARSER_MODE_DISTRO;
 }
 
 /**
@@ -120,10 +125,10 @@ dep11_print_unknown (const gchar *root, const gchar *key)
 }
 
 /**
- * as_yamldata_free_node:
+ * as_yaml_free_node:
  */
 static gboolean
-as_yamldata_free_node (GNode *node, gpointer data)
+as_yaml_free_node (GNode *node, gpointer data)
 {
 	if (node->data != NULL)
 		g_free (node->data);
@@ -132,22 +137,29 @@ as_yamldata_free_node (GNode *node, gpointer data)
 }
 
 /**
- * dep11_yaml_process_layer:
+ * as_yaml_process_layer:
  *
  * Create GNode tree from DEP-11 YAML document
  */
 static void
-dep11_yaml_process_layer (yaml_parser_t *parser, GNode *data)
+as_yaml_process_layer (yaml_parser_t *parser, GNode *data, GError **error)
 {
 	GNode *last_leaf = data;
 	GNode *last_scalar;
 	yaml_event_t event;
 	gboolean parse = TRUE;
 	gboolean in_sequence = FALSE;
+	GError *tmp_error = NULL;
 	int storage = YAML_VAR; /* the first element must always be of type VAR */
 
 	while (parse) {
-		yaml_parser_parse (parser, &event);
+		if (!yaml_parser_parse (parser, &event)) {
+			g_set_error (error,
+					AS_METADATA_ERROR,
+					AS_METADATA_ERROR_PARSE,
+					"Invalid DEP-11 file found. Could not parse YAML: %s", parser->problem);
+			break;
+		}
 
 		/* Parse value either as a new leaf in the mapping
 		 * or as a leaf value (one of them, in case it's a sequence) */
@@ -172,7 +184,13 @@ dep11_yaml_process_layer (yaml_parser_t *parser, GNode *data)
 				last_scalar = last_leaf;
 				if (in_sequence)
 					last_leaf = g_node_append (last_leaf, g_node_new (g_strdup ("-")));
-				dep11_yaml_process_layer (parser, last_leaf);
+
+				as_yaml_process_layer (parser, last_leaf, &tmp_error);
+				if (tmp_error != NULL) {
+					g_propagate_error (error, tmp_error);
+					parse = FALSE;
+				}
+
 				last_leaf = last_scalar;
 				storage ^= YAML_VAL; /* Flip VAR/VAL, without touching SEQ */
 				break;
@@ -1117,7 +1135,7 @@ as_yaml_localized_list_helper (gchar *key, gchar **strv, yaml_emitter_t *emitter
 /**
  * as_yaml_emit_localized_lists:
  */
-void
+static void
 as_yaml_emit_localized_lists (yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab)
 {
 	if (ltab == NULL)
@@ -1140,7 +1158,7 @@ as_yaml_emit_localized_lists (yaml_emitter_t *emitter, const gchar *key, GHashTa
 /**
  * as_yaml_emit_provides:
  */
-void
+static void
 as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 {
 	GList *l;
@@ -1312,7 +1330,7 @@ as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 /**
  * as_yaml_emit_image:
  *
- * Helper for as_yaml_emit_screenshots
+ * Helper for as_yaml_data_emit_screenshots
  */
 static void
 as_yaml_emit_image (AsYAMLData *ydt, yaml_emitter_t *emitter, AsImage *img)
@@ -1344,10 +1362,10 @@ as_yaml_emit_image (AsYAMLData *ydt, yaml_emitter_t *emitter, AsImage *img)
 }
 
 /**
- * as_yaml_emit_screenshots:
+ * as_yaml_data_emit_screenshots:
  */
-void
-as_yaml_emit_screenshots (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
+static void
+as_yaml_data_emit_screenshots (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
 {
 	GPtrArray *sslist;
 	AsScreenshot *scr;
@@ -1401,6 +1419,9 @@ as_yaml_emit_screenshots (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent 
 
 }
 
+/**
+ * as_yaml_emit_icons:
+ */
 static void
 as_yaml_emit_icons (yaml_emitter_t *emitter, GPtrArray *icons)
 {
@@ -1485,7 +1506,7 @@ as_yaml_emit_icons (yaml_emitter_t *emitter, GPtrArray *icons)
 /**
  * as_yaml_emit_languages:
  */
-void
+static void
 as_yaml_emit_languages (yaml_emitter_t *emitter, AsComponent *cpt)
 {
 	GHashTableIter iter;
@@ -1512,6 +1533,92 @@ as_yaml_emit_languages (yaml_emitter_t *emitter, AsComponent *cpt)
 		as_yaml_mapping_start (emitter);
 		as_yaml_emit_entry (emitter, "locale", locale);
 		as_yaml_emit_entry (emitter, "percentage", percentage_str);
+		as_yaml_mapping_end (emitter);
+	}
+
+	as_yaml_sequence_end (emitter);
+}
+
+/**
+ * as_yaml_emit_releases:
+ */
+static void
+as_yaml_data_emit_releases (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
+{
+	guint i;
+	GPtrArray *releases;
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
+
+	releases = as_component_get_releases (cpt);
+	if (releases->len == 0)
+		return;
+
+	as_yaml_emit_scalar (emitter, "Releases");
+	as_yaml_sequence_start (emitter);
+
+	for (i = 0; i < releases->len; i++) {
+		guint j;
+		guint64 unixtime;
+		AsUrgencyKind urgency;
+		GPtrArray *locations;
+		AsRelease *rel = AS_RELEASE (g_ptr_array_index (releases, i));
+
+		/* start mapping for this release */
+		as_yaml_mapping_start (emitter);
+
+		/* version */
+		as_yaml_emit_entry (emitter,
+				    "version",
+				    as_release_get_version (rel));
+
+		/* timestamp & date */
+		unixtime = as_release_get_timestamp (rel);
+		if (unixtime > 0) {
+			g_autofree gchar *time_str = NULL;
+
+			if (priv->mode == AS_PARSER_MODE_DISTRO) {
+				time_str = g_strdup_printf ("%ld", unixtime);
+				as_yaml_emit_entry (emitter, "unix-timestamp", time_str);
+			} else {
+				GTimeVal time;
+				time.tv_sec = unixtime;
+				time.tv_usec = 0;
+				time_str = g_time_val_to_iso8601 (&time);
+				as_yaml_emit_entry (emitter, "date", time_str);
+			}
+		}
+
+		/* urgency */
+		urgency = as_release_get_urgency (rel);
+		if (urgency != AS_URGENCY_KIND_UNKNOWN) {
+			as_yaml_emit_entry (emitter,
+					    "urgency",
+					    as_urgency_kind_to_string (urgency));
+		}
+
+		/* description */
+		as_yaml_emit_long_localized_entry (emitter,
+						   "description",
+						   as_release_get_description_table (rel));
+
+		/* location URLs */
+		locations = as_release_get_locations (rel);
+		if (locations->len > 0) {
+			as_yaml_emit_scalar (emitter, "locations");
+			as_yaml_sequence_start (emitter);
+			for (j = 0; j < locations->len; j++) {
+				const gchar *lurl;
+				lurl = (const gchar*) g_ptr_array_index (locations, j);
+				as_yaml_emit_scalar (emitter, lurl);
+			}
+
+			as_yaml_sequence_end (emitter);
+		}
+
+		/* TODO: Checksum and size are missing, because they are not specified yet for DEP-11.
+		 * Will need to be added when/if we need it. */
+
+		/* end mapping for the release */
 		as_yaml_mapping_end (emitter);
 	}
 
@@ -1661,12 +1768,13 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	as_yaml_emit_provides (emitter, cpt);
 
 	/* Screenshots */
-	as_yaml_emit_screenshots (ydt, emitter, cpt);
+	as_yaml_data_emit_screenshots (ydt, emitter, cpt);
 
 	/* Translation details */
 	as_yaml_emit_languages (emitter, cpt);
 
-	/* TODO: Releases */
+	/* Releases */
+	as_yaml_data_emit_releases (ydt, emitter, cpt);
 
 	/* close main mapping */
 	as_yaml_mapping_end (emitter);
@@ -1811,7 +1919,8 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 	yaml_event_t event;
 	gboolean header = TRUE;
 	gboolean parse = TRUE;
-	GPtrArray *cpts = NULL;;
+	gboolean ret = TRUE;
+	g_autoptr(GPtrArray) cpts = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	/* we ignore empty data - usually happens if the file is broken, e.g. by disk corruption
@@ -1839,16 +1948,35 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 	yaml_parser_set_input_string (&parser, (unsigned char*) data, strlen (data));
 
 	while (parse) {
-		yaml_parser_parse (&parser, &event);
+		if (!yaml_parser_parse (&parser, &event)) {
+			g_set_error (error,
+					AS_METADATA_ERROR,
+					AS_METADATA_ERROR_PARSE,
+					"Invalid DEP-11 file found. Could not parse YAML: %s", parser.problem);
+			ret = FALSE;
+			break;
+		}
+
 		if (event.type == YAML_DOCUMENT_START_EVENT) {
 			GNode *n;
 			gchar *key;
 			gchar *value;
 			AsComponent *cpt;
 			gboolean header_found = FALSE;
-			GNode *root = g_node_new (g_strdup (""));
+			GError *tmp_error = NULL;
+			g_autoptr(GNode) root = NULL;
 
-			dep11_yaml_process_layer (&parser, root);
+			root = g_node_new (g_strdup (""));
+			as_yaml_process_layer (&parser, root, &tmp_error);
+			if (tmp_error != NULL) {
+				/* stop immediately, since we found an error when parsing the document */
+				g_propagate_error (error, tmp_error);
+				g_free (root->data);
+				yaml_event_delete (&event);
+				ret = FALSE;
+				parse = FALSE;
+				break;
+			}
 
 			if (header) {
 				for (n = root->children; n != NULL; n = n->next) {
@@ -1858,6 +1986,7 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 								AS_METADATA_ERROR,
 								AS_METADATA_ERROR_FAILED,
 								"Invalid DEP-11 file found: Header invalid");
+						ret = FALSE;
 						break;
 					}
 
@@ -1910,6 +2039,7 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 				if (cpt == NULL) {
 					g_warning ("Parsing of YAML metadata failed: Could not read data for component.");
 					parse = FALSE;
+					ret = FALSE;
 				}
 
 				/* add found component to the results set */
@@ -1920,21 +2050,24 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 					G_IN_ORDER,
 					G_TRAVERSE_ALL,
 					-1,
-					as_yamldata_free_node,
+					as_yaml_free_node,
 					NULL);
-			g_node_destroy (root);
 		}
 
 		/* stop if end of stream is reached */
 		if (event.type == YAML_STREAM_END_EVENT)
 			parse = FALSE;
 
-		yaml_event_delete(&event);
+		yaml_event_delete (&event);
 	}
 
 	yaml_parser_delete (&parser);
 
-	return cpts;
+	/* return NULL on error, otherwise return the list of found components */
+	if (ret)
+		return g_ptr_array_ref (cpts);
+	else
+		return NULL;
 }
 
 /**

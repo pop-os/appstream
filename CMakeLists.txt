@@ -1,12 +1,12 @@
 # CMakeLists for the AppStream Project
 project(appstream)
-cmake_minimum_required(VERSION 3.1.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.2.0 FATAL_ERROR)
 
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "9")
-set(AS_VERSION_PATCH  "5")
+set(AS_VERSION_PATCH  "6")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "3")
 
@@ -23,9 +23,10 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 option(L18N "Enable localization" ON)
 option(VAPI "Create and install a Vala API file" OFF)
 option(QT "Build libappstream-qt" OFF)
-option(MAINTAINER "Enable maintainer mode" OFF)
+option(MAINTAINER "Enable maintainer mode (use strict compiler flags, e.g. -Werror)" OFF)
 option(DOCUMENTATION "Enable target to build documentation" OFF)
 option(APT_SUPPORT "Enable integration with APT on Debian" OFF)
+option(SANITIZERS "Compile with sanitizers (address / thread sanitizer) enabled. Requires maintainer mode to be ON too." OFF)
 
 if(APT_SUPPORT)
 	add_definitions ("-DAPT_SUPPORT")
@@ -74,13 +75,24 @@ enable_testing()
 # Custom C flags
 #
 set(MAINTAINER_CFLAGS "")
+set(SANITIZER_LIBS "")
 if(MAINTAINER)
-	set(MAINTAINER_CFLAGS "-Werror -Wall -Wcast-align -Wno-uninitialized -Wempty-body -Wformat-security -Winit-self")
+	set(MAINTAINER_CFLAGS "-Werror" "-Wall" "-Wcast-align" "-Wno-uninitialized" "-Wempty-body" "-Wformat-security" "-Winit-self")
 	if (CMAKE_COMPILER_IS_GNUCC)
 		execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
                 OUTPUT_VARIABLE GCC_VERSION)
 		if (GCC_VERSION VERSION_GREATER 4.9 OR GCC_VERSION VERSION_EQUAL 4.9)
 			set(MAINTAINER_CFLAGS ${MAINTAINER_CFLAGS} "-fdiagnostics-color=auto")
+		endif()
+	endif()
+
+	if(SANITIZERS)
+		set(MAINTAINER_CFLAGS ${MAINTAINER_CFLAGS} "-fsanitize=address" "-fsanitize=undefined")
+		set(SANITIZER_LIBS "asan" "ubsan")
+		if ("${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
+			set(MAINTAINER_CFLAGS ${MAINTAINER_CFLAGS} "-fno-sanitize-recover=undefined,integer")
+		else()
+			set(MAINTAINER_CFLAGS ${MAINTAINER_CFLAGS} "-fno-sanitize-recover")
 		endif()
 	endif()
 endif(MAINTAINER)

@@ -116,6 +116,8 @@ test_yamlwrite (void)
 	g_autoptr(AsYAMLData) ydata = NULL;
 	g_autoptr(GPtrArray) cpts = NULL;
 	g_autoptr(AsScreenshot) scr = NULL;
+	g_autoptr(AsRelease) rel1 = NULL;
+	g_autoptr(AsRelease) rel2 = NULL;
 	g_autofree gchar *resdata = NULL;
 	AsComponent *cpt = NULL;
 	GError *error = NULL;
@@ -167,6 +169,20 @@ test_yamlwrite (void)
 		as_component_add_icon (cpt, icon);
 	}
 
+	rel1 = as_release_new ();
+	as_release_set_version (rel1, "1.0");
+	as_release_set_timestamp (rel1, 1460463132);
+	as_release_set_description (rel1, "<p>Awesome initial release.</p>\n<p>Second paragraph.</p>", "C");
+	as_release_set_description (rel1, "<p>Großartige erste Veröffentlichung.</p>\n<p>Zweite zeile.</p>", "de_DE");
+	as_component_add_release (cpt, rel1);
+
+	rel2 = as_release_new ();
+	as_release_set_version (rel2, "1.2");
+	as_release_set_timestamp (rel2, 1462288512);
+	as_release_set_description (rel2, "<p>The CPU no longer overheats when you hold down spacebar.</p>", "C");
+	as_release_set_urgency (rel2, AS_URGENCY_KIND_MEDIUM);
+	as_component_add_release (cpt, rel2);
+
 	g_ptr_array_add (cpts, cpt);
 
 	resdata = as_yamldata_serialize_to_distro (ydata, cpts, TRUE, FALSE, &error);
@@ -176,18 +192,31 @@ test_yamlwrite (void)
 	/* TODO: Actually test the resulting output */
 }
 
+/**
+ * as_yaml_test_read_data:
+ *
+ * Helper function to read a single component from YAML data.
+ */
 AsComponent*
-as_yaml_test_read_data (const gchar *data)
+as_yaml_test_read_data (const gchar *data, GError **error)
 {
 	AsComponent *cpt;
-	GError *error = NULL;
 	g_autoptr(GPtrArray) cpts = NULL;
 	g_autoptr(AsYAMLData) ydt = NULL;
 
 	ydt = as_yamldata_new ();
 
-	cpts = as_yamldata_parse_distro_data (ydt, data, &error);
-	g_assert_no_error (error);
+	if (error == NULL) {
+		g_autoptr(GError) local_error = NULL;
+
+		cpts = as_yamldata_parse_distro_data (ydt, data, &local_error);
+		g_assert_no_error (local_error);
+		g_assert_nonnull (cpts);
+	} else {
+		cpts = as_yamldata_parse_distro_data (ydt, data, error);
+		if (cpts == NULL)
+			return NULL;
+	}
 
 	cpt = AS_COMPONENT (g_ptr_array_index (cpts, 0));
 	return g_object_ref (cpt);
@@ -221,7 +250,7 @@ test_yaml_read_icons (void)
 	ydt = as_yamldata_new ();
 
 	/* check the legacy icons */
-	cpt = as_yaml_test_read_data (yamldata_icons_legacy);
+	cpt = as_yaml_test_read_data (yamldata_icons_legacy, NULL);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
 
 	icons = as_component_get_icons (cpt);
@@ -237,7 +266,7 @@ test_yaml_read_icons (void)
 
 	/* check the new style icons tag */
 	g_object_unref (cpt);
-	cpt = as_yaml_test_read_data (yamldata_icons_current);
+	cpt = as_yaml_test_read_data (yamldata_icons_current, NULL);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
 
 	icons = as_component_get_icons (cpt);
@@ -267,12 +296,32 @@ test_yaml_read_languages (void)
 					"  - locale: en_GB\n"
 					"    percentage: 100\n";
 
-	cpt = as_yaml_test_read_data (yamldata_languages);
+	cpt = as_yaml_test_read_data (yamldata_languages, NULL);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
 
 	g_assert_cmpint (as_component_get_language (cpt, "de_DE"), ==, 48);
 	g_assert_cmpint (as_component_get_language (cpt, "en_GB"), ==, 100);
 	g_assert_cmpint (as_component_get_language (cpt, "invalid_C"), ==, -1);
+}
+
+/**
+ * test_yaml_corrupt_data:
+ *
+ * Test reading of a broken YAML document.
+ */
+void
+test_yaml_corrupt_data (void)
+{
+	g_autoptr(GError) error = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
+	const gchar *yamldata_corrupt = "---\n"
+					"ID: org.example.Test\n"
+					"\007\n";
+
+	cpt = as_yaml_test_read_data (yamldata_corrupt, &error);
+
+	g_assert_error (error, AS_METADATA_ERROR, AS_METADATA_ERROR_PARSE);
+	g_assert_null (cpt);
 }
 
 int
@@ -300,6 +349,7 @@ main (int argc, char **argv)
 	g_test_add_func ("/YAML/Write", test_yamlwrite);
 	g_test_add_func ("/YAML/Read/Icons", test_yaml_read_icons);
 	g_test_add_func ("/YAML/Read/Languages", test_yaml_read_languages);
+	g_test_add_func ("/YAML/Read/CorruptData", test_yaml_corrupt_data);
 
 	ret = g_test_run ();
 	g_free (datadir);
