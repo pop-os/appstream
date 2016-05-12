@@ -211,13 +211,13 @@ as_image_get_url (<parameter><link linkend="AsImage"><type>AsImage</type></link>
 <title>Returns</title>
 <para> URL</para>
 </refsect3></refsect2>
-<refsect2 id="as-image-set-url" role="function" condition="since:0.9.5">
+<refsect2 id="as-image-set-url" role="function">
 <title>as_image_set_url&#160;()</title>
-<indexterm zone="as-image-set-url" role="0.9.5"><primary>as_image_set_url</primary></indexterm>
+<indexterm zone="as-image-set-url"><primary>as_image_set_url</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_image_set_url (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                   <parameter>const <link linkend="gchar"><type>gchar</type></link> *url</parameter>);</programlisting>
-<para>Sets the locale for this image.</para>
+<para>Sets the fully-qualified mirror URL to use for the image.</para>
 <refsect3 id="as-image-set-url.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -229,8 +229,11 @@ as_image_set_url (<parameter><link linkend="AsImage"><type>AsImage</type></link>
 <row><entry role="parameter_name"><para>image</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>url</para></entry>
+<entry role="parameter_description"><para>the URL.</para></entry>
+<entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><para role="since">Since: <link linkend="api-index-0.9.5">0.9.5</link></para></refsect2>
+</refsect3></refsect2>
 <refsect2 id="as-image-get-width" role="function">
 <title>as_image_get_width&#160;()</title>
 <indexterm zone="as-image-get-width"><primary>as_image_get_width</primary></indexterm>
@@ -343,15 +346,29 @@ as_image_get_locale (<parameter><link linkend="AsImage"><type>AsImage</type></li
 <title>Returns</title>
 <para> Locale string</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.5">0.9.5</link></para></refsect2>
-<refsect2 id="as-image-set-locale" role="function">
+<refsect2 id="as-image-set-locale" role="function" condition="since:0.9.5">
 <title>as_image_set_locale&#160;()</title>
-<indexterm zone="as-image-set-locale"><primary>as_image_set_locale</primary></indexterm>
+<indexterm zone="as-image-set-locale" role="0.9.5"><primary>as_image_set_locale</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_image_set_locale (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *locale</parameter>);</programlisting>
-<para>
-</para>
-</refsect2>
+<para>Sets the locale for this image.</para>
+<refsect3 id="as-image-set-locale.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>image</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>locale</para></entry>
+<entry role="parameter_description"><para>the locale string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.5">0.9.5</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsImage.other_details" role="details">
