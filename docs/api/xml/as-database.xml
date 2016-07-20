@@ -87,11 +87,12 @@ is explicitly defined via <link linkend="as-database-set-location"><literal>as_d
 </refsect1>
 <refsect1 id="AsDatabase.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="as-database-new" role="function">
+<refsect2 id="as-database-new" role="function" condition="deprecated:">
 <title>as_database_new&#160;()</title>
-<indexterm zone="as-database-new"><primary>as_database_new</primary></indexterm>
+<indexterm zone="as-database-new" role="deprecated"><primary>as_database_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsDatabase"><returnvalue>AsDatabase</returnvalue></link>&#160;*
 as_database_new (<parameter><type>void</type></parameter>);</programlisting>
+<warning><para><literal>as_database_new</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Creates a new <link linkend="AsDatabase"><type>AsDatabase</type></link>.</para>
 <refsect3 id="as-database-new.returns" role="returns">
 <title>Returns</title>
@@ -107,12 +108,13 @@ as_database_error_quark (<parameter><type>void</type></parameter>);</programlist
 <title>Returns</title>
 <para> An error quark.</para>
 </refsect3></refsect2>
-<refsect2 id="as-database-open" role="function">
+<refsect2 id="as-database-open" role="function" condition="deprecated:">
 <title>as_database_open&#160;()</title>
-<indexterm zone="as-database-open"><primary>as_database_open</primary></indexterm>
+<indexterm zone="as-database-open" role="deprecated"><primary>as_database_open</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_open</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Open the current AppStream metadata cache for reading.</para>
 <refsect3 id="as-database-open.parameters" role="parameters">
 <title>Parameters</title>
@@ -133,11 +135,12 @@ as_database_open (<parameter><link linkend="AsDatabase"><type>AsDatabase</type><
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> on success, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> on error.</para>
 </refsect3></refsect2>
-<refsect2 id="as-database-get-location" role="function">
+<refsect2 id="as-database-get-location" role="function" condition="deprecated:">
 <title>as_database_get_location&#160;()</title>
-<indexterm zone="as-database-get-location"><primary>as_database_get_location</primary></indexterm>
+<indexterm zone="as-database-get-location" role="deprecated"><primary>as_database_get_location</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_database_get_location (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>);</programlisting>
+<warning><para><literal>as_database_get_location</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Get the current path of the AppStream database we use.</para>
 <refsect3 id="as-database-get-location.parameters" role="parameters">
 <title>Parameters</title>
@@ -152,12 +155,13 @@ as_database_get_location (<parameter><link linkend="AsDatabase"><type>AsDatabase
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-database-set-location" role="function">
+<refsect2 id="as-database-set-location" role="function" condition="deprecated:">
 <title>as_database_set_location&#160;()</title>
-<indexterm zone="as-database-set-location"><primary>as_database_set_location</primary></indexterm>
+<indexterm zone="as-database-set-location" role="deprecated"><primary>as_database_set_location</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_database_set_location (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *dir</parameter>);</programlisting>
+<warning><para><literal>as_database_set_location</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Set the location of the AppStream database we use.</para>
 <refsect3 id="as-database-set-location.parameters" role="parameters">
 <title>Parameters</title>
@@ -175,14 +179,15 @@ as_database_set_location (<parameter><link linkend="AsDatabase"><type>AsDatabase
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-database-find-components" role="function">
+<refsect2 id="as-database-find-components" role="function" condition="deprecated:">
 <title>as_database_find_components&#160;()</title>
-<indexterm zone="as-database-find-components"><primary>as_database_find_components</primary></indexterm>
+<indexterm zone="as-database-find-components" role="deprecated"><primary>as_database_find_components</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_database_find_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>,
                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *cats_str</parameter>,
                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_find_components</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Find components in the AppStream database, which match a given term.
 You can limit the search to a specific set of categories by setting the categories string to
 a semicolon-separated list of lower-cased category names.</para>
@@ -212,12 +217,13 @@ a semicolon-separated list of lower-cased category names.</para>
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-database-get-all-components" role="function">
+<refsect2 id="as-database-get-all-components" role="function" condition="deprecated:">
 <title>as_database_get_all_components&#160;()</title>
-<indexterm zone="as-database-get-all-components"><primary>as_database_get_all_components</primary></indexterm>
+<indexterm zone="as-database-get-all-components" role="deprecated"><primary>as_database_get_all_components</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                 <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_get_all_components</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Dump a list of all software components found in the database.</para>
 <refsect3 id="as-database-get-all-components.parameters" role="parameters">
 <title>Parameters</title>
@@ -239,13 +245,14 @@ as_database_get_all_components (<parameter><link linkend="AsDatabase"><type>AsDa
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-database-get-component-by-id" role="function">
+<refsect2 id="as-database-get-component-by-id" role="function" condition="deprecated:">
 <title>as_database_get_component_by_id&#160;()</title>
-<indexterm zone="as-database-get-component-by-id"><primary>as_database_get_component_by_id</primary></indexterm>
+<indexterm zone="as-database-get-component-by-id" role="deprecated"><primary>as_database_get_component_by_id</primary></indexterm>
 <programlisting language="C"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                  <parameter>const <link linkend="gchar"><type>gchar</type></link> *cid</parameter>,
                                  <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_get_component_by_id</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Get a component by its AppStream-ID.</para>
 <refsect3 id="as-database-get-component-by-id.parameters" role="parameters">
 <title>Parameters</title>
@@ -270,15 +277,16 @@ as_database_get_component_by_id (<parameter><link linkend="AsDatabase"><type>AsD
 <para> an <link linkend="AsComponent"><type>AsComponent</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if none was found. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-database-get-components-by-provided-item" role="function">
+<refsect2 id="as-database-get-components-by-provided-item" role="function" condition="deprecated:">
 <title>as_database_get_components_by_provided_item&#160;()</title>
-<indexterm zone="as-database-get-components-by-provided-item"><primary>as_database_get_components_by_provided_item</primary></indexterm>
+<indexterm zone="as-database-get-components-by-provided-item" role="deprecated"><primary>as_database_get_components_by_provided_item</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_database_get_components_by_provided_item
                                (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                 <parameter><link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> kind</parameter>,
                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>,
                                 <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_get_components_by_provided_item</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Find components in the Appstream database.</para>
 <refsect3 id="as-database-get-components-by-provided-item.parameters" role="parameters">
 <title>Parameters</title>
@@ -306,13 +314,14 @@ as_database_get_components_by_provided_item
 <para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found, NULL on error. </para>
 <para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-database-get-components-by-kind" role="function">
+<refsect2 id="as-database-get-components-by-kind" role="function" condition="deprecated:">
 <title>as_database_get_components_by_kind&#160;()</title>
-<indexterm zone="as-database-get-components-by-kind"><primary>as_database_get_components_by_kind</primary></indexterm>
+<indexterm zone="as-database-get-components-by-kind" role="deprecated"><primary>as_database_get_components_by_kind</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>AsDatabase</type></link> *db</parameter>,
                                     <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>,
                                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_database_get_components_by_kind</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>Return a list of all components in the database which match a certain kind.</para>
 <refsect3 id="as-database-get-components-by-kind.parameters" role="parameters">
 <title>Parameters</title>
@@ -359,9 +368,10 @@ as_database_get_components_by_kind (<parameter><link linkend="AsDatabase"><type>
 <para>
 </para>
 </refsect2>
-<refsect2 id="AsDatabaseError" role="enum">
+<refsect2 id="AsDatabaseError" role="enum" condition="deprecated:">
 <title>enum AsDatabaseError</title>
-<indexterm zone="AsDatabaseError"><primary>AsDatabaseError</primary></indexterm>
+<indexterm zone="AsDatabaseError" role="deprecated"><primary>AsDatabaseError</primary></indexterm>
+<warning><para><literal>AsDatabaseError</literal> is deprecated and should not be used in newly-written code.</para></warning>
 <para>A database query error.</para>
 <refsect3 id="AsDatabaseError.members" role="enum_members">
 <title>Members</title>

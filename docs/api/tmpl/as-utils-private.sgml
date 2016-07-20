@@ -22,6 +22,13 @@ as-utils-private
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO AS_INTERNAL_VISIBLE ##### -->
+<para>
+
+</para>
+
+
+
 <!-- ##### FUNCTION as_utils_delete_dir_recursive ##### -->
 <para>
 
@@ -112,6 +119,16 @@ as-utils-private
 @Returns: 
 
 
+<!-- ##### FUNCTION as_ptr_array_find_string ##### -->
+<para>
+
+</para>
+
+@array: 
+@value: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_touch_location ##### -->
 <para>
 
@@ -119,6 +136,14 @@ as-utils-private
 
 @fname: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_reset_umask ##### -->
+<para>
+
+</para>
+
+@void: 
 
 
 <!-- ##### FUNCTION as_copy_file ##### -->
@@ -132,14 +157,6 @@ as-utils-private
 @Returns: 
 
 
-<!-- ##### FUNCTION as_reset_umask ##### -->
-<para>
-
-</para>
-
-@void: 
-
-
 <!-- ##### FUNCTION as_is_cruft_locale ##### -->
 <para>
 
@@ -150,6 +167,15 @@ as-utils-private
 
 
 <!-- ##### FUNCTION as_locale_strip_encoding ##### -->
+<para>
+
+</para>
+
+@locale: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_utils_locale_to_language ##### -->
 <para>
 
 </para>
@@ -174,6 +200,15 @@ as-utils-private
 
 @arch1: 
 @arch2: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_utils_search_token_valid ##### -->
+<para>
+
+</para>
+
+@token: 
 @Returns: 
 
 

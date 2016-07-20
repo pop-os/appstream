@@ -12,7 +12,7 @@
 </refmeta>
 <refnamediv>
 <refname>AsDataPool</refname>
-<refpurpose>Collect and temporarily store metadata from different sources</refpurpose>
+<refpurpose>Provides access to the AppStream metadata pool.</refpurpose>
 </refnamediv>
 
 <refsect1 id="AsDataPool.functions" role="functions_proto">
@@ -31,15 +31,43 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-pool-set-locale">as_data_pool_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-data-pool-update">as_data_pool_update</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-load">as_data_pool_load</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-load-metadata">as_data_pool_load_metadata</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-load-cache-file">as_data_pool_load_cache_file</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-save-cache-file">as_data_pool_save_cache_file</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-clear">as_data_pool_clear</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-add-component">as_data_pool_add_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-component-by-id">as_data_pool_get_component_by_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-components-by-provided-item">as_data_pool_get_components_by_provided_item</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-components-by-kind">as_data_pool_get_components_by_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-get-components-by-categories">as_data_pool_get_components_by_categories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-data-pool-search">as_data_pool_search</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-data-pool-get-metadata-locations">as_data_pool_get_metadata_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-data-pool-set-metadata-locations">as_data_pool_set_metadata_locations</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsCacheFlags"><returnvalue>AsCacheFlags</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-get-cache-flags">as_data_pool_get_cache_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-set-cache-flags">as_data_pool_set_cache_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-refresh-cache">as_data_pool_refresh_cache</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="time-t"><returnvalue>time_t</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-get-cache-age">as_data_pool_get_cache_age</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-update">as_data_pool_update</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -54,6 +82,7 @@
 <tbody>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-DATA-POOL:CAPS">AS_TYPE_DATA_POOL</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsDataPoolClass">AsDataPoolClass</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsCacheFlags">AsCacheFlags</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsDataPoolError">AsDataPoolError</link></entry></row>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-DATA-POOL-ERROR:CAPS">AS_DATA_POOL_ERROR</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsDataPool-struct">AsDataPool</link></entry></row>
@@ -72,11 +101,15 @@
 
 <refsect1 id="AsDataPool.description" role="desc">
 <title role="desc.title">Description</title>
-<para>This class contains a temporary pool of metadata which has been collected from different
-sources on the system.
-It can directly be used, but usually it is accessed through a <link linkend="AsDatabase"><type>AsDatabase</type></link> instance.
-This class is used by internally by the cache builder, but might be useful for others.</para>
-<para>See also: <link linkend="AsDatabase"><type>AsDatabase</type></link></para>
+<para>This class loads AppStream metadata from various sources and refines it with existing
+knowledge about the system (e.g. by setting absolute pazhs for cached icons).
+An <link linkend="AsDataPool"><type>AsDataPool</type></link> will use an on-disk cache to store metadata is has read and refined to
+speed up the loading time when the same data is requested a second time.</para>
+<para>You can find AppStream metadata matching farious criteria, and also add new metadata to
+the pool.
+The caching behavior can be controlled by the application using <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para>
+<para>An AppStream cache object can also be created and read using the appstreamcli(1) utility.</para>
+<para>See also: <link linkend="AsComponent"><type>AsComponent</type></link></para>
 
 </refsect1>
 <refsect1 id="AsDataPool.functions_details" role="details">
@@ -146,16 +179,19 @@ as_data_pool_set_locale (<parameter><link linkend="AsDataPool"><type>AsDataPool<
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-data-pool-update" role="function">
-<title>as_data_pool_update&#160;()</title>
-<indexterm zone="as-data-pool-update"><primary>as_data_pool_update</primary></indexterm>
+<refsect2 id="as-data-pool-load" role="function">
+<title>as_data_pool_load&#160;()</title>
+<indexterm zone="as-data-pool-load"><primary>as_data_pool_load</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_data_pool_update (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
-                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+as_data_pool_load (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                   <parameter><link linkend="GCancellable"><type>GCancellable</type></link> *cancellable</parameter>,
+                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Builds an index of all found components in the watched locations.
 The function will try to get as much data into the pool as possible, so even if
-the updates completes with <link linkend="FALSE:CAPS"><literal>FALSE</literal></link>, it might still add components to the pool.</para>
-<refsect3 id="as-data-pool-update.parameters" role="parameters">
+the update completes with <link linkend="FALSE:CAPS"><literal>FALSE</literal></link>, it might still have added components to the pool.</para>
+<para>The function will load from all possible data sources, preferring caches if they
+are up to date.</para>
+<refsect3 id="as-data-pool-load.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -170,14 +206,124 @@ the updates completes with <link linkend="FALSE:CAPS"><literal>FALSE</literal></
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-data-pool-update.returns" role="returns">
+</refsect3><refsect3 id="as-data-pool-load.returns" role="returns">
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if update completed without error.</para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-load-metadata" role="function">
+<title>as_data_pool_load_metadata&#160;()</title>
+<indexterm zone="as-data-pool-load-metadata"><primary>as_data_pool_load_metadata</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_load_metadata (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Load fresh metadata from AppStream directories.</para>
+</refsect2>
+<refsect2 id="as-data-pool-load-cache-file" role="function">
+<title>as_data_pool_load_cache_file&#160;()</title>
+<indexterm zone="as-data-pool-load-cache-file"><primary>as_data_pool_load_cache_file</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_load_cache_file (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
+                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Load AppStream metadata from a cache file.</para>
+<refsect3 id="as-data-pool-load-cache-file.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>Filename of the cache file to load into the pool.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-save-cache-file" role="function">
+<title>as_data_pool_save_cache_file&#160;()</title>
+<indexterm zone="as-data-pool-save-cache-file"><primary>as_data_pool_save_cache_file</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_save_cache_file (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
+                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Serialize AppStream metadata to a cache file.</para>
+<refsect3 id="as-data-pool-save-cache-file.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>Filename of the cache file the pool contents should be dumped to.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-clear" role="function">
+<title>as_data_pool_clear&#160;()</title>
+<indexterm zone="as-data-pool-clear"><primary>as_data_pool_clear</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_clear (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Remove all metadat from the pool.</para>
+<refsect3 id="as-data-pool-clear.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-add-component" role="function">
+<title>as_data_pool_add_component&#160;()</title>
+<indexterm zone="as-data-pool-add-component"><primary>as_data_pool_add_component</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_add_component (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                            <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                            <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Register a new component in the AppStream metadata pool.</para>
+<refsect3 id="as-data-pool-add-component.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>The <link linkend="AsComponent"><type>AsComponent</type></link> to add to the pool.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-add-component.returns" role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the new component was successfully added to the pool.</para>
 </refsect3></refsect2>
 <refsect2 id="as-data-pool-get-components" role="function">
 <title>as_data_pool_get_components&#160;()</title>
 <indexterm zone="as-data-pool-get-components"><primary>as_data_pool_get_components</primary></indexterm>
-<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_data_pool_get_components (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
 <para>Get a list of found components.</para>
 <refsect3 id="as-data-pool-get-components.parameters" role="parameters">
@@ -194,8 +340,8 @@ as_data_pool_get_components (<parameter><link linkend="AsDataPool"><type>AsDataP
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-data-pool-get-components.returns" role="returns">
 <title>Returns</title>
-<para> a list of <link linkend="AsComponent"><type>AsComponent</type></link> instances, free with <link linkend="g-list-free"><function>g_list_free()</function></link>. </para>
-<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer container</acronym>]</emphasis></para>
+<para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> instances. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-data-pool-get-component-by-id" role="function">
 <title>as_data_pool_get_component_by_id&#160;()</title>
@@ -224,6 +370,129 @@ as_data_pool_get_component_by_id (<parameter><link linkend="AsDataPool"><type>As
 <para> An <link linkend="AsComponent"><type>AsComponent</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
+<refsect2 id="as-data-pool-get-components-by-provided-item" role="function">
+<title>as_data_pool_get_components_by_provided_item&#160;()</title>
+<indexterm zone="as-data-pool-get-components-by-provided-item"><primary>as_data_pool_get_components_by_provided_item</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_data_pool_get_components_by_provided_item
+                               (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                                <parameter><link linkend="AsProvidedKind"><type>AsProvidedKind</type></link> kind</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *item</parameter>,
+                                <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Find components in the AppStream data pool whcih provide a certain item.</para>
+<refsect3 id="as-data-pool-get-components-by-provided-item.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>An <link linkend="AsProvidesKind"><type>AsProvidesKind</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>item</para></entry>
+<entry role="parameter_description"><para>The value of the provided item.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-get-components-by-provided-item.returns" role="returns">
+<title>Returns</title>
+<para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-get-components-by-kind" role="function">
+<title>as_data_pool_get_components_by_kind&#160;()</title>
+<indexterm zone="as-data-pool-get-components-by-kind"><primary>as_data_pool_get_components_by_kind</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_data_pool_get_components_by_kind (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                                     <parameter><link linkend="AsComponentKind"><type>AsComponentKind</type></link> kind</parameter>,
+                                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Return a list of all components in the pool which are of a certain kind.</para>
+<refsect3 id="as-data-pool-get-components-by-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDatabase"><type>AsDatabase</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>An <link linkend="AsComponentKind"><type>AsComponentKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-get-components-by-kind.returns" role="returns">
+<title>Returns</title>
+<para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-get-components-by-categories" role="function">
+<title>as_data_pool_get_components_by_categories&#160;()</title>
+<indexterm zone="as-data-pool-get-components-by-categories"><primary>as_data_pool_get_components_by_categories</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_data_pool_get_components_by_categories
+                               (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *categories</parameter>);</programlisting>
+<para>Return a list of components which are in one of the categories.</para>
+<refsect3 id="as-data-pool-get-components-by-categories.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDatabase"><type>AsDatabase</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>categories</para></entry>
+<entry role="parameter_description"><para>A semicolon-separated list of XDG categories to include.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-get-components-by-categories.returns" role="returns">
+<title>Returns</title>
+<para> an array of <link linkend="AsComponent"><type>AsComponent</type></link> objects which have been found. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-search" role="function" condition="since:0.9.7">
+<title>as_data_pool_search&#160;()</title>
+<indexterm zone="as-data-pool-search" role="0.9.7"><primary>as_data_pool_search</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_data_pool_search (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                     <parameter>const <link linkend="gchar"><type>gchar</type></link> *term</parameter>);</programlisting>
+<para>Search for a list of components matching the search terms.
+The list will be unordered.</para>
+<refsect3 id="as-data-pool-search.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>term</para></entry>
+<entry role="parameter_description"><para>A search term/string</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-search.returns" role="returns">
+<title>Returns</title>
+<para> an array of the found <link linkend="AsComponent"><type>AsComponent</type></link> objects. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent][<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.7">0.9.7</link></para></refsect2>
 <refsect2 id="as-data-pool-get-metadata-locations" role="function">
 <title>as_data_pool_get_metadata_locations&#160;()</title>
 <indexterm zone="as-data-pool-get-metadata-locations"><primary>as_data_pool_get_metadata_locations</primary></indexterm>
@@ -273,6 +542,103 @@ AppStream XML or DEP-11 YAML in it.</para>
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-data-pool-get-cache-flags" role="function">
+<title>as_data_pool_get_cache_flags&#160;()</title>
+<indexterm zone="as-data-pool-get-cache-flags"><primary>as_data_pool_get_cache_flags</primary></indexterm>
+<programlisting language="C"><link linkend="AsCacheFlags"><returnvalue>AsCacheFlags</returnvalue></link>
+as_data_pool_get_cache_flags (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Get the <link linkend="AsCacheFlags"><type>AsCacheFlags</type></link> for this data pool.</para>
+<refsect3 id="as-data-pool-get-cache-flags.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-set-cache-flags" role="function">
+<title>as_data_pool_set_cache_flags&#160;()</title>
+<indexterm zone="as-data-pool-set-cache-flags"><primary>as_data_pool_set_cache_flags</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_set_cache_flags (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                              <parameter><link linkend="AsCacheFlags"><type>AsCacheFlags</type></link> flags</parameter>);</programlisting>
+<para>Set the <link linkend="AsCacheFlags"><type>AsCacheFlags</type></link> for this data pool.</para>
+<refsect3 id="as-data-pool-set-cache-flags.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>flags</para></entry>
+<entry role="parameter_description"><para>The new <link linkend="AsCacheFlags"><type>AsCacheFlags</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-refresh-cache" role="function">
+<title>as_data_pool_refresh_cache&#160;()</title>
+<indexterm zone="as-data-pool-refresh-cache"><primary>as_data_pool_refresh_cache</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_refresh_cache (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                            <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
+                            <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Update the AppStream cache. There is normally no need to call this function manually, because cache updates are handled
+transparently in the background.</para>
+<refsect3 id="as-data-pool-refresh-cache.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>force</para></entry>
+<entry role="parameter_description"><para>Enforce refresh, even if source data has not changed.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-data-pool-refresh-cache.returns" role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the cache was updated, <link linkend="FALSE:CAPS"><literal>FALSE</literal></link> on error or if the cache update was not necessary and has been skipped.</para>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-get-cache-age" role="function">
+<title>as_data_pool_get_cache_age&#160;()</title>
+<indexterm zone="as-data-pool-get-cache-age"><primary>as_data_pool_get_cache_age</primary></indexterm>
+<programlisting language="C"><link linkend="time-t"><returnvalue>time_t</returnvalue></link>
+as_data_pool_get_cache_age (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>);</programlisting>
+<para>Get the age of our internal cache.</para>
+<refsect3 id="as-data-pool-get-cache-age.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>dpool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsDataPool"><type>AsDataPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-data-pool-update" role="function" condition="deprecated:">
+<title>as_data_pool_update&#160;()</title>
+<indexterm zone="as-data-pool-update" role="deprecated"><primary>as_data_pool_update</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_data_pool_update (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                     <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<warning><para><literal>as_data_pool_update</literal> is deprecated and should not be used in newly-written code.</para></warning>
+</refsect2>
 
 </refsect1>
 <refsect1 id="AsDataPool.other_details" role="details">
@@ -295,6 +661,35 @@ AppStream XML or DEP-11 YAML in it.</para>
 <para>
 </para>
 </refsect2>
+<refsect2 id="AsCacheFlags" role="enum">
+<title>enum AsCacheFlags</title>
+<indexterm zone="AsCacheFlags"><primary>AsCacheFlags</primary></indexterm>
+<para>Flags on how caching should be used.</para>
+<refsect3 id="AsCacheFlags.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-FLAG-NONE:CAPS">AS_CACHE_FLAG_NONE</para></entry>
+<entry role="enum_member_description"><para>Type invalid or not known</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-FLAG-USE-USER:CAPS">AS_CACHE_FLAG_USE_USER</para></entry>
+<entry role="enum_member_description"><para>Create an user-specific metadata cache.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-FLAG-USE-SYSTEM:CAPS">AS_CACHE_FLAG_USE_SYSTEM</para></entry>
+<entry role="enum_member_description"><para>Use and - if possible - update the global metadata cache.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="AsDataPoolError" role="enum">
 <title>enum AsDataPoolError</title>
 <indexterm zone="AsDataPoolError"><primary>AsDataPoolError</primary></indexterm>
@@ -309,6 +704,26 @@ AppStream XML or DEP-11 YAML in it.</para>
 <tbody>
 <row role="constant"><entry role="enum_member_name"><para id="AS-DATA-POOL-ERROR-FAILED:CAPS">AS_DATA_POOL_ERROR_FAILED</para></entry>
 <entry role="enum_member_description"><para>Generic failure</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-DATA-POOL-ERROR-TARGET-NOT-WRITABLE:CAPS">AS_DATA_POOL_ERROR_TARGET_NOT_WRITABLE</para></entry>
+<entry role="enum_member_description"><para>We do not have write-access to the cache target location.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-DATA-POOL-ERROR-INCOMPLETE:CAPS">AS_DATA_POOL_ERROR_INCOMPLETE</para></entry>
+<entry role="enum_member_description"><para>The pool was loaded, but we had to ignore some metadata.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-DATA-POOL-ERROR-COLLISION:CAPS">AS_DATA_POOL_ERROR_COLLISION</para></entry>
+<entry role="enum_member_description"><para>An AppStream-ID collision occured (a component with that ID already existed in the pool)</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-DATA-POOL-ERROR-TERM-INVALID:CAPS">AS_DATA_POOL_ERROR_TERM_INVALID</para></entry>
+<entry role="enum_member_description"><para>A search or selection term was invalid.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
