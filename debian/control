@@ -8,10 +8,9 @@ Build-Depends: cmake (>= 2.8),
                intltool,
                libgirepository1.0-dev (>= 1.32),
                libglib2.0-dev (>= 2.46),
-               libprotobuf-dev,
-               libxapian-dev (>= 1.2.12),
+               libprotobuf-dev (>= 2.6),
                libxml2-dev (>= 2.8.0),
-               libyaml-dev,
+               libyaml-dev (>= 0.1.6),
                protobuf-compiler,
                qtbase5-dev (>= 5.4),
                valac,
@@ -27,23 +26,19 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Breaks: appstream-index (<< ${source:Version})
 Provides: appstream-index
-Description: Software component index
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format,
- screenshot and icon services and various other metadata to describe software
- in repositories.
- The metadata can be used to show details about the actual software in software
- management tools instead of just listing packages, making software management
- intuitive and easy.
+Description: Software component metadata management
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format.
+ It provides facilities to easily access and transform the data, as well
+ as a few additional services to allow building feature-rich software center
+ applications.
  .
- This package provides tools to generate, maintain and query the
- AppStream database of installed and available software, and enables AppStream
- integration in APT.
+ This package provides tools to generate, maintain and query the AppStream
+ data pool of installed and available software, and enables integration
+ with the APT package manager.
  .
  The 'appstreamcli' tool can be used for accessing the software component
- database as well as for working with AppStream XML metadata directly, including
+ database as well as for working with AppStream metadata directly, including
  validating it for compliance with the specification.
 
 Package: libappstream3
@@ -54,15 +49,16 @@ Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
 Description: Library to access AppStream services
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package contains a GObject-based library to access AppStream
- services, like the software component metadata database.
- It also contains functions for working with AppStream XML metadata.
+ services, like the software component metadata pool.
+ It also contains functions for reading, writing and transforming AppStream
+ metadata.
 
 Package: libappstream-dev
 Architecture: any
@@ -70,16 +66,16 @@ Section: libdevel
 Depends: libappstream3 (= ${binary:Version}),
          libglib2.0-dev (>= 2.46),
          ${misc:Depends}
-Suggests: dep11-tools
+Suggests: appstream-generator
 Description: Library to access AppStream services (development files)
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package contains development files necessary to develop
- software-management tools which use the AppStream library.
+ software management tools which use the AppStream library.
 
 Package: gir1.2-appstream
 Architecture: any
@@ -89,11 +85,11 @@ Depends: gir1.2-freedesktop (>= 1.32),
          libappstream3 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package contains introspection data for the AppStream library.
 
@@ -104,16 +100,15 @@ Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: appstream (>= ${binary:Version})
 Description: Qt5 library to access AppStream services
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package contains a Qt-based library to access AppStream
- services, like the software component metadata database.
+ services, like the software component metadata pool.
 
 Package: libappstreamqt-dev
 Architecture: any
@@ -122,14 +117,14 @@ Depends: libappstreamqt1 (= ${binary:Version}),
          qtbase5-dev (>= 5.4),
          ${misc:Depends}
 Description: Qt5 library to access AppStream services (development files)
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package contains development files necessary to develop
- software-management tools which use the Qt5-based AppStream library.
+ software management tools which use the Qt-based AppStream library.
 
 Package: appstream-doc
 Architecture: all
@@ -137,11 +132,11 @@ Section: doc
 Depends: ${misc:Depends}
 Suggests: appstream
 Description: Developer documentation for AppStream
- AppStream is a cross-distribution effort for creating and sharing
- metadata of software components available in the package repositories
- of a distribution.
- It provides specifications for an unified software component metadata format
- and provides tools to read, write and validate the metadata.
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a general-purpose format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
  .
  This package provides developer documentation for AppStream.
 
