@@ -1,16 +1,7 @@
 <SECTION>
-<FILE>as-cache-builder</FILE>
-<TITLE>AsCacheBuilder</TITLE>
-AS_TYPE_CACHE_BUILDER
-AsCacheBuilderClass
-AS_CACHE_BUILDER_ERROR
-as_cache_builder_error_quark
-AsCacheBuilderError
-as_cache_builder_new
-as_cache_builder_setup
-as_cache_builder_refresh
-as_cache_builder_set_data_source_directories
-AsCacheBuilder
+<FILE>as-cache-internal</FILE>
+as_cache_write
+as_cache_read
 </SECTION>
 
 <SECTION>
@@ -106,6 +97,8 @@ as_component_add_translation
 as_component_has_bundle
 as_component_get_bundle_id
 as_component_add_bundle_id
+as_component_get_search_tokens
+as_component_search_matches
 AsComponent
 <SUBSECTION Standard>
 AS_TYPE_COMPONENT_KIND
@@ -117,17 +110,32 @@ as_component_kind_get_type
 <TITLE>AsDataPool</TITLE>
 AS_TYPE_DATA_POOL
 AsDataPoolClass
+AsCacheFlags
 AsDataPoolError
 AS_DATA_POOL_ERROR
 as_data_pool_error_quark
 as_data_pool_new
 as_data_pool_get_locale
 as_data_pool_set_locale
-as_data_pool_update
+as_data_pool_load
+as_data_pool_load_metadata
+as_data_pool_load_cache_file
+as_data_pool_save_cache_file
+as_data_pool_clear
+as_data_pool_add_component
 as_data_pool_get_components
 as_data_pool_get_component_by_id
+as_data_pool_get_components_by_provided_item
+as_data_pool_get_components_by_kind
+as_data_pool_get_components_by_categories
+as_data_pool_search
 as_data_pool_get_metadata_locations
 as_data_pool_set_metadata_locations
+as_data_pool_get_cache_flags
+as_data_pool_set_cache_flags
+as_data_pool_refresh_cache
+as_data_pool_get_cache_age
+as_data_pool_update
 AsDataPool
 </SECTION>
 
@@ -167,11 +175,17 @@ AsDistroDetails
 </SECTION>
 
 <SECTION>
+<FILE>as-distro-extras</FILE>
+as_data_pool_scan_apt
+</SECTION>
+
+<SECTION>
 <FILE>as-enums</FILE>
 AsUrlKind
 as_url_kind_to_string
 as_url_kind_from_string
 AsBundleKind
+AS_BUNDLE_KIND_XDG_APP
 as_bundle_kind_to_string
 as_bundle_kind_from_string
 AsUrgencyKind
@@ -359,6 +373,14 @@ as_screenshot_get_caption_table
 </SECTION>
 
 <SECTION>
+<FILE>as-stemmer</FILE>
+AS_TYPE_STEMMER
+as_stemmer_new
+as_stemmer_stem
+AsStemmer
+</SECTION>
+
+<SECTION>
 <FILE>as-translation</FILE>
 <TITLE>AsTranslation</TITLE>
 AS_TYPE_TRANSLATION
@@ -376,6 +398,7 @@ AsTranslation
 
 <SECTION>
 <FILE>as-utils-private</FILE>
+AS_INTERNAL_VISIBLE
 as_utils_delete_dir_recursive
 as_utils_categories_from_strv
 as_utils_categories_from_str
@@ -385,13 +408,16 @@ as_utils_is_root
 as_utils_is_writable
 as_str_replace
 as_ptr_array_to_strv
+as_ptr_array_find_string
 as_touch_location
-as_copy_file
 as_reset_umask
+as_copy_file
 as_is_cruft_locale
 as_locale_strip_encoding
+as_utils_locale_to_language
 as_get_current_arch
 as_arch_compatible
+as_utils_search_token_valid
 </SECTION>
 
 <SECTION>

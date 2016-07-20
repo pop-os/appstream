@@ -12,17 +12,12 @@
 <indexentry><primaryie linkends="AsBundleKind"><link linkend="AsBundleKind">AsBundleKind</link>, enum in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-kind-from-string"><link linkend="as-bundle-kind-from-string">as_bundle_kind_from_string</link>, function in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-kind-to-string"><link linkend="as-bundle-kind-to-string">as_bundle_kind_to_string</link>, function in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-BUNDLE-KIND-XDG-APP:CAPS"><link linkend="AS-BUNDLE-KIND-XDG-APP:CAPS">AS_BUNDLE_KIND_XDG_APP</link>, macro in <link linkend="appstream-as-enums">as-enums</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>C</title>
-<indexentry><primaryie linkends="AsCacheBuilder-struct"><link linkend="AsCacheBuilder-struct">AsCacheBuilder</link>, struct in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsCacheBuilderClass"><link linkend="AsCacheBuilderClass">AsCacheBuilderClass</link>, struct in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AsCacheBuilderError"><link linkend="AsCacheBuilderError">AsCacheBuilderError</link>, enum in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AS-CACHE-BUILDER-ERROR:CAPS"><link linkend="AS-CACHE-BUILDER-ERROR:CAPS">AS_CACHE_BUILDER_ERROR</link>, macro in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-builder-error-quark"><link linkend="as-cache-builder-error-quark">as_cache_builder_error_quark</link>, function in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-builder-new"><link linkend="as-cache-builder-new">as_cache_builder_new</link>, function in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-builder-refresh"><link linkend="as-cache-builder-refresh">as_cache_builder_refresh</link>, function in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-builder-setup"><link linkend="as-cache-builder-setup">as_cache_builder_setup</link>, function in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-builder-set-data-source-directories"><link linkend="as-cache-builder-set-data-source-directories">as_cache_builder_set_data_source_directories</link>, function in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsCacheFlags"><link linkend="AsCacheFlags">AsCacheFlags</link>, enum in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-cache-read"><link linkend="as-cache-read">as_cache_read</link>, function in <link linkend="appstream-as-cache-internal">as-cache-internal</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-cache-write"><link linkend="as-cache-write">as_cache_write</link>, function in <link linkend="appstream-as-cache-internal">as-cache-internal</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory-struct"><link linkend="AsCategory-struct">AsCategory</link>, struct in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory--directory"><link linkend="AsCategory--directory">AsCategory:directory</link>, object property in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory--excluded"><link linkend="AsCategory--excluded">AsCategory:excluded</link>, object property in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
@@ -105,6 +100,7 @@
 <indexentry><primaryie linkends="as-component-get-provided-for-kind"><link linkend="as-component-get-provided-for-kind">as_component_get_provided_for_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-releases"><link linkend="as-component-get-releases">as_component_get_releases</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-screenshots"><link linkend="as-component-get-screenshots">as_component_get_screenshots</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-search-tokens"><link linkend="as-component-get-search-tokens">as_component_get_search_tokens</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-source-pkgname"><link linkend="as-component-get-source-pkgname">as_component_get_source_pkgname</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-summary"><link linkend="as-component-get-summary">as_component_get_summary</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-translations"><link linkend="as-component-get-translations">as_component_get_translations</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -116,6 +112,7 @@
 <indexentry><primaryie linkends="as-component-kind-from-string"><link linkend="as-component-kind-from-string">as_component_kind_from_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-kind-to-string"><link linkend="as-component-kind-to-string">as_component_kind_to_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-new"><link linkend="as-component-new">as_component_new</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-search-matches"><link linkend="as-component-search-matches">as_component_search_matches</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-active-locale"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-categories"><link linkend="as-component-set-categories">as_component_set_categories</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-compulsory-for-desktops"><link linkend="as-component-set-compulsory-for-desktops">as_component_set_compulsory_for_desktops</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -152,13 +149,28 @@
 <indexentry><primaryie linkends="AsDataPool-struct"><link linkend="AsDataPool-struct">AsDataPool</link>, struct in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsDataPoolClass"><link linkend="AsDataPoolClass">AsDataPoolClass</link>, struct in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsDataPoolError"><link linkend="AsDataPoolError">AsDataPoolError</link>, enum in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-add-component"><link linkend="as-data-pool-add-component">as_data_pool_add_component</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-clear"><link linkend="as-data-pool-clear">as_data_pool_clear</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-DATA-POOL-ERROR:CAPS"><link linkend="AS-DATA-POOL-ERROR:CAPS">AS_DATA_POOL_ERROR</link>, macro in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-error-quark"><link linkend="as-data-pool-error-quark">as_data_pool_error_quark</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-cache-age"><link linkend="as-data-pool-get-cache-age">as_data_pool_get_cache_age</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-cache-flags"><link linkend="as-data-pool-get-cache-flags">as_data_pool_get_cache_flags</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-components"><link linkend="as-data-pool-get-components">as_data_pool_get_components</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-components-by-categories"><link linkend="as-data-pool-get-components-by-categories">as_data_pool_get_components_by_categories</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-components-by-kind"><link linkend="as-data-pool-get-components-by-kind">as_data_pool_get_components_by_kind</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-get-components-by-provided-item"><link linkend="as-data-pool-get-components-by-provided-item">as_data_pool_get_components_by_provided_item</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-component-by-id"><link linkend="as-data-pool-get-component-by-id">as_data_pool_get_component_by_id</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-locale"><link linkend="as-data-pool-get-locale">as_data_pool_get_locale</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-get-metadata-locations"><link linkend="as-data-pool-get-metadata-locations">as_data_pool_get_metadata_locations</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-load"><link linkend="as-data-pool-load">as_data_pool_load</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-load-cache-file"><link linkend="as-data-pool-load-cache-file">as_data_pool_load_cache_file</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-load-metadata"><link linkend="as-data-pool-load-metadata">as_data_pool_load_metadata</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-new"><link linkend="as-data-pool-new">as_data_pool_new</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-refresh-cache"><link linkend="as-data-pool-refresh-cache">as_data_pool_refresh_cache</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-save-cache-file"><link linkend="as-data-pool-save-cache-file">as_data_pool_save_cache_file</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-scan-apt"><link linkend="as-data-pool-scan-apt">as_data_pool_scan_apt</link>, function in <link linkend="appstream-as-distro-extras">as-distro-extras</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-search"><link linkend="as-data-pool-search">as_data_pool_search</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-data-pool-set-cache-flags"><link linkend="as-data-pool-set-cache-flags">as_data_pool_set_cache_flags</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-set-locale"><link linkend="as-data-pool-set-locale">as_data_pool_set_locale</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-set-metadata-locations"><link linkend="as-data-pool-set-metadata-locations">as_data_pool_set_metadata_locations</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-data-pool-update"><link linkend="as-data-pool-update">as_data_pool_update</link>, function in <link linkend="AsDataPool">AsDataPool</link></primaryie></indexentry>
@@ -214,6 +226,7 @@
 <indexentry><primaryie linkends="as-image-set-locale"><link linkend="as-image-set-locale">as_image_set_locale</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-url"><link linkend="as-image-set-url">as_image_set_url</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-width"><link linkend="as-image-set-width">as_image_set_width</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-INTERNAL-VISIBLE:CAPS"><link linkend="AS-INTERNAL-VISIBLE:CAPS">AS_INTERNAL_VISIBLE</link>, macro in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueImportance"><link linkend="AsIssueImportance">AsIssueImportance</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueKind"><link linkend="AsIssueKind">AsIssueKind</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-is-cruft-locale"><link linkend="as-is-cruft-locale">as_is_cruft_locale</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
@@ -276,6 +289,7 @@
 <indexentry><primaryie linkends="as-provided-kind-to-string"><link linkend="as-provided-kind-to-string">as_provided_kind_to_string</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-provided-new"><link linkend="as-provided-new">as_provided_new</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-provided-set-kind"><link linkend="as-provided-set-kind">as_provided_set_kind</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-ptr-array-find-string"><link linkend="as-ptr-array-find-string">as_ptr_array_find_string</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-ptr-array-to-strv"><link linkend="as-ptr-array-to-strv">as_ptr_array_to_strv</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>R</title>
@@ -322,6 +336,9 @@
 <indexentry><primaryie linkends="AsSizeKind"><link linkend="AsSizeKind">AsSizeKind</link>, enum in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-size-kind-from-string"><link linkend="as-size-kind-from-string">as_size_kind_from_string</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-size-kind-to-string"><link linkend="as-size-kind-to-string">as_size_kind_to_string</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsStemmer-struct"><link linkend="AsStemmer-struct">AsStemmer</link>, struct in <link linkend="appstream-as-stemmer">as-stemmer</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-stemmer-new"><link linkend="as-stemmer-new">as_stemmer_new</link>, function in <link linkend="appstream-as-stemmer">as-stemmer</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-stemmer-stem"><link linkend="as-stemmer-stem">as_stemmer_stem</link>, function in <link linkend="appstream-as-stemmer">as-stemmer</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-str-replace"><link linkend="as-str-replace">as_str_replace</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>T</title>
@@ -336,7 +353,6 @@
 <indexentry><primaryie linkends="as-translation-new"><link linkend="as-translation-new">as_translation_new</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-translation-set-id"><link linkend="as-translation-set-id">as_translation_set_id</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-translation-set-kind"><link linkend="as-translation-set-kind">as_translation_set_kind</link>, function in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
-<indexentry><primaryie linkends="AS-TYPE-CACHE-BUILDER:CAPS"><link linkend="AS-TYPE-CACHE-BUILDER:CAPS">AS_TYPE_CACHE_BUILDER</link>, macro in <link linkend="AsCacheBuilder">AsCacheBuilder</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-CATEGORY:CAPS"><link linkend="AS-TYPE-CATEGORY:CAPS">AS_TYPE_CATEGORY</link>, macro in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-COMPONENT:CAPS"><link linkend="AS-TYPE-COMPONENT:CAPS">AS_TYPE_COMPONENT</link>, macro in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-DATABASE:CAPS"><link linkend="AS-TYPE-DATABASE:CAPS">AS_TYPE_DATABASE</link>, macro in <link linkend="AsDatabase">AsDatabase</link></primaryie></indexentry>
@@ -349,6 +365,7 @@
 <indexentry><primaryie linkends="AS-TYPE-PROVIDED:CAPS"><link linkend="AS-TYPE-PROVIDED:CAPS">AS_TYPE_PROVIDED</link>, macro in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-RELEASE:CAPS"><link linkend="AS-TYPE-RELEASE:CAPS">AS_TYPE_RELEASE</link>, macro in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-SCREENSHOT:CAPS"><link linkend="AS-TYPE-SCREENSHOT:CAPS">AS_TYPE_SCREENSHOT</link>, macro in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-STEMMER:CAPS"><link linkend="AS-TYPE-STEMMER:CAPS">AS_TYPE_STEMMER</link>, macro in <link linkend="appstream-as-stemmer">as-stemmer</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-TRANSLATION:CAPS"><link linkend="AS-TYPE-TRANSLATION:CAPS">AS_TYPE_TRANSLATION</link>, macro in <link linkend="AsTranslation">AsTranslation</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-VALIDATOR:CAPS"><link linkend="AS-TYPE-VALIDATOR:CAPS">AS_TYPE_VALIDATOR</link>, macro in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-VALIDATOR-ISSUE:CAPS"><link linkend="AS-TYPE-VALIDATOR-ISSUE:CAPS">AS_TYPE_VALIDATOR_ISSUE</link>, macro in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
@@ -369,6 +386,8 @@
 <indexentry><primaryie linkends="as-utils-find-files-matching"><link linkend="as-utils-find-files-matching">as_utils_find_files_matching</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-utils-is-root"><link linkend="as-utils-is-root">as_utils_is_root</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-utils-is-writable"><link linkend="as-utils-is-writable">as_utils_is_writable</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-utils-locale-to-language"><link linkend="as-utils-locale-to-language">as_utils_locale_to_language</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-utils-search-token-valid"><link linkend="as-utils-search-token-valid">as_utils_search_token_valid</link>, function in <link linkend="appstream-as-utils-private">as-utils-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>V</title>
 <indexentry><primaryie linkends="AsValidator-struct"><link linkend="AsValidator-struct">AsValidator</link>, struct in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>

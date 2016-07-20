@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-distro-extras">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-distro-extras.top_of_page">as-distro-extras</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-distro-extras</refname>
+<refpurpose>Private helper methods to integrate AppStream better with distros</refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-distro-extras.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-data-pool-scan-apt">as_data_pool_scan_apt</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+<refsect1 id="appstream-as-distro-extras.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
+
+<refsect1 id="appstream-as-distro-extras.description" role="desc">
+<title role="desc.title">Description</title>
+<para>This module mainly contains distribution-specific, non-public helper methods.</para>
+
+</refsect1>
+<refsect1 id="appstream-as-distro-extras.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-data-pool-scan-apt" role="function">
+<title>as_data_pool_scan_apt&#160;()</title>
+<indexterm zone="as-data-pool-scan-apt"><primary>as_data_pool_scan_apt</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_data_pool_scan_apt (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
+                       <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
+                       <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Scan for additional metadata in 3rd-party directories and move it to the right place.</para>
+</refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-distro-extras.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

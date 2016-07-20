@@ -4,10 +4,13 @@ find_package(GLIB2 2.46 REQUIRED)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
 find_package(GI REQUIRED)
 find_package(LibXml2 REQUIRED)
-find_package(Xapian 1.2 REQUIRED)
 find_package(Protobuf REQUIRED)
 find_library(M_LIB m)
 pkg_check_modules(YAML REQUIRED yaml-0.1)
+
+if (STEMMING)
+	find_library(SNOWBALL_LIB stemmer)
+endif ()
 
 include(GObjectIntrospectionMacros)
 set(INTROSPECTION_GIRS)
@@ -29,26 +32,21 @@ if (NOT PROTOBUF_PROTOC_EXECUTABLE)
 	message (FATAL_ERROR "ProtoBuf compiler (protoc) was not found!")
 endif ()
 
-protobuf_generate_cpp(AS_PROTO_SRCS AS_PROTO_HDRS xapian/asxentries.proto)
-
-set(ASLIB_XAP_SOURCES ${AS_PROTO_SRCS} ${AS_PROTO_HDRS}
-		xapian/database-schema.hpp
-		xapian/database-read.hpp
-		xapian/database-read.cpp
-		xapian/database-write.hpp
-		xapian/database-write.cpp
-		xapian/database-cwrap.hpp
-		xapian/database-cwrap.cpp
+protobuf_generate_cpp(AS_PROTO_SRCS AS_PROTO_HDRS pb/ascache.proto)
+set(ASLIB_CACHE_SOURCES ${AS_PROTO_SRCS} ${AS_PROTO_HDRS}
+		pb/as-cache-internal.h
+		pb/as-cache-internal.cpp
 )
-set_source_files_properties(${ASLIB_XAP_SOURCES} PROPERTIES COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
+set_source_files_properties(${ASLIB_CACHE_SOURCES} PROPERTIES COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
 
 set(APPSTREAM_LIB_SRC
 		as-utils.c
-		# internal stuff to build the database
-		as-cache-builder.c
+		# internal
 		as-xmldata.c
 		as-yamldata.c
-		# (mostly) public API
+		as-distro-extras.c
+		as-stemmer.c
+		# (mostly) public
 		as-metadata.c
 		as-component.c
 		as-enums.c
@@ -95,17 +93,17 @@ set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-component-private.h
 		as-screenshot-private.h
 		as-release-private.h
-		as-cache-builder.h
+		as-distro-extras.h
+		as-stemmer.h
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/xapian
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/pb
 		    ${CMAKE_BINARY_DIR}
 		    ${CMAKE_BINARY_DIR}/src
 		    ${GLIB2_INCLUDE_DIR}
 		    ${GIO2_INCLUDE_DIR}
 		    ${LIBXML2_INCLUDE_DIR}
 		    ${YAML_INCLUDE_DIR}
-		    ${XAPIAN_INCLUDE_DIR}
 		    ${PROTOBUF_INCLUDE_DIRS}
 )
 
@@ -116,7 +114,50 @@ if (INTROSPECTION_COMPILER STREQUAL "")
   message(FATAL_ERROR "GObject-Introspection was not found! Please install it to continue.")
 endif()
 
-add_library(appstream SHARED ${ASLIB_XAP_SOURCES} ${APPSTREAM_LIB_SRC} ${APPSTREAM_LIB_PUBLIC_HEADERS} ${APPSTREAM_LIB_PRIVATE_HEADERS})
+# GResources
+find_program (GCR_TOOL glib-compile-resources)
+if (NOT GCR_TOOL)
+	message(FATAL_ERROR "Could not find glib-compile-resources! Please mek the tool available to continue.")
+endif ()
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/as-resources.h
+	DEPENDS appstream.gresource.xml
+		${CMAKE_SOURCE_DIR}/data/xdg-category-names.txt
+	COMMAND ${GCR_TOOL}
+		"--sourcedir=${CMAKE_SOURCE_DIR}/data"
+		"--target=as-resources.h"
+		"--generate-header"
+		"--c-name=as"
+		"${CMAKE_CURRENT_SOURCE_DIR}/appstream.gresource.xml"
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	VERBATIM
+)
+
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/as-resources.c
+	DEPENDS appstream.gresource.xml
+		${CMAKE_SOURCE_DIR}/data/xdg-category-names.txt
+	COMMAND ${GCR_TOOL}
+		"--sourcedir=${CMAKE_SOURCE_DIR}/data"
+		"--target=as-resources.c"
+		"--generate-source"
+		"--c-name=as"
+		"${CMAKE_CURRENT_SOURCE_DIR}/appstream.gresource.xml"
+	WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
+	VERBATIM
+)
+
+set (APPSTREAM_LIB_GRESOURCE ${CMAKE_CURRENT_BINARY_DIR}/as-resources.c
+			      ${CMAKE_CURRENT_BINARY_DIR}/as-resources.h
+)
+
+add_library(appstream SHARED
+		${ASLIB_CACHE_SOURCES}
+		${APPSTREAM_LIB_SRC}
+		${APPSTREAM_LIB_PUBLIC_HEADERS}
+		${APPSTREAM_LIB_PRIVATE_HEADERS}
+		${APPSTREAM_LIB_GRESOURCE}
+)
+
 set_target_properties(appstream PROPERTIES VERSION ${AS_VERSION} SOVERSION ${APPSTREAM_LIB_API_LEVEL})
 
 target_link_libraries(appstream
@@ -125,8 +166,8 @@ target_link_libraries(appstream
 		${GIO2_LIBRARIES}
 		${LIBXML2_LIBRARIES}
 		${YAML_LIBRARIES}
-		${XAPIAN_LIBRARIES}
-		${PROTOBUF_LITE_LIBRARIES}
+		${PROTOBUF_LIBRARIES}
+		${SNOWBALL_LIB}
 )
 
 configure_file (${CMAKE_CURRENT_SOURCE_DIR}/appstream.pc.in ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc @ONLY)
@@ -160,6 +201,6 @@ gir_add_introspections(INTROSPECTION_GIRS)
 endif()
 ####
 
-install(TARGETS appstream DESTINATION ${CMAKE_INSTALL_LIBDIR})
+install(TARGETS appstream EXPORT AppStreamLibsTarget DESTINATION ${CMAKE_INSTALL_LIBDIR})
 install(FILES ${APPSTREAM_LIB_PUBLIC_HEADERS} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/AppStream)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/appstream.pc DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/)

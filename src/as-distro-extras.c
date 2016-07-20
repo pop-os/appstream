@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,215 +18,40 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "as-cache-builder.h"
+#include "config.h"
+#include "as-distro-extras.h"
 
-#include <config.h>
+/**
+ * SECTION:as-distro-extras
+ * @short_description: Private helper methods to integrate AppStream better with distros
+ * @include: appstream.h
+ *
+ * This module mainly contains distribution-specific, non-public helper methods.
+ */
+
 #include <glib.h>
 #include <glib/gstdio.h>
-#include <glib-object.h>
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <unistd.h>
 #include <errno.h>
 
-#include "xapian/database-cwrap.hpp"
 #include "as-utils.h"
 #include "as-utils-private.h"
-#include "as-data-pool.h"
-#include "as-settings-private.h"
-
-typedef struct
-{
-	struct XADatabaseWrite* db_w;
-	gchar* db_path;
-	gchar* cache_path;
-	time_t cache_ctime;
-	AsDataPool *dpool;
-} AsCacheBuilderPrivate;
-
-G_DEFINE_TYPE_WITH_PRIVATE (AsCacheBuilder, as_cache_builder, G_TYPE_OBJECT)
-#define GET_PRIVATE(o) (as_cache_builder_get_instance_private (o))
-
-/**
- * as_cache_builder_error_quark:
- *
- * Return value: An error quark.
- **/
-G_DEFINE_QUARK (as-cache-builder-error-quark, as_cache_builder_error)
-
-/**
- * as_cache_builder_init:
- **/
-static void
-as_cache_builder_init (AsCacheBuilder *builder)
-{
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	priv->db_w = xa_database_write_new ();
-	priv->dpool = as_data_pool_new ();
-	priv->cache_path = NULL;
-	priv->cache_ctime = 0;
-}
-
-/**
- * as_cache_builder_finalize:
- */
-static void
-as_cache_builder_finalize (GObject *object)
-{
-	AsCacheBuilder *builder = AS_CACHE_BUILDER (object);
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	xa_database_write_free (priv->db_w);
-	g_object_unref (priv->dpool);
-	g_free (priv->cache_path);
-	g_free (priv->db_path);
-
-	G_OBJECT_CLASS (as_cache_builder_parent_class)->finalize (object);
-}
-
-/**
- * as_cache_builder_class_init:
- **/
-static void
-as_cache_builder_class_init (AsCacheBuilderClass *klass)
-{
-	GObjectClass *object_class = G_OBJECT_CLASS (klass);
-	object_class->finalize = as_cache_builder_finalize;
-}
-
-/**
- * as_cache_builder_check_cache_ctime:
- * @builder: An instance of #AsCacheBuilder
- *
- * Update the cached cache-ctime. We need to cache it prior to potentially
- * creating a new database, so we will always rebuild the database in case
- * none existed previously.
- */
-static void
-as_cache_builder_check_cache_ctime (AsCacheBuilder *builder)
-{
-	struct stat cache_sbuf;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	if (stat (priv->db_path, &cache_sbuf) < 0)
-		priv->cache_ctime = 0;
-	else
-		priv->cache_ctime = cache_sbuf.st_ctime;
-}
-
-/**
- * as_cache_builder_setup:
- * @builder: An instance of #AsCacheBuilder.
- * @dbpath: (nullable) (default NULL): Path to the database directory, or %NULL to use default.
- *
- * Initialize the cache builder.
- */
-gboolean
-as_cache_builder_setup (AsCacheBuilder *builder, const gchar *dbpath, GError **error)
-{
-	gboolean ret;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	/* update database path if necessary */
-	g_free (priv->cache_path);
-	if (as_str_empty (dbpath)) {
-		priv->cache_path = g_strdup (AS_APPSTREAM_CACHE_PATH);
-	} else {
-		priv->cache_path = g_strdup (dbpath);
-	}
-	priv->db_path = g_build_filename (priv->cache_path, "xapian", "default", NULL);
-
-	/* users umask shouldn't interfere with us creating new files */
-	as_reset_umask ();
-
-	/* check the ctime of the cache directory, if it exists at all */
-	as_cache_builder_check_cache_ctime (builder);
-
-	/* try to create db directory, in case it doesn't exist */
-	g_mkdir_with_parents (priv->db_path, 0755);
-
-	if (!as_utils_is_writable (priv->db_path)) {
-		g_set_error (error,
-				AS_CACHE_BUILDER_ERROR,
-				AS_CACHE_BUILDER_ERROR_TARGET_NOT_WRITABLE,
-				_("Cache location '%s' is not writable."), priv->db_path);
-		return FALSE;
-	}
-
-	ret = xa_database_write_initialize (priv->db_w, priv->db_path);
-	return ret;
-}
-
-/**
- * as_cache_builder_ctime_newer:
- *
- * Returns: %TRUE if ctime of file is newer than the cached time.
- */
-static gboolean
-as_cache_builder_ctime_newer (AsCacheBuilder *builder, const gchar *dir)
-{
-	struct stat sb;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	if (stat (dir, &sb) < 0)
-		return FALSE;
-
-	if (sb.st_ctime > priv->cache_ctime)
-		return TRUE;
-
-	return FALSE;
-}
-
-/**
- * as_cache_builder_appstream_data_changed:
- */
-static gboolean
-as_cache_builder_appstream_data_changed (AsCacheBuilder *builder)
-{
-	guint i;
-	GPtrArray *locations;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	locations = as_data_pool_get_metadata_locations (priv->dpool);
-	for (i = 0; i < locations->len; i++) {
-		g_autofree gchar *xml_dir = NULL;
-		g_autofree gchar *yaml_dir = NULL;
-		const gchar *dir_root = (const gchar*) g_ptr_array_index (locations, i);
-
-		if (as_cache_builder_ctime_newer (builder, dir_root))
-			return TRUE;
-
-		xml_dir = g_build_filename (dir_root, "xmls", NULL);
-		if (as_cache_builder_ctime_newer (builder, xml_dir))
-			return TRUE;
-
-		yaml_dir = g_build_filename (dir_root, "yaml", NULL);
-		if (as_cache_builder_ctime_newer (builder, yaml_dir))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-#ifdef APT_SUPPORT
 
 #define YAML_SEPARATOR "---"
 /* Compilers will optimise this to a constant */
 #define YAML_SEPARATOR_LEN strlen(YAML_SEPARATOR)
 
 /**
- * as_cache_builder_get_yml_data_origin:
+ * as_get_yml_data_origin:
  *
  * Extract the data origin from the AppStream YAML file.
  * We don't use the #AsYAMLData loader, because it is much
  * slower than just loading the initial parts of the file and
  * extracting the origin manually.
  */
-gchar*
-as_cache_builder_get_yml_data_origin (const gchar *fname)
+static gchar*
+as_get_yml_data_origin (const gchar *fname)
 {
 	const gchar *data;
 	GZlibDecompressor *zdecomp;
@@ -289,10 +114,14 @@ as_cache_builder_get_yml_data_origin (const gchar *fname)
 }
 
 /**
- * as_cache_builder_extract_icons:
+ * as_extract_icon_cache_tarball:
  */
 static void
-as_cache_builder_extract_icons (const gchar *asicons_target, const gchar *origin, const gchar *apt_basename, const gchar *apt_lists_dir, const gchar *icons_size)
+as_extract_icon_cache_tarball (const gchar *asicons_target,
+			       const gchar *origin,
+			       const gchar *apt_basename,
+			       const gchar *apt_lists_dir,
+			       const gchar *icons_size)
 {
 	g_autofree gchar *icons_tarball = NULL;
 	g_autofree gchar *target_dir = NULL;
@@ -329,12 +158,12 @@ as_cache_builder_extract_icons (const gchar *asicons_target, const gchar *origin
 }
 
 /**
- * as_cache_builder_scan:
+ * as_data_pool_scan_apt:
  *
  * Scan for additional metadata in 3rd-party directories and move it to the right place.
  */
-static void
-as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **error)
+void
+as_data_pool_scan_apt (AsDataPool *dpool, gboolean force, GError **error)
 {
 	const gchar *apt_lists_dir = "/var/lib/apt/lists/";
 	const gchar *appstream_yml_target = "/var/lib/app-info/yaml";
@@ -343,7 +172,6 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 	g_autoptr(GError) tmp_error = NULL;
 	gboolean data_changed = FALSE;
 	guint i;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
 
 	/* skip this step if the APT lists directory doesn't exist */
 	if (!g_file_test (apt_lists_dir, G_FILE_TEST_IS_DIR)) {
@@ -412,7 +240,7 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 			const gchar *fname = (const gchar*) g_ptr_array_index (yml_files, i);
 			if (stat (fname, &sb) < 0)
 				continue;
-			if (sb.st_ctime > priv->cache_ctime) {
+			if (sb.st_ctime > as_data_pool_get_cache_age (dpool)) {
 				/* we need to update the cache */
 				data_changed = TRUE;
 				break;
@@ -464,7 +292,7 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 		}
 
 		/* get DEP-11 data origin */
-		origin = as_cache_builder_get_yml_data_origin (dest_fname);
+		origin = as_get_yml_data_origin (dest_fname);
 		if (origin == NULL) {
 			g_warning ("No origin found for file %s", fbasename);
 			continue;
@@ -474,12 +302,12 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 		file_baseprefix = g_strndup (fbasename, strlen (fbasename) - strlen (g_strrstr (fbasename, "_") + 1));
 
 		/* extract icons to their destination (if they exist at all */
-		as_cache_builder_extract_icons (appstream_icons_target,
+		as_extract_icon_cache_tarball (appstream_icons_target,
 						origin,
 						file_baseprefix,
 						apt_lists_dir,
 						"64x64");
-		as_cache_builder_extract_icons (appstream_icons_target,
+		as_extract_icon_cache_tarball (appstream_icons_target,
 						origin,
 						file_baseprefix,
 						apt_lists_dir,
@@ -488,113 +316,4 @@ as_cache_builder_scan_apt (AsCacheBuilder *builder, gboolean force, GError **err
 
 	/* ensure the cache-rebuild process notices these changes */
 	as_touch_location (appstream_yml_target);
-}
-#endif
-
-/**
- * as_cache_builder_refresh:
- * @builder: An instance of #AsCacheBuilder.
- * @force: Enforce refresh, even if source data has not changed.
- *
- * Update the AppStream Xapian cache.
- *
- * Returns: %TRUE if the cache was updated, %FALSE on error or if the cache update was not necessary and has been skipped.
- */
-gboolean
-as_cache_builder_refresh (AsCacheBuilder *builder, gboolean force, GError **error)
-{
-	gboolean ret = FALSE;
-	gboolean ret_poolupdate;
-	GList *cpt_list;
-	g_autoptr(GError) tmp_error = NULL;
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-
-	/* collect metadata */
-#ifdef APT_SUPPORT
-	/* currently, we only do something here if we are running with explicit APT support compiled in */
-	as_cache_builder_scan_apt (builder, force, &tmp_error);
-	if (tmp_error != NULL) {
-		/* the exact error is not forwarded here, since we might be able to partially update the cache */
-		g_warning ("Error while collecting metadata: %s", tmp_error->message);
-		g_error_free (tmp_error);
-		tmp_error = NULL;
-	}
-#endif
-
-	/* check if we need to refresh the cache
-	 * (which is only necessary if the AppStream data has changed) */
-	if (!as_cache_builder_appstream_data_changed (builder)) {
-		g_debug ("Data did not change, no cache refresh needed.");
-		if (force) {
-			g_debug ("Forcing refresh anyway.");
-		} else {
-			return FALSE;
-		}
-	}
-	g_debug ("Refreshing AppStream cache");
-
-	/* find them wherever they are */
-	ret_poolupdate = as_data_pool_update (priv->dpool, &tmp_error);
-	if (tmp_error != NULL) {
-		/* the exact error is not forwarded here, since we might be able to partially update the cache */
-		g_warning ("Error while updating the in-memory data pool: %s", tmp_error->message);
-		g_error_free (tmp_error);
-		tmp_error = NULL;
-	}
-
-	/* populate the cache */
-	cpt_list = as_data_pool_get_components (priv->dpool);
-	ret = xa_database_write_rebuild (priv->db_w, cpt_list);
-	g_list_free (cpt_list);
-
-	if (ret) {
-		if (!ret_poolupdate) {
-			g_set_error (error,
-				AS_CACHE_BUILDER_ERROR,
-				AS_CACHE_BUILDER_ERROR_CACHE_INCOMPLETE,
-				_("AppStream cache update completed, but some metadata was ignored due to errors."));
-		}
-		/* update the cache mtime, to not needlessly rebuild it again */
-		as_touch_location (priv->db_path);
-		as_cache_builder_check_cache_ctime (builder);
-	} else {
-		g_set_error (error,
-				AS_CACHE_BUILDER_ERROR,
-				AS_CACHE_BUILDER_ERROR_FAILED,
-				_("AppStream cache update failed."));
-	}
-
-	return TRUE;
-}
-
-/**
- * as_cache_builder_set_data_source_directories:
- * @builder: a valid #AsCacheBuilder instance
- * @dirs: (array zero-terminated=1): a zero-terminated array of data input directories.
- *
- * Set locations for the database builder to pull it's data from.
- * This is mainly used for testing purposes. Each location should have an
- * "xmls" and/or "yaml" subdirectory with the actual data as (compressed)
- * AppStream XML or DEP-11 YAML in it.
- */
-void
-as_cache_builder_set_data_source_directories (AsCacheBuilder *builder, gchar **dirs)
-{
-	AsCacheBuilderPrivate *priv = GET_PRIVATE (builder);
-	as_data_pool_set_metadata_locations (priv->dpool, dirs);
-}
-
-/**
- * as_cache_builder_new:
- *
- * Creates a new #AsCacheBuilder.
- *
- * Returns: (transfer full): a new #AsCacheBuilder
- **/
-AsCacheBuilder*
-as_cache_builder_new (void)
-{
-	AsCacheBuilder *builder;
-	builder = g_object_new (AS_TYPE_CACHE_BUILDER, NULL);
-	return AS_CACHE_BUILDER (builder);
 }

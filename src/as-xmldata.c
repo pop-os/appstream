@@ -74,8 +74,10 @@ libxml_generic_error (AsXMLData *xdt, const char *format, ...)
 {
 	GString *str;
 	va_list arg_ptr;
+	static GMutex mutex;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
+	g_mutex_lock (&mutex);
 	str = g_string_new (priv->last_error_msg? priv->last_error_msg : "");
 
 	va_start (arg_ptr, format);
@@ -84,6 +86,7 @@ libxml_generic_error (AsXMLData *xdt, const char *format, ...)
 
 	g_free (priv->last_error_msg);
 	priv->last_error_msg = g_string_free (str, FALSE);
+	g_mutex_unlock (&mutex);
 }
 
 /**
@@ -98,7 +101,6 @@ as_xmldata_init (AsXMLData *xdt)
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
 	priv->last_error_msg = NULL;
 	priv->check_valid = TRUE;
-	xmlSetGenericErrorFunc (xdt, (xmlGenericErrorFunc) libxml_generic_error);
 }
 
 /**
@@ -115,6 +117,7 @@ as_xmldata_finalize (GObject *object)
 	g_free (priv->media_baseurl);
 	g_free (priv->arch);
 	g_free (priv->last_error_msg);
+	xmlSetGenericErrorFunc (xdt, NULL);
 
 	G_OBJECT_CLASS (as_xmldata_parent_class)->finalize (object);
 }
@@ -125,9 +128,14 @@ as_xmldata_finalize (GObject *object)
 static void
 as_xmldata_clear_error (AsXMLData *xdt)
 {
+	static GMutex mutex;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
+
+	g_mutex_lock (&mutex);
 	g_free (priv->last_error_msg);
 	priv->last_error_msg = NULL;
+	xmlSetGenericErrorFunc (xdt, (xmlGenericErrorFunc) libxml_generic_error);
+	g_mutex_unlock (&mutex);
 }
 
 /**
@@ -666,11 +674,12 @@ as_xmldata_process_provides (AsXMLData *xdt, xmlNode* node, AsComponent* cpt)
 {
 	xmlNode *iter;
 	gchar *node_name;
-	gchar *content = NULL;
 	g_return_if_fail (xdt != NULL);
 	g_return_if_fail (cpt != NULL);
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
+		g_autofree gchar *content = NULL;
+
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
@@ -710,8 +719,6 @@ as_xmldata_process_provides (AsXMLData *xdt, xmlNode* node, AsComponent* cpt)
 			else if ((g_strcmp0 (dbustype, "user") == 0) || (g_strcmp0 (dbustype, "session") == 0))
 				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_DBUS_USER, content);
 		}
-
-		g_free (content);
 	}
 }
 
@@ -922,7 +929,7 @@ as_xmldata_parse_component_node (AsXMLData *xdt, xmlNode* node, AsComponent *cpt
 			g_auto(GStrv) mime_array = NULL;
 			guint i;
 
-			/* Mimetypes are essentially provided interfaces, that's why they belong into Asprovided.
+			/* Mimetypes are essentially provided interfaces, that's why they belong into AsProvided.
 			 * However, due to historic reasons, the spec has an own toplevel tag for them, so we need
 			 * to parse them here. */
 			mime_array = as_xmldata_get_children_as_strv (xdt, iter, "mimetype");
@@ -1051,7 +1058,7 @@ as_xmldata_parse_components_node (AsXMLData *xdt, GPtrArray *cpts, xmlNode* node
 }
 
 /**
- * as_component_xml_add_node:
+ * as_xmldata_xml_add_node:
  *
  * Add node if value is not empty
  */
@@ -1072,7 +1079,7 @@ as_xmldata_xml_add_node (xmlNode *root, const gchar *name, const gchar *value)
 static gboolean
 as_xmldata_xml_add_description (AsXMLData *xdt, xmlNode *root, xmlNode **desc_node, const gchar *description_markup, const gchar *lang)
 {
-	gchar *xmldata;
+	g_autofree gchar *xmldata = NULL;
 	xmlDoc *doc;
 	xmlNode *droot;
 	xmlNode *dnode;
@@ -1158,12 +1165,11 @@ as_xmldata_xml_add_description (AsXMLData *xdt, xmlNode *root, xmlNode **desc_no
 out:
 	if (doc != NULL)
 		xmlFreeDoc (doc);
-	g_free (xmldata);
 	return ret;
 }
 
 /**
- * as_component_xml_add_node_list:
+ * as_xmldata_xml_add_node_list:
  *
  * Add node if value is not empty
  */
@@ -1228,10 +1234,10 @@ as_xml_desc_lang_hashtable_to_nodes_cb (gchar *key, gchar *value, AsLocaleWriteH
 }
 
 /**
- * _as_xmldata_serialize_image:
+ * as_xml_serialize_image:
  */
 static void
-_as_xmldata_serialize_image (AsImage *img, xmlNode *subnode)
+as_xml_serialize_image (AsImage *img, xmlNode *subnode)
 {
 	xmlNode* n_image = NULL;
 	gchar *size;
@@ -1257,7 +1263,7 @@ _as_xmldata_serialize_image (AsImage *img, xmlNode *subnode)
 	}
 
 	locale = as_image_get_locale (img);
-	if (locale != NULL) {
+	if ((locale != NULL) && (g_strcmp0 (locale, "C") != 0)) {
 		xmlNewProp (n_image, (xmlChar*) "xml:lang", (xmlChar*) locale);
 	}
 
@@ -1283,19 +1289,19 @@ as_xmldata_add_screenshot_subnodes (AsComponent *cpt, xmlNode *root)
 		GPtrArray *images;
 		sshot = (AsScreenshot*) g_ptr_array_index (sslist, i);
 
-		subnode = xmlNewTextChild (root, NULL, (xmlChar*) "screenshot", (xmlChar*) "");
+		subnode = xmlNewChild (root, NULL, (xmlChar*) "screenshot", (xmlChar*) "");
 		if (as_screenshot_get_kind (sshot) == AS_SCREENSHOT_KIND_DEFAULT)
 			xmlNewProp (subnode, (xmlChar*) "type", (xmlChar*) "default");
 
 		str = as_screenshot_get_caption (sshot);
-		if (g_strcmp0 (str, "") != 0) {
+		if (str != NULL) {
 			xmlNode* n_caption;
 			n_caption = xmlNewTextChild (subnode, NULL, (xmlChar*) "caption", (xmlChar*) str);
 			xmlAddChild (subnode, n_caption);
 		}
 
 		images = as_screenshot_get_images (sshot);
-		g_ptr_array_foreach (images, (GFunc) _as_xmldata_serialize_image, subnode);
+		g_ptr_array_foreach (images, (GFunc) as_xml_serialize_image, subnode);
 	}
 }
 
@@ -1406,6 +1412,113 @@ as_xmldata_add_release_subnodes (AsXMLData *xdt, AsComponent *cpt, xmlNode *root
 }
 
 /**
+ * as_xml_serialize_provides:
+ */
+static void
+as_xml_serialize_provides (AsComponent *cpt, xmlNode *cnode)
+{
+	xmlNode *node;
+	g_autoptr(GList) prov_list = NULL;
+	GList *l;
+	gchar **items;
+	guint i;
+	AsProvided *prov_mime;
+
+	prov_list = as_component_get_provided (cpt);
+	if (prov_list == NULL)
+		return;
+
+	prov_mime = as_component_get_provided_for_kind (cpt, AS_PROVIDED_KIND_MIMETYPE);
+	if (prov_mime != NULL) {
+		/* mimetypes get special treatment in XML for historical reasons */
+		node = xmlNewChild (cnode, NULL, (xmlChar*) "mimetypes", NULL);
+		items = as_provided_get_items (prov_mime);
+
+		for (i = 0; items[i] != NULL; i++) {
+			xmlNewTextChild (node,
+					  NULL,
+					  (xmlChar*) "mimetype",
+					  (xmlChar*) items[i]);
+		}
+	}
+
+	/* check if we only had mimetype provided items, in that case we don't need to continue */
+	if ((as_provided_get_kind (AS_PROVIDED (prov_list->data)) == AS_PROVIDED_KIND_MIMETYPE) &&
+	    (prov_list->next == NULL))
+		return;
+
+	node = xmlNewChild (cnode, NULL, (xmlChar*) "provides", NULL);
+	for (l = prov_list; l != NULL; l = l->next) {
+		AsProvided *prov = AS_PROVIDED (l->data);
+
+		items = as_provided_get_items (prov);
+		switch (as_provided_get_kind (prov)) {
+			case AS_PROVIDED_KIND_MIMETYPE:
+				/* we already handled those */
+				break;
+			case AS_PROVIDED_KIND_LIBRARY:
+				as_xmldata_xml_add_node_list (node, NULL,
+							      "library",
+							      items);
+				break;
+			case AS_PROVIDED_KIND_BINARY:
+				as_xmldata_xml_add_node_list (node, NULL,
+							      "binary",
+							      items);
+				break;
+			case AS_PROVIDED_KIND_MODALIAS:
+				as_xmldata_xml_add_node_list (node, NULL,
+							      "modalias",
+							      items);
+				break;
+			case AS_PROVIDED_KIND_PYTHON_2:
+				as_xmldata_xml_add_node_list (node, NULL,
+							      "python2",
+							      items);
+				break;
+			case AS_PROVIDED_KIND_PYTHON:
+				as_xmldata_xml_add_node_list (node, NULL,
+							      "python3",
+							      items);
+				break;
+			case AS_PROVIDED_KIND_FIRMWARE_RUNTIME:
+				for (i = 0; items[i] != NULL; i++) {
+					xmlNode *n;
+					n = xmlNewTextChild (node, NULL, (xmlChar*) "firmware", (xmlChar*) items[i]);
+					xmlNewProp (n, (xmlChar*) "type", (xmlChar*) "runtime");
+				}
+				break;
+			case AS_PROVIDED_KIND_FIRMWARE_FLASHED:
+				for (i = 0; items[i] != NULL; i++) {
+					xmlNode *n;
+					n = xmlNewTextChild (node, NULL, (xmlChar*) "firmware", (xmlChar*) items[i]);
+					xmlNewProp (n, (xmlChar*) "type", (xmlChar*) "runtime");
+				}
+				break;
+			case AS_PROVIDED_KIND_DBUS_SYSTEM:
+				for (i = 0; items[i] != NULL; i++) {
+					xmlNode *n;
+					n = xmlNewTextChild (node, NULL, (xmlChar*) "dbus", (xmlChar*) items[i]);
+					xmlNewProp (n, (xmlChar*) "type", (xmlChar*) "system");
+				}
+				break;
+			case AS_PROVIDED_KIND_DBUS_USER:
+				for (i = 0; items[i] != NULL; i++) {
+					xmlNode *n;
+					n = xmlNewTextChild (node, NULL, (xmlChar*) "dbus", (xmlChar*) items[i]);
+					xmlNewProp (n, (xmlChar*) "type", (xmlChar*) "user");
+				}
+				break;
+
+			default:
+				/* TODO: Serialize fonts tag properly */
+				g_debug ("Couldn't serialize provided-item type '%s'", as_provided_kind_to_string (as_provided_get_kind (prov)));
+				break;
+		}
+	}
+}
+
+/**
  * as_xml_serialize_languages:
  */
 static void
@@ -1420,7 +1533,7 @@ as_xml_serialize_languages (AsComponent *cpt, xmlNode *cnode)
 	if (g_hash_table_size (lang_table) == 0)
 		return;
 
-	node = xmlNewTextChild (cnode, NULL, (xmlChar*) "languages", NULL);
+	node = xmlNewChild (cnode, NULL, (xmlChar*) "languages", NULL);
 	g_hash_table_iter_init (&iter, lang_table);
 	while (g_hash_table_iter_next (&iter, &key, &value)) {
 		guint percentage;
@@ -1593,16 +1706,19 @@ as_xmldata_component_to_node (AsXMLData *xdt, AsComponent *cpt)
 	/* screenshots node */
 	screenshots = as_component_get_screenshots (cpt);
 	if (screenshots->len > 0) {
-		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
+		node = xmlNewChild (cnode, NULL, (xmlChar*) "screenshots", NULL);
 		as_xmldata_add_screenshot_subnodes (cpt, node);
 	}
 
 	/* releases node */
 	releases = as_component_get_releases (cpt);
 	if (releases->len > 0) {
-		node = xmlNewTextChild (cnode, NULL, (xmlChar*) "releases", NULL);
+		node = xmlNewChild (cnode, NULL, (xmlChar*) "releases", NULL);
 		as_xmldata_add_release_subnodes (xdt, cpt, node);
 	}
+
+	/* provides & mimetypes node */
+	as_xml_serialize_provides (cpt, cnode);
 
 	/* languages node */
 	as_xml_serialize_languages (cpt, cnode);
@@ -1706,6 +1822,7 @@ as_xmldata_parse_document (AsXMLData *xdt, const gchar *data, GError **error)
 		return NULL;
 	}
 
+	as_xmldata_clear_error (xdt);
 	doc = xmlReadMemory (data, strlen (data),
 			     NULL,
 			     "utf-8",
@@ -1715,7 +1832,6 @@ as_xmldata_parse_document (AsXMLData *xdt, const gchar *data, GError **error)
 				AS_METADATA_ERROR,
 				AS_METADATA_ERROR_FAILED,
 				"Could not parse XML data: %s", priv->last_error_msg);
-		as_xmldata_clear_error (xdt);
 		return NULL;
 	}
 
@@ -1802,6 +1918,7 @@ as_xmldata_serialize_to_upstream (AsXMLData *xdt, AsComponent *cpt)
 		g_debug ("Can not serialize '%s': Component is invalid.", as_component_get_id (cpt));
 		return NULL;
 	}
+	as_xmldata_clear_error (xdt);
 
 	priv->mode = AS_PARSER_MODE_UPSTREAM;
 	doc = xmlNewDoc ((xmlChar*) NULL);
@@ -1833,7 +1950,10 @@ as_xmldata_serialize_to_distro_with_rootnode (AsXMLData *xdt, GPtrArray *cpts)
 	guint i;
 	AsXMLDataPrivate *priv = GET_PRIVATE (xdt);
 
+	/* initialize */
+	as_xmldata_clear_error (xdt);
 	priv->mode = AS_PARSER_MODE_DISTRO;
+
 	root = xmlNewNode (NULL, (xmlChar*) "components");
 	xmlNewProp (root, (xmlChar*) "version", (xmlChar*) "0.8");
 	if (priv->origin != NULL)
@@ -1880,6 +2000,7 @@ as_xmldata_serialize_to_distro_without_rootnode (AsXMLData *xdt, GPtrArray *cpts
 
 	out_data = g_string_new ("");
 	priv->mode = AS_PARSER_MODE_DISTRO;
+	as_xmldata_clear_error (xdt);
 
 	for (i = 0; i < cpts->len; i++) {
 		AsComponent *cpt;

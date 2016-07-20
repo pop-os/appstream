@@ -35,12 +35,25 @@ AsDataPool
 </para>
 
 
+<!-- ##### ENUM AsCacheFlags ##### -->
+<para>
+
+</para>
+
+@AS_CACHE_FLAG_NONE: 
+@AS_CACHE_FLAG_USE_USER: 
+@AS_CACHE_FLAG_USE_SYSTEM: 
+
 <!-- ##### ENUM AsDataPoolError ##### -->
 <para>
 
 </para>
 
 @AS_DATA_POOL_ERROR_FAILED: 
+@AS_DATA_POOL_ERROR_TARGET_NOT_WRITABLE: 
+@AS_DATA_POOL_ERROR_INCOMPLETE: 
+@AS_DATA_POOL_ERROR_COLLISION: 
+@AS_DATA_POOL_ERROR_TERM_INVALID: 
 
 <!-- ##### MACRO AS_DATA_POOL_ERROR ##### -->
 <para>
@@ -85,12 +98,63 @@ AsDataPool
 @locale: 
 
 
-<!-- ##### FUNCTION as_data_pool_update ##### -->
+<!-- ##### FUNCTION as_data_pool_load ##### -->
 <para>
 
 </para>
 
 @dpool: 
+@cancellable: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_load_metadata ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_load_cache_file ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@fname: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_save_cache_file ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@fname: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_clear ##### -->
+<para>
+
+</para>
+
+@dpool: 
+
+
+<!-- ##### FUNCTION as_data_pool_add_component ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@cpt: 
 @error: 
 @Returns: 
 
@@ -114,6 +178,49 @@ AsDataPool
 @Returns: 
 
 
+<!-- ##### FUNCTION as_data_pool_get_components_by_provided_item ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@kind: 
+@item: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_get_components_by_kind ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@kind: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_get_components_by_categories ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@categories: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_search ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@term: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_data_pool_get_metadata_locations ##### -->
 <para>
 
@@ -130,6 +237,54 @@ AsDataPool
 
 @dpool: 
 @dirs: 
+
+
+<!-- ##### FUNCTION as_data_pool_get_cache_flags ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_set_cache_flags ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@flags: 
+
+
+<!-- ##### FUNCTION as_data_pool_refresh_cache ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@force: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_get_cache_age ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_data_pool_update ##### -->
+<para>
+
+</para>
+
+@dpool: 
+@error: 
+@Returns: 
 
 
 <!-- ##### STRUCT AsDataPool ##### -->

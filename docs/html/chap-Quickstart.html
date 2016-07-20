@@ -9,7 +9,7 @@
 		</div><div class="para">
 			To solve this, we have defined a new data file, which the upstream project can optionally translate using the same technique as <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> or GSetting schemas. The AppData specification is a subset of the AppStream metadata (see <a class="xref" href="chap-DistroData.html#sect-AppStream-ASXML">Section 3.1, “AppStream distribution XML files”</a>) and extends the generic component metadata with fields specific for applications (see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>).
 		</div><div class="para">
-			The AppData files override any values which are automatically fetched by the AppStream data generator. Applications can ship one or more files in <code class="filename">/usr/share/appdata/%{id}.appdata.xml</code>.
+			The AppData files override any values which are automatically fetched by the AppStream data generator. Applications can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.appdata.xml</code>.
 		</div><div class="para">
 			AppData files can - just like all other metainfo files - be translated. See the section about translation for more information about that.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
@@ -47,10 +47,10 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshots&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;screenshot</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"default"</span><span xmlns="" class="perl_Keyword">&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;caption&gt;</span>The options dialog<span xmlns="" class="perl_Keyword">&lt;/caption&gt;</span>
-<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"800"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"600"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/main.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;image&gt;</span>http://www.hughsie.com/en_US/main.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
-<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"800"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"600"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.hughsie.com/en_US/preferences.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;image&gt;</span>http://www.hughsie.com/en_US/preferences.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshots&gt;</span>
 <span xmlns="" class="line">​</span>
@@ -128,7 +128,7 @@
       ⁠</a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						A screenshot presents your application to the outside world, and could be seen by hundreds or thousands of people.
 					</div><div class="para">
-						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which should define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the application's primary screenshot. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child, which may define the width and height of the referenced image in it's properties. The value of the <code class="code">&lt;image/&gt;</code> tag is a direct URL to a screenshot uploaded to a public location on the web.
 					</div><div class="para">
 						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a <code class="code">&lt;caption/&gt;</code> child, defining a short (not more than 180 characters!) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
@@ -217,13 +217,13 @@
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="qsr-app-contents-suggestions">
       ⁠</a>4.1.4. Suggested metadata file contents</h3></div></div></div><div class="para">
-			You may choose to add these tags as well, if you need them.
-		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
+			It is useful to add these tags as well if they make sense for the described application. They are not strictly required to be present though.
+		</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
+						The application metainfo may include one <code class="code">&lt;releases/&gt;</code> tag, which has one or multiple <code class="code">&lt;release/&gt;</code> subnodes to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> .
+					</div><div class="para">
+						It is very useful to attach short release-notes to a <code class="code">&lt;release/&gt;</code> using the <code class="code">&lt;description/&gt;</code> subnode. These release-notes should contain brief information about what is new in the release, in a way which is understandable by non-technical users.
+					</div></dd><dt><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
 						This tag is described in detail for generic components at <a class="xref" href="chap-Metadata.html#tag-provides">&lt;provides/&gt;</a>.
 					</div><div class="para">
-						If your application ships a binary in a location in the default <code class="envar">PATH</code>, you should add at least a child of type <code class="code">&lt;binary/&gt;</code> to make that new executable known to the distribution.
-					</div></dd><dt><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
-						The application metainfo should at least provide one <code class="code">&lt;releases/&gt;</code> tag, which has one or more <code class="code">&lt;release/&gt;</code> childs to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> .
-					</div><div class="para">
-						Additionally, the <code class="code">&lt;release/&gt;</code> might be described in a short manner using the <code class="code">&lt;description/&gt;</code> child tag, which should give brief information about what is new in the release, in a way which is understandable by non-technical users.
+						If your application ships a binary in a location in the default <code class="envar">PATH</code>, it is useful to add at least a child of type <code class="code">&lt;binary/&gt;</code> to make it easily possible to find your application's metadata using the name of its binary.
 					</div></dd></dl></div></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-AppStream-IconCache.html"><strong>Prev</strong>3.3. Icon Cache</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Quickstart-Addons.html"><strong>Next</strong>4.2. For upstream projects providing addons</a></li></ul></body></html>

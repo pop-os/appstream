@@ -1,14 +1,14 @@
-59% symbol docs coverage.
-369 symbols documented.
-49 symbols incomplete.
-256 not documented.
+60% symbol docs coverage.
+390 symbols documented.
+55 symbols incomplete.
+262 not documented.
 
 
-AS_CACHE_BUILDER_ERROR
+AS_BUNDLE_KIND_XDG_APP
 AS_DATABASE_ERROR
 AS_DATA_POOL_ERROR
+AS_INTERNAL_VISIBLE
 AS_METADATA_ERROR
-AS_TYPE_CACHE_BUILDER
 AS_TYPE_CATEGORY
 AS_TYPE_COMPONENT
 AS_TYPE_DATABASE
@@ -21,13 +21,12 @@ AS_TYPE_METADATA
 AS_TYPE_PROVIDED
 AS_TYPE_RELEASE
 AS_TYPE_SCREENSHOT
+AS_TYPE_STEMMER
 AS_TYPE_TRANSLATION
 AS_TYPE_VALIDATOR
 AS_TYPE_VALIDATOR_ISSUE
 AS_TYPE_XMLDATA
 AS_TYPE_YAMLDATA
-AsCacheBuilder
-AsCacheBuilderClass
 AsCategory
 AsCategoryClass
 AsComponent
@@ -53,6 +52,7 @@ AsRelease
 AsReleaseClass
 AsScreenshot
 AsScreenshotClass
+AsStemmer
 AsTranslation
 AsTranslationClass
 AsValidator
@@ -63,18 +63,9 @@ AsXMLData
 AsXMLDataClass
 AsYAMLData
 AsYAMLDataClass
-_as_xmldata_serialize_image
 as_arch_compatible (Returns)
-as_cache_builder_appstream_data_changed
-as_cache_builder_class_init
-as_cache_builder_ctime_newer
-as_cache_builder_error_quark
-as_cache_builder_extract_icons
-as_cache_builder_finalize
-as_cache_builder_init
-as_cache_builder_refresh (error)
-as_cache_builder_set_data_source_directories (self)
-as_cache_builder_setup (error, Returns)
+as_cache_read
+as_cache_write
 as_category_class_init
 as_category_complete (cat)
 as_category_finalize
@@ -93,7 +84,12 @@ as_category_set_icon (value)
 as_category_set_level
 as_category_set_name (value)
 as_category_set_property
+as_component_add_token
+as_component_add_token_helper
+as_component_add_tokens
 as_component_class_init
+as_component_create_token_cache
+as_component_create_token_cache_target
 as_component_finalize
 as_component_get_categories
 as_component_get_compulsory_for_desktops
@@ -111,17 +107,25 @@ as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
 as_copy_file (source, destination, error, Returns)
+as_data_pool_appstream_data_changed
 as_data_pool_class_init
+as_data_pool_ctime_newer
 as_data_pool_error_quark
 as_data_pool_finalize
+as_data_pool_get_cache_age (Returns)
+as_data_pool_get_cache_flags (Returns)
 as_data_pool_init
-as_data_pool_load_metadata
+as_data_pool_load (cancellable)
+as_data_pool_load_cache_file (Returns)
+as_data_pool_load_metadata (dpool, Returns)
+as_data_pool_refresh_cache (error)
+as_data_pool_save_cache_file (Returns)
+as_data_pool_scan_apt (dpool, force, error)
 as_database_class_init
 as_database_error_quark
 as_database_finalize
 as_database_get_location (Returns)
 as_database_init
-as_database_test_opened
 as_distro_details_class_init
 as_distro_details_finalize
 as_distro_details_get_bool
@@ -135,6 +139,7 @@ as_distro_details_set_distro_id
 as_distro_details_set_name
 as_distro_details_set_property
 as_distro_details_set_version
+as_extract_icon_cache_tarball
 as_icon_class_init
 as_icon_finalize
 as_icon_get_filename
@@ -201,6 +206,9 @@ as_screenshot_get_caption_table (screenshot, Returns)
 as_screenshot_init
 as_screenshot_set_active_locale (screenshot, locale)
 as_screenshot_set_caption (locale)
+as_stemmer_class_init
+as_stemmer_finalize
+as_stemmer_init
 as_str_replace
 as_touch_location (Returns)
 as_translation_class_init
@@ -211,7 +219,7 @@ as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_root
 as_utils_is_writable (Returns)
-as_utils_locale_to_language
+as_utils_locale_to_language (Returns)
 as_validator_add_issue
 as_validator_check_appear_once
 as_validator_check_children_quick
@@ -233,7 +241,9 @@ as_validator_validate_tree (Returns)
 as_xml_desc_lang_hashtable_to_nodes_cb
 as_xml_icon_set_size_from_node
 as_xml_lang_hashtable_to_nodes_cb
+as_xml_serialize_image
 as_xml_serialize_languages
+as_xml_serialize_provides
 as_xmldata_class_init
 as_xmldata_clear_error
 as_xmldata_dump_node_children
@@ -299,14 +309,17 @@ dep11_process_image
 dep11_process_provides
 dep11_process_urls
 
-as-cache-builder:Long_Description
-as-cache-builder:Short_Description
+as_data_pool_update
+
+as-cache-internal:Long_Description
+as-cache-internal:Short_Description
 as-enums:Long_Description
 as-icon:Long_Description
 as-release-private:Long_Description
 as-release-private:Short_Description
 as-screenshot-private:Long_Description
 as-screenshot-private:Short_Description
+as-stemmer:Long_Description
 as-utils-private:Long_Description
 as-utils-private:Short_Description
 as-yamldata:Short_Description

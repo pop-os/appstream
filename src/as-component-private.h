@@ -23,8 +23,12 @@
 
 #include <glib-object.h>
 #include "as-component.h"
+#include "as-utils-private.h"
 
 G_BEGIN_DECLS
+#pragma GCC visibility push(hidden)
+
+typedef guint16		AsTokenType; /* big enough for both bitshifts */
 
 int			as_component_get_priority (AsComponent *cpt);
 void			as_component_set_priority (AsComponent *cpt,
@@ -41,9 +45,13 @@ GHashTable		*as_component_get_summary_table (AsComponent *cpt);
 GHashTable		*as_component_get_description_table (AsComponent *cpt);
 GHashTable		*as_component_get_developer_name_table (AsComponent *cpt);
 GHashTable		*as_component_get_keywords_table (AsComponent *cpt);
+
+AS_INTERNAL_VISIBLE
 GHashTable		*as_component_get_urls_table (AsComponent *cpt);
+
+AS_INTERNAL_VISIBLE
 GHashTable		*as_component_get_bundles_table (AsComponent *cpt);
-void			as_component_set_bundles_table (AsComponent *cpt,
+void			 as_component_set_bundles_table (AsComponent *cpt,
 							GHashTable *bundles);
 
 gboolean		as_component_has_package (AsComponent *cpt);
@@ -60,6 +68,12 @@ const gchar		*as_component_get_architecture (AsComponent *cpt);
 void			 as_component_set_architecture (AsComponent *cpt,
 							const gchar *arch);
 
+void			 as_component_create_token_cache (AsComponent *cpt);
+GHashTable		*as_component_get_token_cache_table (AsComponent *cpt);
+void			 as_component_set_token_cache_valid (AsComponent *cpt,
+							     gboolean valid);
+
+#pragma GCC visibility pop
 G_END_DECLS
 
 #endif /* __AS_COMPONENT_PRIVATE_H */

@@ -144,6 +144,10 @@
 </entry><entry role="function_name"><link linkend="as-component-get-bundle-id">as_component_get_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-add-bundle-id">as_component_add_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-search-tokens">as_component_get_search_tokens</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-search-matches">as_component_search_matches</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -420,7 +424,7 @@ as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <indexterm zone="as-component-get-id"><primary>as_component_get_id</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Set the unique identifier for this component.</para>
+<para>Get the unique identifier for this component.</para>
 <refsect3 id="as-component-get-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -1669,6 +1673,55 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
+<refsect2 id="as-component-get-search-tokens" role="function" condition="since:0.9.7">
+<title>as_component_get_search_tokens&#160;()</title>
+<indexterm zone="as-component-get-search-tokens" role="0.9.7"><primary>as_component_get_search_tokens</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_component_get_search_tokens (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns all search tokens for this component.</para>
+<refsect3 id="as-component-get-search-tokens.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-search-tokens.returns" role="returns">
+<title>Returns</title>
+<para> The string search tokens. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.7">0.9.7</link></para></refsect2>
+<refsect2 id="as-component-search-matches" role="function" condition="since:0.9.7">
+<title>as_component_search_matches&#160;()</title>
+<indexterm zone="as-component-search-matches" role="0.9.7"><primary>as_component_search_matches</primary></indexterm>
+<programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+as_component_search_matches (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *search_term</parameter>);</programlisting>
+<para>Searches component data for a specific keyword.</para>
+<refsect3 id="as-component-search-matches.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>search_term</para></entry>
+<entry role="parameter_description"><para>the search term.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-search-matches.returns" role="returns">
+<title>Returns</title>
+<para> a match scrore, where 0 is no match and 100 is the best match.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.7">0.9.7</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">

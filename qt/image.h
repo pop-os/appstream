@@ -43,13 +43,14 @@ class ImageData;
  */
 class APPSTREAMQT_EXPORT Image {
     Q_GADGET
-    Q_ENUMS(Kind)
     public:
         enum Kind {
             Unknown,
             Thumbnail,
             Plain
         };
+        Q_ENUM(Kind)
+
         Image();
         Image(const Image& other);
         ~Image();
@@ -85,6 +86,6 @@ class APPSTREAMQT_EXPORT Image {
 };
 }
 
-#endif // APPSTREAMQT_IMAGE_H
+APPSTREAMQT_EXPORT QDebug operator<<(QDebug s, const Appstream::Image& image);
 
-class QUrl;
+#endif // APPSTREAMQT_IMAGE_H

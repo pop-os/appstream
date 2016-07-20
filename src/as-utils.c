@@ -38,6 +38,7 @@
 #include <errno.h>
 
 #include "as-category.h"
+#include "as-resources.h"
 
 /**
  * SECTION:as-utils
@@ -490,9 +491,9 @@ as_ptr_array_to_strv (GPtrArray *array)
 	g_return_val_if_fail (array != NULL, NULL);
 
 	/* copy the array to a strv */
-	value = g_new0 (gchar *, array->len + 1);
-	for (i=0; i<array->len; i++) {
-		value_temp = (const gchar *) g_ptr_array_index (array, i);
+	value = g_new0 (gchar*, array->len + 1);
+	for (i = 0; i < array->len; i++) {
+		value_temp = (const gchar*) g_ptr_array_index (array, i);
 		value[i] = g_strdup (value_temp);
 	}
 
@@ -697,8 +698,11 @@ as_arch_compatible (const gchar *arch1, const gchar *arch2)
 
 /**
  * as_utils_locale_to_language:
- **/
-static gchar*
+ * @locale: The locale string.
+ *
+ * Get language part from a locale string.
+ */
+gchar*
 as_utils_locale_to_language (const gchar *locale)
 {
 	gchar *tmp;
@@ -714,6 +718,28 @@ as_utils_locale_to_language (const gchar *locale)
 	if (tmp != NULL)
 		*tmp = '\0';
 	return country_code;
+}
+
+/**
+ * as_ptr_array_find_string:
+ * @array: gchar* array
+ * @value: string to find
+ *
+ * Finds a string in a pointer array.
+ *
+ * Returns: the const string, or %NULL if not found
+ **/
+const gchar*
+as_ptr_array_find_string (GPtrArray *array, const gchar *value)
+{
+	const gchar *tmp;
+	guint i;
+	for (i = 0; i < array->len; i++) {
+		tmp = g_ptr_array_index (array, i);
+		if (g_strcmp0 (tmp, value) == 0)
+			return tmp;
+	}
+	return NULL;
 }
 
 /**
@@ -761,4 +787,84 @@ as_utils_locale_is_compatible (const gchar *locale1, const gchar *locale2)
 	if (g_strcmp0 (lang1, locale2) == 0)
 		return TRUE;
 	return FALSE;
+}
+
+/**
+ * as_utils_search_token_valid:
+ * @token: the search token
+ *
+ * Checks the search token if it is valid. Valid tokens are at least 3 chars in
+ * length, not common words like "and", and do not contain markup.
+ *
+ * Returns: %TRUE is the search token was valid.
+ **/
+gboolean
+as_utils_search_token_valid (const gchar *token)
+{
+	guint i;
+	/* TODO: Localize this list */
+	const gchar *blacklist[] = {
+		"and", "the", "application", "for", "you", "your",
+		"with", "can", "are", "from", "that", "use", "allows", "also",
+		"this", "other", "all", "using", "has", "some", "like", "them",
+		"well", "not", "using", "not", "but", "set", "its", "into",
+		"such", "was", "they", "where", "want", "only", "about",
+		"uses", "font", "features", "designed", "provides", "which",
+		"many", "used", "org", "fonts", "open", "more", "based",
+		"different", "including", "will", "multiple", "out", "have",
+		"each", "when", "need", "most", "both", "their", "even",
+		"way", "several", "been", "while", "very", "add", "under",
+		"what", "those", "much", "either", "currently", "one",
+		"support", "make", "over", "these", "there", "without", "etc",
+		"main",
+		NULL };
+	if (strlen (token) < 3)
+		return FALSE;
+	if (g_strstr_len (token, -1, "<") != NULL)
+		return FALSE;
+	if (g_strstr_len (token, -1, ">") != NULL)
+		return FALSE;
+	if (g_strstr_len (token, -1, "(") != NULL)
+		return FALSE;
+	if (g_strstr_len (token, -1, ")") != NULL)
+		return FALSE;
+	for (i = 0; blacklist[i] != NULL; i++)  {
+		if (g_strcmp0 (token, blacklist[i]) == 0)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_utils_is_category_id:
+ * @category_name: an XDG category name, e.g. "ProjectManagement"
+ *
+ * Searches the known list of registered XDG category names.
+ * See https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
+ * for a reference.
+ *
+ * Returns: %TRUE if the category name is valid
+ *
+ * Since: 0.9.7
+ **/
+gboolean
+as_utils_is_category_name (const gchar *category_name)
+{
+	g_autoptr(GBytes) data = NULL;
+	g_autofree gchar *key = NULL;
+
+	/* custom spec-extensions are generally valid if prefixed correctly */
+	if (g_str_has_prefix (category_name, "X-"))
+		return TRUE;
+
+	/* load the readonly data section and look for the icon name */
+	data = g_resource_lookup_data (as_get_resource (),
+				       "/org/freedesktop/appstream/xdg-category-names.txt",
+				       G_RESOURCE_LOOKUP_FLAGS_NONE,
+				       NULL);
+	if (data == NULL)
+		return FALSE;
+	key = g_strdup_printf ("\n%s\n", category_name);
+	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
 }
