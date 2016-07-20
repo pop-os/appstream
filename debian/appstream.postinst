@@ -2,7 +2,7 @@
 # postinst script for appstream
 set -e
 
-# Force-upgrade the database, in case something has changed
+# Force-upgrade the cache, in case something has changed
 appstreamcli refresh-index --force || true
 
 #DEBHELPER#

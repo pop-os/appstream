@@ -4,7 +4,7 @@ set -e
 
 if [ "$1" = "purge" ]; then
     # remove the AppStream cache
-    rm -rf /var/cache/app-info/xapian
+    rm -rf /var/cache/app-info/pb
     rmdir /var/cache/app-info/ | true
 
     # remove the AppStream data
