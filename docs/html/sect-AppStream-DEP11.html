@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">3.2. Debian DEP-11 specification</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.9-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-DistroData.html" title="Chapter 3. Distribution Metadata and Services" /><link rel="prev" href="chap-DistroData.html" title="Chapter 3. Distribution Metadata and Services" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.3. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-DistroData.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-AppStream-DEP11">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">3.2. Debian DEP-11 specification</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.9-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-DistroData.html" title="Chapter 3. Distribution Metadata" /><link rel="prev" href="chap-DistroData.html" title="Chapter 3. Distribution Metadata" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.3. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-DistroData.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-AppStream-DEP11">
       ⁠</a>3.2. Debian DEP-11 specification</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-introduction">
       ⁠</a>3.2.1. Introduction</h3></div></div></div><div class="para">
 			DEP-11 is a YAML implementation of the AppStream Distro specification, which is primarily used by Debian and its derivatives. This document describes the DEP-11 YAML. All AppStream support libraries available today are able to read both the YAML and the XML specification.
@@ -67,14 +67,21 @@
 							</div></li><li class="listitem"><div class="para">
 								<code class="code">desktop-app</code> for <a class="xref" href="sect-Metadata-Application.html">Section 2.2, “Desktop Applications”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">addon</code> for <a class="xref" href="sect-Metadata-Addon.html">Section 2.3, “Addons”</a>
+								<code class="code">console-application</code> for <a class="xref" href="sect-Metadata-ConsoleApplication.html">Section 2.3, “Console Applications”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">codec</code> for <a class="xref" href="sect-Metadata-Codec.html">Section 2.5, “Codecs”</a>
+								<code class="code">addon</code> for <a class="xref" href="sect-Metadata-Addon.html">Section 2.4, “Addons”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">inputmethod</code> for <a class="xref" href="sect-Metadata-InputMethod.html">Section 2.6, “Input Methods”</a>
+								<code class="code">codec</code> for <a class="xref" href="sect-Metadata-Codec.html">Section 2.6, “Codecs”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">firmware</code> for <a class="xref" href="sect-Metadata-Firmware.html">Section 2.7, “Firmware”</a>
-							</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><a id="field-dep11-package">
+								<code class="code">inputmethod</code> for <a class="xref" href="sect-Metadata-InputMethod.html">Section 2.7, “Input Methods”</a>
+							</div></li><li class="listitem"><div class="para">
+								<code class="code">firmware</code> for <a class="xref" href="sect-Metadata-Firmware.html">Section 2.8, “Firmware”</a>
+							</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><a id="field-dep11-merge">
+      ⁠</a><span class="term">Merge</span></dt><dd><div class="para">
+						The optional <code class="literal">Merge</code> field describes the merge strategy that should be applied when merging data of this component into its base. It may assume the values <code class="code">append</code> or <code class="code">replace</code>.
+					</div><div class="para">
+						See <a class="xref" href="chap-DistroData.html#spec-asxml-tags">Section 3.1.4, “Valid tags for all component types”</a> for a description on how merging works.
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><a id="field-dep11-package">
       ⁠</a><span class="term">Package</span></dt><dd><div class="para">
 						The name of the package which needs to be installed in order to make this component available on the system.
 					</div><div class="para">
@@ -273,8 +280,22 @@
       ⁠</a><span class="term">Extends</span></dt><dd><div class="para">
 						See <a class="xref" href="sect-Metadata-Addon.html#tag-extends">&lt;extends/&gt;</a>.
 					</div><div class="para">
-						Contains a list of AppStream IDs of the other component extended by the described component. This field may only be used with component-type <code class="code">addon</code>.
-					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-example">
+						Contains a list of AppStream IDs of the other component extended by the described component. This field may only be used with component-type <code class="literal">addon</code>.
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></dd><dt><a id="field-dep11-suggests">
+      ⁠</a><span class="term">Suggests</span></dt><dd><div class="para">
+						See <a class="xref" href="chap-DistroData.html#tag-distro-suggests">&lt;suggests/&gt;</a>.
+					</div><div class="para">
+						A list of dictionaries containing suggested software components. The dictionaries must have a <code class="literal">type</code> key with the string value <code class="code">upstream</code> or <code class="code">heuristic</code> depending on where the suggestion originates from. The also must have a <code class="literal">ids</code> key containing a list of component-ids of the suggested software.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting">Provides:
+  - type: upstream
+    ids:
+      - org.example.Awesome
+  - type: heuristic
+    ids:
+      - org.example.Test1
+      - org.example.Test2</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-example">
       ⁠</a>3.2.6. Example YAML file</h3></div></div></div><div class="para">
 			This is an example AppStream DEP-11 metadata file:
 		</div><pre class="programlisting">
@@ -381,4 +402,4 @@ Summary:
   fr: Environnement de développement LaTeX
 Type: desktop-app
 Url:
-  homepage: http://texstudio.sourceforge.net/</pre></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-DistroData.html"><strong>Prev</strong>Chapter 3. Distribution Metadata and Services</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong>3.3. Icon Cache</a></li></ul></body></html>
+  homepage: http://texstudio.sourceforge.net/</pre></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-DistroData.html"><strong>Prev</strong>Chapter 3. Distribution Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong>3.3. Icon Cache</a></li></ul></body></html>

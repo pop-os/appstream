@@ -1,0 +1,90 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<!DOCTYPE chapter PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" [
+<!ENTITY % BOOK_ENTITIES SYSTEM "AppStream.ent">
+%BOOK_ENTITIES;
+]>
+
+<section id="sect-Quickstart-Buildsystems">
+	<title>Integrating with Buildsystems</title>
+
+	   <section id="qsr-buildsys-introduction">
+			   <title>Introduction</title>
+			   <para>
+					   Most projectis are using different buildsyste,. This page containst some practical instructions how to integrate AppStream metadata with them.
+			   </para>
+	   </section>
+
+	   <section id="qsr-buildsys-autotools">
+			   <title>Integrating with Autotools (appstream way)</title>
+			   <para>
+					   You should add some things to <code>Makefile.am</code>.
+					   <note>
+							   <para>
+									   Highly recommended to do all AppStream files localized.
+							   </para>
+					   </note>
+			   </para>
+			   <variablelist>
+
+					   <varlistentry>
+							   <term>Changes to <code>Makefile.am</code></term>
+							   <listitem>
+									   <para>
+											   Add this strings to <code>Makefile.am</code> in directory with AppStream metadata.
+									   </para>
+									   <programlisting>
+<![CDATA[appstreamdir = $(datadir)/appdata/
+dist_appstream_DATA = gedit.appdata.xml]]>
+									   </programlisting>
+									   <para>
+											   If you using Intltool, take a look how to translate AppStream with Autotools <xref linkend="qsr-l10n-intltool-autotools-appstream"/>
+									   </para>
+							   </listitem>
+					   </varlistentry>
+
+			   </variablelist>
+	   </section>
+
+	   <section id="qsr-buildsys-autotools-glib">
+			   <title>Integrating with Autotools (appstream-glib way)</title>
+
+			   <para>
+					   You should add some things to <code>configure.ac</code> and <code>Makefile.am</code>. You need <code>libappstream-glib</code> installed.
+					   <note>
+							   <para>
+									   Highly recommended to do all AppStream files localized.
+							   </para>
+					   </note>
+			   </para>
+
+			   <variablelist>
+
+					   <varlistentry>
+							   <term>Changes to <code>configure.ac</code></term>
+							   <listitem>
+									   <programlisting>
+<![CDATA[APPSTREAM_XML]]>
+									   </programlisting>
+							   </listitem>
+					   </varlistentry>
+
+					   <varlistentry>
+							   <term>Changes to <code>Makefile.am</code></term>
+							   <listitem>
+									   <para>
+											   Add this strings to <code>Makefile.am</code> in directory with AppStream metadata.
+									   </para>
+									   <programlisting>
+<![CDATA[dist_appstream_XML = gedit.appdata.xml
+@APPSTREAM_XML_RULES@]]>
+									   </programlisting>
+									   <para>
+											   If you using Intltool, take a look how to translate AppStream with Autotools <xref linkend="qsr-l10n-intltool-autotools-appstream-glib"/>
+									   </para>
+							   </listitem>
+					   </varlistentry>
+
+			   </variablelist>
+
+	   </section>
+</section>

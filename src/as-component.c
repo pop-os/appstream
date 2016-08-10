@@ -54,6 +54,7 @@ typedef struct
 	gchar			*origin;
 	gchar			**pkgnames;
 	gchar			*source_pkgname;
+	gchar			*desktop_file_id;
 
 	GHashTable		*name; /* localized entry */
 	GHashTable		*summary; /* localized entry */
@@ -61,15 +62,17 @@ typedef struct
 	GHashTable		*keywords; /* localized entry, value:strv */
 	GHashTable		*developer_name; /* localized entry */
 
-	gchar			**categories;
+	gchar			*metadata_license;
 	gchar			*project_license;
 	gchar			*project_group;
 	gchar			**compulsory_for_desktops;
+	gchar			**categories;
 
 	GPtrArray		*extends; /* of string */
 	GPtrArray		*extensions; /* of string */
 	GPtrArray		*screenshots; /* of AsScreenshot elements */
 	GPtrArray		*releases; /* of AsRelease elements */
+	GPtrArray		*suggestions; /* of AsSuggested elements */
 
 	GHashTable		*provided; /* of int:object */
 	GHashTable		*urls; /* of int:utf8 */
@@ -83,7 +86,9 @@ typedef struct
 
 	gchar			*arch; /* the architecture this data was generated from */
 	gint			priority; /* used internally */
+	AsMergeKind		merge_kind; /* whether and how the component data should be merged */
 
+	guint			sort_score; /* used to priorize components in listings */
 	gsize			token_cache_valid;
 	GHashTable		*token_cache; /* of utf8:AsTokenType* */
 } AsComponentPrivate;
@@ -153,19 +158,21 @@ as_component_kind_get_type (void)
 
 /**
  * as_component_kind_to_string:
- * @kind: the %AsComponentKind.
+ * @kind: the #AsComponentKind.
  *
  * Converts the enumerated value to an text representation.
  *
  * Returns: string version of @kind
  **/
-const gchar *
+const gchar*
 as_component_kind_to_string (AsComponentKind kind)
 {
 	if (kind == AS_COMPONENT_KIND_GENERIC)
 		return "generic";
 	if (kind == AS_COMPONENT_KIND_DESKTOP_APP)
 		return "desktop";
+	if (kind == AS_COMPONENT_KIND_CONSOLE_APP)
+		return "console-application";
 	if (kind == AS_COMPONENT_KIND_FONT)
 		return "font";
 	if (kind == AS_COMPONENT_KIND_CODEC)
@@ -192,7 +199,9 @@ as_component_kind_from_string (const gchar *kind_str)
 {
 	if (g_strcmp0 (kind_str, "generic") == 0)
 		return AS_COMPONENT_KIND_GENERIC;
-	if (g_strcmp0 (kind_str, "desktop") == 0)
+	if (g_strcmp0 (kind_str, "desktop-application") == 0)
+		return AS_COMPONENT_KIND_DESKTOP_APP;
+	if (g_strcmp0 (kind_str, "console-application") == 0)
 		return AS_COMPONENT_KIND_DESKTOP_APP;
 	if (g_strcmp0 (kind_str, "font") == 0)
 		return AS_COMPONENT_KIND_FONT;
@@ -204,7 +213,54 @@ as_component_kind_from_string (const gchar *kind_str)
 		return AS_COMPONENT_KIND_ADDON;
 	if (g_strcmp0 (kind_str, "firmware") == 0)
 		return AS_COMPONENT_KIND_FIRMWARE;
+
+	/* legacy */
+	if (g_strcmp0 (kind_str, "desktop") == 0)
+		return AS_COMPONENT_KIND_DESKTOP_APP;
+	if (g_strcmp0 (kind_str, "desktop-app") == 0)
+		return AS_COMPONENT_KIND_DESKTOP_APP;
+
 	return AS_COMPONENT_KIND_UNKNOWN;
+}
+
+/**
+ * as_merge_kind_to_string:
+ * @kind: the #AsMergeKind.
+ *
+ * Converts the enumerated value to an text representation.
+ *
+ * Returns: string version of @kind
+ **/
+const gchar*
+as_merge_kind_to_string (AsMergeKind kind)
+{
+	if (kind == AS_MERGE_KIND_NONE)
+		return "none";
+	if (kind == AS_MERGE_KIND_REPLACE)
+		return "replace";
+	if (kind == AS_MERGE_KIND_APPEND)
+		return "append";
+
+	return "unknown";
+}
+
+/**
+ * as_merge_kind_from_string:
+ * @kind_str: the string.
+ *
+ * Converts the text representation to an enumerated value.
+ *
+ * Returns: a #AsMergeKind or %AS_MERGE_KIND_NONE for unknown
+ **/
+AsMergeKind
+as_merge_kind_from_string (const gchar *kind_str)
+{
+	if (g_strcmp0 (kind_str, "replace") == 0)
+		return AS_MERGE_KIND_REPLACE;
+	if (g_strcmp0 (kind_str, "append") == 0)
+		return AS_MERGE_KIND_APPEND;
+
+	return AS_MERGE_KIND_NONE;
 }
 
 /**
@@ -227,6 +283,7 @@ as_component_init (AsComponent *cpt)
 
 	priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->releases = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->suggestions = g_ptr_array_new_with_free_func (g_object_unref);
 
 	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
@@ -252,10 +309,12 @@ as_component_finalize (GObject* object)
 
 	g_free (priv->id);
 	g_strfreev (priv->pkgnames);
+	g_free (priv->metadata_license);
 	g_free (priv->project_license);
 	g_free (priv->project_group);
 	g_free (priv->active_locale);
 	g_free (priv->arch);
+	g_free (priv->desktop_file_id);
 
 	g_hash_table_unref (priv->name);
 	g_hash_table_unref (priv->summary);
@@ -268,6 +327,7 @@ as_component_finalize (GObject* object)
 
 	g_ptr_array_unref (priv->screenshots);
 	g_ptr_array_unref (priv->releases);
+	g_ptr_array_unref (priv->suggestions);
 	g_hash_table_unref (priv->provided);
 	g_hash_table_unref (priv->urls);
 	g_hash_table_unref (priv->languages);
@@ -300,7 +360,6 @@ as_component_finalize (GObject* object)
 gboolean
 as_component_is_valid (AsComponent *cpt)
 {
-	gboolean ret = FALSE;
 	const gchar *cname;
 	const gchar *csummary;
 	AsComponentKind ctype;
@@ -309,16 +368,20 @@ as_component_is_valid (AsComponent *cpt)
 	ctype = priv->kind;
 	if (ctype == AS_COMPONENT_KIND_UNKNOWN)
 		return FALSE;
+	if (priv->merge_kind != AS_MERGE_KIND_NONE) {
+		/* merge components only need an ID to be valid */
+		return !as_str_empty (priv->id);
+	}
+
 	cname = as_component_get_name (cpt);
 	csummary = as_component_get_summary (cpt);
-
 	if ((!as_str_empty (priv->id)) &&
 		(!as_str_empty (cname)) &&
 		(!as_str_empty (csummary))) {
-			ret = TRUE;
+			return TRUE;
 	}
 
-	return ret;
+	return FALSE;
 }
 
 /**
@@ -383,6 +446,22 @@ as_component_add_screenshot (AsComponent *cpt, AsScreenshot* sshot)
 
 	sslist = as_component_get_screenshots (cpt);
 	g_ptr_array_add (sslist, g_object_ref (sshot));
+}
+
+/**
+ * as_component_get_releases:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get an array of the #AsRelease items this component
+ * provides.
+ *
+ * Return value: (element-type AsRelease) (transfer none): A list of releases
+ **/
+GPtrArray*
+as_component_get_releases (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->releases;
 }
 
 /**
@@ -763,8 +842,41 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	g_free (priv->id);
+	g_free (priv->desktop_file_id);
+	priv->desktop_file_id = NULL;
+
 	priv->id = g_strdup (value);
 	g_object_notify ((GObject *) cpt, "id");
+}
+
+/**
+ * as_component_get_desktop_id:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get the Desktop Entry ID for this component, if it is
+ * of type "desktop-application".
+ * For most desktop-application components, this is the name
+ * of the .desktop file.
+ *
+ * Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
+ * information.
+ *
+ * Returns: The desktop file id.
+ *
+ * Since: 0.9.8
+ */
+const gchar*
+as_component_get_desktop_id (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	if (priv->desktop_file_id == NULL) {
+		if (g_str_has_suffix (priv->id, ".desktop"))
+			priv->desktop_file_id = g_strdup (priv->id);
+		else
+			priv->desktop_file_id = g_strdup_printf ("%s.desktop", priv->id);
+	}
+	return priv->desktop_file_id;
 }
 
 /**
@@ -1225,6 +1337,36 @@ as_component_has_category (AsComponent *cpt, const gchar* category)
 }
 
 /**
+ * as_component_get_metadata_license:
+ * @cpt: a #AsComponent instance.
+ *
+ * The license the metadata iself is subjected to.
+ *
+ * Returns: the license.
+ */
+const gchar*
+as_component_get_metadata_license (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->metadata_license;
+}
+
+/**
+ * as_component_set_metadata_license:
+ * @cpt: a #AsComponent instance.
+ * @value: the metadata license.
+ *
+ * Set the license this metadata is licensed under.
+ */
+void
+as_component_set_metadata_license (AsComponent *cpt, const gchar *value)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_free (priv->metadata_license);
+	priv->metadata_license = g_strdup (value);
+}
+
+/**
  * as_component_get_project_license:
  * @cpt: a #AsComponent instance.
  *
@@ -1247,7 +1389,7 @@ as_component_get_project_license (AsComponent *cpt)
  * Set the project license.
  */
 void
-as_component_set_project_license (AsComponent *cpt, const gchar* value)
+as_component_set_project_license (AsComponent *cpt, const gchar *value)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
@@ -1483,19 +1625,67 @@ as_component_add_provided_item (AsComponent *cpt, AsProvidedKind kind, const gch
 }
 
 /**
- * as_component_get_releases:
+ * as_component_add_suggested:
  * @cpt: a #AsComponent instance.
+ * @suggested: The #AsSuggested
  *
- * Get an array of the #AsRelease items this component
- * provides.
- *
- * Return value: (element-type AsRelease) (transfer none): A list of releases
+ * Add an #AsSuggested to this component.
  **/
-GPtrArray*
-as_component_get_releases (AsComponent *cpt)
+void
+as_component_add_suggested (AsComponent *cpt, AsSuggested *suggested)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->releases;
+	g_ptr_array_add (priv->suggestions,
+			 g_object_ref (suggested));
+}
+
+/**
+ * as_component_get_suggested:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get a list of associated suggestions.
+ *
+ * Returns: (transfer none) (element-type AsSuggested): an array of #AsSuggested instances
+ */
+GPtrArray*
+as_component_get_suggested (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->suggestions;
+}
+
+/**
+ * as_component_get_merge_kind:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get the merge method which should apply to duplicate components
+ * with this ID.
+ *
+ * Returns: the #AsMergeKind of this component.
+ *
+ * Since: 0.9.8
+ */
+AsMergeKind
+as_component_get_merge_kind (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->merge_kind;
+}
+
+/**
+ * as_component_set_merge_kind:
+ * @cpt: a #AsComponent instance.
+ * @kind: the #AsMergeKind.
+ *
+ * Sets the #AsMergeKind for this component.
+ *
+ * Since: 0.9.8
+ */
+void
+as_component_set_merge_kind (AsComponent *cpt, AsMergeKind kind)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	priv->merge_kind = kind;
 }
 
 /**
@@ -1507,7 +1697,7 @@ as_component_get_releases (AsComponent *cpt)
  *
  * Since: 0.6.1
  */
-int
+gint
 as_component_get_priority (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
@@ -1525,10 +1715,41 @@ as_component_get_priority (AsComponent *cpt)
  * Since: 0.6.1
  */
 void
-as_component_set_priority (AsComponent *cpt, int priority)
+as_component_set_priority (AsComponent *cpt, gint priority)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	priv->priority = priority;
+}
+
+/**
+ * as_component_get_sort_score:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns the sorting priority of this component.
+ *
+ * Since: 0.9.8
+ */
+guint
+as_component_get_sort_score (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->sort_score;
+}
+
+/**
+ * as_component_set_sort_score:
+ * @cpt: a #AsComponent instance.
+ * @score: the given sorting score
+ *
+ * Sets the sorting score of this component.
+ *
+ * Since: 0.9.8
+ */
+void
+as_component_set_sort_score (AsComponent *cpt, guint score)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	priv->sort_score = score;
 }
 
 /**
@@ -1956,7 +2177,7 @@ as_component_add_token (AsComponent *cpt,
 {
 	g_autoptr(AsStemmer) stemmer = NULL;
 
-	stemmer = as_stemmer_new ();
+	stemmer = g_object_ref (as_stemmer_get ());
 
 	/* add extra tokens for names like x-plane or half-life */
 	if (allow_split && g_strstr_len (value, -1, "-") != NULL) {
@@ -2076,7 +2297,7 @@ as_component_create_token_cache (AsComponent *cpt)
 /**
  * as_component_search_matches:
  * @cpt: a #AsComponent instance.
- * @search_term: the search term.
+ * @term: the search term.
  *
  * Searches component data for a specific keyword.
  *
@@ -2085,7 +2306,7 @@ as_component_create_token_cache (AsComponent *cpt)
  * Since: 0.9.7
  **/
 guint
-as_component_search_matches (AsComponent *cpt, const gchar *search_term)
+as_component_search_matches (AsComponent *cpt, const gchar *term)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	AsTokenType *match_pval;
@@ -2094,7 +2315,7 @@ as_component_search_matches (AsComponent *cpt, const gchar *search_term)
 	g_autoptr(GList) keys = NULL;
 
 	/* nothing to do */
-	if (search_term == NULL)
+	if (term == NULL)
 		return 0;
 
 	/* ensure the token cache is created */
@@ -2104,7 +2325,7 @@ as_component_search_matches (AsComponent *cpt, const gchar *search_term)
 	}
 
 	/* find the exact match (which is more awesome than a partial match) */
-	match_pval = g_hash_table_lookup (priv->token_cache, search_term);
+	match_pval = g_hash_table_lookup (priv->token_cache, term);
 	if (match_pval != NULL)
 		return *match_pval << 2;
 
@@ -2112,13 +2333,56 @@ as_component_search_matches (AsComponent *cpt, const gchar *search_term)
 	keys = g_hash_table_get_keys (priv->token_cache);
 	for (l = keys; l != NULL; l = l->next) {
 		const gchar *key = l->data;
-		if (g_str_has_prefix (key, search_term)) {
+		if (g_str_has_prefix (key, term)) {
 			match_pval = g_hash_table_lookup (priv->token_cache, key);
 			result |= *match_pval;
 		}
 	}
 
 	return result;
+}
+
+/**
+ * as_component_search_matches_all:
+ * @cpt: a #AsComponent instance.
+ * @terms: the search terms.
+ *
+ * Searches component data for all the specific keywords.
+ *
+ * Returns: a match score, where 0 is no match and larger numbers are better
+ * matches.
+ *
+ * Since: 0.9.8
+ */
+guint
+as_component_search_matches_all (AsComponent *cpt, gchar **terms)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	guint i;
+	guint matches_sum = 0;
+	guint tmp;
+
+	priv->sort_score = 0;
+	if (terms == NULL) {
+		/* if the terms list is NULL, we usually had a too short search term when
+		 * tokenizing the search string. In any case, we treat NULL as match-all
+		 * value.
+		 * (users will see a full list of all entries that way, which they will
+		 * recognize as hint to make their search more narrow) */
+		priv->sort_score = 1;
+		return priv->sort_score;
+	}
+
+	/* do *all* search keywords match */
+	for (i = 0; terms[i] != NULL; i++) {
+		tmp = as_component_search_matches (cpt, terms[i]);
+		if (tmp == 0)
+			return 0;
+		matches_sum |= tmp;
+	}
+
+	priv->sort_score = matches_sum;
+	return priv->sort_score;
 }
 
 /**

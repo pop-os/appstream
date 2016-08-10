@@ -43,6 +43,11 @@ print_cptarray (GPtrArray *cpt_array)
 	g_printf ("----\n");
 }
 
+/**
+ * test_cache:
+ *
+ * Test reading data from cache files.
+ */
 void
 test_cache ()
 {
@@ -100,6 +105,11 @@ test_cache ()
 	g_assert_cmpstr (as_component_get_summary (cpt2), ==, "Another unit-test dummy entry");
 }
 
+/**
+ * test_pool_read:
+ *
+ * Test reading information from the metadata pool.
+ */
 void
 test_pool_read ()
 {
@@ -113,11 +123,12 @@ test_pool_read ()
 	g_autoptr(GError) error = NULL;
 
 	/* create DataPool and load sample metadata */
-	datadirs = g_new0(gchar*, 1 + 1);
+	datadirs = g_new0 (gchar*, 1 + 1);
 	datadirs[0] = g_build_filename (datadir, "distro", NULL);
 
 	dpool = as_data_pool_new ();
 	as_data_pool_set_metadata_locations (dpool, datadirs);
+	as_data_pool_set_locale (dpool, "C");
 
 	/* TODO: as_data_pool_load (dpool, NULL, &error);
 	g_assert_no_error (error); */
@@ -125,10 +136,7 @@ test_pool_read ()
 
 	all_cpts = as_data_pool_get_components (dpool);
 	g_assert_nonnull (all_cpts);
-
-	print_cptarray (all_cpts);
-
-	g_print ("==============================\n");
+	g_assert_cmpint (all_cpts->len, ==, 18);
 
 	result = as_data_pool_search (dpool, "kig");
 	print_cptarray (result);
@@ -147,9 +155,21 @@ test_pool_read ()
 	g_assert_cmpint (result->len, ==, 2);
 	g_ptr_array_unref (result);
 
+	/* search for mixed-case strings */
 	result = as_data_pool_search (dpool, "bIoChemistrY");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
+	g_ptr_array_unref (result);
+
+	/* test searching for multiple words */
+	result = as_data_pool_search (dpool, "scalable graphics");
+	print_cptarray (result);
+	g_assert_cmpint (result->len, ==, 1);
+	g_ptr_array_unref (result);
+
+	/* we return all components if the search string is too short */
+	result = as_data_pool_search (dpool, "sh");
+	g_assert_cmpint (result->len, ==, 18);
 	g_ptr_array_unref (result);
 
 	result = as_data_pool_get_components_by_categories (dpool, "Science");
@@ -193,6 +213,66 @@ test_pool_read ()
 	g_assert_cmpuint (as_release_get_size (rel, AS_SIZE_KIND_DOWNLOAD), ==, 0);
 }
 
+/**
+ * test_merge_components:
+ *
+ * Test merging of component data via the "merge" pseudo-component.
+ */
+void
+test_merge_components ()
+{
+	g_autoptr(AsDataPool) dpool = NULL;
+	g_auto(GStrv) datadirs = NULL;
+	AsComponent *cpt;
+	GPtrArray *suggestions;
+	AsSuggested *suggested;
+	GPtrArray *cpt_ids;
+
+	/* load the data pool with sample data */
+	datadirs = g_new0 (gchar*, 1 + 1);
+	datadirs[0] = g_build_filename (datadir, "distro", NULL);
+
+	dpool = as_data_pool_new ();
+	as_data_pool_set_metadata_locations (dpool, datadirs);
+	as_data_pool_set_locale (dpool, "C");
+
+	as_data_pool_load_metadata (dpool);
+
+	/* test injection of suggests tags */
+	cpt = as_data_pool_get_component_by_id (dpool, "links2.desktop");
+	g_assert_nonnull (cpt);
+
+	suggestions = as_component_get_suggested (cpt);
+	suggested = AS_SUGGESTED (g_ptr_array_index (suggestions, 0));
+	g_assert_cmpint (suggestions->len, ==, 1);
+	g_assert_cmpint (as_suggested_get_kind (suggested), ==, AS_SUGGESTED_KIND_HEURISTIC);
+
+	cpt_ids = as_suggested_get_ids (suggested);
+	g_assert_cmpint (cpt_ids->len, ==, 2);
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 0), ==, "org.example.test1");
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 1), ==, "org.example.test2");
+
+	cpt = as_data_pool_get_component_by_id (dpool, "literki.desktop");
+	g_assert_nonnull (cpt);
+	suggestions = as_component_get_suggested (cpt);
+	suggested = AS_SUGGESTED (g_ptr_array_index (suggestions, 0));
+	g_assert_cmpint (suggestions->len, ==, 1);
+	g_assert_cmpint (as_suggested_get_kind (suggested), ==, AS_SUGGESTED_KIND_HEURISTIC);
+
+	cpt_ids = as_suggested_get_ids (suggested);
+	g_assert_cmpint (cpt_ids->len, ==, 2);
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 0), ==, "org.example.test3");
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 1), ==, "org.example.test4");
+
+	/* test if names get overridden */
+	cpt = as_data_pool_get_component_by_id (dpool, "kiki.desktop");
+	g_assert_nonnull (cpt);
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "Kiki (name changed by merge)");
+}
+
+/**
+ * main:
+ */
 int
 main (int argc, char **argv)
 {
@@ -216,6 +296,7 @@ main (int argc, char **argv)
 
 	g_test_add_func ("/AppStream/Cache", test_cache);
 	g_test_add_func ("/AppStream/PoolRead", test_pool_read);
+	g_test_add_func ("/AppStream/Merges", test_merge_components);
 
 	ret = g_test_run ();
 	g_free (datadir);

@@ -130,7 +130,7 @@ AsValidatorIssue
 @message: 
 
 
-<!-- ##### FUNCTION as_validator_issue_get_location ##### -->
+<!-- ##### FUNCTION as_validator_issue_get_cid ##### -->
 <para>
 
 </para>
@@ -139,13 +139,58 @@ AsValidatorIssue
 @Returns: 
 
 
-<!-- ##### FUNCTION as_validator_issue_set_location ##### -->
+<!-- ##### FUNCTION as_validator_issue_set_cid ##### -->
 <para>
 
 </para>
 
 @issue: 
-@location: 
+@cid: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_filename ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_filename ##### -->
+<para>
+
+</para>
+
+@issue: 
+@fname: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_line ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_validator_issue_set_line ##### -->
+<para>
+
+</para>
+
+@issue: 
+@line: 
+
+
+<!-- ##### FUNCTION as_validator_issue_get_location ##### -->
+<para>
+
+</para>
+
+@issue: 
+@Returns: 
 
 
 <!-- ##### STRUCT AsValidatorIssue ##### -->

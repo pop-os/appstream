@@ -1,10 +1,4 @@
 <SECTION>
-<FILE>as-cache-internal</FILE>
-as_cache_write
-as_cache_read
-</SECTION>
-
-<SECTION>
 <FILE>as-category</FILE>
 <TITLE>AsCategory</TITLE>
 AS_TYPE_CATEGORY
@@ -38,6 +32,9 @@ AsComponentClass
 AsComponentKind
 as_component_kind_to_string
 as_component_kind_from_string
+AsMergeKind
+as_merge_kind_to_string
+as_merge_kind_from_string
 as_component_new
 as_component_is_valid
 as_component_to_string
@@ -47,6 +44,7 @@ as_component_get_kind
 as_component_set_kind
 as_component_get_id
 as_component_set_id
+as_component_get_desktop_id
 as_component_get_origin
 as_component_set_origin
 as_component_get_pkgnames
@@ -59,6 +57,8 @@ as_component_get_summary
 as_component_set_summary
 as_component_get_description
 as_component_set_description
+as_component_get_metadata_license
+as_component_set_metadata_license
 as_component_get_project_license
 as_component_set_project_license
 as_component_get_project_group
@@ -97,8 +97,13 @@ as_component_add_translation
 as_component_has_bundle
 as_component_get_bundle_id
 as_component_add_bundle_id
+as_component_get_suggested
+as_component_add_suggested
 as_component_get_search_tokens
 as_component_search_matches
+as_component_search_matches_all
+as_component_get_merge_kind
+as_component_set_merge_kind
 AsComponent
 <SUBSECTION Standard>
 AS_TYPE_COMPONENT_KIND
@@ -373,11 +378,39 @@ as_screenshot_get_caption_table
 </SECTION>
 
 <SECTION>
+<FILE>as-spdx</FILE>
+as_is_spdx_license_id
+as_is_spdx_license_expression
+as_spdx_license_tokenize
+as_spdx_license_detokenize
+as_license_to_spdx_id
+as_license_is_metadata_license
+</SECTION>
+
+<SECTION>
 <FILE>as-stemmer</FILE>
 AS_TYPE_STEMMER
-as_stemmer_new
+as_stemmer_get
+as_stemmer_reload
 as_stemmer_stem
 AsStemmer
+</SECTION>
+
+<SECTION>
+<FILE>as-suggested</FILE>
+<TITLE>AsSuggested</TITLE>
+AS_TYPE_SUGGESTED
+AsSuggestedClass
+AsSuggestedKind
+as_suggested_kind_from_string
+as_suggested_kind_to_string
+as_suggested_new
+as_suggested_get_kind
+as_suggested_set_kind
+as_suggested_get_ids
+as_suggested_add_id
+as_suggested_is_valid
+AsSuggested
 </SECTION>
 
 <SECTION>
@@ -397,27 +430,14 @@ AsTranslation
 </SECTION>
 
 <SECTION>
-<FILE>as-utils-private</FILE>
-AS_INTERNAL_VISIBLE
-as_utils_delete_dir_recursive
-as_utils_categories_from_strv
-as_utils_categories_from_str
-as_utils_find_files_matching
-as_utils_find_files
-as_utils_is_root
-as_utils_is_writable
-as_str_replace
-as_ptr_array_to_strv
-as_ptr_array_find_string
-as_touch_location
-as_reset_umask
-as_copy_file
-as_is_cruft_locale
-as_locale_strip_encoding
-as_utils_locale_to_language
-as_get_current_arch
-as_arch_compatible
-as_utils_search_token_valid
+<FILE>as-utils</FILE>
+as_description_markup_convert_simple
+as_get_current_locale
+as_str_empty
+as_iso8601_to_datetime
+as_utils_locale_is_compatible
+as_utils_is_category_name
+as_utils_is_tld
 </SECTION>
 
 <SECTION>
@@ -448,8 +468,13 @@ as_validator_issue_get_importance
 as_validator_issue_set_importance
 as_validator_issue_get_message
 as_validator_issue_set_message
+as_validator_issue_get_cid
+as_validator_issue_set_cid
+as_validator_issue_get_filename
+as_validator_issue_set_filename
+as_validator_issue_get_line
+as_validator_issue_set_line
 as_validator_issue_get_location
-as_validator_issue_set_location
 AsValidatorIssue
 </SECTION>
 
@@ -484,6 +509,7 @@ as_yamldata_parse_distro_data
 as_yamldata_serialize_to_distro
 as_yamldata_get_locale
 as_yamldata_set_locale
+as_yamldata_set_check_valid
 AsYAMLData
 </SECTION>
 

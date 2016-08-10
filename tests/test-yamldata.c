@@ -23,15 +23,15 @@
 
 #include "appstream.h"
 #include "as-yamldata.h"
+#include "as-test-utils.h"
 
 static gchar *datadir = NULL;
 
-void
-println (const gchar *s)
-{
-	g_printf ("%s\n", s);
-}
-
+/**
+ * test_basic:
+ *
+ * Test basic functions related to YAML processing.
+ */
 void
 test_basic (void)
 {
@@ -109,8 +109,37 @@ test_h_create_dummy_screenshot (void)
 	return scr;
 }
 
+/**
+ * as_yaml_test_serialize:
+ *
+ * Helper function for other tests.
+ */
+gchar*
+as_yaml_test_serialize (AsComponent *cpt)
+{
+	gchar *data;
+	g_autoptr(GPtrArray) cpts = NULL;
+	g_autoptr(AsYAMLData) ydt = NULL;
+	GError *error = NULL;
+
+	ydt = as_yamldata_new ();
+	as_yamldata_set_check_valid (ydt, FALSE);
+
+	cpts = g_ptr_array_new ();
+	g_ptr_array_add (cpts, cpt);
+	data = as_yamldata_serialize_to_distro (ydt, cpts, TRUE, FALSE, &error);
+	g_assert_no_error (error);
+
+	return data;
+}
+
+/**
+ * test_yamlwrite:
+ *
+ * Test writing a YAML document.
+ */
 void
-test_yamlwrite (void)
+test_yamlwrite_general (void)
 {
 	guint i;
 	g_autoptr(AsYAMLData) ydata = NULL;
@@ -124,9 +153,89 @@ test_yamlwrite (void)
 	gchar *_PKGNAME1[2] = {"fwdummy", NULL};
 	gchar *_PKGNAME2[2] = {"foobar-pkg", NULL};
 
+	const gchar *expected_yaml = "---\n"
+				"File: DEP-11\n"
+				"Version: 0.8\n"
+				"---\n"
+				"Type: firmware\n"
+				"ID: org.example.test.firmware\n"
+				"Package: fwdummy\n"
+				"Extends:\n"
+				"- org.example.alpha\n"
+				"- org.example.beta\n"
+				"Name:\n"
+				"  de_DE: Ünittest Fürmwäre (dummy Eintrag)\n"
+				"  C: Unittest Firmware\n"
+				"Summary:\n"
+				"  C: Just part of an unittest.\n"
+				"Url:\n"
+				"  homepage: https://example.com\n"
+				"---\n"
+				"Type: desktop-app\n"
+				"ID: org.freedesktop.foobar.desktop\n"
+				"Package: foobar-pkg\n"
+				"Name:\n"
+				"  C: TEST!!\n"
+				"Summary:\n"
+				"  C: Just part of an unittest.\n"
+				"Icon:\n"
+				"  cached:\n"
+				"  - name: test_writetest.png\n"
+				"    width: 20\n"
+				"    height: 20\n"
+				"  - name: test_writetest.png\n"
+				"    width: 40\n"
+				"    height: 40\n"
+				"  stock: yml-writetest\n"
+				"Screenshots:\n"
+				"- caption:\n"
+				"    fr: Le FooBar mainwindow\n"
+				"    C: The FooBar mainwindow\n"
+				"  thumbnails:\n"
+				"  - url: https://example.org/images/foobar-small.png\n"
+				"    width: 400\n"
+				"    height: 200\n"
+				"  - url: https://example.org/images/foobar-smaller.png\n"
+				"    width: 210\n"
+				"    height: 120\n"
+				"  source-image:\n"
+				"    url: https://example.org/images/foobar-full.png\n"
+				"    width: 840\n"
+				"    height: 560\n"
+				"Languages:\n"
+				"- locale: de_DE\n"
+				"  percentage: 84\n"
+				"- locale: en_GB\n"
+				"  percentage: 100\n"
+				"Releases:\n"
+				"- version: 1.0\n"
+				"  unix-timestamp: 1460463132\n"
+				"  description:\n"
+				"    de_DE: >-\n"
+				"      <p>Großartige erste Veröffentlichung.</p>\n"
+				"\n"
+				"      <p>Zweite zeile.</p>\n"
+				"    C: >-\n"
+				"      <p>Awesome initial release.</p>\n"
+				"\n"
+				"      <p>Second paragraph.</p>\n"
+				"- version: 1.2\n"
+				"  unix-timestamp: 1462288512\n"
+				"  urgency: medium\n"
+				"  description:\n"
+				"    C: >-\n"
+				"      <p>The CPU no longer overheats when you hold down spacebar.</p>\n"
+				"---\n"
+				"Type: generic\n"
+				"ID: org.example.ATargetComponent\n"
+				"Merge: replace\n"
+				"Name:\n"
+				"  C: ReplaceThis!\n";
+
 	ydata = as_yamldata_new ();
 	cpts = g_ptr_array_new_with_free_func (g_object_unref);
 
+	/* firmware component */
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_FIRMWARE);
 	as_component_set_id (cpt, "org.example.test.firmware");
@@ -139,6 +248,7 @@ test_yamlwrite (void)
 	as_component_add_url (cpt, AS_URL_KIND_HOMEPAGE, "https://example.com");
 	g_ptr_array_add (cpts, cpt);
 
+	/* component with icons, screenshots and release descriptions */
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
 	as_component_set_id (cpt, "org.freedesktop.foobar.desktop");
@@ -185,11 +295,66 @@ test_yamlwrite (void)
 
 	g_ptr_array_add (cpts, cpt);
 
+	/* merge component */
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_merge_kind (cpt, AS_MERGE_KIND_REPLACE);
+	as_component_set_id (cpt, "org.example.ATargetComponent");
+	as_component_set_name (cpt, "ReplaceThis!", "C");
+	g_ptr_array_add (cpts, cpt);
+
+	/* serialize and validate */
 	resdata = as_yamldata_serialize_to_distro (ydata, cpts, TRUE, FALSE, &error);
 	g_assert_no_error (error);
-	g_debug ("%s", resdata);
 
-	/* TODO: Actually test the resulting output */
+	g_assert (as_test_compare_lines (resdata, expected_yaml));
+}
+
+/**
+ * test_yaml_write_suggests:
+ *
+ * Test writing the Suggests field.
+ */
+void
+test_yaml_write_suggests (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsSuggested) sug_us = NULL;
+	g_autoptr(AsSuggested) sug_hr = NULL;
+	g_autofree gchar *res = NULL;
+	const gchar *expected_sug_yaml = "---\n"
+					 "File: DEP-11\n"
+					 "Version: 0.8\n"
+					 "---\n"
+					 "Type: generic\n"
+					 "ID: org.example.SuggestsTest\n"
+					 "Suggested:\n"
+					 "- type: upstream\n"
+					 "  ids:\n"
+					 "  - org.example.Awesome\n"
+					 "- type: heuristic\n"
+					 "  ids:\n"
+					 "  - org.example.MachineLearning\n"
+					 "  - org.example.Stuff\n";
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.SuggestsTest");
+
+	sug_us = as_suggested_new ();
+	as_suggested_set_kind (sug_us, AS_SUGGESTED_KIND_UPSTREAM);
+	as_suggested_add_id (sug_us, "org.example.Awesome");
+	as_component_add_suggested (cpt, sug_us);
+
+	sug_hr = as_suggested_new ();
+	as_suggested_set_kind (sug_hr, AS_SUGGESTED_KIND_HEURISTIC);
+	as_suggested_add_id (sug_hr, "org.example.MachineLearning");
+	as_suggested_add_id (sug_hr, "org.example.Stuff");
+	as_component_add_suggested (cpt, sug_hr);
+
+	/* test collection serialization */
+	res = as_yaml_test_serialize (cpt);
+	g_assert (as_test_compare_lines (res, expected_sug_yaml));
 }
 
 /**
@@ -222,6 +387,11 @@ as_yaml_test_read_data (const gchar *data, GError **error)
 	return g_object_ref (cpt);
 }
 
+/**
+ * test_yaml_read_icons:
+ *
+ * Test reading the Icons field.
+ */
 void
 test_yaml_read_icons (void)
 {
@@ -284,6 +454,11 @@ test_yaml_read_icons (void)
 	g_assert_nonnull (as_component_get_icon_by_size (cpt, 128, 128));
 }
 
+/**
+ * test_yaml_read_languages:
+ *
+ * Test if reading the Languages field works.
+ */
 void
 test_yaml_read_languages (void)
 {
@@ -302,6 +477,52 @@ test_yaml_read_languages (void)
 	g_assert_cmpint (as_component_get_language (cpt, "de_DE"), ==, 48);
 	g_assert_cmpint (as_component_get_language (cpt, "en_GB"), ==, 100);
 	g_assert_cmpint (as_component_get_language (cpt, "invalid_C"), ==, -1);
+}
+
+/**
+ * test_yaml_read_suggests:
+ *
+ * Test if reading the Suggests field works.
+ */
+void
+test_yaml_read_suggests (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	GPtrArray *suggestions;
+	GPtrArray *cpt_ids;
+	AsSuggested *sug;
+	const gchar *yamldata_suggests = "---\n"
+					 "ID: org.example.Test\n"
+					 "Suggests:\n"
+					 "  - type: upstream\n"
+					 "    ids:\n"
+					 "      - org.example.Awesome\n"
+					 "      - org.example.test1\n"
+					 "      - org.example.test2\n"
+					 "  - type: heuristic\n"
+					 "    ids:\n"
+					 "      - org.example.test3\n";
+
+	cpt = as_yaml_test_read_data (yamldata_suggests, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
+
+	suggestions = as_component_get_suggested (cpt);
+	g_assert_cmpint (suggestions->len, ==, 2);
+
+	sug = AS_SUGGESTED (g_ptr_array_index (suggestions, 0));
+	g_assert (as_suggested_get_kind (sug) == AS_SUGGESTED_KIND_UPSTREAM);
+	cpt_ids = as_suggested_get_ids (sug);
+	g_assert_cmpint (cpt_ids->len, ==, 3);
+
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 0), ==, "org.example.Awesome");
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 1), ==, "org.example.test1");
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 2), ==, "org.example.test2");
+
+	sug = AS_SUGGESTED (g_ptr_array_index (suggestions, 1));
+	g_assert (as_suggested_get_kind (sug) == AS_SUGGESTED_KIND_HEURISTIC);
+	cpt_ids = as_suggested_get_ids (sug);
+	g_assert_cmpint (cpt_ids->len, ==, 1);
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 0), ==, "org.example.test3");
 }
 
 /**
@@ -324,6 +545,9 @@ test_yaml_corrupt_data (void)
 	g_assert_null (cpt);
 }
 
+/**
+ * main:
+ */
 int
 main (int argc, char **argv)
 {
@@ -346,10 +570,12 @@ main (int argc, char **argv)
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
 	g_test_add_func ("/YAML/Basic", test_basic);
-	g_test_add_func ("/YAML/Write", test_yamlwrite);
+	g_test_add_func ("/YAML/Write/General", test_yamlwrite_general);
+	g_test_add_func ("/YAML/Read/CorruptData", test_yaml_corrupt_data);
 	g_test_add_func ("/YAML/Read/Icons", test_yaml_read_icons);
 	g_test_add_func ("/YAML/Read/Languages", test_yaml_read_languages);
-	g_test_add_func ("/YAML/Read/CorruptData", test_yaml_corrupt_data);
+	g_test_add_func ("/YAML/Read/Suggests", test_yaml_read_suggests);
+	g_test_add_func ("/YAML/Write/Suggests", test_yaml_write_suggests);
 
 	ret = g_test_run ();
 	g_free (datadir);

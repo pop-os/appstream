@@ -27,6 +27,7 @@
 #include <ascache.pb.h>
 #include <glib/gstdio.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
+#include <google/protobuf/io/gzip_stream.h>
 
 #include "../as-utils.h"
 #include "../as-utils-private.h"
@@ -136,6 +137,12 @@ as_cache_write (const gchar *fname, const gchar *locale, GPtrArray *cpts, GError
 			// we should *never* get here, all invalid stuff should be filtered out at this point
 			g_critical ("Skipped component '%s' from inclusion into the cache: The component is invalid.",
 					   as_component_get_id (cpt));
+			continue;
+		}
+
+		if (as_component_get_merge_kind (cpt) != AS_MERGE_KIND_NONE) {
+			g_debug ("Skipping '%s' from cache inclusion, it is a merge component.",
+				 as_component_get_id (cpt));
 			continue;
 		}
 
@@ -375,7 +382,9 @@ as_cache_write (const gchar *fname, const gchar *locale, GPtrArray *cpts, GError
 	}
 
 	google::protobuf::io::FileOutputStream ostream (fd);
-	if (cache.SerializeToZeroCopyStream (&ostream)) {
+	google::protobuf::io::GzipOutputStream ozstream (&ostream);
+	if (cache.SerializeToZeroCopyStream (&ozstream)) {
+		ozstream.Close ();
 		ostream.Close ();
 		return;
 	} else {
@@ -661,9 +670,10 @@ as_cache_read (const gchar *fname, GError **error)
 	}
 
 	google::protobuf::io::FileInputStream istream (fd);
+	google::protobuf::io::GzipInputStream izstream (&istream);
 
 	ASCache::Cache cache;
-	auto ret = cache.ParseFromZeroCopyStream (&istream);
+	auto ret = cache.ParseFromZeroCopyStream (&izstream);
 	if (!ret) {
 		// TODO: Emit error
 		g_critical ("Unable to parse cache file '%s'", g_strerror (errno));

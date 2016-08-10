@@ -32,6 +32,7 @@
 #include "as-screenshot.h"
 #include "as-release.h"
 #include "as-translation.h"
+#include "as-suggested.h"
 
 G_BEGIN_DECLS
 
@@ -55,6 +56,7 @@ struct _AsComponentClass
  * @AS_COMPONENT_KIND_UNKNOWN:		Type invalid or not known
  * @AS_COMPONENT_KIND_GENERIC:		A generic (= without specialized type) component
  * @AS_COMPONENT_KIND_DESKTOP_APP:	An application with a .desktop-file
+ * @AS_COMPONENT_KIND_CONSOLE_APP:	A console application
  * @AS_COMPONENT_KIND_FONT:		A font
  * @AS_COMPONENT_KIND_CODEC:		A multimedia codec
  * @AS_COMPONENT_KIND_INPUTMETHOD:	An input-method provider
@@ -72,15 +74,35 @@ typedef enum  {
 	AS_COMPONENT_KIND_INPUTMETHOD,
 	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FIRMWARE,
+	AS_COMPONENT_KIND_CONSOLE_APP,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
 
 #define AS_TYPE_COMPONENT_KIND (as_component_kind_get_type ())
-
 GType			as_component_kind_get_type (void) G_GNUC_CONST;
 const gchar		*as_component_kind_to_string (AsComponentKind kind);
 AsComponentKind		as_component_kind_from_string (const gchar *kind_str);
+
+/**
+ * AsMergeKind:
+ * @AS_MERGE_KIND_NONE:		No merge is happening.
+ * @AS_MERGE_KIND_REPLACE:	Merge replacing data of target.
+ * @AS_MERGE_KIND_APPEND:	Merge appending data to target.
+ *
+ * Defines how #AsComponent data should be merged if the component is
+ * set for merge.
+ **/
+typedef enum  {
+	AS_MERGE_KIND_NONE,
+	AS_MERGE_KIND_REPLACE,
+	AS_MERGE_KIND_APPEND,
+	/*< private >*/
+	AS_MERGE_KIND_LAST
+} AsMergeKind;
+
+const gchar		*as_merge_kind_to_string (AsMergeKind kind);
+AsMergeKind		as_merge_kind_from_string (const gchar *kind_str);
 
 AsComponent		*as_component_new (void);
 
@@ -98,6 +120,8 @@ void			as_component_set_kind (AsComponent *cpt,
 const gchar		*as_component_get_id (AsComponent *cpt);
 void			as_component_set_id (AsComponent *cpt,
 						const gchar *value);
+
+const gchar		*as_component_get_desktop_id (AsComponent *cpt);
 
 const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
@@ -126,9 +150,13 @@ void			as_component_set_description (AsComponent *cpt,
 							const gchar *value,
 							const gchar *locale);
 
+const gchar		*as_component_get_metadata_license (AsComponent *cpt);
+void			as_component_set_metadata_license (AsComponent *cpt,
+							   const gchar *value);
+
 const gchar		*as_component_get_project_license (AsComponent *cpt);
 void			as_component_set_project_license (AsComponent *cpt,
-								const gchar *value);
+							  const gchar *value);
 
 const gchar		*as_component_get_project_group (AsComponent *cpt);
 void			as_component_set_project_group (AsComponent *cpt,
@@ -209,9 +237,19 @@ void			as_component_add_bundle_id (AsComponent *cpt,
 							AsBundleKind bundle_kind,
 							const gchar *id);
 
+GPtrArray		*as_component_get_suggested (AsComponent *cpt);
+void			as_component_add_suggested (AsComponent *cpt,
+						    AsSuggested *suggested);
+
 GPtrArray		*as_component_get_search_tokens (AsComponent *cpt);
-guint			 as_component_search_matches (AsComponent *cpt,
-						      const gchar *search_term);
+guint			as_component_search_matches (AsComponent *cpt,
+						      const gchar *term);
+guint			as_component_search_matches_all (AsComponent *cpt,
+							 gchar **terms);
+
+AsMergeKind		as_component_get_merge_kind (AsComponent *cpt);
+void			as_component_set_merge_kind (AsComponent *cpt,
+							AsMergeKind kind);
 
 G_END_DECLS
 

@@ -205,46 +205,76 @@ as_data_pool_class_init (AsDataPoolClass *klass)
 }
 
 /**
- * as_data_pool_merge_components:
+ * as_merge_components:
  *
  * Merge selected data from two components.
  */
 static void
-as_data_pool_merge_components (AsDataPool *dpool, AsComponent *src_cpt, AsComponent *dest_cpt)
+as_merge_components (AsComponent *dest_cpt, AsComponent *src_cpt)
 {
 	guint i;
-	gchar **cats;
-	gchar **pkgnames;
+	AsMergeKind merge_kind;
 
-	/* FIXME: We only do this for GNOME Software compatibility. In future, we need better rules on what to merge how, and
-	 * whether we want to merge stuff at all. */
+	merge_kind = as_component_get_merge_kind (src_cpt);
+	g_return_if_fail (merge_kind != AS_MERGE_KIND_NONE);
 
-	cats = as_component_get_categories (src_cpt);
-	if (cats != NULL) {
-		g_autoptr(GHashTable) cat_table = NULL;
-		gchar **new_cats = NULL;
+	/* FIXME: We need to merge more attributes */
 
-		cat_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
-		for (i = 0; cats[i] != NULL; i++) {
-			g_hash_table_add (cat_table, g_strdup (cats[i]));
-		}
-		cats = as_component_get_categories (dest_cpt);
+	/* merge stuff in append mode */
+	if (merge_kind == AS_MERGE_KIND_APPEND) {
+		gchar **cats;
+		GPtrArray *suggestions;
+
+		/* merge categories */
+		cats = as_component_get_categories (src_cpt);
 		if (cats != NULL) {
+			g_autoptr(GHashTable) cat_table = NULL;
+			gchar **new_cats = NULL;
+
+			cat_table = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 			for (i = 0; cats[i] != NULL; i++) {
 				g_hash_table_add (cat_table, g_strdup (cats[i]));
 			}
+			cats = as_component_get_categories (dest_cpt);
+			if (cats != NULL) {
+				for (i = 0; cats[i] != NULL; i++) {
+					g_hash_table_add (cat_table, g_strdup (cats[i]));
+				}
+			}
+
+			new_cats = (gchar**) g_hash_table_get_keys_as_array (cat_table, NULL);
+			as_component_set_categories (dest_cpt, new_cats);
 		}
 
-		new_cats = (gchar**) g_hash_table_get_keys_as_array (cat_table, NULL);
-		as_component_set_categories (dest_cpt, new_cats);
+		/* merge suggestions */
+		suggestions = as_component_get_suggested (src_cpt);
+		if (suggestions != NULL) {
+			for (i = 0; i < suggestions->len; i++) {
+				as_component_add_suggested (dest_cpt,
+						    AS_SUGGESTED (g_ptr_array_index (suggestions, i)));
+			}
+		}
 	}
 
-	pkgnames = as_component_get_pkgnames (src_cpt);
-	if ((pkgnames != NULL) && (pkgnames[0] != '\0'))
-		as_component_set_pkgnames (dest_cpt, as_component_get_pkgnames (src_cpt));
+	/* merge stuff in replace mode */
+	if (merge_kind == AS_MERGE_KIND_REPLACE) {
+		gchar **pkgnames;
 
-	if (as_component_has_bundle (src_cpt))
-		as_component_set_bundles_table (dest_cpt, as_component_get_bundles_table (src_cpt));
+		/* merge names */
+		if (as_component_get_name (src_cpt) != NULL)
+			as_component_set_name (dest_cpt, as_component_get_name (src_cpt), as_component_get_active_locale (src_cpt));
+
+		/* merge package names */
+		pkgnames = as_component_get_pkgnames (src_cpt);
+		if ((pkgnames != NULL) && (pkgnames[0] != '\0'))
+			as_component_set_pkgnames (dest_cpt, as_component_get_pkgnames (src_cpt));
+
+		/* merge bundles */
+		if (as_component_has_bundle (src_cpt))
+			as_component_set_bundles_table (dest_cpt, as_component_get_bundles_table (src_cpt));
+	}
+
+	g_debug ("Merged data for '%s'", as_component_get_id (dest_cpt));
 }
 
 /**
@@ -260,14 +290,15 @@ as_data_pool_merge_components (AsDataPool *dpool, AsComponent *src_cpt, AsCompon
 gboolean
 as_data_pool_add_component (AsDataPool *dpool, AsComponent *cpt, GError **error)
 {
-	const gchar *cpt_id;
+	const gchar *cid;
 	AsComponent *existing_cpt;
-	int priority;
+	gint pool_priority;
+	AsMergeKind merge_kind_new;
+	AsMergeKind merge_kind_pool;
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
-	g_return_val_if_fail (cpt != NULL, FALSE);
 
-	cpt_id = as_component_get_id (cpt);
-	existing_cpt = g_hash_table_lookup (priv->cpt_table, cpt_id);
+	cid = as_component_get_id (cpt);
+	existing_cpt = g_hash_table_lookup (priv->cpt_table, cid);
 
 	/* add additional data to the component, e.g. external screenshots. Also refines
 	 * the component's icon paths */
@@ -275,22 +306,41 @@ as_data_pool_add_component (AsDataPool *dpool, AsComponent *cpt, GError **error)
 
 	if (existing_cpt == NULL) {
 		g_hash_table_insert (priv->cpt_table,
-					g_strdup (cpt_id),
+					g_strdup (cid),
 					g_object_ref (cpt));
 		return TRUE;
 	}
 
-	/* if we are here, we have duplicates */
-	priority = as_component_get_priority (existing_cpt);
-	if (priority < as_component_get_priority (cpt)) {
-		g_hash_table_replace (priv->cpt_table,
-					g_strdup (cpt_id),
-					g_object_ref (cpt));
-		g_debug ("Replaced '%s' with data of higher priority.", cpt_id);
-	} else {
-		gboolean ecpt_has_name;
-		gboolean ncpt_has_name;
+	/* perform metadata merges if necessary */
+	merge_kind_new = as_component_get_merge_kind (cpt);
+	merge_kind_pool = as_component_get_merge_kind (existing_cpt);
 
+	if (merge_kind_new != AS_MERGE_KIND_NONE) {
+		as_merge_components (existing_cpt, cpt);
+		return TRUE;
+	} else if (merge_kind_pool != AS_MERGE_KIND_NONE) {
+		/* this means the component in the pool is the merge-component.
+		 * replace it with the actual metadata and merge the two components together */
+		g_object_ref (existing_cpt);
+		g_hash_table_replace (priv->cpt_table,
+				      g_strdup (cid),
+				      g_object_ref (cpt));
+		as_merge_components (cpt, existing_cpt);
+		g_object_unref (existing_cpt);
+
+		return TRUE;
+	}
+
+	/* if we are here, we might have duplicates and no merges, so check if we should replace a component
+	 * with data of higher priority, or if we have an actual error in the metadata */
+	pool_priority = as_component_get_priority (existing_cpt);
+	if (pool_priority < as_component_get_priority (cpt)) {
+		g_hash_table_replace (priv->cpt_table,
+					g_strdup (cid),
+					g_object_ref (cpt));
+		g_debug ("Replaced '%s' with data of higher priority.", cid);
+	} else {
+		/* bundles are treated specially here */
 		if ((!as_component_has_bundle (existing_cpt)) && (as_component_has_bundle (cpt))) {
 			GHashTable *bundles;
 			/* propagate bundle information to existing component */
@@ -299,26 +349,7 @@ as_data_pool_add_component (AsDataPool *dpool, AsComponent *cpt, GError **error)
 			return TRUE;
 		}
 
-		ecpt_has_name = as_component_get_name (existing_cpt) != NULL;
-		ncpt_has_name = as_component_get_name (cpt) != NULL;
-		if ((ecpt_has_name) && (!ncpt_has_name)) {
-			/* existing component is updated with data from the new one */
-			as_data_pool_merge_components (dpool, cpt, existing_cpt);
-			g_debug ("Merged stub data for component %s (<-, based on name)", cpt_id);
-			return TRUE;
-		}
-
-		if ((!ecpt_has_name) && (ncpt_has_name)) {
-			/* new component is updated with data from the existing component,
-			 * then it replaces the prior metadata */
-			as_data_pool_merge_components (dpool, existing_cpt, cpt);
-			g_hash_table_replace (priv->cpt_table,
-					g_strdup (cpt_id),
-					g_object_ref (cpt));
-			g_debug ("Merged stub data for component %s (->, based on name)", cpt_id);
-			return TRUE;
-		}
-
+		/* experimental multiarch support */
 		if (as_component_get_architecture (cpt) != NULL) {
 			if (as_arch_compatible (as_component_get_architecture (cpt), priv->current_arch)) {
 				const gchar *earch;
@@ -328,29 +359,29 @@ as_data_pool_add_component (AsDataPool *dpool, AsComponent *cpt, GError **error)
 				if (earch != NULL) {
 					if (as_arch_compatible (earch, priv->current_arch)) {
 						g_hash_table_replace (priv->cpt_table,
-									g_strdup (cpt_id),
+									g_strdup (cid),
 									g_object_ref (cpt));
-						g_debug ("Preferred component for native architecture for %s (was %s)", cpt_id, earch);
+						g_debug ("Preferred component for native architecture for %s (was %s)", cid, earch);
 						return TRUE;
 					} else {
-						g_debug ("Ignored additional entry for '%s' on architecture %s.", cpt_id, earch);
+						g_debug ("Ignored additional entry for '%s' on architecture %s.", cid, earch);
 						return FALSE;
 					}
 				}
 			}
 		}
 
-		if (priority == as_component_get_priority (cpt)) {
+		if (pool_priority == as_component_get_priority (cpt)) {
 			g_set_error (error,
 					AS_DATA_POOL_ERROR,
 					AS_DATA_POOL_ERROR_COLLISION,
-					"Detected colliding ids: %s was already added with the same priority.", cpt_id);
+					"Detected colliding ids: %s was already added with the same priority.", cid);
 			return FALSE;
 		} else {
 			g_set_error (error,
 					AS_DATA_POOL_ERROR,
 					AS_DATA_POOL_ERROR_COLLISION,
-					"Detected colliding ids: %s was already added with a higher priority.", cpt_id);
+					"Detected colliding ids: %s was already added with a higher priority.", cid);
 			return FALSE;
 		}
 	}
@@ -542,13 +573,14 @@ as_data_pool_load_metadata (AsDataPool *dpool)
 		}
 	}
 
+	/* add found components to the metadata pool */
 	cpts = as_metadata_get_components (metad);
 	for (i = 0; i < cpts->len; i++) {
-		as_data_pool_add_component (dpool,
-					    AS_COMPONENT (g_ptr_array_index (cpts, i)),
-					    &error);
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+
+		as_data_pool_add_component (dpool, cpt, &error);
 		if (error != NULL) {
-			g_debug ("Data ignored: %s", error->message);
+			g_debug ("Metadata ignored: %s", error->message);
 			g_error_free (error);
 			error = NULL;
 		}
@@ -937,55 +969,90 @@ as_data_pool_get_components_by_categories (AsDataPool *dpool, const gchar *categ
 }
 
 /**
- * as_data_pool_sanitize_search_term:
+ * as_data_pool_build_search_terms:
  *
- * Improve the search term slightly, by stripping whitespaces and
- * removing greylist words.
+ * Build an array of search terms from a search string and improve the search terms
+ * slightly, by stripping whitespaces, casefolding the terms and removing greylist words.
  */
-static gchar*
-as_data_pool_sanitize_search_term (AsDataPool *dpool, const gchar *term)
+static gchar**
+as_data_pool_build_search_terms (AsDataPool *dpool, const gchar *search)
 {
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
 	g_autoptr(AsStemmer) stemmer = NULL;
-	g_autofree gchar *tmp_term = NULL;
-	gchar *term_stemmed = NULL;
+	g_autofree gchar *tmp_str = NULL;
+	g_auto(GStrv) strv = NULL;
+	gchar **terms;
 	guint i;
+	guint idx;
 
-	if (term == NULL)
+	if (search == NULL)
 		return NULL;
-	tmp_term = g_utf8_strdown (term, -1);
+	tmp_str = g_utf8_casefold (search, -1);
 
 	/* filter query by greylist (to avoid overly generic search terms) */
 	for (i = 0; priv->term_greylist[i] != NULL; i++) {
 		gchar *str;
-		str = as_str_replace (tmp_term, priv->term_greylist[i], "");
-		g_free (tmp_term);
-		tmp_term = str;
+		str = as_str_replace (tmp_str, priv->term_greylist[i], "");
+		g_free (tmp_str);
+		tmp_str = str;
 	}
 
 	/* restore query if it was just greylist words */
-	if (g_strcmp0 (tmp_term, "") == 0) {
+	if (g_strcmp0 (tmp_str, "") == 0) {
 		g_debug ("grey-list replaced all terms, restoring");
-		g_free (tmp_term);
-		tmp_term = g_utf8_strdown (term, -1);
+		g_free (tmp_str);
+		tmp_str = g_utf8_casefold (search, -1);
 	}
 
 	/* we have to strip the leading and trailing whitespaces to avoid having
 	 * different results for e.g. 'font ' and 'font' (LP: #506419)
 	 */
-	g_strstrip (tmp_term);
+	g_strstrip (tmp_str);
 
-	/* stem the string */
-	stemmer = as_stemmer_new ();
-	term_stemmed = as_stemmer_stem (stemmer, tmp_term);
+	strv = g_strsplit (tmp_str, " ", -1);
+	terms = g_new0 (gchar *, g_strv_length (strv) + 1);
+	idx = 0;
+	stemmer = g_object_ref (as_stemmer_get ());
+	for (i = 0; strv[i] != NULL; i++) {
+		if (!as_utils_search_token_valid (strv[i]))
+			continue;
+		/* stem the string and add it to terms */
+		terms[idx++] = as_stemmer_stem (stemmer, strv[i]);
+	}
+	/* if we have no valid terms, return NULL */
+	if (idx == 0) {
+		g_free (terms);
+		return NULL;
+	}
 
-	return term_stemmed;
+	return terms;
+}
+
+/**
+ * as_sort_components_by_score_cb:
+ *
+ * helper method to sort result arrays by the #AsComponent match score.
+ */
+static gint
+as_sort_components_by_score_cb (gconstpointer a, gconstpointer b)
+{
+	guint s1, s2;
+	AsComponent *cpt1 = *((AsComponent **) a);
+	AsComponent *cpt2 = *((AsComponent **) b);
+	s1 = as_component_get_sort_score (cpt1);
+	s2 = as_component_get_sort_score (cpt2);
+
+	if (s1 < s2)
+		return -1;
+	if (s1 > s2)
+		return 1;
+	return 0;
 }
 
 /**
  * as_data_pool_search:
  * @dpool: An instance of #AsDataPool
- * @term: A search term/string
+ * @search: A search string
  *
  * Search for a list of components matching the search terms.
  * The list will be unordered.
@@ -995,30 +1062,40 @@ as_data_pool_sanitize_search_term (AsDataPool *dpool, const gchar *term)
  * Since: 0.9.7
  */
 GPtrArray*
-as_data_pool_search (AsDataPool *dpool, const gchar *term)
+as_data_pool_search (AsDataPool *dpool, const gchar *search)
 {
 	AsDataPoolPrivate *priv = GET_PRIVATE (dpool);
-	g_autofree gchar *sane_term = NULL;
+	g_auto(GStrv) terms = NULL;
 	GPtrArray *results;
 	GHashTableIter iter;
 	gpointer value;
 
 	/* sanitize user's search term */
-	sane_term = as_data_pool_sanitize_search_term (dpool, term);
+	terms = as_data_pool_build_search_terms (dpool, search);
 	results = g_ptr_array_new_with_free_func (g_object_unref);
-	g_debug ("Searching for: %s", sane_term);
+
+	if (terms == NULL) {
+		g_debug ("Search term invalid. Matching everything.");
+	} else {
+		g_autofree gchar *tmp_str = NULL;
+		tmp_str = g_strjoinv (" ", terms);
+		g_debug ("Searching for: %s", tmp_str);
+	}
 
 	g_hash_table_iter_init (&iter, priv->cpt_table);
 	while (g_hash_table_iter_next (&iter, NULL, &value)) {
-		guint res;
+		guint score;
 		AsComponent *cpt = AS_COMPONENT (value);
 
-		res = as_component_search_matches (cpt, sane_term);
-		if (res == 0)
+		score = as_component_search_matches_all (cpt, terms);
+		if (score == 0)
 			continue;
 
 		g_ptr_array_add (results, g_object_ref (cpt));
 	}
+
+	/* sort the results by their priority */
+	g_ptr_array_sort (results, as_sort_components_by_score_cb);
 
 	return results;
 }

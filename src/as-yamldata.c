@@ -40,6 +40,7 @@ typedef struct
 	gchar *arch;
 	gint default_priority;
 	AsParserMode mode;
+	gboolean check_valid;
 } AsYAMLDataPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsYAMLData, as_yamldata, G_TYPE_OBJECT)
@@ -67,6 +68,7 @@ as_yamldata_init (AsYAMLData *ydt)
 	priv->origin = NULL;
 	priv->media_baseurl = NULL;
 	priv->default_priority = 0;
+	priv->check_valid = TRUE;
 
 	/* the YAML data is only for distro-metadata at time */
 	priv->mode = AS_PARSER_MODE_DISTRO;
@@ -116,12 +118,12 @@ as_yamldata_initialize (AsYAMLData *ydt, const gchar *locale, const gchar *origi
 }
 
 /**
- * dep11_print_unknown:
+ * as_yaml_print_unknown:
  */
 static void
-dep11_print_unknown (const gchar *root, const gchar *key)
+as_yaml_print_unknown (const gchar *root, const gchar *key)
 {
-	g_debug ("DEP11: Unknown key '%s/%s' found.", root, key);
+	g_debug ("YAML: Unknown field '%s/%s' found.", root, key);
 }
 
 /**
@@ -134,6 +136,31 @@ as_yaml_free_node (GNode *node, gpointer data)
 		g_free (node->data);
 
 	return FALSE;
+}
+
+/**
+ * as_yaml_node_get_key:
+ *
+ * Helper method to get the key of a node.
+ */
+const gchar*
+as_yaml_node_get_key (GNode *n)
+{
+	return (const gchar*) n->data;
+}
+
+/**
+ * as_yaml_node_get_value:
+ *
+ * Helper method to get the value of a node.
+ */
+const gchar*
+as_yaml_node_get_value (GNode *n)
+{
+	if (n->children)
+		return (const gchar*) n->children->data;
+	else
+		return NULL;
 }
 
 /**
@@ -216,7 +243,7 @@ as_yamldata_get_localized_node (AsYAMLData *ydt, GNode *node, gchar *locale_over
 {
 	GNode *n;
 	GNode *tnode = NULL;
-	gchar *key;
+	const gchar *key;
 	const gchar *locale;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
@@ -226,7 +253,7 @@ as_yamldata_get_localized_node (AsYAMLData *ydt, GNode *node, gchar *locale_over
 		locale = locale_override;
 
 	for (n = node->children; n != NULL; n = n->next) {
-		key = (gchar*) n->data;
+		key = as_yaml_node_get_key (n);
 
 		if ((tnode == NULL) && (g_strcmp0 (key, "C") == 0)) {
 			tnode = n;
@@ -265,15 +292,15 @@ as_yamldata_get_localized_value (AsYAMLData *ydt, GNode *node, gchar *locale_ove
 }
 
 /**
- * dep11_list_to_string_array:
+ * as_yaml_list_to_string_array:
  */
 static void
-dep11_list_to_string_array (GNode *node, GPtrArray *array)
+as_yaml_list_to_string_array (GNode *node, GPtrArray *array)
 {
 	GNode *n;
 
 	for (n = node->children; n != NULL; n = n->next) {
-		g_ptr_array_add (array, g_strdup ((gchar*) n->data));
+		g_ptr_array_add (array, g_strdup (as_yaml_node_get_key (n)));
 	}
 }
 
@@ -296,7 +323,7 @@ as_yamldata_process_keywords (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 	if (tnode == NULL)
 		return;
 
-	dep11_list_to_string_array (tnode, keywords);
+	as_yaml_list_to_string_array (tnode, keywords);
 
 	strv = as_ptr_array_to_strv (keywords);
 	as_component_set_keywords (cpt, strv, NULL);
@@ -311,17 +338,18 @@ static void
 dep11_process_urls (GNode *node, AsComponent *cpt)
 {
 	GNode *n;
-	gchar *key;
-	gchar *value;
 	AsUrlKind url_kind;
 
 	for (n = node->children; n != NULL; n = n->next) {
-			key = (gchar*) n->data;
-			value = (gchar*) n->children->data;
+		const gchar *key;
+		const gchar *value;
 
-			url_kind = as_url_kind_from_string (key);
-			if ((url_kind != AS_URL_KIND_UNKNOWN) && (value != NULL))
-				as_component_add_url (cpt, url_kind, value);
+		key = as_yaml_node_get_key (n);
+		value = as_yaml_node_get_value (n);
+
+		url_kind = as_url_kind_from_string (key);
+		if ((url_kind != AS_URL_KIND_UNKNOWN) && (value != NULL))
+			as_component_add_url (cpt, url_kind, value);
 	}
 }
 
@@ -332,8 +360,6 @@ static void
 as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIconKind kind)
 {
 	GNode *n;
-	gchar *key;
-	gchar *value;
 	guint64 size;
 	g_autoptr(AsIcon) icon = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
@@ -342,8 +368,11 @@ as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIcon
 	as_icon_set_kind (icon, kind);
 
 	for (n = node->children; n != NULL; n = n->next) {
-		key = (gchar*) n->data;
-		value = (gchar*) n->children->data;
+		const gchar *key;
+		const gchar *value;
+
+		key = as_yaml_node_get_key (n);
+		value = as_yaml_node_get_value (n);
 
 		if (g_strcmp0 (key, "width") == 0) {
 			size = g_ascii_strtoll (value, NULL, 10);
@@ -427,10 +456,9 @@ dep11_process_provides (GNode *node, AsComponent *cpt)
 {
 	GNode *n;
 	GNode *sn;
-	gchar *key;
 
 	for (n = node->children; n != NULL; n = n->next) {
-		key = (gchar*) n->data;
+		const gchar *key = as_yaml_node_get_key (n);
 
 		if (g_strcmp0 (key, "libraries") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
@@ -535,14 +563,13 @@ dep11_process_image (AsYAMLData *ydt, GNode *node, AsScreenshot *scr)
 	img = as_image_new ();
 
 	for (n = node->children; n != NULL; n = n->next) {
-		gchar *key;
-		gchar *value;
+		const gchar *key;
+		const gchar *value;
 		guint64 size;
 
-		key = (gchar*) n->data;
-		if (n->children)
-			value = (gchar*) n->children->data;
-		else
+		key = as_yaml_node_get_key (n);
+		value = as_yaml_node_get_value (n);
+		if (value == NULL)
 			continue; /* there should be no key without value */
 
 		if (g_strcmp0 (key, "width") == 0) {
@@ -565,7 +592,7 @@ dep11_process_image (AsYAMLData *ydt, GNode *node, AsScreenshot *scr)
 		} else if (g_strcmp0 (key, "lang") == 0) {
 			as_image_set_locale (img, value);
 		} else {
-			dep11_print_unknown ("image", key);
+			as_yaml_print_unknown ("image", key);
 		}
 	}
 
@@ -591,14 +618,11 @@ as_yamldata_process_screenshots (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 
 		for (n = sn->children; n != NULL; n = n->next) {
 			GNode *in;
-			gchar *key;
-			gchar *value;
+			const gchar *key;
+			const gchar *value;
 
-			key = (gchar*) n->data;
-			if (n->children)
-				value = (gchar*) n->children->data;
-			else
-				value = NULL;
+			key = as_yaml_node_get_key (n);
+			value = as_yaml_node_get_value (n);
 
 			if (g_strcmp0 (key, "default") == 0) {
 				if (g_strcmp0 (value, "yes") == 0)
@@ -619,7 +643,7 @@ as_yamldata_process_screenshots (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 					dep11_process_image (ydt, in, scr);
 				}
 			} else {
-				dep11_print_unknown ("screenshot", key);
+				as_yaml_print_unknown ("screenshot", key);
 			}
 		}
 
@@ -648,14 +672,11 @@ as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 		as_release_set_active_locale (rel, as_component_get_active_locale (cpt));
 
 		for (n = sn->children; n != NULL; n = n->next) {
-			gchar *key;
-			gchar *value;
+			const gchar *key;
+			const gchar *value;
 
-			key = (gchar*) n->data;
-			if (n->children)
-				value = (gchar*) n->children->data;
-			else
-				value = NULL;
+			key = as_yaml_node_get_key (n);
+			value = as_yaml_node_get_value (n);
 
 			if (g_strcmp0 (key, "unix-timestamp") == 0) {
 				as_release_set_timestamp (rel, g_ascii_strtoll (value, NULL, 10));
@@ -675,7 +696,7 @@ as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 				as_release_set_description (rel, lvalue, NULL);
 				g_free (lvalue);
 			} else {
-				dep11_print_unknown ("release", key);
+				as_yaml_print_unknown ("release", key);
 			}
 		}
 
@@ -699,14 +720,11 @@ as_yamldata_process_languages (GNode *node, AsComponent *cpt)
 		g_autofree gchar *percentage_str = NULL;
 
 		for (n = sn->children; n != NULL; n = n->next) {
-			gchar *key;
-			gchar *value;
+			const gchar *key;
+			const gchar *value;
 
-			key = (gchar*) n->data;
-			if (n->children)
-				value = (gchar*) n->children->data;
-			else
-				value = NULL;
+			key = as_yaml_node_get_key (n);
+			value = as_yaml_node_get_value (n);
 
 			if (g_strcmp0 (key, "locale") == 0) {
 				if (locale == NULL)
@@ -715,7 +733,7 @@ as_yamldata_process_languages (GNode *node, AsComponent *cpt)
 				if (percentage_str == NULL)
 					percentage_str = g_strdup (value);
 			} else {
-				dep11_print_unknown ("languages", key);
+				as_yaml_print_unknown ("Languages", key);
 			}
 		}
 
@@ -723,6 +741,42 @@ as_yamldata_process_languages (GNode *node, AsComponent *cpt)
 			as_component_add_language (cpt,
 						   locale,
 						   g_ascii_strtoll (percentage_str, NULL, 10));
+	}
+}
+
+/**
+ * as_yamldata_process_suggests:
+ */
+static void
+as_yamldata_process_suggests (GNode *node, AsComponent *cpt)
+{
+	GNode *sn;
+
+	for (sn = node->children; sn != NULL; sn = sn->next) {
+		GNode *n;
+		g_autoptr(AsSuggested) sug = NULL;
+
+		sug = as_suggested_new ();
+		for (n = sn->children; n != NULL; n = n->next) {
+			const gchar *key;
+			const gchar *value;
+
+			key = as_yaml_node_get_key (n);
+			value = as_yaml_node_get_value (n);
+
+			if (g_strcmp0 (key, "type") == 0) {
+				as_suggested_set_kind (sug,
+						       as_suggested_kind_from_string (value));
+			} else if (g_strcmp0 (key, "ids") == 0) {
+				as_yaml_list_to_string_array (n,
+							      as_suggested_get_ids (sug));
+			} else {
+				as_yaml_print_unknown ("Suggests", key);
+			}
+		}
+
+		if (as_suggested_is_valid (sug))
+			as_component_add_suggested (cpt, sug);
 	}
 }
 
@@ -752,21 +806,18 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 	as_component_set_priority (cpt, priv->default_priority);
 
 	for (node = root->children; node != NULL; node = node->next) {
-		gchar *key;
-		gchar *value;
+		const gchar *key;
+		const gchar *value;
 		gchar *lvalue;
 
 		if (node->children == NULL)
 			continue;
 
-		key = (gchar*) node->data;
-		value = (gchar*) node->children->data;
-		g_strstrip (value);
+		key = (const gchar*) node->data;
+		value = as_yaml_node_get_value (node);
 
 		if (g_strcmp0 (key, "Type") == 0) {
-			if (g_strcmp0 (value, "desktop-app") == 0)
-				as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
-			else if (g_strcmp0 (value, "generic") == 0)
+			if (g_strcmp0 (value, "generic") == 0)
 				as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
 			else
 				as_component_set_kind (cpt, as_component_kind_from_string (value));
@@ -774,6 +825,8 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 			as_component_set_id (cpt, value);
 		} else if (g_strcmp0 (key, "Priority") == 0) {
 			as_component_set_priority (cpt, g_ascii_strtoll (value, NULL, 10));
+		} else if (g_strcmp0 (key, "Merge") == 0) {
+			as_component_set_merge_kind (cpt, as_merge_kind_from_string (value));
 		} else if (g_strcmp0 (key, "Package") == 0) {
 			g_auto(GStrv) strv = NULL;
 			strv = g_new0 (gchar*, 1 + 1);
@@ -813,11 +866,11 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 		} else if (g_strcmp0 (key, "ProjectGroup") == 0) {
 			as_component_set_project_group (cpt, value);
 		} else if (g_strcmp0 (key, "Categories") == 0) {
-			dep11_list_to_string_array (node, categories);
+			as_yaml_list_to_string_array (node, categories);
 		} else if (g_strcmp0 (key, "CompulsoryForDesktops") == 0) {
-			dep11_list_to_string_array (node, compulsory_for_desktops);
+			as_yaml_list_to_string_array (node, compulsory_for_desktops);
 		} else if (g_strcmp0 (key, "Extends") == 0) {
-			dep11_list_to_string_array (node, as_component_get_extends (cpt));
+			as_yaml_list_to_string_array (node, as_component_get_extends (cpt));
 		} else if (g_strcmp0 (key, "Keywords") == 0) {
 			as_yamldata_process_keywords (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Url") == 0) {
@@ -832,8 +885,10 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 			as_yamldata_process_languages (node, cpt);
 		} else if (g_strcmp0 (key, "Releases") == 0) {
 			as_yamldata_process_releases (ydt, node, cpt);
+		} else if (g_strcmp0 (key, "Suggests") == 0) {
+			as_yamldata_process_suggests (node, cpt);
 		} else {
-			dep11_print_unknown ("root", key);
+			as_yaml_print_unknown ("root", key);
 		}
 	}
 
@@ -923,13 +978,20 @@ as_yaml_emit_long_entry (yaml_emitter_t *emitter, const gchar *key, const gchar 
 {
 	yaml_event_t event;
 	gint ret;
+	g_autofree gchar *value_clean = NULL;
 
 	if (value == NULL)
 		return;
 
 	as_yaml_emit_scalar_key (emitter, key);
-
-	yaml_scalar_event_initialize (&event, NULL, NULL, (yaml_char_t*) value, strlen (value), TRUE, TRUE, YAML_FOLDED_SCALAR_STYLE);
+	yaml_scalar_event_initialize (&event,
+					NULL,
+					NULL,
+					(yaml_char_t*) value,
+					strlen (value),
+					TRUE,
+					TRUE,
+					YAML_FOLDED_SCALAR_STYLE);
 	ret = yaml_emitter_emit (emitter, &event);
 	g_assert (ret);
 }
@@ -1626,11 +1688,51 @@ as_yaml_data_emit_releases (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponen
 }
 
 /**
+ * as_yaml_data_emit_suggests:
+ */
+static void
+as_yaml_data_emit_suggests (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
+{
+	guint i;
+	GPtrArray *suggestions;
+
+	suggestions = as_component_get_suggested (cpt);
+	if (suggestions->len == 0)
+		return;
+
+	as_yaml_emit_scalar (emitter, "Suggested");
+	as_yaml_sequence_start (emitter);
+
+	for (i = 0; i < suggestions->len; i++) {
+		AsSuggested *sug = AS_SUGGESTED (g_ptr_array_index (suggestions, i));
+
+		/* start mapping for this suggestion */
+		as_yaml_mapping_start (emitter);
+
+		/* type */
+		as_yaml_emit_entry (emitter,
+				    "type",
+				    as_suggested_kind_to_string (as_suggested_get_kind (sug)));
+
+		/* component-ids */
+		as_yaml_emit_sequence (emitter,
+				       "ids",
+					as_suggested_get_ids (sug));
+
+		/* end mapping for the suggestion list */
+		as_yaml_mapping_end (emitter);
+	}
+
+	as_yaml_sequence_end (emitter);
+}
+
+/**
  * as_yaml_serialize_component:
  */
 static void
 as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
 {
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 	guint i;
 	gint res;
 	const gchar *cstr;
@@ -1641,7 +1743,7 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	GPtrArray *icons;
 
 	/* we only serialize a component with minimal necessary information */
-	if (!as_component_is_valid (cpt)) {
+	if ((priv->check_valid) && (!as_component_is_valid (cpt))) {
 		g_debug ("Can not serialize '%s': Component is invalid.", as_component_get_id (cpt));
 		return;
 	}
@@ -1666,6 +1768,21 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 
 	/* AppStream-ID */
 	as_yaml_emit_entry (emitter, "ID", as_component_get_id (cpt));
+
+	/* priority */
+	if (as_component_get_priority (cpt) != 0) {
+		g_autofree gchar *priority_str = g_strdup_printf ("%i", as_component_get_priority (cpt));
+		as_yaml_emit_entry (emitter,
+				    "Priority",
+				    priority_str);
+	}
+
+	/* merge strategy */
+	if (as_component_get_merge_kind (cpt) != AS_MERGE_KIND_NONE) {
+		as_yaml_emit_entry (emitter,
+				    "Merge",
+				    as_merge_kind_to_string (as_component_get_merge_kind (cpt)));
+	}
 
 	/* SourcePackage */
 	as_yaml_emit_entry (emitter, "SourcePackage", as_component_get_source_pkgname (cpt));
@@ -1776,6 +1893,9 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	/* Releases */
 	as_yaml_data_emit_releases (ydt, emitter, cpt);
 
+	/* Suggests */
+	as_yaml_data_emit_suggests (ydt, emitter, cpt);
+
 	/* close main mapping */
 	as_yaml_mapping_end (emitter);
 
@@ -1793,9 +1913,9 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 static void
 as_yamldata_write_header (AsYAMLData *ydt, yaml_emitter_t *emitter)
 {
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 	gint res;
 	yaml_event_t event;
-	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
 	yaml_document_start_event_initialize (&event, NULL, NULL, NULL, FALSE);
 	res = yaml_emitter_emit (emitter, &event);
@@ -1959,8 +2079,8 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 
 		if (event.type == YAML_DOCUMENT_START_EVENT) {
 			GNode *n;
-			gchar *key;
-			gchar *value;
+			const gchar *key;
+			const gchar *value;
 			AsComponent *cpt;
 			gboolean header_found = FALSE;
 			GError *tmp_error = NULL;
@@ -1990,8 +2110,8 @@ as_yamldata_parse_distro_data (AsYAMLData *ydt, const gchar *data, GError **erro
 						break;
 					}
 
-					key = (gchar*) n->data;
-					value = (gchar*) n->children->data;
+					key = as_yaml_node_get_key (n);
+					value = as_yaml_node_get_value (n);
 
 					if (g_strcmp0 (key, "File") == 0) {
 						if (g_strcmp0 (value, "DEP-11") != 0) {
@@ -2097,11 +2217,25 @@ as_yamldata_set_locale (AsYAMLData *ydt, const gchar *locale)
  *
  * Returns: Locale used for metadata parsing.
  **/
-const gchar *
+const gchar*
 as_yamldata_get_locale (AsYAMLData *ydt)
 {
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 	return priv->locale;
+}
+
+/**
+ * as_yamldata_set_check_valid:
+ * @check: %TRUE if check should be enabled.
+ *
+ * Set whether we should perform basic validity checks on the component
+ * before serializing it to YAML.
+ */
+void
+as_yamldata_set_check_valid (AsYAMLData *ydt, gboolean check)
+{
+	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
+	priv->check_valid = check;
 }
 
 /**
