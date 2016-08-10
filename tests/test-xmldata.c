@@ -28,12 +28,11 @@
 
 static gchar *datadir = NULL;
 
-void
-msg (const gchar *s)
-{
-	g_printf ("%s\n", s);
-}
-
+/**
+ * test_screenshot_handling:
+ *
+ * Test reading screenshot tags.
+ */
 void
 test_screenshot_handling ()
 {
@@ -76,6 +75,11 @@ test_screenshot_handling ()
 	g_object_unref (metad);
 }
 
+/**
+ * test_appstream_parser_legacy:
+ *
+ * Test parsing legacy metainfo files.
+ */
 void
 test_appstream_parser_legacy ()
 {
@@ -107,6 +111,11 @@ test_appstream_parser_legacy ()
 	g_object_unref (metad);
 }
 
+/**
+ * test_appstream_parser_locale:
+ *
+ * Test reading localized tags.
+ */
 void
 test_appstream_parser_locale ()
 {
@@ -166,6 +175,11 @@ test_appstream_parser_locale ()
 	g_assert_cmpint (as_component_get_icons (cpt)->len, ==, 2);
 }
 
+/**
+ * test_appstream_write_locale:
+ *
+ * Test writing fully localized entries.
+ */
 void
 test_appstream_write_locale ()
 {
@@ -195,6 +209,11 @@ test_appstream_write_locale ()
 	g_object_unref (metad);
 }
 
+/**
+ * test_appstream_write_description:
+ *
+ * Test writing the description tag for catalog and metainfo XML.
+ */
 void
 test_appstream_write_description ()
 {
@@ -369,6 +388,11 @@ test_appstream_write_description ()
 	g_free (tmp);
 }
 
+/**
+ * as_xml_test_read_data:
+ *
+ * Helper function for other tests.
+ */
 AsComponent*
 as_xml_test_read_data (const gchar *data, AsParserMode mode)
 {
@@ -392,6 +416,11 @@ as_xml_test_read_data (const gchar *data, AsParserMode mode)
 	return g_object_ref (cpt);
 }
 
+/**
+ * as_xml_test_serialize:
+ *
+ * Helper function for other tests.
+ */
 gchar*
 as_xml_test_serialize (AsComponent *cpt, AsParserMode mode)
 {
@@ -413,6 +442,11 @@ as_xml_test_serialize (AsComponent *cpt, AsParserMode mode)
 	return data;
 }
 
+/**
+ * test_xml_read_languages:
+ *
+ * Test reading the languages tag.
+ */
 void
 test_xml_read_languages (void)
 {
@@ -433,6 +467,11 @@ test_xml_read_languages (void)
 	g_assert_cmpint (as_component_get_language (cpt, "invalid_C"), ==, -1);
 }
 
+/**
+ * test_xml_write_languages:
+ *
+ * Test writing the languages tag.
+ */
 void
 test_xml_write_languages (void)
 {
@@ -456,6 +495,11 @@ test_xml_write_languages (void)
 	g_assert_cmpstr (res, ==, expected_lang_xml);
 }
 
+/**
+ * test_xml_write_releases:
+ *
+ * Test writing the releases tag.
+ */
 void
 test_xml_write_releases (void)
 {
@@ -489,6 +533,11 @@ test_xml_write_releases (void)
 	g_assert (as_test_compare_lines (res, expected_rel_xml));
 }
 
+/**
+ * test_xml_write_provides:
+ *
+ * Test writing the provides tag.
+ */
 void
 test_xml_write_provides (void)
 {
@@ -537,6 +586,65 @@ test_xml_write_provides (void)
 	g_assert (as_test_compare_lines (res, expected_prov_xml));
 }
 
+/**
+ * test_xml_write_suggests:
+ *
+ * Test writing the suggests tag.
+ */
+void
+test_xml_write_suggests (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsSuggested) sug_us = NULL;
+	g_autoptr(AsSuggested) sug_hr = NULL;
+	g_autofree gchar *res = NULL;
+	const gchar *expected_sug_xml_mi = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+					"<component>\n"
+					"  <id>org.example.SuggestsTest</id>\n"
+					"  <suggests type=\"upstream\">\n"
+					"    <id>org.example.Awesome</id>\n"
+					"  </suggests>\n"
+					"</component>\n";
+	const gchar *expected_sug_xml_coll = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+					"<components version=\"0.8\">\n"
+					"  <component>\n"
+					"    <id>org.example.SuggestsTest</id>\n"
+					"    <suggests type=\"upstream\">\n"
+					"      <id>org.example.Awesome</id>\n"
+					"    </suggests>\n"
+					"    <suggests type=\"heuristic\">\n"
+					"      <id>org.example.MachineLearning</id>\n"
+					"      <id>org.example.Stuff</id>\n"
+					"    </suggests>\n"
+					"  </component>\n"
+					"</components>\n";
+
+	cpt = as_component_new ();
+	as_component_set_id (cpt, "org.example.SuggestsTest");
+
+	sug_us = as_suggested_new ();
+	as_suggested_set_kind (sug_us, AS_SUGGESTED_KIND_UPSTREAM);
+	as_suggested_add_id (sug_us, "org.example.Awesome");
+	as_component_add_suggested (cpt, sug_us);
+
+	sug_hr = as_suggested_new ();
+	as_suggested_set_kind (sug_hr, AS_SUGGESTED_KIND_HEURISTIC);
+	as_suggested_add_id (sug_hr, "org.example.MachineLearning");
+	as_suggested_add_id (sug_hr, "org.example.Stuff");
+	as_component_add_suggested (cpt, sug_hr);
+
+	/* test metainfo serialization */
+	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_UPSTREAM);
+	g_assert (as_test_compare_lines (res, expected_sug_xml_mi));
+
+	/* test collection serialization */
+	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_DISTRO);
+	g_assert (as_test_compare_lines (res, expected_sug_xml_coll));
+}
+
+/**
+ * main:
+ */
 int
 main (int argc, char **argv)
 {
@@ -567,6 +675,7 @@ main (int argc, char **argv)
 	g_test_add_func ("/XML/Write/Languages", test_xml_write_languages);
 	g_test_add_func ("/XML/Write/Releases", test_xml_write_releases);
 	g_test_add_func ("/XML/Write/Provides", test_xml_write_provides);
+	g_test_add_func ("/XML/Write/Suggests", test_xml_write_suggests);
 
 	ret = g_test_run ();
 	g_free (datadir);

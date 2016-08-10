@@ -37,12 +37,14 @@ extern "C" {
 #include <as-distro-details.h>
 #include <as-icon.h>
 #include <as-screenshot.h>
+#include <as-suggested.h>
 #include <as-image.h>
 
 #include <as-validator.h>
 #include <as-validator-issue.h>
 
 #include <as-utils.h>
+#include <as-spdx.h>
 
 #ifdef __cplusplus
 };

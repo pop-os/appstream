@@ -37,9 +37,19 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-validator-issue-set-message">as_validator_issue_set_message</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-validator-issue-get-location">as_validator_issue_get_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-validator-issue-get-cid">as_validator_issue_get_cid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-validator-issue-set-location">as_validator_issue_set_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-validator-issue-set-cid">as_validator_issue_set_cid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-validator-issue-get-filename">as_validator_issue_get_filename</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-validator-issue-set-filename">as_validator_issue_set_filename</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-validator-issue-get-line">as_validator_issue_get_line</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-validator-issue-set-line">as_validator_issue_set_line</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-validator-issue-get-location">as_validator_issue_get_location</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -225,12 +235,148 @@ as_validator_issue_set_message (<parameter><link linkend="AsValidatorIssue"><typ
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-validator-issue-get-cid" role="function">
+<title>as_validator_issue_get_cid&#160;()</title>
+<indexterm zone="as-validator-issue-get-cid"><primary>as_validator_issue_get_cid</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_validator_issue_get_cid (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>);</programlisting>
+<para>The component-id this issue is about.</para>
+<refsect3 id="as-validator-issue-get-cid.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-validator-issue-get-cid.returns" role="returns">
+<title>Returns</title>
+<para> a component-id.</para>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-set-cid" role="function">
+<title>as_validator_issue_set_cid&#160;()</title>
+<indexterm zone="as-validator-issue-set-cid"><primary>as_validator_issue_set_cid</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_validator_issue_set_cid (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *cid</parameter>);</programlisting>
+<para>Sets the component-id this issue is about.</para>
+<refsect3 id="as-validator-issue-set-cid.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>cid</para></entry>
+<entry role="parameter_description"><para>a component-id.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-get-filename" role="function">
+<title>as_validator_issue_get_filename&#160;()</title>
+<indexterm zone="as-validator-issue-get-filename"><primary>as_validator_issue_get_filename</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_validator_issue_get_filename (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>);</programlisting>
+<para>The name of the file this issue was found in.</para>
+<refsect3 id="as-validator-issue-get-filename.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-validator-issue-get-filename.returns" role="returns">
+<title>Returns</title>
+<para> the filename</para>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-set-filename" role="function">
+<title>as_validator_issue_set_filename&#160;()</title>
+<indexterm zone="as-validator-issue-set-filename"><primary>as_validator_issue_set_filename</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_validator_issue_set_filename (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>,
+                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>);</programlisting>
+<para>Sets the name of the file the issue was found in.</para>
+<refsect3 id="as-validator-issue-set-filename.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>the filename.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-get-line" role="function">
+<title>as_validator_issue_get_line&#160;()</title>
+<indexterm zone="as-validator-issue-get-line"><primary>as_validator_issue_get_line</primary></indexterm>
+<programlisting language="C"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+as_validator_issue_get_line (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>);</programlisting>
+<para>Gets the line number where this issue was found.</para>
+<refsect3 id="as-validator-issue-get-line.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-validator-issue-get-line.returns" role="returns">
+<title>Returns</title>
+<para> the line number where this issue occured, or -1 if unknown.</para>
+</refsect3></refsect2>
+<refsect2 id="as-validator-issue-set-line" role="function">
+<title>as_validator_issue_set_line&#160;()</title>
+<indexterm zone="as-validator-issue-set-line"><primary>as_validator_issue_set_line</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_validator_issue_set_line (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>,
+                             <parameter><link linkend="gint"><type>gint</type></link> line</parameter>);</programlisting>
+<para>Sets the importance for this issue.</para>
+<refsect3 id="as-validator-issue-set-line.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>issue</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>line</para></entry>
+<entry role="parameter_description"><para>the line number.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-validator-issue-get-location" role="function">
 <title>as_validator_issue_get_location&#160;()</title>
 <indexterm zone="as-validator-issue-get-location"><primary>as_validator_issue_get_location</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_validator_issue_get_location (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>);</programlisting>
-<para>Gets a location hint for the issue.</para>
+<para>Builds a string containing all information about the location
+where this issue occured that we know about.</para>
 <refsect3 id="as-validator-issue-get-location.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -245,30 +391,8 @@ as_validator_issue_get_location (<parameter><link linkend="AsValidatorIssue"><ty
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-validator-issue-get-location.returns" role="returns">
 <title>Returns</title>
-<para> the location hint</para>
-</refsect3></refsect2>
-<refsect2 id="as-validator-issue-set-location" role="function">
-<title>as_validator_issue_set_location&#160;()</title>
-<indexterm zone="as-validator-issue-set-location"><primary>as_validator_issue_set_location</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_validator_issue_set_location (<parameter><link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> *issue</parameter>,
-                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *location</parameter>);</programlisting>
-<para>Sets a location hint for this issue.</para>
-<refsect3 id="as-validator-issue-set-location.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>issue</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsValidatorIssue"><type>AsValidatorIssue</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>location</para></entry>
-<entry role="parameter_description"><para>a location hint.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
+<para> the location hint as string. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 
 </refsect1>

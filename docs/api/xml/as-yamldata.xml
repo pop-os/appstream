@@ -34,6 +34,8 @@
 </entry><entry role="function_name"><link linkend="as-yamldata-get-locale">as_yamldata_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-yamldata-set-locale">as_yamldata_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-yamldata-set-check-valid">as_yamldata_set_check_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -184,6 +186,27 @@ If you set the locale to "ALL", all locales will be read.</para>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>locale</para></entry>
 <entry role="parameter_description"><para>the locale.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-yamldata-set-check-valid" role="function">
+<title>as_yamldata_set_check_valid&#160;()</title>
+<indexterm zone="as-yamldata-set-check-valid"><primary>as_yamldata_set_check_valid</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_yamldata_set_check_valid (<parameter><link linkend="AsYAMLData"><type>AsYAMLData</type></link> *ydt</parameter>,
+                             <parameter><link linkend="gboolean"><type>gboolean</type></link> check</parameter>);</programlisting>
+<para>Set whether we should perform basic validity checks on the component
+before serializing it to YAML.</para>
+<refsect3 id="as-yamldata-set-check-valid.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>check</para></entry>
+<entry role="parameter_description"><para><link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if check should be enabled.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>

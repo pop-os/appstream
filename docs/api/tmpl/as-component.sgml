@@ -48,6 +48,7 @@ AsComponent
 @AS_COMPONENT_KIND_INPUTMETHOD: 
 @AS_COMPONENT_KIND_ADDON: 
 @AS_COMPONENT_KIND_FIRMWARE: 
+@AS_COMPONENT_KIND_CONSOLE_APP: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
@@ -59,6 +60,33 @@ AsComponent
 
 
 <!-- ##### FUNCTION as_component_kind_from_string ##### -->
+<para>
+
+</para>
+
+@kind_str: 
+@Returns: 
+
+
+<!-- ##### ENUM AsMergeKind ##### -->
+<para>
+
+</para>
+
+@AS_MERGE_KIND_NONE: 
+@AS_MERGE_KIND_REPLACE: 
+@AS_MERGE_KIND_APPEND: 
+
+<!-- ##### FUNCTION as_merge_kind_to_string ##### -->
+<para>
+
+</para>
+
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_merge_kind_from_string ##### -->
 <para>
 
 </para>
@@ -146,6 +174,15 @@ AsComponent
 
 @cpt: 
 @value: 
+
+
+<!-- ##### FUNCTION as_component_get_desktop_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_component_get_origin ##### -->
@@ -257,6 +294,24 @@ AsComponent
 @cpt: 
 @value: 
 @locale: 
+
+
+<!-- ##### FUNCTION as_component_get_metadata_license ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_metadata_license ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@value: 
 
 
 <!-- ##### FUNCTION as_component_get_project_license ##### -->
@@ -614,6 +669,24 @@ AsComponent
 @id: 
 
 
+<!-- ##### FUNCTION as_component_get_suggested ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_suggested ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@suggested: 
+
+
 <!-- ##### FUNCTION as_component_get_search_tokens ##### -->
 <para>
 
@@ -629,8 +702,36 @@ AsComponent
 </para>
 
 @cpt: 
-@search_term: 
+@term: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_component_search_matches_all ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@terms: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_merge_kind ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_merge_kind ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@kind: 
 
 
 <!-- ##### STRUCT AsComponent ##### -->
