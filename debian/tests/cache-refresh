@@ -5,6 +5,6 @@ set -e
 
 export G_DEBUG=fatal-warnings
 
-appstreamcli refresh-index --force --verbose
+appstreamcli refresh-cache --force --verbose
 
 echo "run: OK"
