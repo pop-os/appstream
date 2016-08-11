@@ -63,7 +63,8 @@ Description: Library to access AppStream services
 Package: libappstream-dev
 Architecture: any
 Section: libdevel
-Depends: libappstream3 (= ${binary:Version}),
+Depends: gir1.2-appstream (= ${binary:Version}),
+         libappstream3 (= ${binary:Version}),
          libglib2.0-dev (>= 2.46),
          ${misc:Depends}
 Suggests: appstream-generator
