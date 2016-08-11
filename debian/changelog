@@ -1,3 +1,11 @@
+appstream (0.9.8-2) unstable; urgency=medium
+
+  * unittest-arm-fix.patch: Resolve FTBFS on ARM due to
+    failing unittests
+  * Make libas-dev package depend on the GIR
+
+ -- Matthias Klumpp <mak@debian.org>  Thu, 11 Aug 2016 20:02:18 +0200
+
 appstream (0.9.8-1) unstable; urgency=medium
 
   * New upstream release: 0.9.8
