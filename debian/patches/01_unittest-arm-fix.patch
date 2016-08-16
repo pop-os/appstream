@@ -12,11 +12,9 @@ This should resolve the issue in a (mostly) portable way.
  src/as-yamldata.c | 4 ++--
  2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/src/as-xmldata.c b/src/as-xmldata.c
-index 465aed5..2ad2929 100644
 --- a/src/as-xmldata.c
 +++ b/src/as-xmldata.c
-@@ -600,7 +600,7 @@ as_xmldata_process_releases_tag (AsXMLData *xdt, xmlNode *node, AsComponent *cpt
+@@ -600,7 +600,7 @@
  
  			prop = (gchar*) xmlGetProp (iter, (xmlChar*) "timestamp");
  			if (prop != NULL) {
@@ -25,7 +23,7 @@ index 465aed5..2ad2929 100644
  				as_release_set_timestamp (release, timestamp);
  				g_free (prop);
  			}
-@@ -1396,7 +1396,7 @@ as_xmldata_add_release_subnodes (AsXMLData *xdt, AsComponent *cpt, xmlNode *root
+@@ -1396,7 +1396,7 @@
  			g_autofree gchar *time_str = NULL;
  
  			if (priv->mode == AS_PARSER_MODE_DISTRO) {
@@ -34,11 +32,9 @@ index 465aed5..2ad2929 100644
  				xmlNewProp (subnode, (xmlChar*) "timestamp",
  						(xmlChar*) time_str);
  			} else {
-diff --git a/src/as-yamldata.c b/src/as-yamldata.c
-index 91b54f9..847dbae 100644
 --- a/src/as-yamldata.c
 +++ b/src/as-yamldata.c
-@@ -679,7 +679,7 @@ as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
+@@ -679,7 +679,7 @@
  			value = as_yaml_node_get_value (n);
  
  			if (g_strcmp0 (key, "unix-timestamp") == 0) {
@@ -47,7 +43,7 @@ index 91b54f9..847dbae 100644
  			} else if (g_strcmp0 (key, "date") == 0) {
  				g_autoptr(GDateTime) time;
  				time = as_iso8601_to_datetime (value);
-@@ -1639,7 +1639,7 @@ as_yaml_data_emit_releases (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponen
+@@ -1639,7 +1639,7 @@
  			g_autofree gchar *time_str = NULL;
  
  			if (priv->mode == AS_PARSER_MODE_DISTRO) {
