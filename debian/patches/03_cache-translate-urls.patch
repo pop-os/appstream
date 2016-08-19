@@ -1,0 +1,21 @@
+From 79bbbe3e486e49b90a74f6eb8b91864212f882e4 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Thu, 18 Aug 2016 17:57:12 +0200
+Subject: [PATCH] Make cache support translate URLs
+
+This should resolve the assertion failure described in
+https://bugs.launchpad.net/ubuntu/+source/appstream/+bug/1614375
+---
+ src/pb/ascache.proto | 1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/src/pb/ascache.proto
++++ b/src/pb/ascache.proto
+@@ -74,6 +74,7 @@
+         FAQ = 3;
+         HELP = 4;
+         DONATION = 5;
++        TRANSLATE = 6;
+     }
+ 
+     required Type type = 1 [default = UNKNOWN];
