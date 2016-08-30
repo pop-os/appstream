@@ -1,0 +1,285 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsChecksum">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsChecksum.top_of_page">AsChecksum</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsChecksum</refname>
+<refpurpose>A single checksum used in a release.</refpurpose>
+</refnamediv>
+
+<refsect1 id="AsChecksum.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-checksum-kind-to-string">as_checksum_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsChecksumKind"><returnvalue>AsChecksumKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-kind-from-string">as_checksum_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsChecksum"><returnvalue>AsChecksum</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-checksum-new">as_checksum_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsChecksumKind"><returnvalue>AsChecksumKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-get-kind">as_checksum_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-set-kind">as_checksum_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-checksum-get-value">as_checksum_get_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-set-value">as_checksum_set_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsChecksum.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-CHECKSUM:CAPS">AS_TYPE_CHECKSUM</link></entry></row>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsChecksumClass">AsChecksumClass</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsChecksumKind">AsChecksumKind</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsChecksum-struct">AsChecksum</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsChecksum.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsChecksum
+</screen>
+</refsect1>
+
+<refsect1 id="AsChecksum.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
+
+<refsect1 id="AsChecksum.description" role="desc">
+<title role="desc.title">Description</title>
+<para>A checksum for a file referenced in a release.</para>
+<para>See also: <link linkend="AsRelease"><type>AsRelease</type></link></para>
+
+</refsect1>
+<refsect1 id="AsChecksum.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-checksum-kind-to-string" role="function">
+<title>as_checksum_kind_to_string&#160;()</title>
+<indexterm zone="as-checksum-kind-to-string"><primary>as_checksum_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_checksum_kind_to_string (<parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 id="as-checksum-kind-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsChecksumKind"><literal>AsChecksumKind</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-checksum-kind-to-string.returns" role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-kind-from-string" role="function">
+<title>as_checksum_kind_from_string&#160;()</title>
+<indexterm zone="as-checksum-kind-from-string"><primary>as_checksum_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsChecksumKind"><returnvalue>AsChecksumKind</returnvalue></link>
+as_checksum_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 id="as-checksum-kind-from-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-checksum-kind-from-string.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> or <link linkend="AS-CHECKSUM-KIND-NONE:CAPS"><literal>AS_CHECKSUM_KIND_NONE</literal></link> for unknown</para>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-new" role="function">
+<title>as_checksum_new&#160;()</title>
+<indexterm zone="as-checksum-new"><primary>as_checksum_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsChecksum"><returnvalue>AsChecksum</returnvalue></link>&#160;*
+as_checksum_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsChecksum"><type>AsChecksum</type></link>.</para>
+<refsect3 id="as-checksum-new.returns" role="returns">
+<title>Returns</title>
+<para> an <link linkend="AsChecksum"><type>AsChecksum</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-get-kind" role="function">
+<title>as_checksum_get_kind&#160;()</title>
+<indexterm zone="as-checksum-get-kind"><primary>as_checksum_get_kind</primary></indexterm>
+<programlisting language="C"><link linkend="AsChecksumKind"><returnvalue>AsChecksumKind</returnvalue></link>
+as_checksum_get_kind (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>);</programlisting>
+<para>Gets the checksum type.</para>
+<refsect3 id="as-checksum-get-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-checksum-get-kind.returns" role="returns">
+<title>Returns</title>
+<para> the <link linkend="AsChecksumKind"><type>AsChecksumKind</type></link></para>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-set-kind" role="function">
+<title>as_checksum_set_kind&#160;()</title>
+<indexterm zone="as-checksum-set-kind"><primary>as_checksum_set_kind</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_checksum_set_kind (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                      <parameter><link linkend="AsChecksumKind"><type>AsChecksumKind</type></link> kind</parameter>);</programlisting>
+<para>Sets the checksum type.</para>
+<refsect3 id="as-checksum-set-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsChecksumKind"><type>AsChecksumKind</type></link>, e.g. <link linkend="AS-CHECKSUM-KIND-SHA256:CAPS"><literal>AS_CHECKSUM_KIND_SHA256</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-get-value" role="function">
+<title>as_checksum_get_value&#160;()</title>
+<indexterm zone="as-checksum-get-value"><primary>as_checksum_get_value</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_checksum_get_value (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>);</programlisting>
+<para>Gets the checksum, usually in its hexadecimal form.</para>
+<refsect3 id="as-checksum-get-value.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-checksum-get-value.returns" role="returns">
+<title>Returns</title>
+<para> the checksum.</para>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-set-value" role="function">
+<title>as_checksum_set_value&#160;()</title>
+<indexterm zone="as-checksum-set-value"><primary>as_checksum_set_value</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_checksum_set_value (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Sets the checksum value filename.</para>
+<refsect3 id="as-checksum-set-value.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the new value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsChecksum.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-CHECKSUM:CAPS" role="macro">
+<title>AS_TYPE_CHECKSUM</title>
+<indexterm zone="AS-TYPE-CHECKSUM:CAPS"><primary>AS_TYPE_CHECKSUM</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_CHECKSUM (as_checksum_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsChecksumClass" role="struct">
+<title>struct AsChecksumClass</title>
+<indexterm zone="AsChecksumClass"><primary>AsChecksumClass</primary></indexterm>
+<programlisting language="C">struct AsChecksumClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsChecksumKind" role="enum">
+<title>enum AsChecksumKind</title>
+<indexterm zone="AsChecksumKind"><primary>AsChecksumKind</primary></indexterm>
+<para>Checksums supported by <link linkend="AsRelease"><type>AsRelease</type></link></para>
+<refsect3 id="AsChecksumKind.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CHECKSUM-KIND-NONE:CAPS">AS_CHECKSUM_KIND_NONE</para></entry>
+<entry role="enum_member_description"><para>No checksum</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CHECKSUM-KIND-SHA1:CAPS">AS_CHECKSUM_KIND_SHA1</para></entry>
+<entry role="enum_member_description"><para>SHA1</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CHECKSUM-KIND-SHA256:CAPS">AS_CHECKSUM_KIND_SHA256</para></entry>
+<entry role="enum_member_description"><para>SHA256</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsChecksum-struct" role="struct">
+<title>AsChecksum</title>
+<indexterm zone="AsChecksum-struct"><primary>AsChecksum</primary></indexterm>
+<programlisting language="C">typedef struct _AsChecksum AsChecksum;</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

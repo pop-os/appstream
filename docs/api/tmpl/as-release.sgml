@@ -35,33 +35,6 @@ AsRelease
 </para>
 
 
-<!-- ##### ENUM AsChecksumKind ##### -->
-<para>
-
-</para>
-
-@AS_CHECKSUM_KIND_NONE: 
-@AS_CHECKSUM_KIND_SHA1: 
-@AS_CHECKSUM_KIND_SHA256: 
-
-<!-- ##### FUNCTION as_checksum_kind_to_string ##### -->
-<para>
-
-</para>
-
-@kind: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_checksum_kind_from_string ##### -->
-<para>
-
-</para>
-
-@kind_str: 
-@Returns: 
-
-
 <!-- ##### ENUM AsSizeKind ##### -->
 <para>
 
@@ -98,6 +71,24 @@ AsRelease
 @Returns: 
 
 
+<!-- ##### FUNCTION as_release_get_active_locale ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_release_set_active_locale ##### -->
+<para>
+
+</para>
+
+@release: 
+@locale: 
+
+
 <!-- ##### FUNCTION as_release_get_version ##### -->
 <para>
 
@@ -114,6 +105,16 @@ AsRelease
 
 @release: 
 @version: 
+
+
+<!-- ##### FUNCTION as_release_vercmp ##### -->
+<para>
+
+</para>
+
+@rel1: 
+@rel2: 
+@Returns: 
 
 
 <!-- ##### FUNCTION as_release_get_timestamp ##### -->
@@ -153,24 +154,6 @@ AsRelease
 @locale: 
 
 
-<!-- ##### FUNCTION as_release_get_active_locale ##### -->
-<para>
-
-</para>
-
-@release: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_release_set_active_locale ##### -->
-<para>
-
-</para>
-
-@release: 
-@locale: 
-
-
 <!-- ##### FUNCTION as_release_get_locations ##### -->
 <para>
 
@@ -189,6 +172,15 @@ AsRelease
 @location: 
 
 
+<!-- ##### FUNCTION as_release_get_checksums ##### -->
+<para>
+
+</para>
+
+@release: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_release_get_checksum ##### -->
 <para>
 
@@ -199,14 +191,13 @@ AsRelease
 @Returns: 
 
 
-<!-- ##### FUNCTION as_release_set_checksum ##### -->
+<!-- ##### FUNCTION as_release_add_checksum ##### -->
 <para>
 
 </para>
 
 @release: 
-@checksum: 
-@kind: 
+@cs: 
 
 
 <!-- ##### FUNCTION as_release_get_urgency ##### -->

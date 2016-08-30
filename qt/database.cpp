@@ -34,6 +34,7 @@
 
 #include "image.h"
 #include "screenshot.h"
+#include "release.h"
 
 Q_LOGGING_CATEGORY(APPSTREAMQT_DB, "appstreamqt.database")
 
@@ -46,17 +47,17 @@ class Appstream::DatabasePrivate {
 
         QString m_cachePath;
         QString m_errorString;
-        AsDataPool *m_dpool;
+        AsPool *m_dpool;
 
         bool open() {
             g_autoptr(GError) error = NULL;
 
-            m_dpool = as_data_pool_new ();
+            m_dpool = as_pool_new ();
 
             if (m_cachePath.isEmpty())
-                as_data_pool_load (m_dpool, NULL, &error);
+                as_pool_load (m_dpool, NULL, &error);
             else
-                as_data_pool_load_cache_file (m_dpool, qPrintable(m_cachePath), &error);
+                as_pool_load_cache_file (m_dpool, qPrintable(m_cachePath), &error);
             if (error != NULL) {
                 m_errorString = QString::fromUtf8 (error->message);
                 return false;
@@ -112,7 +113,6 @@ QStringList value(GPtrArray *array) {
 
 Component convertAsComponent(AsComponent *cpt) {
     Component component;
-    std::string str;
 
     // kind
     QString kindString = value (as_component_kind_to_string (as_component_get_kind (cpt)));
@@ -135,16 +135,15 @@ Component convertAsComponent(AsComponent *cpt) {
     component.setPackageNames(packageNames);
 
     // Bundles
-    auto bundle_ids = as_component_get_bundles_table (cpt);
-    if (g_hash_table_size (bundle_ids) > 0) {
-        GHashTableIter iter;
-        gpointer key, strPtr;
-
+    auto bundles_array = as_component_get_bundles (cpt);
+    if (bundles_array->len > 0) {
         QHash<Component::BundleKind, QString> bundles;
-        g_hash_table_iter_init (&iter, bundle_ids);
-        while (g_hash_table_iter_next (&iter, &key, &strPtr)) {
-            auto bkind = (Component::BundleKind) GPOINTER_TO_INT (key);
-            auto bval = QString::fromUtf8((const gchar*) strPtr);
+
+        for (uint i = 0; i < bundles_array->len; i++) {
+            auto bundle = AS_BUNDLE (g_ptr_array_index (bundles_array, i));
+
+            auto bkind = (Component::BundleKind) as_bundle_get_kind (bundle);
+            auto bval = QString::fromUtf8(as_bundle_get_id (bundle));
             bundles.insertMulti(bkind, bval);
         }
         component.setBundles(bundles);
@@ -157,7 +156,7 @@ Component convertAsComponent(AsComponent *cpt) {
         gpointer key, cstrUrl;
 
         QMultiHash<Component::UrlKind, QUrl> urls;
-        g_hash_table_iter_init (&iter, bundle_ids);
+        g_hash_table_iter_init (&iter, urls_table);
         while (g_hash_table_iter_next (&iter, &key, &cstrUrl)) {
             auto ukind = (Component::UrlKind) GPOINTER_TO_INT (key);
             auto url = QUrl::fromUserInput(QString::fromUtf8((const gchar*) cstrUrl));
@@ -173,19 +172,20 @@ Component convertAsComponent(AsComponent *cpt) {
 
     // Provided items
     QList<Provides> provideslist;
-    for (uint j = 0; j < AS_PROVIDED_KIND_LAST; j++) {
-        AsProvidedKind kind = (AsProvidedKind) j;
+    for (uint i = 0; i < AS_PROVIDED_KIND_LAST; i++) {
+        AsProvidedKind kind = (AsProvidedKind) i;
 
         AsProvided *prov = as_component_get_provided_for_kind (cpt, kind);
         if (prov == NULL)
             continue;
 
         auto pkind = (Provides::Kind) kind;
-        gchar **items = as_provided_get_items (prov);
-	for (uint j = 0; items[j] != NULL; j++) {
+        auto items = as_provided_get_items (prov);
+	for (uint j = 0; j < items->len; j++) {
+            const gchar *value = (const gchar*) g_ptr_array_index (items, j);
             Provides provides;
             provides.setKind(pkind);
-            provides.setValue(QString::fromUtf8(items[j]));
+            provides.setValue(QString::fromUtf8(value));
             provideslist << provides;
         }
     }
@@ -219,8 +219,14 @@ Component convertAsComponent(AsComponent *cpt) {
     component.setExtends(extends);
 
     // Extensions
-    const QStringList extensions = value(as_component_get_extensions (cpt));
-    component.setExtensions(extensions);
+    auto addons_array = as_component_get_addons (cpt);
+    QStringList addons;
+    addons.reserve(addons_array->len);
+    for (uint i = 0; i < addons_array->len; i++) {
+        auto addon = AS_COMPONENT (g_ptr_array_index (addons_array, i));
+	addons.append (QString::fromUtf8(as_component_get_id (addon)));
+    }
+    component.setExtensions(addons);
 
     // Screenshots
     QList<Appstream::Screenshot> screenshots;
@@ -275,7 +281,13 @@ Component convertAsComponent(AsComponent *cpt) {
     component.setDeveloperName(developerName);
 
     // Releases
-      // TODO
+    QList<Release> releases;
+    auto releaseArray = as_component_get_releases(cpt);
+    for (uint i = 0; i < releaseArray->len; i++) {
+        auto release = AS_RELEASE (g_ptr_array_index (releaseArray, i));
+        releases += Release(release);
+    }
+    component.setReleases(releases);
 
     return component;
 }
@@ -286,7 +298,7 @@ QList< Component > Database::allComponents() const
     QList<Component> components;
 
     // get a pointer array of all components we have
-    array = as_data_pool_get_components (d->m_dpool);
+    array = as_pool_get_components (d->m_dpool);
     components.reserve(array->len);
 
     // create QList of AppStream::Component out of the AsComponents
@@ -300,13 +312,15 @@ QList< Component > Database::allComponents() const
 
 Component Database::componentById(const QString& id) const
 {
-    g_autoptr(AsComponent) cpt = NULL;
+    g_autoptr(GPtrArray) result = NULL;
 
-    cpt = as_data_pool_get_component_by_id (d->m_dpool, qPrintable(id));
-    if (cpt == NULL)
+    result = as_pool_get_components_by_id (d->m_dpool, qPrintable(id));
+    if (result->len == 0)
         return Component();
 
-    return convertAsComponent(cpt);
+    /* TODO: Return all metadata sets describing the component with this ID. Requires API break. */
+
+    return convertAsComponent(AS_COMPONENT (g_ptr_array_index (result, 0)));
 }
 
 QList< Component > Database::componentsByKind(Component::Kind kind) const
@@ -314,13 +328,16 @@ QList< Component > Database::componentsByKind(Component::Kind kind) const
     g_autoptr(GPtrArray) array = NULL;
     g_autoptr(GError) error = NULL;
     QList<Component> result;
+    AsComponentKind ckind;
 
-    array = as_data_pool_get_components_by_kind (d->m_dpool, (AsComponentKind) kind, &error);
-    if (error != NULL) {
-        qCCritical(APPSTREAMQT_DB, "Unable to get components by kind: %s", error->message);
+    ckind = (AsComponentKind) kind;
+
+    if ((ckind > AS_COMPONENT_KIND_LAST) || (ckind > AS_COMPONENT_KIND_UNKNOWN)) {
+        qCCritical(APPSTREAMQT_DB, "Unable to get components by kind: Component kind is invalid.");
         return result;
     }
 
+    array = as_pool_get_components_by_kind (d->m_dpool, ckind);
     result.reserve(array->len);
     for (uint i = 0; i < array->len; i++) {
         auto cpt = AS_COMPONENT (g_ptr_array_index (array, i));
@@ -335,7 +352,7 @@ QList< Component > Database::findComponentsByString(const QString& searchTerm, c
     Q_UNUSED(categories); // FIXME
 
     g_autoptr(GPtrArray) array = NULL;
-    array = as_data_pool_search (d->m_dpool, qPrintable(searchTerm));
+    array = as_pool_search (d->m_dpool, qPrintable(searchTerm));
     QList<Component> result;
     result.reserve(array->len);
 
@@ -352,7 +369,7 @@ QList<Component> Database::findComponentsByPackageName(const QString& packageNam
     const gchar *pkgname = qPrintable(packageName);
     QList<Component> result;
 
-    g_autoptr(GPtrArray) cpts = as_data_pool_get_components (d->m_dpool);
+    g_autoptr(GPtrArray) cpts = as_pool_get_components (d->m_dpool);
     for (uint i = 0; i < cpts->len; i++) {
         auto cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
 	auto pkgnames = as_component_get_pkgnames (cpt);

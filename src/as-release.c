@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2016 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -35,6 +35,9 @@
  */
 
 #include "as-release.h"
+#include "as-release-private.h"
+
+#include "as-utils.h"
 
 typedef struct
 {
@@ -44,7 +47,7 @@ typedef struct
 	gchar		*active_locale;
 
 	GPtrArray	*locations;
-	gchar		**checksums;
+	GPtrArray	*checksums;
 	guint64		size[AS_SIZE_KIND_LAST];
 
 	AsUrgencyKind	urgency;
@@ -52,46 +55,6 @@ typedef struct
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsRelease, as_release, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_release_get_instance_private (o))
-
-/**
- * as_checksum_kind_to_string:
- * @kind: the %AsChecksumKind.
- *
- * Converts the enumerated value to an text representation.
- *
- * Returns: string version of @kind
- **/
-const gchar*
-as_checksum_kind_to_string (AsChecksumKind kind)
-{
-	if (kind == AS_CHECKSUM_KIND_NONE)
-		return "none";
-	if (kind == AS_CHECKSUM_KIND_SHA1)
-		return "sha1";
-	if (kind == AS_CHECKSUM_KIND_SHA256)
-		return "sha256";
-	return "unknown";
-}
-
-/**
- * as_checksum_kind_from_string:
- * @kind_str: the string.
- *
- * Converts the text representation to an enumerated value.
- *
- * Returns: a #AsChecksumKind or %AS_CHECKSUM_KIND_NONE for unknown
- **/
-AsChecksumKind
-as_checksum_kind_from_string (const gchar *kind_str)
-{
-	if (g_strcmp0 (kind_str, "none") == 0)
-		return AS_CHECKSUM_KIND_NONE;
-	if (g_strcmp0 (kind_str, "sha1") == 0)
-		return AS_CHECKSUM_KIND_SHA1;
-	if (g_strcmp0 (kind_str, "sha256") == 0)
-		return AS_CHECKSUM_KIND_SHA256;
-	return AS_CHECKSUM_KIND_NONE;
-}
 
 /**
  * as_size_kind_to_string:
@@ -146,7 +109,7 @@ as_release_init (AsRelease *release)
 	priv->description = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->locations = g_ptr_array_new_with_free_func (g_free);
 
-	priv->checksums = g_new0 (gchar*, AS_CHECKSUM_KIND_LAST + 1);
+	priv->checksums = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->urgency = AS_URGENCY_KIND_UNKNOWN;
 
 	for (i = 0; i < AS_SIZE_KIND_LAST; i++)
@@ -166,7 +129,7 @@ as_release_finalize (GObject *object)
 	g_free (priv->active_locale);
 	g_hash_table_unref (priv->description);
 	g_ptr_array_unref (priv->locations);
-	g_strfreev (priv->checksums);
+	g_ptr_array_unref (priv->checksums);
 
 	G_OBJECT_CLASS (as_release_parent_class)->finalize (object);
 }
@@ -209,6 +172,22 @@ as_release_set_version (AsRelease *release, const gchar *version)
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 	g_free (priv->version);
 	priv->version = g_strdup (version);
+}
+
+/**
+ * as_release_vercmp:
+ * @rel1: an #AsRelease
+ * @rel2: an #AsRelease
+ *
+ * Compare the version numbers of two releases.
+ *
+ * Returns: 1 if @rel1 version is higher than @rel2, 0 if versions are equal, -1 if @rel1 version is higher than @rel2.
+ */
+gint
+as_release_vercmp (AsRelease *rel1, AsRelease *rel2)
+{
+	return as_utils_compare_versions (as_release_get_version (rel1),
+					  as_release_get_version (rel2));
 }
 
 /**
@@ -433,44 +412,58 @@ as_release_add_location (AsRelease *release, const gchar *location)
 }
 
 /**
+ * as_release_get_checksums:
+ *
+ * Get a list of all checksums we have for this release.
+ *
+ * Returns: (transfer none) (element-type AsChecksum): an array of #AsChecksum objects.
+ *
+ * Since: 0.10
+ **/
+GPtrArray*
+as_release_get_checksums (AsRelease *release)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	return priv->checksums;
+}
+
+/**
  * as_release_get_checksum:
  *
  * Gets the release checksum
  *
- * Returns: string, or %NULL for not set or invalid
+ * Returns: (transfer none): an #AsChecksum, or %NULL for not set or invalid
  *
  * Since: 0.8.2
  **/
-const gchar*
+AsChecksum*
 as_release_get_checksum (AsRelease *release, AsChecksumKind kind)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
-	g_return_val_if_fail (kind < AS_CHECKSUM_KIND_LAST, NULL);
-	if (kind == 0)
-		return NULL;
+	guint i;
 
-	return priv->checksums[kind];
+	for (i = 0; i < priv->checksums->len; i++) {
+		AsChecksum *cs = AS_CHECKSUM (g_ptr_array_index (priv->checksums, i));
+		if (as_checksum_get_kind (cs) == kind)
+			return cs;
+	}
+	return NULL;
 }
 
 /**
- * as_release_set_checksum:
+ * as_release_add_checksum:
  * @release: An instance of #AsRelease.
- * @checksum: The checksum as string.
- * @kind: The kind of this checksum, e.g. %AS_CHECKSUM_KIND_SHA256
+ * @cs: The #AsChecksum.
  *
- * Set the release checksum.
+ * Add a checksum for the file associated with this release.
  *
  * Since: 0.8.2
  */
 void
-as_release_set_checksum (AsRelease *release, const gchar *checksum, AsChecksumKind kind)
+as_release_add_checksum (AsRelease *release, AsChecksum *cs)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
-	g_return_if_fail (kind < AS_CHECKSUM_KIND_LAST);
-	g_return_if_fail (kind != 0);
-
-	g_free (priv->checksums[kind]);
-	priv->checksums[kind] = g_strdup (checksum);
+	g_ptr_array_add (priv->checksums, g_object_ref (cs));
 }
 
 /**

@@ -11,9 +11,8 @@
       <sub name="AsScreenshot" link="AsScreenshot.html"/>
       <sub name="AsImage" link="AsImage.html"/>
       <sub name="AsMetadata" link="AsMetadata.html"/>
-      <sub name="AsDataPool" link="AsDataPool.html"/>
+      <sub name="AsPool" link="AsPool.html"/>
       <sub name="AsDistroDetails" link="AsDistroDetails.html"/>
-      <sub name="AsMenuParser" link="AsMenuParser.html"/>
       <sub name="AsCategory" link="AsCategory.html"/>
       <sub name="AsValidator" link="AsValidator.html"/>
       <sub name="AsValidatorIssue" link="AsValidatorIssue.html"/>
@@ -25,7 +24,7 @@
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstreamcli" link="re18.html"/>
+      <sub name="appstreamcli" link="re17.html"/>
     </sub>
   </chapters>
   <functions>
@@ -34,17 +33,20 @@
     <keyword type="function" name="as_merge_kind_to_string ()" link="AsComponent.html#as-merge-kind-to-string"/>
     <keyword type="function" name="as_merge_kind_from_string ()" link="AsComponent.html#as-merge-kind-from-string"/>
     <keyword type="function" name="as_component_new ()" link="AsComponent.html#as-component-new"/>
-    <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
-    <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
+    <keyword type="function" name="as_component_get_value_flags ()" link="AsComponent.html#as-component-get-value-flags"/>
+    <keyword type="function" name="as_component_set_value_flags ()" link="AsComponent.html#as-component-set-value-flags"/>
     <keyword type="function" name="as_component_get_active_locale ()" link="AsComponent.html#as-component-get-active-locale"/>
     <keyword type="function" name="as_component_set_active_locale ()" link="AsComponent.html#as-component-set-active-locale"/>
-    <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
-    <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
     <keyword type="function" name="as_component_get_id ()" link="AsComponent.html#as-component-get-id"/>
     <keyword type="function" name="as_component_set_id ()" link="AsComponent.html#as-component-set-id"/>
+    <keyword type="function" name="as_component_get_data_id ()" link="AsComponent.html#as-component-get-data-id"/>
+    <keyword type="function" name="as_component_set_data_id ()" link="AsComponent.html#as-component-set-data-id"/>
+    <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
+    <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
     <keyword type="function" name="as_component_get_desktop_id ()" link="AsComponent.html#as-component-get-desktop-id" since="0.9.8"/>
     <keyword type="function" name="as_component_get_origin ()" link="AsComponent.html#as-component-get-origin"/>
     <keyword type="function" name="as_component_set_origin ()" link="AsComponent.html#as-component-set-origin"/>
+    <keyword type="function" name="as_component_get_pkgname ()" link="AsComponent.html#as-component-get-pkgname"/>
     <keyword type="function" name="as_component_get_pkgnames ()" link="AsComponent.html#as-component-get-pkgnames"/>
     <keyword type="function" name="as_component_set_pkgnames ()" link="AsComponent.html#as-component-set-pkgnames"/>
     <keyword type="function" name="as_component_get_source_pkgname ()" link="AsComponent.html#as-component-get-source-pkgname"/>
@@ -64,10 +66,10 @@
     <keyword type="function" name="as_component_get_developer_name ()" link="AsComponent.html#as-component-get-developer-name"/>
     <keyword type="function" name="as_component_set_developer_name ()" link="AsComponent.html#as-component-set-developer-name"/>
     <keyword type="function" name="as_component_get_compulsory_for_desktops ()" link="AsComponent.html#as-component-get-compulsory-for-desktops"/>
-    <keyword type="function" name="as_component_set_compulsory_for_desktops ()" link="AsComponent.html#as-component-set-compulsory-for-desktops"/>
+    <keyword type="function" name="as_component_set_compulsory_for_desktop ()" link="AsComponent.html#as-component-set-compulsory-for-desktop"/>
     <keyword type="function" name="as_component_is_compulsory_for_desktop ()" link="AsComponent.html#as-component-is-compulsory-for-desktop"/>
     <keyword type="function" name="as_component_get_categories ()" link="AsComponent.html#as-component-get-categories"/>
-    <keyword type="function" name="as_component_set_categories ()" link="AsComponent.html#as-component-set-categories"/>
+    <keyword type="function" name="as_component_add_category ()" link="AsComponent.html#as-component-add-category"/>
     <keyword type="function" name="as_component_has_category ()" link="AsComponent.html#as-component-has-category"/>
     <keyword type="function" name="as_component_get_screenshots ()" link="AsComponent.html#as-component-get-screenshots"/>
     <keyword type="function" name="as_component_add_screenshot ()" link="AsComponent.html#as-component-add-screenshot"/>
@@ -76,25 +78,26 @@
     <keyword type="function" name="as_component_get_icons ()" link="AsComponent.html#as-component-get-icons"/>
     <keyword type="function" name="as_component_get_icon_by_size ()" link="AsComponent.html#as-component-get-icon-by-size"/>
     <keyword type="function" name="as_component_add_icon ()" link="AsComponent.html#as-component-add-icon"/>
+    <keyword type="function" name="as_component_get_provided ()" link="AsComponent.html#as-component-get-provided"/>
     <keyword type="function" name="as_component_add_provided ()" link="AsComponent.html#as-component-add-provided" since="0.6.2"/>
     <keyword type="function" name="as_component_get_provided_for_kind ()" link="AsComponent.html#as-component-get-provided-for-kind"/>
-    <keyword type="function" name="as_component_get_provided ()" link="AsComponent.html#as-component-get-provided"/>
     <keyword type="function" name="as_component_get_url ()" link="AsComponent.html#as-component-get-url" since="0.6.2"/>
     <keyword type="function" name="as_component_add_url ()" link="AsComponent.html#as-component-add-url" since="0.6.2"/>
     <keyword type="function" name="as_component_get_releases ()" link="AsComponent.html#as-component-get-releases"/>
     <keyword type="function" name="as_component_add_release ()" link="AsComponent.html#as-component-add-release"/>
     <keyword type="function" name="as_component_get_extends ()" link="AsComponent.html#as-component-get-extends" since="0.7.0"/>
     <keyword type="function" name="as_component_add_extends ()" link="AsComponent.html#as-component-add-extends" since="0.7.0"/>
-    <keyword type="function" name="as_component_get_extensions ()" link="AsComponent.html#as-component-get-extensions" since="0.9.2"/>
-    <keyword type="function" name="as_component_add_extension ()" link="AsComponent.html#as-component-add-extension" since="0.9.2"/>
+    <keyword type="function" name="as_component_get_addons ()" link="AsComponent.html#as-component-get-addons" since="0.9.2"/>
+    <keyword type="function" name="as_component_add_addon ()" link="AsComponent.html#as-component-add-addon" since="0.9.2"/>
     <keyword type="function" name="as_component_get_languages ()" link="AsComponent.html#as-component-get-languages" since="0.7.0"/>
     <keyword type="function" name="as_component_get_language ()" link="AsComponent.html#as-component-get-language" since="0.7.0"/>
     <keyword type="function" name="as_component_add_language ()" link="AsComponent.html#as-component-add-language" since="0.7.0"/>
     <keyword type="function" name="as_component_get_translations ()" link="AsComponent.html#as-component-get-translations" since="0.9.2"/>
     <keyword type="function" name="as_component_add_translation ()" link="AsComponent.html#as-component-add-translation" since="0.9.2"/>
     <keyword type="function" name="as_component_has_bundle ()" link="AsComponent.html#as-component-has-bundle"/>
-    <keyword type="function" name="as_component_get_bundle_id ()" link="AsComponent.html#as-component-get-bundle-id" since="0.8.0"/>
-    <keyword type="function" name="as_component_add_bundle_id ()" link="AsComponent.html#as-component-add-bundle-id" since="0.8.0"/>
+    <keyword type="function" name="as_component_get_bundles ()" link="AsComponent.html#as-component-get-bundles" since="0.10"/>
+    <keyword type="function" name="as_component_get_bundle ()" link="AsComponent.html#as-component-get-bundle" since="0.8.0"/>
+    <keyword type="function" name="as_component_add_bundle ()" link="AsComponent.html#as-component-add-bundle" since="0.8.0"/>
     <keyword type="function" name="as_component_get_suggested ()" link="AsComponent.html#as-component-get-suggested"/>
     <keyword type="function" name="as_component_add_suggested ()" link="AsComponent.html#as-component-add-suggested"/>
     <keyword type="function" name="as_component_get_search_tokens ()" link="AsComponent.html#as-component-get-search-tokens" since="0.9.7"/>
@@ -102,10 +105,14 @@
     <keyword type="function" name="as_component_search_matches_all ()" link="AsComponent.html#as-component-search-matches-all" since="0.9.8"/>
     <keyword type="function" name="as_component_get_merge_kind ()" link="AsComponent.html#as-component-get-merge-kind" since="0.9.8"/>
     <keyword type="function" name="as_component_set_merge_kind ()" link="AsComponent.html#as-component-set-merge-kind" since="0.9.8"/>
+    <keyword type="function" name="as_component_is_member_of_category ()" link="AsComponent.html#as-component-is-member-of-category"/>
+    <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
+    <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
     <keyword type="macro" name="AS_TYPE_COMPONENT" link="AsComponent.html#AS-TYPE-COMPONENT:CAPS"/>
     <keyword type="struct" name="struct AsComponentClass" link="AsComponent.html#AsComponentClass"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="enum" name="enum AsMergeKind" link="AsComponent.html#AsMergeKind"/>
+    <keyword type="enum" name="enum AsValueFlags" link="AsComponent.html#AsValueFlags"/>
     <keyword type="struct" name="AsComponent" link="AsComponent.html#AsComponent-struct"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
     <keyword type="property" name="The “description” property" link="AsComponent.html#AsComponent--description"/>
@@ -121,40 +128,39 @@
     <keyword type="property" name="The “screenshots” property" link="AsComponent.html#AsComponent--screenshots"/>
     <keyword type="property" name="The “summary” property" link="AsComponent.html#AsComponent--summary"/>
     <keyword type="property" name="The “urls” property" link="AsComponent.html#AsComponent--urls"/>
+    <keyword type="macro" name="as_flags_add()" link="appstream-as-enums.html#as-flags-add"/>
+    <keyword type="macro" name="as_flags_remove()" link="appstream-as-enums.html#as-flags-remove"/>
+    <keyword type="macro" name="as_flags_invert()" link="appstream-as-enums.html#as-flags-invert"/>
+    <keyword type="macro" name="as_flags_contains()" link="appstream-as-enums.html#as-flags-contains"/>
     <keyword type="function" name="as_url_kind_to_string ()" link="appstream-as-enums.html#as-url-kind-to-string"/>
     <keyword type="function" name="as_url_kind_from_string ()" link="appstream-as-enums.html#as-url-kind-from-string"/>
-    <keyword type="function" name="as_bundle_kind_to_string ()" link="appstream-as-enums.html#as-bundle-kind-to-string" since="0.8.0"/>
-    <keyword type="function" name="as_bundle_kind_from_string ()" link="appstream-as-enums.html#as-bundle-kind-from-string"/>
     <keyword type="function" name="as_urgency_kind_to_string ()" link="appstream-as-enums.html#as-urgency-kind-to-string" since="0.6.5"/>
     <keyword type="function" name="as_urgency_kind_from_string ()" link="appstream-as-enums.html#as-urgency-kind-from-string" since="0.6.5"/>
     <keyword type="enum" name="enum AsUrlKind" link="appstream-as-enums.html#AsUrlKind"/>
-    <keyword type="enum" name="enum AsBundleKind" link="appstream-as-enums.html#AsBundleKind"/>
-    <keyword type="macro" name="AS_BUNDLE_KIND_XDG_APP" link="appstream-as-enums.html#AS-BUNDLE-KIND-XDG-APP:CAPS"/>
     <keyword type="enum" name="enum AsUrgencyKind" link="appstream-as-enums.html#AsUrgencyKind"/>
-    <keyword type="function" name="as_checksum_kind_to_string ()" link="AsRelease.html#as-checksum-kind-to-string"/>
-    <keyword type="function" name="as_checksum_kind_from_string ()" link="AsRelease.html#as-checksum-kind-from-string"/>
     <keyword type="function" name="as_size_kind_to_string ()" link="AsRelease.html#as-size-kind-to-string" since="0.8.6"/>
     <keyword type="function" name="as_size_kind_from_string ()" link="AsRelease.html#as-size-kind-from-string" since="0.8.6"/>
     <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
+    <keyword type="function" name="as_release_get_active_locale ()" link="AsRelease.html#as-release-get-active-locale"/>
+    <keyword type="function" name="as_release_set_active_locale ()" link="AsRelease.html#as-release-set-active-locale"/>
     <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
     <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
+    <keyword type="function" name="as_release_vercmp ()" link="AsRelease.html#as-release-vercmp"/>
     <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
     <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
     <keyword type="function" name="as_release_get_description ()" link="AsRelease.html#as-release-get-description"/>
     <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
-    <keyword type="function" name="as_release_get_active_locale ()" link="AsRelease.html#as-release-get-active-locale"/>
-    <keyword type="function" name="as_release_set_active_locale ()" link="AsRelease.html#as-release-set-active-locale"/>
     <keyword type="function" name="as_release_get_locations ()" link="AsRelease.html#as-release-get-locations" since="0.8.1"/>
     <keyword type="function" name="as_release_add_location ()" link="AsRelease.html#as-release-add-location" since="0.8.1"/>
+    <keyword type="function" name="as_release_get_checksums ()" link="AsRelease.html#as-release-get-checksums" since="0.10"/>
     <keyword type="function" name="as_release_get_checksum ()" link="AsRelease.html#as-release-get-checksum" since="0.8.2"/>
-    <keyword type="function" name="as_release_set_checksum ()" link="AsRelease.html#as-release-set-checksum" since="0.8.2"/>
+    <keyword type="function" name="as_release_add_checksum ()" link="AsRelease.html#as-release-add-checksum" since="0.8.2"/>
     <keyword type="function" name="as_release_get_urgency ()" link="AsRelease.html#as-release-get-urgency" since="0.6.5"/>
     <keyword type="function" name="as_release_set_urgency ()" link="AsRelease.html#as-release-set-urgency" since="0.6.5"/>
     <keyword type="function" name="as_release_get_size ()" link="AsRelease.html#as-release-get-size" since="0.8.6"/>
     <keyword type="function" name="as_release_set_size ()" link="AsRelease.html#as-release-set-size" since="0.8.6"/>
     <keyword type="macro" name="AS_TYPE_RELEASE" link="AsRelease.html#AS-TYPE-RELEASE:CAPS"/>
     <keyword type="struct" name="struct AsReleaseClass" link="AsRelease.html#AsReleaseClass"/>
-    <keyword type="enum" name="enum AsChecksumKind" link="AsRelease.html#AsChecksumKind"/>
     <keyword type="enum" name="enum AsSizeKind" link="AsRelease.html#AsSizeKind" since="0.8.6"/>
     <keyword type="struct" name="AsRelease" link="AsRelease.html#AsRelease-struct"/>
     <keyword type="function" name="as_icon_kind_from_string ()" link="AsIcon.html#as-icon-kind-from-string"/>
@@ -209,11 +215,11 @@
     <keyword type="function" name="as_screenshot_set_kind ()" link="AsScreenshot.html#as-screenshot-set-kind"/>
     <keyword type="function" name="as_screenshot_get_caption ()" link="AsScreenshot.html#as-screenshot-get-caption"/>
     <keyword type="function" name="as_screenshot_set_caption ()" link="AsScreenshot.html#as-screenshot-set-caption"/>
+    <keyword type="function" name="as_screenshot_get_images_all ()" link="AsScreenshot.html#as-screenshot-get-images-all" since="0.10"/>
     <keyword type="function" name="as_screenshot_get_images ()" link="AsScreenshot.html#as-screenshot-get-images"/>
     <keyword type="function" name="as_screenshot_add_image ()" link="AsScreenshot.html#as-screenshot-add-image"/>
     <keyword type="function" name="as_screenshot_get_active_locale ()" link="AsScreenshot.html#as-screenshot-get-active-locale"/>
     <keyword type="function" name="as_screenshot_set_active_locale ()" link="AsScreenshot.html#as-screenshot-set-active-locale"/>
-    <keyword type="function" name="as_screenshot_get_images_localized ()" link="AsScreenshot.html#as-screenshot-get-images-localized" since="0.9.5"/>
     <keyword type="macro" name="AS_TYPE_SCREENSHOT" link="AsScreenshot.html#AS-TYPE-SCREENSHOT:CAPS"/>
     <keyword type="struct" name="struct AsScreenshotClass" link="AsScreenshot.html#AsScreenshotClass"/>
     <keyword type="enum" name="enum AsScreenshotKind" link="AsScreenshot.html#AsScreenshotKind"/>
@@ -235,21 +241,26 @@
     <keyword type="struct" name="struct AsImageClass" link="AsImage.html#AsImageClass"/>
     <keyword type="enum" name="enum AsImageKind" link="AsImage.html#AsImageKind"/>
     <keyword type="struct" name="AsImage" link="AsImage.html#AsImage-struct"/>
+    <keyword type="function" name="as_format_kind_to_string ()" link="AsMetadata.html#as-format-kind-to-string" since="0.10"/>
+    <keyword type="function" name="as_format_kind_from_string ()" link="AsMetadata.html#as-format-kind-from-string" since="0.10"/>
+    <keyword type="function" name="as_format_version_to_string ()" link="AsMetadata.html#as-format-version-to-string" since="0.10"/>
+    <keyword type="function" name="as_format_version_from_string ()" link="AsMetadata.html#as-format-version-from-string" since="0.10"/>
     <keyword type="function" name="as_metadata_new ()" link="AsMetadata.html#as-metadata-new"/>
     <keyword type="function" name="as_metadata_error_quark ()" link="AsMetadata.html#as-metadata-error-quark"/>
     <keyword type="function" name="as_metadata_parse_file ()" link="AsMetadata.html#as-metadata-parse-file"/>
-    <keyword type="function" name="as_metadata_parse_xml ()" link="AsMetadata.html#as-metadata-parse-xml"/>
-    <keyword type="function" name="as_metadata_parse_yaml ()" link="AsMetadata.html#as-metadata-parse-yaml"/>
+    <keyword type="function" name="as_metadata_parse ()" link="AsMetadata.html#as-metadata-parse"/>
     <keyword type="function" name="as_metadata_get_component ()" link="AsMetadata.html#as-metadata-get-component"/>
     <keyword type="function" name="as_metadata_get_components ()" link="AsMetadata.html#as-metadata-get-components"/>
     <keyword type="function" name="as_metadata_clear_components ()" link="AsMetadata.html#as-metadata-clear-components"/>
     <keyword type="function" name="as_metadata_add_component ()" link="AsMetadata.html#as-metadata-add-component"/>
-    <keyword type="function" name="as_metadata_component_to_upstream_xml ()" link="AsMetadata.html#as-metadata-component-to-upstream-xml"/>
-    <keyword type="function" name="as_metadata_save_upstream_xml ()" link="AsMetadata.html#as-metadata-save-upstream-xml"/>
-    <keyword type="function" name="as_metadata_components_to_distro_xml ()" link="AsMetadata.html#as-metadata-components-to-distro-xml"/>
-    <keyword type="function" name="as_metadata_save_distro_xml ()" link="AsMetadata.html#as-metadata-save-distro-xml"/>
-    <keyword type="function" name="as_metadata_components_to_distro_yaml ()" link="AsMetadata.html#as-metadata-components-to-distro-yaml"/>
-    <keyword type="function" name="as_metadata_save_distro_yaml ()" link="AsMetadata.html#as-metadata-save-distro-yaml"/>
+    <keyword type="function" name="as_metadata_component_to_metainfo ()" link="AsMetadata.html#as-metadata-component-to-metainfo"/>
+    <keyword type="function" name="as_metadata_save_metainfo ()" link="AsMetadata.html#as-metadata-save-metainfo"/>
+    <keyword type="function" name="as_metadata_components_to_collection ()" link="AsMetadata.html#as-metadata-components-to-collection"/>
+    <keyword type="function" name="as_metadata_save_collection ()" link="AsMetadata.html#as-metadata-save-collection"/>
+    <keyword type="function" name="as_metadata_get_format_version ()" link="AsMetadata.html#as-metadata-get-format-version"/>
+    <keyword type="function" name="as_metadata_set_format_version ()" link="AsMetadata.html#as-metadata-set-format-version"/>
+    <keyword type="function" name="as_metadata_get_format_style ()" link="AsMetadata.html#as-metadata-get-format-style"/>
+    <keyword type="function" name="as_metadata_set_format_style ()" link="AsMetadata.html#as-metadata-set-format-style"/>
     <keyword type="function" name="as_metadata_set_locale ()" link="AsMetadata.html#as-metadata-set-locale"/>
     <keyword type="function" name="as_metadata_get_locale ()" link="AsMetadata.html#as-metadata-get-locale"/>
     <keyword type="function" name="as_metadata_get_origin ()" link="AsMetadata.html#as-metadata-get-origin"/>
@@ -258,97 +269,97 @@
     <keyword type="function" name="as_metadata_set_update_existing ()" link="AsMetadata.html#as-metadata-set-update-existing"/>
     <keyword type="function" name="as_metadata_get_write_header ()" link="AsMetadata.html#as-metadata-get-write-header"/>
     <keyword type="function" name="as_metadata_set_write_header ()" link="AsMetadata.html#as-metadata-set-write-header"/>
-    <keyword type="function" name="as_metadata_set_parser_mode ()" link="AsMetadata.html#as-metadata-set-parser-mode"/>
-    <keyword type="function" name="as_metadata_get_parser_mode ()" link="AsMetadata.html#as-metadata-get-parser-mode"/>
     <keyword type="function" name="as_metadata_get_architecture ()" link="AsMetadata.html#as-metadata-get-architecture"/>
     <keyword type="function" name="as_metadata_set_architecture ()" link="AsMetadata.html#as-metadata-set-architecture"/>
     <keyword type="macro" name="AS_TYPE_METADATA" link="AsMetadata.html#AS-TYPE-METADATA:CAPS"/>
     <keyword type="struct" name="struct AsMetadataClass" link="AsMetadata.html#AsMetadataClass"/>
-    <keyword type="enum" name="enum AsParserMode" link="AsMetadata.html#AsParserMode"/>
+    <keyword type="enum" name="enum AsFormatStyle" link="AsMetadata.html#AsFormatStyle"/>
+    <keyword type="enum" name="enum AsFormatKind" link="AsMetadata.html#AsFormatKind"/>
+    <keyword type="enum" name="enum AsFormatVersion" link="AsMetadata.html#AsFormatVersion"/>
+    <keyword type="macro" name="AS_CURRENT_FORMAT_VERSION" link="AsMetadata.html#AS-CURRENT-FORMAT-VERSION:CAPS"/>
     <keyword type="enum" name="enum AsMetadataError" link="AsMetadata.html#AsMetadataError"/>
     <keyword type="macro" name="AS_METADATA_ERROR" link="AsMetadata.html#AS-METADATA-ERROR:CAPS"/>
     <keyword type="struct" name="AsMetadata" link="AsMetadata.html#AsMetadata-struct"/>
-    <keyword type="function" name="as_data_pool_error_quark ()" link="AsDataPool.html#as-data-pool-error-quark"/>
-    <keyword type="function" name="as_data_pool_new ()" link="AsDataPool.html#as-data-pool-new"/>
-    <keyword type="function" name="as_data_pool_get_locale ()" link="AsDataPool.html#as-data-pool-get-locale"/>
-    <keyword type="function" name="as_data_pool_set_locale ()" link="AsDataPool.html#as-data-pool-set-locale"/>
-    <keyword type="function" name="as_data_pool_load ()" link="AsDataPool.html#as-data-pool-load"/>
-    <keyword type="function" name="as_data_pool_load_metadata ()" link="AsDataPool.html#as-data-pool-load-metadata"/>
-    <keyword type="function" name="as_data_pool_load_cache_file ()" link="AsDataPool.html#as-data-pool-load-cache-file"/>
-    <keyword type="function" name="as_data_pool_save_cache_file ()" link="AsDataPool.html#as-data-pool-save-cache-file"/>
-    <keyword type="function" name="as_data_pool_clear ()" link="AsDataPool.html#as-data-pool-clear"/>
-    <keyword type="function" name="as_data_pool_add_component ()" link="AsDataPool.html#as-data-pool-add-component"/>
-    <keyword type="function" name="as_data_pool_get_components ()" link="AsDataPool.html#as-data-pool-get-components"/>
-    <keyword type="function" name="as_data_pool_get_component_by_id ()" link="AsDataPool.html#as-data-pool-get-component-by-id"/>
-    <keyword type="function" name="as_data_pool_get_components_by_provided_item ()" link="AsDataPool.html#as-data-pool-get-components-by-provided-item"/>
-    <keyword type="function" name="as_data_pool_get_components_by_kind ()" link="AsDataPool.html#as-data-pool-get-components-by-kind"/>
-    <keyword type="function" name="as_data_pool_get_components_by_categories ()" link="AsDataPool.html#as-data-pool-get-components-by-categories"/>
-    <keyword type="function" name="as_data_pool_search ()" link="AsDataPool.html#as-data-pool-search" since="0.9.7"/>
-    <keyword type="function" name="as_data_pool_get_metadata_locations ()" link="AsDataPool.html#as-data-pool-get-metadata-locations"/>
-    <keyword type="function" name="as_data_pool_set_metadata_locations ()" link="AsDataPool.html#as-data-pool-set-metadata-locations"/>
-    <keyword type="function" name="as_data_pool_get_cache_flags ()" link="AsDataPool.html#as-data-pool-get-cache-flags"/>
-    <keyword type="function" name="as_data_pool_set_cache_flags ()" link="AsDataPool.html#as-data-pool-set-cache-flags"/>
-    <keyword type="function" name="as_data_pool_refresh_cache ()" link="AsDataPool.html#as-data-pool-refresh-cache"/>
-    <keyword type="function" name="as_data_pool_get_cache_age ()" link="AsDataPool.html#as-data-pool-get-cache-age"/>
-    <keyword type="function" name="as_data_pool_update ()" link="AsDataPool.html#as-data-pool-update" deprecated=""/>
-    <keyword type="macro" name="AS_TYPE_DATA_POOL" link="AsDataPool.html#AS-TYPE-DATA-POOL:CAPS"/>
-    <keyword type="struct" name="struct AsDataPoolClass" link="AsDataPool.html#AsDataPoolClass"/>
-    <keyword type="enum" name="enum AsCacheFlags" link="AsDataPool.html#AsCacheFlags"/>
-    <keyword type="enum" name="enum AsDataPoolError" link="AsDataPool.html#AsDataPoolError"/>
-    <keyword type="macro" name="AS_DATA_POOL_ERROR" link="AsDataPool.html#AS-DATA-POOL-ERROR:CAPS"/>
-    <keyword type="struct" name="AsDataPool" link="AsDataPool.html#AsDataPool-struct"/>
+    <keyword type="function" name="as_pool_error_quark ()" link="AsPool.html#as-pool-error-quark"/>
+    <keyword type="function" name="as_pool_new ()" link="AsPool.html#as-pool-new"/>
+    <keyword type="function" name="as_pool_get_locale ()" link="AsPool.html#as-pool-get-locale"/>
+    <keyword type="function" name="as_pool_set_locale ()" link="AsPool.html#as-pool-set-locale"/>
+    <keyword type="function" name="as_pool_load ()" link="AsPool.html#as-pool-load"/>
+    <keyword type="function" name="as_pool_load_cache_file ()" link="AsPool.html#as-pool-load-cache-file"/>
+    <keyword type="function" name="as_pool_save_cache_file ()" link="AsPool.html#as-pool-save-cache-file"/>
+    <keyword type="function" name="as_pool_clear ()" link="AsPool.html#as-pool-clear"/>
+    <keyword type="function" name="as_pool_add_component ()" link="AsPool.html#as-pool-add-component"/>
+    <keyword type="function" name="as_pool_get_components ()" link="AsPool.html#as-pool-get-components"/>
+    <keyword type="function" name="as_pool_get_components_by_id ()" link="AsPool.html#as-pool-get-components-by-id"/>
+    <keyword type="function" name="as_pool_get_components_by_provided_item ()" link="AsPool.html#as-pool-get-components-by-provided-item"/>
+    <keyword type="function" name="as_pool_get_components_by_kind ()" link="AsPool.html#as-pool-get-components-by-kind"/>
+    <keyword type="function" name="as_pool_get_components_by_categories ()" link="AsPool.html#as-pool-get-components-by-categories"/>
+    <keyword type="function" name="as_pool_search ()" link="AsPool.html#as-pool-search" since="0.9.7"/>
+    <keyword type="function" name="as_pool_clear_metadata_locations ()" link="AsPool.html#as-pool-clear-metadata-locations"/>
+    <keyword type="function" name="as_pool_add_metadata_location ()" link="AsPool.html#as-pool-add-metadata-location"/>
+    <keyword type="function" name="as_pool_get_cache_flags ()" link="AsPool.html#as-pool-get-cache-flags"/>
+    <keyword type="function" name="as_pool_set_cache_flags ()" link="AsPool.html#as-pool-set-cache-flags"/>
+    <keyword type="function" name="as_pool_refresh_cache ()" link="AsPool.html#as-pool-refresh-cache"/>
+    <keyword type="macro" name="AS_TYPE_POOL" link="AsPool.html#AS-TYPE-POOL:CAPS"/>
+    <keyword type="struct" name="struct AsPoolClass" link="AsPool.html#AsPoolClass"/>
+    <keyword type="enum" name="enum AsCacheFlags" link="AsPool.html#AsCacheFlags"/>
+    <keyword type="enum" name="enum AsPoolError" link="AsPool.html#AsPoolError"/>
+    <keyword type="macro" name="AS_POOL_ERROR" link="AsPool.html#AS-POOL-ERROR:CAPS"/>
+    <keyword type="struct" name="AsPool" link="AsPool.html#AsPool-struct"/>
     <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
     <keyword type="function" name="as_distro_details_get_id ()" link="AsDistroDetails.html#as-distro-details-get-id"/>
     <keyword type="function" name="as_distro_details_get_name ()" link="AsDistroDetails.html#as-distro-details-get-name"/>
     <keyword type="function" name="as_distro_details_get_version ()" link="AsDistroDetails.html#as-distro-details-get-version"/>
     <keyword type="function" name="as_distro_details_get_str ()" link="AsDistroDetails.html#as-distro-details-get-str"/>
     <keyword type="function" name="as_distro_details_get_bool ()" link="AsDistroDetails.html#as-distro-details-get-bool"/>
-    <keyword type="function" name="as_get_icon_repository_paths ()" link="AsDistroDetails.html#as-get-icon-repository-paths"/>
     <keyword type="macro" name="AS_TYPE_DISTRO_DETAILS" link="AsDistroDetails.html#AS-TYPE-DISTRO-DETAILS:CAPS"/>
     <keyword type="struct" name="struct AsDistroDetailsClass" link="AsDistroDetails.html#AsDistroDetailsClass"/>
     <keyword type="struct" name="AsDistroDetails" link="AsDistroDetails.html#AsDistroDetails-struct"/>
     <keyword type="property" name="The “id” property" link="AsDistroDetails.html#AsDistroDetails--id"/>
     <keyword type="property" name="The “name” property" link="AsDistroDetails.html#AsDistroDetails--name"/>
     <keyword type="property" name="The “version” property" link="AsDistroDetails.html#AsDistroDetails--version"/>
-    <keyword type="function" name="as_menu_parser_new ()" link="AsMenuParser.html#as-menu-parser-new"/>
-    <keyword type="function" name="as_menu_parser_new_from_file ()" link="AsMenuParser.html#as-menu-parser-new-from-file"/>
-    <keyword type="function" name="as_menu_parser_parse ()" link="AsMenuParser.html#as-menu-parser-parse"/>
-    <keyword type="function" name="as_menu_parser_get_update_category_data ()" link="AsMenuParser.html#as-menu-parser-get-update-category-data"/>
-    <keyword type="function" name="as_menu_parser_set_update_category_data ()" link="AsMenuParser.html#as-menu-parser-set-update-category-data"/>
-    <keyword type="function" name="as_get_system_categories ()" link="AsMenuParser.html#as-get-system-categories"/>
-    <keyword type="macro" name="AS_TYPE_MENU_PARSER" link="AsMenuParser.html#AS-TYPE-MENU-PARSER:CAPS"/>
-    <keyword type="struct" name="struct AsMenuParserClass" link="AsMenuParser.html#AsMenuParserClass"/>
-    <keyword type="struct" name="AsMenuParser" link="AsMenuParser.html#AsMenuParser-struct"/>
-    <keyword type="property" name="The “update-category-data” property" link="AsMenuParser.html#AsMenuParser--update-category-data"/>
     <keyword type="function" name="as_category_new ()" link="AsCategory.html#as-category-new"/>
-    <keyword type="function" name="as_category_complete ()" link="AsCategory.html#as-category-complete"/>
-    <keyword type="function" name="as_category_get_directory ()" link="AsCategory.html#as-category-get-directory"/>
-    <keyword type="function" name="as_category_set_directory ()" link="AsCategory.html#as-category-set-directory"/>
+    <keyword type="function" name="as_category_get_id ()" link="AsCategory.html#as-category-get-id"/>
+    <keyword type="function" name="as_category_set_id ()" link="AsCategory.html#as-category-set-id"/>
     <keyword type="function" name="as_category_get_name ()" link="AsCategory.html#as-category-get-name"/>
     <keyword type="function" name="as_category_set_name ()" link="AsCategory.html#as-category-set-name"/>
     <keyword type="function" name="as_category_get_summary ()" link="AsCategory.html#as-category-get-summary"/>
     <keyword type="function" name="as_category_set_summary ()" link="AsCategory.html#as-category-set-summary"/>
     <keyword type="function" name="as_category_get_icon ()" link="AsCategory.html#as-category-get-icon"/>
     <keyword type="function" name="as_category_set_icon ()" link="AsCategory.html#as-category-set-icon"/>
-    <keyword type="function" name="as_category_has_subcategory ()" link="AsCategory.html#as-category-has-subcategory"/>
-    <keyword type="function" name="as_category_add_subcategory ()" link="AsCategory.html#as-category-add-subcategory"/>
-    <keyword type="function" name="as_category_remove_subcategory ()" link="AsCategory.html#as-category-remove-subcategory"/>
-    <keyword type="function" name="as_category_get_included ()" link="AsCategory.html#as-category-get-included"/>
-    <keyword type="function" name="as_category_get_excluded ()" link="AsCategory.html#as-category-get-excluded"/>
-    <keyword type="function" name="as_category_get_subcategories ()" link="AsCategory.html#as-category-get-subcategories"/>
-    <keyword type="function" name="as_category_get_level ()" link="AsCategory.html#as-category-get-level"/>
-    <keyword type="function" name="as_category_set_level ()" link="AsCategory.html#as-category-set-level"/>
+    <keyword type="function" name="as_category_get_children ()" link="AsCategory.html#as-category-get-children"/>
+    <keyword type="function" name="as_category_has_children ()" link="AsCategory.html#as-category-has-children"/>
+    <keyword type="function" name="as_category_add_child ()" link="AsCategory.html#as-category-add-child"/>
+    <keyword type="function" name="as_category_remove_child ()" link="AsCategory.html#as-category-remove-child"/>
+    <keyword type="function" name="as_category_get_desktop_groups ()" link="AsCategory.html#as-category-get-desktop-groups"/>
+    <keyword type="function" name="as_category_add_desktop_group ()" link="AsCategory.html#as-category-add-desktop-group"/>
+    <keyword type="function" name="as_category_get_components ()" link="AsCategory.html#as-category-get-components"/>
+    <keyword type="function" name="as_category_add_component ()" link="AsCategory.html#as-category-add-component"/>
+    <keyword type="function" name="as_category_has_component ()" link="AsCategory.html#as-category-has-component"/>
+    <keyword type="function" name="as_get_default_categories ()" link="AsCategory.html#as-get-default-categories"/>
     <keyword type="macro" name="AS_TYPE_CATEGORY" link="AsCategory.html#AS-TYPE-CATEGORY:CAPS"/>
     <keyword type="struct" name="struct AsCategoryClass" link="AsCategory.html#AsCategoryClass"/>
     <keyword type="struct" name="AsCategory" link="AsCategory.html#AsCategory-struct"/>
-    <keyword type="property" name="The “directory” property" link="AsCategory.html#AsCategory--directory"/>
-    <keyword type="property" name="The “excluded” property" link="AsCategory.html#AsCategory--excluded"/>
+    <keyword type="struct" name="AsComponent" link="AsCategory.html#AsComponent-struct"/>
+    <keyword type="property" name="The “children” property" link="AsCategory.html#AsCategory--children"/>
     <keyword type="property" name="The “icon” property" link="AsCategory.html#AsCategory--icon"/>
-    <keyword type="property" name="The “included” property" link="AsCategory.html#AsCategory--included"/>
-    <keyword type="property" name="The “level” property" link="AsCategory.html#AsCategory--level"/>
+    <keyword type="property" name="The “id” property" link="AsCategory.html#AsCategory--id"/>
     <keyword type="property" name="The “name” property" link="AsCategory.html#AsCategory--name"/>
-    <keyword type="property" name="The “subcategories” property" link="AsCategory.html#AsCategory--subcategories"/>
     <keyword type="property" name="The “summary” property" link="AsCategory.html#AsCategory--summary"/>
+    <keyword type="property" name="The “categories” property" link="AsCategory.html#AsComponent--categories"/>
+    <keyword type="property" name="The “description” property" link="AsCategory.html#AsComponent--description"/>
+    <keyword type="property" name="The “developer-name” property" link="AsCategory.html#AsComponent--developer-name"/>
+    <keyword type="property" name="The “icons” property" link="AsCategory.html#AsComponent--icons"/>
+    <keyword type="property" name="The “id” property" link="AsCategory.html#AsComponent--id"/>
+    <keyword type="property" name="The “keywords” property" link="AsCategory.html#AsComponent--keywords"/>
+    <keyword type="property" name="The “kind” property" link="AsCategory.html#AsComponent--kind"/>
+    <keyword type="property" name="The “name” property" link="AsCategory.html#AsComponent--name"/>
+    <keyword type="property" name="The “pkgnames” property" link="AsCategory.html#AsComponent--pkgnames"/>
+    <keyword type="property" name="The “project-group” property" link="AsCategory.html#AsComponent--project-group"/>
+    <keyword type="property" name="The “project-license” property" link="AsCategory.html#AsComponent--project-license"/>
+    <keyword type="property" name="The “screenshots” property" link="AsCategory.html#AsComponent--screenshots"/>
+    <keyword type="property" name="The “summary” property" link="AsCategory.html#AsComponent--summary"/>
+    <keyword type="property" name="The “urls” property" link="AsCategory.html#AsComponent--urls"/>
     <keyword type="function" name="as_validator_new ()" link="AsValidator.html#as-validator-new"/>
     <keyword type="function" name="as_validator_clear_issues ()" link="AsValidator.html#as-validator-clear-issues"/>
     <keyword type="function" name="as_validator_validate_file ()" link="AsValidator.html#as-validator-validate-file"/>
@@ -383,25 +394,29 @@
     <keyword type="function" name="as_spdx_license_detokenize ()" link="appstream-as-spdx.html#as-spdx-license-detokenize" since="0.9.8"/>
     <keyword type="function" name="as_license_to_spdx_id ()" link="appstream-as-spdx.html#as-license-to-spdx-id" since="0.9.8"/>
     <keyword type="function" name="as_license_is_metadata_license ()" link="appstream-as-spdx.html#as-license-is-metadata-license"/>
-    <keyword type="function" name="as_description_markup_convert_simple ()" link="appstream-as-utils.html#as-description-markup-convert-simple"/>
-    <keyword type="function" name="as_get_current_locale ()" link="appstream-as-utils.html#as-get-current-locale"/>
-    <keyword type="function" name="as_str_empty ()" link="appstream-as-utils.html#as-str-empty"/>
-    <keyword type="function" name="as_iso8601_to_datetime ()" link="appstream-as-utils.html#as-iso8601-to-datetime"/>
+    <keyword type="function" name="as_markup_convert_simple ()" link="appstream-as-utils.html#as-markup-convert-simple"/>
     <keyword type="function" name="as_utils_locale_is_compatible ()" link="appstream-as-utils.html#as-utils-locale-is-compatible" since="0.9.5"/>
     <keyword type="function" name="as_utils_is_category_name ()" link="appstream-as-utils.html#as-utils-is-category-name"/>
     <keyword type="function" name="as_utils_is_tld ()" link="appstream-as-utils.html#as-utils-is-tld" since="0.9.8"/>
+    <keyword type="function" name="as_utils_is_desktop_environment ()" link="appstream-as-utils.html#as-utils-is-desktop-environment" since="0.10.0"/>
+    <keyword type="function" name="as_utils_sort_components_into_categories ()" link="appstream-as-utils.html#as-utils-sort-components-into-categories"/>
+    <keyword type="function" name="as_utils_compare_versions ()" link="appstream-as-utils.html#as-utils-compare-versions"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_UNKNOWN" link="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_GENERIC" link="AsComponent.html#AS-COMPONENT-KIND-GENERIC:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_DESKTOP_APP" link="AsComponent.html#AS-COMPONENT-KIND-DESKTOP-APP:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_CONSOLE_APP" link="AsComponent.html#AS-COMPONENT-KIND-CONSOLE-APP:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_WEB_APP" link="AsComponent.html#AS-COMPONENT-KIND-WEB-APP:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_ADDON" link="AsComponent.html#AS-COMPONENT-KIND-ADDON:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_FONT" link="AsComponent.html#AS-COMPONENT-KIND-FONT:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_CODEC" link="AsComponent.html#AS-COMPONENT-KIND-CODEC:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_INPUTMETHOD" link="AsComponent.html#AS-COMPONENT-KIND-INPUTMETHOD:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_ADDON" link="AsComponent.html#AS-COMPONENT-KIND-ADDON:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_FIRMWARE" link="AsComponent.html#AS-COMPONENT-KIND-FIRMWARE:CAPS"/>
-    <keyword type="constant" name="AS_COMPONENT_KIND_CONSOLE_APP" link="AsComponent.html#AS-COMPONENT-KIND-CONSOLE-APP:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_NONE" link="AsComponent.html#AS-MERGE-KIND-NONE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_REPLACE" link="AsComponent.html#AS-MERGE-KIND-REPLACE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_APPEND" link="AsComponent.html#AS-MERGE-KIND-APPEND:CAPS"/>
+    <keyword type="constant" name="AS_VALUE_FLAG_NONE" link="AsComponent.html#AS-VALUE-FLAG-NONE:CAPS"/>
+    <keyword type="constant" name="AS_VALUE_FLAG_DUPLICATE_CHECK" link="AsComponent.html#AS-VALUE-FLAG-DUPLICATE-CHECK:CAPS"/>
+    <keyword type="constant" name="AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK" link="AsComponent.html#AS-VALUE-FLAG-NO-TRANSLATION-FALLBACK:CAPS"/>
     <keyword type="constant" name="AS_URL_KIND_UNKNOWN" link="appstream-as-enums.html#AS-URL-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_URL_KIND_HOMEPAGE" link="appstream-as-enums.html#AS-URL-KIND-HOMEPAGE:CAPS"/>
     <keyword type="constant" name="AS_URL_KIND_BUGTRACKER" link="appstream-as-enums.html#AS-URL-KIND-BUGTRACKER:CAPS"/>
@@ -409,17 +424,11 @@
     <keyword type="constant" name="AS_URL_KIND_HELP" link="appstream-as-enums.html#AS-URL-KIND-HELP:CAPS"/>
     <keyword type="constant" name="AS_URL_KIND_DONATION" link="appstream-as-enums.html#AS-URL-KIND-DONATION:CAPS"/>
     <keyword type="constant" name="AS_URL_KIND_TRANSLATE" link="appstream-as-enums.html#AS-URL-KIND-TRANSLATE:CAPS"/>
-    <keyword type="constant" name="AS_BUNDLE_KIND_UNKNOWN" link="appstream-as-enums.html#AS-BUNDLE-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_BUNDLE_KIND_LIMBA" link="appstream-as-enums.html#AS-BUNDLE-KIND-LIMBA:CAPS"/>
-    <keyword type="constant" name="AS_BUNDLE_KIND_FLATPAK" link="appstream-as-enums.html#AS-BUNDLE-KIND-FLATPAK:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_UNKNOWN" link="appstream-as-enums.html#AS-URGENCY-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_LOW" link="appstream-as-enums.html#AS-URGENCY-KIND-LOW:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_MEDIUM" link="appstream-as-enums.html#AS-URGENCY-KIND-MEDIUM:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_HIGH" link="appstream-as-enums.html#AS-URGENCY-KIND-HIGH:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_CRITICAL" link="appstream-as-enums.html#AS-URGENCY-KIND-CRITICAL:CAPS"/>
-    <keyword type="constant" name="AS_CHECKSUM_KIND_NONE" link="AsRelease.html#AS-CHECKSUM-KIND-NONE:CAPS"/>
-    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA1" link="AsRelease.html#AS-CHECKSUM-KIND-SHA1:CAPS"/>
-    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA256" link="AsRelease.html#AS-CHECKSUM-KIND-SHA256:CAPS"/>
     <keyword type="constant" name="AS_SIZE_KIND_UNKNOWN" link="AsRelease.html#AS-SIZE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_SIZE_KIND_DOWNLOAD" link="AsRelease.html#AS-SIZE-KIND-DOWNLOAD:CAPS"/>
     <keyword type="constant" name="AS_SIZE_KIND_INSTALLED" link="AsRelease.html#AS-SIZE-KIND-INSTALLED:CAPS"/>
@@ -449,20 +458,28 @@
     <keyword type="constant" name="AS_IMAGE_KIND_UNKNOWN" link="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_IMAGE_KIND_SOURCE" link="AsImage.html#AS-IMAGE-KIND-SOURCE:CAPS"/>
     <keyword type="constant" name="AS_IMAGE_KIND_THUMBNAIL" link="AsImage.html#AS-IMAGE-KIND-THUMBNAIL:CAPS"/>
-    <keyword type="constant" name="AS_PARSER_MODE_UPSTREAM" link="AsMetadata.html#AS-PARSER-MODE-UPSTREAM:CAPS"/>
-    <keyword type="constant" name="AS_PARSER_MODE_DISTRO" link="AsMetadata.html#AS-PARSER-MODE-DISTRO:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_STYLE_UNKNOWN" link="AsMetadata.html#AS-FORMAT-STYLE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_STYLE_METAINFO" link="AsMetadata.html#AS-FORMAT-STYLE-METAINFO:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_STYLE_COLLECTION" link="AsMetadata.html#AS-FORMAT-STYLE-COLLECTION:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_KIND_UNKNOWN" link="AsMetadata.html#AS-FORMAT-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_KIND_XML" link="AsMetadata.html#AS-FORMAT-KIND-XML:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_KIND_YAML" link="AsMetadata.html#AS-FORMAT-KIND-YAML:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_6" link="AsMetadata.html#AS-FORMAT-VERSION-V0-6:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_7" link="AsMetadata.html#AS-FORMAT-VERSION-V0-7:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_8" link="AsMetadata.html#AS-FORMAT-VERSION-V0-8:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_9" link="AsMetadata.html#AS-FORMAT-VERSION-V0-9:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_10" link="AsMetadata.html#AS-FORMAT-VERSION-V0-10:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FAILED" link="AsMetadata.html#AS-METADATA-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_PARSE" link="AsMetadata.html#AS-METADATA-ERROR-PARSE:CAPS"/>
-    <keyword type="constant" name="AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND" link="AsMetadata.html#AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_FORMAT_UNEXPECTED" link="AsMetadata.html#AS-METADATA-ERROR-FORMAT-UNEXPECTED:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_NO_COMPONENT" link="AsMetadata.html#AS-METADATA-ERROR-NO-COMPONENT:CAPS"/>
-    <keyword type="constant" name="AS_CACHE_FLAG_NONE" link="AsDataPool.html#AS-CACHE-FLAG-NONE:CAPS"/>
-    <keyword type="constant" name="AS_CACHE_FLAG_USE_USER" link="AsDataPool.html#AS-CACHE-FLAG-USE-USER:CAPS"/>
-    <keyword type="constant" name="AS_CACHE_FLAG_USE_SYSTEM" link="AsDataPool.html#AS-CACHE-FLAG-USE-SYSTEM:CAPS"/>
-    <keyword type="constant" name="AS_DATA_POOL_ERROR_FAILED" link="AsDataPool.html#AS-DATA-POOL-ERROR-FAILED:CAPS"/>
-    <keyword type="constant" name="AS_DATA_POOL_ERROR_TARGET_NOT_WRITABLE" link="AsDataPool.html#AS-DATA-POOL-ERROR-TARGET-NOT-WRITABLE:CAPS"/>
-    <keyword type="constant" name="AS_DATA_POOL_ERROR_INCOMPLETE" link="AsDataPool.html#AS-DATA-POOL-ERROR-INCOMPLETE:CAPS"/>
-    <keyword type="constant" name="AS_DATA_POOL_ERROR_COLLISION" link="AsDataPool.html#AS-DATA-POOL-ERROR-COLLISION:CAPS"/>
-    <keyword type="constant" name="AS_DATA_POOL_ERROR_TERM_INVALID" link="AsDataPool.html#AS-DATA-POOL-ERROR-TERM-INVALID:CAPS"/>
+    <keyword type="constant" name="AS_CACHE_FLAG_NONE" link="AsPool.html#AS-CACHE-FLAG-NONE:CAPS"/>
+    <keyword type="constant" name="AS_CACHE_FLAG_USE_USER" link="AsPool.html#AS-CACHE-FLAG-USE-USER:CAPS"/>
+    <keyword type="constant" name="AS_CACHE_FLAG_USE_SYSTEM" link="AsPool.html#AS-CACHE-FLAG-USE-SYSTEM:CAPS"/>
+    <keyword type="constant" name="AS_POOL_ERROR_FAILED" link="AsPool.html#AS-POOL-ERROR-FAILED:CAPS"/>
+    <keyword type="constant" name="AS_POOL_ERROR_TARGET_NOT_WRITABLE" link="AsPool.html#AS-POOL-ERROR-TARGET-NOT-WRITABLE:CAPS"/>
+    <keyword type="constant" name="AS_POOL_ERROR_INCOMPLETE" link="AsPool.html#AS-POOL-ERROR-INCOMPLETE:CAPS"/>
+    <keyword type="constant" name="AS_POOL_ERROR_COLLISION" link="AsPool.html#AS-POOL-ERROR-COLLISION:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_UNKNOWN" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_ERROR" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-ERROR:CAPS"/>
     <keyword type="constant" name="AS_ISSUE_IMPORTANCE_WARNING" link="AsValidatorIssue.html#AS-ISSUE-IMPORTANCE-WARNING:CAPS"/>

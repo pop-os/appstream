@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -39,7 +39,7 @@
  * It is used internalls to get information about the icon-store or the 3rd-party screenshot
  * service distributors may want to provide.
  *
- * See also: #AsDatabase
+ * See also: #AsPool
  */
 
 typedef struct
@@ -150,31 +150,6 @@ as_distro_details_finalize (GObject *object)
 	g_key_file_unref (priv->keyf);
 
 	G_OBJECT_CLASS (as_distro_details_parent_class)->finalize (object);
-}
-
-/**
- * as_get_icon_repository_paths:
- *
- * Returns list of icon-paths for software-center applications to use.
- * Icons of software (even if it is not installed) are stored in these
- * locations.
- *
- * Returns: (transfer full): A NULL-terminated array of paths.
- */
-gchar**
-as_get_icon_repository_paths ()
-{
-	gchar **paths;
-	guint len;
-	guint i;
-
-	len = G_N_ELEMENTS (AS_APPSTREAM_METADATA_PATHS);
-	paths = g_new0 (gchar *, len + 1);
-	for (i = 0; i < len; i++) {
-		paths[i] = g_build_filename (AS_APPSTREAM_METADATA_PATHS[i], "icons", NULL);
-	}
-
-	return paths;
 }
 
 /**

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,8 +18,8 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __AS_SETTINGSPRIVATE_H
-#define __AS_SETTINGSPRIVATE_H
+#ifndef __AS_SETTINGS_PRIVATE_H
+#define __AS_SETTINGS_PRIVATE_H
 
 #include <glib-object.h>
 #include "config.h"
@@ -29,7 +29,7 @@ G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
 #define AS_CONFIG_NAME "/etc/appstream.conf"
-#define AS_APPSTREAM_CACHE_PATH "/var/cache/app-info"
+#define AS_APPSTREAM_CACHE_PATH "/var/cache/app-info/gv"
 
 /* declared in as-data-pool.c */
 AS_INTERNAL_VISIBLE
@@ -38,4 +38,4 @@ extern const gchar *AS_APPSTREAM_METADATA_PATHS[4];
 #pragma GCC visibility pop
 G_END_DECLS
 
-#endif /* __AS_SETTINGSPRIVATE_H */
+#endif /* __AS_SETTINGS_PRIVATE_H */

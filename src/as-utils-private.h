@@ -22,17 +22,18 @@
 #define __AS_UTILS_PRIVATE_H
 
 #include <glib-object.h>
+#include "as-component.h"
 
 G_BEGIN_DECLS
 #define AS_INTERNAL_VISIBLE __attribute__((visibility("default")))
 #pragma GCC visibility push(hidden)
 
-gboolean		as_utils_delete_dir_recursive (const gchar* dirname);
+gchar			*as_get_current_locale (void);
 
-GPtrArray		*as_utils_categories_from_strv (gchar **categories_strv,
-							GPtrArray *system_categories);
-GPtrArray		*as_utils_categories_from_str (const gchar *categories_str,
-							GPtrArray *system_categories);
+gboolean		as_str_empty (const gchar* str);
+GDateTime		*as_iso8601_to_datetime (const gchar *iso_date);
+
+gboolean		as_utils_delete_dir_recursive (const gchar* dirname);
 
 AS_INTERNAL_VISIBLE
 GPtrArray		*as_utils_find_files_matching (const gchar *dir,
@@ -56,6 +57,8 @@ gchar			*as_str_replace (const gchar *str,
 gchar			**as_ptr_array_to_strv (GPtrArray *array);
 const gchar		*as_ptr_array_find_string (GPtrArray *array,
 						   const gchar *value);
+void			as_hash_table_string_keys_to_array (GHashTable *table,
+							    GPtrArray *array);
 
 gboolean		as_touch_location (const gchar *fname);
 void			as_reset_umask (void);
@@ -72,6 +75,8 @@ gboolean		as_arch_compatible (const gchar *arch1,
 					    const gchar *arch2);
 
 gboolean		as_utils_search_token_valid (const gchar *token);
+
+gchar			*as_utils_build_data_id (AsComponent *cpt);
 
 #pragma GCC visibility pop
 G_END_DECLS

@@ -20,6 +20,7 @@
  */
 
 #include "as-utils.h"
+#include "as-utils-private.h"
 
 #include <config.h>
 #include <glib.h>
@@ -37,8 +38,9 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-#include "as-category.h"
 #include "as-resources.h"
+#include "as-category.h"
+#include "as-component.h"
 
 /**
  * SECTION:as-utils
@@ -52,13 +54,14 @@
 /**
  * as_description_markup_convert_simple:
  * @markup: the text to copy.
+ * @error: A #GError or %NULL.
  *
  * Converts an XML description markup into a simple printable form.
  *
- * Returns: (transfer full): a newly allocated %NULL terminated string
+ * Returns: (transfer full): a newly allocated %NULL terminated string.
  **/
 gchar*
-as_description_markup_convert_simple (const gchar *markup)
+as_markup_convert_simple (const gchar *markup, GError **error)
 {
 	xmlDoc *doc = NULL;
 	xmlNode *root;
@@ -249,81 +252,6 @@ out:
 		g_error_free (error);
 	}
 	return ret;
-}
-
-/**
- * as_utils_categories_from_strv:
- * @categories_strv: a string array
- * @system_categories: list of #AsCategory objects available on this system
- *
- * Create a list of categories from string array
- *
- * Returns: (element-type AsCategory) (transfer full): #GPtrArray of #AsCategory objects matching the strings in the array
- */
-GPtrArray*
-as_utils_categories_from_strv (gchar** categories_strv, GPtrArray* system_categories)
-{
-	GPtrArray *cat_list;
-	guint i;
-
-	g_return_val_if_fail (categories_strv != NULL, NULL);
-	g_return_val_if_fail (system_categories != NULL, NULL);
-
-	/* This should be done way smarter... */
-	cat_list = g_ptr_array_new_with_free_func (g_object_unref);
-	for (i = 0; categories_strv[i] != NULL; i++) {
-		gchar *idstr;
-		guint j;
-		idstr = categories_strv[i];
-		for (j = 0; j < system_categories->len; j++) {
-			AsCategory *sys_cat;
-			gchar *catname1;
-			gchar *catname2;
-			gchar *str;
-			sys_cat = (AsCategory*) g_ptr_array_index (system_categories, j);
-			catname1 = g_strdup (as_category_get_name (sys_cat));
-			if (catname1 == NULL)
-				continue;
-			str = g_utf8_strdown (catname1, -1);
-			g_free (catname1);
-			catname1 = str;
-			catname2 = g_utf8_strdown (idstr, -1);
-			if (g_strcmp0 (catname1, catname2) == 0) {
-				g_free (catname1);
-				g_free (catname2);
-				g_ptr_array_add (cat_list, g_object_ref (sys_cat));
-				break;
-			}
-			g_free (catname1);
-			g_free (catname2);
-		}
-	}
-
-	return cat_list;
-}
-
-/**
- * as_utils_categories_from_str:
- * @categories_str: string with semicolon-separated categories
- * @system_categories: list of #AsCategory objects available on this system
- *
- * Create a list of categories from semicolon-separated string
- *
- * Returns: (element-type AsCategory) (transfer full): #GPtrArray of #AsCategory objcts matching the strings in the array
- */
-GPtrArray*
-as_utils_categories_from_str (const gchar* categories_str, GPtrArray* system_categories)
-{
-	gchar **cats;
-	GPtrArray *cat_list;
-
-	g_return_val_if_fail (categories_str != NULL, NULL);
-
-	cats = g_strsplit (categories_str, ";", 0);
-	cat_list = as_utils_categories_from_strv (cats, system_categories);
-	g_strfreev (cats);
-
-	return cat_list;
 }
 
 /**
@@ -742,6 +670,28 @@ as_ptr_array_find_string (GPtrArray *array, const gchar *value)
 	return NULL;
 }
 
+
+/**
+ * as_hash_table_keys_to_array:
+ * @table: The hash table.
+ * @array: The pointer array.
+ *
+ * Add keys of a hash table to a pointer array.
+ * The hash table keys must be strings.
+ */
+void
+as_hash_table_string_keys_to_array (GHashTable *table, GPtrArray *array)
+{
+	GHashTableIter iter;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, table);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		const gchar *str = (const gchar*) value;
+		g_ptr_array_add (array, g_strdup (str));
+	}
+}
+
 /**
  * as_utils_locale_is_compatible:
  * @locale1: a locale string, or %NULL
@@ -895,4 +845,244 @@ as_utils_is_tld (const gchar *tld)
 		return FALSE;
 	key = g_strdup_printf ("\n%s\n", tld);
 	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_is_desktop_environment:
+ * @desktop: a desktop environment id.
+ *
+ * Searches the known list of desktop environments AppStream
+ * knows about.
+ *
+ * Returns: %TRUE if the desktop-id is valid
+ *
+ * Since: 0.10.0
+ **/
+gboolean
+as_utils_is_desktop_environment (const gchar *desktop)
+{
+	g_autoptr(GBytes) data = NULL;
+	g_autofree gchar *key = NULL;
+
+	/* load the readonly data section and look for the TLD */
+	data = g_resource_lookup_data (as_get_resource (),
+				       "/org/freedesktop/appstream/desktop-environments.txt",
+				       G_RESOURCE_LOOKUP_FLAGS_NONE,
+				       NULL);
+	if (data == NULL)
+		return FALSE;
+	key = g_strdup_printf ("\n%s\n", desktop);
+	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_sort_components_into_categories:
+ * @cpts: (element-type AsComponent): List of components.
+ * @categories: (element-type AsCategory): List of categories to sort components into.
+ * @check_duplicates: Whether to check for duplicates.
+ *
+ * Sorts all components in @cpts into the #AsCategory categories listed in @categories.
+ */
+void
+as_utils_sort_components_into_categories (GPtrArray *cpts, GPtrArray *categories, gboolean check_duplicates)
+{
+	guint i;
+
+	for (i = 0; i < cpts->len; i++) {
+		guint j;
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+
+		for (j = 0; j < categories->len; j++) {
+			guint k;
+			GPtrArray *children;
+			gboolean added_to_main = FALSE;
+			AsCategory *main_cat = AS_CATEGORY (g_ptr_array_index (categories, j));
+
+			if (as_component_is_member_of_category (cpt, main_cat)) {
+				if (!check_duplicates || !as_category_has_component (main_cat, cpt)) {
+					as_category_add_component (main_cat, cpt);
+					added_to_main = TRUE;
+				}
+			}
+
+			/* fortunately, categories are only nested one level deep in all known cases.
+			 * if this will ever change, we will need to adjust this code to go through
+			 * a whole tree of categories, eww... */
+			children = as_category_get_children (main_cat);
+			for (k = 0; k < children->len; k++) {
+				AsCategory *subcat = AS_CATEGORY (g_ptr_array_index (children, k));
+
+				/* skip duplicates */
+				if (check_duplicates && as_category_has_component (subcat, cpt))
+					continue;
+
+				if (as_component_is_member_of_category (cpt, subcat)) {
+					as_category_add_component (subcat, cpt);
+					if (!added_to_main) {
+						if (!check_duplicates || !as_category_has_component (main_cat, cpt)) {
+							as_category_add_component (main_cat, cpt);
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/**
+ * as_utils_compare_versions:
+ *
+ * Compare alpha and numeric segments of two versions.
+ * The version compare algorithm is also used by RPM.
+ *
+ * Returns: 1: a is newer than b
+ *	    0: a and b are the same version
+ *	   -1: b is newer than a
+ */
+gint
+as_utils_compare_versions (const gchar* a, const gchar *b)
+{
+	/* easy comparison to see if versions are identical */
+	if (g_strcmp0 (a, b) == 0)
+		return 0;
+
+	gchar oldch1, oldch2;
+	gchar abuf[strlen(a)+1], bbuf[strlen(b)+1];
+	gchar *str1 = abuf, *str2 = bbuf;
+	gchar *one, *two;
+	int rc;
+	gboolean isnum;
+
+	strcpy(str1, a);
+	strcpy(str2, b);
+
+	one = str1;
+	two = str2;
+
+	/* loop through each version segment of str1 and str2 and compare them */
+	while (*one || *two) {
+		while (*one && !g_ascii_isalnum (*one) && *one != '~') one++;
+		while (*two && !g_ascii_isalnum (*two) && *two != '~') two++;
+
+		/* handle the tilde separator, it sorts before everything else */
+		if (*one == '~' || *two == '~') {
+			if (*one != '~') return 1;
+			if (*two != '~') return -1;
+			one++;
+			two++;
+			continue;
+		}
+
+		/* If we ran to the end of either, we are finished with the loop */
+		if (!(*one && *two)) break;
+
+		str1 = one;
+		str2 = two;
+
+		/* grab first completely alpha or completely numeric segment */
+		/* leave one and two pointing to the start of the alpha or numeric */
+		/* segment and walk str1 and str2 to end of segment */
+		if (g_ascii_isdigit (*str1)) {
+			while (*str1 && g_ascii_isdigit (*str1)) str1++;
+			while (*str2 && g_ascii_isdigit (*str2)) str2++;
+			isnum = TRUE;
+		} else {
+			while (*str1 && g_ascii_isalpha (*str1)) str1++;
+			while (*str2 && g_ascii_isalpha (*str2)) str2++;
+			isnum = FALSE;
+		}
+
+		/* save character at the end of the alpha or numeric segment */
+		/* so that they can be restored after the comparison */
+		oldch1 = *str1;
+		*str1 = '\0';
+		oldch2 = *str2;
+		*str2 = '\0';
+
+		/* this cannot happen, as we previously tested to make sure that */
+		/* the first string has a non-null segment */
+		if (one == str1) return -1;	/* arbitrary */
+
+		/* take care of the case where the two version segments are */
+		/* different types: one numeric, the other alpha (i.e. empty) */
+		/* numeric segments are always newer than alpha segments */
+		if (two == str2) return (isnum ? 1 : -1);
+
+		if (isnum) {
+			size_t onelen, twolen;
+			/* this used to be done by converting the digit segments */
+			/* to ints using atoi() - it's changed because long  */
+			/* digit segments can overflow an int - this should fix that. */
+
+			/* throw away any leading zeros - it's a number, right? */
+			while (*one == '0') one++;
+			while (*two == '0') two++;
+
+			/* whichever number has more digits wins */
+			onelen = strlen (one);
+			twolen = strlen (two);
+			if (onelen > twolen) return 1;
+			if (twolen > onelen) return -1;
+		}
+
+		/* strcmp will return which one is greater - even if the two */
+		/* segments are alpha or if they are numeric.  don't return  */
+		/* if they are equal because there might be more segments to */
+		/* compare */
+		rc = strcmp (one, two);
+		if (rc) return (rc < 1 ? -1 : 1);
+
+		/* restore character that was replaced by null above */
+		*str1 = oldch1;
+		one = str1;
+		*str2 = oldch2;
+		two = str2;
+	}
+
+	/* this catches the case where all numeric and alpha segments have */
+	/* compared identically but the segment sepparating characters were */
+	/* different */
+	if ((!*one) && (!*two)) return 0;
+
+	/* whichever version still has characters left over wins */
+	if (!*one) return -1; else return 1;
+}
+
+/**
+ * as_utils_build_data_id:
+ * @cpt: The component to build the ID for.
+ *
+ * Builds the unique metadata ID for component @cpt.
+ */
+gchar*
+as_utils_build_data_id (AsComponent *cpt)
+{
+	const gchar *scope;
+	const gchar *origin;
+	AsBundleKind bundle_kind;
+	GPtrArray *bundles;
+
+	/* FIXME: We don't really support scopes yet, will come in a future
+	 * release. */
+	scope = "system";
+
+	/* determine bundle - what should we do if there are multiple bundles of different types
+	 * defined for one component? */
+	bundle_kind = AS_BUNDLE_KIND_PACKAGE;
+	bundles = as_component_get_bundles (cpt);
+	if (bundles->len > 0)
+		bundle_kind = as_bundle_get_kind (AS_BUNDLE (g_ptr_array_index (bundles, 0)));
+
+	/* FIXME: packages share one namespace, therefore we edit the origin here for now. */
+	if (bundle_kind == AS_BUNDLE_KIND_PACKAGE)
+		origin = "distribution";
+	else
+		origin = as_component_get_origin (cpt);
+
+	/* build the data-id */
+	return g_strdup_printf ("%s/%s/%s/%s",
+				scope,
+				origin,
+				as_bundle_kind_to_string (bundle_kind),
+				as_component_get_id (cpt));
 }

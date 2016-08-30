@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -40,6 +40,7 @@ typedef struct
 	AsScreenshotKind kind;
 	GHashTable *caption;
 	GPtrArray *images;
+	GPtrArray *images_lang;
 	gchar *active_locale;
 } AsScreenshotPrivate;
 
@@ -57,6 +58,7 @@ as_screenshot_finalize (GObject *object)
 
 	g_free (priv->active_locale);
 	g_ptr_array_unref (priv->images);
+	g_ptr_array_unref (priv->images_lang);
 	g_hash_table_unref (priv->caption);
 
 	G_OBJECT_CLASS (as_screenshot_parent_class)->finalize (object);
@@ -72,8 +74,9 @@ as_screenshot_init (AsScreenshot *screenshot)
 
 	priv->active_locale = g_strdup ("C");
 	priv->kind = AS_SCREENSHOT_KIND_EXTRA;
-	priv->images = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 	priv->caption = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->images = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+	priv->images_lang = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
 }
 
 /**
@@ -92,9 +95,7 @@ as_screenshot_class_init (AsScreenshotClass *klass)
  *
  * Converts the text representation to an enumerated value.
  *
- * Returns: (transfer full): a %AsScreenshotKind, or
- *                           %AS_SCREENSHOT_KIND_UNKNOWN if not known.
- *
+ * Returns: a %AsScreenshotKind, or %AS_SCREENSHOT_KIND_UNKNOWN if not known.
  **/
 AsScreenshotKind
 as_screenshot_kind_from_string (const gchar *kind)
@@ -113,7 +114,6 @@ as_screenshot_kind_from_string (const gchar *kind)
  * Converts the enumerated value to an text representation.
  *
  * Returns: string version of @kind
- *
  **/
 const gchar *
 as_screenshot_kind_to_string (AsScreenshotKind kind)
@@ -132,7 +132,6 @@ as_screenshot_kind_to_string (AsScreenshotKind kind)
  * Gets the screenshot kind.
  *
  * Returns: a #AsScreenshotKind
- *
  **/
 AsScreenshotKind
 as_screenshot_get_kind (AsScreenshot *screenshot)
@@ -147,7 +146,6 @@ as_screenshot_get_kind (AsScreenshot *screenshot)
  * @kind: the #AsScreenshotKind.
  *
  * Sets the screenshot kind.
- *
  **/
 void
 as_screenshot_set_kind (AsScreenshot *screenshot, AsScreenshotKind kind)
@@ -160,16 +158,18 @@ as_screenshot_set_kind (AsScreenshot *screenshot, AsScreenshotKind kind)
  * as_screenshot_get_images:
  * @screenshot: a #AsScreenshot instance.
  *
- * Gets the image sizes included in the screenshot.
+ * Gets the images for this screenshots. Only images valid for the current
+ * language are returned. We return all sizes.
  *
- * Returns: (element-type AsImage) (transfer none): an array
- *
+ * Returns: (transfer none) (element-type AsImage): an array
  **/
 GPtrArray*
 as_screenshot_get_images (AsScreenshot *screenshot)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
-	return priv->images;
+	if (priv->images_lang->len == 0)
+		return as_screenshot_get_images_all (screenshot);
+	return priv->images_lang;
 }
 
 /**
@@ -178,13 +178,15 @@ as_screenshot_get_images (AsScreenshot *screenshot)
  * @image: a #AsImage instance.
  *
  * Adds an image to the screenshot.
- *
  **/
 void
 as_screenshot_add_image (AsScreenshot *screenshot, AsImage *image)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 	g_ptr_array_add (priv->images, g_object_ref (image));
+
+	if (as_utils_locale_is_compatible (as_image_get_locale (image), priv->active_locale))
+		g_ptr_array_add (priv->images_lang, g_object_ref (image));
 }
 
 /**
@@ -194,9 +196,8 @@ as_screenshot_add_image (AsScreenshot *screenshot, AsImage *image)
  * Gets the image caption
  *
  * Returns: the caption
- *
  **/
-const gchar *
+const gchar*
 as_screenshot_get_caption (AsScreenshot *screenshot)
 {
 	const gchar *caption;
@@ -217,7 +218,6 @@ as_screenshot_get_caption (AsScreenshot *screenshot)
  * @caption: the caption text.
  *
  * Sets a caption on the screenshot
- *
  **/
 void
 as_screenshot_set_caption (AsScreenshot *screenshot, const gchar *caption, const gchar *locale)
@@ -239,7 +239,6 @@ as_screenshot_set_caption (AsScreenshot *screenshot, const gchar *caption, const
  * Performs a quick validation on this screenshot
  *
  * Returns: TRUE if the screenshot is a complete #AsScreenshot
- *
  **/
 gboolean
 as_screenshot_is_valid (AsScreenshot *screenshot)
@@ -274,38 +273,38 @@ void
 as_screenshot_set_active_locale (AsScreenshot *screenshot, const gchar *locale)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	guint i;
 
 	g_free (priv->active_locale);
 	priv->active_locale = g_strdup (locale);
+
+	/* rebuild our list of images suitable for the current locale */
+	g_ptr_array_unref (priv->images_lang);
+	priv->images_lang = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+	for (i = 0; i < priv->images->len; i++) {
+		AsImage *img = g_ptr_array_index (priv->images, i);
+		if (!as_utils_locale_is_compatible (as_image_get_locale (img), priv->active_locale))
+			continue;
+		g_ptr_array_add (priv->images_lang, g_object_ref (img));
+	}
 }
 
 /**
- * as_screenshot_get_images_localized:
+ * as_screenshot_get_images_all:
  * @screenshot: an #AsScreenshot instance.
  *
- * Returns all images that are compatible with a specific locale.
+ * Returns an array of all images we have, regardless of their
+ * size and language.
  *
- * Returns: (element-type AsImage) (transfer container): an array
+ * Returns: (transfer none) (element-type AsImage): an array
  *
- * Since: 0.9.5
+ * Since: 0.10
  **/
-GPtrArray *
-as_screenshot_get_images_localized (AsScreenshot *screenshot)
+GPtrArray*
+as_screenshot_get_images_all (AsScreenshot *screenshot)
 {
-	AsImage *img;
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
-	GPtrArray *res;
-	guint i;
-
-	/* user wants a specific locale */
-	res = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
-	for (i = 0; i < priv->images->len; i++) {
-		img = g_ptr_array_index (priv->images, i);
-		if (!as_utils_locale_is_compatible (as_image_get_locale (img), priv->active_locale))
-			continue;
-		g_ptr_array_add (res, g_object_ref (img));
-	}
-	return res;
+	return priv->images;
 }
 
 /**
@@ -326,7 +325,6 @@ as_screenshot_get_caption_table (AsScreenshot *screenshot)
  * Creates a new #AsScreenshot.
  *
  * Returns: (transfer full): a #AsScreenshot
- *
  **/
 AsScreenshot *
 as_screenshot_new (void)

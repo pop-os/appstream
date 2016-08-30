@@ -34,25 +34,22 @@ gint			as_component_get_priority (AsComponent *cpt);
 void			as_component_set_priority (AsComponent *cpt,
 							gint priority);
 
-GHashTable		*as_component_get_languages_map (AsComponent *cpt);
-
 void			as_component_complete (AsComponent *cpt,
 						gchar *scr_base_url,
-						gchar **icon_paths);
+						GPtrArray *icon_paths);
 
 GHashTable		*as_component_get_name_table (AsComponent *cpt);
 GHashTable		*as_component_get_summary_table (AsComponent *cpt);
 GHashTable		*as_component_get_description_table (AsComponent *cpt);
 GHashTable		*as_component_get_developer_name_table (AsComponent *cpt);
 GHashTable		*as_component_get_keywords_table (AsComponent *cpt);
+GHashTable		*as_component_get_languages_table (AsComponent *cpt);
+
+void			as_component_set_bundles_array (AsComponent *cpt,
+							GPtrArray *bundles);
 
 AS_INTERNAL_VISIBLE
 GHashTable		*as_component_get_urls_table (AsComponent *cpt);
-
-AS_INTERNAL_VISIBLE
-GHashTable		*as_component_get_bundles_table (AsComponent *cpt);
-void			 as_component_set_bundles_table (AsComponent *cpt,
-							GHashTable *bundles);
 
 gboolean		as_component_has_package (AsComponent *cpt);
 gboolean		as_component_has_install_candidate (AsComponent *cpt);
@@ -60,9 +57,6 @@ gboolean		as_component_has_install_candidate (AsComponent *cpt);
 void			as_component_add_provided_item (AsComponent *cpt,
 							AsProvidedKind kind,
 							const gchar *item);
-
-void			as_component_set_categories_from_str (AsComponent *cpt,
-							const gchar* categories_str);
 
 const gchar		*as_component_get_architecture (AsComponent *cpt);
 void			 as_component_set_architecture (AsComponent *cpt,

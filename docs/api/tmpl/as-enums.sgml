@@ -22,6 +22,42 @@ as-enums
 <!-- ##### SECTION Image ##### -->
 
 
+<!-- ##### MACRO as_flags_add ##### -->
+<para>
+
+</para>
+
+@bitfield: 
+@enum: 
+
+
+<!-- ##### MACRO as_flags_remove ##### -->
+<para>
+
+</para>
+
+@bitfield: 
+@enum: 
+
+
+<!-- ##### MACRO as_flags_invert ##### -->
+<para>
+
+</para>
+
+@bitfield: 
+@enum: 
+
+
+<!-- ##### MACRO as_flags_contains ##### -->
+<para>
+
+</para>
+
+@bitfield: 
+@enum: 
+
+
 <!-- ##### ENUM AsUrlKind ##### -->
 <para>
 
@@ -50,40 +86,6 @@ as-enums
 </para>
 
 @url_kind: 
-@Returns: 
-
-
-<!-- ##### ENUM AsBundleKind ##### -->
-<para>
-
-</para>
-
-@AS_BUNDLE_KIND_UNKNOWN: 
-@AS_BUNDLE_KIND_LIMBA: 
-@AS_BUNDLE_KIND_FLATPAK: 
-
-<!-- ##### MACRO AS_BUNDLE_KIND_XDG_APP ##### -->
-<para>
-
-</para>
-
-
-
-<!-- ##### FUNCTION as_bundle_kind_to_string ##### -->
-<para>
-
-</para>
-
-@bundle_kind: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_bundle_kind_from_string ##### -->
-<para>
-
-</para>
-
-@bundle_kind: 
 @Returns: 
 
 

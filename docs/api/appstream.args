@@ -1,20 +1,10 @@
 <ARG>
-<NAME>AsCategory::directory</NAME>
-<TYPE>gchar*</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>directory</NICK>
-<BLURB>directory.</BLURB>
-<DEFAULT>NULL</DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsCategory::excluded</NAME>
+<NAME>AsCategory::children</NAME>
 <TYPE>gpointer</TYPE>
 <RANGE></RANGE>
 <FLAGS>r</FLAGS>
-<NICK>excluded</NICK>
-<BLURB>excluded.</BLURB>
+<NICK>children</NICK>
+<BLURB>children.</BLURB>
 <DEFAULT></DEFAULT>
 </ARG>
 
@@ -29,23 +19,13 @@
 </ARG>
 
 <ARG>
-<NAME>AsCategory::included</NAME>
-<TYPE>gpointer</TYPE>
-<RANGE></RANGE>
-<FLAGS>r</FLAGS>
-<NICK>included</NICK>
-<BLURB>included.</BLURB>
-<DEFAULT></DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsCategory::level</NAME>
-<TYPE>gint</TYPE>
+<NAME>AsCategory::id</NAME>
+<TYPE>gchar*</TYPE>
 <RANGE></RANGE>
 <FLAGS>rw</FLAGS>
-<NICK>level</NICK>
-<BLURB>level.</BLURB>
-<DEFAULT>0</DEFAULT>
+<NICK>id</NICK>
+<BLURB>id.</BLURB>
+<DEFAULT>NULL</DEFAULT>
 </ARG>
 
 <ARG>
@@ -56,16 +36,6 @@
 <NICK>name</NICK>
 <BLURB>name.</BLURB>
 <DEFAULT>NULL</DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsCategory::subcategories</NAME>
-<TYPE>gpointer</TYPE>
-<RANGE></RANGE>
-<FLAGS>r</FLAGS>
-<NICK>subcategories</NICK>
-<BLURB>subcategories.</BLURB>
-<DEFAULT></DEFAULT>
 </ARG>
 
 <ARG>
@@ -80,9 +50,9 @@
 
 <ARG>
 <NAME>AsComponent::categories</NAME>
-<TYPE>GStrv</TYPE>
+<TYPE>GPtrArray*</TYPE>
 <RANGE></RANGE>
-<FLAGS>rw</FLAGS>
+<FLAGS>r</FLAGS>
 <NICK>categories</NICK>
 <BLURB>categories.</BLURB>
 <DEFAULT></DEFAULT>
@@ -246,15 +216,5 @@
 <NICK>version</NICK>
 <BLURB>version.</BLURB>
 <DEFAULT>NULL</DEFAULT>
-</ARG>
-
-<ARG>
-<NAME>AsMenuParser::update-category-data</NAME>
-<TYPE>gboolean</TYPE>
-<RANGE></RANGE>
-<FLAGS>rw</FLAGS>
-<NICK>update-category-data</NICK>
-<BLURB>update-category-data.</BLURB>
-<DEFAULT>FALSE</DEFAULT>
 </ARG>
 

@@ -96,7 +96,7 @@ ascli_print_key_value (const gchar* key, const gchar* val, gboolean highlight)
 	gchar *fmtval;
 	g_return_if_fail (key != NULL);
 
-	if (as_str_empty (val))
+	if ((val == NULL) || (g_strcmp0 (val, "") == 0))
 		return;
 
 	if (strlen (val) > 120) {
@@ -206,14 +206,14 @@ as_get_bundle_str (AsComponent *cpt)
 	gstr = g_string_new ("");
 	for (i = 0; i < AS_BUNDLE_KIND_LAST; i++) {
 		AsBundleKind kind = (AsBundleKind) i;
-		const gchar *bundle_id;
+		AsBundle *bundle;
 
-		bundle_id = as_component_get_bundle_id (cpt, kind);
-		if (bundle_id == NULL)
+		bundle = as_component_get_bundle (cpt, kind);
+		if (bundle == NULL)
 			continue;
 		g_string_append_printf (gstr, "%s:%s, ",
 					as_bundle_kind_to_string (kind),
-					bundle_id);
+					as_bundle_get_id (bundle));
 
 	}
 	if (gstr->len > 0)
@@ -237,11 +237,10 @@ ascli_ptrarray_to_pretty (GPtrArray *array)
 		return g_strdup (g_ptr_array_index (array, 0));
 	}
 
-	rstr = g_string_new ("");
+	rstr = g_string_new ("\n");
 	for (i = 0; i < array->len; i++) {
 		const gchar *astr = (const gchar*) g_ptr_array_index (array, i);
-
-		g_string_append_printf (rstr, "- %s\n", astr);
+		g_string_append_printf (rstr, " - %s\n", astr);
 	}
 	if (rstr->len > 0)
 		g_string_truncate (rstr, rstr->len - 1);
@@ -288,27 +287,28 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 		GPtrArray *sshot_array;
 		GPtrArray *imgs = NULL;
 		GPtrArray *extends;
-		GPtrArray *extensions;
-		GList *provided;
-		GList *l;
+		GPtrArray *addons;
+		GPtrArray *categories;
+		GPtrArray *compulsory_desktops;
+		GPtrArray *provided;
+		guint i;
 		AsScreenshot *sshot;
 		AsImage *img;
 		gchar *str;
-		gchar **strv;
 
 		/* developer name */
 		ascli_print_key_value (_("Developer"), as_component_get_developer_name (cpt), FALSE);
 
 		/* extends data (e.g. for addons) */
 		extends = as_component_get_extends (cpt);
-		if (extends != NULL) {
+		if (extends->len > 0) {
 			str = ascli_ptrarray_to_pretty (extends);
 			ascli_print_key_value (_("Extends"), str, FALSE);
 			g_free (str);
 		}
 
 		/* long description */
-		str = as_description_markup_convert_simple (as_component_get_description (cpt));
+		str = as_markup_convert_simple (as_component_get_description (cpt), NULL);
 		ascli_print_key_value (_("Description"), str, FALSE);
 		g_free (str);
 
@@ -342,48 +342,73 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 		ascli_print_key_value (_("License"), as_component_get_project_license (cpt), FALSE);
 
 		/* Categories */
-		strv = as_component_get_categories (cpt);
-		if (strv != NULL) {
-			str = g_strjoinv (", ", strv);
+		categories = as_component_get_categories (cpt);
+		if (categories->len > 0) {
+			str = ascli_ptrarray_to_pretty (categories);
 			ascli_print_key_value (_("Categories"), str, FALSE);
 			g_free (str);
 		}
 
-		/* desktop-compulsority */
-		strv = as_component_get_compulsory_for_desktops (cpt);
-		if (strv != NULL) {
-			str = g_strjoinv (", ", strv);
+		/* Desktop-compulsority */
+		compulsory_desktops = as_component_get_compulsory_for_desktops (cpt);
+		if (compulsory_desktops->len > 0) {
+			str = ascli_ptrarray_to_pretty (compulsory_desktops);
 			ascli_print_key_value (_("Compulsory for"), str, FALSE);
 			g_free (str);
 		}
 
 		/* list of addons extending this component */
-		extensions = as_component_get_extensions (cpt);
-		if (extensions != NULL) {
-			str = ascli_ptrarray_to_pretty (extensions);
-			ascli_print_key_value (_("Extensions"), str, FALSE);
+		addons = as_component_get_addons (cpt);
+		if (addons->len > 0) {
+			g_autoptr(GPtrArray) addons_str = g_ptr_array_new_with_free_func (g_free);
+			for (i = 0; i < addons->len; i++) {
+				AsComponent *addon = AS_COMPONENT (g_ptr_array_index (addons, i));
+				g_ptr_array_add (addons_str, g_strdup_printf ("%s (%s)",
+										as_component_get_id (addon),
+										as_component_get_name (cpt)));
+			}
+			str = ascli_ptrarray_to_pretty (addons_str);
+			/* TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor */
+			ascli_print_key_value (_("Add-ons"), str, FALSE);
 			g_free (str);
 		}
 
 		/* Provided Items */
 		provided = as_component_get_provided (cpt);
-		if (provided != NULL)
+		if (provided->len > 0)
 			ascli_print_key_value (_("Provided Items"), "↓", FALSE);
-		for (l = provided; l != NULL; l = l->next) {
-			g_autofree gchar **items = NULL;
-			AsProvided *prov = AS_PROVIDED (l->data);
+		for (i = 0; i < provided->len; i++) {
+			GPtrArray *items = NULL;
+			AsProvided *prov = AS_PROVIDED (g_ptr_array_index (provided, i));
 
 			items = as_provided_get_items (prov);
-			if (items != NULL) {
+			if (items->len > 0) {
 				g_autofree gchar *keyname = NULL;
 
-				str = g_strjoinv (" ", items);
-				keyname = g_strdup_printf (" %s",
-								as_provided_kind_to_l10n_string (as_provided_get_kind (prov)));
-
+				str = ascli_ptrarray_to_pretty (items);
+				keyname = g_strdup_printf (" %s", as_provided_kind_to_l10n_string (as_provided_get_kind (prov)));
 				ascli_print_key_value (keyname, str, FALSE);
 				g_free (str);
 			}
 		}
+	}
+}
+
+/**
+ * ascli_print_components:
+ *
+ * Print well-formatted details about multiple components to stdout.
+ */
+void
+ascli_print_components (GPtrArray *cpts, gboolean show_detailed)
+{
+	guint i;
+
+	for (i = 0; i < cpts->len; i++) {
+		AsComponent *cpt = AS_COMPONENT(g_ptr_array_index (cpts, i));
+		ascli_print_component (cpt, show_detailed);
+
+		if (i < cpts->len-1)
+			ascli_print_separator ();
 	}
 }

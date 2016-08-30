@@ -19,6 +19,8 @@
                      <span class="dim">|</span> 
                   <a class="shortcut" href="#idxD">D</a>
                      <span class="dim">|</span> 
+                  <a class="shortcut" href="#idxF">F</a>
+                     <span class="dim">|</span> 
                   <a class="shortcut" href="#idxG">G</a>
                      <span class="dim">|</span> 
                   <a class="shortcut" href="#idxI">I</a>
@@ -52,24 +54,56 @@
 <a name="api-index-full"></a>API Index</h1></div></div></div>
 <a name="idx"></a><a name="idxB"></a><h3 class="title">B</h3>
 <dt>
-<a class="link" href="appstream-as-enums.html#AsBundleKind" title="enum AsBundleKind">AsBundleKind</a>, enum in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+AsBundle, struct in AsBundle
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="appstream-as-enums.html#as-bundle-kind-from-string" title="as_bundle_kind_from_string ()">as_bundle_kind_from_string</a>, function in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+AsBundleClass, struct in AsBundle
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="appstream-as-enums.html#as-bundle-kind-to-string" title="as_bundle_kind_to_string ()">as_bundle_kind_to_string</a>, function in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+AsBundleKind, enum in AsBundle
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="appstream-as-enums.html#AS-BUNDLE-KIND-XDG-APP:CAPS" title="AS_BUNDLE_KIND_XDG_APP">AS_BUNDLE_KIND_XDG_APP</a>, macro in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+as_bundle_get_id, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_get_kind, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_kind_from_string, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_kind_to_string, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_new, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_set_id, function in AsBundle
+</dt>
+<dd></dd>
+<dt>
+as_bundle_set_kind, function in AsBundle
 </dt>
 <dd></dd>
 <a name="idxC"></a><h3 class="title">C</h3>
 <dt>
-<a class="link" href="AsDataPool.html#AsCacheFlags" title="enum AsCacheFlags">AsCacheFlags</a>, enum in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
+<a class="link" href="AsPool.html#AsCacheFlags" title="enum AsCacheFlags">AsCacheFlags</a>, enum in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+as_cache_file_read, function in as-cache-file
+</dt>
+<dd></dd>
+<dt>
+as_cache_file_save, function in as-cache-file
 </dt>
 <dd></dd>
 <dt>
@@ -77,11 +111,7 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#AsCategory--directory" title="The “directory” property">AsCategory:directory</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsCategory.html#AsCategory--excluded" title="The “excluded” property">AsCategory:excluded</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#AsCategory--children" title="The “children” property">AsCategory:children</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -89,19 +119,11 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#AsCategory--included" title="The “included” property">AsCategory:included</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsCategory.html#AsCategory--level" title="The “level” property">AsCategory:level</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#AsCategory--id" title="The “id” property">AsCategory:id</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
 <a class="link" href="AsCategory.html#AsCategory--name" title="The “name” property">AsCategory:name</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsCategory.html#AsCategory--subcategories" title="The “subcategories” property">AsCategory:subcategories</a>, object property in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -113,19 +135,27 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-add-subcategory" title="as_category_add_subcategory ()">as_category_add_subcategory</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-add-child" title="as_category_add_child ()">as_category_add_child</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-complete" title="as_category_complete ()">as_category_complete</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-add-component" title="as_category_add_component ()">as_category_add_component</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-get-directory" title="as_category_get_directory ()">as_category_get_directory</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-add-desktop-group" title="as_category_add_desktop_group ()">as_category_add_desktop_group</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-get-excluded" title="as_category_get_excluded ()">as_category_get_excluded</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-get-children" title="as_category_get_children ()">as_category_get_children</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsCategory.html#as-category-get-components" title="as_category_get_components ()">as_category_get_components</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsCategory.html#as-category-get-desktop-groups" title="as_category_get_desktop_groups ()">as_category_get_desktop_groups</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -133,11 +163,7 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-get-included" title="as_category_get_included ()">as_category_get_included</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsCategory.html#as-category-get-level" title="as_category_get_level ()">as_category_get_level</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-get-id" title="as_category_get_id ()">as_category_get_id</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -145,15 +171,15 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-get-subcategories" title="as_category_get_subcategories ()">as_category_get_subcategories</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsCategory.html#as-category-get-summary" title="as_category_get_summary ()">as_category_get_summary</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-has-subcategory" title="as_category_has_subcategory ()">as_category_has_subcategory</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-has-children" title="as_category_has_children ()">as_category_has_children</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsCategory.html#as-category-has-component" title="as_category_has_component ()">as_category_has_component</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -161,11 +187,7 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-remove-subcategory" title="as_category_remove_subcategory ()">as_category_remove_subcategory</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsCategory.html#as-category-set-directory" title="as_category_set_directory ()">as_category_set_directory</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-remove-child" title="as_category_remove_child ()">as_category_remove_child</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -173,7 +195,7 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsCategory.html#as-category-set-level" title="as_category_set_level ()">as_category_set_level</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
+<a class="link" href="AsCategory.html#as-category-set-id" title="as_category_set_id ()">as_category_set_id</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <dt>
@@ -185,15 +207,43 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsRelease.html#AsChecksumKind" title="enum AsChecksumKind">AsChecksumKind</a>, enum in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+AsChecksum, struct in AsChecksum
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsRelease.html#as-checksum-kind-from-string" title="as_checksum_kind_from_string ()">as_checksum_kind_from_string</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+AsChecksumClass, struct in AsChecksum
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsRelease.html#as-checksum-kind-to-string" title="as_checksum_kind_to_string ()">as_checksum_kind_to_string</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+AsChecksumKind, enum in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_get_kind, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_get_value, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_kind_from_string, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_kind_to_string, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_new, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_set_kind, function in AsChecksum
+</dt>
+<dd></dd>
+<dt>
+as_checksum_set_value, function in AsChecksum
 </dt>
 <dd></dd>
 <dt>
@@ -265,15 +315,19 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#as-component-add-bundle-id" title="as_component_add_bundle_id ()">as_component_add_bundle_id</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+<a class="link" href="AsComponent.html#as-component-add-addon" title="as_component_add_addon ()">as_component_add_addon</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-add-bundle" title="as_component_add_bundle ()">as_component_add_bundle</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-add-category" title="as_component_add_category ()">as_component_add_category</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-add-extends" title="as_component_add_extends ()">as_component_add_extends</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsComponent.html#as-component-add-extension" title="as_component_add_extension ()">as_component_add_extension</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -313,7 +367,15 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#as-component-get-bundle-id" title="as_component_get_bundle_id ()">as_component_get_bundle_id</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+<a class="link" href="AsComponent.html#as-component-get-addons" title="as_component_get_addons ()">as_component_get_addons</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-get-bundle" title="as_component_get_bundle ()">as_component_get_bundle</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-get-bundles" title="as_component_get_bundles ()">as_component_get_bundles</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -322,6 +384,10 @@
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-get-compulsory-for-desktops" title="as_component_get_compulsory_for_desktops ()">as_component_get_compulsory_for_desktops</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-get-data-id" title="as_component_get_data_id ()">as_component_get_data_id</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -338,10 +404,6 @@
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-get-extends" title="as_component_get_extends ()">as_component_get_extends</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsComponent.html#as-component-get-extensions" title="as_component_get_extensions ()">as_component_get_extensions</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -386,6 +448,10 @@
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-get-origin" title="as_component_get_origin ()">as_component_get_origin</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-get-pkgname" title="as_component_get_pkgname ()">as_component_get_pkgname</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -441,6 +507,10 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsComponent.html#as-component-get-value-flags" title="as_component_get_value_flags ()">as_component_get_value_flags</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsComponent.html#as-component-has-bundle" title="as_component_has_bundle ()">as_component_has_bundle</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
@@ -450,6 +520,10 @@
 <dd></dd>
 <dt>
 <a class="link" href="AsComponent.html#as-component-is-compulsory-for-desktop" title="as_component_is_compulsory_for_desktop ()">as_component_is_compulsory_for_desktop</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#as-component-is-member-of-category" title="as_component_is_member_of_category ()">as_component_is_member_of_category</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -481,11 +555,11 @@
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#as-component-set-categories" title="as_component_set_categories ()">as_component_set_categories</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+<a class="link" href="AsComponent.html#as-component-set-compulsory-for-desktop" title="as_component_set_compulsory_for_desktop ()">as_component_set_compulsory_for_desktop</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsComponent.html#as-component-set-compulsory-for-desktops" title="as_component_set_compulsory_for_desktops ()">as_component_set_compulsory_for_desktops</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+<a class="link" href="AsComponent.html#as-component-set-data-id" title="as_component_set_data_id ()">as_component_set_data_id</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
 <dt>
@@ -545,182 +619,18 @@
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsComponent.html#as-component-set-value-flags" title="as_component_set_value_flags ()">as_component_set_value_flags</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsComponent.html#as-component-to-string" title="as_component_to_string ()">as_component_to_string</a>, function in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
 </dt>
 <dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#AS-CURRENT-FORMAT-VERSION:CAPS" title="AS_CURRENT_FORMAT_VERSION">AS_CURRENT_FORMAT_VERSION</a>, macro in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
 <a name="idxD"></a><h3 class="title">D</h3>
-<dt>
-AsDatabase, struct in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-AsDatabaseClass, struct in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-AsDatabaseError, enum in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-AS_DATABASE_ERROR, macro in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_error_quark, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_find_components, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_get_all_components, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_get_components_by_kind, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_get_components_by_provided_item, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_get_component_by_id, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_get_location, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_new, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_open, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-as_database_set_location, function in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#AsDataPool-struct" title="AsDataPool">AsDataPool</a>, struct in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#AsDataPoolClass" title="struct AsDataPoolClass">AsDataPoolClass</a>, struct in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#AsDataPoolError" title="enum AsDataPoolError">AsDataPoolError</a>, enum in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-add-component" title="as_data_pool_add_component ()">as_data_pool_add_component</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-clear" title="as_data_pool_clear ()">as_data_pool_clear</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#AS-DATA-POOL-ERROR:CAPS" title="AS_DATA_POOL_ERROR">AS_DATA_POOL_ERROR</a>, macro in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-error-quark" title="as_data_pool_error_quark ()">as_data_pool_error_quark</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-cache-age" title="as_data_pool_get_cache_age ()">as_data_pool_get_cache_age</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-cache-flags" title="as_data_pool_get_cache_flags ()">as_data_pool_get_cache_flags</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-components" title="as_data_pool_get_components ()">as_data_pool_get_components</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-components-by-categories" title="as_data_pool_get_components_by_categories ()">as_data_pool_get_components_by_categories</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-components-by-kind" title="as_data_pool_get_components_by_kind ()">as_data_pool_get_components_by_kind</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-components-by-provided-item" title="as_data_pool_get_components_by_provided_item ()">as_data_pool_get_components_by_provided_item</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-component-by-id" title="as_data_pool_get_component_by_id ()">as_data_pool_get_component_by_id</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-locale" title="as_data_pool_get_locale ()">as_data_pool_get_locale</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-get-metadata-locations" title="as_data_pool_get_metadata_locations ()">as_data_pool_get_metadata_locations</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-load" title="as_data_pool_load ()">as_data_pool_load</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-load-cache-file" title="as_data_pool_load_cache_file ()">as_data_pool_load_cache_file</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-load-metadata" title="as_data_pool_load_metadata ()">as_data_pool_load_metadata</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-new" title="as_data_pool_new ()">as_data_pool_new</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-refresh-cache" title="as_data_pool_refresh_cache ()">as_data_pool_refresh_cache</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-save-cache-file" title="as_data_pool_save_cache_file ()">as_data_pool_save_cache_file</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-as_data_pool_scan_apt, function in as-distro-extras
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-search" title="as_data_pool_search ()">as_data_pool_search</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-set-cache-flags" title="as_data_pool_set_cache_flags ()">as_data_pool_set_cache_flags</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-set-locale" title="as_data_pool_set_locale ()">as_data_pool_set_locale</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-set-metadata-locations" title="as_data_pool_set_metadata_locations ()">as_data_pool_set_metadata_locations</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#as-data-pool-update" title="as_data_pool_update ()">as_data_pool_update</a>, function in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="appstream-as-utils.html#as-description-markup-convert-simple" title="as_description_markup_convert_simple ()">as_description_markup_convert_simple</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
-</dt>
-<dd></dd>
 <dt>
 <a class="link" href="AsDistroDetails.html#AsDistroDetails-struct" title="AsDistroDetails">AsDistroDetails</a>, struct in <a class="link" href="AsDistroDetails.html" title="AsDistroDetails">AsDistroDetails</a>
 </dt>
@@ -765,17 +675,54 @@ as_data_pool_scan_apt, function in as-distro-extras
 <a class="link" href="AsDistroDetails.html#as-distro-details-new" title="as_distro_details_new ()">as_distro_details_new</a>, function in <a class="link" href="AsDistroDetails.html" title="AsDistroDetails">AsDistroDetails</a>
 </dt>
 <dd></dd>
+<a name="idxF"></a><h3 class="title">F</h3>
+<dt>
+<a class="link" href="appstream-as-enums.html#as-flags-add" title="as_flags_add()">as_flags_add</a>, macro in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-as-enums.html#as-flags-contains" title="as_flags_contains()">as_flags_contains</a>, macro in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-as-enums.html#as-flags-invert" title="as_flags_invert()">as_flags_invert</a>, macro in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-as-enums.html#as-flags-remove" title="as_flags_remove()">as_flags_remove</a>, macro in <a class="link" href="appstream-as-enums.html" title="as-enums">as-enums</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind">AsFormatKind</a>, enum in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle">AsFormatStyle</a>, enum in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion">AsFormatVersion</a>, enum in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-format-kind-from-string" title="as_format_kind_from_string ()">as_format_kind_from_string</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-format-kind-to-string" title="as_format_kind_to_string ()">as_format_kind_to_string</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-format-version-from-string" title="as_format_version_from_string ()">as_format_version_from_string</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-format-version-to-string" title="as_format_version_to_string ()">as_format_version_to_string</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
 <a name="idxG"></a><h3 class="title">G</h3>
 <dt>
-<a class="link" href="appstream-as-utils.html#as-get-current-locale" title="as_get_current_locale ()">as_get_current_locale</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDistroDetails.html#as-get-icon-repository-paths" title="as_get_icon_repository_paths ()">as_get_icon_repository_paths</a>, function in <a class="link" href="AsDistroDetails.html" title="AsDistroDetails">AsDistroDetails</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-get-system-categories" title="as_get_system_categories ()">as_get_system_categories</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
+<a class="link" href="AsCategory.html#as-get-default-categories" title="as_get_default_categories ()">as_get_default_categories</a>, function in <a class="link" href="AsCategory.html" title="AsCategory">AsCategory</a>
 </dt>
 <dd></dd>
 <a name="idxI"></a><h3 class="title">I</h3>
@@ -916,10 +863,6 @@ as_data_pool_scan_apt, function in as-distro-extras
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="appstream-as-utils.html#as-iso8601-to-datetime" title="as_iso8601_to_datetime ()">as_iso8601_to_datetime</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsValidatorIssue.html#AsIssueImportance" title="enum AsIssueImportance">AsIssueImportance</a>, enum in <a class="link" href="AsValidatorIssue.html" title="AsValidatorIssue">AsValidatorIssue</a>
 </dt>
 <dd></dd>
@@ -946,35 +889,7 @@ as_data_pool_scan_apt, function in as-distro-extras
 <dd></dd>
 <a name="idxM"></a><h3 class="title">M</h3>
 <dt>
-<a class="link" href="AsMenuParser.html#AsMenuParser-struct" title="AsMenuParser">AsMenuParser</a>, struct in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#AsMenuParser--update-category-data" title="The “update-category-data” property">AsMenuParser:update-category-data</a>, object property in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#AsMenuParserClass" title="struct AsMenuParserClass">AsMenuParserClass</a>, struct in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-menu-parser-get-update-category-data" title="as_menu_parser_get_update_category_data ()">as_menu_parser_get_update_category_data</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-menu-parser-new" title="as_menu_parser_new ()">as_menu_parser_new</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-menu-parser-new-from-file" title="as_menu_parser_new_from_file ()">as_menu_parser_new_from_file</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-menu-parser-parse" title="as_menu_parser_parse ()">as_menu_parser_parse</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMenuParser.html#as-menu-parser-set-update-category-data" title="as_menu_parser_set_update_category_data ()">as_menu_parser_set_update_category_data</a>, function in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
+<a class="link" href="appstream-as-utils.html#as-markup-convert-simple" title="as_markup_convert_simple ()">as_markup_convert_simple</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1010,15 +925,11 @@ as_data_pool_scan_apt, function in as-distro-extras
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMetadata.html#as-metadata-components-to-distro-xml" title="as_metadata_components_to_distro_xml ()">as_metadata_components_to_distro_xml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsMetadata.html#as-metadata-components-to-collection" title="as_metadata_components_to_collection ()">as_metadata_components_to_collection</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMetadata.html#as-metadata-components-to-distro-yaml" title="as_metadata_components_to_distro_yaml ()">as_metadata_components_to_distro_yaml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-component-to-upstream-xml" title="as_metadata_component_to_upstream_xml ()">as_metadata_component_to_upstream_xml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsMetadata.html#as-metadata-component-to-metainfo" title="as_metadata_component_to_metainfo ()">as_metadata_component_to_metainfo</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1042,15 +953,19 @@ as_data_pool_scan_apt, function in as-distro-extras
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsMetadata.html#as-metadata-get-format-style" title="as_metadata_get_format_style ()">as_metadata_get_format_style</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-metadata-get-format-version" title="as_metadata_get_format_version ()">as_metadata_get_format_version</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsMetadata.html#as-metadata-get-locale" title="as_metadata_get_locale ()">as_metadata_get_locale</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
 <a class="link" href="AsMetadata.html#as-metadata-get-origin" title="as_metadata_get_origin ()">as_metadata_get_origin</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-get-parser-mode" title="as_metadata_get_parser_mode ()">as_metadata_get_parser_mode</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1066,31 +981,31 @@ as_data_pool_scan_apt, function in as-distro-extras
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsMetadata.html#as-metadata-parse" title="as_metadata_parse ()">as_metadata_parse</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsMetadata.html#as-metadata-parse-file" title="as_metadata_parse_file ()">as_metadata_parse_file</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMetadata.html#as-metadata-parse-xml" title="as_metadata_parse_xml ()">as_metadata_parse_xml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsMetadata.html#as-metadata-save-collection" title="as_metadata_save_collection ()">as_metadata_save_collection</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMetadata.html#as-metadata-parse-yaml" title="as_metadata_parse_yaml ()">as_metadata_parse_yaml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-save-distro-xml" title="as_metadata_save_distro_xml ()">as_metadata_save_distro_xml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-save-distro-yaml" title="as_metadata_save_distro_yaml ()">as_metadata_save_distro_yaml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-save-upstream-xml" title="as_metadata_save_upstream_xml ()">as_metadata_save_upstream_xml</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsMetadata.html#as-metadata-save-metainfo" title="as_metadata_save_metainfo ()">as_metadata_save_metainfo</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
 <a class="link" href="AsMetadata.html#as-metadata-set-architecture" title="as_metadata_set_architecture ()">as_metadata_set_architecture</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-metadata-set-format-style" title="as_metadata_set_format_style ()">as_metadata_set_format_style</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsMetadata.html#as-metadata-set-format-version" title="as_metadata_set_format_version ()">as_metadata_set_format_version</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1099,10 +1014,6 @@ as_data_pool_scan_apt, function in as-distro-extras
 <dd></dd>
 <dt>
 <a class="link" href="AsMetadata.html#as-metadata-set-origin" title="as_metadata_set_origin ()">as_metadata_set_origin</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsMetadata.html#as-metadata-set-parser-mode" title="as_metadata_set_parser_mode ()">as_metadata_set_parser_mode</a>, function in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1115,7 +1026,107 @@ as_data_pool_scan_apt, function in as-distro-extras
 <dd></dd>
 <a name="idxP"></a><h3 class="title">P</h3>
 <dt>
-<a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode">AsParserMode</a>, enum in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsPool.html#AsPool-struct" title="AsPool">AsPool</a>, struct in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#AsPoolClass" title="struct AsPoolClass">AsPoolClass</a>, struct in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#AsPoolError" title="enum AsPoolError">AsPoolError</a>, enum in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-add-component" title="as_pool_add_component ()">as_pool_add_component</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-add-metadata-location" title="as_pool_add_metadata_location ()">as_pool_add_metadata_location</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-clear" title="as_pool_clear ()">as_pool_clear</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-clear-metadata-locations" title="as_pool_clear_metadata_locations ()">as_pool_clear_metadata_locations</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#AS-POOL-ERROR:CAPS" title="AS_POOL_ERROR">AS_POOL_ERROR</a>, macro in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-error-quark" title="as_pool_error_quark ()">as_pool_error_quark</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a href="AsPool.html#as-pool-get-cache-age">as_pool_get_cache_age</a>, function in as-pool-private
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-cache-flags" title="as_pool_get_cache_flags ()">as_pool_get_cache_flags</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-components" title="as_pool_get_components ()">as_pool_get_components</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-components-by-categories" title="as_pool_get_components_by_categories ()">as_pool_get_components_by_categories</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-components-by-id" title="as_pool_get_components_by_id ()">as_pool_get_components_by_id</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-components-by-kind" title="as_pool_get_components_by_kind ()">as_pool_get_components_by_kind</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-components-by-provided-item" title="as_pool_get_components_by_provided_item ()">as_pool_get_components_by_provided_item</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-get-locale" title="as_pool_get_locale ()">as_pool_get_locale</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-load" title="as_pool_load ()">as_pool_load</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-load-cache-file" title="as_pool_load_cache_file ()">as_pool_load_cache_file</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-new" title="as_pool_new ()">as_pool_new</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-refresh-cache" title="as_pool_refresh_cache ()">as_pool_refresh_cache</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-save-cache-file" title="as_pool_save_cache_file ()">as_pool_save_cache_file</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+as_pool_scan_apt, function in as-distro-extras
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-search" title="as_pool_search ()">as_pool_search</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-set-cache-flags" title="as_pool_set_cache_flags ()">as_pool_set_cache_flags</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsPool.html#as-pool-set-locale" title="as_pool_set_locale ()">as_pool_set_locale</a>, function in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1176,6 +1187,10 @@ as_data_pool_scan_apt, function in as-distro-extras
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="AsRelease.html#as-release-add-checksum" title="as_release_add_checksum ()">as_release_add_checksum</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsRelease.html#as-release-add-location" title="as_release_add_location ()">as_release_add_location</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
@@ -1185,6 +1200,10 @@ as_data_pool_scan_apt, function in as-distro-extras
 <dd></dd>
 <dt>
 <a class="link" href="AsRelease.html#as-release-get-checksum" title="as_release_get_checksum ()">as_release_get_checksum</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-release-get-checksums" title="as_release_get_checksums ()">as_release_get_checksums</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1224,10 +1243,6 @@ as_release_get_description_table, function in as-release-private
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsRelease.html#as-release-set-checksum" title="as_release_set_checksum ()">as_release_set_checksum</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsRelease.html#as-release-set-description" title="as_release_set_description ()">as_release_set_description</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
@@ -1245,6 +1260,10 @@ as_release_get_description_table, function in as-release-private
 <dd></dd>
 <dt>
 <a class="link" href="AsRelease.html#as-release-set-version" title="as_release_set_version ()">as_release_set_version</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="AsRelease.html#as-release-vercmp" title="as_release_vercmp ()">as_release_vercmp</a>, function in <a class="link" href="AsRelease.html" title="AsRelease">AsRelease</a>
 </dt>
 <dd></dd>
 <a name="idxS"></a><h3 class="title">S</h3>
@@ -1281,7 +1300,7 @@ as_screenshot_get_caption_table, function in as-screenshot-private
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsScreenshot.html#as-screenshot-get-images-localized" title="as_screenshot_get_images_localized ()">as_screenshot_get_images_localized</a>, function in <a class="link" href="AsScreenshot.html" title="AsScreenshot">AsScreenshot</a>
+<a class="link" href="AsScreenshot.html#as-screenshot-get-images-all" title="as_screenshot_get_images_all ()">as_screenshot_get_images_all</a>, function in <a class="link" href="AsScreenshot.html" title="AsScreenshot">AsScreenshot</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1353,10 +1372,6 @@ as_stemmer_stem, function in as-stemmer
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="appstream-as-utils.html#as-str-empty" title="as_str_empty ()">as_str_empty</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
-</dt>
-<dd></dd>
-<dt>
 <a class="link" href="AsSuggested.html#AsSuggested-struct" title="AsSuggested">AsSuggested</a>, struct in <a class="link" href="AsSuggested.html" title="AsSuggested">AsSuggested</a>
 </dt>
 <dd></dd>
@@ -1402,43 +1417,47 @@ as_stemmer_stem, function in as-stemmer
 <dd></dd>
 <a name="idxT"></a><h3 class="title">T</h3>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>, struct in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+AsTranslation, struct in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#AsTranslationClass">AsTranslationClass</a>, struct in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+AsTranslationClass, struct in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#AsTranslationKind">AsTranslationKind</a>, enum in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+AsTranslationKind, enum in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-get-id">as_translation_get_id</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_get_id, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-get-kind">as_translation_get_kind</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_get_kind, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-kind-from-string">as_translation_kind_from_string</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_kind_from_string, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-kind-to-string">as_translation_kind_to_string</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_kind_to_string, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-new">as_translation_new</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_new, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-set-id">as_translation_set_id</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_set_id, function in AsTranslation
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#as-translation-set-kind">as_translation_set_kind</a>, function in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+as_translation_set_kind, function in AsTranslation
+</dt>
+<dd></dd>
+<dt>
+AS_TYPE_BUNDLE, macro in AsBundle
 </dt>
 <dd></dd>
 <dt>
@@ -1446,15 +1465,11 @@ as_stemmer_stem, function in as-stemmer
 </dt>
 <dd></dd>
 <dt>
+AS_TYPE_CHECKSUM, macro in AsChecksum
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="AsComponent.html#AS-TYPE-COMPONENT:CAPS" title="AS_TYPE_COMPONENT">AS_TYPE_COMPONENT</a>, macro in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
-</dt>
-<dd></dd>
-<dt>
-AS_TYPE_DATABASE, macro in AsDatabase
-</dt>
-<dd></dd>
-<dt>
-<a class="link" href="AsDataPool.html#AS-TYPE-DATA-POOL:CAPS" title="AS_TYPE_DATA_POOL">AS_TYPE_DATA_POOL</a>, macro in <a class="link" href="AsDataPool.html" title="AsDataPool">AsDataPool</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1470,11 +1485,11 @@ AS_TYPE_DATABASE, macro in AsDatabase
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMenuParser.html#AS-TYPE-MENU-PARSER:CAPS" title="AS_TYPE_MENU_PARSER">AS_TYPE_MENU_PARSER</a>, macro in <a class="link" href="AsMenuParser.html" title="AsMenuParser">AsMenuParser</a>
+<a class="link" href="AsMetadata.html#AS-TYPE-METADATA:CAPS" title="AS_TYPE_METADATA">AS_TYPE_METADATA</a>, macro in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
 </dt>
 <dd></dd>
 <dt>
-<a class="link" href="AsMetadata.html#AS-TYPE-METADATA:CAPS" title="AS_TYPE_METADATA">AS_TYPE_METADATA</a>, macro in <a class="link" href="AsMetadata.html" title="AsMetadata">AsMetadata</a>
+<a class="link" href="AsPool.html#AS-TYPE-POOL:CAPS" title="AS_TYPE_POOL">AS_TYPE_POOL</a>, macro in <a class="link" href="AsPool.html" title="AsPool">AsPool</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1498,7 +1513,7 @@ AS_TYPE_STEMMER, macro in as-stemmer
 </dt>
 <dd></dd>
 <dt>
-<a href="../appstream-glib/AsTranslation.html#AS-TYPE-TRANSLATION:CAPS">AS_TYPE_TRANSLATION</a>, macro in <a href="../appstream-glib/AsTranslation.html#AsTranslation-struct">AsTranslation</a>
+AS_TYPE_TRANSLATION, macro in AsTranslation
 </dt>
 <dd></dd>
 <dt>
@@ -1543,7 +1558,15 @@ AS_TYPE_YAMLDATA, macro in AsYAMLData
 </dt>
 <dd></dd>
 <dt>
+<a class="link" href="appstream-as-utils.html#as-utils-compare-versions" title="as_utils_compare_versions ()">as_utils_compare_versions</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
+</dt>
+<dd></dd>
+<dt>
 <a class="link" href="appstream-as-utils.html#as-utils-is-category-name" title="as_utils_is_category_name ()">as_utils_is_category_name</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-as-utils.html#as-utils-is-desktop-environment" title="as_utils_is_desktop_environment ()">as_utils_is_desktop_environment</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
 </dt>
 <dd></dd>
 <dt>
@@ -1552,6 +1575,10 @@ AS_TYPE_YAMLDATA, macro in AsYAMLData
 <dd></dd>
 <dt>
 <a class="link" href="appstream-as-utils.html#as-utils-locale-is-compatible" title="as_utils_locale_is_compatible ()">as_utils_locale_is_compatible</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
+</dt>
+<dd></dd>
+<dt>
+<a class="link" href="appstream-as-utils.html#as-utils-sort-components-into-categories" title="as_utils_sort_components_into_categories ()">as_utils_sort_components_into_categories</a>, function in <a class="link" href="appstream-as-utils.html" title="as-utils">as-utils</a>
 </dt>
 <dd></dd>
 <a name="idxV"></a><h3 class="title">V</h3>
@@ -1651,6 +1678,10 @@ AS_TYPE_YAMLDATA, macro in AsYAMLData
 <a class="link" href="AsValidator.html#as-validator-validate-tree" title="as_validator_validate_tree ()">as_validator_validate_tree</a>, function in <a class="link" href="AsValidator.html" title="AsValidator">AsValidator</a>
 </dt>
 <dd></dd>
+<dt>
+<a class="link" href="AsComponent.html#AsValueFlags" title="enum AsValueFlags">AsValueFlags</a>, enum in <a class="link" href="AsComponent.html" title="AsComponent">AsComponent</a>
+</dt>
+<dd></dd>
 <a name="idxX"></a><h3 class="title">X</h3>
 <dt>
 AsXMLData, struct in AsXMLData
@@ -1661,7 +1692,7 @@ AsXMLDataClass, struct in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_get_parser_mode, function in AsXMLData
+as_xmldata_get_format_style, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
@@ -1673,11 +1704,11 @@ as_xmldata_new, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_parse_component_node, function in AsXMLData
+as_xmldata_parse_collection_data, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_parse_distro_data, function in AsXMLData
+as_xmldata_parse_component_node, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
@@ -1685,15 +1716,15 @@ as_xmldata_parse_document, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_parse_upstream_data, function in AsXMLData
+as_xmldata_parse_metainfo_data, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_serialize_to_distro, function in AsXMLData
+as_xmldata_serialize_to_collection, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_serialize_to_upstream, function in AsXMLData
+as_xmldata_serialize_to_metainfo, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
@@ -1701,11 +1732,11 @@ as_xmldata_set_check_valid, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_set_parser_mode, function in AsXMLData
+as_xmldata_set_format_style, function in AsXMLData
 </dt>
 <dd></dd>
 <dt>
-as_xmldata_update_cpt_with_upstream_data, function in AsXMLData
+as_xmldata_update_cpt_with_metainfo_data, function in AsXMLData
 </dt>
 <dd></dd>
 <a name="idxY"></a><h3 class="title">Y</h3>
@@ -1730,11 +1761,11 @@ as_yamldata_new, function in AsYAMLData
 </dt>
 <dd></dd>
 <dt>
-as_yamldata_parse_distro_data, function in AsYAMLData
+as_yamldata_parse_collection_data, function in AsYAMLData
 </dt>
 <dd></dd>
 <dt>
-as_yamldata_serialize_to_distro, function in AsYAMLData
+as_yamldata_serialize_to_collection, function in AsYAMLData
 </dt>
 <dd></dd>
 <dt>

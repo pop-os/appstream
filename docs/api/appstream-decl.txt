@@ -4,9 +4,9 @@
 AsRelease *release
 </FUNCTION>
 <FUNCTION>
-<NAME>as_data_pool_scan_apt</NAME>
+<NAME>as_pool_scan_apt</NAME>
 <RETURNS>void 		</RETURNS>
-AsDataPool *dpool, gboolean force, GError **error
+AsPool *pool, gboolean force, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_is_spdx_license_id</NAME>
@@ -39,24 +39,9 @@ const gchar *license
 const gchar *license
 </FUNCTION>
 <FUNCTION>
-<NAME>as_description_markup_convert_simple</NAME>
+<NAME>as_markup_convert_simple</NAME>
 <RETURNS>gchar 		*</RETURNS>
-const gchar *markup
-</FUNCTION>
-<FUNCTION>
-<NAME>as_get_current_locale</NAME>
-<RETURNS>gchar 		*</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_str_empty</NAME>
-<RETURNS>gboolean 	</RETURNS>
-const gchar* str
-</FUNCTION>
-<FUNCTION>
-<NAME>as_iso8601_to_datetime</NAME>
-<RETURNS>GDateTime 	*</RETURNS>
-const gchar *iso_date
+const gchar *markup, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_utils_locale_is_compatible</NAME>
@@ -72,6 +57,21 @@ const gchar *category_name
 <NAME>as_utils_is_tld</NAME>
 <RETURNS>gboolean 	</RETURNS>
 const gchar *tld
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_is_desktop_environment</NAME>
+<RETURNS>gboolean 	</RETURNS>
+const gchar *desktop
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_sort_components_into_categories</NAME>
+<RETURNS>void 		</RETURNS>
+GPtrArray *cpts, GPtrArray *categories, gboolean check_duplicates
+</FUNCTION>
+<FUNCTION>
+<NAME>as_utils_compare_versions</NAME>
+<RETURNS>gint 		</RETURNS>
+const gchar* a, const gchar *b
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_YAMLDATA</NAME>
@@ -99,15 +99,15 @@ void
 <FUNCTION>
 <NAME>as_yamldata_initialize</NAME>
 <RETURNS>void 			</RETURNS>
-AsYAMLData *ydt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
+AsYAMLData *ydt, AsFormatVersion format_version, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
 </FUNCTION>
 <FUNCTION>
-<NAME>as_yamldata_parse_distro_data</NAME>
+<NAME>as_yamldata_parse_collection_data</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
 AsYAMLData *ydt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_yamldata_serialize_to_distro</NAME>
+<NAME>as_yamldata_serialize_to_collection</NAME>
 <RETURNS>gchar 			*</RETURNS>
 AsYAMLData *ydt, GPtrArray *cpts, gboolean write_header, gboolean add_timestamp, GError **error
 </FUNCTION>
@@ -353,6 +353,83 @@ AsValidator *validator
 <NAME>AsValidator</NAME>
 </STRUCT>
 <MACRO>
+<NAME>AS_TYPE_BUNDLE</NAME>
+#define AS_TYPE_BUNDLE (as_bundle_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsBundleClass</NAME>
+struct _AsBundleClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1) (void);
+	void (*_as_reserved2) (void);
+	void (*_as_reserved3) (void);
+	void (*_as_reserved4) (void);
+	void (*_as_reserved5) (void);
+	void (*_as_reserved6) (void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsBundleKind</NAME>
+typedef enum {
+	AS_BUNDLE_KIND_UNKNOWN,
+	AS_BUNDLE_KIND_PACKAGE,
+	AS_BUNDLE_KIND_LIMBA,
+	AS_BUNDLE_KIND_FLATPAK,
+	/*< private >*/
+	AS_BUNDLE_KIND_LAST
+} AsBundleKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_bundle_kind_to_string</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsBundleKind bundle_kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_kind_from_string</NAME>
+<RETURNS>AsBundleKind 	</RETURNS>
+const gchar *bundle_kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_new</NAME>
+<RETURNS>AsBundle 	*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_get_kind</NAME>
+<RETURNS>AsBundleKind 	 </RETURNS>
+AsBundle *bundle
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_set_kind</NAME>
+<RETURNS>void 		 </RETURNS>
+AsBundle *bundle, AsBundleKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_get_id</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+AsBundle *bundle
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_set_id</NAME>
+<RETURNS>void 		 </RETURNS>
+AsBundle *bundle, const gchar *id
+</FUNCTION>
+<STRUCT>
+<NAME>AsBundle</NAME>
+</STRUCT>
+<FUNCTION>
+<NAME>as_cache_file_save</NAME>
+<RETURNS>void 		</RETURNS>
+const gchar *fname, const gchar *locale, GPtrArray *cpts, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_cache_file_read</NAME>
+<RETURNS>GPtrArray 	*</RETURNS>
+const gchar *fname, GError **error
+</FUNCTION>
+<MACRO>
 <NAME>AS_TYPE_TRANSLATION</NAME>
 #define AS_TYPE_TRANSLATION (as_translation_get_type ())
 </MACRO>
@@ -557,8 +634,6 @@ struct _AsCategoryClass
 	void (*_as_reserved2)	(void);
 	void (*_as_reserved3)	(void);
 	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
 };
 </STRUCT>
 <FUNCTION>
@@ -567,92 +642,100 @@ struct _AsCategoryClass
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_complete</NAME>
-<RETURNS>void 			</RETURNS>
-AsCategory *cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_directory</NAME>
+<NAME>as_category_get_id</NAME>
 <RETURNS>const gchar 		*</RETURNS>
-AsCategory *cat
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_set_directory</NAME>
+<NAME>as_category_set_id</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, const gchar* value
+AsCategory *category, const gchar *id
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_name</NAME>
 <RETURNS>const gchar 		*</RETURNS>
-AsCategory *cat
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_set_name</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, const gchar *value
+AsCategory *category, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_summary</NAME>
 <RETURNS>const gchar 		*</RETURNS>
-AsCategory *cat
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_set_summary</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, const gchar *value
+AsCategory *category, const gchar *value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_get_icon</NAME>
 <RETURNS>const gchar 		*</RETURNS>
-AsCategory *cat
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
 <NAME>as_category_set_icon</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, const gchar* value
+AsCategory *category, const gchar* value
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_has_subcategory</NAME>
+<NAME>as_category_get_children</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsCategory *category
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_has_children</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsCategory *cat
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_add_subcategory</NAME>
+<NAME>as_category_add_child</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, AsCategory *subcat
+AsCategory *category, AsCategory *subcat
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_remove_subcategory</NAME>
+<NAME>as_category_remove_child</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, AsCategory *subcat
+AsCategory *category, AsCategory *subcat
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_get_included</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsCategory *cat
+<NAME>as_category_get_desktop_groups</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsCategory *category
 </FUNCTION>
 <FUNCTION>
-<NAME>as_category_get_excluded</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsCategory *cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_subcategories</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsCategory *cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_get_level</NAME>
-<RETURNS>gint 			</RETURNS>
-AsCategory *cat
-</FUNCTION>
-<FUNCTION>
-<NAME>as_category_set_level</NAME>
+<NAME>as_category_add_desktop_group</NAME>
 <RETURNS>void 			</RETURNS>
-AsCategory *cat, gint value
+AsCategory *category, const gchar *group_name
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_get_components</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsCategory *category
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_add_component</NAME>
+<RETURNS>void 			</RETURNS>
+AsCategory *category, AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_category_has_component</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsCategory *category, AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_get_default_categories</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+gboolean with_special
 </FUNCTION>
 <STRUCT>
 <NAME>AsCategory</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>AsComponent</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_DISTRO_DETAILS</NAME>
@@ -701,11 +784,6 @@ AsDistroDetails *distro, const gchar *key
 <NAME>as_distro_details_get_bool</NAME>
 <RETURNS>gboolean 		</RETURNS>
 AsDistroDetails *distro, const gchar *key
-</FUNCTION>
-<FUNCTION>
-<NAME>as_get_icon_repository_paths</NAME>
-<RETURNS>gchar 			**</RETURNS>
-void
 </FUNCTION>
 <STRUCT>
 <NAME>AsDistroDetails</NAME>
@@ -779,6 +857,11 @@ AsScreenshot *screenshot
 AsScreenshot *screenshot, const gchar *caption, const gchar *locale
 </FUNCTION>
 <FUNCTION>
+<NAME>as_screenshot_get_images_all</NAME>
+<RETURNS>GPtrArray 			*</RETURNS>
+AsScreenshot *screenshot
+</FUNCTION>
+<FUNCTION>
 <NAME>as_screenshot_get_images</NAME>
 <RETURNS>GPtrArray 			*</RETURNS>
 AsScreenshot *screenshot
@@ -798,109 +881,223 @@ AsScreenshot *screenshot
 <RETURNS>void 				</RETURNS>
 AsScreenshot *screenshot, const gchar *locale
 </FUNCTION>
-<FUNCTION>
-<NAME>as_screenshot_get_images_localized</NAME>
-<RETURNS>GPtrArray 			*</RETURNS>
-AsScreenshot *screenshot
-</FUNCTION>
 <STRUCT>
 <NAME>AsScreenshot</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_pool_get_cache_age</NAME>
+<RETURNS>time_t 			</RETURNS>
+AsPool *pool
+</FUNCTION>
 <MACRO>
-<NAME>AS_TYPE_DATABASE</NAME>
-#define AS_TYPE_DATABASE (as_database_get_type ())
+<NAME>AS_TYPE_CHECKSUM</NAME>
+#define AS_TYPE_CHECKSUM (as_checksum_get_type ())
 </MACRO>
 <STRUCT>
-<NAME>AsDatabaseClass</NAME>
-struct _AsDatabaseClass
+<NAME>AsChecksumClass</NAME>
+struct _AsChecksumClass
 {
 	GObjectClass parent_class;
 	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
+	void (*_as_reserved1) (void);
+	void (*_as_reserved2) (void);
+	void (*_as_reserved3) (void);
+	void (*_as_reserved4) (void);
+	void (*_as_reserved5) (void);
+	void (*_as_reserved6) (void);
 };
 </STRUCT>
 <ENUM>
-<NAME>AsDatabaseError</NAME>
-<DEPRECATED/>
-typedef enum {
-	AS_DATABASE_ERROR_FAILED,
-	AS_DATABASE_ERROR_MISSING,
-	AS_DATABASE_ERROR_CLOSED,
-	AS_DATABASE_ERROR_TERM_INVALID,
+<NAME>AsChecksumKind</NAME>
+typedef enum  {
+	AS_CHECKSUM_KIND_NONE,
+	AS_CHECKSUM_KIND_SHA1,
+	AS_CHECKSUM_KIND_SHA256,
 	/*< private >*/
-	AS_DATABASE_ERROR_LAST
-} AsDatabaseError;
+	AS_CHECKSUM_KIND_LAST
+} AsChecksumKind;
 </ENUM>
-<MACRO>
-<NAME>AS_DATABASE_ERROR</NAME>
-#define	AS_DATABASE_ERROR	as_database_error_quark ()
-</MACRO>
 <FUNCTION>
-<NAME>as_database_new</NAME>
-<DEPRECATED/>
-<RETURNS>AsDatabase 		*</RETURNS>
+<NAME>as_checksum_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsChecksumKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_kind_from_string</NAME>
+<RETURNS>AsChecksumKind 		</RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_new</NAME>
+<RETURNS>AsChecksum 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_error_quark</NAME>
+<NAME>as_checksum_get_kind</NAME>
+<RETURNS>AsChecksumKind 		</RETURNS>
+AsChecksum *cs
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsChecksum *cs, AsChecksumKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_get_value</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsChecksum *cs
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_set_value</NAME>
+<RETURNS>void 			</RETURNS>
+AsChecksum *cs, const gchar *value
+</FUNCTION>
+<STRUCT>
+<NAME>AsChecksum</NAME>
+</STRUCT>
+<MACRO>
+<NAME>AS_TYPE_POOL</NAME>
+#define AS_TYPE_POOL (as_pool_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsPoolClass</NAME>
+struct _AsPoolClass
+{
+	GObjectClass parent_class;
+	/*< private >*/
+	void (*_as_reserved1) (void);
+	void (*_as_reserved2) (void);
+	void (*_as_reserved3) (void);
+	void (*_as_reserved4) (void);
+	void (*_as_reserved5) (void);
+	void (*_as_reserved6) (void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsCacheFlags</NAME>
+typedef enum {
+	AS_CACHE_FLAG_NONE = 0,
+	AS_CACHE_FLAG_USE_USER   = 1 << 0,
+	AS_CACHE_FLAG_USE_SYSTEM = 1 << 1,
+} AsCacheFlags;
+</ENUM>
+<ENUM>
+<NAME>AsPoolError</NAME>
+typedef enum {
+	AS_POOL_ERROR_FAILED,
+	AS_POOL_ERROR_TARGET_NOT_WRITABLE,
+	AS_POOL_ERROR_INCOMPLETE,
+	AS_POOL_ERROR_COLLISION,
+	/*< private >*/
+	AS_POOL_ERROR_LAST
+} AsPoolError;
+</ENUM>
+<MACRO>
+<NAME>AS_POOL_ERROR</NAME>
+#define AS_POOL_ERROR	as_pool_error_quark ()
+</MACRO>
+<FUNCTION>
+<NAME>as_pool_error_quark</NAME>
 <RETURNS>GQuark 			</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_open</NAME>
-<DEPRECATED/>
-<RETURNS>gboolean 		</RETURNS>
-AsDatabase *db, GError **error
+<NAME>as_pool_new</NAME>
+<RETURNS>AsPool 			*</RETURNS>
+void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_location</NAME>
-<DEPRECATED/>
-<RETURNS>const gchar 		*</RETURNS>
-AsDatabase *db
+<NAME>as_pool_get_locale</NAME>
+<RETURNS>const gchar  		*</RETURNS>
+AsPool *pool
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_set_location</NAME>
-<DEPRECATED/>
+<NAME>as_pool_set_locale</NAME>
 <RETURNS>void 			</RETURNS>
-AsDatabase *db, const gchar *dir
+AsPool *pool, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_find_components</NAME>
-<DEPRECATED/>
+<NAME>as_pool_load</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsPool *pool, GCancellable *cancellable, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_load_cache_file</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsPool *pool, const gchar *fname, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_save_cache_file</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsPool *pool, const gchar *fname, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_clear</NAME>
+<RETURNS>void 			</RETURNS>
+AsPool *pool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_add_component</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsPool *pool, AsComponent *cpt, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_get_components</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, const gchar *term, const gchar *cats_str, GError **error
+AsPool *pool
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_all_components</NAME>
-<DEPRECATED/>
+<NAME>as_pool_get_components_by_id</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, GError **error
+AsPool *pool, const gchar *cid
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_component_by_id</NAME>
-<DEPRECATED/>
-<RETURNS>AsComponent 		*</RETURNS>
-AsDatabase *db, const gchar *cid, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_database_get_components_by_provided_item</NAME>
-<DEPRECATED/>
+<NAME>as_pool_get_components_by_provided_item</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, AsProvidedKind kind, const gchar *item, GError **error
+AsPool *pool, AsProvidedKind kind, const gchar *item
 </FUNCTION>
 <FUNCTION>
-<NAME>as_database_get_components_by_kind</NAME>
-<DEPRECATED/>
+<NAME>as_pool_get_components_by_kind</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
-AsDatabase *db, AsComponentKind kind, GError **error
+AsPool *pool, AsComponentKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_get_components_by_categories</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsPool *pool, gchar **categories
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_search</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsPool *pool, const gchar *search
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_clear_metadata_locations</NAME>
+<RETURNS>void 			</RETURNS>
+AsPool *pool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_add_metadata_location</NAME>
+<RETURNS>void 			</RETURNS>
+AsPool *pool, const gchar *directory
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_get_cache_flags</NAME>
+<RETURNS>AsCacheFlags 		</RETURNS>
+AsPool *pool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_set_cache_flags</NAME>
+<RETURNS>void 			</RETURNS>
+AsPool *pool, AsCacheFlags flags
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_refresh_cache</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsPool *pool, gboolean force, GError **error
 </FUNCTION>
 <STRUCT>
-<NAME>AsDatabase</NAME>
+<NAME>AsPool</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_COMPONENT</NAME>
@@ -926,12 +1123,13 @@ typedef enum  {
 	AS_COMPONENT_KIND_UNKNOWN,
 	AS_COMPONENT_KIND_GENERIC,
 	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_CONSOLE_APP,
+	AS_COMPONENT_KIND_WEB_APP,
+	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FONT,
 	AS_COMPONENT_KIND_CODEC,
 	AS_COMPONENT_KIND_INPUTMETHOD,
-	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FIRMWARE,
-	AS_COMPONENT_KIND_CONSOLE_APP,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
@@ -965,6 +1163,14 @@ typedef enum  {
 	AS_MERGE_KIND_LAST
 } AsMergeKind;
 </ENUM>
+<ENUM>
+<NAME>AsValueFlags</NAME>
+typedef enum {
+	AS_VALUE_FLAG_NONE = 0,
+	AS_VALUE_FLAG_DUPLICATE_CHECK = 1 << 0,
+	AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK = 1 << 1
+} AsValueFlags;
+</ENUM>
 <FUNCTION>
 <NAME>as_merge_kind_to_string</NAME>
 <RETURNS>const gchar 		*</RETURNS>
@@ -981,14 +1187,14 @@ const gchar *kind_str
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_is_valid</NAME>
-<RETURNS>gboolean 		</RETURNS>
+<NAME>as_component_get_value_flags</NAME>
+<RETURNS>AsValueFlags 		</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_to_string</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsComponent *cpt
+<NAME>as_component_set_value_flags</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsValueFlags flags
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_active_locale</NAME>
@@ -1001,16 +1207,6 @@ AsComponent *cpt
 AsComponent *cpt, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_kind</NAME>
-<RETURNS>AsComponentKind 		</RETURNS>
-AsComponent *cpt
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_set_kind</NAME>
-<RETURNS>void 			</RETURNS>
-AsComponent *cpt, AsComponentKind value
-</FUNCTION>
-<FUNCTION>
 <NAME>as_component_get_id</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsComponent *cpt
@@ -1019,6 +1215,26 @@ AsComponent *cpt
 <NAME>as_component_set_id</NAME>
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_data_id</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_data_id</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_kind</NAME>
+<RETURNS>AsComponentKind 		</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsComponentKind value
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_desktop_id</NAME>
@@ -1036,6 +1252,11 @@ AsComponent *cpt
 AsComponent *cpt, const gchar *origin
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_get_pkgname</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_get_pkgnames</NAME>
 <RETURNS>gchar 			**</RETURNS>
 AsComponent *cpt
@@ -1043,7 +1264,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_pkgnames</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, gchar **value
+AsComponent *cpt, gchar **packages
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_source_pkgname</NAME>
@@ -1053,7 +1274,7 @@ AsComponent *cpt
 <FUNCTION>
 <NAME>as_component_set_source_pkgname</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar* spkgname
+AsComponent *cpt, const gchar *spkgname
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_name</NAME>
@@ -1127,13 +1348,13 @@ AsComponent *cpt, const gchar *value, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_compulsory_for_desktops</NAME>
-<RETURNS>gchar 			**</RETURNS>
+<RETURNS>GPtrArray 		*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_compulsory_for_desktops</NAME>
+<NAME>as_component_set_compulsory_for_desktop</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, gchar **value
+AsComponent *cpt, const gchar *desktop
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_is_compulsory_for_desktop</NAME>
@@ -1142,13 +1363,13 @@ AsComponent *cpt, const gchar *desktop
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_categories</NAME>
-<RETURNS>gchar 			**</RETURNS>
+<RETURNS>GPtrArray 		*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_set_categories</NAME>
+<NAME>as_component_add_category</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, gchar **value
+AsComponent *cpt, const gchar *category
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_has_category</NAME>
@@ -1191,6 +1412,11 @@ AsComponent *cpt, guint width, guint height
 AsComponent *cpt, AsIcon *icon
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_get_provided</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_add_provided</NAME>
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, AsProvided *prov
@@ -1199,11 +1425,6 @@ AsComponent *cpt, AsProvided *prov
 <NAME>as_component_get_provided_for_kind</NAME>
 <RETURNS>AsProvided 		*</RETURNS>
 AsComponent *cpt, AsProvidedKind kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_component_get_provided</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_url</NAME>
@@ -1236,14 +1457,14 @@ AsComponent *cpt
 AsComponent *cpt, const gchar *cpt_id
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_extensions</NAME>
+<NAME>as_component_get_addons</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_add_extension</NAME>
+<NAME>as_component_add_addon</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, const gchar *cpt_id
+AsComponent *cpt, AsComponent *addon
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_languages</NAME>
@@ -1276,14 +1497,19 @@ AsComponent *cpt, AsTranslation *tr
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_bundle_id</NAME>
-<RETURNS>const gchar 		*</RETURNS>
+<NAME>as_component_get_bundles</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_bundle</NAME>
+<RETURNS>AsBundle 		*</RETURNS>
 AsComponent *cpt, AsBundleKind bundle_kind
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_add_bundle_id</NAME>
+<NAME>as_component_add_bundle</NAME>
 <RETURNS>void 			</RETURNS>
-AsComponent *cpt, AsBundleKind bundle_kind, const gchar *id
+AsComponent *cpt, AsBundle *bundle
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_suggested</NAME>
@@ -1319,6 +1545,21 @@ AsComponent *cpt
 <NAME>as_component_set_merge_kind</NAME>
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, AsMergeKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_is_member_of_category</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsComponent *cpt, AsCategory *category
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_is_valid</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_to_string</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsComponent *cpt
 </FUNCTION>
 <STRUCT>
 <NAME>AsComponent</NAME>
@@ -1472,20 +1713,67 @@ struct _AsMetadataClass
 };
 </STRUCT>
 <ENUM>
-<NAME>AsParserMode</NAME>
+<NAME>AsFormatStyle</NAME>
 typedef enum {
-	AS_PARSER_MODE_UPSTREAM,
-	AS_PARSER_MODE_DISTRO,
+	AS_FORMAT_STYLE_UNKNOWN,
+	AS_FORMAT_STYLE_METAINFO,
+	AS_FORMAT_STYLE_COLLECTION,
 	/*< private >*/
-	AS_PARSER_MODE_LAST
-} AsParserMode;
+	AS_FORMAT_STYLE_LAST
+} AsFormatStyle;
 </ENUM>
+<ENUM>
+<NAME>AsFormatKind</NAME>
+typedef enum {
+	AS_FORMAT_KIND_UNKNOWN,
+	AS_FORMAT_KIND_XML,
+	AS_FORMAT_KIND_YAML,
+	/*< private >*/
+	AS_FORMAT_KIND_LAST
+} AsFormatKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_format_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsFormatKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_format_kind_from_string</NAME>
+<RETURNS>AsFormatKind 		 </RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<ENUM>
+<NAME>AsFormatVersion</NAME>
+typedef enum {
+	AS_FORMAT_VERSION_V0_6,
+	AS_FORMAT_VERSION_V0_7,
+	AS_FORMAT_VERSION_V0_8,
+	AS_FORMAT_VERSION_V0_9,
+	AS_FORMAT_VERSION_V0_10,
+	/*< private >*/
+	AS_FORMAT_VERSION_LAST
+} AsFormatVersion;
+</ENUM>
+<FUNCTION>
+<NAME>as_format_version_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsFormatVersion version
+</FUNCTION>
+<FUNCTION>
+<NAME>as_format_version_from_string</NAME>
+<RETURNS>AsFormatVersion 		 </RETURNS>
+const gchar *version_str
+</FUNCTION>
+<MACRO>
+<NAME>AS_CURRENT_FORMAT_VERSION</NAME>
+#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_10
+</MACRO>
 <ENUM>
 <NAME>AsMetadataError</NAME>
 typedef enum {
 	AS_METADATA_ERROR_FAILED,
 	AS_METADATA_ERROR_PARSE,
-	AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND,
+	AS_METADATA_ERROR_FORMAT_UNEXPECTED,
 	AS_METADATA_ERROR_NO_COMPONENT,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
@@ -1508,17 +1796,12 @@ void
 <FUNCTION>
 <NAME>as_metadata_parse_file</NAME>
 <RETURNS>void 			</RETURNS>
-AsMetadata *metad, GFile *file, GError **error
+AsMetadata *metad, GFile *file, AsFormatKind format, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_parse_xml</NAME>
+<NAME>as_metadata_parse</NAME>
 <RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *data, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_parse_yaml</NAME>
-<RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *data, GError **error
+AsMetadata *metad, const gchar *data, AsFormatKind format, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_get_component</NAME>
@@ -1541,34 +1824,44 @@ AsMetadata *metad
 AsMetadata *metad, AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_component_to_upstream_xml</NAME>
+<NAME>as_metadata_component_to_metainfo</NAME>
 <RETURNS>gchar 			*</RETURNS>
+AsMetadata *metad, AsFormatKind format, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_save_metainfo</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *fname, AsFormatKind format, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_components_to_collection</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsMetadata *metad, AsFormatKind format, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_save_collection</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *fname, AsFormatKind format, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_get_format_version</NAME>
+<RETURNS>AsFormatVersion 		</RETURNS>
 AsMetadata *metad
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_save_upstream_xml</NAME>
+<NAME>as_metadata_set_format_version</NAME>
 <RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *fname, GError **error
+AsMetadata *metad, AsFormatVersion version
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_components_to_distro_xml</NAME>
-<RETURNS>gchar 			*</RETURNS>
+<NAME>as_metadata_get_format_style</NAME>
+<RETURNS>AsFormatStyle 		</RETURNS>
 AsMetadata *metad
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_save_distro_xml</NAME>
+<NAME>as_metadata_set_format_style</NAME>
 <RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *fname, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_components_to_distro_yaml</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsMetadata *metad
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_save_distro_yaml</NAME>
-<RETURNS>void 			</RETURNS>
-AsMetadata *metad, const gchar *fname, GError **error
+AsMetadata *metad, AsFormatStyle mode
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_set_locale</NAME>
@@ -1611,16 +1904,6 @@ AsMetadata *metad
 AsMetadata *metad, gboolean wheader
 </FUNCTION>
 <FUNCTION>
-<NAME>as_metadata_set_parser_mode</NAME>
-<RETURNS>void 			</RETURNS>
-AsMetadata *metad, AsParserMode mode
-</FUNCTION>
-<FUNCTION>
-<NAME>as_metadata_get_parser_mode</NAME>
-<RETURNS>AsParserMode 		</RETURNS>
-AsMetadata *metad
-</FUNCTION>
-<FUNCTION>
 <NAME>as_metadata_get_architecture</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsMetadata *metad
@@ -1632,57 +1915,6 @@ AsMetadata *metad, const gchar *arch
 </FUNCTION>
 <STRUCT>
 <NAME>AsMetadata</NAME>
-</STRUCT>
-<MACRO>
-<NAME>AS_TYPE_MENU_PARSER</NAME>
-#define AS_TYPE_MENU_PARSER (as_menu_parser_get_type ())
-</MACRO>
-<STRUCT>
-<NAME>AsMenuParserClass</NAME>
-struct _AsMenuParserClass
-{
-	GObjectClass parent_class;
-	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_menu_parser_new</NAME>
-<RETURNS>AsMenuParser 		*</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_new_from_file</NAME>
-<RETURNS>AsMenuParser 		*</RETURNS>
-const gchar *menu_file
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_parse</NAME>
-<RETURNS>GList 			*</RETURNS>
-AsMenuParser *mp
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_get_update_category_data</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsMenuParser *mp
-</FUNCTION>
-<FUNCTION>
-<NAME>as_menu_parser_set_update_category_data</NAME>
-<RETURNS>void 			</RETURNS>
-AsMenuParser *mp, gboolean value
-</FUNCTION>
-<FUNCTION>
-<NAME>as_get_system_categories</NAME>
-<RETURNS>GList 			*</RETURNS>
-void
-</FUNCTION>
-<STRUCT>
-<NAME>AsMenuParser</NAME>
 </STRUCT>
 <MACRO>
 <NAME>AS_TYPE_RELEASE</NAME>
@@ -1702,26 +1934,6 @@ struct _AsReleaseClass
 	void (*_as_reserved6)	(void);
 };
 </STRUCT>
-<ENUM>
-<NAME>AsChecksumKind</NAME>
-typedef enum  {
-	AS_CHECKSUM_KIND_NONE,
-	AS_CHECKSUM_KIND_SHA1,
-	AS_CHECKSUM_KIND_SHA256,
-	/*< private >*/
-	AS_CHECKSUM_KIND_LAST
-} AsChecksumKind;
-</ENUM>
-<FUNCTION>
-<NAME>as_checksum_kind_to_string</NAME>
-<RETURNS>const gchar 	*</RETURNS>
-AsChecksumKind kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_checksum_kind_from_string</NAME>
-<RETURNS>AsChecksumKind 	</RETURNS>
-const gchar *kind_str
-</FUNCTION>
 <ENUM>
 <NAME>AsSizeKind</NAME>
 typedef enum {
@@ -1748,6 +1960,16 @@ const gchar *size_kind
 void
 </FUNCTION>
 <FUNCTION>
+<NAME>as_release_get_active_locale</NAME>
+<RETURNS>gchar 		*</RETURNS>
+AsRelease *release
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_active_locale</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease	*release, const gchar *locale
+</FUNCTION>
+<FUNCTION>
 <NAME>as_release_get_version</NAME>
 <RETURNS>const gchar 	*</RETURNS>
 AsRelease *release
@@ -1756,6 +1978,11 @@ AsRelease *release
 <NAME>as_release_set_version</NAME>
 <RETURNS>void 		</RETURNS>
 AsRelease *release, const gchar *version
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_vercmp</NAME>
+<RETURNS>gint 		</RETURNS>
+AsRelease *rel1, AsRelease *rel2
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_timestamp</NAME>
@@ -1778,16 +2005,6 @@ AsRelease *release
 AsRelease *release, const gchar *description, const gchar *locale
 </FUNCTION>
 <FUNCTION>
-<NAME>as_release_get_active_locale</NAME>
-<RETURNS>gchar 		*</RETURNS>
-AsRelease *release
-</FUNCTION>
-<FUNCTION>
-<NAME>as_release_set_active_locale</NAME>
-<RETURNS>void 		</RETURNS>
-AsRelease	*release, const gchar *locale
-</FUNCTION>
-<FUNCTION>
 <NAME>as_release_get_locations</NAME>
 <RETURNS>GPtrArray 	*</RETURNS>
 AsRelease *release
@@ -1798,14 +2015,19 @@ AsRelease *release
 AsRelease *release, const gchar *location
 </FUNCTION>
 <FUNCTION>
+<NAME>as_release_get_checksums</NAME>
+<RETURNS>GPtrArray 	*</RETURNS>
+AsRelease *release
+</FUNCTION>
+<FUNCTION>
 <NAME>as_release_get_checksum</NAME>
-<RETURNS>const gchar 	*</RETURNS>
+<RETURNS>AsChecksum 	*</RETURNS>
 AsRelease *release, AsChecksumKind kind
 </FUNCTION>
 <FUNCTION>
-<NAME>as_release_set_checksum</NAME>
+<NAME>as_release_add_checksum</NAME>
 <RETURNS>void 		</RETURNS>
-AsRelease *release, const gchar *checksum, AsChecksumKind kind
+AsRelease *release, AsChecksum *cs
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_urgency</NAME>
@@ -1856,42 +2078,42 @@ void
 <FUNCTION>
 <NAME>as_xmldata_initialize</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
+AsXMLData *xdt, AsFormatVersion format_version, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_parse_upstream_data</NAME>
+<NAME>as_xmldata_parse_metainfo_data</NAME>
 <RETURNS>AsComponent 		*</RETURNS>
 AsXMLData *xdt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_parse_distro_data</NAME>
+<NAME>as_xmldata_parse_collection_data</NAME>
 <RETURNS>GPtrArray 		*</RETURNS>
 AsXMLData *xdt, const gchar *data, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_update_cpt_with_upstream_data</NAME>
+<NAME>as_xmldata_update_cpt_with_metainfo_data</NAME>
 <RETURNS>gboolean 		</RETURNS>
 AsXMLData *xdt, const gchar *data, AsComponent *cpt, GError **error
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_serialize_to_upstream</NAME>
+<NAME>as_xmldata_serialize_to_metainfo</NAME>
 <RETURNS>gchar 			*</RETURNS>
 AsXMLData *xdt, AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_serialize_to_distro</NAME>
+<NAME>as_xmldata_serialize_to_collection</NAME>
 <RETURNS>gchar 			*</RETURNS>
 AsXMLData *xdt, GPtrArray *cpts, gboolean write_header
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_get_parser_mode</NAME>
-<RETURNS>AsParserMode 		</RETURNS>
+<NAME>as_xmldata_get_format_style</NAME>
+<RETURNS>AsFormatStyle 		</RETURNS>
 AsXMLData *xdt
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_set_parser_mode</NAME>
+<NAME>as_xmldata_set_format_style</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, AsParserMode mode
+AsXMLData *xdt, AsFormatStyle mode
 </FUNCTION>
 <FUNCTION>
 <NAME>as_xmldata_parse_component_node</NAME>
@@ -1911,6 +2133,22 @@ AsXMLData *xdt, gboolean check
 <STRUCT>
 <NAME>AsXMLData</NAME>
 </STRUCT>
+<MACRO>
+<NAME>as_flags_add</NAME>
+#define as_flags_add(bitfield,enum)		do { ((bitfield) |= enum); } while (0)
+</MACRO>
+<MACRO>
+<NAME>as_flags_remove</NAME>
+#define as_flags_remove(bitfield,enum)		do { ((bitfield) &= ~enum); } while (0)
+</MACRO>
+<MACRO>
+<NAME>as_flags_invert</NAME>
+#define as_flags_invert(bitfield,enum)		do { ((bitfield) ^= enum); } while (0)
+</MACRO>
+<MACRO>
+<NAME>as_flags_contains</NAME>
+#define as_flags_contains(bitfield,enum)	(((bitfield) & enum) > 0)
+</MACRO>
 <ENUM>
 <NAME>AsUrlKind</NAME>
 typedef enum {
@@ -1934,30 +2172,6 @@ AsUrlKind url_kind
 <NAME>as_url_kind_from_string</NAME>
 <RETURNS>AsUrlKind 	</RETURNS>
 const gchar *url_kind
-</FUNCTION>
-<ENUM>
-<NAME>AsBundleKind</NAME>
-typedef enum {
-	AS_BUNDLE_KIND_UNKNOWN,
-	AS_BUNDLE_KIND_LIMBA,
-	AS_BUNDLE_KIND_FLATPAK,
-	/*< private >*/
-	AS_BUNDLE_KIND_LAST
-} AsBundleKind;
-</ENUM>
-<MACRO>
-<NAME>AS_BUNDLE_KIND_XDG_APP</NAME>
-#define AS_BUNDLE_KIND_XDG_APP AS_BUNDLE_KIND_FLATPAK
-</MACRO>
-<FUNCTION>
-<NAME>as_bundle_kind_to_string</NAME>
-<RETURNS>const gchar 	*</RETURNS>
-AsBundleKind bundle_kind
-</FUNCTION>
-<FUNCTION>
-<NAME>as_bundle_kind_from_string</NAME>
-<RETURNS>AsBundleKind 	</RETURNS>
-const gchar *bundle_kind
 </FUNCTION>
 <ENUM>
 <NAME>AsUrgencyKind</NAME>
@@ -2050,7 +2264,7 @@ AsProvided *prov, AsProvidedKind kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_provided_get_items</NAME>
-<RETURNS>gchar 			**</RETURNS>
+<RETURNS>GPtrArray 		*</RETURNS>
 AsProvided *prov
 </FUNCTION>
 <FUNCTION>
@@ -2065,165 +2279,4 @@ AsProvided *prov, const gchar *item
 </FUNCTION>
 <STRUCT>
 <NAME>AsProvided</NAME>
-</STRUCT>
-<MACRO>
-<NAME>AS_TYPE_DATA_POOL</NAME>
-#define AS_TYPE_DATA_POOL (as_data_pool_get_type ())
-</MACRO>
-<STRUCT>
-<NAME>AsDataPoolClass</NAME>
-struct _AsDataPoolClass
-{
-	GObjectClass parent_class;
-	/*< private >*/
-	void (*_as_reserved1) (void);
-	void (*_as_reserved2) (void);
-	void (*_as_reserved3) (void);
-	void (*_as_reserved4) (void);
-	void (*_as_reserved5) (void);
-	void (*_as_reserved6) (void);
-};
-</STRUCT>
-<ENUM>
-<NAME>AsCacheFlags</NAME>
-typedef enum {
-	AS_CACHE_FLAG_NONE = 0,
-	AS_CACHE_FLAG_USE_USER   = 1 << 0,
-	AS_CACHE_FLAG_USE_SYSTEM = 1 << 1,
-} AsCacheFlags;
-</ENUM>
-<ENUM>
-<NAME>AsDataPoolError</NAME>
-typedef enum {
-	AS_DATA_POOL_ERROR_FAILED,
-	AS_DATA_POOL_ERROR_TARGET_NOT_WRITABLE,
-	AS_DATA_POOL_ERROR_INCOMPLETE,
-	AS_DATA_POOL_ERROR_COLLISION,
-	AS_DATA_POOL_ERROR_TERM_INVALID,
-	/*< private >*/
-	AS_DATA_POOL_ERROR_LAST
-} AsDataPoolError;
-</ENUM>
-<MACRO>
-<NAME>AS_DATA_POOL_ERROR</NAME>
-#define AS_DATA_POOL_ERROR	as_data_pool_error_quark ()
-</MACRO>
-<FUNCTION>
-<NAME>as_data_pool_error_quark</NAME>
-<RETURNS>GQuark 			</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_new</NAME>
-<RETURNS>AsDataPool 		*</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_locale</NAME>
-<RETURNS>const gchar  		*</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_set_locale</NAME>
-<RETURNS>void 			</RETURNS>
-AsDataPool *dpool, const gchar *locale
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_load</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, GCancellable *cancellable, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_load_metadata</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_load_cache_file</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, const gchar *fname, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_save_cache_file</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, const gchar *fname, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_clear</NAME>
-<RETURNS>void 			</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_add_component</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, AsComponent *cpt, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_components</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_component_by_id</NAME>
-<RETURNS>AsComponent 		*</RETURNS>
-AsDataPool *dpool, const gchar *id
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_components_by_provided_item</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool, AsProvidedKind kind, const gchar *item, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_components_by_kind</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool, AsComponentKind kind, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_components_by_categories</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool, const gchar *categories
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_search</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool, const gchar *search
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_metadata_locations</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_set_metadata_locations</NAME>
-<RETURNS>void 			</RETURNS>
-AsDataPool *dpool, gchar **dirs
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_cache_flags</NAME>
-<RETURNS>AsCacheFlags 		</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_set_cache_flags</NAME>
-<RETURNS>void 			</RETURNS>
-AsDataPool *dpool, AsCacheFlags flags
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_refresh_cache</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, gboolean force, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_get_cache_age</NAME>
-<RETURNS>time_t 			</RETURNS>
-AsDataPool *dpool
-</FUNCTION>
-<FUNCTION>
-<NAME>as_data_pool_update</NAME>
-<DEPRECATED/>
-<RETURNS>gboolean 		</RETURNS>
-AsDataPool *dpool, GError **error
-</FUNCTION>
-<STRUCT>
-<NAME>AsDataPool</NAME>
 </STRUCT>

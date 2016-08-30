@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
-<link rel="prev" href="AsMenuParser.html" title="AsMenuParser">
+<link rel="prev" href="AsDistroDetails.html" title="AsDistroDetails">
 <link rel="next" href="AsValidator.html" title="AsValidator">
 <meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -21,7 +21,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="AsMenuParser.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="AsDistroDetails.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="AsValidator.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -50,18 +50,10 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-complete" title="as_category_complete ()">as_category_complete</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsCategory.html#as-category-get-directory" title="as_category_get_directory ()">as_category_get_directory</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-get-id" title="as_category_get_id ()">as_category_get_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -69,11 +61,11 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-set-directory" title="as_category_set_directory ()">as_category_set_directory</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-set-id" title="as_category_set_id ()">as_category_set_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsCategory.html#as-category-get-name" title="as_category_get_name ()">as_category_get_name</a> <span class="c_punctuation">()</span>
@@ -88,7 +80,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsCategory.html#as-category-get-summary" title="as_category_get_summary ()">as_category_get_summary</a> <span class="c_punctuation">()</span>
@@ -103,7 +95,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsCategory.html#as-category-get-icon" title="as_category_get_icon ()">as_category_get_icon</a> <span class="c_punctuation">()</span>
@@ -119,10 +111,18 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">GPtrArray</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-has-subcategory" title="as_category_has_subcategory ()">as_category_has_subcategory</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-get-children" title="as_category_get_children ()">as_category_get_children</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gboolean</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsCategory.html#as-category-has-children" title="as_category_has_children ()">as_category_has_children</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -130,7 +130,7 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-add-subcategory" title="as_category_add_subcategory ()">as_category_add_subcategory</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-add-child" title="as_category_add_child ()">as_category_add_child</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -138,39 +138,15 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-remove-subcategory" title="as_category_remove_subcategory ()">as_category_remove_subcategory</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-remove-child" title="as_category_remove_child ()">as_category_remove_child</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<span class="returnvalue">GPtrArray</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-get-included" title="as_category_get_included ()">as_category_get_included</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsCategory.html#as-category-get-excluded" title="as_category_get_excluded ()">as_category_get_excluded</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsCategory.html#as-category-get-subcategories" title="as_category_get_subcategories ()">as_category_get_subcategories</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="AsCategory.html#as-category-get-level" title="as_category_get_level ()">as_category_get_level</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-get-desktop-groups" title="as_category_get_desktop_groups ()">as_category_get_desktop_groups</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -178,7 +154,39 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsCategory.html#as-category-set-level" title="as_category_set_level ()">as_category_set_level</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsCategory.html#as-category-add-desktop-group" title="as_category_add_desktop_group ()">as_category_add_desktop_group</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">GPtrArray</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsCategory.html#as-category-get-components" title="as_category_get_components ()">as_category_get_components</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsCategory.html#as-category-add-component" title="as_category_add_component ()">as_category_add_component</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">gboolean</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsCategory.html#as-category-has-component" title="as_category_has_component ()">as_category_has_component</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">GPtrArray</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsCategory.html#as-get-default-categories" title="as_get_default_categories ()">as_get_default_categories</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
@@ -194,53 +202,118 @@
 </colgroup>
 <tbody>
 <tr>
-<td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--directory" title="The “directory” property">directory</a></td>
-<td class="property_flags">Read / Write</td>
-</tr>
-<tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--excluded" title="The “excluded” property">excluded</a></td>
+<td class="property_type"><span class="type">gpointer</span></td>
+<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--children" title="The “children” property">children</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="AsCategory.html#AsCategory--icon" title="The “icon” property">icon</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--included" title="The “included” property">included</a></td>
-<td class="property_flags">Read</td>
-</tr>
-<tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--level" title="The “level” property">level</a></td>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--id" title="The “id” property">id</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="AsCategory.html#AsCategory--name" title="The “name” property">name</a></td>
 <td class="property_flags">Read / Write</td>
 </tr>
 <tr>
-<td class="property_type"><a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--subcategories" title="The “subcategories” property">subcategories</a></td>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--summary" title="The “summary” property">summary</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
-<td class="property_name"><a class="link" href="AsCategory.html#AsCategory--summary" title="The “summary” property">summary</a></td>
+<span class="type">GPtrArray</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--categories" title="The “categories” property">categories</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--description" title="The “description” property">description</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--developer-name" title="The “developer-name” property">developer-name</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><span class="type">gpointer</span></td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--icons" title="The “icons” property">icons</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--id" title="The “id” property">id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><span class="type">GStrv</span></td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--keywords" title="The “keywords” property">keywords</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a></td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--kind" title="The “kind” property">kind</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--name" title="The “name” property">name</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><span class="type">GStrv</span></td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--pkgnames" title="The “pkgnames” property">pkgnames</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--project-group" title="The “project-group” property">project-group</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--project-license" title="The “project-license” property">project-license</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">GPtrArray</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--screenshots" title="The “screenshots” property">screenshots</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">gchar</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--summary" title="The “summary” property">summary</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<span class="type">GHashTable</span> *</td>
+<td class="property_name"><a class="link" href="AsComponent.html#AsComponent--urls" title="The “urls” property">urls</a></td>
 <td class="property_flags">Read</td>
 </tr>
 </tbody>
 </table></div>
 </div>
-<div class="refsect1">
+<a name="AsComponent"></a><div class="refsect1">
 <a name="AsCategory.other"></a><h2>Types and Values</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
@@ -260,13 +333,18 @@
 <td class="datatype_keyword"> </td>
 <td class="function_name"><a class="link" href="AsCategory.html#AsCategory-struct" title="AsCategory">AsCategory</a></td>
 </tr>
+<tr>
+<td class="datatype_keyword"> </td>
+<td class="function_name"><a class="link" href="AsComponent.html#AsComponent-struct" title="AsComponent">AsComponent</a></td>
+</tr>
 </tbody>
 </table></div>
 </div>
 <div class="refsect1">
 <a name="AsCategory.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
-    <span class="lineart">╰──</span> AsCategory
+<pre class="screen">    GObject
+    <span class="lineart">├──</span> AsCategory
+    <span class="lineart">╰──</span> AsComponent
 </pre>
 </div>
 <div class="refsect1">
@@ -278,11 +356,10 @@
 <a name="AsCategory.description"></a><h2>Description</h2>
 <p>This object represents an XDG category, as defined at:
 http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html<span class="type">category-registry</span></p>
-<p>The <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> object does not support all aspects of a menu. It's main purpose
-is to be used in software-centers to show information about application-groups,
-which are use to thematically group applications.</p>
-<p>You can use <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a> to get a set of supported default categories.</p>
-<p>See also: <a class="link" href="AsMenuParser.html" title="AsMenuParser"><span class="type">AsMenuParser</span></a></p>
+<p>The <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> object does not support all aspects of a menu. Its main purpose
+is to be used in software-centers to group visual components (gui/web applications).</p>
+<p>You can use <a class="link" href="AsCategory.html#as-get-default-categories" title="as_get_default_categories ()"><code class="literal">as_get_default_categories</code></a>() to get a set of supported default categories.</p>
+<p>See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a></p>
 </div>
 <div class="refsect1">
 <a name="AsCategory.functions_details"></a><h2>Functions</h2>
@@ -299,21 +376,12 @@ as_category_new (<em class="parameter"><code><span class="type">void</span></cod
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-complete"></a><h3>as_category_complete ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-as_category_complete (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-<p>Update incomplete category data with information from
-"/usr/share/desktop-directories".</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-category-get-directory"></a><h3>as_category_get_directory ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_category_get_directory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-<p>Get associated XDG directory name for this category,
-in case one exists in "/usr/share/desktop-directories/".</p>
+<a name="as-category-get-id"></a><h3>as_category_get_id ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_category_get_id (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
+<p>Get the ID of this category.</p>
 <div class="refsect3">
-<a name="as-category-get-directory.parameters"></a><h4>Parameters</h4>
+<a name="as-category-get-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -321,7 +389,7 @@ in case one exists in "/usr/share/desktop-directories/".</p>
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -330,13 +398,13 @@ in case one exists in "/usr/share/desktop-directories/".</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-set-directory"></a><h3>as_category_set_directory ()</h3>
+<a name="as-category-set-id"></a><h3>as_category_set_id ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_set_directory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
-<p>Set associated XDG directory name for this category.</p>
+as_category_set_id (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                    <em class="parameter"><code>const <span class="type">gchar</span> *id</code></em>);</pre>
+<p>Set the ID of this category.</p>
 <div class="refsect3">
-<a name="as-category-set-directory.parameters"></a><h4>Parameters</h4>
+<a name="as-category-set-id.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -344,7 +412,7 @@ as_category_set_directory (<em class="parameter"><code><a class="link" href="AsC
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -354,8 +422,8 @@ as_category_set_directory (<em class="parameter"><code><a class="link" href="AsC
 <hr>
 <div class="refsect2">
 <a name="as-category-get-name"></a><h3>as_category_get_name ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_category_get_name (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_category_get_name (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
 <p>Get the name of this category.</p>
 <div class="refsect3">
 <a name="as-category-get-name.parameters"></a><h4>Parameters</h4>
@@ -366,7 +434,7 @@ as_category_get_name (<em class="parameter"><code><a class="link" href="AsCatego
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -377,8 +445,8 @@ as_category_get_name (<em class="parameter"><code><a class="link" href="AsCatego
 <div class="refsect2">
 <a name="as-category-set-name"></a><h3>as_category_set_name ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_set_name (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                      <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+as_category_set_name (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                      <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Set the name of this category.</p>
 <div class="refsect3">
 <a name="as-category-set-name.parameters"></a><h4>Parameters</h4>
@@ -389,7 +457,7 @@ as_category_set_name (<em class="parameter"><code><a class="link" href="AsCatego
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -399,8 +467,8 @@ as_category_set_name (<em class="parameter"><code><a class="link" href="AsCatego
 <hr>
 <div class="refsect2">
 <a name="as-category-get-summary"></a><h3>as_category_get_summary ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_category_get_summary (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_category_get_summary (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
 <p>Get the summary (short description) of this category.</p>
 <div class="refsect3">
 <a name="as-category-get-summary.parameters"></a><h4>Parameters</h4>
@@ -411,7 +479,7 @@ as_category_get_summary (<em class="parameter"><code><a class="link" href="AsCat
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -422,8 +490,8 @@ as_category_get_summary (<em class="parameter"><code><a class="link" href="AsCat
 <div class="refsect2">
 <a name="as-category-set-summary"></a><h3>as_category_set_summary ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_set_summary (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                         <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+as_category_set_summary (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                         <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Get the summary (short description) of this category.</p>
 <div class="refsect3">
 <a name="as-category-set-summary.parameters"></a><h4>Parameters</h4>
@@ -435,7 +503,7 @@ as_category_set_summary (<em class="parameter"><code><a class="link" href="AsCat
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
@@ -451,8 +519,8 @@ as_category_set_summary (<em class="parameter"><code><a class="link" href="AsCat
 <hr>
 <div class="refsect2">
 <a name="as-category-get-icon"></a><h3>as_category_get_icon ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_category_get_icon (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_category_get_icon (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
 <p>Get the stock icon name for this category.</p>
 <div class="refsect3">
 <a name="as-category-get-icon.parameters"></a><h4>Parameters</h4>
@@ -463,7 +531,7 @@ as_category_get_icon (<em class="parameter"><code><a class="link" href="AsCatego
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -474,8 +542,8 @@ as_category_get_icon (<em class="parameter"><code><a class="link" href="AsCatego
 <div class="refsect2">
 <a name="as-category-set-icon"></a><h3>as_category_set_icon ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_set_icon (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                      <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+as_category_set_icon (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                      <em class="parameter"><code>const <span class="type">gchar</span> *value</code></em>);</pre>
 <p>Set the stock icon name for this category.</p>
 <div class="refsect3">
 <a name="as-category-set-icon.parameters"></a><h4>Parameters</h4>
@@ -486,7 +554,7 @@ as_category_set_icon (<em class="parameter"><code><a class="link" href="AsCatego
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
@@ -495,12 +563,11 @@ as_category_set_icon (<em class="parameter"><code><a class="link" href="AsCatego
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-has-subcategory"></a><h3>as_category_has_subcategory ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
-as_category_has_subcategory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-<p>Test for sub-categories.</p>
+<a name="as-category-get-children"></a><h3>as_category_get_children ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_category_get_children (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
 <div class="refsect3">
-<a name="as-category-has-subcategory.parameters"></a><h4>Parameters</h4>
+<a name="as-category-get-children.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -508,26 +575,53 @@ as_category_has_subcategory (<em class="parameter"><code><a class="link" href="A
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="as-category-has-subcategory.returns"></a><h4>Returns</h4>
-<p> <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if this category has any subcategory</p>
+<a name="as-category-get-children.returns"></a><h4>Returns</h4>
+<p> A list of subcategories. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-add-subcategory"></a><h3>as_category_add_subcategory ()</h3>
+<a name="as-category-has-children"></a><h3>as_category_has_children ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
+as_category_has_children (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
+<p>Test for sub-categories.</p>
+<div class="refsect3">
+<a name="as-category-has-children.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>category</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-category-has-children.returns"></a><h4>Returns</h4>
+<p> <code class="literal">TRUE</code> if this category has any subcategory</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-add-child"></a><h3>as_category_add_child ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_add_subcategory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                             <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *subcat</code></em>);</pre>
+as_category_add_child (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                       <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *subcat</code></em>);</pre>
 <p>Add a subcategory to this category.</p>
 <div class="refsect3">
-<a name="as-category-add-subcategory.parameters"></a><h4>Parameters</h4>
+<a name="as-category-add-child.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -536,7 +630,7 @@ as_category_add_subcategory (<em class="parameter"><code><a class="link" href="A
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
@@ -551,13 +645,13 @@ as_category_add_subcategory (<em class="parameter"><code><a class="link" href="A
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-remove-subcategory"></a><h3>as_category_remove_subcategory ()</h3>
+<a name="as-category-remove-child"></a><h3>as_category_remove_child ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_remove_subcategory (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                                <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *subcat</code></em>);</pre>
+as_category_remove_child (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                          <em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *subcat</code></em>);</pre>
 <p>Drop a subcategory from this <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p>
 <div class="refsect3">
-<a name="as-category-remove-subcategory.parameters"></a><h4>Parameters</h4>
+<a name="as-category-remove-child.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -566,7 +660,7 @@ as_category_remove_subcategory (<em class="parameter"><code><a class="link" href
 </colgroup>
 <tbody>
 <tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
@@ -581,11 +675,11 @@ as_category_remove_subcategory (<em class="parameter"><code><a class="link" href
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-get-included"></a><h3>as_category_get_included ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
-as_category_get_included (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
+<a name="as-category-get-desktop-groups"></a><h3>as_category_get_desktop_groups ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_category_get_desktop_groups (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
 <div class="refsect3">
-<a name="as-category-get-included.parameters"></a><h4>Parameters</h4>
+<a name="as-category-get-desktop-groups.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -593,82 +687,169 @@ as_category_get_included (<em class="parameter"><code><a class="link" href="AsCa
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
+<td class="parameter_name"><p>category</p></td>
 <td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
 </div>
 <div class="refsect3">
-<a name="as-category-get-included.returns"></a><h4>Returns</h4>
-<p> A list of category names. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+<a name="as-category-get-desktop-groups.returns"></a><h4>Returns</h4>
+<p> A list of desktop-file categories. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-category-get-excluded"></a><h3>as_category_get_excluded ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
-as_category_get_excluded (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-<div class="refsect3">
-<a name="as-category-get-excluded.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
-<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="as-category-get-excluded.returns"></a><h4>Returns</h4>
-<p> A list of category names. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-category-get-subcategories"></a><h3>as_category_get_subcategories ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
-as_category_get_subcategories (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-<div class="refsect3">
-<a name="as-category-get-subcategories.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>cat</p></td>
-<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="as-category-get-subcategories.returns"></a><h4>Returns</h4>
-<p> A list of subcategories. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-category-get-level"></a><h3>as_category_get_level ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
-as_category_get_level (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-category-set-level"></a><h3>as_category_set_level ()</h3>
+<a name="as-category-add-desktop-group"></a><h3>as_category_add_desktop_group ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_category_set_level (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *cat</code></em>,
-                       <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>);</pre>
+as_category_add_desktop_group (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                               <em class="parameter"><code>const <span class="type">gchar</span> *group_name</code></em>);</pre>
+<p>Add a desktop-file category to this <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p>
+<div class="refsect3">
+<a name="as-category-add-desktop-group.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>category</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>group_name</p></td>
+<td class="parameter_description"><p>A subcategory to add.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-get-components"></a><h3>as_category_get_components ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_category_get_components (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>);</pre>
+<p>Get list of components which have been sorted into this category.</p>
+<div class="refsect3">
+<a name="as-category-get-components.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>category</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-category-get-components.returns"></a><h4>Returns</h4>
+<p> List of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-add-component"></a><h3>as_category_add_component ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_category_add_component (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                           <em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Add a component to this category.</p>
+<div class="refsect3">
+<a name="as-category-add-component.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>category</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>The <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> to add.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-category-has-component"></a><h3>as_category_has_component ()</h3>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
+as_category_has_component (<em class="parameter"><code><a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a> *category</code></em>,
+                           <em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Check if the exact <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> <em class="parameter"><code>cpt</code></em>
+ is a member of this
+category already.</p>
+<div class="refsect3">
+<a name="as-category-has-component.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>category</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>The <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> to look for.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-category-has-component.returns"></a><h4>Returns</h4>
+<p> <code class="literal">TRUE</code> if the component is present.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-get-default-categories"></a><h3>as_get_default_categories ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_get_default_categories (<em class="parameter"><code><span class="type">gboolean</span> with_special</code></em>);</pre>
+<p>Get a list of the default Freedesktop and AppStream categories
+that software components (especially GUI applications) can be sorted
+into in software centers.</p>
+<div class="refsect3">
+<a name="as-get-default-categories.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>with_special</p></td>
+<td class="parameter_description"><p>Include special categories (e.g. "addons", and "all"/"featured" in submenus)</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-get-default-categories.returns"></a><h4>Returns</h4>
+<p> a list of <a class="link" href="AsCategory.html" title="AsCategory"><span class="type">AsCategory</span></a>. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsCategory]</span></p>
+</div>
 </div>
 </div>
 <div class="refsect1">
@@ -697,68 +878,160 @@ as_category_set_level (<em class="parameter"><code><a class="link" href="AsCateg
 <p>
 </p>
 </div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent-struct"></a><h3>AsComponent</h3>
+<pre class="programlisting">typedef struct _AsComponent AsComponent;</pre>
+<p>
+</p>
+</div>
 </div>
 <div class="refsect1">
 <a name="AsCategory.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
-<a name="AsCategory--directory"></a><h3>The <code class="literal">“directory”</code> property</h3>
-<pre class="programlisting">  “directory”                <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
-<p>directory.</p>
-<p>Flags: Read / Write</p>
-<p>Default value: NULL</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="AsCategory--excluded"></a><h3>The <code class="literal">“excluded”</code> property</h3>
-<pre class="programlisting">  “excluded”                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></pre>
-<p>excluded.</p>
+<a name="AsCategory--children"></a><h3>The <code class="literal">“children”</code> property</h3>
+<pre class="programlisting">  “children”                 <span class="type">gpointer</span></pre>
+<p>children.</p>
 <p>Flags: Read</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="AsCategory--icon"></a><h3>The <code class="literal">“icon”</code> property</h3>
-<pre class="programlisting">  “icon”                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “icon”                     <span class="type">gchar</span> *</pre>
 <p>icon.</p>
 <p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsCategory--included"></a><h3>The <code class="literal">“included”</code> property</h3>
-<pre class="programlisting">  “included”                 <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></pre>
-<p>included.</p>
-<p>Flags: Read</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="AsCategory--level"></a><h3>The <code class="literal">“level”</code> property</h3>
-<pre class="programlisting">  “level”                    <a href="../glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a></pre>
-<p>level.</p>
+<a name="AsCategory--id"></a><h3>The <code class="literal">“id”</code> property</h3>
+<pre class="programlisting">  “id”                       <span class="type">gchar</span> *</pre>
+<p>id.</p>
 <p>Flags: Read / Write</p>
-<p>Default value: 0</p>
+<p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="AsCategory--name"></a><h3>The <code class="literal">“name”</code> property</h3>
-<pre class="programlisting">  “name”                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “name”                     <span class="type">gchar</span> *</pre>
 <p>name.</p>
 <p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsCategory--subcategories"></a><h3>The <code class="literal">“subcategories”</code> property</h3>
-<pre class="programlisting">  “subcategories”            <a href="../glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a></pre>
-<p>subcategories.</p>
+<a name="AsCategory--summary"></a><h3>The <code class="literal">“summary”</code> property</h3>
+<pre class="programlisting">  “summary”                  <span class="type">gchar</span> *</pre>
+<p>summary.</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--categories"></a><h3>The <code class="literal">“categories”</code> property</h3>
+<pre class="programlisting">  “categories”               <span class="type">GPtrArray</span> *</pre>
+<p>string array of categories</p>
 <p>Flags: Read</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsCategory--summary"></a><h3>The <code class="literal">“summary”</code> property</h3>
-<pre class="programlisting">  “summary”                  <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
-<p>summary.</p>
-<p>Flags: Read</p>
+<a name="AsComponent--description"></a><h3>The <code class="literal">“description”</code> property</h3>
+<pre class="programlisting">  “description”              <span class="type">gchar</span> *</pre>
+<p>the description</p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--developer-name"></a><h3>The <code class="literal">“developer-name”</code> property</h3>
+<pre class="programlisting">  “developer-name”           <span class="type">gchar</span> *</pre>
+<p>the developer name</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--icons"></a><h3>The <code class="literal">“icons”</code> property</h3>
+<pre class="programlisting">  “icons”                    <span class="type">gpointer</span></pre>
+<p>hash map of icon urls and sizes</p>
+<p><span class="annotation">[<acronym title="Override the parsed C type with given type."><span class="acronym">type</span></acronym> GList(AsIcon)]</span></p>
+<p>Flags: Read</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--id"></a><h3>The <code class="literal">“id”</code> property</h3>
+<pre class="programlisting">  “id”                       <span class="type">gchar</span> *</pre>
+<p>the unique identifier</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--keywords"></a><h3>The <code class="literal">“keywords”</code> property</h3>
+<pre class="programlisting">  “keywords”                 <span class="type">GStrv</span></pre>
+<p>string array of keywords</p>
+<p>Flags: Read / Write</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--kind"></a><h3>The <code class="literal">“kind”</code> property</h3>
+<pre class="programlisting">  “kind”                     <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a></pre>
+<p>the <a class="link" href="AsComponent.html#AsComponentKind" title="enum AsComponentKind"><span class="type">AsComponentKind</span></a> of this component</p>
+<p>Flags: Read / Write</p>
+<p>Default value: AS_COMPONENT_KIND_UNKNOWN</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--name"></a><h3>The <code class="literal">“name”</code> property</h3>
+<pre class="programlisting">  “name”                     <span class="type">gchar</span> *</pre>
+<p>the name</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--pkgnames"></a><h3>The <code class="literal">“pkgnames”</code> property</h3>
+<pre class="programlisting">  “pkgnames”                 <span class="type">GStrv</span></pre>
+<p>string array of packages name</p>
+<p>Flags: Read / Write</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--project-group"></a><h3>The <code class="literal">“project-group”</code> property</h3>
+<pre class="programlisting">  “project-group”            <span class="type">gchar</span> *</pre>
+<p>the project group</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--project-license"></a><h3>The <code class="literal">“project-license”</code> property</h3>
+<pre class="programlisting">  “project-license”          <span class="type">gchar</span> *</pre>
+<p>the project license</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--screenshots"></a><h3>The <code class="literal">“screenshots”</code> property</h3>
+<pre class="programlisting">  “screenshots”              <span class="type">GPtrArray</span> *</pre>
+<p>screenshots.</p>
+<p>Flags: Read</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--summary"></a><h3>The <code class="literal">“summary”</code> property</h3>
+<pre class="programlisting">  “summary”                  <span class="type">gchar</span> *</pre>
+<p>the summary</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsComponent--urls"></a><h3>The <code class="literal">“urls”</code> property</h3>
+<pre class="programlisting">  “urls”                     <span class="type">GHashTable</span> *</pre>
+<p>urls.</p>
+<p>Flags: Read</p>
 </div>
 </div>
 </div>

@@ -23,7 +23,7 @@
 <colspec colname="functions_name"/>
 <tbody>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-data-pool-scan-apt">as_data_pool_scan_apt</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-pool-scan-apt">as_pool_scan_apt</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -40,13 +40,13 @@
 </refsect1>
 <refsect1 id="appstream-as-distro-extras.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="as-data-pool-scan-apt" role="function">
-<title>as_data_pool_scan_apt&#160;()</title>
-<indexterm zone="as-data-pool-scan-apt"><primary>as_data_pool_scan_apt</primary></indexterm>
+<refsect2 id="as-pool-scan-apt" role="function">
+<title>as_pool_scan_apt&#160;()</title>
+<indexterm zone="as-pool-scan-apt"><primary>as_pool_scan_apt</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_data_pool_scan_apt (<parameter><link linkend="AsDataPool"><type>AsDataPool</type></link> *dpool</parameter>,
-                       <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
-                       <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+as_pool_scan_apt (<parameter><link linkend="AsPool"><type>AsPool</type></link> *pool</parameter>,
+                  <parameter><link linkend="gboolean"><type>gboolean</type></link> force</parameter>,
+                  <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Scan for additional metadata in 3rd-party directories and move it to the right place.</para>
 </refsect2>
 

@@ -23,7 +23,7 @@
 #include <config.h>
 #include <glib.h>
 #include <string.h>
-#ifdef USE_STEMMING
+#ifdef HAVE_STEMMING
 #include <libstemmer.h>
 #endif
 
@@ -53,7 +53,7 @@ static gpointer as_stemmer_object = NULL;
 static void
 as_stemmer_finalize (GObject *object)
 {
-#ifdef USE_STEMMING
+#ifdef HAVE_STEMMING
 	AsStemmer *stemmer = AS_STEMMER (object);
 
 	sb_stemmer_delete (stemmer->sb);
@@ -69,7 +69,7 @@ as_stemmer_finalize (GObject *object)
 static void
 as_stemmer_init (AsStemmer *stemmer)
 {
-#ifdef USE_STEMMING
+#ifdef HAVE_STEMMING
 	g_autofree gchar *locale = NULL;
 	g_autofree gchar *lang = NULL;
 
@@ -92,14 +92,17 @@ as_stemmer_init (AsStemmer *stemmer)
 void
 as_stemmer_reload (AsStemmer *stemmer, const gchar *lang)
 {
-#ifdef USE_STEMMING
-	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&stemmer->mutex);
+#ifdef HAVE_STEMMING
+	GMutexLocker *locker = g_mutex_locker_new (&stemmer->mutex);
+
 	sb_stemmer_delete (stemmer->sb);
 	stemmer->sb = sb_stemmer_new (lang, NULL);
 	if (stemmer->sb == NULL)
 		g_debug ("Language %s can not be stemmed.", lang);
 	else
 		g_debug ("Stemming language is: %s", lang);
+
+	g_mutex_locker_free (locker);
 #endif
 }
 
@@ -115,15 +118,19 @@ as_stemmer_reload (AsStemmer *stemmer, const gchar *lang)
 gchar*
 as_stemmer_stem (AsStemmer *stemmer, const gchar *term)
 {
-#ifdef USE_STEMMING
+#ifdef HAVE_STEMMING
 	gchar *result;
-	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&stemmer->mutex);
-	if (stemmer->sb == NULL)
+	GMutexLocker *locker = g_mutex_locker_new (&stemmer->mutex);
+	if (stemmer->sb == NULL) {
+		g_mutex_locker_free (locker);
 		return g_strdup (term);
+	}
 
 	result = g_strdup ((gchar*) sb_stemmer_stem (stemmer->sb,
 						     (unsigned char*) term,
 						     strlen (term)));
+
+	g_mutex_locker_free (locker);
 	return result;
 #else
 	return g_strdup (term);

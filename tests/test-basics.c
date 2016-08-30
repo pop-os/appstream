@@ -23,31 +23,41 @@
 
 static gchar *datadir = NULL;
 
-void
-test_menuparser ()
+/**
+ * test_categories:
+ *
+ * Test #AsCategory properties.
+ */
+static void
+test_categories ()
 {
-	g_autoptr(AsMenuParser) parser = NULL;
-	g_autoptr(GList) menu_dirs = NULL;
-	g_autofree gchar *path = NULL;
+	g_autoptr(GPtrArray) default_cats;
 
-	path = g_build_filename (datadir, "categories.xml", NULL);
-	parser = as_menu_parser_new_from_file (path);
-
-	menu_dirs = as_menu_parser_parse (parser);
-	g_assert (g_list_length (menu_dirs) > 4);
+	default_cats = as_get_default_categories (TRUE);
+	g_assert_cmpint (default_cats->len, ==, 10);
 }
 
-void
+/**
+ * test_simplemarkup:
+ *
+ * Test as_description_markup_convert_simple()
+ */
+static void
 test_simplemarkup ()
 {
-	gchar *str;
-	str = as_description_markup_convert_simple ("<p>Test!</p><p>Blah.</p><ul><li>A</li><li>B</li></ul><p>End.</p>");
-	g_debug ("%s", str);
+	g_autofree gchar *str = NULL;
+	GError *error = NULL;
+
+	str = as_markup_convert_simple ("<p>Test!</p><p>Blah.</p><ul><li>A</li><li>B</li></ul><p>End.</p>", &error);
+	g_assert_no_error (error);
+
 	g_assert (g_strcmp0 (str, "Test!\n\nBlah.\n • A\n • B\n\nEnd.") == 0);
-	g_free (str);
 }
 
-gchar**
+/**
+ * _get_dummy_strv:
+ */
+static gchar**
 _get_dummy_strv (const gchar *value)
 {
 	gchar **strv;
@@ -59,7 +69,12 @@ _get_dummy_strv (const gchar *value)
 	return strv;
 }
 
-void
+/**
+ * test_component:
+ *
+ * Test basic properties of an #AsComponent.
+ */
+static void
 test_component ()
 {
 	AsComponent *cpt;
@@ -81,21 +96,21 @@ test_component ()
 
 	metad = as_metadata_new ();
 	as_metadata_add_component (metad, cpt);
-	str = as_metadata_component_to_upstream_xml (metad);
-	str2 = as_metadata_components_to_distro_xml (metad);
+	str = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, NULL);
+	str2 = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_XML, NULL);
 	g_object_unref (metad);
 	g_debug ("%s", str2);
 
 	g_assert_cmpstr (str, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-				  "<component type=\"desktop\">\n"
+				  "<component type=\"desktop-application\">\n"
 				  "  <id>org.example.test.desktop</id>\n"
 				  "  <name>Test</name>\n"
 				  "  <summary>It does things</summary>\n"
 				  "  <pkgname>fedex</pkgname>\n"
 				  "</component>\n");
 	g_assert_cmpstr (str2, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-				   "<components version=\"0.8\">\n"
-				   "  <component type=\"desktop\">\n"
+				   "<components version=\"0.10\">\n"
+				   "  <component type=\"desktop-application\">\n"
 				   "    <id>org.example.test.desktop</id>\n"
 				   "    <name>Test</name>\n"
 				   "    <summary>It does things</summary>\n"
@@ -107,6 +122,43 @@ test_component ()
 	g_free (str2);
 }
 
+/**
+ * test_translation_fallback:
+ *
+ * Test that the AS_VALUE_FLAGS_NO_TRANSLATION_FALLBACK flag works.
+ */
+static void
+test_translation_fallback (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	AsValueFlags flags;
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
+	as_component_set_id (cpt, "org.example.ATargetComponent");
+	as_component_set_description (cpt, "<p>It's broken!</p>", "C");
+	flags = as_component_get_value_flags (cpt);
+
+	/* there is no de translation */
+	as_component_set_active_locale (cpt, "de");
+	g_assert_nonnull (as_component_get_description (cpt));
+
+	/* if the flag is set, we don't fall back to C */
+	as_flags_add (flags, AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK);
+	as_component_set_value_flags (cpt, flags);
+	g_assert_null (as_component_get_description (cpt));
+
+	/* ...but after removing it, again we do */
+	as_flags_remove (flags, AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK);
+	as_component_set_value_flags (cpt, flags);
+	g_assert_nonnull (as_component_get_description (cpt));
+}
+
+/**
+ * test_spdx:
+ *
+ * Test SPDX license description parsing.
+ */
 static void
 test_spdx (void)
 {
@@ -242,10 +294,11 @@ main (int argc, char **argv)
 	/* only critical and error are fatal */
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
-	g_test_add_func ("/AppStream/MenuParser", test_menuparser);
+	g_test_add_func ("/AppStream/Categories", test_categories);
 	g_test_add_func ("/AppStream/SimpleMarkupConvert", test_simplemarkup);
 	g_test_add_func ("/AppStream/Component", test_component);
 	g_test_add_func ("/AppStream/SPDX", test_spdx);
+	g_test_add_func ("/AppStream/TranslationFallback", test_translation_fallback);
 
 	ret = g_test_run ();
 	g_free (datadir);

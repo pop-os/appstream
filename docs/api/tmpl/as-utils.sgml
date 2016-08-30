@@ -22,39 +22,13 @@ as-utils
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### FUNCTION as_description_markup_convert_simple ##### -->
+<!-- ##### FUNCTION as_markup_convert_simple ##### -->
 <para>
 
 </para>
 
 @markup: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_get_current_locale ##### -->
-<para>
-
-</para>
-
-@void: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_str_empty ##### -->
-<para>
-
-</para>
-
-@str: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_iso8601_to_datetime ##### -->
-<para>
-
-</para>
-
-@iso_date: 
+@error: 
 @Returns: 
 
 
@@ -83,6 +57,35 @@ as-utils
 </para>
 
 @tld: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_utils_is_desktop_environment ##### -->
+<para>
+
+</para>
+
+@desktop: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_utils_sort_components_into_categories ##### -->
+<para>
+
+</para>
+
+@cpts: 
+@categories: 
+@check_duplicates: 
+
+
+<!-- ##### FUNCTION as_utils_compare_versions ##### -->
+<para>
+
+</para>
+
+@a: 
+@b: 
 @Returns: 
 
 

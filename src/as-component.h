@@ -33,6 +33,8 @@
 #include "as-release.h"
 #include "as-translation.h"
 #include "as-suggested.h"
+#include "as-category.h"
+#include "as-bundle.h"
 
 G_BEGIN_DECLS
 
@@ -57,10 +59,11 @@ struct _AsComponentClass
  * @AS_COMPONENT_KIND_GENERIC:		A generic (= without specialized type) component
  * @AS_COMPONENT_KIND_DESKTOP_APP:	An application with a .desktop-file
  * @AS_COMPONENT_KIND_CONSOLE_APP:	A console application
+ * @AS_COMPONENT_KIND_WEB_APP:		A web application
+ * @AS_COMPONENT_KIND_ADDON:		An extension of existing software, which does not run standalone
  * @AS_COMPONENT_KIND_FONT:		A font
  * @AS_COMPONENT_KIND_CODEC:		A multimedia codec
  * @AS_COMPONENT_KIND_INPUTMETHOD:	An input-method provider
- * @AS_COMPONENT_KIND_ADDON:		An extension of existing software, which does not run standalone
  * @AS_COMPONENT_KIND_FIRMWARE:		Firmware
  *
  * The type of an #AsComponent.
@@ -69,12 +72,13 @@ typedef enum  {
 	AS_COMPONENT_KIND_UNKNOWN,
 	AS_COMPONENT_KIND_GENERIC,
 	AS_COMPONENT_KIND_DESKTOP_APP,
+	AS_COMPONENT_KIND_CONSOLE_APP,
+	AS_COMPONENT_KIND_WEB_APP,
+	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FONT,
 	AS_COMPONENT_KIND_CODEC,
 	AS_COMPONENT_KIND_INPUTMETHOD,
-	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FIRMWARE,
-	AS_COMPONENT_KIND_CONSOLE_APP,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
@@ -101,25 +105,45 @@ typedef enum  {
 	AS_MERGE_KIND_LAST
 } AsMergeKind;
 
+/**
+ * AsValueFlags:
+ * @AS_VALUE_FLAG_NONE:				No flags.
+ * @AS_VALUE_FLAG_DUPLICATE_CHECK:		Check for duplicates when adding items to list values.
+ * @AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK:	Don't fall back to C when retrieving translated values.
+ *
+ * Set how values assigned to an #AsComponent should be treated when
+ * they are set or retrieved.
+ */
+typedef enum {
+	AS_VALUE_FLAG_NONE = 0,
+	AS_VALUE_FLAG_DUPLICATE_CHECK = 1 << 0,
+	AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK = 1 << 1
+} AsValueFlags;
+
 const gchar		*as_merge_kind_to_string (AsMergeKind kind);
 AsMergeKind		as_merge_kind_from_string (const gchar *kind_str);
 
 AsComponent		*as_component_new (void);
 
-gboolean		as_component_is_valid (AsComponent *cpt);
-gchar			*as_component_to_string (AsComponent *cpt);
+AsValueFlags		as_component_get_value_flags (AsComponent *cpt);
+void			as_component_set_value_flags (AsComponent *cpt,
+						      AsValueFlags flags);
 
 gchar			*as_component_get_active_locale (AsComponent *cpt);
 void			as_component_set_active_locale (AsComponent *cpt,
 							const gchar *locale);
 
-AsComponentKind		as_component_get_kind (AsComponent *cpt);
-void			as_component_set_kind (AsComponent *cpt,
-						AsComponentKind value);
-
 const gchar		*as_component_get_id (AsComponent *cpt);
 void			as_component_set_id (AsComponent *cpt,
 						const gchar *value);
+
+const gchar		*as_component_get_data_id (AsComponent *cpt);
+void			as_component_set_data_id (AsComponent *cpt,
+							const gchar *value);
+
+AsComponentKind		as_component_get_kind (AsComponent *cpt);
+void			as_component_set_kind (AsComponent *cpt,
+						AsComponentKind value);
 
 const gchar		*as_component_get_desktop_id (AsComponent *cpt);
 
@@ -127,13 +151,14 @@ const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
 							const gchar *origin);
 
+gchar			*as_component_get_pkgname (AsComponent *cpt);
 gchar			**as_component_get_pkgnames (AsComponent *cpt);
 void			as_component_set_pkgnames (AsComponent *cpt,
-							gchar **value);
+							gchar **packages);
 
 const gchar		*as_component_get_source_pkgname (AsComponent *cpt);
 void			as_component_set_source_pkgname (AsComponent *cpt,
-								const gchar* spkgname);
+							 const gchar *spkgname);
 
 const gchar		*as_component_get_name (AsComponent *cpt);
 void			as_component_set_name (AsComponent *cpt,
@@ -167,15 +192,15 @@ void			as_component_set_developer_name (AsComponent *cpt,
 								const gchar *value,
 								const gchar *locale);
 
-gchar			**as_component_get_compulsory_for_desktops (AsComponent *cpt);
-void			as_component_set_compulsory_for_desktops (AsComponent *cpt,
-									gchar **value);
+GPtrArray		*as_component_get_compulsory_for_desktops (AsComponent *cpt);
+void			as_component_set_compulsory_for_desktop (AsComponent *cpt,
+								  const gchar *desktop);
 gboolean		as_component_is_compulsory_for_desktop (AsComponent *cpt,
-									const gchar *desktop);
+								const gchar *desktop);
 
-gchar			**as_component_get_categories (AsComponent *cpt);
-void			as_component_set_categories (AsComponent *cpt,
-							gchar **value);
+GPtrArray		*as_component_get_categories (AsComponent *cpt);
+void			as_component_add_category (AsComponent *cpt,
+							const gchar *category);
 gboolean		as_component_has_category (AsComponent *cpt,
 							const gchar *category);
 
@@ -195,11 +220,11 @@ AsIcon			*as_component_get_icon_by_size (AsComponent *cpt,
 void			as_component_add_icon (AsComponent *cpt,
 						AsIcon *icon);
 
+GPtrArray		*as_component_get_provided (AsComponent *cpt);
 void			as_component_add_provided (AsComponent *cpt,
 							AsProvided *prov);
 AsProvided		*as_component_get_provided_for_kind (AsComponent *cpt,
 							AsProvidedKind kind);
-GList			*as_component_get_provided (AsComponent *cpt);
 
 const gchar		*as_component_get_url (AsComponent *cpt,
 						AsUrlKind url_kind);
@@ -215,9 +240,9 @@ GPtrArray		*as_component_get_extends (AsComponent *cpt);
 void			as_component_add_extends (AsComponent *cpt,
 							const gchar *cpt_id);
 
-GPtrArray		*as_component_get_extensions (AsComponent *cpt);
-void			as_component_add_extension (AsComponent *cpt,
-							const gchar *cpt_id);
+GPtrArray		*as_component_get_addons (AsComponent *cpt);
+void			as_component_add_addon (AsComponent *cpt,
+						AsComponent *addon);
 
 GList			*as_component_get_languages (AsComponent *cpt);
 gint			as_component_get_language (AsComponent *cpt,
@@ -231,11 +256,11 @@ void			as_component_add_translation (AsComponent *cpt,
 							AsTranslation *tr);
 
 gboolean		as_component_has_bundle (AsComponent *cpt);
-const gchar		*as_component_get_bundle_id (AsComponent *cpt,
-							AsBundleKind bundle_kind);
-void			as_component_add_bundle_id (AsComponent *cpt,
-							AsBundleKind bundle_kind,
-							const gchar *id);
+GPtrArray		*as_component_get_bundles (AsComponent *cpt);
+AsBundle		*as_component_get_bundle (AsComponent *cpt,
+						  AsBundleKind bundle_kind);
+void			as_component_add_bundle (AsComponent *cpt,
+						 AsBundle *bundle);
 
 GPtrArray		*as_component_get_suggested (AsComponent *cpt);
 void			as_component_add_suggested (AsComponent *cpt,
@@ -250,6 +275,12 @@ guint			as_component_search_matches_all (AsComponent *cpt,
 AsMergeKind		as_component_get_merge_kind (AsComponent *cpt);
 void			as_component_set_merge_kind (AsComponent *cpt,
 							AsMergeKind kind);
+
+gboolean		as_component_is_member_of_category (AsComponent *cpt,
+							    AsCategory *category);
+
+gboolean		as_component_is_valid (AsComponent *cpt);
+gchar			*as_component_to_string (AsComponent *cpt);
 
 G_END_DECLS
 

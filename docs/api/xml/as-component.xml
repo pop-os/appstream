@@ -32,28 +32,34 @@
 </entry><entry role="function_name"><link linkend="as-merge-kind-from-string">as_merge_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-new">as_component_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-is-valid">as_component_is_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-to-string">as_component_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsValueFlags"><returnvalue>AsValueFlags</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-get-value-flags">as_component_get_value_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-value-flags">as_component_set_value_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-get-kind">as_component_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-kind">as_component_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-id">as_component_get_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-id">as_component_set_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-data-id">as_component_get_data_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-data-id">as_component_set_data_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsComponentKind"><returnvalue>AsComponentKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-get-kind">as_component_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-set-kind">as_component_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-desktop-id">as_component_get_desktop_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-origin">as_component_get_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-origin">as_component_set_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-pkgname">as_component_get_pkgname</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
 </entry><entry role="function_name"><link linkend="as-component-get-pkgnames">as_component_get_pkgnames</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -90,16 +96,16 @@
 </entry><entry role="function_name"><link linkend="as-component-get-developer-name">as_component_get_developer_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-developer-name">as_component_set_developer_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-compulsory-for-desktops">as_component_get_compulsory_for_desktops</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-compulsory-for-desktops">as_component_set_compulsory_for_desktops</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-set-compulsory-for-desktop">as_component_set_compulsory_for_desktop</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-is-compulsory-for-desktop">as_component_is_compulsory_for_desktop</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-categories">as_component_get_categories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-set-categories">as_component_set_categories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-category">as_component_add_category</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-has-category">as_component_has_category</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
@@ -116,12 +122,12 @@
 </entry><entry role="function_name"><link linkend="as-component-get-icon-by-size">as_component_get_icon_by_size</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-add-icon">as_component_add_icon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-provided">as_component_get_provided</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-add-provided">as_component_add_provided</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsProvided"><returnvalue>AsProvided</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-provided-for-kind">as_component_get_provided_for_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-provided">as_component_get_provided</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-url">as_component_get_url</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -135,9 +141,9 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-add-extends">as_component_add_extends</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-extensions">as_component_get_extensions</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-get-addons">as_component_get_addons</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-add-extension">as_component_add_extension</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-addon">as_component_add_addon</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-languages">as_component_get_languages</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
@@ -150,10 +156,12 @@
 </entry><entry role="function_name"><link linkend="as-component-add-translation">as_component_add_translation</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-has-bundle">as_component_has_bundle</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-bundle-id">as_component_get_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-bundles">as_component_get_bundles</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsBundle"><returnvalue>AsBundle</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-bundle">as_component_get_bundle</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-component-add-bundle-id">as_component_add_bundle_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-component-add-bundle">as_component_add_bundle</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-suggested">as_component_get_suggested</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -168,6 +176,12 @@
 </entry><entry role="function_name"><link linkend="as-component-get-merge-kind">as_component_get_merge_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-merge-kind">as_component_set_merge_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-is-member-of-category">as_component_is_member_of_category</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-is-valid">as_component_is_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-to-string">as_component_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -181,7 +195,7 @@
 <colspec colname="properties_name" colwidth="300px"/>
 <colspec colname="properties_flags" colwidth="200px"/>
 <tbody>
-<row><entry role="property_type"><link linkend="GStrv"><type>GStrv</type></link></entry><entry role="property_name"><link linkend="AsComponent--categories">categories</link></entry><entry role="property_flags">Read / Write</entry></row>
+<row><entry role="property_type"><link linkend="GPtrArray"><type>GPtrArray</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--categories">categories</link></entry><entry role="property_flags">Read</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--description">description</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gchar"><type>gchar</type></link>&#160;*</entry><entry role="property_name"><link linkend="AsComponent--developer-name">developer-name</link></entry><entry role="property_flags">Read / Write</entry></row>
 <row><entry role="property_type"><link linkend="gpointer"><type>gpointer</type></link></entry><entry role="property_name"><link linkend="AsComponent--icons">icons</link></entry><entry role="property_flags">Read</entry></row>
@@ -211,6 +225,7 @@
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsComponentClass">AsComponentClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsComponentKind">AsComponentKind</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsMergeKind">AsMergeKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsValueFlags">AsValueFlags</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsComponent-struct">AsComponent</link></entry></row>
 
 </tbody>
@@ -344,14 +359,12 @@ as_component_new (<parameter><type>void</type></parameter>);</programlisting>
 <para> a new <link linkend="AsComponent"><type>AsComponent</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-component-is-valid" role="function">
-<title>as_component_is_valid&#160;()</title>
-<indexterm zone="as-component-is-valid"><primary>as_component_is_valid</primary></indexterm>
-<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_component_is_valid (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Check if the essential properties of this Component are
-populated with useful data.</para>
-<refsect3 id="as-component-is-valid.parameters" role="parameters">
+<refsect2 id="as-component-get-value-flags" role="function">
+<title>as_component_get_value_flags&#160;()</title>
+<indexterm zone="as-component-get-value-flags"><primary>as_component_get_value_flags</primary></indexterm>
+<programlisting language="C"><link linkend="AsValueFlags"><returnvalue>AsValueFlags</returnvalue></link>
+as_component_get_value_flags (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<refsect3 id="as-component-get-value-flags.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -363,18 +376,18 @@ populated with useful data.</para>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-is-valid.returns" role="returns">
+</refsect3><refsect3 id="as-component-get-value-flags.returns" role="returns">
 <title>Returns</title>
-<para> TRUE if the component data was validated successfully.</para>
+<para> The <link linkend="AsValueFlags"><type>AsValueFlags</type></link> that are set on <parameter>cpt</parameter>
+.</para>
 </refsect3></refsect2>
-<refsect2 id="as-component-to-string" role="function">
-<title>as_component_to_string&#160;()</title>
-<indexterm zone="as-component-to-string"><primary>as_component_to_string</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Returns a string identifying this component.
-(useful for debugging)</para>
-<refsect3 id="as-component-to-string.parameters" role="parameters">
+<refsect2 id="as-component-set-value-flags" role="function">
+<title>as_component_set_value_flags&#160;()</title>
+<indexterm zone="as-component-set-value-flags"><primary>as_component_set_value_flags</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_value_flags (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                              <parameter><link linkend="AsValueFlags"><type>AsValueFlags</type></link> flags</parameter>);</programlisting>
+<refsect3 id="as-component-set-value-flags.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -385,11 +398,11 @@ as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>flags</para></entry>
+<entry role="parameter_description"><para><link linkend="AsValueFlags"><type>AsValueFlags</type></link> to set on <parameter>cpt</parameter>
+.</para></entry>
+<entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-to-string.returns" role="returns">
-<title>Returns</title>
-<para> A descriptive string. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-get-active-locale" role="function">
 <title>as_component_get_active_locale&#160;()</title>
@@ -440,6 +453,111 @@ one locale is available.</para>
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-id" role="function">
+<title>as_component_get_id&#160;()</title>
+<indexterm zone="as-component-get-id"><primary>as_component_get_id</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get the unique AppStream identifier for this component.
+This ID is unique for the described component, but does
+not uniquely identify the metadata set.</para>
+<para>For a unique ID for this metadata set in the current
+session, use <link linkend="as-component-get-data-id"><literal>as_component_get_data_id</literal></link>()</para>
+<refsect3 id="as-component-get-id.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-id.returns" role="returns">
+<title>Returns</title>
+<para> the unique AppStream identifier.</para>
+</refsect3></refsect2>
+<refsect2 id="as-component-set-id" role="function">
+<title>as_component_set_id&#160;()</title>
+<indexterm zone="as-component-set-id"><primary>as_component_set_id</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                     <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Set the AppStream identifier for this component.</para>
+<refsect3 id="as-component-set-id.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the unique identifier.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-component-get-data-id" role="function">
+<title>as_component_get_data_id&#160;()</title>
+<indexterm zone="as-component-get-data-id"><primary>as_component_get_data_id</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_data_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get a unique identifier for this metadata set.
+This unique ID is only valid for the current session,
+as opposed to the AppStream ID which uniquely identifies
+a software component.</para>
+<para>The format of the unique id usually is:
+%{scope}/%{origin}/%{distribution_system}/%{appstream_id}</para>
+<para>For example:
+system/distributor/package/org.example.FooBar</para>
+<refsect3 id="as-component-get-data-id.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-data-id.returns" role="returns">
+<title>Returns</title>
+<para> the unique session-specific identifier.</para>
+</refsect3></refsect2>
+<refsect2 id="as-component-set-data-id" role="function">
+<title>as_component_set_data_id&#160;()</title>
+<indexterm zone="as-component-set-data-id"><primary>as_component_set_data_id</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_set_data_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                          <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Set the session-specific unique metadata identifier for this
+component.
+If two components have a different data_id but the same ID,
+they will be treated as independent sets of metadata describing
+the same component type.</para>
+<refsect3 id="as-component-set-data-id.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the unique session-specific identifier.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-component-get-kind" role="function">
 <title>as_component_get_kind&#160;()</title>
 <indexterm zone="as-component-get-kind"><primary>as_component_get_kind</primary></indexterm>
@@ -482,51 +600,6 @@ as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>value</para></entry>
 <entry role="parameter_description"><para>the <link linkend="AsComponentKind"><type>AsComponentKind</type></link>.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3></refsect2>
-<refsect2 id="as-component-get-id" role="function">
-<title>as_component_get_id&#160;()</title>
-<indexterm zone="as-component-get-id"><primary>as_component_get_id</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Get the unique identifier for this component.</para>
-<refsect3 id="as-component-get-id.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>cpt</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-get-id.returns" role="returns">
-<title>Returns</title>
-<para> the unique identifier.</para>
-</refsect3></refsect2>
-<refsect2 id="as-component-set-id" role="function">
-<title>as_component_set_id&#160;()</title>
-<indexterm zone="as-component-set-id"><primary>as_component_set_id</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                     <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
-<para>Set the unique identifier for this component.</para>
-<refsect3 id="as-component-set-id.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>cpt</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>value</para></entry>
-<entry role="parameter_description"><para>the unique identifier.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
@@ -597,6 +670,35 @@ as_component_set_origin (<parameter><link linkend="AsComponent"><type>AsComponen
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-pkgname" role="function">
+<title>as_component_get_pkgname&#160;()</title>
+<indexterm zone="as-component-get-pkgname"><primary>as_component_get_pkgname</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_pkgname (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get the first package name of the list of packages that need to be installed
+for this component to be present on the system.
+Since most components consist of only one package, this is safe to use for
+about 90% of all cases.</para>
+<para>However, to support a component fully, please use <link linkend="as-component-get-pkgnames"><literal>as_component_get_pkgnames</literal></link>() for
+getting all packages that need to be installed, and use this method only to
+e.g. get the main package to perform a quick "is it installed?" check.</para>
+<refsect3 id="as-component-get-pkgname.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-pkgname.returns" role="returns">
+<title>Returns</title>
+<para> String array of package names. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-component-get-pkgnames" role="function">
 <title>as_component_get_pkgnames&#160;()</title>
 <indexterm zone="as-component-get-pkgnames"><primary>as_component_get_pkgnames</primary></indexterm>
@@ -626,7 +728,7 @@ This usually is just one package name.</para>
 <indexterm zone="as-component-set-pkgnames"><primary>as_component_set_pkgnames</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                           <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
+                           <parameter><link linkend="gchar"><type>gchar</type></link> **packages</parameter>);</programlisting>
 <para>Set a list of package names this component consists of.
 (This should usually be just one package name)</para>
 <refsect3 id="as-component-set-pkgnames.parameters" role="parameters">
@@ -640,7 +742,7 @@ as_component_set_pkgnames (<parameter><link linkend="AsComponent"><type>AsCompon
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>value</para></entry>
+<row><entry role="parameter_name"><para>packages</para></entry>
 <entry role="parameter_description"><para>. </para></entry>
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
@@ -1022,7 +1124,7 @@ as_component_set_developer_name (<parameter><link linkend="AsComponent"><type>As
 <refsect2 id="as-component-get-compulsory-for-desktops" role="function">
 <title>as_component_get_compulsory_for_desktops&#160;()</title>
 <indexterm zone="as-component-get-compulsory-for-desktops"><primary>as_component_get_compulsory_for_desktops</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_component_get_compulsory_for_desktops
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <refsect3 id="as-component-get-compulsory-for-desktops.parameters" role="parameters">
@@ -1040,17 +1142,17 @@ as_component_get_compulsory_for_desktops
 </refsect3><refsect3 id="as-component-get-compulsory-for-desktops.returns" role="returns">
 <title>Returns</title>
 <para> A list of desktops where this component is compulsory. </para>
-<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-component-set-compulsory-for-desktops" role="function">
-<title>as_component_set_compulsory_for_desktops&#160;()</title>
-<indexterm zone="as-component-set-compulsory-for-desktops"><primary>as_component_set_compulsory_for_desktops</primary></indexterm>
+<refsect2 id="as-component-set-compulsory-for-desktop" role="function">
+<title>as_component_set_compulsory_for_desktop&#160;()</title>
+<indexterm zone="as-component-set-compulsory-for-desktop"><primary>as_component_set_compulsory_for_desktop</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_compulsory_for_desktops
+as_component_set_compulsory_for_desktop
                                (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                                <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
-<para>Set a list of desktops where this component is compulsory.</para>
-<refsect3 id="as-component-set-compulsory-for-desktops.parameters" role="parameters">
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *desktop</parameter>);</programlisting>
+<para>Mark this component to be compulsory for the specified desktop environment.</para>
+<refsect3 id="as-component-set-compulsory-for-desktop.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1061,9 +1163,9 @@ as_component_set_compulsory_for_desktops
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>value</para></entry>
-<entry role="parameter_description"><para> the array of desktop ids. </para></entry>
-<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
+<row><entry role="parameter_name"><para>desktop</para></entry>
+<entry role="parameter_description"><para>The name of the desktop.</para></entry>
+<entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
 <refsect2 id="as-component-is-compulsory-for-desktop" role="function">
@@ -1096,7 +1198,7 @@ as_component_is_compulsory_for_desktop
 <refsect2 id="as-component-get-categories" role="function">
 <title>as_component_get_categories&#160;()</title>
 <indexterm zone="as-component-get-categories"><primary>as_component_get_categories</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
 as_component_get_categories (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <refsect3 id="as-component-get-categories.parameters" role="parameters">
 <title>Parameters</title>
@@ -1113,15 +1215,16 @@ as_component_get_categories (<parameter><link linkend="AsComponent"><type>AsComp
 </refsect3><refsect3 id="as-component-get-categories.returns" role="returns">
 <title>Returns</title>
 <para> String array of categories. </para>
-<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-component-set-categories" role="function">
-<title>as_component_set_categories&#160;()</title>
-<indexterm zone="as-component-set-categories"><primary>as_component_set_categories</primary></indexterm>
+<refsect2 id="as-component-add-category" role="function">
+<title>as_component_add_category&#160;()</title>
+<indexterm zone="as-component-add-category"><primary>as_component_add_category</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_set_categories (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                             <parameter><link linkend="gchar"><type>gchar</type></link> **value</parameter>);</programlisting>
-<refsect3 id="as-component-set-categories.parameters" role="parameters">
+as_component_add_category (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *category</parameter>);</programlisting>
+<para>Add a category.</para>
+<refsect3 id="as-component-add-category.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1132,9 +1235,9 @@ as_component_set_categories (<parameter><link linkend="AsComponent"><type>AsComp
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>value</para></entry>
-<entry role="parameter_description"><para> the categories name. </para></entry>
-<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>array</acronym> zero-terminated=1]</emphasis></entry></row>
+<row><entry role="parameter_name"><para>category</para></entry>
+<entry role="parameter_description"><para>the categories name to add.</para></entry>
+<entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
 <refsect2 id="as-component-has-category" role="function">
@@ -1338,6 +1441,29 @@ as_component_add_icon (<parameter><link linkend="AsComponent"><type>AsComponent<
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-provided" role="function">
+<title>as_component_get_provided&#160;()</title>
+<indexterm zone="as-component-get-provided"><primary>as_component_get_provided</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_component_get_provided (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get a list of <link linkend="AsProvided"><type>AsProvided</type></link> objects associated with this component.</para>
+<refsect3 id="as-component-get-provided.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-provided.returns" role="returns">
+<title>Returns</title>
+<para> A list of <link linkend="AsProvided"><type>AsProvided</type></link> objects. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> AsProvided]</emphasis></para>
+</refsect3></refsect2>
 <refsect2 id="as-component-add-provided" role="function" condition="since:0.6.2">
 <title>as_component_add_provided&#160;()</title>
 <indexterm zone="as-component-add-provided" role="0.6.2"><primary>as_component_add_provided</primary></indexterm>
@@ -1389,29 +1515,6 @@ this component provides.</para>
 <title>Returns</title>
 <para> <link linkend="AsProvided"><type>AsProvided</type></link> containing the items this component provides, or <link linkend="NULL:CAPS"><literal>NULL</literal></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-component-get-provided" role="function">
-<title>as_component_get_provided&#160;()</title>
-<indexterm zone="as-component-get-provided"><primary>as_component_get_provided</primary></indexterm>
-<programlisting language="C"><link linkend="GList"><returnvalue>GList</returnvalue></link>&#160;*
-as_component_get_provided (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Get a list of <link linkend="AsProvided"><type>AsProvided</type></link> objects associated with this component.</para>
-<refsect3 id="as-component-get-provided.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>cpt</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-get-provided.returns" role="returns">
-<title>Returns</title>
-<para> A list of <link linkend="AsProvided"><type>AsProvided</type></link> objects. </para>
-<para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> AsProvided]</emphasis></para>
 </refsect3></refsect2>
 <refsect2 id="as-component-get-url" role="function" condition="since:0.6.2">
 <title>as_component_get_url&#160;()</title>
@@ -1562,15 +1665,15 @@ as_component_add_extends (<parameter><link linkend="AsComponent"><type>AsCompone
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.7.0">0.7.0</link></para></refsect2>
-<refsect2 id="as-component-get-extensions" role="function" condition="since:0.9.2">
-<title>as_component_get_extensions&#160;()</title>
-<indexterm zone="as-component-get-extensions" role="0.9.2"><primary>as_component_get_extensions</primary></indexterm>
+<refsect2 id="as-component-get-addons" role="function" condition="since:0.9.2">
+<title>as_component_get_addons&#160;()</title>
+<indexterm zone="as-component-get-addons" role="0.9.2"><primary>as_component_get_addons</primary></indexterm>
 <programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
-as_component_get_extensions (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Returns a string list of IDs of components which
+as_component_get_addons (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns a list of <link linkend="AsComponent"><type>AsComponent</type></link> objects which
 are addons extending this component in functionality.</para>
 <para>This is the reverse of <link linkend="as-component-get-extends"><literal>as_component_get_extends</literal></link>()</para>
-<refsect3 id="as-component-get-extensions.parameters" role="parameters">
+<refsect3 id="as-component-get-addons.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1582,19 +1685,19 @@ are addons extending this component in functionality.</para>
 <entry role="parameter_description"><para>an <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-get-extensions.returns" role="returns">
+</refsect3><refsect3 id="as-component-get-addons.returns" role="returns">
 <title>Returns</title>
-<para> A <link linkend="GPtrArray"><type>GPtrArray</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not set. </para>
-<para><emphasis role="annotation">[<acronym>element-type</acronym> utf8][<acronym>transfer none</acronym>]</emphasis></para>
+<para> An array of <link linkend="AsComponent"><type>AsComponent</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> AsComponent]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.2">0.9.2</link></para></refsect2>
-<refsect2 id="as-component-add-extension" role="function" condition="since:0.9.2">
-<title>as_component_add_extension&#160;()</title>
-<indexterm zone="as-component-add-extension" role="0.9.2"><primary>as_component_add_extension</primary></indexterm>
+<refsect2 id="as-component-add-addon" role="function" condition="since:0.9.2">
+<title>as_component_add_addon&#160;()</title>
+<indexterm zone="as-component-add-addon" role="0.9.2"><primary>as_component_add_addon</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_add_extension (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *cpt_id</parameter>);</programlisting>
-<para>Add a reference to the extension enhancing this component.</para>
-<refsect3 id="as-component-add-extension.parameters" role="parameters">
+as_component_add_addon (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                        <parameter><link linkend="AsComponent"><type>AsComponent</type></link> *addon</parameter>);</programlisting>
+<para>Add a reference to the addon that is enhancing this component.</para>
+<refsect3 id="as-component-add-addon.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1605,8 +1708,9 @@ as_component_add_extension (<parameter><link linkend="AsComponent"><type>AsCompo
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>cpt_id</para></entry>
-<entry role="parameter_description"><para>The id of a component extending this component.</para></entry>
+<row><entry role="parameter_name"><para>addon</para></entry>
+<entry role="parameter_description"><para>The <link linkend="AsComponent"><type>AsComponent</type></link> that extends <parameter>cpt</parameter>
+</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.2">0.9.2</link></para></refsect2>
@@ -1755,16 +1859,39 @@ as_component_has_bundle (<parameter><link linkend="AsComponent"><type>AsComponen
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-component-has-bundle.returns" role="returns">
 <title>Returns</title>
-<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if this component has a bundle-id associated.</para>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if this component has a bundle associated.</para>
 </refsect3></refsect2>
-<refsect2 id="as-component-get-bundle-id" role="function" condition="since:0.8.0">
-<title>as_component_get_bundle_id&#160;()</title>
-<indexterm zone="as-component-get-bundle-id" role="0.8.0"><primary>as_component_get_bundle_id</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                            <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
+<refsect2 id="as-component-get-bundles" role="function" condition="since:0.10">
+<title>as_component_get_bundles&#160;()</title>
+<indexterm zone="as-component-get-bundles" role="0.10"><primary>as_component_get_bundles</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_component_get_bundles (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Get a list of all software bundles associated with this component.</para>
+<refsect3 id="as-component-get-bundles.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-bundles.returns" role="returns">
+<title>Returns</title>
+<para> A list of <link linkend="AsBundle"><type>AsBundle</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> AsBundle]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10">0.10</link></para></refsect2>
+<refsect2 id="as-component-get-bundle" role="function" condition="since:0.8.0">
+<title>as_component_get_bundle&#160;()</title>
+<indexterm zone="as-component-get-bundle" role="0.8.0"><primary>as_component_get_bundle</primary></indexterm>
+<programlisting language="C"><link linkend="AsBundle"><returnvalue>AsBundle</returnvalue></link>&#160;*
+as_component_get_bundle (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                         <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
 <para>Gets a bundle identifier string.</para>
-<refsect3 id="as-component-get-bundle-id.parameters" role="parameters">
+<refsect3 id="as-component-get-bundle.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1779,20 +1906,19 @@ as_component_get_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <entry role="parameter_description"><para>the bundle kind, e.g. <link linkend="AS-BUNDLE-KIND-LIMBA:CAPS"><literal>AS_BUNDLE_KIND_LIMBA</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-get-bundle-id.returns" role="returns">
+</refsect3><refsect3 id="as-component-get-bundle.returns" role="returns">
 <title>Returns</title>
-<para> string, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if unset. </para>
-<para><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></para>
+<para> An <link linkend="AsBundle"><type>AsBundle</type></link>, or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not set. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
-<refsect2 id="as-component-add-bundle-id" role="function" condition="since:0.8.0">
-<title>as_component_add_bundle_id&#160;()</title>
-<indexterm zone="as-component-add-bundle-id" role="0.8.0"><primary>as_component_add_bundle_id</primary></indexterm>
+<refsect2 id="as-component-add-bundle" role="function" condition="since:0.8.0">
+<title>as_component_add_bundle&#160;()</title>
+<indexterm zone="as-component-add-bundle" role="0.8.0"><primary>as_component_add_bundle</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
-                            <parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>,
-                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *id</parameter>);</programlisting>
-<para>Adds a bundle identifier to the component.</para>
-<refsect3 id="as-component-add-bundle-id.parameters" role="parameters">
+as_component_add_bundle (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                         <parameter><link linkend="AsBundle"><type>AsBundle</type></link> *bundle</parameter>);</programlisting>
+<para>Adds a bundle to the component.</para>
+<refsect3 id="as-component-add-bundle.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -1803,11 +1929,8 @@ as_component_add_bundle_id (<parameter><link linkend="AsComponent"><type>AsCompo
 <row><entry role="parameter_name"><para>cpt</para></entry>
 <entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>bundle_kind</para></entry>
-<entry role="parameter_description"><para>the URL kind, e.g. <link linkend="AS-BUNDLE-KIND-LIMBA:CAPS"><literal>AS_BUNDLE_KIND_LIMBA</literal></link></para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>id</para></entry>
-<entry role="parameter_description"><para>The bundle identification string</para></entry>
+<row><entry role="parameter_name"><para>bundle</para></entry>
+<entry role="parameter_description"><para>The <link linkend="AsBundle"><type>AsBundle</type></link> to add.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
@@ -1878,7 +2001,7 @@ as_component_get_search_tokens (<parameter><link linkend="AsComponent"><type>AsC
 </refsect3><refsect3 id="as-component-get-search-tokens.returns" role="returns">
 <title>Returns</title>
 <para> The string search tokens. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
+<para><emphasis role="annotation">[<acronym>transfer container</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.7">0.9.7</link></para></refsect2>
 <refsect2 id="as-component-search-matches" role="function" condition="since:0.9.7">
 <title>as_component_search_matches&#160;()</title>
@@ -1979,6 +2102,78 @@ as_component_set_merge_kind (<parameter><link linkend="AsComponent"><type>AsComp
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.8">0.9.8</link></para></refsect2>
+<refsect2 id="as-component-is-member-of-category" role="function">
+<title>as_component_is_member_of_category&#160;()</title>
+<indexterm zone="as-component-is-member-of-category"><primary>as_component_is_member_of_category</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_component_is_member_of_category (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                    <parameter><link linkend="AsCategory"><type>AsCategory</type></link> *category</parameter>);</programlisting>
+<para>Test if the component <parameter>cpt</parameter>
+ is a member of category <parameter>category</parameter>
+.</para>
+<refsect3 id="as-component-is-member-of-category.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>category</para></entry>
+<entry role="parameter_description"><para>The category to test.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-component-is-valid" role="function">
+<title>as_component_is_valid&#160;()</title>
+<indexterm zone="as-component-is-valid"><primary>as_component_is_valid</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_component_is_valid (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Check if the essential properties of this Component are
+populated with useful data.</para>
+<refsect3 id="as-component-is-valid.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-is-valid.returns" role="returns">
+<title>Returns</title>
+<para> TRUE if the component data was validated successfully.</para>
+</refsect3></refsect2>
+<refsect2 id="as-component-to-string" role="function">
+<title>as_component_to_string&#160;()</title>
+<indexterm zone="as-component-to-string"><primary>as_component_to_string</primary></indexterm>
+<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_to_string (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Returns a string identifying this component.
+(useful for debugging)</para>
+<refsect3 id="as-component-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-to-string.returns" role="returns">
+<title>Returns</title>
+<para> A descriptive string. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">
@@ -2028,6 +2223,21 @@ as_component_set_merge_kind (<parameter><link linkend="AsComponent"><type>AsComp
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-CONSOLE-APP:CAPS">AS_COMPONENT_KIND_CONSOLE_APP</para></entry>
+<entry role="enum_member_description"><para>A console application</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-WEB-APP:CAPS">AS_COMPONENT_KIND_WEB_APP</para></entry>
+<entry role="enum_member_description"><para>A web application</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-ADDON:CAPS">AS_COMPONENT_KIND_ADDON</para></entry>
+<entry role="enum_member_description"><para>An extension of existing software, which does not run standalone</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-FONT:CAPS">AS_COMPONENT_KIND_FONT</para></entry>
 <entry role="enum_member_description"><para>A font</para>
 </entry>
@@ -2043,18 +2253,8 @@ as_component_set_merge_kind (<parameter><link linkend="AsComponent"><type>AsComp
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-ADDON:CAPS">AS_COMPONENT_KIND_ADDON</para></entry>
-<entry role="enum_member_description"><para>An extension of existing software, which does not run standalone</para>
-</entry>
-<entry role="enum_member_annotations"></entry>
-</row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-FIRMWARE:CAPS">AS_COMPONENT_KIND_FIRMWARE</para></entry>
 <entry role="enum_member_description"><para>Firmware</para>
-</entry>
-<entry role="enum_member_annotations"></entry>
-</row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-CONSOLE-APP:CAPS">AS_COMPONENT_KIND_CONSOLE_APP</para></entry>
-<entry role="enum_member_description"><para>A console application</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
@@ -2090,6 +2290,36 @@ set for merge.</para>
 </row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="AsValueFlags" role="enum">
+<title>enum AsValueFlags</title>
+<indexterm zone="AsValueFlags"><primary>AsValueFlags</primary></indexterm>
+<para>Set how values assigned to an <link linkend="AsComponent"><type>AsComponent</type></link> should be treated when
+they are set or retrieved.</para>
+<refsect3 id="AsValueFlags.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-VALUE-FLAG-NONE:CAPS">AS_VALUE_FLAG_NONE</para></entry>
+<entry role="enum_member_description"><para>No flags.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-VALUE-FLAG-DUPLICATE-CHECK:CAPS">AS_VALUE_FLAG_DUPLICATE_CHECK</para></entry>
+<entry role="enum_member_description"><para>Check for duplicates when adding items to list values.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-VALUE-FLAG-NO-TRANSLATION-FALLBACK:CAPS">AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK</para></entry>
+<entry role="enum_member_description"><para>Don't fall back to C when retrieving translated values.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="AsComponent-struct" role="struct">
 <title>AsComponent</title>
 <indexterm zone="AsComponent-struct"><primary>AsComponent</primary></indexterm>
@@ -2103,9 +2333,9 @@ set for merge.</para>
 <title role="property_details.title">Property Details</title>
 <refsect2 id="AsComponent--categories" role="property"><title>The <literal>“categories”</literal> property</title>
 <indexterm zone="AsComponent--categories"><primary>AsComponent:categories</primary></indexterm>
-<programlisting>  “categories”               <link linkend="GStrv"><type>GStrv</type></link></programlisting>
+<programlisting>  “categories”               <link linkend="GPtrArray"><type>GPtrArray</type></link>&#160;*</programlisting>
 <para>string array of categories</para>
-<para>Flags: Read / Write</para>
+<para>Flags: Read</para>
 </refsect2>
 <refsect2 id="AsComponent--description" role="property"><title>The <literal>“description”</literal> property</title>
 <indexterm zone="AsComponent--description"><primary>AsComponent:description</primary></indexterm>
