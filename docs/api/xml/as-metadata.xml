@@ -22,6 +22,14 @@
 <colspec colname="functions_return" colwidth="150px"/>
 <colspec colname="functions_name"/>
 <tbody>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-format-kind-to-string">as_format_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatKind"><returnvalue>AsFormatKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-format-kind-from-string">as_format_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-format-version-to-string">as_format_version_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-format-version-from-string">as_format_version_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsMetadata"><returnvalue>AsMetadata</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-new">as_metadata_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GQuark"><returnvalue>GQuark</returnvalue></link>
@@ -29,9 +37,7 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-parse-file">as_metadata_parse_file</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-parse-xml">as_metadata_parse_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-parse-yaml">as_metadata_parse_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-parse">as_metadata_parse</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-get-component">as_metadata_get_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
@@ -41,17 +47,21 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-add-component">as_metadata_add_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-metadata-component-to-upstream-xml">as_metadata_component_to_upstream_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-component-to-metainfo">as_metadata_component_to_metainfo</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-save-upstream-xml">as_metadata_save_upstream_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-save-metainfo">as_metadata_save_metainfo</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-metadata-components-to-distro-xml">as_metadata_components_to_distro_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-components-to-collection">as_metadata_components_to_collection</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-save-distro-xml">as_metadata_save_distro_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-metadata-components-to-distro-yaml">as_metadata_components_to_distro_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-save-collection">as_metadata_save_collection</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-get-format-version">as_metadata_get_format_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-save-distro-yaml">as_metadata_save_distro_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-metadata-set-format-version">as_metadata_set_format_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatStyle"><returnvalue>AsFormatStyle</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-get-format-style">as_metadata_get_format_style</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-set-format-style">as_metadata_set_format_style</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-set-locale">as_metadata_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
@@ -68,10 +78,6 @@
 </entry><entry role="function_name"><link linkend="as-metadata-get-write-header">as_metadata_get_write_header</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-set-write-header">as_metadata_set_write_header</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-set-parser-mode">as_metadata_set_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-metadata-get-parser-mode">as_metadata_get_parser_mode</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-get-architecture">as_metadata_get_architecture</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -90,7 +96,10 @@
 <tbody>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-METADATA:CAPS">AS_TYPE_METADATA</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsMetadataClass">AsMetadataClass</link></entry></row>
-<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsParserMode">AsParserMode</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsFormatStyle">AsFormatStyle</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsFormatKind">AsFormatKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsFormatVersion">AsFormatVersion</link></entry></row>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-CURRENT-FORMAT-VERSION:CAPS">AS_CURRENT_FORMAT_VERSION</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsMetadataError">AsMetadataError</link></entry></row>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-METADATA-ERROR:CAPS">AS_METADATA_ERROR</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsMetadata-struct">AsMetadata</link></entry></row>
@@ -119,6 +128,97 @@ It returns an <link linkend="AsComponent"><type>AsComponent</type></link> of the
 </refsect1>
 <refsect1 id="AsMetadata.functions_details" role="details">
 <title role="details.title">Functions</title>
+<refsect2 id="as-format-kind-to-string" role="function" condition="since:0.10">
+<title>as_format_kind_to_string&#160;()</title>
+<indexterm zone="as-format-kind-to-string" role="0.10"><primary>as_format_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_format_kind_to_string (<parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 id="as-format-kind-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsFormatKind"><type>AsFormatKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-format-kind-to-string.returns" role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10">0.10</link></para></refsect2>
+<refsect2 id="as-format-kind-from-string" role="function" condition="since:0.10">
+<title>as_format_kind_from_string&#160;()</title>
+<indexterm zone="as-format-kind-from-string" role="0.10"><primary>as_format_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatKind"><returnvalue>AsFormatKind</returnvalue></link>
+as_format_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 id="as-format-kind-from-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-format-kind-from-string.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsFormatKind"><type>AsFormatKind</type></link> or <link linkend="AS-FORMAT-KIND-UNKNOWN:CAPS"><literal>AS_FORMAT_KIND_UNKNOWN</literal></link> for unknown</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10">0.10</link></para></refsect2>
+<refsect2 id="as-format-version-to-string" role="function" condition="since:0.10">
+<title>as_format_version_to_string&#160;()</title>
+<indexterm zone="as-format-version-to-string" role="0.10"><primary>as_format_version_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_format_version_to_string (<parameter><link linkend="AsFormatVersion"><type>AsFormatVersion</type></link> version</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 id="as-format-version-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>version</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsFormatKind"><type>AsFormatKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-format-version-to-string.returns" role="returns">
+<title>Returns</title>
+<para> string version of <parameter>version</parameter>
+</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10">0.10</link></para></refsect2>
+<refsect2 id="as-format-version-from-string" role="function" condition="since:0.10">
+<title>as_format_version_from_string&#160;()</title>
+<indexterm zone="as-format-version-from-string" role="0.10"><primary>as_format_version_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+as_format_version_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *version_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 id="as-format-version-from-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>version_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-format-version-from-string.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsFormatVersion"><type>AsFormatVersion</type></link>. For unknown, the highest version
+number is assumed.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10">0.10</link></para></refsect2>
 <refsect2 id="as-metadata-new" role="function">
 <title>as_metadata_new&#160;()</title>
 <indexterm zone="as-metadata-new"><primary>as_metadata_new</primary></indexterm>
@@ -145,6 +245,7 @@ as_metadata_error_quark (<parameter><type>void</type></parameter>);</programlist
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
 as_metadata_parse_file (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
                         <parameter><link linkend="GFile"><type>GFile</type></link> *file</parameter>,
+                        <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
                         <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Parses an AppStream upstream metadata file.</para>
 <refsect3 id="as-metadata-parse-file.parameters" role="parameters">
@@ -161,20 +262,24 @@ as_metadata_parse_file (<parameter><link linkend="AsMetadata"><type>AsMetadata</
 <row><entry role="parameter_name"><para>file</para></entry>
 <entry role="parameter_description"><para><link linkend="GFile"><type>GFile</type></link> for the upstream metadata</para></entry>
 <entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>format</para></entry>
+<entry role="parameter_description"><para>The format the data is in, or <link linkend="AS-FORMAT-KIND-UNKNOWN:CAPS"><literal>AS_FORMAT_KIND_UNKNOWN</literal></link> if not known.</para></entry>
+<entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>error</para></entry>
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-metadata-parse-xml" role="function">
-<title>as_metadata_parse_xml&#160;()</title>
-<indexterm zone="as-metadata-parse-xml"><primary>as_metadata_parse_xml</primary></indexterm>
+<refsect2 id="as-metadata-parse" role="function">
+<title>as_metadata_parse&#160;()</title>
+<indexterm zone="as-metadata-parse"><primary>as_metadata_parse</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_parse_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
-                       <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
-<para>Parses AppStream XML metadata.</para>
-<refsect3 id="as-metadata-parse-xml.parameters" role="parameters">
+as_metadata_parse (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                   <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
+                   <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
+                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Parses AppStream metadata.</para>
+<refsect3 id="as-metadata-parse.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -183,34 +288,13 @@ as_metadata_parse_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</t
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
 <row><entry role="parameter_name"><para>metad</para></entry>
-<entry role="parameter_description"><para>A valid <link linkend="AsMetadata"><type>AsMetadata</type></link> instance</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsMetadata"><type>AsMetadata</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>data</para></entry>
-<entry role="parameter_description"><para>XML data describing one or more software components.</para></entry>
+<entry role="parameter_description"><para>Metadata describing one or more software components.</para></entry>
 <entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-parse-yaml" role="function">
-<title>as_metadata_parse_yaml&#160;()</title>
-<indexterm zone="as-metadata-parse-yaml"><primary>as_metadata_parse_yaml</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_parse_yaml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                        <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
-                        <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
-<para>Parses AppStream YAML metadata.</para>
-<refsect3 id="as-metadata-parse-yaml.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>metad</para></entry>
-<entry role="parameter_description"><para>A valid <link linkend="AsMetadata"><type>AsMetadata</type></link> instance</para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>data</para></entry>
-<entry role="parameter_description"><para>YAML data describing one or more software components.</para></entry>
+<row><entry role="parameter_name"><para>format</para></entry>
+<entry role="parameter_description"><para>The format of the data (XML or YAML).</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>error</para></entry>
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
@@ -280,31 +364,53 @@ as_metadata_add_component (<parameter><link linkend="AsMetadata"><type>AsMetadat
 This can be used to add multiple components in order to
 produce a distro-XML AppStream metadata file.</para>
 </refsect2>
-<refsect2 id="as-metadata-component-to-upstream-xml" role="function">
-<title>as_metadata_component_to_upstream_xml&#160;()</title>
-<indexterm zone="as-metadata-component-to-upstream-xml"><primary>as_metadata_component_to_upstream_xml</primary></indexterm>
+<refsect2 id="as-metadata-component-to-metainfo" role="function">
+<title>as_metadata_component_to_metainfo&#160;()</title>
+<indexterm zone="as-metadata-component-to-metainfo"><primary>as_metadata_component_to_metainfo</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_metadata_component_to_upstream_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
-<para>Convert an <link linkend="AsComponent"><type>AsComponent</type></link> to upstream XML.
-(The amount of localization included in the metadata depends on how the <link linkend="AsComponent"><type>AsComponent</type></link>
-was initially loaded)</para>
+as_metadata_component_to_metainfo (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                                   <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
+                                   <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Convert an <link linkend="AsComponent"><type>AsComponent</type></link> to metainfo data.
+This will always be XML, YAML is no valid format for metainfo files.</para>
+<para>The amount of localization included in the metadata depends on how the <link linkend="AsComponent"><type>AsComponent</type></link>
+was initially loaded and whether it contains data for all locale.</para>
 <para>The first <link linkend="AsComponent"><type>AsComponent</type></link> added to the internal list will be transformed.
 In case no component is present, <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned.</para>
-<refsect3 id="as-metadata-component-to-upstream-xml.returns" role="returns">
+<refsect3 id="as-metadata-component-to-metainfo.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsMetadata"><type>AsMetadata</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>format</para></entry>
+<entry role="parameter_description"><para>The format to use (XML or YAML)</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-metadata-component-to-metainfo.returns" role="returns">
 <title>Returns</title>
-<para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para> A string containing the XML metadata. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
 </refsect3></refsect2>
-<refsect2 id="as-metadata-save-upstream-xml" role="function">
-<title>as_metadata_save_upstream_xml&#160;()</title>
-<indexterm zone="as-metadata-save-upstream-xml"><primary>as_metadata_save_upstream_xml</primary></indexterm>
+<refsect2 id="as-metadata-save-metainfo" role="function">
+<title>as_metadata_save_metainfo&#160;()</title>
+<indexterm zone="as-metadata-save-metainfo"><primary>as_metadata_save_metainfo</primary></indexterm>
 <programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_save_upstream_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                               <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
-                               <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+as_metadata_save_metainfo (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
+                           <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
+                           <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Serialize <link linkend="AsComponent"><type>AsComponent</type></link> instance to XML and save it to file.
 An existing file at the same location will be overridden.</para>
-<refsect3 id="as-metadata-save-upstream-xml.parameters" role="parameters">
+<refsect3 id="as-metadata-save-metainfo.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -313,33 +419,24 @@ An existing file at the same location will be overridden.</para>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
 <row><entry role="parameter_name"><para>fname</para></entry>
-<entry role="parameter_description"><para>The filename for the new XML file.</para></entry>
+<entry role="parameter_description"><para>The filename for the new metadata file.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>format</para></entry>
+<entry role="parameter_description"><para>The format to save this file in. Only XML is supported at time.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-metadata-components-to-distro-xml" role="function">
-<title>as_metadata_components_to_distro_xml&#160;()</title>
-<indexterm zone="as-metadata-components-to-distro-xml"><primary>as_metadata_components_to_distro_xml</primary></indexterm>
+<refsect2 id="as-metadata-components-to-collection" role="function">
+<title>as_metadata_components_to_collection&#160;()</title>
+<indexterm zone="as-metadata-components-to-collection"><primary>as_metadata_components_to_collection</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_metadata_components_to_distro_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+as_metadata_components_to_collection (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                                      <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
+                                      <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances into AppStream
-distro-XML data.
+collection metadata.
 <link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned if there is nothing to serialize.</para>
-<refsect3 id="as-metadata-components-to-distro-xml.returns" role="returns">
-<title>Returns</title>
-<para> A string containing the XML. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-save-distro-xml" role="function">
-<title>as_metadata_save_distro_xml&#160;()</title>
-<indexterm zone="as-metadata-save-distro-xml"><primary>as_metadata_save_distro_xml</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_save_distro_xml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
-                             <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
-<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances to XML and save the data to a file.
-An existing file at the same location will be overridden.</para>
-<refsect3 id="as-metadata-save-distro-xml.parameters" role="parameters">
+<refsect3 id="as-metadata-components-to-collection.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -347,34 +444,84 @@ An existing file at the same location will be overridden.</para>
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>fname</para></entry>
-<entry role="parameter_description"><para>The filename for the new XML file.</para></entry>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsMetadata"><type>AsMetadata</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>format</para></entry>
+<entry role="parameter_description"><para>The format to serialize the data to (XML or YAML).</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-metadata-components-to-collection.returns" role="returns">
+<title>Returns</title>
+<para> A string containing the YAML or XML data. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-save-collection" role="function">
+<title>as_metadata_save_collection&#160;()</title>
+<indexterm zone="as-metadata-save-collection"><primary>as_metadata_save_collection</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_save_collection (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
+                             <parameter><link linkend="AsFormatKind"><type>AsFormatKind</type></link> format</parameter>,
+                             <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="as-metadata-get-format-version" role="function">
+<title>as_metadata_get_format_version&#160;()</title>
+<indexterm zone="as-metadata-get-format-version"><primary>as_metadata_get_format_version</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+as_metadata_get_format_version (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<refsect3 id="as-metadata-get-format-version.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>an <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-metadata-get-format-version.returns" role="returns">
+<title>Returns</title>
+<para> The AppStream metadata format version.</para>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-set-format-version" role="function">
+<title>as_metadata_set_format_version&#160;()</title>
+<indexterm zone="as-metadata-set-format-version"><primary>as_metadata_set_format_version</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_set_format_version (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                                <parameter><link linkend="AsFormatVersion"><type>AsFormatVersion</type></link> version</parameter>);</programlisting>
+<para>Set the current AppStream format version that we should generate data for
+or be able to read.</para>
+<refsect3 id="as-metadata-set-format-version.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>version</para></entry>
+<entry role="parameter_description"><para>the AppStream metadata format version as <link linkend="AsFormatVersion"><type>AsFormatVersion</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-metadata-components-to-distro-yaml" role="function">
-<title>as_metadata_components_to_distro_yaml&#160;()</title>
-<indexterm zone="as-metadata-components-to-distro-yaml"><primary>as_metadata_components_to_distro_yaml</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_metadata_components_to_distro_yaml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
-<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances into AppStream DEP-11
-distro-YAML data.
-<link linkend="NULL:CAPS"><literal>NULL</literal></link> is returned if there is nothing to serialize.</para>
-<refsect3 id="as-metadata-components-to-distro-yaml.returns" role="returns">
-<title>Returns</title>
-<para> A string containing the YAML markup. Free with <link linkend="g-free"><function>g_free()</function></link>. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-save-distro-yaml" role="function">
-<title>as_metadata_save_distro_yaml&#160;()</title>
-<indexterm zone="as-metadata-save-distro-yaml"><primary>as_metadata_save_distro_yaml</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_save_distro_yaml (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>,
-                              <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
-<para>Serialize all <link linkend="AsComponent"><type>AsComponent</type></link> instances to XML and save the data to a file.
-An existing file at the same location will be overridden.</para>
-<refsect3 id="as-metadata-save-distro-yaml.parameters" role="parameters">
+<refsect2 id="as-metadata-get-format-style" role="function">
+<title>as_metadata_get_format_style&#160;()</title>
+<indexterm zone="as-metadata-get-format-style"><primary>as_metadata_get_format_style</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatStyle"><returnvalue>AsFormatStyle</returnvalue></link>
+as_metadata_get_format_style (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
+<para>Get the metadata parsing mode.</para>
+<refsect3 id="as-metadata-get-format-style.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -382,8 +529,31 @@ An existing file at the same location will be overridden.</para>
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>fname</para></entry>
-<entry role="parameter_description"><para>The filename for the new YAML file.</para></entry>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-set-format-style" role="function">
+<title>as_metadata_set_format_style&#160;()</title>
+<indexterm zone="as-metadata-set-format-style"><primary>as_metadata_set_format_style</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_set_format_style (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                              <parameter><link linkend="AsFormatStyle"><type>AsFormatStyle</type></link> mode</parameter>);</programlisting>
+<para>Sets the current metadata parsing mode.</para>
+<refsect3 id="as-metadata-set-format-style.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>mode</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsFormatStyle"><type>AsFormatStyle</type></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
@@ -546,7 +716,7 @@ as_metadata_get_write_header (<parameter><link linkend="AsMetadata"><type>AsMeta
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-metadata-get-write-header.returns" role="returns">
 <title>Returns</title>
-<para> Whether we will write a header/root node in distro metadata.</para>
+<para> Whether we will write a header/root node in collection metadata.</para>
 </refsect3></refsect2>
 <refsect2 id="as-metadata-set-write-header" role="function">
 <title>as_metadata_set_write_header&#160;()</title>
@@ -558,7 +728,7 @@ as_metadata_set_write_header (<parameter><link linkend="AsMetadata"><type>AsMeta
 header document when in YAML mode, and will not write a root components node
 when writing XML data.
 Please keep in mind that this will create an invalid DEP-11 YAML AppStream
-distro metadata file, and an invalid XML file.
+collection metadata file, and an invalid XML file.
 This parameter should only be changed e.g. by the appstream-generator tool.</para>
 <para>NOTE: Right now, this feature is only implemented for YAML!</para>
 <refsect3 id="as-metadata-set-write-header.parameters" role="parameters">
@@ -576,51 +746,6 @@ This parameter should only be changed e.g. by the appstream-generator tool.</par
 <entry role="parameter_description"><para>A boolean value.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-set-parser-mode" role="function">
-<title>as_metadata_set_parser_mode&#160;()</title>
-<indexterm zone="as-metadata-set-parser-mode"><primary>as_metadata_set_parser_mode</primary></indexterm>
-<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
-as_metadata_set_parser_mode (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
-                             <parameter><link linkend="AsParserMode"><type>AsParserMode</type></link> mode</parameter>);</programlisting>
-<para>Sets the current metadata parsing mode.</para>
-<refsect3 id="as-metadata-set-parser-mode.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>metad</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-<row><entry role="parameter_name"><para>mode</para></entry>
-<entry role="parameter_description"><para>the <link linkend="AsParserMode"><type>AsParserMode</type></link>.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3></refsect2>
-<refsect2 id="as-metadata-get-parser-mode" role="function">
-<title>as_metadata_get_parser_mode&#160;()</title>
-<indexterm zone="as-metadata-get-parser-mode"><primary>as_metadata_get_parser_mode</primary></indexterm>
-<programlisting language="C"><link linkend="AsParserMode"><returnvalue>AsParserMode</returnvalue></link>
-as_metadata_get_parser_mode (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>);</programlisting>
-<para>Gets the current parser mode</para>
-<refsect3 id="as-metadata-get-parser-mode.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>metad</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsMetadata"><type>AsMetadata</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-metadata-get-parser-mode.returns" role="returns">
-<title>Returns</title>
-<para> an <link linkend="AsParserMode"><type>AsParserMode</type></link></para>
 </refsect3></refsect2>
 <refsect2 id="as-metadata-get-architecture" role="function">
 <title>as_metadata_get_architecture&#160;()</title>
@@ -688,14 +813,14 @@ as_metadata_set_architecture (<parameter><link linkend="AsMetadata"><type>AsMeta
 <para>
 </para>
 </refsect2>
-<refsect2 id="AsParserMode" role="enum">
-<title>enum AsParserMode</title>
-<indexterm zone="AsParserMode"><primary>AsParserMode</primary></indexterm>
-<para>There are a few differences between Appstream's upstream metadata
-and the distribution metadata.
-The parser mode indicates which style we should process.
-Usually you don't want to change this.</para>
-<refsect3 id="AsParserMode.members" role="enum_members">
+<refsect2 id="AsFormatStyle" role="enum">
+<title>enum AsFormatStyle</title>
+<indexterm zone="AsFormatStyle"><primary>AsFormatStyle</primary></indexterm>
+<para>There are a few differences between AppStream's metainfo files (shipped by upstream projects)
+and the collection metadata (shipped by distributors).
+The data source kind indicates which style we should process.
+Usually you do not want to set this explicitly.</para>
+<refsect3 id="AsFormatStyle.members" role="enum_members">
 <title>Members</title>
 <informaltable role="enum_members_table" pgwide="1" frame="none">
 <tgroup cols="3">
@@ -703,18 +828,98 @@ Usually you don't want to change this.</para>
 <colspec colname="enum_members_description"/>
 <colspec colname="enum_members_annotations" colwidth="200px"/>
 <tbody>
-<row role="constant"><entry role="enum_member_name"><para id="AS-PARSER-MODE-UPSTREAM:CAPS">AS_PARSER_MODE_UPSTREAM</para></entry>
-<entry role="enum_member_description"><para>Parse Appstream upstream metadata</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-STYLE-UNKNOWN:CAPS">AS_FORMAT_STYLE_UNKNOWN</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-STYLE-METAINFO:CAPS">AS_FORMAT_STYLE_METAINFO</para></entry>
+<entry role="enum_member_description"><para>Parse AppStream upstream metadata (metainfo files)</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-PARSER-MODE-DISTRO:CAPS">AS_PARSER_MODE_DISTRO</para></entry>
-<entry role="enum_member_description"><para>Parse Appstream distribution metadata</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-STYLE-COLLECTION:CAPS">AS_FORMAT_STYLE_COLLECTION</para></entry>
+<entry role="enum_member_description"><para>Parse AppStream metadata collections (shipped by software distributors)</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="AsFormatKind" role="enum">
+<title>enum AsFormatKind</title>
+<indexterm zone="AsFormatKind"><primary>AsFormatKind</primary></indexterm>
+<para>Format of the AppStream metadata.</para>
+<refsect3 id="AsFormatKind.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-KIND-UNKNOWN:CAPS">AS_FORMAT_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown metadata format.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-KIND-XML:CAPS">AS_FORMAT_KIND_XML</para></entry>
+<entry role="enum_member_description"><para>AppStream XML metadata.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-KIND-YAML:CAPS">AS_FORMAT_KIND_YAML</para></entry>
+<entry role="enum_member_description"><para>AppStream YAML (DEP-11) metadata.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsFormatVersion" role="enum">
+<title>enum AsFormatVersion</title>
+<indexterm zone="AsFormatVersion"><primary>AsFormatVersion</primary></indexterm>
+<para>Format version / API level of the AppStream metadata.</para>
+<refsect3 id="AsFormatVersion.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-6:CAPS">AS_FORMAT_VERSION_V0_6</para></entry>
+<entry role="enum_member_description"><para>0.6</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-7:CAPS">AS_FORMAT_VERSION_V0_7</para></entry>
+<entry role="enum_member_description"><para>0.7</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-8:CAPS">AS_FORMAT_VERSION_V0_8</para></entry>
+<entry role="enum_member_description"><para>0.8</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-9:CAPS">AS_FORMAT_VERSION_V0_9</para></entry>
+<entry role="enum_member_description"><para>0.9</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-10:CAPS">AS_FORMAT_VERSION_V0_10</para></entry>
+<entry role="enum_member_description"><para>0.10</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AS-CURRENT-FORMAT-VERSION:CAPS" role="macro">
+<title>AS_CURRENT_FORMAT_VERSION</title>
+<indexterm zone="AS-CURRENT-FORMAT-VERSION:CAPS"><primary>AS_CURRENT_FORMAT_VERSION</primary></indexterm>
+<programlisting language="C">#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_10
+</programlisting>
+<para>
+</para>
+</refsect2>
 <refsect2 id="AsMetadataError" role="enum">
 <title>enum AsMetadataError</title>
 <indexterm zone="AsMetadataError"><primary>AsMetadataError</primary></indexterm>
@@ -737,8 +942,8 @@ Usually you don't want to change this.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
-<row role="constant"><entry role="enum_member_name"><para id="AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS">AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND</para></entry>
-<entry role="enum_member_description"><para>Expected upstream metadata but got distro metadata, or vice versa.</para>
+<row role="constant"><entry role="enum_member_name"><para id="AS-METADATA-ERROR-FORMAT-UNEXPECTED:CAPS">AS_METADATA_ERROR_FORMAT_UNEXPECTED</para></entry>
+<entry role="enum_member_description"><para>Expected collection metadata but got metainfo metadata, or vice versa.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

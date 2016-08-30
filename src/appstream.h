@@ -30,15 +30,17 @@ extern "C" {
 #include <as-enums.h>
 #include <as-provided.h>
 #include <as-metadata.h>
-#include <as-data-pool.h>
-#include <as-database.h>
+#include <as-pool.h>
 #include <as-category.h>
-#include <as-menu-parser.h>
 #include <as-distro-details.h>
 #include <as-icon.h>
 #include <as-screenshot.h>
-#include <as-suggested.h>
 #include <as-image.h>
+#include <as-bundle.h>
+#include <as-release.h>
+#include <as-checksum.h>
+#include <as-translation.h>
+#include <as-suggested.h>
 
 #include <as-validator.h>
 #include <as-validator-issue.h>

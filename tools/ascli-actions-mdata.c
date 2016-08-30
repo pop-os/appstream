@@ -32,34 +32,32 @@
  * ascli_refresh_cache:
  */
 int
-ascli_refresh_cache (const gchar *dbpath, const gchar *datapath, gboolean forced)
+ascli_refresh_cache (const gchar *cachepath, const gchar *datapath, gboolean forced)
 {
-	g_autoptr(AsDataPool) dpool = NULL;
+	g_autoptr(AsPool) dpool = NULL;
 	g_autoptr(GError) error = NULL;
 	gboolean ret;
 
-	dpool = as_data_pool_new ();
+	dpool = as_pool_new ();
 	if (datapath != NULL) {
-		g_auto(GStrv) strv = NULL;
 		/* the user wants data from a different path to be used */
-		strv = g_new0 (gchar*, 2);
-		strv[0] = g_strdup (datapath);
-		as_data_pool_set_metadata_locations (dpool, strv);
+		as_pool_clear_metadata_locations (dpool);
+		as_pool_add_metadata_location (dpool, datapath);
+
+		/* disable loading data from cache */
+		as_pool_set_cache_flags (dpool, AS_CACHE_FLAG_NONE);
 	}
 
-	if (dbpath == NULL) {
-		ret = as_data_pool_refresh_cache (dpool, forced, &error);
+	if (cachepath == NULL) {
+		ret = as_pool_refresh_cache (dpool, forced, &error);
 	} else {
-		if (forced)
-			as_data_pool_load_metadata (dpool);
-		else
-			as_data_pool_load (dpool, NULL, &error);
+		as_pool_load (dpool, NULL, &error);
 		if (error == NULL)
-			as_data_pool_save_cache_file (dpool, dbpath, &error);
+			as_pool_save_cache_file (dpool, cachepath, &error);
 	}
 
 	if (error != NULL) {
-		if (g_error_matches (error, AS_DATA_POOL_ERROR, AS_DATA_POOL_ERROR_TARGET_NOT_WRITABLE))
+		if (g_error_matches (error, AS_POOL_ERROR, AS_POOL_ERROR_TARGET_NOT_WRITABLE))
 			/* TRANSLATORS: In ascli: The requested action needs higher permissions. */
 			g_printerr ("%s\n%s\n", error->message, _("You might need superuser permissions to perform this action."));
 		else
@@ -93,22 +91,22 @@ ascli_refresh_cache (const gchar *dbpath, const gchar *datapath, gboolean forced
 /**
  * ascli_data_pool_new_and_open:
  */
-static AsDataPool*
+static AsPool*
 ascli_data_pool_new_and_open (const gchar *cachepath, gboolean no_cache, GError **error)
 {
-	AsDataPool *dpool;
+	AsPool *dpool;
 
-	dpool = as_data_pool_new ();
+	dpool = as_pool_new ();
 	if (cachepath == NULL) {
 		/* no cache object to load, we can use a normal pool - unless caching
 		 * is generally disallowed. */
 		if (no_cache)
-			as_data_pool_set_cache_flags (dpool, AS_CACHE_FLAG_NONE);
+			as_pool_set_cache_flags (dpool, AS_CACHE_FLAG_NONE);
 
-		as_data_pool_load (dpool, NULL, error);
+		as_pool_load (dpool, NULL, error);
 	} else {
 		/* use an exported cache object */
-		as_data_pool_load_cache_file (dpool, cachepath, error);
+		as_pool_load_cache_file (dpool, cachepath, error);
 	}
 
 	return dpool;
@@ -122,13 +120,13 @@ ascli_data_pool_new_and_open (const gchar *cachepath, gboolean no_cache, GError 
 int
 ascli_get_component (const gchar *cachepath, const gchar *identifier, gboolean detailed, gboolean no_cache)
 {
-	g_autoptr(AsDataPool) dpool = NULL;
+	g_autoptr(AsPool) dpool = NULL;
 	g_autoptr(GError) error = NULL;
-	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(GPtrArray) result = NULL;
 
 	if (identifier == NULL) {
 		/* TRANSLATORS: An AppStream component-id is missing in the command-line arguments */
-		fprintf (stderr, "%s\n", _("You need to specify a component-id."));
+		fprintf (stderr, "%s\n", _("You need to specify a component-ID."));
 		return 2;
 	}
 
@@ -138,12 +136,13 @@ ascli_get_component (const gchar *cachepath, const gchar *identifier, gboolean d
 		return 1;
 	}
 
-	cpt = as_data_pool_get_component_by_id (dpool, identifier);
-	if (cpt == NULL) {
-		ascli_print_stderr (_("Unable to find component with id '%s'!"), identifier);
+	result = as_pool_get_components_by_id (dpool, identifier);
+	if (result->len == 0) {
+		ascli_print_stderr (_("Unable to find component with ID '%s'!"), identifier);
 		return 4;
 	}
-	ascli_print_component (cpt, detailed);
+
+	ascli_print_components (result, detailed);
 
 	return 0;
 }
@@ -154,9 +153,8 @@ ascli_get_component (const gchar *cachepath, const gchar *identifier, gboolean d
 int
 ascli_search_component (const gchar *cachepath, const gchar *search_term, gboolean detailed, gboolean no_cache)
 {
-	g_autoptr(AsDataPool) dpool = NULL;
-	g_autoptr(GPtrArray) cpt_list = NULL;
-	guint i;
+	g_autoptr(AsPool) dpool = NULL;
+	g_autoptr(GPtrArray) result = NULL;
 	g_autoptr(GError) error = NULL;
 
 	if (search_term == NULL) {
@@ -170,24 +168,20 @@ ascli_search_component (const gchar *cachepath, const gchar *search_term, gboole
 		return 1;
 	}
 
-	cpt_list = as_data_pool_search (dpool, search_term);
-	if (cpt_list == NULL) {
+	result = as_pool_search (dpool, search_term);
+	if (result->len == 0) {
 		/* TRANSLATORS: We failed to find any component in the database, likely due to an error */
 		ascli_print_stderr (_("Unable to find component matching %s!"), search_term);
 		return 4;
 	}
 
-	if (cpt_list->len == 0) {
+	if (result->len == 0) {
 		ascli_print_stdout (_("No component matching '%s' found."), search_term);
 		return 0;
 	}
 
-	for (i = 0; i < cpt_list->len; i++) {
-		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpt_list, i));
-
-		ascli_print_component (cpt, detailed);
-		ascli_print_separator ();
-	}
+	/* show the result */
+	ascli_print_components (result, detailed);
 
 	return 0;
 }
@@ -200,10 +194,9 @@ ascli_search_component (const gchar *cachepath, const gchar *search_term, gboole
 int
 ascli_what_provides (const gchar *cachepath, const gchar *kind_str, const gchar *item, gboolean detailed)
 {
-	g_autoptr(AsDataPool) dpool = NULL;
-	g_autoptr(GPtrArray) cpt_list = NULL;
+	g_autoptr(AsPool) dpool = NULL;
+	g_autoptr(GPtrArray) result = NULL;
 	AsProvidedKind kind;
-	guint i;
 	g_autoptr(GError) error = NULL;
 
 	if (item == NULL) {
@@ -226,28 +219,15 @@ ascli_what_provides (const gchar *cachepath, const gchar *kind_str, const gchar 
 		return 1;
 	}
 
-	cpt_list = as_data_pool_get_components_by_provided_item (dpool, kind, item, &error);
-	if (error != NULL) {
-		g_printerr ("%s\n", error->message);
-		return 2;
-	}
-
-	if (cpt_list == NULL) {
-		ascli_print_stderr (_("Unable to find component providing '%s;%s'!"), kind_str, item);
-		return 4;
-	}
-
-	if (cpt_list->len == 0) {
-		ascli_print_stdout (_("No component providing '%s;%s' found."), kind_str, item);
+	result = as_pool_get_components_by_provided_item (dpool, kind, item);
+	if (result->len == 0) {
+		/* TRANSLATORS: Search for provided items (e.g. mimetypes, modaliases, ..) yielded no results */
+		ascli_print_stdout (_("Could not find component providing '%s::%s'."), kind_str, item);
 		return 0;
 	}
 
-	for (i = 0; i < cpt_list->len; i++) {
-		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpt_list, i));
-
-		ascli_print_component (cpt, detailed);
-		ascli_print_separator ();
-	}
+	/* show results */
+	ascli_print_components (result, detailed);
 
 	return 0;
 }
@@ -258,16 +238,17 @@ ascli_what_provides (const gchar *cachepath, const gchar *kind_str, const gchar 
  * Dump the raw upstream XML for a component.
  */
 int
-ascli_dump_component (const gchar *cachepath, const gchar *identifier, gboolean no_cache)
+ascli_dump_component (const gchar *cachepath, const gchar *identifier, AsFormatKind mformat, gboolean no_cache)
 {
-	g_autoptr(AsDataPool) dpool = NULL;
-	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsPool) dpool = NULL;
+	g_autoptr(GPtrArray) result = NULL;
 	g_autoptr(AsMetadata) metad = NULL;
-	gchar *tmp;
+	guint i;
 	g_autoptr(GError) error = NULL;
 
 	if (identifier == NULL) {
-		fprintf (stderr, "%s\n", _("You need to specify a component-id."));
+		/* TRANSLATORS: ascli was told to find a software component by its ID, but no component-id was specified. */
+		fprintf (stderr, "%s\n", _("You need to specify a component-ID."));
 		return 2;
 	}
 
@@ -277,19 +258,32 @@ ascli_dump_component (const gchar *cachepath, const gchar *identifier, gboolean 
 		return 1;
 	}
 
-	cpt = as_data_pool_get_component_by_id (dpool, identifier);
-	if (cpt == NULL) {
-		ascli_print_stderr (_("Unable to find component with id '%s'!"), identifier);
+	result = as_pool_get_components_by_id (dpool, identifier);
+	if (result->len == 0) {
+		ascli_print_stderr (_("Unable to find component with ID '%s'!"), identifier);
 		return 4;
 	}
 
+	/* default to XML if we don't know the format */
+	if (mformat == AS_FORMAT_KIND_UNKNOWN)
+		mformat = AS_FORMAT_KIND_XML;
+
 	/* convert the obtained component to XML */
 	metad = as_metadata_new ();
-	as_metadata_add_component (metad, cpt);
-	tmp = as_metadata_component_to_upstream_xml (metad);
+	for (i = 0; i < result->len; i++) {
+		g_autofree gchar *metadata = NULL;
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (result, i));
 
-	g_print ("%s\n", tmp);
-	g_free (tmp);
+		as_metadata_clear_components (metad);
+		as_metadata_add_component (metad, cpt);
+		if (mformat == AS_FORMAT_KIND_YAML) {
+			/* we allow YAML serialization just this once */
+			metadata = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_YAML, NULL);
+		} else {
+			metadata = as_metadata_component_to_metainfo (metad, mformat, NULL);
+		}
+		g_print ("%s\n", metadata);
+	}
 
 	return 0;
 }
@@ -340,6 +334,80 @@ ascli_put_metainfo (const gchar *fname)
 		return 3;
 	}
 	g_chmod (dest, 0755);
+
+	return 0;
+}
+
+/**
+ * ascli_convert_data:
+ *
+ * Convert data from YAML to XML and vice versa.
+ */
+int
+ascli_convert_data (const gchar *in_fname, const gchar *out_fname, AsFormatKind mformat)
+{
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(GFile) infile = NULL;
+	GError *error = NULL;
+
+	if (in_fname == NULL || out_fname == NULL) {
+		ascli_print_stderr (_("You need to specify an input and output file."));
+		return 3;
+	}
+
+	/* load input file */
+	infile = g_file_new_for_path (in_fname);
+	if (!g_file_query_exists (infile, NULL)) {
+		ascli_print_stderr (_("Metadata file '%s' does not exist."), in_fname);
+		return 4;
+	}
+
+	metad = as_metadata_new ();
+	/* since YAML files are always collection-YAMLs, we will always run in collection mode */
+	as_metadata_set_format_style (metad, AS_FORMAT_STYLE_COLLECTION);
+
+	as_metadata_parse_file (metad,
+				infile,
+				AS_FORMAT_KIND_UNKNOWN,
+				&error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		return 1;
+	}
+
+	if (mformat == AS_FORMAT_KIND_UNKNOWN) {
+		if (g_str_has_suffix (in_fname, ".xml") || g_str_has_suffix (in_fname, ".xml.gz"))
+			mformat = AS_FORMAT_KIND_YAML;
+		else if (g_str_has_suffix (in_fname, ".yml") || g_str_has_suffix (in_fname, ".yml.gz") ||
+			 g_str_has_suffix (in_fname, ".yaml") || g_str_has_suffix (in_fname, ".yaml.gz"))
+			mformat = AS_FORMAT_KIND_XML;
+
+		if (mformat == AS_FORMAT_KIND_UNKNOWN) {
+			/* TRANSLATORS: User is trying to convert a file in ascli */
+			ascli_print_stderr (_("Unable to convert file: Could not determine output format, please set it explicitly using '--format='."));
+			return 3;
+		}
+	}
+
+	if (g_strcmp0 (out_fname, "-") == 0) {
+		g_autofree gchar *data = NULL;
+
+		/* print to stdout */
+		data = as_metadata_components_to_collection (metad, mformat, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			return 1;
+		}
+		g_print ("%s\n", data);
+	} else {
+		/* save to file */
+
+		as_metadata_save_collection (metad, out_fname, mformat, &error);
+		if (error != NULL) {
+			g_printerr ("%s\n", error->message);
+			return 1;
+		}
+	}
 
 	return 0;
 }

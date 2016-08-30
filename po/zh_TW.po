@@ -1,366 +1,805 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Matthias Klumpp
 # This file is distributed under the same license as the appstream package.
-#
 # Translators:
 # Hotellook, 2014
 # Matjaž Mozetič <m.mozetic@matmoz.si>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
-"Report-Msgid-Bugs-To: distributions@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-07-20 14:40+0200\n"
-"PO-Revision-Date: 2016-07-20 12:40+0000\n"
-"Last-Translator: Matthias Klumpp <matthias@tenstral.net>\n"
-"Language-Team: Chinese (Taiwan) (http://www.transifex.com/freedesktop/"
-"appstream/language/zh_TW/)\n"
+"Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
+"POT-Creation-Date: 2016-08-30 18:23+0200\n"
+"PO-Revision-Date: 2016-08-30 23:52+0800\n"
+"Last-Translator: Cheng-Chia Tseng <pswo10680@gmail.com>\n"
+"Language-Team: Chinese (Taiwan) <https://hosted.weblate.org/projects/"
+"appstream/translations/zh_TW/>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.8.8\n"
+
+#: ../src/as-category.c:164
+msgctxt "Category of Graphics"
+msgid "3D Graphics"
+msgstr "3D 圖形"
+
+#: ../src/as-category.c:119
+msgctxt "Category of Games"
+msgid "Action"
+msgstr "動作"
+
+#. TRANSLATORS: this is the main category for Add-ons
+#. TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor
+#: ../src/as-category.c:316 ../tools/ascli-utils.c:372
+msgid "Add-ons"
+msgstr "附加元件"
+
+#: ../src/as-category.c:122
+msgctxt "Category of Games"
+msgid "Adventure"
+msgstr "冒險"
 
 #. TRANSLATORS: ascli flag description for: --pedantic
-msgid "Also print pedantic hints when validating"
-msgstr ""
+#: ../tools/appstream-cli.c:153
+msgid "Also print pedantic hints when validating."
+msgstr "驗證時也列印繁冗的提示。"
 
+#: ../tools/appstream-cli.c:61
 msgid "An item type (e.g. lib, bin, python3, ...)"
-msgstr ""
+msgstr "項目類型（例：lib、bin、python3…等）"
 
 #. TRANSLATORS: Output if appstreamcli --version is executed.
+#: ../tools/appstream-cli.c:181
 #, c-format
 msgid "AppStream CLI tool version: %s"
 msgstr "AppStream CLI 工具版本：%s"
 
 #. TRANSLATORS: In the status report of ascli: Header
+#: ../tools/ascli-actions-misc.c:45
 msgid "AppStream Status:"
 msgstr "AppStream 狀態："
 
 #. TRANSLATORS: Updating the metadata cache succeeded
+#: ../tools/ascli-actions-mdata.c:72
 msgid "AppStream cache update completed successfully."
 msgstr "AppStream 快取更新成功完成。"
 
+#: ../src/as-pool.c:1195
 #, c-format
 msgid "AppStream cache update failed."
 msgstr "AppStream 快取更新失敗。"
 
+#: ../tools/ascli-actions-mdata.c:82
 msgid "AppStream cache update is not necessary."
 msgstr "不必更新 AppStream 快取。"
 
 #. TRANSLATORS: This is the header to the --help menu
+#: ../tools/appstream-cli.c:54
 msgid "AppStream command-line interface"
 msgstr "AppStream 指令列介面"
 
+#: ../src/as-pool.c:1186
 #, c-format
 msgid ""
 "AppStream data pool was loaded, but some metadata was ignored due to errors."
-msgstr ""
+msgstr "已載入 AppStrem 資料集池，但是有些中介資料因錯誤而忽略。"
 
+#: ../src/as-category.c:125
+msgctxt "Category of Games"
+msgid "Arcade"
+msgstr "機臺"
+
+#: ../src/as-category.c:230
+msgctxt "Category of Science"
+msgid "Artificial Intelligence"
+msgstr "人工智慧"
+
+#: ../src/as-category.c:97
+msgctxt "Category of Education"
+msgid "Astronomy"
+msgstr "天文"
+
+#: ../src/as-category.c:233
+msgctxt "Category of Science"
+msgid "Astronomy"
+msgstr "天文"
+
+#. TRANSLATORS: this is the menu spec main category for Audio & Video
+#: ../src/as-category.c:298
+msgid "Audio & Video"
+msgstr "音訊和視訊"
+
+#: ../src/as-category.c:64
+msgctxt "Category of AudioVideo"
+msgid "Audio Creation & Editing"
+msgstr "音訊創作和編輯"
+
+#: ../src/as-provided.c:142
 msgid "Binaries"
 msgstr "二進位檔"
 
+#: ../src/as-category.c:128
+msgctxt "Category of Games"
+msgid "Blocks"
+msgstr "方塊"
+
+#: ../src/as-category.c:131
+msgctxt "Category of Games"
+msgid "Board"
+msgstr "棋盤"
+
+#: ../tools/ascli-utils.c:278
 msgid "Bundle"
 msgstr "套組"
 
+#: ../src/as-pool.c:1129
 #, c-format
 msgid "Cache location '%s' is not writable."
 msgstr "無法寫入「%s」快取位置。"
 
+#: ../src/as-category.c:187
+msgctxt "Category of Office"
+msgid "Calendar"
+msgstr "行事曆"
+
+#: ../tools/ascli-actions-mdata.c:324
 #, c-format
 msgid ""
 "Can not copy '%s': File does not have a '.metainfo.xml' or '.appdata.xml' "
 "suffix."
-msgstr ""
+msgstr "無法複製「%s」：檔案沒有「.metainfo.xml」或「.appdata.xml」後綴字。"
 
-msgid "Can not search for unknown component type."
-msgstr ""
+#: ../src/as-category.c:134
+msgctxt "Category of Games"
+msgid "Card"
+msgstr "紙牌"
 
+#: ../tools/ascli-utils.c:348
 msgid "Categories"
 msgstr "類別"
 
+#: ../src/as-category.c:255
+msgctxt "Category of Communication"
+msgid "Chat"
+msgstr "聊天"
+
+#: ../src/as-category.c:100
+msgctxt "Category of Education"
+msgid "Chemistry"
+msgstr "化學"
+
+#: ../src/as-category.c:236
+msgctxt "Category of Science"
+msgid "Chemistry"
+msgstr "化學"
+
+#: ../src/as-category.c:210
+msgctxt "Category of Addons"
+msgid "Codecs"
+msgstr "編解碼器"
+
 #. TRANSLATORS: ascli has been run with unknown command.
+#: ../tools/appstream-cli.c:244
 #, c-format
 msgid "Command '%s' is unknown."
 msgstr "指令「%s」未知。"
 
+#. TRANSLATORS: this is the menu spec main category for Communication
+#: ../src/as-category.c:322
+msgid "Communication & News"
+msgstr "溝通和新聞"
+
+#. TRANSLATORS: We found no distribution package or bundle to install to make this software available
+#: ../tools/ascli-actions-pkgmgr.c:106
 #, c-format
 msgid "Component '%s' has no installation candidate."
 msgstr "「%s」組件尚無安裝候選。"
 
+#: ../tools/ascli-utils.c:356
 msgid "Compulsory for"
 msgstr "強制項目為"
 
+#. TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data.
+#: ../tools/appstream-cli.c:76
+msgid "Convert collection XML to YAML or vice versa."
+msgstr "將收藏集 XML 轉換成 YAML，或是相反。"
+
+#. TRANSLATORS: Search for provided items (e.g. mimetypes, modaliases, ..) yielded no results
+#: ../tools/ascli-actions-mdata.c:225
+#, c-format
+msgid "Could not find component providing '%s::%s'."
+msgstr "找不到提供「%s::%s」的組件。"
+
+#: ../src/as-provided.c:156
 msgid "DBus Session Services"
 msgstr "DBus 作業階段服務"
 
+#: ../src/as-provided.c:154
 msgid "DBus System Services"
 msgstr "DBus 系統服務"
 
+#: ../src/as-category.c:191
+msgctxt "Category of Office"
+msgid "Database"
+msgstr "資料庫"
+
+#: ../src/as-category.c:82
+msgctxt "Category of Development"
+msgid "Debuggers"
+msgstr "除錯器"
+
+#. TRANSLATORS: ascli flag description for: --format
+#: ../tools/appstream-cli.c:148
+msgid ""
+"Default to the given metadata format (valid values are 'xml' and 'yaml')."
+msgstr "給定中介資料格式的預設值 (有效的值為「xml」和「yaml」)。"
+
+#: ../tools/ascli-utils.c:312
 msgid "Description"
 msgstr "描述"
 
 #. developer name
+#: ../tools/ascli-utils.c:300
 msgid "Developer"
 msgstr "開發者"
 
+#. TRANSLATORS: this is the menu spec main category for Development
+#: ../src/as-category.c:301
+msgid "Developer Tools"
+msgstr "開發者工具"
+
+#: ../tools/appstream-cli.c:73
 msgid "Display status information about available AppStream metadata."
-msgstr ""
+msgstr "顯示可用的 AppStream 中介資料相關狀態資訊。"
 
 #. TRANSLATORS: In the status report of ascli: Refers to the metadata shipped by distributions
+#: ../tools/ascli-actions-misc.c:50
 msgid "Distribution metadata:"
 msgstr "散佈版中介資料："
 
 #. TRANSLATORS: ascli flag description for: --no-cache
-msgid "Do not use the Xapian cache when performing the request"
-msgstr "執行請求時不要使用 Xapian 快取"
+#: ../tools/appstream-cli.c:132
+#, fuzzy
+msgid "Do not use any caches when performing the request."
+msgstr "執行請求時不要使用 Xapian 快取。"
 
 #. TRANSLATORS: ascli flag description for: --no-color
-msgid "Don't show colored output"
-msgstr "不要顯示色彩化的輸出"
+#: ../tools/appstream-cli.c:115
+msgid "Don't show colored output."
+msgstr "不要顯示色彩化的輸出。"
 
+#: ../tools/appstream-cli.c:64
 msgid "Dump raw XML metadata for a component matching the ID."
 msgstr "傾印符合該 ID 的組件原生 XML 中介資料。"
 
+#. TRANSLATORS: this is the menu spec main category for Education
+#: ../src/as-category.c:304
+msgid "Education"
+msgstr "教育"
+
 #. TRANSLATORS: No metainfo files have been found
+#: ../tools/ascli-actions-misc.c:107 ../tools/ascli-actions-misc.c:127
 msgid "Empty."
 msgstr "空的。"
 
-#. TRANSLATORS: ascli flag description for: --force
-msgid "Enforce a cache refresh"
-msgstr "強制快取重新整理"
+#: ../src/as-category.c:137
+msgctxt "Category of Games"
+msgid "Emulators"
+msgstr "模擬器"
 
+#. TRANSLATORS: ascli flag description for: --force
+#: ../tools/appstream-cli.c:120
+msgid "Enforce a cache refresh."
+msgstr "強制重新整理快取。"
+
+#: ../tools/ascli-actions-misc.c:157
 #, c-format
 msgid "Error while loading the metadata pool: %s"
-msgstr ""
+msgstr "載入中介資料集池時發生錯誤：%s"
 
+#: ../tools/ascli-utils.c:306
 msgid "Extends"
 msgstr "擴展"
 
-msgid "Extensions"
-msgstr "擴充套件"
+#: ../src/as-category.c:61
+msgctxt "Category of AudioVideo"
+msgid "Featured"
+msgstr "特選"
 
-#, c-format
-msgid "File %s not found or permission denied!"
-msgstr "找不到檔案 %s，或未獲得存取許可！"
+#: ../src/as-category.c:252
+msgctxt "Category of Communication"
+msgid "Featured"
+msgstr "特選"
 
+#: ../src/as-category.c:79
+msgctxt "Category of Development"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:94
+msgctxt "Category of Education"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:116
+msgctxt "Category of Games"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:161
+msgctxt "Category of Graphics"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:184
+msgctxt "Category of Office"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:227
+msgctxt "Category of Science"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:274
+msgctxt "Category of Utility"
+msgid "Featured"
+msgstr "特選"
+
+#: ../src/as-category.c:283
+msgctxt "Category of Utility"
+msgid "File System"
+msgstr "檔案系統"
+
+#: ../src/as-category.c:194
+msgctxt "Category of Office"
+msgid "Finance"
+msgstr "財經"
+
+#: ../src/as-provided.c:160
 msgid "Flashed Firmware"
 msgstr "快閃記憶韌體"
 
+#: ../src/as-provided.c:146
+msgid "Fonts"
+msgstr "字型"
+
+#: ../src/as-category.c:207
+msgctxt "Category of Addons"
 msgid "Fonts"
 msgstr "字型"
 
 #. TRANSLATORS: Found metainfo files in legacy directories
+#: ../tools/ascli-actions-misc.c:136
 #, c-format
 msgid "Found %i components in legacy paths."
 msgstr "遺留路徑中找到 %i 個組件。"
 
+#: ../tools/ascli-actions-misc.c:121
 #, c-format
 msgid "Found %i components."
 msgstr "找到 %i 個組件。"
 
-msgid "Get components which provide the given item."
-msgstr "取得提供指定項目的組件"
+#. TRANSLATORS: this is the menu spec main category for Game
+#: ../src/as-category.c:307
+msgid "Games"
+msgstr "遊戲"
 
+#: ../tools/appstream-cli.c:60
+msgid "Get components which provide the given item."
+msgstr "取得提供指定項目的組件。"
+
+#: ../tools/appstream-cli.c:59
 msgid "Get information about a component by its ID."
 msgstr "根據 ID 取得組件的資訊。"
 
+#. TRANSLATORS: this is the menu spec main category for Graphics
+#: ../src/as-category.c:310
+msgid "Graphics & Photography"
+msgstr "圖形和攝影"
+
+#: ../tools/ascli-utils.c:279
 msgid "Homepage"
 msgstr "首頁"
 
+#: ../src/as-category.c:85
+msgctxt "Category of Development"
+msgid "IDEs"
+msgstr "IDE"
+
+#: ../tools/ascli-utils.c:280
 msgid "Icon"
 msgstr "圖示"
 
+#: ../tools/ascli-actions-misc.c:92
 msgid "Iconsets"
 msgstr "圖示集"
 
+#: ../tools/ascli-utils.c:274
 msgid "Identifier"
 msgstr "辨識碼"
 
+#: ../src/as-category.c:213
+msgctxt "Category of Addons"
+msgid "Input Sources"
+msgstr "輸入來源"
+
+#: ../tools/appstream-cli.c:74
 msgid "Install a metadata file into the right location."
 msgstr "安裝中介資料檔到適當位置。"
 
+#: ../tools/appstream-cli.c:70
 msgid "Install software matching the component-id."
 msgstr "安裝符合組件 ID 的軟體。"
 
+#: ../tools/ascli-actions-mdata.c:210
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "選取的供應項目類型無效。有效的值有："
 
+#: ../src/as-category.c:140
+msgctxt "Category of Games"
+msgid "Kids"
+msgstr "孩童"
+
+#: ../src/as-category.c:216
+msgctxt "Category of Addons"
+msgid "Language Packs"
+msgstr "語言包"
+
+#: ../src/as-category.c:103
+msgctxt "Category of Education"
+msgid "Languages"
+msgstr "語言"
+
+#: ../src/as-provided.c:140
 msgid "Libraries"
 msgstr "函式庫"
 
 #. license
+#: ../tools/ascli-utils.c:342
 msgid "License"
 msgstr "授權條款"
 
-#. TRANSLATORS: ascli flag description for: --datapath
-msgid "Manually set the location of AppStream metadata for cache regeneration"
-msgstr "手動設定快取重製用的 AppStream 中介資料位置"
+#: ../src/as-category.c:219
+msgctxt "Category of Addons"
+msgid "Localization"
+msgstr "在地化"
 
-#. TRANSLATORS: ascli flag description for: --dbpath
-msgid "Manually set the location of the AppStream cache"
-msgstr "手動設定 AppStream 快取的位置"
+#: ../src/as-category.c:143
+msgctxt "Category of Games"
+msgid "Logic"
+msgstr "邏輯"
+
+#. TRANSLATORS: ascli flag description for: --datapath
+#: ../tools/appstream-cli.c:143
+msgid "Manually set the location of AppStream metadata to scan."
+msgstr "手動設定要掃描的 AppStream 中介資料位置。"
+
+#. TRANSLATORS: ascli flag description for: --cachepath
+#: ../tools/appstream-cli.c:138
+msgid "Manually set the location of the AppStream cache."
+msgstr "手動設定 AppStream 快取的位置。"
+
+#: ../src/as-category.c:107
+msgctxt "Category of Education"
+msgid "Math"
+msgstr "數學"
+
+#: ../src/as-category.c:239
+msgctxt "Category of Science"
+msgid "Math"
+msgstr "數學"
+
+#: ../tools/ascli-actions-mdata.c:361
+#, c-format
+msgid "Metadata file '%s' does not exist."
+msgstr "「%s」中介資料檔並不存在。"
 
 #. TRANSLATORS: Info about upstream metadata / metainfo files in the ascli status report
+#: ../tools/ascli-actions-misc.c:114
 msgid "Metainfo files:"
-msgstr ""
+msgstr "中介資料檔："
 
+#: ../src/as-provided.c:144
 msgid "Mimetypes"
 msgstr "Mimetypes"
 
+#: ../src/as-provided.c:148
 msgid "Modaliases"
 msgstr "Modaliases"
 
+#: ../src/as-category.c:70
+msgctxt "Category of AudioVideo"
+msgid "Music Players"
+msgstr "音樂播放器"
+
+#: ../tools/ascli-utils.c:275
 msgid "Name"
 msgstr "名稱"
 
+#: ../src/as-category.c:262
+msgctxt "Category of Communication"
+msgid "News"
+msgstr "新聞"
+
+#: ../tools/ascli-actions-mdata.c:179
 #, c-format
 msgid "No component matching '%s' found."
 msgstr "找不到符合「%s」的組件。"
 
-#, c-format
-msgid "No component providing '%s;%s' found."
-msgstr "找不到供應「%s;%s」的組件。"
-
+#: ../tools/ascli-actions-misc.c:103
 msgid "No icons."
 msgstr "無圖示。"
 
+#: ../tools/ascli-actions-pkgmgr.c:53
 msgid ""
 "No suitable package manager CLI found. Please make sure that e.g. \"pkcon"
 "\" (part of PackageKit) is available."
-msgstr "s"
+msgstr ""
+"找不到適當的軟體包管理程式 CLI。例如請確認「pkcon」是否可以使用（PackageKit "
+"的一部分）。"
 
+#: ../tools/ascli-actions-mdata.c:203
 msgid "No value for the item to search for defined."
 msgstr "要搜尋的項目未定義該值。"
 
+#. TRANSLATORS: this is the menu spec main category for Office
+#: ../src/as-category.c:313
+msgid "Office"
+msgstr "辦公"
+
+#: ../tools/ascli-utils.c:277
 msgid "Package"
 msgstr "軟體包"
 
+#: ../src/as-category.c:167
+msgctxt "Category of Graphics"
+msgid "Photography"
+msgstr "攝影"
+
 #. TRANSLATORS: ascli flag description for: --details
-msgid "Print detailed output about found components"
-msgstr "列印有關找到之組件的詳細輸出"
+#: ../tools/appstream-cli.c:126
+msgid "Print detailed output about found components."
+msgstr "列印有關找到之組件的詳細輸出。"
 
 #. project group
+#: ../tools/ascli-utils.c:339
 msgid "Project Group"
 msgstr "專案群組"
 
+#: ../tools/ascli-utils.c:379
 msgid "Provided Items"
 msgstr "提供的項目"
 
+#: ../src/as-provided.c:150
 msgid "Python (Version 2)"
 msgstr "Python (第 2 版)"
 
+#: ../src/as-provided.c:152
 msgid "Python 3"
 msgstr "Python 3"
 
+#: ../tools/appstream-cli.c:65
 msgid "Rebuild the component metadata cache."
-msgstr ""
+msgstr "重建組件的中介資料快取。"
 
+#: ../tools/appstream-cli.c:71
 msgid "Remove software matching the component-id."
 msgstr "移除符合該組件 ID 的軟體。"
 
+#: ../src/as-category.c:244
+msgctxt "Category of Science"
+msgid "Robotics"
+msgstr "機器人"
+
+#: ../src/as-category.c:146
+msgctxt "Category of Games"
+msgid "Role Playing"
+msgstr "角色扮演"
+
+#: ../tools/appstream-cli.c:173 ../tools/appstream-cli.c:193
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr "執行「%s --help」查看可用指令列選項的完整清單。"
 
+#: ../src/as-provided.c:158
 msgid "Runtime Firmware"
 msgstr "執行時期韌體"
 
+#: ../tools/ascli-utils.c:332
 msgid "Sample Screenshot URL"
 msgstr "樣本螢幕快照 URL"
 
+#: ../src/as-category.c:170
+msgctxt "Category of Graphics"
+msgid "Scanning"
+msgstr "掃描"
+
+#. TRANSLATORS: this is the menu spec main category for Science
+#: ../src/as-category.c:319
+msgid "Science"
+msgstr "科學"
+
+#: ../tools/appstream-cli.c:58
 msgid "Search the component database."
 msgstr "搜尋組件資料庫。"
 
+#: ../src/as-category.c:289
+msgctxt "Category of Utility"
+msgid "Security"
+msgstr "安全"
+
 #. TRANSLATORS: ascli flag description for: --verbose
-msgid "Show extra debugging information"
-msgstr "顯示額外除錯資訊"
+#: ../tools/appstream-cli.c:110
+msgid "Show extra debugging information."
+msgstr "顯示額外除錯資訊。"
 
 #. TRANSLATORS: ascli flag description for: --version
-msgid "Show the program version"
-msgstr "顯示程式版本"
+#: ../tools/appstream-cli.c:104
+msgid "Show the program version."
+msgstr "顯示程式版本。"
+
+#: ../src/as-category.c:149
+msgctxt "Category of Games"
+msgid "Sports"
+msgstr "運動"
+
+#: ../src/as-category.c:153
+msgctxt "Category of Games"
+msgid "Strategy"
+msgstr "策略"
 
 #. these are commands we can use with appstreamcli
+#: ../tools/appstream-cli.c:56
 msgid "Subcommands:"
 msgstr "子指令："
 
+#: ../tools/ascli-utils.c:276
 msgid "Summary"
 msgstr "摘要"
 
 #. TRANSLATORS: Status summary in ascli
+#: ../tools/ascli-actions-misc.c:143
 msgid "Summary:"
 msgstr "摘要："
 
+#: ../src/as-category.c:286
+msgctxt "Category of Utility"
+msgid "System Monitoring"
+msgstr "系統監控"
+
+#: ../src/as-category.c:280
+msgctxt "Category of Utility"
+msgid "Terminal Emulators"
+msgstr "終端機模擬器"
+
+#: ../src/as-category.c:277
+msgctxt "Category of Utility"
+msgid "Text Editors"
+msgstr "文字編輯器"
+
+#. TRANSLATORS: User is trying to convert a file in ascli
+#: ../tools/ascli-actions-mdata.c:387
+msgid ""
+"Unable to convert file: Could not determine output format, please set it "
+"explicitly using '--format='."
+msgstr "無法轉換檔案：無法判定輸出格式，請使用「--format=」明確設定。"
+
 #. TRANSLATORS: We failed to find any component in the database, likely due to an error
+#: ../tools/ascli-actions-mdata.c:174
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "找不到符合 %s 的組件！"
 
+#: ../tools/ascli-actions-mdata.c:141 ../tools/ascli-actions-mdata.c:263
+#: ../tools/ascli-actions-pkgmgr.c:93
 #, c-format
-msgid "Unable to find component providing '%s;%s'!"
-msgstr "找不到供應「%s;%s」的組件！"
+msgid "Unable to find component with ID '%s'!"
+msgstr "找不到 ID 為「%s」的組件！"
 
-#, c-format
-msgid "Unable to find component with id '%s'!"
-msgstr "找不到 id 為「%s」的組件！"
-
+#: ../tools/ascli-actions-pkgmgr.c:67
 #, c-format
 msgid "Unable to spawn package manager: %s"
 msgstr "無法多重啟動軟體包管理程式：%s"
 
+#: ../tools/ascli-actions-mdata.c:319
 #, c-format
 msgid "Unable to write to '%s', can not install metainfo file."
 msgstr "無法寫入「%s」，無法安裝中介資料檔。"
 
+#. TRANSLATORS: this is the menu spec main category for Utilities
+#: ../src/as-category.c:325
+msgid "Utilities"
+msgstr "公用程式"
+
+#: ../tools/appstream-cli.c:67
 msgid "Validate AppStream XML files for issues."
 msgstr "驗證 AppStream XML 檔是否有問題。"
 
+#: ../tools/appstream-cli.c:68
 msgid "Validate an installed file-tree of an application for valid metadata."
 msgstr "驗證已安裝應用程式的檔案樹是否存在有效的中介資料。"
 
+#: ../tools/ascli-actions-validate.c:177 ../tools/ascli-actions-validate.c:211
 msgid "Validation failed."
 msgstr "驗證失敗。"
 
+#: ../tools/ascli-actions-validate.c:175 ../tools/ascli-actions-validate.c:209
 msgid "Validation was successful."
 msgstr "驗證成功。"
 
+#: ../tools/appstream-cli.c:62
 msgid "Value of the item that should be found."
-msgstr ""
+msgstr "應找到的項目值。"
 
+#: ../src/as-category.c:173
+msgctxt "Category of Graphics"
+msgid "Vector Graphics"
+msgstr "向量圖形"
+
+#: ../tools/ascli-actions-misc.c:46
 #, c-format
 msgid "Version: %s"
-msgstr ""
+msgstr "版本：%s"
 
+#: ../src/as-category.c:176
+msgctxt "Category of Graphics"
+msgid "Viewers"
+msgstr "檢視器"
+
+#: ../tools/ascli-actions-misc.c:151
 #, c-format
 msgid "We have information on %i software components."
 msgstr "我們有 %i 個軟體組件的相關資訊。"
 
-#, c-format
-msgid "XDG Menu XML file '%s' is damaged."
-msgstr "XDG 選單 XML 檔案「%s」已損毀。"
+#: ../src/as-category.c:266
+msgctxt "Category of Communication"
+msgid "Web Browsers"
+msgstr "網頁瀏覽器"
+
+#: ../src/as-category.c:198
+msgctxt "Category of Office"
+msgid "Word Processor"
+msgstr "文書處理器"
 
 #. TRANSLATORS: In ascli: The requested action needs higher permissions.
+#: ../tools/ascli-actions-mdata.c:62
 msgid "You might need superuser permissions to perform this action."
 msgstr "您也許需要超級使用者權利才能執行此動作。"
 
 #. TRANSLATORS: ascli has been run without command.
+#: ../tools/appstream-cli.c:192
 msgid "You need to specify a command."
 msgstr "您需要指定個指令。"
 
 #. TRANSLATORS: An AppStream component-id is missing in the command-line arguments
-msgid "You need to specify a component-id."
-msgstr "您需要指定個組件 id。"
+#. TRANSLATORS: ascli was told to find a software component by its ID, but no component-id was specified.
+#: ../tools/ascli-actions-mdata.c:129 ../tools/ascli-actions-mdata.c:251
+#: ../tools/ascli-actions-pkgmgr.c:80
+msgid "You need to specify a component-ID."
+msgstr "您需要指定組件 ID。"
 
+#: ../tools/ascli-actions-validate.c:163
 msgid "You need to specify a file to validate!"
 msgstr "您需要指定個檔案來驗證！"
 
+#: ../tools/ascli-actions-mdata.c:306
 msgid "You need to specify a metadata file."
 msgstr "您需要指定中介資料檔。"
 
+#: ../tools/ascli-actions-validate.c:195
 msgid "You need to specify a root directory to start validation!"
 msgstr "您需要指定根基目錄才能開始驗證！"
 
+#: ../tools/ascli-actions-mdata.c:161
 msgid "You need to specify a term to search for."
 msgstr "您需要指定個關鍵字來搜尋。"
+
+#: ../tools/ascli-actions-mdata.c:354
+msgid "You need to specify an input and output file."
+msgstr "您需要指定輸入檔和輸出檔。"
 
 #. TRANSLATORS: List of "grey-listed" words sperated with ";"
 #. * Do not translate this list directly. Instead,
@@ -368,7 +807,39 @@ msgstr "您需要指定個關鍵字來搜尋。"
 #. * to include in a search but that should normally be ignored in
 #. * the search.
 #.
+#: ../src/as-pool.c:100
 msgid "app;application;package;program;programme;suite;tool"
 msgstr ""
 "app;application;package;program;programme;suite;tool;程式;應用程式;軟體包;套"
 "件;套裝軟體;工具;公用程式"
+
+#~ msgid "Can not search for unknown component type."
+#~ msgstr "無法搜尋未知的組件類型。"
+
+#, fuzzy
+#~ msgid "Category of Education"
+#~ msgstr "教育"
+
+#, fuzzy
+#~ msgid "Category of Games"
+#~ msgstr "類別"
+
+#, fuzzy
+#~ msgid "Category of Office"
+#~ msgstr "類別"
+
+#, fuzzy
+#~ msgid "Category of Science"
+#~ msgstr "類別"
+
+#~ msgid "Extensions"
+#~ msgstr "擴充套件"
+
+#~ msgid "File %s not found or permission denied!"
+#~ msgstr "找不到檔案 %s，或未獲得存取許可！"
+
+#~ msgid "No component providing '%s::%s' found."
+#~ msgstr "找不到供應「%s::%s」的組件。"
+
+#~ msgid "XDG Menu XML file '%s' is damaged."
+#~ msgstr "XDG 選單 XML 檔案「%s」已損毀。"

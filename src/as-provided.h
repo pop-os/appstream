@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -88,7 +88,7 @@ AsProvidedKind		as_provided_get_kind (AsProvided *prov);
 void			as_provided_set_kind (AsProvided *prov,
 						AsProvidedKind kind);
 
-gchar			**as_provided_get_items (AsProvided *prov);
+GPtrArray		*as_provided_get_items (AsProvided *prov);
 void			as_provided_add_item (AsProvided *prov,
 						const gchar *item);
 gboolean		as_provided_has_item (AsProvided *prov,

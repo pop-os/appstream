@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-pool-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-pool-private.top_of_page">as-pool-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-pool-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-pool-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="time-t"><returnvalue>time_t</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-pool-get-cache-age">as_pool_get_cache_age</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+
+<refsect1 id="appstream-as-pool-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-pool-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-pool-get-cache-age" role="function">
+<title>as_pool_get_cache_age&#160;()</title>
+<indexterm zone="as-pool-get-cache-age"><primary>as_pool_get_cache_age</primary></indexterm>
+<programlisting language="C"><link linkend="time-t"><returnvalue>time_t</returnvalue></link>
+as_pool_get_cache_age (<parameter><link linkend="AsPool"><type>AsPool</type></link> *pool</parameter>);</programlisting>
+<para>Get the age of our internal cache.</para>
+<refsect3 id="as-pool-get-cache-age.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>pool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsPool"><type>AsPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-pool-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

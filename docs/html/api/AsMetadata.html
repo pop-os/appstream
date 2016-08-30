@@ -7,7 +7,7 @@
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
 <link rel="prev" href="AsImage.html" title="AsImage">
-<link rel="next" href="AsDataPool.html" title="AsDataPool">
+<link rel="next" href="AsPool.html" title="AsPool">
 <meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
@@ -21,7 +21,7 @@
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
 <td><a accesskey="p" href="AsImage.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
-<td><a accesskey="n" href="AsDataPool.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+<td><a accesskey="n" href="AsPool.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
 <a name="AsMetadata"></a><div class="titlepage"></div>
@@ -41,6 +41,36 @@
 </colgroup>
 <tbody>
 <tr>
+<td class="function_type">const <span class="returnvalue">gchar</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-format-kind-to-string" title="as_format_kind_to_string ()">as_format_kind_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="returnvalue">AsFormatKind</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-format-kind-from-string" title="as_format_kind_from_string ()">as_format_kind_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <span class="returnvalue">gchar</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-format-version-to-string" title="as_format_version_to_string ()">as_format_version_to_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="returnvalue">AsFormatVersion</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-format-version-from-string" title="as_format_version_from_string ()">as_format_version_from_string</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
 <td class="function_type">
 <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
 </td>
@@ -50,7 +80,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+<span class="returnvalue">GQuark</span>
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-error-quark" title="as_metadata_error_quark ()">as_metadata_error_quark</a> <span class="c_punctuation">()</span>
@@ -69,15 +99,7 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-parse-xml" title="as_metadata_parse_xml ()">as_metadata_parse_xml</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-parse-yaml" title="as_metadata_parse_yaml ()">as_metadata_parse_yaml</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsMetadata.html#as-metadata-parse" title="as_metadata_parse ()">as_metadata_parse</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -90,7 +112,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+<span class="returnvalue">GPtrArray</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-components" title="as_metadata_get_components ()">as_metadata_get_components</a> <span class="c_punctuation">()</span>
@@ -114,10 +136,10 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-component-to-upstream-xml" title="as_metadata_component_to_upstream_xml ()">as_metadata_component_to_upstream_xml</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsMetadata.html#as-metadata-component-to-metainfo" title="as_metadata_component_to_metainfo ()">as_metadata_component_to_metainfo</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -125,31 +147,15 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-save-upstream-xml" title="as_metadata_save_upstream_xml ()">as_metadata_save_upstream_xml</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsMetadata.html#as-metadata-save-metainfo" title="as_metadata_save_metainfo ()">as_metadata_save_metainfo</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-components-to-distro-xml" title="as_metadata_components_to_distro_xml ()">as_metadata_components_to_distro_xml</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-save-distro-xml" title="as_metadata_save_distro_xml ()">as_metadata_save_distro_xml</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-components-to-distro-yaml" title="as_metadata_components_to_distro_yaml ()">as_metadata_components_to_distro_yaml</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsMetadata.html#as-metadata-components-to-collection" title="as_metadata_components_to_collection ()">as_metadata_components_to_collection</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -157,7 +163,39 @@
 <span class="returnvalue">void</span>
 </td>
 <td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-save-distro-yaml" title="as_metadata_save_distro_yaml ()">as_metadata_save_distro_yaml</a> <span class="c_punctuation">()</span>
+<a class="link" href="AsMetadata.html#as-metadata-save-collection" title="as_metadata_save_collection ()">as_metadata_save_collection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="returnvalue">AsFormatVersion</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-get-format-version" title="as_metadata_get_format_version ()">as_metadata_get_format_version</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-set-format-version" title="as_metadata_set_format_version ()">as_metadata_set_format_version</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle"><span class="returnvalue">AsFormatStyle</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-get-format-style" title="as_metadata_get_format_style ()">as_metadata_get_format_style</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsMetadata.html#as-metadata-set-format-style" title="as_metadata_set_format_style ()">as_metadata_set_format_style</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -169,14 +207,14 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-locale" title="as_metadata_get_locale ()">as_metadata_get_locale</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-origin" title="as_metadata_get_origin ()">as_metadata_get_origin</a> <span class="c_punctuation">()</span>
@@ -192,7 +230,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-update-existing" title="as_metadata_get_update_existing ()">as_metadata_get_update_existing</a> <span class="c_punctuation">()</span>
@@ -208,7 +246,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-write-header" title="as_metadata_get_write_header ()">as_metadata_get_write_header</a> <span class="c_punctuation">()</span>
@@ -223,23 +261,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">
-<span class="returnvalue">void</span>
-</td>
-<td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-set-parser-mode" title="as_metadata_set_parser_mode ()">as_metadata_set_parser_mode</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode"><span class="returnvalue">AsParserMode</span></a>
-</td>
-<td class="function_name">
-<a class="link" href="AsMetadata.html#as-metadata-get-parser-mode" title="as_metadata_get_parser_mode ()">as_metadata_get_parser_mode</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsMetadata.html#as-metadata-get-architecture" title="as_metadata_get_architecture ()">as_metadata_get_architecture</a> <span class="c_punctuation">()</span>
@@ -274,7 +296,19 @@
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
-<td class="function_name"><a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode">AsParserMode</a></td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle">AsFormatStyle</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind">AsFormatKind</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion">AsFormatVersion</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="AsMetadata.html#AS-CURRENT-FORMAT-VERSION:CAPS" title="AS_CURRENT_FORMAT_VERSION">AS_CURRENT_FORMAT_VERSION</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
@@ -293,7 +327,7 @@
 </div>
 <div class="refsect1">
 <a name="AsMetadata.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+<pre class="screen">    GObject
     <span class="lineart">╰──</span> AsMetadata
 </pre>
 </div>
@@ -312,6 +346,117 @@ It returns an <a class="link" href="AsComponent.html" title="AsComponent"><span 
 <div class="refsect1">
 <a name="AsMetadata.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
+<a name="as-format-kind-to-string"></a><h3>as_format_kind_to_string ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_format_kind_to_string (<em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> kind</code></em>);</pre>
+<p>Converts the enumerated value to an text representation.</p>
+<div class="refsect3">
+<a name="as-format-kind-to-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>kind</p></td>
+<td class="parameter_description"><p>the <a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-format-kind-to-string.returns"></a><h4>Returns</h4>
+<p> string version of <em class="parameter"><code>kind</code></em>
+</p>
+</div>
+<p class="since">Since: 0.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-format-kind-from-string"></a><h3>as_format_kind_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="returnvalue">AsFormatKind</span></a>
+as_format_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind_str</code></em>);</pre>
+<p>Converts the text representation to an enumerated value.</p>
+<div class="refsect3">
+<a name="as-format-kind-from-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>kind_str</p></td>
+<td class="parameter_description"><p>the string.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-format-kind-from-string.returns"></a><h4>Returns</h4>
+<p> a <a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> or <a class="link" href="AsMetadata.html#AS-FORMAT-KIND-UNKNOWN:CAPS"><code class="literal">AS_FORMAT_KIND_UNKNOWN</code></a> for unknown</p>
+</div>
+<p class="since">Since: 0.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-format-version-to-string"></a><h3>as_format_version_to_string ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_format_version_to_string (<em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="type">AsFormatVersion</span></a> version</code></em>);</pre>
+<p>Converts the enumerated value to an text representation.</p>
+<div class="refsect3">
+<a name="as-format-version-to-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>version</p></td>
+<td class="parameter_description"><p>the <a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-format-version-to-string.returns"></a><h4>Returns</h4>
+<p> string version of <em class="parameter"><code>version</code></em>
+</p>
+</div>
+<p class="since">Since: 0.10</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-format-version-from-string"></a><h3>as_format_version_from_string ()</h3>
+<pre class="programlisting"><a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="returnvalue">AsFormatVersion</span></a>
+as_format_version_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *version_str</code></em>);</pre>
+<p>Converts the text representation to an enumerated value.</p>
+<div class="refsect3">
+<a name="as-format-version-from-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>version_str</p></td>
+<td class="parameter_description"><p>the string.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-format-version-from-string.returns"></a><h4>Returns</h4>
+<p> a <a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="type">AsFormatVersion</span></a>. For unknown, the highest version
+number is assumed.</p>
+</div>
+<p class="since">Since: 0.10</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-metadata-new"></a><h3>as_metadata_new ()</h3>
 <pre class="programlisting"><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="returnvalue">AsMetadata</span></a> *
 as_metadata_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
@@ -325,7 +470,7 @@ as_metadata_new (<em class="parameter"><code><span class="type">void</span></cod
 <hr>
 <div class="refsect2">
 <a name="as-metadata-error-quark"></a><h3>as_metadata_error_quark ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+<pre class="programlisting"><span class="returnvalue">GQuark</span>
 as_metadata_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-error-quark.returns"></a><h4>Returns</h4>
@@ -337,8 +482,9 @@ as_metadata_error_quark (<em class="parameter"><code><span class="type">void</sp
 <a name="as-metadata-parse-file"></a><h3>as_metadata_parse_file ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_parse_file (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                        <em class="parameter"><code><a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *file</code></em>,
-                        <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+                        <em class="parameter"><code><span class="type">GFile</span> *file</code></em>,
+                        <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                        <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Parses an AppStream upstream metadata file.</p>
 <div class="refsect3">
 <a name="as-metadata-parse-file.parameters"></a><h4>Parameters</h4>
@@ -356,12 +502,17 @@ as_metadata_parse_file (<em class="parameter"><code><a class="link" href="AsMeta
 </tr>
 <tr>
 <td class="parameter_name"><p>file</p></td>
-<td class="parameter_description"><p><a href="../gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> for the upstream metadata</p></td>
+<td class="parameter_description"><p><span class="type">GFile</span> for the upstream metadata</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>format</p></td>
+<td class="parameter_description"><p>The format the data is in, or <a class="link" href="AsMetadata.html#AS-FORMAT-KIND-UNKNOWN:CAPS"><code class="literal">AS_FORMAT_KIND_UNKNOWN</code></a> if not known.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>A <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>.</p></td>
+<td class="parameter_description"><p>A <span class="type">GError</span> or <code class="literal">NULL</code>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -370,14 +521,15 @@ as_metadata_parse_file (<em class="parameter"><code><a class="link" href="AsMeta
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-parse-xml"></a><h3>as_metadata_parse_xml ()</h3>
+<a name="as-metadata-parse"></a><h3>as_metadata_parse ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_parse_xml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                       <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>,
-                       <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Parses AppStream XML metadata.</p>
+as_metadata_parse (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                   <em class="parameter"><code>const <span class="type">gchar</span> *data</code></em>,
+                   <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                   <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>Parses AppStream metadata.</p>
 <div class="refsect3">
-<a name="as-metadata-parse-xml.parameters"></a><h4>Parameters</h4>
+<a name="as-metadata-parse.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -387,48 +539,22 @@ as_metadata_parse_xml (<em class="parameter"><code><a class="link" href="AsMetad
 <tbody>
 <tr>
 <td class="parameter_name"><p>metad</p></td>
-<td class="parameter_description"><p>A valid <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>data</p></td>
-<td class="parameter_description"><p>XML data describing one or more software components.</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-metadata-parse-yaml"></a><h3>as_metadata_parse_yaml ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_parse_yaml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *data</code></em>,
-                        <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Parses AppStream YAML metadata.</p>
-<div class="refsect3">
-<a name="as-metadata-parse-yaml.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>metad</p></td>
-<td class="parameter_description"><p>A valid <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance</p></td>
+<td class="parameter_description"><p>Metadata describing one or more software components.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
-<td class="parameter_name"><p>data</p></td>
-<td class="parameter_description"><p>YAML data describing one or more software components.</p></td>
+<td class="parameter_name"><p>format</p></td>
+<td class="parameter_description"><p>The format of the data (XML or YAML).</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 <tr>
 <td class="parameter_name"><p>error</p></td>
-<td class="parameter_description"><p>A <a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>.</p></td>
+<td class="parameter_description"><p>A <span class="type">GError</span> or <code class="literal">NULL</code>.</p></td>
 <td class="parameter_annotations"> </td>
 </tr>
 </tbody>
@@ -460,14 +586,14 @@ component that has been parsed.</p>
 </div>
 <div class="refsect3">
 <a name="as-metadata-get-component.returns"></a><h4>Returns</h4>
-<p> An <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> or <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p>
+<p> An <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> or <code class="literal">NULL</code>. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-metadata-get-components"></a><h3>as_metadata_get_components ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
 as_metadata_get_components (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-get-components.parameters"></a><h4>Parameters</h4>
@@ -486,7 +612,7 @@ as_metadata_get_components (<em class="parameter"><code><a class="link" href="As
 </div>
 <div class="refsect3">
 <a name="as-metadata-get-components.returns"></a><h4>Returns</h4>
-<p> A <a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="type">GPtrArray</span></a> of all parsed components. </p>
+<p> A <span class="type">GPtrArray</span> of all parsed components. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsComponent]</span></p>
 </div>
 </div>
@@ -508,70 +634,144 @@ produce a distro-XML AppStream metadata file.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-component-to-upstream-xml"></a><h3>as_metadata_component_to_upstream_xml ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_metadata_component_to_upstream_xml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
-<p>Convert an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> to upstream XML.
-(The amount of localization included in the metadata depends on how the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
-was initially loaded)</p>
+<a name="as-metadata-component-to-metainfo"></a><h3>as_metadata_component_to_metainfo ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *
+as_metadata_component_to_metainfo (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                                   <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                                   <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>Convert an <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> to metainfo data.
+This will always be XML, YAML is no valid format for metainfo files.</p>
+<p>The amount of localization included in the metadata depends on how the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a>
+was initially loaded and whether it contains data for all locale.</p>
 <p>The first <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> added to the internal list will be transformed.
-In case no component is present, <a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> is returned.</p>
+In case no component is present, <code class="literal">NULL</code> is returned.</p>
 <div class="refsect3">
-<a name="as-metadata-component-to-upstream-xml.returns"></a><h4>Returns</h4>
-<p> A string containing the XML. Free with <a href="../glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>. </p>
+<a name="as-metadata-component-to-metainfo.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>format</p></td>
+<td class="parameter_description"><p>The format to use (XML or YAML)</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>A <span class="type">GError</span></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-metadata-component-to-metainfo.returns"></a><h4>Returns</h4>
+<p> A string containing the XML metadata. Free with <code class="function">g_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-save-upstream-xml"></a><h3>as_metadata_save_upstream_xml ()</h3>
+<a name="as-metadata-save-metainfo"></a><h3>as_metadata_save_metainfo ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_save_upstream_xml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                               <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *fname</code></em>,
-                               <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+as_metadata_save_metainfo (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                           <em class="parameter"><code>const <span class="type">gchar</span> *fname</code></em>,
+                           <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                           <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Serialize <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance to XML and save it to file.
 An existing file at the same location will be overridden.</p>
 <div class="refsect3">
-<a name="as-metadata-save-upstream-xml.parameters"></a><h4>Parameters</h4>
+<a name="as-metadata-save-metainfo.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
 <col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody><tr>
+<tbody>
+<tr>
 <td class="parameter_name"><p>fname</p></td>
-<td class="parameter_description"><p>The filename for the new XML file.</p></td>
+<td class="parameter_description"><p>The filename for the new metadata file.</p></td>
 <td class="parameter_annotations"> </td>
-</tr></tbody>
+</tr>
+<tr>
+<td class="parameter_name"><p>format</p></td>
+<td class="parameter_description"><p>The format to save this file in. Only XML is supported at time.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
 </table></div>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-components-to-distro-xml"></a><h3>as_metadata_components_to_distro_xml ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_metadata_components_to_distro_xml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
+<a name="as-metadata-components-to-collection"></a><h3>as_metadata_components_to_collection ()</h3>
+<pre class="programlisting"><span class="returnvalue">gchar</span> *
+as_metadata_components_to_collection (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                                      <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                                      <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
 <p>Serialize all <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances into AppStream
-distro-XML data.
-<a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> is returned if there is nothing to serialize.</p>
+collection metadata.
+<code class="literal">NULL</code> is returned if there is nothing to serialize.</p>
 <div class="refsect3">
-<a name="as-metadata-components-to-distro-xml.returns"></a><h4>Returns</h4>
-<p> A string containing the XML. Free with <a href="../glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>. </p>
+<a name="as-metadata-components-to-collection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>format</p></td>
+<td class="parameter_description"><p>The format to serialize the data to (XML or YAML).</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>A <span class="type">GError</span></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-metadata-components-to-collection.returns"></a><h4>Returns</h4>
+<p> A string containing the YAML or XML data. Free with <code class="function">g_free()</code>. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-save-distro-xml"></a><h3>as_metadata_save_distro_xml ()</h3>
+<a name="as-metadata-save-collection"></a><h3>as_metadata_save_collection ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_save_distro_xml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                             <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *fname</code></em>,
-                             <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Serialize all <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances to XML and save the data to a file.
-An existing file at the same location will be overridden.</p>
+as_metadata_save_collection (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                             <em class="parameter"><code>const <span class="type">gchar</span> *fname</code></em>,
+                             <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatKind" title="enum AsFormatKind"><span class="type">AsFormatKind</span></a> format</code></em>,
+                             <em class="parameter"><code><span class="type">GError</span> **error</code></em>);</pre>
+<p>
+</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-get-format-version"></a><h3>as_metadata_get_format_version ()</h3>
+<pre class="programlisting"><a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="returnvalue">AsFormatVersion</span></a>
+as_metadata_get_format_version (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
-<a name="as-metadata-save-distro-xml.parameters"></a><h4>Parameters</h4>
+<a name="as-metadata-get-format-version.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
@@ -579,8 +779,65 @@ An existing file at the same location will be overridden.</p>
 <col width="200px" class="parameters_annotations">
 </colgroup>
 <tbody><tr>
-<td class="parameter_name"><p>fname</p></td>
-<td class="parameter_description"><p>The filename for the new XML file.</p></td>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-metadata-get-format-version.returns"></a><h4>Returns</h4>
+<p> The AppStream metadata format version.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-set-format-version"></a><h3>as_metadata_set_format_version ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_metadata_set_format_version (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                                <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="type">AsFormatVersion</span></a> version</code></em>);</pre>
+<p>Set the current AppStream format version that we should generate data for
+or be able to read.</p>
+<div class="refsect3">
+<a name="as-metadata-set-format-version.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>version</p></td>
+<td class="parameter_description"><p>the AppStream metadata format version as <a class="link" href="AsMetadata.html#AsFormatVersion" title="enum AsFormatVersion"><span class="type">AsFormatVersion</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-metadata-get-format-style"></a><h3>as_metadata_get_format_style ()</h3>
+<pre class="programlisting"><a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle"><span class="returnvalue">AsFormatStyle</span></a>
+as_metadata_get_format_style (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
+<p>Get the metadata parsing mode.</p>
+<div class="refsect3">
+<a name="as-metadata-get-format-style.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
 <td class="parameter_annotations"> </td>
 </tr></tbody>
 </table></div>
@@ -588,40 +845,31 @@ An existing file at the same location will be overridden.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-components-to-distro-yaml"></a><h3>as_metadata_components_to_distro_yaml ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
-as_metadata_components_to_distro_yaml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
-<p>Serialize all <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances into AppStream DEP-11
-distro-YAML data.
-<a href="../glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a> is returned if there is nothing to serialize.</p>
-<div class="refsect3">
-<a name="as-metadata-components-to-distro-yaml.returns"></a><h4>Returns</h4>
-<p> A string containing the YAML markup. Free with <a href="../glib/glib-Memory-Allocation.html#g-free"><code class="function">g_free()</code></a>. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-metadata-save-distro-yaml"></a><h3>as_metadata_save_distro_yaml ()</h3>
+<a name="as-metadata-set-format-style"></a><h3>as_metadata_set_format_style ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_save_distro_yaml (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                              <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *fname</code></em>,
-                              <em class="parameter"><code><a href="../glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
-<p>Serialize all <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instances to XML and save the data to a file.
-An existing file at the same location will be overridden.</p>
+as_metadata_set_format_style (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
+                              <em class="parameter"><code><a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle"><span class="type">AsFormatStyle</span></a> mode</code></em>);</pre>
+<p>Sets the current metadata parsing mode.</p>
 <div class="refsect3">
-<a name="as-metadata-save-distro-yaml.parameters"></a><h4>Parameters</h4>
+<a name="as-metadata-set-format-style.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
 <col width="200px" class="parameters_annotations">
 </colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>fname</p></td>
-<td class="parameter_description"><p>The filename for the new YAML file.</p></td>
+<tbody>
+<tr>
+<td class="parameter_name"><p>metad</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
 <td class="parameter_annotations"> </td>
-</tr></tbody>
+</tr>
+<tr>
+<td class="parameter_name"><p>mode</p></td>
+<td class="parameter_description"><p>the <a class="link" href="AsMetadata.html#AsFormatStyle" title="enum AsFormatStyle"><span class="type">AsFormatStyle</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
 </table></div>
 </div>
 </div>
@@ -630,7 +878,7 @@ An existing file at the same location will be overridden.</p>
 <a name="as-metadata-set-locale"></a><h3>as_metadata_set_locale ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_set_locale (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
+                        <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Sets the locale which should be read when processing metadata.
 All other locales are ignored, which increases parsing speed and
 reduces memory usage.
@@ -661,7 +909,7 @@ If you set the locale to "ALL", all locales will be read.</p>
 <hr>
 <div class="refsect2">
 <a name="as-metadata-get-locale"></a><h3>as_metadata_get_locale ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_metadata_get_locale (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <p>Gets the current active locale for parsing metadata,
 or "ALL" if all locales are read.</p>
@@ -688,7 +936,7 @@ or "ALL" if all locales are read.</p>
 <hr>
 <div class="refsect2">
 <a name="as-metadata-get-origin"></a><h3>as_metadata_get_origin ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_metadata_get_origin (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-get-origin.parameters"></a><h4>Parameters</h4>
@@ -715,7 +963,7 @@ as_metadata_get_origin (<em class="parameter"><code><a class="link" href="AsMeta
 <a name="as-metadata-set-origin"></a><h3>as_metadata_set_origin ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_set_origin (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                        <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *origin</code></em>);</pre>
+                        <em class="parameter"><code>const <span class="type">gchar</span> *origin</code></em>);</pre>
 <p>Set the origin of AppStream distro metadata</p>
 <div class="refsect3">
 <a name="as-metadata-set-origin.parameters"></a><h4>Parameters</h4>
@@ -743,7 +991,7 @@ as_metadata_set_origin (<em class="parameter"><code><a class="link" href="AsMeta
 <hr>
 <div class="refsect2">
 <a name="as-metadata-get-update-existing"></a><h3>as_metadata_get_update_existing ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_metadata_get_update_existing (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-get-update-existing.parameters"></a><h4>Parameters</h4>
@@ -771,8 +1019,8 @@ instead of creating new ones.</p>
 <a name="as-metadata-set-update-existing"></a><h3>as_metadata_set_update_existing ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_set_update_existing (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                                 <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> update</code></em>);</pre>
-<p>If set to <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, the parser will not create new components but
+                                 <em class="parameter"><code><span class="type">gboolean</span> update</code></em>);</pre>
+<p>If set to <code class="literal">TRUE</code>, the parser will not create new components but
 instead update existing components in the pool with new metadata.</p>
 <p>NOTE: Right now, this feature is only implemented for metainfo XML parsing!</p>
 <div class="refsect3">
@@ -801,7 +1049,7 @@ instead update existing components in the pool with new metadata.</p>
 <hr>
 <div class="refsect2">
 <a name="as-metadata-get-write-header"></a><h3>as_metadata_get_write_header ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_metadata_get_write_header (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-get-write-header.parameters"></a><h4>Parameters</h4>
@@ -820,7 +1068,7 @@ as_metadata_get_write_header (<em class="parameter"><code><a class="link" href="
 </div>
 <div class="refsect3">
 <a name="as-metadata-get-write-header.returns"></a><h4>Returns</h4>
-<p> Whether we will write a header/root node in distro metadata.</p>
+<p> Whether we will write a header/root node in collection metadata.</p>
 </div>
 </div>
 <hr>
@@ -828,12 +1076,12 @@ as_metadata_get_write_header (<em class="parameter"><code><a class="link" href="
 <a name="as-metadata-set-write-header"></a><h3>as_metadata_set_write_header ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_set_write_header (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                              <em class="parameter"><code><a href="../glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> wheader</code></em>);</pre>
-<p>If set to <a href="../glib/glib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a>, tehe metadata writer will omit writing a DEP-11
+                              <em class="parameter"><code><span class="type">gboolean</span> wheader</code></em>);</pre>
+<p>If set to <code class="literal">TRUE</code>, tehe metadata writer will omit writing a DEP-11
 header document when in YAML mode, and will not write a root components node
 when writing XML data.
 Please keep in mind that this will create an invalid DEP-11 YAML AppStream
-distro metadata file, and an invalid XML file.
+collection metadata file, and an invalid XML file.
 This parameter should only be changed e.g. by the appstream-generator tool.</p>
 <p>NOTE: Right now, this feature is only implemented for YAML!</p>
 <div class="refsect3">
@@ -861,64 +1109,8 @@ This parameter should only be changed e.g. by the appstream-generator tool.</p>
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-metadata-set-parser-mode"></a><h3>as_metadata_set_parser_mode ()</h3>
-<pre class="programlisting"><span class="returnvalue">void</span>
-as_metadata_set_parser_mode (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                             <em class="parameter"><code><a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode"><span class="type">AsParserMode</span></a> mode</code></em>);</pre>
-<p>Sets the current metadata parsing mode.</p>
-<div class="refsect3">
-<a name="as-metadata-set-parser-mode.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody>
-<tr>
-<td class="parameter_name"><p>metad</p></td>
-<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-<tr>
-<td class="parameter_name"><p>mode</p></td>
-<td class="parameter_description"><p>the <a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode"><span class="type">AsParserMode</span></a>.</p></td>
-<td class="parameter_annotations"> </td>
-</tr>
-</tbody>
-</table></div>
-</div>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-metadata-get-parser-mode"></a><h3>as_metadata_get_parser_mode ()</h3>
-<pre class="programlisting"><a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode"><span class="returnvalue">AsParserMode</span></a>
-as_metadata_get_parser_mode (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
-<p>Gets the current parser mode</p>
-<div class="refsect3">
-<a name="as-metadata-get-parser-mode.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>metad</p></td>
-<td class="parameter_description"><p>a <a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> instance.</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="as-metadata-get-parser-mode.returns"></a><h4>Returns</h4>
-<p> an <a class="link" href="AsMetadata.html#AsParserMode" title="enum AsParserMode"><span class="type">AsParserMode</span></a></p>
-</div>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-metadata-get-architecture"></a><h3>as_metadata_get_architecture ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_metadata_get_architecture (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>);</pre>
 <div class="refsect3">
 <a name="as-metadata-get-architecture.parameters"></a><h4>Parameters</h4>
@@ -945,7 +1137,7 @@ as_metadata_get_architecture (<em class="parameter"><code><a class="link" href="
 <a name="as-metadata-set-architecture"></a><h3>as_metadata_set_architecture ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_metadata_set_architecture (<em class="parameter"><code><a class="link" href="AsMetadata.html" title="AsMetadata"><span class="type">AsMetadata</span></a> *metad</code></em>,
-                              <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *arch</code></em>);</pre>
+                              <em class="parameter"><code>const <span class="type">gchar</span> *arch</code></em>);</pre>
 <p>Set the architecture the components in this metadata belong to.</p>
 <div class="refsect3">
 <a name="as-metadata-set-architecture.parameters"></a><h4>Parameters</h4>
@@ -992,13 +1184,13 @@ as_metadata_set_architecture (<em class="parameter"><code><a class="link" href="
 </div>
 <hr>
 <div class="refsect2">
-<a name="AsParserMode"></a><h3>enum AsParserMode</h3>
-<p>There are a few differences between Appstream's upstream metadata
-and the distribution metadata.
-The parser mode indicates which style we should process.
-Usually you don't want to change this.</p>
+<a name="AsFormatStyle"></a><h3>enum AsFormatStyle</h3>
+<p>There are a few differences between AppStream's metainfo files (shipped by upstream projects)
+and the collection metadata (shipped by distributors).
+The data source kind indicates which style we should process.
+Usually you do not want to set this explicitly.</p>
 <div class="refsect3">
-<a name="AsParserMode.members"></a><h4>Members</h4>
+<a name="AsFormatStyle.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
@@ -1007,22 +1199,125 @@ Usually you don't want to change this.</p>
 </colgroup>
 <tbody>
 <tr>
-<td class="enum_member_name"><p><a name="AS-PARSER-MODE-UPSTREAM:CAPS"></a>AS_PARSER_MODE_UPSTREAM</p></td>
+<td class="enum_member_name"><p><a name="AS-FORMAT-STYLE-UNKNOWN:CAPS"></a>AS_FORMAT_STYLE_UNKNOWN</p></td>
+<td class="enum_member_description"> </td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-STYLE-METAINFO:CAPS"></a>AS_FORMAT_STYLE_METAINFO</p></td>
 <td class="enum_member_description">
-<p>Parse Appstream upstream metadata</p>
+<p>Parse AppStream upstream metadata (metainfo files)</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="AS-PARSER-MODE-DISTRO:CAPS"></a>AS_PARSER_MODE_DISTRO</p></td>
+<td class="enum_member_name"><p><a name="AS-FORMAT-STYLE-COLLECTION:CAPS"></a>AS_FORMAT_STYLE_COLLECTION</p></td>
 <td class="enum_member_description">
-<p>Parse Appstream distribution metadata</p>
+<p>Parse AppStream metadata collections (shipped by software distributors)</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsFormatKind"></a><h3>enum AsFormatKind</h3>
+<p>Format of the AppStream metadata.</p>
+<div class="refsect3">
+<a name="AsFormatKind.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-KIND-UNKNOWN:CAPS"></a>AS_FORMAT_KIND_UNKNOWN</p></td>
+<td class="enum_member_description">
+<p>Unknown metadata format.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-KIND-XML:CAPS"></a>AS_FORMAT_KIND_XML</p></td>
+<td class="enum_member_description">
+<p>AppStream XML metadata.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-KIND-YAML:CAPS"></a>AS_FORMAT_KIND_YAML</p></td>
+<td class="enum_member_description">
+<p>AppStream YAML (DEP-11) metadata.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsFormatVersion"></a><h3>enum AsFormatVersion</h3>
+<p>Format version / API level of the AppStream metadata.</p>
+<div class="refsect3">
+<a name="AsFormatVersion.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-VERSION-V0-6:CAPS"></a>AS_FORMAT_VERSION_V0_6</p></td>
+<td class="enum_member_description">
+<p>0.6</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-VERSION-V0-7:CAPS"></a>AS_FORMAT_VERSION_V0_7</p></td>
+<td class="enum_member_description">
+<p>0.7</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-VERSION-V0-8:CAPS"></a>AS_FORMAT_VERSION_V0_8</p></td>
+<td class="enum_member_description">
+<p>0.8</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-VERSION-V0-9:CAPS"></a>AS_FORMAT_VERSION_V0_9</p></td>
+<td class="enum_member_description">
+<p>0.9</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-FORMAT-VERSION-V0-10:CAPS"></a>AS_FORMAT_VERSION_V0_10</p></td>
+<td class="enum_member_description">
+<p>0.10</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AS-CURRENT-FORMAT-VERSION:CAPS"></a><h3>AS_CURRENT_FORMAT_VERSION</h3>
+<pre class="programlisting">#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_10
+</pre>
+<p>
+</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1052,9 +1347,9 @@ Usually you don't want to change this.</p>
 <td class="enum_member_annotations"> </td>
 </tr>
 <tr>
-<td class="enum_member_name"><p><a name="AS-METADATA-ERROR-UNEXPECTED-FORMAT-KIND:CAPS"></a>AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND</p></td>
+<td class="enum_member_name"><p><a name="AS-METADATA-ERROR-FORMAT-UNEXPECTED:CAPS"></a>AS_METADATA_ERROR_FORMAT_UNEXPECTED</p></td>
 <td class="enum_member_description">
-<p>Expected upstream metadata but got distro metadata, or vice versa.</p>
+<p>Expected collection metadata but got metainfo metadata, or vice versa.</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>

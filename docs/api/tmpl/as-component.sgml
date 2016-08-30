@@ -43,12 +43,13 @@ AsComponent
 @AS_COMPONENT_KIND_UNKNOWN: 
 @AS_COMPONENT_KIND_GENERIC: 
 @AS_COMPONENT_KIND_DESKTOP_APP: 
+@AS_COMPONENT_KIND_CONSOLE_APP: 
+@AS_COMPONENT_KIND_WEB_APP: 
+@AS_COMPONENT_KIND_ADDON: 
 @AS_COMPONENT_KIND_FONT: 
 @AS_COMPONENT_KIND_CODEC: 
 @AS_COMPONENT_KIND_INPUTMETHOD: 
-@AS_COMPONENT_KIND_ADDON: 
 @AS_COMPONENT_KIND_FIRMWARE: 
-@AS_COMPONENT_KIND_CONSOLE_APP: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
@@ -77,6 +78,15 @@ AsComponent
 @AS_MERGE_KIND_REPLACE: 
 @AS_MERGE_KIND_APPEND: 
 
+<!-- ##### ENUM AsValueFlags ##### -->
+<para>
+
+</para>
+
+@AS_VALUE_FLAG_NONE: 
+@AS_VALUE_FLAG_DUPLICATE_CHECK: 
+@AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK: 
+
 <!-- ##### FUNCTION as_merge_kind_to_string ##### -->
 <para>
 
@@ -104,7 +114,7 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_is_valid ##### -->
+<!-- ##### FUNCTION as_component_get_value_flags ##### -->
 <para>
 
 </para>
@@ -113,13 +123,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_to_string ##### -->
+<!-- ##### FUNCTION as_component_set_value_flags ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@Returns: 
+@flags: 
 
 
 <!-- ##### FUNCTION as_component_get_active_locale ##### -->
@@ -140,24 +150,6 @@ AsComponent
 @locale: 
 
 
-<!-- ##### FUNCTION as_component_get_kind ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_set_kind ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@value: 
-
-
 <!-- ##### FUNCTION as_component_get_id ##### -->
 <para>
 
@@ -168,6 +160,42 @@ AsComponent
 
 
 <!-- ##### FUNCTION as_component_set_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_get_data_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_data_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@value: 
+
+
+<!-- ##### FUNCTION as_component_get_kind ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_set_kind ##### -->
 <para>
 
 </para>
@@ -203,6 +231,15 @@ AsComponent
 @origin: 
 
 
+<!-- ##### FUNCTION as_component_get_pkgname ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_component_get_pkgnames ##### -->
 <para>
 
@@ -218,7 +255,7 @@ AsComponent
 </para>
 
 @cpt: 
-@value: 
+@packages: 
 
 
 <!-- ##### FUNCTION as_component_get_source_pkgname ##### -->
@@ -378,13 +415,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_compulsory_for_desktops ##### -->
+<!-- ##### FUNCTION as_component_set_compulsory_for_desktop ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@value: 
+@desktop: 
 
 
 <!-- ##### FUNCTION as_component_is_compulsory_for_desktop ##### -->
@@ -406,13 +443,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_set_categories ##### -->
+<!-- ##### FUNCTION as_component_add_category ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@value: 
+@category: 
 
 
 <!-- ##### FUNCTION as_component_has_category ##### -->
@@ -491,6 +528,15 @@ AsComponent
 @icon: 
 
 
+<!-- ##### FUNCTION as_component_get_provided ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
 <!-- ##### FUNCTION as_component_add_provided ##### -->
 <para>
 
@@ -507,15 +553,6 @@ AsComponent
 
 @cpt: 
 @kind: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_component_get_provided ##### -->
-<para>
-
-</para>
-
-@cpt: 
 @Returns: 
 
 
@@ -575,7 +612,7 @@ AsComponent
 @cpt_id: 
 
 
-<!-- ##### FUNCTION as_component_get_extensions ##### -->
+<!-- ##### FUNCTION as_component_get_addons ##### -->
 <para>
 
 </para>
@@ -584,13 +621,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_add_extension ##### -->
+<!-- ##### FUNCTION as_component_add_addon ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@cpt_id: 
+@addon: 
 
 
 <!-- ##### FUNCTION as_component_get_languages ##### -->
@@ -649,7 +686,16 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_get_bundle_id ##### -->
+<!-- ##### FUNCTION as_component_get_bundles ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_bundle ##### -->
 <para>
 
 </para>
@@ -659,14 +705,13 @@ AsComponent
 @Returns: 
 
 
-<!-- ##### FUNCTION as_component_add_bundle_id ##### -->
+<!-- ##### FUNCTION as_component_add_bundle ##### -->
 <para>
 
 </para>
 
 @cpt: 
-@bundle_kind: 
-@id: 
+@bundle: 
 
 
 <!-- ##### FUNCTION as_component_get_suggested ##### -->
@@ -732,6 +777,34 @@ AsComponent
 
 @cpt: 
 @kind: 
+
+
+<!-- ##### FUNCTION as_component_is_member_of_category ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@category: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_is_valid ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_to_string ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
 
 
 <!-- ##### STRUCT AsComponent ##### -->

@@ -35,13 +35,77 @@ AsMetadata
 </para>
 
 
-<!-- ##### ENUM AsParserMode ##### -->
+<!-- ##### ENUM AsFormatStyle ##### -->
 <para>
 
 </para>
 
-@AS_PARSER_MODE_UPSTREAM: 
-@AS_PARSER_MODE_DISTRO: 
+@AS_FORMAT_STYLE_UNKNOWN: 
+@AS_FORMAT_STYLE_METAINFO: 
+@AS_FORMAT_STYLE_COLLECTION: 
+
+<!-- ##### ENUM AsFormatKind ##### -->
+<para>
+
+</para>
+
+@AS_FORMAT_KIND_UNKNOWN: 
+@AS_FORMAT_KIND_XML: 
+@AS_FORMAT_KIND_YAML: 
+
+<!-- ##### FUNCTION as_format_kind_to_string ##### -->
+<para>
+
+</para>
+
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_format_kind_from_string ##### -->
+<para>
+
+</para>
+
+@kind_str: 
+@Returns: 
+
+
+<!-- ##### ENUM AsFormatVersion ##### -->
+<para>
+
+</para>
+
+@AS_FORMAT_VERSION_V0_6: 
+@AS_FORMAT_VERSION_V0_7: 
+@AS_FORMAT_VERSION_V0_8: 
+@AS_FORMAT_VERSION_V0_9: 
+@AS_FORMAT_VERSION_V0_10: 
+
+<!-- ##### FUNCTION as_format_version_to_string ##### -->
+<para>
+
+</para>
+
+@version: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_format_version_from_string ##### -->
+<para>
+
+</para>
+
+@version_str: 
+@Returns: 
+
+
+<!-- ##### MACRO AS_CURRENT_FORMAT_VERSION ##### -->
+<para>
+
+</para>
+
+
 
 <!-- ##### ENUM AsMetadataError ##### -->
 <para>
@@ -50,7 +114,7 @@ AsMetadata
 
 @AS_METADATA_ERROR_FAILED: 
 @AS_METADATA_ERROR_PARSE: 
-@AS_METADATA_ERROR_UNEXPECTED_FORMAT_KIND: 
+@AS_METADATA_ERROR_FORMAT_UNEXPECTED: 
 @AS_METADATA_ERROR_NO_COMPONENT: 
 
 <!-- ##### MACRO AS_METADATA_ERROR ##### -->
@@ -85,26 +149,18 @@ AsMetadata
 
 @metad: 
 @file: 
+@format: 
 @error: 
 
 
-<!-- ##### FUNCTION as_metadata_parse_xml ##### -->
+<!-- ##### FUNCTION as_metadata_parse ##### -->
 <para>
 
 </para>
 
 @metad: 
 @data: 
-@error: 
-
-
-<!-- ##### FUNCTION as_metadata_parse_yaml ##### -->
-<para>
-
-</para>
-
-@metad: 
-@data: 
+@format: 
 @error: 
 
 
@@ -143,7 +199,51 @@ AsMetadata
 @cpt: 
 
 
-<!-- ##### FUNCTION as_metadata_component_to_upstream_xml ##### -->
+<!-- ##### FUNCTION as_metadata_component_to_metainfo ##### -->
+<para>
+
+</para>
+
+@metad: 
+@format: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_save_metainfo ##### -->
+<para>
+
+</para>
+
+@metad: 
+@fname: 
+@format: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_components_to_collection ##### -->
+<para>
+
+</para>
+
+@metad: 
+@format: 
+@error: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_metadata_save_collection ##### -->
+<para>
+
+</para>
+
+@metad: 
+@fname: 
+@format: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_get_format_version ##### -->
 <para>
 
 </para>
@@ -152,36 +252,16 @@ AsMetadata
 @Returns: 
 
 
-<!-- ##### FUNCTION as_metadata_save_upstream_xml ##### -->
+<!-- ##### FUNCTION as_metadata_set_format_version ##### -->
 <para>
 
 </para>
 
 @metad: 
-@fname: 
-@error: 
+@version: 
 
 
-<!-- ##### FUNCTION as_metadata_components_to_distro_xml ##### -->
-<para>
-
-</para>
-
-@metad: 
-@Returns: 
-
-
-<!-- ##### FUNCTION as_metadata_save_distro_xml ##### -->
-<para>
-
-</para>
-
-@metad: 
-@fname: 
-@error: 
-
-
-<!-- ##### FUNCTION as_metadata_components_to_distro_yaml ##### -->
+<!-- ##### FUNCTION as_metadata_get_format_style ##### -->
 <para>
 
 </para>
@@ -190,14 +270,13 @@ AsMetadata
 @Returns: 
 
 
-<!-- ##### FUNCTION as_metadata_save_distro_yaml ##### -->
+<!-- ##### FUNCTION as_metadata_set_format_style ##### -->
 <para>
 
 </para>
 
 @metad: 
-@fname: 
-@error: 
+@mode: 
 
 
 <!-- ##### FUNCTION as_metadata_set_locale ##### -->
@@ -270,24 +349,6 @@ AsMetadata
 
 @metad: 
 @wheader: 
-
-
-<!-- ##### FUNCTION as_metadata_set_parser_mode ##### -->
-<para>
-
-</para>
-
-@metad: 
-@mode: 
-
-
-<!-- ##### FUNCTION as_metadata_get_parser_mode ##### -->
-<para>
-
-</para>
-
-@metad: 
-@Returns: 
 
 
 <!-- ##### FUNCTION as_metadata_get_architecture ##### -->

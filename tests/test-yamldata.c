@@ -32,7 +32,7 @@ static gchar *datadir = NULL;
  *
  * Test basic functions related to YAML processing.
  */
-void
+static void
 test_basic (void)
 {
 	g_autoptr(AsMetadata) mdata = NULL;
@@ -45,13 +45,13 @@ test_basic (void)
 
 	mdata = as_metadata_new ();
 	as_metadata_set_locale (mdata, "C");
-	as_metadata_set_parser_mode (mdata, AS_PARSER_MODE_DISTRO);
+	as_metadata_set_format_style (mdata, AS_FORMAT_STYLE_COLLECTION);
 
 	path = g_build_filename (datadir, "dep11-0.8.yml", NULL);
 	file = g_file_new_for_path (path);
 	g_free (path);
 
-	as_metadata_parse_file (mdata, file, &error);
+	as_metadata_parse_file (mdata, file, AS_FORMAT_KIND_YAML, &error);
 	g_object_unref (file);
 	g_assert_no_error (error);
 
@@ -114,7 +114,7 @@ test_h_create_dummy_screenshot (void)
  *
  * Helper function for other tests.
  */
-gchar*
+static gchar*
 as_yaml_test_serialize (AsComponent *cpt)
 {
 	gchar *data;
@@ -127,7 +127,7 @@ as_yaml_test_serialize (AsComponent *cpt)
 
 	cpts = g_ptr_array_new ();
 	g_ptr_array_add (cpts, cpt);
-	data = as_yamldata_serialize_to_distro (ydt, cpts, TRUE, FALSE, &error);
+	data = as_yamldata_serialize_to_collection (ydt, cpts, TRUE, FALSE, &error);
 	g_assert_no_error (error);
 
 	return data;
@@ -138,7 +138,7 @@ as_yaml_test_serialize (AsComponent *cpt)
  *
  * Test writing a YAML document.
  */
-void
+static void
 test_yamlwrite_general (void)
 {
 	guint i;
@@ -155,7 +155,7 @@ test_yamlwrite_general (void)
 
 	const gchar *expected_yaml = "---\n"
 				"File: DEP-11\n"
-				"Version: 0.8\n"
+				"Version: 0.10\n"
 				"---\n"
 				"Type: firmware\n"
 				"ID: org.example.test.firmware\n"
@@ -171,7 +171,7 @@ test_yamlwrite_general (void)
 				"Url:\n"
 				"  homepage: https://example.com\n"
 				"---\n"
-				"Type: desktop-app\n"
+				"Type: desktop-application\n"
 				"ID: org.freedesktop.foobar.desktop\n"
 				"Package: foobar-pkg\n"
 				"Name:\n"
@@ -304,7 +304,7 @@ test_yamlwrite_general (void)
 	g_ptr_array_add (cpts, cpt);
 
 	/* serialize and validate */
-	resdata = as_yamldata_serialize_to_distro (ydata, cpts, TRUE, FALSE, &error);
+	resdata = as_yamldata_serialize_to_collection (ydata, cpts, TRUE, FALSE, &error);
 	g_assert_no_error (error);
 
 	g_assert (as_test_compare_lines (resdata, expected_yaml));
@@ -315,7 +315,7 @@ test_yamlwrite_general (void)
  *
  * Test writing the Suggests field.
  */
-void
+static void
 test_yaml_write_suggests (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -324,7 +324,7 @@ test_yaml_write_suggests (void)
 	g_autofree gchar *res = NULL;
 	const gchar *expected_sug_yaml = "---\n"
 					 "File: DEP-11\n"
-					 "Version: 0.8\n"
+					 "Version: 0.10\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.SuggestsTest\n"
@@ -362,7 +362,7 @@ test_yaml_write_suggests (void)
  *
  * Helper function to read a single component from YAML data.
  */
-AsComponent*
+static AsComponent*
 as_yaml_test_read_data (const gchar *data, GError **error)
 {
 	AsComponent *cpt;
@@ -374,11 +374,11 @@ as_yaml_test_read_data (const gchar *data, GError **error)
 	if (error == NULL) {
 		g_autoptr(GError) local_error = NULL;
 
-		cpts = as_yamldata_parse_distro_data (ydt, data, &local_error);
+		cpts = as_yamldata_parse_collection_data (ydt, data, &local_error);
 		g_assert_no_error (local_error);
 		g_assert_nonnull (cpts);
 	} else {
-		cpts = as_yamldata_parse_distro_data (ydt, data, error);
+		cpts = as_yamldata_parse_collection_data (ydt, data, error);
 		if (cpts == NULL)
 			return NULL;
 	}
@@ -392,7 +392,7 @@ as_yaml_test_read_data (const gchar *data, GError **error)
  *
  * Test reading the Icons field.
  */
-void
+static void
 test_yaml_read_icons (void)
 {
 	guint i;
@@ -459,7 +459,7 @@ test_yaml_read_icons (void)
  *
  * Test if reading the Languages field works.
  */
-void
+static void
 test_yaml_read_languages (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -484,7 +484,7 @@ test_yaml_read_languages (void)
  *
  * Test if reading the Suggests field works.
  */
-void
+static void
 test_yaml_read_suggests (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -530,7 +530,7 @@ test_yaml_read_suggests (void)
  *
  * Test reading of a broken YAML document.
  */
-void
+static void
 test_yaml_corrupt_data (void)
 {
 	g_autoptr(GError) error = NULL;

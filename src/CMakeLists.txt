@@ -4,12 +4,14 @@ pkg_check_modules(GLIB2 REQUIRED glib-2.0>=2.46)
 pkg_check_modules(GIO2 REQUIRED gio-2.0)
 find_package(GI REQUIRED)
 find_package(LibXml2 REQUIRED)
-find_package(Protobuf REQUIRED)
 find_library(M_LIB m)
 pkg_check_modules(YAML REQUIRED yaml-0.1)
 
 if (STEMMING)
 	find_library(SNOWBALL_LIB stemmer)
+	if (NOT SNOWBALL_LIB)
+		message (FATAL_ERROR "Stemming support is enabled, but libstemmer was not found. Please install the Snowball development files.")
+	endif ()
 endif ()
 
 include(GObjectIntrospectionMacros)
@@ -26,24 +28,14 @@ if (NOT INTROSPECTION_COMPILER)
 endif ()
 
 set (srcdir ${CMAKE_CURRENT_SOURCE_DIR} CACHE INTERNAL "Source dir")
-set(AS_VERSION_BASE "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "LibAppStream combined version number")
-
-if (NOT PROTOBUF_PROTOC_EXECUTABLE)
-	message (FATAL_ERROR "ProtoBuf compiler (protoc) was not found!")
-endif ()
-
-protobuf_generate_cpp(AS_PROTO_SRCS AS_PROTO_HDRS pb/ascache.proto)
-set(ASLIB_CACHE_SOURCES ${AS_PROTO_SRCS} ${AS_PROTO_HDRS}
-		pb/as-cache-internal.h
-		pb/as-cache-internal.cpp
-)
-set_source_files_properties(${ASLIB_CACHE_SOURCES} PROPERTIES COMPILE_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden")
+set(AS_VERSION_BASE "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}" CACHE INTERNAL "AppStream library combined version number")
 
 set(APPSTREAM_LIB_SRC
 		as-utils.c
 		# internal
 		as-xmldata.c
 		as-yamldata.c
+		as-cache-file.c
 		as-distro-extras.c
 		as-stemmer.c
 		# (mostly) public
@@ -52,14 +44,14 @@ set(APPSTREAM_LIB_SRC
 		as-component.c
 		as-enums.c
 		as-provided.c
-		as-data-pool.c
-		as-database.c
+		as-bundle.c
+		as-pool.c
 		as-category.c
-		as-menu-parser.c
 		as-distro-details.c
 		as-screenshot.c
 		as-image.c
 		as-release.c
+		as-checksum.c
 		as-validator.c
 		as-validator-issue.c
 		as-icon.c
@@ -73,16 +65,16 @@ set(APPSTREAM_LIB_PUBLIC_HEADERS
 		as-spdx.h
 		as-metadata.h
 		as-component.h
-		as-data-pool.h
+		as-pool.h
 		as-enums.h
 		as-provided.h
-		as-database.h
+		as-bundle.h
 		as-category.h
-		as-menu-parser.h
 		as-distro-details.h
 		as-screenshot.h
 		as-image.h
 		as-release.h
+		as-checksum.h
 		as-validator.h
 		as-validator-issue.h
 		as-icon.h
@@ -94,6 +86,8 @@ set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-utils-private.h
 		as-xmldata.h
 		as-yamldata.h
+		as-cache-file.h
+		as-pool-private.h
 		as-component-private.h
 		as-screenshot-private.h
 		as-release-private.h
@@ -101,20 +95,18 @@ set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-stemmer.h
 )
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/pb
-		    ${CMAKE_BINARY_DIR}
+include_directories(${CMAKE_BINARY_DIR}
 		    ${CMAKE_BINARY_DIR}/src
 		    ${GLIB2_INCLUDE_DIRS}
 		    ${GIO2_INCLUDE_DIRS}
 		    ${LIBXML2_INCLUDE_DIR}
 		    ${YAML_INCLUDE_DIR}
-		    ${PROTOBUF_INCLUDE_DIRS}
 )
 
 add_definitions("-DAS_COMPILATION")
 
 # ensure that the GI compiler has been found (apparently, the automatic tests fail on some machines)
-if (INTROSPECTION_COMPILER STREQUAL "")
+if (NOT INTROSPECTION_COMPILER)
   message(FATAL_ERROR "GObject-Introspection was not found! Please install it to continue.")
 endif()
 
@@ -155,7 +147,6 @@ set (APPSTREAM_LIB_GRESOURCE ${CMAKE_CURRENT_BINARY_DIR}/as-resources.c
 )
 
 add_library(appstream SHARED
-		${ASLIB_CACHE_SOURCES}
 		${APPSTREAM_LIB_SRC}
 		${APPSTREAM_LIB_PUBLIC_HEADERS}
 		${APPSTREAM_LIB_PRIVATE_HEADERS}
@@ -170,7 +161,6 @@ target_link_libraries(appstream
 		${GIO2_LIBRARIES}
 		${LIBXML2_LIBRARIES}
 		${YAML_LIBRARIES}
-		${PROTOBUF_LIBRARIES}
 		${SNOWBALL_LIB}
 )
 

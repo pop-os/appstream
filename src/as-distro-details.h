@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -54,8 +54,6 @@ gchar			*as_distro_details_get_str (AsDistroDetails *distro,
 							const gchar *key);
 gboolean		as_distro_details_get_bool (AsDistroDetails *distro,
 							const gchar *key);
-
-gchar			**as_get_icon_repository_paths (void);
 
 G_END_DECLS
 

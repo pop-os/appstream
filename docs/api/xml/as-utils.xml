@@ -23,19 +23,19 @@
 <colspec colname="functions_name"/>
 <tbody>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-description-markup-convert-simple">as_description_markup_convert_simple</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-get-current-locale">as_get_current_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-</entry><entry role="function_name"><link linkend="as-str-empty">as_str_empty</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="GDateTime"><returnvalue>GDateTime</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-iso8601-to-datetime">as_iso8601_to_datetime</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+</entry><entry role="function_name"><link linkend="as-markup-convert-simple">as_markup_convert_simple</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-locale-is-compatible">as_utils_locale_is_compatible</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-is-category-name">as_utils_is_category_name</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-utils-is-tld">as_utils_is_tld</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-is-desktop-environment">as_utils_is_desktop_environment</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-sort-components-into-categories">as_utils_sort_components_into_categories</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-utils-compare-versions">as_utils_compare_versions</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -53,67 +53,14 @@ as well.</para>
 </refsect1>
 <refsect1 id="appstream-as-utils.functions_details" role="details">
 <title role="details.title">Functions</title>
-<refsect2 id="as-description-markup-convert-simple" role="function">
-<title>as_description_markup_convert_simple&#160;()</title>
-<indexterm zone="as-description-markup-convert-simple"><primary>as_description_markup_convert_simple</primary></indexterm>
+<refsect2 id="as-markup-convert-simple" role="function">
+<title>as_markup_convert_simple&#160;()</title>
+<indexterm zone="as-markup-convert-simple"><primary>as_markup_convert_simple</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_description_markup_convert_simple (<parameter>const <link linkend="gchar"><type>gchar</type></link> *markup</parameter>);</programlisting>
-<para>Converts an XML description markup into a simple printable form.</para>
-<refsect3 id="as-description-markup-convert-simple.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>markup</para></entry>
-<entry role="parameter_description"><para>the text to copy.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-description-markup-convert-simple.returns" role="returns">
-<title>Returns</title>
-<para> a newly allocated <link linkend="NULL:CAPS"><literal>NULL</literal></link> terminated string. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-get-current-locale" role="function">
-<title>as_get_current_locale&#160;()</title>
-<indexterm zone="as-get-current-locale"><primary>as_get_current_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_get_current_locale (<parameter><type>void</type></parameter>);</programlisting>
-<para>Returns a locale string as used in the AppStream specification.</para>
-<refsect3 id="as-get-current-locale.returns" role="returns">
-<title>Returns</title>
-<para> A locale string, free with <link linkend="g-free"><function>g_free()</function></link>. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
-<refsect2 id="as-str-empty" role="function">
-<title>as_str_empty&#160;()</title>
-<indexterm zone="as-str-empty"><primary>as_str_empty</primary></indexterm>
-<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
-as_str_empty (<parameter>const <link linkend="gchar"><type>gchar</type></link> *str</parameter>);</programlisting>
-<para>Test if a C string is NULL or empty (containing only spaces).</para>
-<refsect3 id="as-str-empty.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>str</para></entry>
-<entry role="parameter_description"><para>The string to test.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3></refsect2>
-<refsect2 id="as-iso8601-to-datetime" role="function">
-<title>as_iso8601_to_datetime&#160;()</title>
-<indexterm zone="as-iso8601-to-datetime"><primary>as_iso8601_to_datetime</primary></indexterm>
-<programlisting language="C"><link linkend="GDateTime"><returnvalue>GDateTime</returnvalue></link>&#160;*
-as_iso8601_to_datetime (<parameter>const <link linkend="gchar"><type>gchar</type></link> *iso_date</parameter>);</programlisting>
-<para>Helper function to work around a bug in g_time_val_from_iso8601.
-Can be dropped when the bug gets resolved upstream:
-https://bugzilla.gnome.org/show_bug.cgi?id=760983</para>
+as_markup_convert_simple (<parameter>const <link linkend="gchar"><type>gchar</type></link> *markup</parameter>,
+                          <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>
+</para>
 </refsect2>
 <refsect2 id="as-utils-locale-is-compatible" role="function" condition="since:0.9.5">
 <title>as_utils_locale_is_compatible&#160;()</title>
@@ -174,6 +121,73 @@ This excludes internationalized names.</para>
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the TLD is valid</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.9.8">0.9.8</link></para></refsect2>
+<refsect2 id="as-utils-is-desktop-environment" role="function" condition="since:0.10.0">
+<title>as_utils_is_desktop_environment&#160;()</title>
+<indexterm zone="as-utils-is-desktop-environment" role="0.10.0"><primary>as_utils_is_desktop_environment</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_utils_is_desktop_environment (<parameter>const <link linkend="gchar"><type>gchar</type></link> *desktop</parameter>);</programlisting>
+<para>Searches the known list of desktop environments AppStream
+knows about.</para>
+<refsect3 id="as-utils-is-desktop-environment.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>desktop</para></entry>
+<entry role="parameter_description"><para>a desktop environment id.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-utils-is-desktop-environment.returns" role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the desktop-id is valid</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10.0">0.10.0</link></para></refsect2>
+<refsect2 id="as-utils-sort-components-into-categories" role="function">
+<title>as_utils_sort_components_into_categories&#160;()</title>
+<indexterm zone="as-utils-sort-components-into-categories"><primary>as_utils_sort_components_into_categories</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_utils_sort_components_into_categories
+                               (<parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *cpts</parameter>,
+                                <parameter><link linkend="GPtrArray"><type>GPtrArray</type></link> *categories</parameter>,
+                                <parameter><link linkend="gboolean"><type>gboolean</type></link> check_duplicates</parameter>);</programlisting>
+<para>Sorts all components in <parameter>cpts</parameter>
+ into the <link linkend="AsCategory"><type>AsCategory</type></link> categories listed in <parameter>categories</parameter>
+.</para>
+<refsect3 id="as-utils-sort-components-into-categories.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpts</para></entry>
+<entry role="parameter_description"><para> List of components. </para></entry>
+<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>element-type</acronym> AsComponent]</emphasis></entry></row>
+<row><entry role="parameter_name"><para>categories</para></entry>
+<entry role="parameter_description"><para> List of categories to sort components into. </para></entry>
+<entry role="parameter_annotations"><emphasis role="annotation">[<acronym>element-type</acronym> AsCategory]</emphasis></entry></row>
+<row><entry role="parameter_name"><para>check_duplicates</para></entry>
+<entry role="parameter_description"><para>Whether to check for duplicates.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-utils-compare-versions" role="function">
+<title>as_utils_compare_versions&#160;()</title>
+<indexterm zone="as-utils-compare-versions"><primary>as_utils_compare_versions</primary></indexterm>
+<programlisting language="C"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+as_utils_compare_versions (<parameter>const <link linkend="gchar"><type>gchar</type></link> *a</parameter>,
+                           <parameter>const <link linkend="gchar"><type>gchar</type></link> *b</parameter>);</programlisting>
+<para>Compare alpha and numeric segments of two versions.
+The version compare algorithm is also used by RPM.</para>
+<refsect3 id="as-utils-compare-versions.returns" role="returns">
+<title>Returns</title>
+<para> 1: a is newer than b
+0: a and b are the same version
+-1: b is newer than a</para>
+</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="appstream-as-utils.other_details" role="details">

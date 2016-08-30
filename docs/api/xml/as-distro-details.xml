@@ -34,8 +34,6 @@
 </entry><entry role="function_name"><link linkend="as-distro-details-get-str">as_distro_details_get_str</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-distro-details-get-bool">as_distro_details_get_bool</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-</entry><entry role="function_name"><link linkend="as-get-icon-repository-paths">as_get_icon_repository_paths</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -88,7 +86,7 @@
 about the (Linux) distribution which is currently in use.
 It is used internalls to get information about the icon-store or the 3rd-party screenshot
 service distributors may want to provide.</para>
-<para>See also: <link linkend="AsDatabase"><type>AsDatabase</type></link></para>
+<para>See also: <link linkend="AsPool"><type>AsPool</type></link></para>
 
 </refsect1>
 <refsect1 id="AsDistroDetails.functions_details" role="details">
@@ -136,19 +134,6 @@ as_distro_details_get_str (<parameter><link linkend="AsDistroDetails"><type>AsDi
 as_distro_details_get_bool (<parameter><link linkend="AsDistroDetails"><type>AsDistroDetails</type></link> *distro</parameter>,
                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *key</parameter>);</programlisting>
 </refsect2>
-<refsect2 id="as-get-icon-repository-paths" role="function">
-<title>as_get_icon_repository_paths&#160;()</title>
-<indexterm zone="as-get-icon-repository-paths"><primary>as_get_icon_repository_paths</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;**
-as_get_icon_repository_paths (<parameter><type>void</type></parameter>);</programlisting>
-<para>Returns list of icon-paths for software-center applications to use.
-Icons of software (even if it is not installed) are stored in these
-locations.</para>
-<refsect3 id="as-get-icon-repository-paths.returns" role="returns">
-<title>Returns</title>
-<para> A NULL-terminated array of paths. </para>
-<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3></refsect2>
 
 </refsect1>
 <refsect1 id="AsDistroDetails.other_details" role="details">

@@ -6,8 +6,8 @@
 <meta name="generator" content="DocBook XSL Stylesheets V1.79.1">
 <link rel="home" href="index.html" title="AppStream Library Reference Manual">
 <link rel="up" href="ch01.html" title="AppStream API Reference">
-<link rel="prev" href="AsDataPool.html" title="AsDataPool">
-<link rel="next" href="AsMenuParser.html" title="AsMenuParser">
+<link rel="prev" href="AsPool.html" title="AsPool">
+<link rel="next" href="AsCategory.html" title="AsCategory">
 <meta name="generator" content="GTK-Doc V1.25 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
@@ -21,8 +21,8 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="AsDataPool.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
-<td><a accesskey="n" href="AsMenuParser.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+<td><a accesskey="p" href="AsPool.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="AsCategory.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
 <a name="AsDistroDetails"></a><div class="titlepage"></div>
@@ -50,21 +50,21 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-id" title="as_distro_details_get_id ()">as_distro_details_get_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-name" title="as_distro_details_get_name ()">as_distro_details_get_name</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-version" title="as_distro_details_get_version ()">as_distro_details_get_version</a> <span class="c_punctuation">()</span>
@@ -72,7 +72,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-str" title="as_distro_details_get_str ()">as_distro_details_get_str</a> <span class="c_punctuation">()</span>
@@ -80,18 +80,10 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="AsDistroDetails.html#as-distro-details-get-bool" title="as_distro_details_get_bool ()">as_distro_details_get_bool</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
-</td>
-<td class="function_name">
-<a class="link" href="AsDistroDetails.html#as-get-icon-repository-paths" title="as_get_icon_repository_paths ()">as_get_icon_repository_paths</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
@@ -108,19 +100,19 @@
 <tbody>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="AsDistroDetails.html#AsDistroDetails--id" title="The “id” property">id</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="AsDistroDetails.html#AsDistroDetails--name" title="The “name” property">name</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="AsDistroDetails.html#AsDistroDetails--version" title="The “version” property">version</a></td>
 <td class="property_flags">Read</td>
 </tr>
@@ -152,7 +144,7 @@
 </div>
 <div class="refsect1">
 <a name="AsDistroDetails.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+<pre class="screen">    GObject
     <span class="lineart">╰──</span> AsDistroDetails
 </pre>
 </div>
@@ -167,7 +159,7 @@
 about the (Linux) distribution which is currently in use.
 It is used internalls to get information about the icon-store or the 3rd-party screenshot
 service distributors may want to provide.</p>
-<p>See also: <span class="type">AsDatabase</span></p>
+<p>See also: <a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a></p>
 </div>
 <div class="refsect1">
 <a name="AsDistroDetails.functions_details"></a><h2>Functions</h2>
@@ -185,48 +177,34 @@ as_distro_details_new (<em class="parameter"><code><span class="type">void</span
 <hr>
 <div class="refsect2">
 <a name="as-distro-details-get-id"></a><h3>as_distro_details_get_id ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_distro_details_get_id (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *distro</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-distro-details-get-name"></a><h3>as_distro_details_get_name ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_distro_details_get_name (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *distro</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-distro-details-get-version"></a><h3>as_distro_details_get_version ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_distro_details_get_version (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *distro</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-distro-details-get-str"></a><h3>as_distro_details_get_str ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting"><span class="returnvalue">gchar</span> *
 as_distro_details_get_str (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *distro</code></em>,
-                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+                           <em class="parameter"><code>const <span class="type">gchar</span> *key</code></em>);</pre>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-distro-details-get-bool"></a><h3>as_distro_details_get_bool ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_distro_details_get_bool (<em class="parameter"><code><a class="link" href="AsDistroDetails.html" title="AsDistroDetails"><span class="type">AsDistroDetails</span></a> *distro</code></em>,
-                            <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-get-icon-repository-paths"></a><h3>as_get_icon_repository_paths ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> **
-as_get_icon_repository_paths (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
-<p>Returns list of icon-paths for software-center applications to use.
-Icons of software (even if it is not installed) are stored in these
-locations.</p>
-<div class="refsect3">
-<a name="as-get-icon-repository-paths.returns"></a><h4>Returns</h4>
-<p> A NULL-terminated array of paths. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
-</div>
+                            <em class="parameter"><code>const <span class="type">gchar</span> *key</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -260,7 +238,7 @@ locations.</p>
 <a name="AsDistroDetails.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
 <a name="AsDistroDetails--id"></a><h3>The <code class="literal">“id”</code> property</h3>
-<pre class="programlisting">  “id”                       <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “id”                       <span class="type">gchar</span> *</pre>
 <p>id.</p>
 <p>Flags: Read</p>
 <p>Default value: NULL</p>
@@ -268,7 +246,7 @@ locations.</p>
 <hr>
 <div class="refsect2">
 <a name="AsDistroDetails--name"></a><h3>The <code class="literal">“name”</code> property</h3>
-<pre class="programlisting">  “name”                     <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “name”                     <span class="type">gchar</span> *</pre>
 <p>name.</p>
 <p>Flags: Read</p>
 <p>Default value: NULL</p>
@@ -276,7 +254,7 @@ locations.</p>
 <hr>
 <div class="refsect2">
 <a name="AsDistroDetails--version"></a><h3>The <code class="literal">“version”</code> property</h3>
-<pre class="programlisting">  “version”                  <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “version”                  <span class="type">gchar</span> *</pre>
 <p>version.</p>
 <p>Flags: Read</p>
 <p>Default value: NULL</p>

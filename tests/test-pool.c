@@ -23,6 +23,7 @@
 
 #include "appstream.h"
 #include "../src/as-utils-private.h"
+#include "as-cache-file.h"
 
 
 static gchar *datadir = NULL;
@@ -44,14 +45,31 @@ print_cptarray (GPtrArray *cpt_array)
 }
 
 /**
+ * _as_get_single_component_by_cid:
+ *
+ * Internal helper to get a single #AsComponent by its
+ * component identifier.
+ */
+static AsComponent*
+_as_get_single_component_by_cid (AsPool *pool, const gchar *cid)
+{
+	g_autoptr(GPtrArray) result = NULL;
+
+	result = as_pool_get_components_by_id (pool, cid);
+	if (result->len == 0)
+		return NULL;
+	return g_object_ref (AS_COMPONENT (g_ptr_array_index (result, 0)));
+}
+
+/**
  * test_cache:
  *
  * Test reading data from cache files.
  */
-void
+static void
 test_cache ()
 {
-	g_autoptr(AsDataPool) dpool = NULL;
+	g_autoptr(AsPool) dpool = NULL;
 	g_autoptr(AsComponent) cpt1 = NULL;
 	g_autoptr(AsComponent) cpt2 = NULL;
 	g_autoptr(GError) error = NULL;
@@ -70,30 +88,30 @@ test_cache ()
 	as_component_set_summary (cpt2, "Another unit-test dummy entry", NULL);
 
 	/* add data to the pool */
-	dpool = as_data_pool_new ();
-	as_data_pool_add_component (dpool, cpt1, &error);
+	dpool = as_pool_new ();
+	as_pool_add_component (dpool, cpt1, &error);
 	g_assert_no_error (error);
 
-	as_data_pool_add_component (dpool, cpt2, &error);
+	as_pool_add_component (dpool, cpt2, &error);
 	g_assert_no_error (error);
 
 	/* export cache file and destroy old data pool */
-	as_data_pool_save_cache_file (dpool, "/tmp/as-unittest-cache.pb", &error);
+	as_pool_save_cache_file (dpool, "/tmp/as-unittest-cache.gvz", &error);
 	g_assert_no_error (error);
 	g_object_unref (dpool);
 	g_object_unref (cpt1);
 	g_object_unref (cpt2);
 
 	/* load cache file */
-	dpool = as_data_pool_new ();
-	as_data_pool_load_cache_file (dpool, "/tmp/as-unittest-cache.pb", &error);
+	dpool = as_pool_new ();
+	as_pool_load_cache_file (dpool, "/tmp/as-unittest-cache.gvz", &error);
 	g_assert_no_error (error);
 
 	/* validate */
-	cpt1 = as_data_pool_get_component_by_id (dpool, "org.example.FooBar1");
+	cpt1 = _as_get_single_component_by_cid (dpool, "org.example.FooBar1");
 	g_assert_nonnull (cpt1);
 
-	cpt2 = as_data_pool_get_component_by_id (dpool, "org.example.NewFooBar");
+	cpt2 = _as_get_single_component_by_cid (dpool, "org.example.NewFooBar");
 	g_assert_nonnull (cpt2);
 
 	g_assert_cmpint (as_component_get_kind (cpt1), ==, AS_COMPONENT_KIND_GENERIC);
@@ -106,79 +124,133 @@ test_cache ()
 }
 
 /**
+ * test_get_sampledata_pool:
+ *
+ * Internal helper to get a pool with the sample data locations set.
+ */
+static AsPool*
+test_get_sampledata_pool (gboolean use_caches)
+{
+	AsPool *pool;
+	g_autofree gchar *mdata_dir = NULL;
+
+	/* create AsPool and load sample metadata */
+	mdata_dir = g_build_filename (datadir, "collection", NULL);
+
+	pool = as_pool_new ();
+	as_pool_clear_metadata_locations (pool);
+	as_pool_add_metadata_location (pool, mdata_dir);
+	as_pool_set_locale (pool, "C");
+
+	if (!use_caches)
+		as_pool_set_cache_flags (pool, AS_CACHE_FLAG_NONE);
+
+	return pool;
+}
+
+/**
+ * test_cache_file:
+ *
+ * Test if cache file (de)serialization works.
+ */
+static void
+test_cache_file ()
+{
+	g_autoptr(AsPool) pool = NULL;
+	g_autoptr(GPtrArray) cpts_prev = NULL;
+	g_autoptr(GPtrArray) cpts = NULL;
+	GError *error = NULL;
+
+	pool = test_get_sampledata_pool (FALSE);
+	as_pool_load (pool, NULL, &error);
+	g_assert_no_error (error);
+
+	cpts_prev = as_pool_get_components (pool);
+	g_assert_cmpint (cpts_prev->len, ==, 18);
+
+	as_cache_file_save ("/tmp/as-unittest-dummy.gvz", "C", cpts_prev, &error);
+	g_assert_no_error (error);
+
+	cpts = as_cache_file_read ("/tmp/as-unittest-dummy.gvz", &error);
+	g_assert_no_error (error);
+
+	/* TODO: Serialize components and check if they are equal to what we attempted to store in the cache */
+
+	g_assert_cmpint (cpts->len, ==, 18);
+}
+
+/**
  * test_pool_read:
  *
  * Test reading information from the metadata pool.
  */
-void
+static void
 test_pool_read ()
 {
-	g_autoptr(AsDataPool) dpool = NULL;
-	g_auto(GStrv) datadirs = NULL;
+	g_autoptr(AsPool) dpool = NULL;
 	g_autoptr(GPtrArray) all_cpts = NULL;
 	g_autoptr(GPtrArray) result = NULL;
+	g_autoptr(GPtrArray) categories = NULL;
+	gchar **strv;
 	GPtrArray *rels;
 	AsRelease *rel;
 	AsComponent *cpt;
+	AsBundle *bundle;
+	guint i;
 	g_autoptr(GError) error = NULL;
 
-	/* create DataPool and load sample metadata */
-	datadirs = g_new0 (gchar*, 1 + 1);
-	datadirs[0] = g_build_filename (datadir, "distro", NULL);
+	/* load sample data */
+	dpool = test_get_sampledata_pool (FALSE);
 
-	dpool = as_data_pool_new ();
-	as_data_pool_set_metadata_locations (dpool, datadirs);
-	as_data_pool_set_locale (dpool, "C");
+	as_pool_load (dpool, NULL, &error);
+	g_assert_no_error (error);
 
-	/* TODO: as_data_pool_load (dpool, NULL, &error);
-	g_assert_no_error (error); */
-	as_data_pool_load_metadata (dpool);
-
-	all_cpts = as_data_pool_get_components (dpool);
+	all_cpts = as_pool_get_components (dpool);
 	g_assert_nonnull (all_cpts);
 	g_assert_cmpint (all_cpts->len, ==, 18);
 
-	result = as_data_pool_search (dpool, "kig");
+	result = as_pool_search (dpool, "kig");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
 	cpt = AS_COMPONENT (g_ptr_array_index (result, 0));
 	g_assert_cmpstr (as_component_get_pkgnames (cpt)[0], ==, "kig");
 	g_ptr_array_unref (result);
 
-	result = as_data_pool_search (dpool, "web");
+	result = as_pool_search (dpool, "web");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
 	g_ptr_array_unref (result);
 
-	result = as_data_pool_search (dpool, "logic");
+	result = as_pool_search (dpool, "logic");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 2);
 	g_ptr_array_unref (result);
 
 	/* search for mixed-case strings */
-	result = as_data_pool_search (dpool, "bIoChemistrY");
+	result = as_pool_search (dpool, "bIoChemistrY");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
 	g_ptr_array_unref (result);
 
 	/* test searching for multiple words */
-	result = as_data_pool_search (dpool, "scalable graphics");
+	result = as_pool_search (dpool, "scalable graphics");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
 	g_ptr_array_unref (result);
 
 	/* we return all components if the search string is too short */
-	result = as_data_pool_search (dpool, "sh");
+	result = as_pool_search (dpool, "sh");
 	g_assert_cmpint (result->len, ==, 18);
 	g_ptr_array_unref (result);
 
-	result = as_data_pool_get_components_by_categories (dpool, "Science");
+	strv = g_strsplit ("Science", ";", 0);
+	result = as_pool_get_components_by_categories (dpool, strv);
+	g_strfreev (strv);
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 3);
 	g_ptr_array_unref (result);
 
-	result = as_data_pool_get_components_by_provided_item (dpool, AS_PROVIDED_KIND_BINARY, "inkscape", &error);
-	g_assert_no_error (error);
+	result = as_pool_get_components_by_provided_item (dpool, AS_PROVIDED_KIND_BINARY, "inkscape");
 	print_cptarray (result);
 	g_assert_cmpint (result->len, ==, 1);
 	cpt = AS_COMPONENT (g_ptr_array_index (result, 0));
@@ -190,12 +262,14 @@ test_pool_read ()
 	g_ptr_array_unref (result);
 
 	/* test a component in a different file, with no package but a bundle instead */
-	cpt = as_data_pool_get_component_by_id (dpool, "neverball.desktop");
+	cpt = _as_get_single_component_by_cid (dpool, "neverball.desktop");
 	g_assert_nonnull (cpt);
 
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Neverball");
 	g_assert_cmpstr (as_component_get_url (cpt, AS_URL_KIND_HOMEPAGE), ==, "http://neverball.org/");
-	g_assert_cmpstr (as_component_get_bundle_id (cpt, AS_BUNDLE_KIND_LIMBA), ==, "neverball-1.6.0");
+	bundle = as_component_get_bundle (cpt, AS_BUNDLE_KIND_LIMBA);
+	g_assert_nonnull (bundle);
+	g_assert_cmpstr (as_bundle_get_id (bundle), ==, "neverball-1.6.0");
 
 	rels = as_component_get_releases (cpt);
 	g_assert_cmpint (rels->len, ==, 2);
@@ -211,6 +285,48 @@ test_pool_read ()
 	g_assert_cmpstr  (as_release_get_version (rel), ==, "1.6.0");
 	g_assert_cmpuint (as_release_get_timestamp (rel), ==, 123456789);
 	g_assert_cmpuint (as_release_get_size (rel, AS_SIZE_KIND_DOWNLOAD), ==, 0);
+
+	/* check categorization */
+	categories = as_get_default_categories (TRUE);
+	as_utils_sort_components_into_categories (all_cpts, categories, FALSE);
+	for (i = 0; i < categories->len; i++) {
+		const gchar *cat_id;
+		gint cpt_count;
+		AsCategory *cat = AS_CATEGORY (g_ptr_array_index (categories, i));
+
+		cat_id = as_category_get_id (cat);
+		cpt_count = as_category_get_components (cat)->len;
+
+		if (g_strcmp0 (cat_id, "communication") == 0)
+			g_assert_cmpint (cpt_count, ==, 3);
+		else if (g_strcmp0 (cat_id, "utilities") == 0)
+			g_assert_cmpint (cpt_count, ==, 2);
+		else if (g_strcmp0 (cat_id, "audio-video") == 0)
+			g_assert_cmpint (cpt_count, ==, 0);
+		else if (g_strcmp0 (cat_id, "developer-tools") == 0)
+			g_assert_cmpint (cpt_count, ==, 2);
+		else if (g_strcmp0 (cat_id, "education") == 0)
+			g_assert_cmpint (cpt_count, ==, 4);
+		else if (g_strcmp0 (cat_id, "games") == 0)
+			g_assert_cmpint (cpt_count, ==, 5);
+		else if (g_strcmp0 (cat_id, "graphics") == 0)
+			g_assert_cmpint (cpt_count, ==, 1);
+		else if (g_strcmp0 (cat_id, "office") == 0)
+			g_assert_cmpint (cpt_count, ==, 0);
+		else if (g_strcmp0 (cat_id, "addons") == 0)
+			g_assert_cmpint (cpt_count, ==, 0);
+		else if (g_strcmp0 (cat_id, "science") == 0)
+			g_assert_cmpint (cpt_count, ==, 3);
+		else {
+			g_error ("Unhandled category: %s", cat_id);
+			g_assert_not_reached ();
+		}
+
+		if (g_strcmp0 (cat_id, "graphics") == 0) {
+			cpt = g_ptr_array_index (as_category_get_components (cat), 0);
+			g_assert_cmpstr (as_component_get_id (cpt), ==, "inkscape.desktop");
+		}
+	}
 }
 
 /**
@@ -218,28 +334,23 @@ test_pool_read ()
  *
  * Test merging of component data via the "merge" pseudo-component.
  */
-void
+static void
 test_merge_components ()
 {
-	g_autoptr(AsDataPool) dpool = NULL;
-	g_auto(GStrv) datadirs = NULL;
+	g_autoptr(AsPool) dpool = NULL;
 	AsComponent *cpt;
 	GPtrArray *suggestions;
 	AsSuggested *suggested;
 	GPtrArray *cpt_ids;
+	GError *error = NULL;
 
 	/* load the data pool with sample data */
-	datadirs = g_new0 (gchar*, 1 + 1);
-	datadirs[0] = g_build_filename (datadir, "distro", NULL);
-
-	dpool = as_data_pool_new ();
-	as_data_pool_set_metadata_locations (dpool, datadirs);
-	as_data_pool_set_locale (dpool, "C");
-
-	as_data_pool_load_metadata (dpool);
+	dpool = test_get_sampledata_pool (FALSE);
+	as_pool_load (dpool, NULL, &error);
+	g_assert_no_error (error);
 
 	/* test injection of suggests tags */
-	cpt = as_data_pool_get_component_by_id (dpool, "links2.desktop");
+	cpt = _as_get_single_component_by_cid (dpool, "links2.desktop");
 	g_assert_nonnull (cpt);
 
 	suggestions = as_component_get_suggested (cpt);
@@ -252,7 +363,7 @@ test_merge_components ()
 	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 0), ==, "org.example.test1");
 	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 1), ==, "org.example.test2");
 
-	cpt = as_data_pool_get_component_by_id (dpool, "literki.desktop");
+	cpt = _as_get_single_component_by_cid (dpool, "literki.desktop");
 	g_assert_nonnull (cpt);
 	suggestions = as_component_get_suggested (cpt);
 	suggested = AS_SUGGESTED (g_ptr_array_index (suggestions, 0));
@@ -265,7 +376,7 @@ test_merge_components ()
 	g_assert_cmpstr ((const gchar*) g_ptr_array_index (cpt_ids, 1), ==, "org.example.test4");
 
 	/* test if names get overridden */
-	cpt = as_data_pool_get_component_by_id (dpool, "kiki.desktop");
+	cpt = _as_get_single_component_by_cid (dpool, "kiki.desktop");
 	g_assert_nonnull (cpt);
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "Kiki (name changed by merge)");
 }
@@ -294,8 +405,9 @@ main (int argc, char **argv)
 	/* only critical and error are fatal */
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
-	g_test_add_func ("/AppStream/Cache", test_cache);
 	g_test_add_func ("/AppStream/PoolRead", test_pool_read);
+	g_test_add_func ("/AppStream/CacheFile", test_cache_file);
+	g_test_add_func ("/AppStream/Cache", test_cache);
 	g_test_add_func ("/AppStream/Merges", test_merge_components);
 
 	ret = g_test_run ();

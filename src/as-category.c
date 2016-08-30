@@ -1,6 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2015-2016 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -20,15 +21,11 @@
 
 #include "as-category.h"
 
+#include "config.h"
+#include <glib/gi18n.h>
 #include <glib.h>
-#include <glib-object.h>
-#include <stdlib.h>
-#include <string.h>
-#include <config.h>
-#include <libxml/tree.h>
-#include <libxml/parser.h>
-#include <glib/gi18n-lib.h>
-#include <gobject/gvaluecollector.h>
+
+#include "as-component.h"
 
 /**
  * SECTION:as-category
@@ -38,53 +35,337 @@
  * This object represents an XDG category, as defined at:
  * http://standards.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
  *
- * The #AsCategory object does not support all aspects of a menu. It's main purpose
- * is to be used in software-centers to show information about application-groups,
- * which are use to thematically group applications.
+ * The #AsCategory object does not support all aspects of a menu. Its main purpose
+ * is to be used in software-centers to group visual components (gui/web applications).
  *
- * You can use #AsMenuParser to get a set of supported default categories.
+ * You can use %as_get_default_categories() to get a set of supported default categories.
  *
- * See also: #AsMenuParser
+ * See also: #AsComponent
  */
+
+#ifdef __clang__
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#endif
+
+typedef struct {
+	const gchar	*id;
+	const gchar	*name;
+	const gchar	*fdo_cats[16];
+} AsCategoryMap;
+
+typedef struct {
+	const gchar		*id;
+	const AsCategoryMap	*mapping;
+	const gchar		*name;
+	const gchar		*icon;
+} AsCategoryData;
+
+/* AudioVideo */
+static const AsCategoryMap map_audiovideo[] = {
+	{ "featured",		NC_("Category of AudioVideo", "Featured"),
+					{ "AudioVideo::Featured",
+					  NULL} },
+	{ "creation-editing",	NC_("Category of AudioVideo", "Audio Creation & Editing"),
+					{ "AudioVideo::AudioVideoEditing",
+					  "AudioVideo::Midi",
+					  "AudioVideo::DiscBurning",
+					  "AudioVideo::Sequencer",
+					  NULL} },
+	{ "music-players",	NC_("Category of AudioVideo", "Music Players"),
+					{ "AudioVideo::Music",
+					  "AudioVideo::Player",
+					  NULL} },
+	{ NULL }
+};
+
+/* Development */
+static const AsCategoryMap map_developertools[] = {
+	{ "featured",		NC_("Category of Development", "Featured"),
+					{ "Development::Featured",
+					  NULL} },
+	{ "debuggers",		NC_("Category of Development", "Debuggers"),
+					{ "Development:Debugger",
+					  NULL} },
+	{ "ide",		NC_("Category of Development", "IDEs"),
+					{ "Development::IDE",
+					  "Development::GUIDesigner",
+					  NULL} },
+	{ NULL }
+};
+
+/* Education */
+static const AsCategoryMap map_education[] = {
+	{ "featured",		NC_("Category of Education", "Featured"),
+					{ "Education::Featured",
+					  NULL} },
+	{ "astronomy",		NC_("Category of Education", "Astronomy"),
+					{ "Education::Astronomy",
+					  NULL} },
+	{ "chemistry",		NC_("Category of Education", "Chemistry"),
+					{ "Education::Chemistry",
+					  NULL} },
+	{ "languages",		NC_("Category of Education", "Languages"),
+					{ "Education::Languages",
+					  "Education::Literature",
+					  NULL} },
+	{ "math",		NC_("Category of Education", "Math"),
+					{ "Education::Math",
+					  "Education::NumericalAnalysis",
+					  NULL} },
+	{ NULL }
+};
+
+/* Games */
+static const AsCategoryMap map_games[] = {
+	{ "featured",		NC_("Category of Games", "Featured"),
+					{ "Game::Featured",
+					  NULL} },
+	{ "action",		NC_("Category of Games", "Action"),
+					{ "Game::ActionGame",
+					  NULL} },
+	{ "adventure",		NC_("Category of Games", "Adventure"),
+					{ "Game::AdventureGame",
+					  NULL} },
+	{ "arcade",		NC_("Category of Games", "Arcade"),
+					{ "Game::ArcadeGame",
+					  NULL} },
+	{ "blocks",		NC_("Category of Games", "Blocks"),
+					{ "Game::BlocksGame",
+					  NULL} },
+	{ "board",		NC_("Category of Games", "Board"),
+					{ "Game::BoardGame",
+					  NULL} },
+	{ "card",		NC_("Category of Games", "Card"),
+					{ "Game::CardGame",
+					  NULL} },
+	{ "emulator",		NC_("Category of Games", "Emulators"),
+					{ "Game::Emulator",
+					  NULL} },
+	{ "kids",		NC_("Category of Games", "Kids"),
+					{ "Game::KidsGame",
+					  NULL} },
+	{ "logic",		NC_("Category of Games", "Logic"),
+					{ "Game::LogicGame",
+					  NULL} },
+	{ "role-playing",	NC_("Category of Games", "Role Playing"),
+					{ "Game::RolePlaying",
+					  NULL} },
+	{ "sports",		NC_("Category of Games", "Sports"),
+					{ "Game::SportsGame",
+					  "Game::Simulation",
+					  NULL} },
+	{ "strategy",		NC_("Category of Games", "Strategy"),
+					{ "Game::StrategyGame",
+					  NULL} },
+	{ NULL }
+};
+
+/* Graphics */
+static const AsCategoryMap map_graphics[] = {
+	{ "featured",		NC_("Category of Graphics", "Featured"),
+					{ "Graphics::Featured",
+					  NULL} },
+	{ "3d",			NC_("Category of Graphics", "3D Graphics"),
+					{ "Graphics::3DGraphics",
+					  NULL} },
+	{ "photography",	NC_("Category of Graphics", "Photography"),
+					{ "Graphics::Photography",
+					  NULL} },
+	{ "scanning",		NC_("Category of Graphics", "Scanning"),
+					{ "Graphics::Scanning",
+					  NULL} },
+	{ "vector",		NC_("Category of Graphics", "Vector Graphics"),
+					{ "Graphics::VectorGraphics",
+					  NULL} },
+	{ "viewers",		NC_("Category of Graphics", "Viewers"),
+					{ "Graphics::Viewer",
+					  NULL} },
+	{ NULL }
+};
+
+/* Office */
+static const AsCategoryMap map_office[] = {
+	{ "featured",		NC_("Category of Office", "Featured"),
+					{ "Office::Featured",
+					  NULL} },
+	{ "calendar",		NC_("Category of Office", "Calendar"),
+					{ "Office::Calendar",
+					  "Office::ProjectManagement",
+					  NULL} },
+	{ "database",		NC_("Category of Office", "Database"),
+					{ "Office::Database",
+					  NULL} },
+	{ "finance",		NC_("Category of Office", "Finance"),
+					{ "Office::Finance",
+					  "Office::Spreadsheet",
+					  NULL} },
+	{ "word-processor",	NC_("Category of Office", "Word Processor"),
+					{ "Office::WordProcessor",
+					  "Office::Dictionary",
+					  NULL} },
+	{ NULL }
+};
+
+/* Addons */
+static const AsCategoryMap map_addons[] = {
+	{ "fonts",		NC_("Category of Addons", "Fonts"),
+					{ "Addons::Fonts",
+					  NULL} },
+	{ "codecs",		NC_("Category of Addons", "Codecs"),
+					{ "Addons::Codecs",
+					  NULL} },
+	{ "input-sources",	NC_("Category of Addons", "Input Sources"),
+					{ "Addons::InputSources",
+					  NULL} },
+	{ "language-packs",	NC_("Category of Addons", "Language Packs"),
+					{ "Addons::LanguagePacks",
+					  NULL} },
+	{ "localization",	NC_("Category of Addons", "Localization"),
+					{ "Addons::Localization",
+					  NULL} },
+	{ NULL }
+};
+
+/* Science */
+static const AsCategoryMap map_science[] = {
+	{ "featured",		NC_("Category of Science", "Featured"),
+					{ "Science::Featured",
+					  NULL} },
+	{ "artificial-intelligence", NC_("Category of Science", "Artificial Intelligence"),
+					{ "Science::ArtificialIntelligence",
+					  NULL} },
+	{ "astronomy",		NC_("Category of Science", "Astronomy"),
+					{ "Science::Astronomy",
+					  NULL} },
+	{ "chemistry",		NC_("Category of Science", "Chemistry"),
+					{ "Science::Chemistry",
+					  NULL} },
+	{ "math",		NC_("Category of Science", "Math"),
+					{ "Science::Math",
+					  "Science::Physics",
+					  "Science::NumericalAnalysis",
+					  NULL} },
+	{ "robotics",		NC_("Category of Science", "Robotics"),
+					{ "Science::Robotics",
+					  NULL} },
+	{ NULL }
+};
+
+/* Communication */
+static const AsCategoryMap map_communication[] = {
+	{ "featured",		NC_("Category of Communication", "Featured"),
+					{ "Network::Featured",
+					  NULL} },
+	{ "chat",		NC_("Category of Communication", "Chat"),
+					{ "Network::Chat",
+					  "Network::IRCClient",
+					  "Network::Telephony",
+					  "Network::VideoConference",
+					  "Network::Email",
+					  NULL} },
+	{ "news",		NC_("Category of Communication", "News"),
+					{ "Network::Feed",
+					  "Network::News",
+					  NULL} },
+	{ "web-browsers",	NC_("Category of Communication", "Web Browsers"),
+					{ "Network::WebBrowser",
+					  NULL} },
+	{ NULL }
+};
+
+/* Utility */
+static const AsCategoryMap map_utilities[] = {
+	{ "featured",		NC_("Category of Utility", "Featured"),
+					{ "Utility::Featured",
+					  NULL} },
+	{ "text-editors",	NC_("Category of Utility", "Text Editors"),
+					{ "Utility::TextEditor",
+					  NULL} },
+	{ "terminal-emulators",	NC_("Category of Utility", "Terminal Emulators"),
+					{ "System::TerminalEmulator",
+					  NULL} },
+	{ "filesystem",		NC_("Category of Utility", "File System"),
+					{ "System::Filesystem",
+					  NULL} },
+	{ "monitor",		NC_("Category of Utility", "System Monitoring"),
+					{ "System::Monitor",
+					  NULL} },
+	{ "security",		NC_("Category of Utility", "Security"),
+					{ "System::Security",
+					  NULL} },
+	{ NULL }
+};
+
+/* main categories */
+static const AsCategoryData msdata[] = {
+	/* TRANSLATORS: this is the menu spec main category for Audio & Video */
+	{ "audio-video",	map_audiovideo,		N_("Audio & Video"),
+				"applications-multimedia" },
+	/* TRANSLATORS: this is the menu spec main category for Development */
+	{ "developer-tools",	map_developertools,	N_("Developer Tools"),
+				"applications-development" },
+	/* TRANSLATORS: this is the menu spec main category for Education */
+	{ "education",		map_education,		N_("Education"),
+				"applications-education" },
+	/* TRANSLATORS: this is the menu spec main category for Game */
+	{ "games",		map_games,		N_("Games"),
+				"applications-games" },
+	/* TRANSLATORS: this is the menu spec main category for Graphics */
+	{ "graphics",		map_graphics,		N_("Graphics & Photography"),
+				"applications-graphics" },
+	/* TRANSLATORS: this is the menu spec main category for Office */
+	{ "office",		map_office,		N_("Office"),
+				"applications-office" },
+	/* TRANSLATORS: this is the main category for Add-ons */
+	{ "addons",		map_addons,		N_("Add-ons"),
+				"applications-other" },
+	/* TRANSLATORS: this is the menu spec main category for Science */
+	{ "science",		map_science,		N_("Science"),
+				"applications-science" },
+	/* TRANSLATORS: this is the menu spec main category for Communication */
+	{ "communication",	map_communication,	N_("Communication & News"),
+				"applications-internet" },
+	/* TRANSLATORS: this is the menu spec main category for Utilities */
+	{ "utilities",		map_utilities,		N_("Utilities"),
+				"applications-utilities" },
+	{ NULL }
+};
 
 typedef struct
 {
+	gchar *id;
 	gchar *name;
 	gchar *summary;
 	gchar *icon;
-	gchar *directory;
-	GList *included;
-	GList *excluded;
-	gint level;
-	GList *subcats;
+	GPtrArray *children;
+	GPtrArray *desktop_groups;
+
+	GPtrArray *components;
 } AsCategoryPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsCategory, as_category, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_category_get_instance_private (o))
 
 enum  {
-	AS_CATEGORY_DUMMY_PROPERTY,
+	AS_CATEGORY_DUMMY,
+	AS_CATEGORY_ID,
 	AS_CATEGORY_NAME,
 	AS_CATEGORY_SUMMARY,
 	AS_CATEGORY_ICON,
-	AS_CATEGORY_DIRECTORY,
-	AS_CATEGORY_INCLUDED,
-	AS_CATEGORY_EXCLUDED,
-	AS_CATEGORY_LEVEL,
-	AS_CATEGORY_SUBCATEGORIES
+	AS_CATEGORY_CHILDREN
 };
 
 /**
  * as_category_init:
  **/
 static void
-as_category_init (AsCategory *cat)
+as_category_init (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 
-	priv->included = NULL;
-	priv->excluded = NULL;
-	priv->subcats = NULL;
+	priv->children = g_ptr_array_new_with_free_func (g_object_unref);
+	priv->desktop_groups = g_ptr_array_new_with_free_func (g_free);
+	priv->components = g_ptr_array_new_with_free_func (g_object_unref);
 }
 
 /**
@@ -93,308 +374,274 @@ as_category_init (AsCategory *cat)
 static void
 as_category_finalize (GObject *object)
 {
-	AsCategory *cat = AS_CATEGORY (object);
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategory *category = AS_CATEGORY (object);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 
+	g_free (priv->id);
 	g_free (priv->name);
 	g_free (priv->summary);
 	g_free (priv->icon);
-	g_free (priv->directory);
-	g_list_free_full (priv->included, g_free);
-	g_list_free_full (priv->excluded, g_free);
-	g_list_free_full (priv->subcats, g_object_unref);
+	g_ptr_array_unref (priv->children);
+	g_ptr_array_unref (priv->desktop_groups);
+	g_ptr_array_unref (priv->components);
 
 	G_OBJECT_CLASS (as_category_parent_class)->finalize (object);
 }
 
 /**
- * as_category_complete:
+ * as_category_get_id:
+ * @category: An instance of #AsCategory.
  *
- * Update incomplete category data with information from
- * "/usr/share/desktop-directories".
+ * Get the ID of this category.
  */
-void
-as_category_complete (AsCategory *cat)
+const gchar*
+as_category_get_id (AsCategory *category)
 {
-	GKeyFile* kfile = NULL;
-	GError *error = NULL;
-	gchar *path;
-	gchar *str = NULL;
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-
-	if (priv->directory == NULL) {
-		g_debug ("No directory set for category %s", priv->name);
-		return;
-	}
-	as_category_set_summary (cat, "");
-	as_category_set_icon (cat, "applications-other");
-
-	kfile = g_key_file_new ();
-	path = g_strdup_printf ("/usr/share/desktop-directories/%s", priv->directory);
-	g_key_file_load_from_file (kfile, path, 0, &error);
-	g_free (path);
-	if (error != NULL)
-		goto out;
-
-	str = g_key_file_get_string (kfile, "Desktop Entry", "Name", &error);
-	if (error != NULL)
-		goto out;
-	as_category_set_name (cat, str);
-	g_free (str);
-	str = NULL;
-
-	if (g_key_file_has_key (kfile, "Desktop Entry", "Comment", NULL)) {
-		str = g_key_file_get_string (kfile, "Desktop Entry", "Comment", &error);
-		if (error != NULL)
-			goto out;
-		as_category_set_summary (cat, str);
-		g_free (str);
-		str = NULL;
-	}
-
-	str = g_key_file_get_string (kfile, "Desktop Entry", "Icon", &error);
-	if (error != NULL)
-		goto out;
-	if (str == NULL)
-		as_category_set_icon (cat, "");
-	else
-		as_category_set_icon (cat, str);
-
-	if (priv->summary == NULL)
-		as_category_set_summary (cat, "");
-
-out:
-	if (str != NULL)
-		g_free (str);
-	g_key_file_unref (kfile);
-	if (error != NULL) {
-		g_debug ("Error retrieving data for %s: %s\n", priv->directory, error->message);
-		g_error_free (error);
-	}
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->id;
 }
 
 /**
- * as_category_add_subcategory:
- * @cat: An instance of #AsCategory.
+ * as_category_set_id:
+ * @category: An instance of #AsCategory.
+ *
+ * Set the ID of this category.
+ */
+void
+as_category_set_id (AsCategory *category, const gchar *id)
+{
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+
+	g_free (priv->id);
+	priv->id = g_strdup (id);
+	g_object_notify (G_OBJECT (category), "id");
+}
+
+/**
+ * as_category_get_name:
+ * @category: An instance of #AsCategory.
+ *
+ * Get the name of this category.
+ */
+const gchar*
+as_category_get_name (AsCategory *category)
+{
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->name;
+}
+
+/**
+ * as_category_set_name:
+ * @category: An instance of #AsCategory.
+ *
+ * Set the name of this category.
+ */
+void
+as_category_set_name (AsCategory *category, const gchar *value)
+{
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+
+	g_free (priv->name);
+	priv->name = g_strdup (value);
+	g_object_notify (G_OBJECT (category), "name");
+}
+
+/**
+ * as_category_get_children:
+ * @category: An instance of #AsCategory.
+ *
+ * Returns: (element-type AsCategory) (transfer none): A list of subcategories.
+ */
+GPtrArray*
+as_category_get_children (AsCategory *category)
+{
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->children;
+}
+
+/**
+ * as_category_add_child:
+ * @category: An instance of #AsCategory.
  * @subcat: A subcategory to add.
  *
  * Add a subcategory to this category.
  */
 void
-as_category_add_subcategory (AsCategory *cat, AsCategory *subcat)
+as_category_add_child (AsCategory *category, AsCategory *subcat)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-
-	priv->subcats = g_list_append (priv->subcats, g_object_ref (subcat));
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	g_ptr_array_add (priv->children, g_object_ref (subcat));
 }
 
-
 /**
- * as_category_remove_subcategory:
- * @cat: An instance of #AsCategory.
+ * as_category_remove_child:
+ * @category: An instance of #AsCategory.
  * @subcat: A subcategory to remove.
  *
  * Drop a subcategory from this #AsCategory.
  */
 void
-as_category_remove_subcategory (AsCategory *cat, AsCategory *subcat)
+as_category_remove_child (AsCategory *category, AsCategory *subcat)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	priv->subcats = g_list_remove (priv->subcats, subcat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	g_ptr_array_remove (priv->children, subcat);
 }
 
 /**
- * as_category_has_subcategory:
- * @cat: An instance of #AsCategory.
+ * as_category_has_children:
+ * @category: An instance of #AsCategory.
  *
  * Test for sub-categories.
  *
  * Returns: %TRUE if this category has any subcategory
  */
 gboolean
-as_category_has_subcategory (AsCategory *cat)
+as_category_has_children (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return g_list_length (priv->subcats) > 0;
-}
-
-/**
- * as_category_get_name:
- * @cat: An instance of #AsCategory.
- *
- * Get the name of this category.
- */
-const gchar*
-as_category_get_name (AsCategory *cat)
-{
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->name;
-}
-
-/**
- * as_category_set_name:
- * @cat: An instance of #AsCategory.
- *
- * Set the name of this category.
- */
-void
-as_category_set_name (AsCategory *cat, const gchar *value)
-{
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-
-	g_free (priv->name);
-	priv->name = g_strdup (value);
-	g_object_notify ((GObject*) cat, "name");
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->children->len > 0;
 }
 
 /**
  * as_category_get_summary:
- * @cat: An instance of #AsCategory.
+ * @category: An instance of #AsCategory.
  *
  * Get the summary (short description) of this category.
  */
 const gchar*
-as_category_get_summary (AsCategory *cat)
+as_category_get_summary (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 	return priv->summary;
 }
 
 /**
  * as_category_set_summary:
- * @cat: An instance of #AsCategory.
+ * @category: An instance of #AsCategory.
  * @value: A new short summary of this category.
  *
  * Get the summary (short description) of this category.
  */
 void
-as_category_set_summary (AsCategory *cat, const gchar *value)
+as_category_set_summary (AsCategory *category, const gchar *value)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 
 	g_free (priv->summary);
 	priv->summary = g_strdup (value);
-	g_object_notify ((GObject*) cat, "summary");
+	g_object_notify (G_OBJECT (category), "summary");
 }
 
 /**
  * as_category_get_icon:
- * @cat: An instance of #AsCategory.
+ * @category: An instance of #AsCategory.
  *
  * Get the stock icon name for this category.
  */
 const gchar*
-as_category_get_icon (AsCategory *cat)
+as_category_get_icon (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 	return priv->icon;
 }
 
 /**
  * as_category_set_icon:
- * @cat: An instance of #AsCategory.
+ * @category: An instance of #AsCategory.
  *
  * Set the stock icon name for this category.
  */
 void
-as_category_set_icon (AsCategory *cat, const gchar *value)
+as_category_set_icon (AsCategory *category, const gchar *value)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
 
 	g_free (priv->icon);
 	priv->icon = g_strdup (value);
-	g_object_notify ((GObject*) cat, "icon");
+	g_object_notify (G_OBJECT (category), "icon");
 }
 
 /**
- * as_category_get_directory:
- * @cat: An instance of #AsCategory.
+ * as_category_get_desktop_groups:
+ * @category: An instance of #AsCategory.
  *
- * Get associated XDG directory name for this category,
- * in case one exists in "/usr/share/desktop-directories/".
+ * Returns: (transfer none) (element-type utf8): A list of desktop-file categories.
  */
-const gchar*
-as_category_get_directory (AsCategory *cat)
+GPtrArray*
+as_category_get_desktop_groups (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->directory;
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->desktop_groups;
 }
 
 /**
- * as_category_set_directory:
- * @cat: An instance of #AsCategory.
+ * as_category_add_desktop_group:
+ * @category: An instance of #AsCategory.
+ * @group_name: A subcategory to add.
  *
- * Set associated XDG directory name for this category.
+ * Add a desktop-file category to this #AsCategory.
  */
 void
-as_category_set_directory (AsCategory *cat, const gchar *value)
+as_category_add_desktop_group (AsCategory *category, const gchar *group_name)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-
-	g_free (priv->directory);
-	priv->directory = g_strdup (value);
-	g_object_notify ((GObject*) cat, "directory");
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	g_ptr_array_add (priv->desktop_groups,
+			 g_strdup (group_name));
 }
 
 /**
- * as_category_get_included:
- * @cat: An instance of #AsCategory.
+ * as_category_get_components:
+ * @category: An instance of #AsCategory.
  *
- * Returns: (element-type utf8) (transfer none): A list of category names
- */
-GList*
-as_category_get_included (AsCategory *cat)
-{
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->included;
-}
-
-/**
- * as_category_get_excluded:
- * @cat: An instance of #AsCategory.
+ * Get list of components which have been sorted into this category.
  *
- * Returns: (element-type utf8) (transfer none): A list of category names
+ * Returns: (transfer none) (element-type AsComponent): List of #AsCategory
  */
-GList*
-as_category_get_excluded (AsCategory *cat)
+GPtrArray*
+as_category_get_components (AsCategory *category)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->excluded;
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	return priv->components;
 }
 
 /**
- * as_category_get_level:
- */
-gint
-as_category_get_level (AsCategory *cat)
-{
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->level;
-}
-
-/**
- * as_category_set_level:
+ * as_category_add_component:
+ * @category: An instance of #AsCategory.
+ * @cpt: The #AsComponent to add.
+ *
+ * Add a component to this category.
  */
 void
-as_category_set_level (AsCategory *cat, gint value)
+as_category_add_component (AsCategory *category, AsComponent *cpt)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-
-	priv->level = value;
-	g_object_notify ((GObject*) cat, "level");
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	g_ptr_array_add (priv->components,
+			 g_object_ref (cpt));
 }
 
 /**
- * as_category_get_subcategories:
- * @cat: An instance of #AsCategory.
+ * as_category_has_component:
+ * @category: An instance of #AsCategory.
+ * @cpt: The #AsComponent to look for.
  *
- * Returns: (element-type AsCategory) (transfer none): A list of subcategories.
+ * Check if the exact #AsComponent @cpt is a member of this
+ * category already.
+ *
+ * returns: %TRUE if the component is present.
  */
-GList*
-as_category_get_subcategories (AsCategory *cat)
+gboolean
+as_category_has_component (AsCategory *category, AsComponent *cpt)
 {
-	AsCategoryPrivate *priv = GET_PRIVATE (cat);
-	return priv->subcats;
+	AsCategoryPrivate *priv = GET_PRIVATE (category);
+	guint i;
+
+	for (i = 0; i < priv->components->len; i++) {
+		AsComponent *ecpt = AS_COMPONENT (g_ptr_array_index (priv->components, i));
+		if (ecpt == cpt)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 /**
@@ -403,32 +650,23 @@ as_category_get_subcategories (AsCategory *cat)
 static void
 as_category_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
 {
-	AsCategory  *cat;
-	cat = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_CATEGORY, AsCategory);
+	AsCategory  *category;
+	category = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_CATEGORY, AsCategory);
 	switch (property_id) {
+		case AS_CATEGORY_ID:
+			g_value_set_string (value, as_category_get_id (category));
+			break;
 		case AS_CATEGORY_NAME:
-			g_value_set_string (value, as_category_get_name (cat));
+			g_value_set_string (value, as_category_get_name (category));
 			break;
 		case AS_CATEGORY_SUMMARY:
-			g_value_set_string (value, as_category_get_summary (cat));
+			g_value_set_string (value, as_category_get_summary (category));
 			break;
 		case AS_CATEGORY_ICON:
-			g_value_set_string (value, as_category_get_icon (cat));
+			g_value_set_string (value, as_category_get_icon (category));
 			break;
-		case AS_CATEGORY_DIRECTORY:
-			g_value_set_string (value, as_category_get_directory (cat));
-			break;
-		case AS_CATEGORY_INCLUDED:
-			g_value_set_pointer (value, as_category_get_included (cat));
-			break;
-		case AS_CATEGORY_EXCLUDED:
-			g_value_set_pointer (value, as_category_get_excluded (cat));
-			break;
-		case AS_CATEGORY_LEVEL:
-			g_value_set_int (value, as_category_get_level (cat));
-			break;
-		case AS_CATEGORY_SUBCATEGORIES:
-			g_value_set_pointer (value, as_category_get_subcategories (cat));
+		case AS_CATEGORY_CHILDREN:
+			g_value_set_pointer (value, as_category_get_children (category));
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -442,23 +680,20 @@ as_category_get_property (GObject *object, guint property_id, GValue *value, GPa
 static void
 as_category_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
 {
-	AsCategory  *cat;
-	cat = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_CATEGORY, AsCategory);
+	AsCategory  *category;
+	category = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_CATEGORY, AsCategory);
 	switch (property_id) {
+		case AS_CATEGORY_ID:
+			as_category_set_id (category, g_value_get_string (value));
+			break;
 		case AS_CATEGORY_NAME:
-			as_category_set_name (cat, g_value_get_string (value));
+			as_category_set_name (category, g_value_get_string (value));
 			break;
 		case AS_CATEGORY_SUMMARY:
-			as_category_set_summary (cat, g_value_get_string (value));
+			as_category_set_summary (category, g_value_get_string (value));
 			break;
 		case AS_CATEGORY_ICON:
-			as_category_set_icon (cat, g_value_get_string (value));
-			break;
-		case AS_CATEGORY_DIRECTORY:
-			as_category_set_directory (cat, g_value_get_string (value));
-			break;
-		case AS_CATEGORY_LEVEL:
-			as_category_set_level (cat, g_value_get_int (value));
+			as_category_set_icon (category, g_value_get_string (value));
 			break;
 		default:
 			G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -478,6 +713,9 @@ as_category_class_init (AsCategoryClass *klass)
 	object_class->finalize = as_category_finalize;
 
 	g_object_class_install_property (object_class,
+					AS_CATEGORY_ID,
+					g_param_spec_string ("id", "id", "id", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
+	g_object_class_install_property (object_class,
 					AS_CATEGORY_NAME,
 					g_param_spec_string ("name", "name", "name", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (object_class,
@@ -487,20 +725,8 @@ as_category_class_init (AsCategoryClass *klass)
 					AS_CATEGORY_ICON,
 					g_param_spec_string ("icon", "icon", "icon", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
 	g_object_class_install_property (object_class,
-					AS_CATEGORY_DIRECTORY,
-					g_param_spec_string ("directory", "directory", "directory", NULL, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (object_class,
-					AS_CATEGORY_INCLUDED,
-					g_param_spec_pointer ("included", "included", "included", G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
-	g_object_class_install_property (object_class,
-					AS_CATEGORY_EXCLUDED,
-					g_param_spec_pointer ("excluded", "excluded", "excluded", G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
-	g_object_class_install_property (object_class,
-					AS_CATEGORY_LEVEL,
-					g_param_spec_int ("level", "level", "level", G_MININT, G_MAXINT, 0, G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE | G_PARAM_WRITABLE));
-	g_object_class_install_property (object_class,
-					AS_CATEGORY_SUBCATEGORIES,
-					g_param_spec_pointer ("subcategories", "subcategories", "subcategories", G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
+					AS_CATEGORY_CHILDREN,
+					g_param_spec_pointer ("children", "children", "children", G_PARAM_STATIC_NAME | G_PARAM_STATIC_NICK | G_PARAM_STATIC_BLURB | G_PARAM_READABLE));
 }
 
 /**
@@ -513,7 +739,87 @@ as_category_class_init (AsCategoryClass *klass)
 AsCategory*
 as_category_new (void)
 {
-	AsCategory *cat;
-	cat = g_object_new (AS_TYPE_CATEGORY, NULL);
-	return AS_CATEGORY (cat);
+	AsCategory *category;
+	category = g_object_new (AS_TYPE_CATEGORY, NULL);
+	return AS_CATEGORY (category);
+}
+
+/**
+ * as_get_default_categories:
+ * @with_special: Include special categories (e.g. "addons", and "all"/"featured" in submenus)
+ *
+ * Get a list of the default Freedesktop and AppStream categories
+ * that software components (especially GUI applications) can be sorted
+ * into in software centers.
+ *
+ * Returns: (transfer container) (element-type AsCategory): a list of #AsCategory
+ */
+GPtrArray*
+as_get_default_categories (gboolean with_special)
+{
+	guint i;
+	gchar msgctxt[100];
+	GPtrArray *main_cats;
+
+	main_cats = g_ptr_array_new_with_free_func (g_object_unref);
+	for (i = 0; msdata[i].id != NULL; i++) {
+		guint j;
+		AsCategory *category;
+		GHashTableIter iter;
+		gpointer key;
+		g_autoptr(GHashTable) root_fdocats = NULL;
+
+		if ((!with_special) && (g_strcmp0 (msdata[i].id, "addons") == 0))
+			continue;
+
+		category = as_category_new ();
+		as_category_set_id (category, msdata[i].id);
+
+		as_category_set_name (category, gettext (msdata[i].name));
+		as_category_set_icon (category, msdata[i].icon);
+
+		g_ptr_array_add (main_cats, category);
+		g_snprintf (msgctxt, sizeof(msgctxt),
+			    "Subcategory of %s", msdata[i].name);
+
+		root_fdocats = g_hash_table_new_full (g_str_hash,
+						      g_str_equal,
+						      g_free,
+						      NULL);
+
+		/* add subcategories */
+		for (j = 0; msdata[i].mapping[j].id != NULL; j++) {
+			guint k;
+			const AsCategoryMap *map = &msdata[i].mapping[j];
+			g_autoptr(AsCategory) sub = NULL;
+
+			if (!with_special) {
+			    if (g_strcmp0 (msdata[i].id, "featured") == 0)
+				continue;
+			}
+
+			sub = as_category_new ();
+			as_category_set_id (sub, map->id);
+
+			for (k = 0; map->fdo_cats[k] != NULL; k++) {
+				g_auto(GStrv) split = g_strsplit (map->fdo_cats[k], "::", -1);
+				as_category_add_desktop_group (sub, map->fdo_cats[k]);
+
+				g_hash_table_add (root_fdocats, g_strdup (split[0]));
+			}
+			as_category_set_name (sub, g_dpgettext2 (GETTEXT_PACKAGE,
+								 msgctxt,
+								 map->name));
+			as_category_add_child (category, sub);
+		}
+
+		/* ensure the root category has the right XDG group names set, which match the subcategories */
+		g_hash_table_iter_init (&iter, root_fdocats);
+		while (g_hash_table_iter_next (&iter, &key, NULL)) {
+			const gchar *desktop_group = (const gchar*) key;
+			as_category_add_desktop_group (category, desktop_group);
+		}
+	}
+
+	return main_cats;
 }

@@ -37,8 +37,9 @@ static gboolean optn_force = FALSE;
 static gboolean optn_details = FALSE;
 static gboolean optn_pedantic = FALSE;
 static gboolean optn_no_cache = FALSE;
-static gchar *optn_dbpath = NULL;
+static gchar *optn_cachepath = NULL;
 static gchar *optn_datapath = NULL;
+static gchar *optn_format = NULL;
 
 /**
  * as_client_get_summary:
@@ -69,8 +70,10 @@ as_client_get_summary ()
 	g_string_append_printf (string, "  %s - %s\n", "install COMPONENT-ID", _("Install software matching the component-id."));
 	g_string_append_printf (string, "  %s - %s\n", "remove  COMPONENT-ID", _("Remove software matching the component-id."));
 	g_string_append (string, "\n");
-	g_string_append_printf (string, "  %s - %s\n", "put FILE", _("Install a metadata file into the right location."));
-	g_string_append_printf (string, "  %s - %s\n", "status  ", _("Display status information about available AppStream metadata."));
+	g_string_append_printf (string, "  %s - %s\n", "status           ", _("Display status information about available AppStream metadata."));
+	g_string_append_printf (string, "  %s - %s\n", "put FILE         ", _("Install a metadata file into the right location."));
+	/* TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data. */
+	g_string_append_printf (string, "  %s - %s\n", "convert FILE FILE", _("Convert collection XML to YAML or vice versa."));
 
 	return g_string_free (string, FALSE);
 }
@@ -78,7 +81,7 @@ as_client_get_summary ()
 /**
  * as_client_run:
  */
-int
+static int
 as_client_run (char **argv, int argc)
 {
 	GOptionContext *opt_context;
@@ -91,57 +94,63 @@ as_client_run (char **argv, int argc)
 
 	gchar *summary;
 	gchar *options_help = NULL;
+	AsFormatKind mformat;
 
 	const GOptionEntry client_options[] = {
 		{ "version", 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_show_version,
 			/* TRANSLATORS: ascli flag description for: --version */
-			_("Show the program version"),
+			_("Show the program version."),
 			NULL },
 		{ "verbose", (gchar) 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_verbose_mode,
 			/* TRANSLATORS: ascli flag description for: --verbose */
-			_("Show extra debugging information"),
+			_("Show extra debugging information."),
 			NULL },
 		{ "no-color", (gchar) 0, 0,
 			G_OPTION_ARG_NONE, &optn_no_color,
 			/* TRANSLATORS: ascli flag description for: --no-color */
-			_("Don't show colored output"), NULL },
+			_("Don't show colored output."), NULL },
 		{ "force", (gchar) 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_force,
 			/* TRANSLATORS: ascli flag description for: --force */
-			_("Enforce a cache refresh"),
+			_("Enforce a cache refresh."),
 			NULL },
 		{ "details", 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_details,
 			/* TRANSLATORS: ascli flag description for: --details */
-			_("Print detailed output about found components"),
+			_("Print detailed output about found components."),
 			NULL },
 		{ "no-cache", 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_no_cache,
 			/* TRANSLATORS: ascli flag description for: --no-cache */
-			_("Do not use the Xapian cache when performing the request"),
+			_("Do not use any caches when performing the request."),
 			NULL },
-		{ "dbpath", 0, 0,
+		{ "cachepath", 0, 0,
 			G_OPTION_ARG_STRING,
-			&optn_dbpath,
-			/* TRANSLATORS: ascli flag description for: --dbpath */
-			_("Manually set the location of the AppStream cache"), NULL },
+			&optn_cachepath,
+			/* TRANSLATORS: ascli flag description for: --cachepath */
+			_("Manually set the location of the AppStream cache."), NULL },
 		{ "datapath", 0, 0,
 			G_OPTION_ARG_STRING,
 			&optn_datapath,
 			/* TRANSLATORS: ascli flag description for: --datapath */
-			_("Manually set the location of AppStream metadata for cache regeneration"), NULL },
+			_("Manually set the location of AppStream metadata to scan."), NULL },
+		{ "format", 0, 0,
+			G_OPTION_ARG_STRING,
+			&optn_format,
+			/* TRANSLATORS: ascli flag description for: --format */
+			_("Default to the given metadata format (valid values are 'xml' and 'yaml')."), NULL },
 		{ "pedantic", (gchar) 0, 0,
 			G_OPTION_ARG_NONE,
 			&optn_pedantic,
 			/* TRANSLATORS: ascli flag description for: --pedantic */
-			_("Also print pedantic hints when validating"), NULL },
+			_("Also print pedantic hints when validating."), NULL },
 		{ NULL }
 	};
 
@@ -188,6 +197,7 @@ as_client_run (char **argv, int argc)
 
 	ascli_set_colored_output (!optn_no_color);
 
+	mformat = as_format_kind_from_string (optn_format);
 	command = argv[1];
 	if (argc > 2)
 		value1 = argv[2];
@@ -195,25 +205,26 @@ as_client_run (char **argv, int argc)
 		value2 = argv[3];
 
 	if ((g_strcmp0 (command, "search") == 0) || (g_strcmp0 (command, "s") == 0)) {
-		exit_code = ascli_search_component (optn_dbpath,
+		exit_code = ascli_search_component (optn_cachepath,
 							value1,
 							optn_details,
 							optn_no_cache);
 	} else if ((g_strcmp0 (command, "refresh-cache") == 0) || (g_strcmp0 (command, "refresh") == 0)) {
-		exit_code = ascli_refresh_cache (optn_dbpath,
+		exit_code = ascli_refresh_cache (optn_cachepath,
 						 optn_datapath,
 						 optn_force);
 	} else if (g_strcmp0 (command, "get") == 0) {
-		exit_code = ascli_get_component (optn_dbpath,
+		exit_code = ascli_get_component (optn_cachepath,
 						 value1,
 						 optn_details,
 						 optn_no_cache);
 	} else if (g_strcmp0 (command, "dump") == 0) {
-		exit_code = ascli_dump_component (optn_dbpath,
-							value1,
-							optn_no_cache);
+		exit_code = ascli_dump_component (optn_cachepath,
+						  value1,
+						  mformat,
+						  optn_no_cache);
 	} else if (g_strcmp0 (command, "what-provides") == 0) {
-		exit_code = ascli_what_provides (optn_dbpath, value1, value2, optn_details);
+		exit_code = ascli_what_provides (optn_cachepath, value1, value2, optn_details);
 	} else if (g_strcmp0 (command, "validate") == 0) {
 		exit_code = ascli_validate_files (&argv[2], argc-2, optn_no_color, optn_pedantic);
 	} else if (g_strcmp0 (command, "validate-tree") == 0) {
@@ -226,6 +237,8 @@ as_client_run (char **argv, int argc)
 		exit_code = ascli_put_metainfo (value1);
 	} else if (g_strcmp0 (command, "status") == 0) {
 		exit_code = ascli_show_status ();
+	} else if (g_strcmp0 (command, "convert") == 0) {
+		exit_code = ascli_convert_data (value1, value2, mformat);
 	} else {
 		/* TRANSLATORS: ascli has been run with unknown command. */
 		ascli_print_stderr (_("Command '%s' is unknown."), command);

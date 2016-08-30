@@ -1,22 +1,21 @@
-61% symbol docs coverage.
-433 symbols documented.
-52 symbols incomplete.
-272 not documented.
+63% symbol docs coverage.
+466 symbols documented.
+46 symbols incomplete.
+268 not documented.
 
 
-AS_BUNDLE_KIND_XDG_APP
-AS_DATABASE_ERROR
-AS_DATA_POOL_ERROR
+AS_CURRENT_FORMAT_VERSION
 AS_METADATA_ERROR
+AS_POOL_ERROR
+AS_TYPE_BUNDLE
 AS_TYPE_CATEGORY
+AS_TYPE_CHECKSUM
 AS_TYPE_COMPONENT
-AS_TYPE_DATABASE
-AS_TYPE_DATA_POOL
 AS_TYPE_DISTRO_DETAILS
 AS_TYPE_ICON
 AS_TYPE_IMAGE
-AS_TYPE_MENU_PARSER
 AS_TYPE_METADATA
+AS_TYPE_POOL
 AS_TYPE_PROVIDED
 AS_TYPE_RELEASE
 AS_TYPE_SCREENSHOT
@@ -27,25 +26,26 @@ AS_TYPE_VALIDATOR
 AS_TYPE_VALIDATOR_ISSUE
 AS_TYPE_XMLDATA
 AS_TYPE_YAMLDATA
+AsBundle
+AsBundleClass
 AsCategory
 AsCategoryClass
+AsChecksum
+AsChecksumClass
 AsComponent
 AsComponentClass
-AsDataPool
-AsDataPoolClass
-AsDatabase
-AsDatabaseClass
 AsDistroDetails
 AsDistroDetailsClass
+AsFormatStyle (AS_FORMAT_STYLE_UNKNOWN)
 AsIcon
 AsIconClass
 AsImage
 AsImageClass
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
-AsMenuParser
-AsMenuParserClass
 AsMetadata
 AsMetadataClass
+AsPool
+AsPoolClass
 AsProvided
 AsProvidedClass
 AsRelease
@@ -65,22 +65,19 @@ AsXMLData
 AsXMLDataClass
 AsYAMLData
 AsYAMLDataClass
+as_cache_file_read
 as_category_class_init
-as_category_complete (cat)
 as_category_finalize
-as_category_get_directory (Returns)
-as_category_get_excluded
+as_category_get_children
+as_category_get_desktop_groups
 as_category_get_icon (Returns)
-as_category_get_included
-as_category_get_level
+as_category_get_id (Returns)
 as_category_get_name (Returns)
 as_category_get_property
-as_category_get_subcategories
 as_category_get_summary (Returns)
 as_category_init
-as_category_set_directory (value)
 as_category_set_icon (value)
-as_category_set_level
+as_category_set_id (id)
 as_category_set_name (value)
 as_category_set_property
 as_component_add_token
@@ -97,34 +94,17 @@ as_component_get_keywords
 as_component_get_origin
 as_component_get_property
 as_component_get_source_pkgname
+as_component_get_value_flags
 as_component_has_bundle
 as_component_has_install_candidate
 as_component_init
+as_component_is_member_of_category (Returns)
 as_component_set_architecture
-as_component_set_categories
 as_component_set_kind_from_node
 as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
-as_data_pool_appstream_data_changed
-as_data_pool_class_init
-as_data_pool_ctime_newer
-as_data_pool_error_quark
-as_data_pool_finalize
-as_data_pool_get_cache_age (Returns)
-as_data_pool_get_cache_flags (Returns)
-as_data_pool_init
-as_data_pool_load (cancellable)
-as_data_pool_load_cache_file (Returns)
-as_data_pool_load_metadata (dpool, Returns)
-as_data_pool_refresh_cache (error)
-as_data_pool_save_cache_file (Returns)
-as_data_pool_scan_apt (dpool, force, error)
-as_database_class_init
-as_database_error_quark
-as_database_finalize
-as_database_get_location (Returns)
-as_database_init
+as_component_set_value_flags
 as_distro_details_class_init
 as_distro_details_finalize
 as_distro_details_get_bool
@@ -139,6 +119,10 @@ as_distro_details_set_name
 as_distro_details_set_property
 as_distro_details_set_version
 as_extract_icon_cache_tarball
+as_flags_add
+as_flags_contains
+as_flags_invert
+as_flags_remove
 as_icon_class_init
 as_icon_finalize
 as_icon_get_filename
@@ -149,40 +133,40 @@ as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
-as_iso8601_to_datetime (iso_date, Returns)
 as_license_is_metadata_license (Returns)
-as_menu_parser_class_init
-as_menu_parser_extend_category_name_list
-as_menu_parser_finalize
-as_menu_parser_get_property
-as_menu_parser_get_update_category_data
-as_menu_parser_init
-as_menu_parser_parse_category_entry
-as_menu_parser_parse_menu_entry
-as_menu_parser_set_property
-as_menu_parser_set_update_category_data
+as_markup_convert_simple
 as_metadata_add_component (metad, cpt)
 as_metadata_class_init
 as_metadata_clear_components
-as_metadata_component_to_upstream_xml (metad)
-as_metadata_components_to_distro_xml (metad)
-as_metadata_components_to_distro_yaml (metad)
 as_metadata_error_quark
 as_metadata_finalize
 as_metadata_get_architecture
 as_metadata_get_components
+as_metadata_get_format_style (Returns)
+as_metadata_get_format_version
 as_metadata_get_origin
 as_metadata_get_update_existing
 as_metadata_get_write_header
 as_metadata_init
 as_metadata_init_xml
 as_metadata_init_yaml
-as_metadata_parse_xml (error)
 as_metadata_reload_parsers
+as_metadata_save_collection
 as_metadata_save_data
-as_metadata_save_distro_xml (metad, error)
-as_metadata_save_distro_yaml (metad, error)
-as_metadata_save_upstream_xml (metad, error)
+as_metadata_save_metainfo (metad, error)
+as_pool_appstream_data_changed
+as_pool_class_init
+as_pool_ctime_newer
+as_pool_error_quark
+as_pool_finalize
+as_pool_get_cache_age (Returns)
+as_pool_get_cache_flags (Returns)
+as_pool_init
+as_pool_load (cancellable)
+as_pool_load_cache_file (Returns)
+as_pool_refresh_cache (error)
+as_pool_save_cache_file (Returns)
+as_pool_scan_apt (pool, force, error)
 as_provided_add_item (item)
 as_provided_class_init
 as_provided_finalize
@@ -193,6 +177,7 @@ as_release_class_init
 as_release_finalize
 as_release_get_active_locale (release, Returns)
 as_release_get_checksum (release, kind)
+as_release_get_checksums (release)
 as_release_get_description_table (release, Returns)
 as_release_get_locations (release)
 as_release_init
@@ -208,7 +193,6 @@ as_screenshot_set_caption (locale)
 as_stemmer_class_init
 as_stemmer_finalize
 as_stemmer_init
-as_str_empty (Returns)
 as_str_replace
 as_suggested_class_init
 as_suggested_finalize
@@ -217,6 +201,7 @@ as_translation_class_init
 as_translation_finalize
 as_translation_get_id (Returns)
 as_translation_init
+as_utils_compare_versions (a, b)
 as_utils_find_files
 as_utils_find_files_matching
 as_utils_is_category_name
@@ -239,42 +224,45 @@ as_validator_validate_component_node
 as_validator_validate_data (Returns)
 as_validator_validate_file (Returns)
 as_validator_validate_tree (Returns)
+as_xml_add_children_values_to_array
 as_xml_desc_lang_hashtable_to_nodes_cb
+as_xml_dump_node_children
 as_xml_get_children_as_strv
 as_xml_get_node_value
 as_xml_icon_set_size_from_node
+as_xml_keywords_table_to_nodes_cb
 as_xml_lang_hashtable_to_nodes_cb
+as_xml_process_provides_tag
+as_xml_process_suggests_tag
 as_xml_serialize_image
 as_xml_serialize_languages
 as_xml_serialize_provides
 as_xmldata_class_init
 as_xmldata_clear_error
-as_xmldata_dump_node_children
 as_xmldata_finalize
+as_xmldata_get_format_style
 as_xmldata_get_node_locale
-as_xmldata_get_parser_mode
 as_xmldata_init
-as_xmldata_initialize (locale, origin, media_baseurl, arch, priority)
+as_xmldata_initialize (format_version, locale, origin, media_baseurl, arch, priority)
 as_xmldata_new
 as_xmldata_parse_component_node
 as_xmldata_parse_components_node
 as_xmldata_parse_document
 as_xmldata_process_languages_tag
 as_xmldata_process_metainfo_description_tag
-as_xmldata_process_provides_tag
 as_xmldata_process_releases_tag
 as_xmldata_process_screenshot
 as_xmldata_process_screenshots_tag
-as_xmldata_process_suggests_tag
 as_xmldata_serialize_suggests
-as_xmldata_serialize_to_distro (cpts, write_header)
-as_xmldata_serialize_to_distro_with_rootnode
-as_xmldata_serialize_to_distro_without_rootnode
+as_xmldata_serialize_to_collection (cpts, write_header)
+as_xmldata_serialize_to_collection_with_rootnode
+as_xmldata_serialize_to_collection_without_rootnode
 as_xmldata_set_check_valid (xdt)
-as_xmldata_set_parser_mode
-as_xmldata_update_cpt_with_upstream_data (Returns)
+as_xmldata_set_format_style
+as_xmldata_update_cpt_with_metainfo_data (Returns)
 as_yaml_data_emit_screenshots
 as_yaml_data_emit_suggests
+as_yaml_emit_bundles
 as_yaml_emit_entry
 as_yaml_emit_icons
 as_yaml_emit_lang_hashtable_entries
@@ -282,7 +270,7 @@ as_yaml_emit_lang_hashtable_entries_long
 as_yaml_emit_languages
 as_yaml_emit_localized_entry
 as_yaml_emit_localized_entry_with_func
-as_yaml_emit_localized_lists
+as_yaml_emit_localized_strv
 as_yaml_emit_long_entry
 as_yaml_emit_long_localized_entry
 as_yaml_emit_provides
@@ -290,13 +278,15 @@ as_yaml_emit_releases
 as_yaml_emit_scalar
 as_yaml_emit_scalar_key
 as_yaml_emit_sequence
-as_yaml_emit_sequence_from_strv
+as_yaml_emit_sequence_from_str_array
 as_yaml_free_node
-as_yaml_list_to_string_array
+as_yaml_list_to_str_array
 as_yaml_localized_list_helper
 as_yaml_mapping_end
 as_yaml_mapping_start
 as_yaml_print_unknown
+as_yaml_process_provides
+as_yaml_process_urls
 as_yaml_sequence_end
 as_yaml_sequence_start
 as_yaml_serialize_component
@@ -304,25 +294,24 @@ as_yamldata_class_init
 as_yamldata_finalize
 as_yamldata_get_localized_node
 as_yamldata_init
-as_yamldata_initialize (locale, origin, media_baseurl, arch, priority)
+as_yamldata_initialize (format_version, locale, origin, media_baseurl, arch, priority)
 as_yamldata_new
-as_yamldata_parse_distro_data (error)
+as_yamldata_parse_collection_data (error)
 as_yamldata_process_component_node
 as_yamldata_process_icon
 as_yamldata_process_icons
+as_yamldata_process_image
 as_yamldata_process_languages
 as_yamldata_process_screenshots
 as_yamldata_process_suggests
-as_yamldata_serialize_to_distro
+as_yamldata_serialize_to_collection
 as_yamldata_set_check_valid (ydt)
-dep11_process_image
-dep11_process_provides
-dep11_process_urls
 
-as_data_pool_update
-
+as-cache-file:Long_Description
 as-enums:Long_Description
 as-icon:Long_Description
+as-pool-private:Long_Description
+as-pool-private:Short_Description
 as-release-private:Long_Description
 as-release-private:Short_Description
 as-screenshot-private:Long_Description

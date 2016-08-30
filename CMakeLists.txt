@@ -5,10 +5,10 @@ cmake_minimum_required(VERSION 3.2.0 FATAL_ERROR)
 set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
-set(AS_VERSION_MINOR  "9")
-set(AS_VERSION_PATCH  "8")
+set(AS_VERSION_MINOR  "10")
+set(AS_VERSION_PATCH  "0")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
-set(APPSTREAM_LIB_API_LEVEL "3")
+set(APPSTREAM_LIB_API_LEVEL "4")
 
 # Don't allow in-tree building
 if(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
@@ -21,20 +21,13 @@ endif(${CMAKE_SOURCE_DIR} MATCHES ${CMAKE_BINARY_DIR})
 # Options
 #
 option(L18N "Enable localization" ON)
+option(STEMMING "Use stemming while searching. Requires Snowball (libstemmer)" ON)
 option(VAPI "Create and install a Vala API file" OFF)
 option(QT "Build libappstream-qt" OFF)
-option(STEMMING "Use stemming while searching. Requires Snowball (libstemmer)" OFF)
 option(MAINTAINER "Enable maintainer mode (use strict compiler flags, e.g. -Werror)" OFF)
 option(DOCUMENTATION "Enable target to build documentation" OFF)
 option(APT_SUPPORT "Enable integration with APT on Debian" OFF)
 option(SANITIZERS "Compile with sanitizers (address / thread sanitizer) enabled. Requires maintainer mode to be ON too." OFF)
-
-if(APT_SUPPORT)
-	add_definitions ("-DAPT_SUPPORT")
-endif()
-if(STEMMING)
-	add_definitions ("-DUSE_STEMMING")
-endif()
 
 #
 # Default paths
@@ -68,6 +61,12 @@ find_package (Gettext REQUIRED)
 #
 set (GETTEXT_PACKAGE "appstream")
 set (VERSION "${AS_VERSION}")
+if(APT_SUPPORT)
+	set (HAVE_APT_SUPPORT true)
+endif()
+if(STEMMING)
+	set (HAVE_STEMMING true)
+endif()
 configure_file(config.h.in ${CMAKE_BINARY_DIR}/config.h)
 
 #
@@ -81,7 +80,19 @@ enable_testing()
 set(MAINTAINER_CFLAGS "")
 set(SANITIZER_LIBS "")
 if(MAINTAINER)
-	set(MAINTAINER_CFLAGS "-Werror" "-Wall" "-Wcast-align" "-Wno-uninitialized" "-Wempty-body" "-Wformat-security" "-Winit-self")
+	set(MAINTAINER_CFLAGS "-Werror"
+			"-Wall"
+			"-Wextra"
+			"-Wcast-align"
+			"-Wno-uninitialized"
+			"-Wempty-body"
+			"-Wformat-security"
+			"-Winit-self"
+			"-Wnull-dereference"
+			"-Wfloat-equal"
+			#"-Wformat-signedness"
+			"-Winline")
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wmissing-declarations")
 	if (CMAKE_COMPILER_IS_GNUCC)
 		execute_process(COMMAND ${CMAKE_C_COMPILER} -dumpversion
                 OUTPUT_VARIABLE GCC_VERSION)
@@ -102,8 +113,8 @@ if(MAINTAINER)
 endif(MAINTAINER)
 add_definitions(${MAINTAINER_CFLAGS})
 
-# we do always enable this to never run into the missing-include-trap again
-add_definitions("-Werror=implicit-function-declaration")
+# a few compiler warning flags we always want enabled
+add_definitions("-Werror=implicit-function-declaration" "-Wno-unused-parameter")
 
 # enable C++11
 set(CMAKE_CXX_STANDARD "11")

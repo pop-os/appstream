@@ -33,7 +33,7 @@ static gchar *datadir = NULL;
  *
  * Test reading screenshot tags.
  */
-void
+static void
 test_screenshot_handling ()
 {
 	AsMetadata *metad;
@@ -45,13 +45,13 @@ test_screenshot_handling ()
 	guint i;
 
 	metad = as_metadata_new ();
-	as_metadata_set_parser_mode (metad, AS_PARSER_MODE_DISTRO);
+	as_metadata_set_format_style (metad, AS_FORMAT_STYLE_COLLECTION);
 
 	path = g_build_filename (datadir, "appstream-dxml.xml", NULL);
 	file = g_file_new_for_path (path);
 	g_free (path);
 
-	as_metadata_parse_file (metad, file, &error);
+	as_metadata_parse_file (metad, file, AS_FORMAT_KIND_XML, &error);
 	g_object_unref (file);
 	g_assert_no_error (error);
 
@@ -80,7 +80,7 @@ test_screenshot_handling ()
  *
  * Test parsing legacy metainfo files.
  */
-void
+static void
 test_appstream_parser_legacy ()
 {
 	AsMetadata *metad;
@@ -96,7 +96,7 @@ test_appstream_parser_legacy ()
 	file = g_file_new_for_path (path);
 	g_free (path);
 
-	as_metadata_parse_file (metad, file, &error);
+	as_metadata_parse_file (metad, file, AS_FORMAT_KIND_XML, &error);
 	cpt = as_metadata_get_component (metad);
 	g_object_unref (file);
 	g_assert_no_error (error);
@@ -116,7 +116,7 @@ test_appstream_parser_legacy ()
  *
  * Test reading localized tags.
  */
-void
+static void
 test_appstream_parser_locale ()
 {
 	g_autoptr(AsMetadata) metad = NULL;
@@ -137,7 +137,7 @@ test_appstream_parser_locale ()
 
 	/* check german only locale */
 	as_metadata_set_locale (metad, "de_DE");
-	as_metadata_parse_file (metad, file, &error);
+	as_metadata_parse_file (metad, file, AS_FORMAT_KIND_XML, &error);
 	cpt = as_metadata_get_component (metad);
 	g_assert_no_error (error);
 	g_assert (cpt != NULL);
@@ -153,7 +153,7 @@ test_appstream_parser_locale ()
 	/* check all locale */
 	as_metadata_clear_components (metad);
 	as_metadata_set_locale (metad, "ALL");
-	as_metadata_parse_file (metad, file, &error);
+	as_metadata_parse_file (metad, file, AS_FORMAT_KIND_XML, &error);
 	cpt = as_metadata_get_component (metad);
 	g_assert_no_error (error);
 
@@ -180,7 +180,7 @@ test_appstream_parser_locale ()
  *
  * Test writing fully localized entries.
  */
-void
+static void
 test_appstream_write_locale ()
 {
 	AsMetadata *metad;
@@ -189,6 +189,41 @@ test_appstream_write_locale ()
 	AsComponent *cpt;
 	GError *error = NULL;
 
+	const gchar *EXPECTED_XML = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+				    "<component type=\"desktop-application\">\n"
+				    "  <id>firefox.desktop</id>\n"
+				    "  <name xml:lang=\"fr_FR\">Firefoux</name>\n"
+				    "  <name>Firefox</name>\n"
+				    "  <name xml:lang=\"de_DE\">Feuerfuchs</name>\n"
+				    "  <summary xml:lang=\"fr_FR\">Navigateur web</summary>\n"
+				    "  <summary>Web browser</summary>\n"
+				    "  <pkgname>firefox-bin</pkgname>\n"
+				    "  <categories>\n"
+				    "    <category>network</category>\n"
+				    "    <category>web</category>\n"
+				    "  </categories>\n"
+				    "  <keywords>\n"
+				    "    <keyword>internet</keyword>\n"
+				    "    <keyword>web</keyword>\n"
+				    "    <keyword>browser</keyword>\n"
+				    "    <keyword>navigateur</keyword>\n"
+				    "  </keywords>\n"
+				    "  <url type=\"homepage\">http://www.mozilla.com</url>\n"
+				    "  <icon type=\"stock\">web-browser</icon>\n"
+				    "  <icon type=\"cached\" width=\"64\" height=\"64\">firefox_web-browser.png</icon>\n"
+				    "  <translation type=\"gettext\">firefox</translation>\n"
+				    "  <mimetypes>\n"
+				    "    <mimetype>text/xml</mimetype>\n"
+				    "    <mimetype>application/vnd.mozilla.xul+xml</mimetype>\n"
+				    "    <mimetype>text/html</mimetype>\n"
+				    "    <mimetype>x-scheme-handler/http</mimetype>\n"
+				    "    <mimetype>text/mml</mimetype>\n"
+				    "    <mimetype>application/x-xpinstall</mimetype>\n"
+				    "    <mimetype>application/xhtml+xml</mimetype>\n"
+				    "    <mimetype>x-scheme-handler/https</mimetype>\n"
+				    "  </mimetypes>\n"
+				    "</component>\n";
+
 	metad = as_metadata_new ();
 
 	tmp = g_build_filename (datadir, "appdata.xml", NULL);
@@ -196,14 +231,18 @@ test_appstream_write_locale ()
 	g_free (tmp);
 
 	as_metadata_set_locale (metad, "ALL");
-	as_metadata_parse_file (metad, file, &error);
+	as_metadata_parse_file (metad, file, AS_FORMAT_KIND_XML, &error);
 	cpt = as_metadata_get_component (metad);
 	g_assert_no_error (error);
 	g_assert (cpt != NULL);
 	g_object_unref (file);
 
-	tmp = as_metadata_component_to_upstream_xml (metad);
-	//g_debug ("Generated XML: %s", as_metadata_component_to_upstream_xml (metad));
+	tmp = as_metadata_component_to_metainfo (metad,
+						 AS_FORMAT_KIND_XML,
+						 &error);
+	g_assert_no_error (error);
+
+	g_assert (as_test_compare_lines (tmp, EXPECTED_XML));
 	g_free (tmp);
 
 	g_object_unref (metad);
@@ -214,7 +253,7 @@ test_appstream_write_locale ()
  *
  * Test writing the description tag for catalog and metainfo XML.
  */
-void
+static void
 test_appstream_write_description ()
 {
 	guint i;
@@ -290,7 +329,7 @@ test_appstream_write_description ()
 						"</component>\n";
 
 	const gchar *EXPECTED_XML_DISTRO = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-					   "<components version=\"0.8\">\n"
+					   "<components version=\"0.10\">\n"
 					   "  <component>\n"
 					   "    <id>org.example.Test</id>\n"
 					   "    <name>Test</name>\n"
@@ -369,7 +408,7 @@ test_appstream_write_description ()
 
 	as_metadata_add_component (metad, cpt);
 
-	tmp = as_metadata_component_to_upstream_xml (metad);
+	tmp = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, NULL);
 	g_assert (as_test_compare_lines (tmp, EXPECTED_XML));
 	g_free (tmp);
 
@@ -379,12 +418,12 @@ test_appstream_write_description ()
 				"<p>First paragraph</p>\n<ol><li>One</li><li>Two</li><li>Three</li></ol><ul><li>First</li><li>Second</li></ul><p>Paragraph2</p>",
 				"de");
 
-	tmp = as_metadata_component_to_upstream_xml (metad);
-	g_assert_cmpstr (tmp, ==, EXPECTED_XML_LOCALIZED);
+	tmp = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, NULL);
+	g_assert (as_test_compare_lines (tmp, EXPECTED_XML_LOCALIZED));
 	g_free (tmp);
 
-	tmp = as_metadata_components_to_distro_xml (metad);
-	g_assert_cmpstr (tmp, ==, EXPECTED_XML_DISTRO);
+	tmp = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_XML, NULL);
+	g_assert (as_test_compare_lines (tmp, EXPECTED_XML_DISTRO));
 	g_free (tmp);
 }
 
@@ -393,8 +432,8 @@ test_appstream_write_description ()
  *
  * Helper function for other tests.
  */
-AsComponent*
-as_xml_test_read_data (const gchar *data, AsParserMode mode)
+static AsComponent*
+as_xml_test_read_data (const gchar *data, AsFormatStyle mode)
 {
 	AsComponent *cpt;
 	GError *error = NULL;
@@ -404,11 +443,11 @@ as_xml_test_read_data (const gchar *data, AsParserMode mode)
 	xdt = as_xmldata_new ();
 	as_xmldata_set_check_valid (xdt, FALSE);
 
-	if (mode == AS_PARSER_MODE_UPSTREAM) {
-		cpt = as_xmldata_parse_upstream_data (xdt, data, &error);
+	if (mode == AS_FORMAT_STYLE_METAINFO) {
+		cpt = as_xmldata_parse_metainfo_data (xdt, data, &error);
 		g_assert_no_error (error);
 	} else {
-		cpts = as_xmldata_parse_distro_data (xdt, data, &error);
+		cpts = as_xmldata_parse_collection_data (xdt, data, &error);
 		g_assert_no_error (error);
 		cpt = AS_COMPONENT (g_ptr_array_index (cpts, 0));
 	}
@@ -421,8 +460,8 @@ as_xml_test_read_data (const gchar *data, AsParserMode mode)
  *
  * Helper function for other tests.
  */
-gchar*
-as_xml_test_serialize (AsComponent *cpt, AsParserMode mode)
+static gchar*
+as_xml_test_serialize (AsComponent *cpt, AsFormatStyle mode)
 {
 	gchar *data;
 	g_autoptr(AsXMLData) xdt = NULL;
@@ -430,13 +469,13 @@ as_xml_test_serialize (AsComponent *cpt, AsParserMode mode)
 	xdt = as_xmldata_new ();
 	as_xmldata_set_check_valid (xdt, FALSE);
 
-	if (mode == AS_PARSER_MODE_UPSTREAM) {
-		data = as_xmldata_serialize_to_upstream (xdt, cpt);
+	if (mode == AS_FORMAT_STYLE_METAINFO) {
+		data = as_xmldata_serialize_to_metainfo (xdt, cpt);
 	} else {
 		g_autoptr(GPtrArray) cpts = NULL;
 		cpts = g_ptr_array_new ();
 		g_ptr_array_add (cpts, cpt);
-		data = as_xmldata_serialize_to_distro (xdt, cpts, TRUE);
+		data = as_xmldata_serialize_to_collection (xdt, cpts, TRUE);
 	}
 
 	return data;
@@ -447,7 +486,7 @@ as_xml_test_serialize (AsComponent *cpt, AsParserMode mode)
  *
  * Test reading the languages tag.
  */
-void
+static void
 test_xml_read_languages (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -459,7 +498,7 @@ test_xml_read_languages (void)
 					 "  </languages>\n"
 					 "</component>\n";
 
-	cpt = as_xml_test_read_data (xmldata_languages, AS_PARSER_MODE_UPSTREAM);
+	cpt = as_xml_test_read_data (xmldata_languages, AS_FORMAT_STYLE_METAINFO);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.LangTest");
 
 	g_assert_cmpint (as_component_get_language (cpt, "de_DE"), ==, 48);
@@ -472,7 +511,7 @@ test_xml_read_languages (void)
  *
  * Test writing the languages tag.
  */
-void
+static void
 test_xml_write_languages (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -491,8 +530,8 @@ test_xml_write_languages (void)
 	as_component_add_language (cpt, "de_DE", 86);
 	as_component_add_language (cpt, "en_GB", 98);
 
-	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_UPSTREAM);
-	g_assert_cmpstr (res, ==, expected_lang_xml);
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
+	g_assert (as_test_compare_lines (res, expected_lang_xml));
 }
 
 /**
@@ -500,7 +539,7 @@ test_xml_write_languages (void)
  *
  * Test writing the releases tag.
  */
-void
+static void
 test_xml_write_releases (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -529,7 +568,7 @@ test_xml_write_releases (void)
 
 	as_component_add_release (cpt, rel);
 
-	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_UPSTREAM);
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
 	g_assert (as_test_compare_lines (res, expected_rel_xml));
 }
 
@@ -538,7 +577,7 @@ test_xml_write_releases (void)
  *
  * Test writing the provides tag.
  */
-void
+static void
 test_xml_write_provides (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -582,7 +621,7 @@ test_xml_write_provides (void)
 	as_provided_add_item (prov_dbus, "org.example.ProvidesTest.Modify");
 	as_component_add_provided (cpt, prov_dbus);
 
-	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_UPSTREAM);
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
 	g_assert (as_test_compare_lines (res, expected_prov_xml));
 }
 
@@ -591,7 +630,7 @@ test_xml_write_provides (void)
  *
  * Test writing the suggests tag.
  */
-void
+static void
 test_xml_write_suggests (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
@@ -606,7 +645,7 @@ test_xml_write_suggests (void)
 					"  </suggests>\n"
 					"</component>\n";
 	const gchar *expected_sug_xml_coll = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-					"<components version=\"0.8\">\n"
+					"<components version=\"0.10\">\n"
 					"  <component>\n"
 					"    <id>org.example.SuggestsTest</id>\n"
 					"    <suggests type=\"upstream\">\n"
@@ -634,11 +673,11 @@ test_xml_write_suggests (void)
 	as_component_add_suggested (cpt, sug_hr);
 
 	/* test metainfo serialization */
-	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_UPSTREAM);
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
 	g_assert (as_test_compare_lines (res, expected_sug_xml_mi));
 
 	/* test collection serialization */
-	res = as_xml_test_serialize (cpt, AS_PARSER_MODE_DISTRO);
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_COLLECTION);
 	g_assert (as_test_compare_lines (res, expected_sug_xml_coll));
 }
 

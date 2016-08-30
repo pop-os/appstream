@@ -49,7 +49,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-kind-to-string" title="as_screenshot_kind_to_string ()">as_screenshot_kind_to_string</a> <span class="c_punctuation">()</span>
@@ -57,7 +57,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-is-valid" title="as_screenshot_is_valid ()">as_screenshot_is_valid</a> <span class="c_punctuation">()</span>
@@ -88,7 +88,7 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-get-caption" title="as_screenshot_get_caption ()">as_screenshot_get_caption</a> <span class="c_punctuation">()</span>
@@ -104,7 +104,15 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+<span class="returnvalue">GPtrArray</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsScreenshot.html#as-screenshot-get-images-all" title="as_screenshot_get_images_all ()">as_screenshot_get_images_all</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">GPtrArray</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-get-images" title="as_screenshot_get_images ()">as_screenshot_get_images</a> <span class="c_punctuation">()</span>
@@ -120,7 +128,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-get-active-locale" title="as_screenshot_get_active_locale ()">as_screenshot_get_active_locale</a> <span class="c_punctuation">()</span>
@@ -132,14 +140,6 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsScreenshot.html#as-screenshot-set-active-locale" title="as_screenshot_set_active_locale ()">as_screenshot_set_active_locale</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">
-<a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
-</td>
-<td class="function_name">
-<a class="link" href="AsScreenshot.html#as-screenshot-get-images-localized" title="as_screenshot_get_images_localized ()">as_screenshot_get_images_localized</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
@@ -174,7 +174,7 @@
 </div>
 <div class="refsect1">
 <a name="AsScreenshot.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="../gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+<pre class="screen">    GObject
     <span class="lineart">╰──</span> AsScreenshot
 </pre>
 </div>
@@ -189,7 +189,7 @@ of different resolution.</p>
 <div class="refsect2">
 <a name="as-screenshot-kind-from-string"></a><h3>as_screenshot_kind_from_string ()</h3>
 <pre class="programlisting"><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="returnvalue">AsScreenshotKind</span></a>
-as_screenshot_kind_from_string (<em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *kind</code></em>);</pre>
+as_screenshot_kind_from_string (<em class="parameter"><code>const <span class="type">gchar</span> *kind</code></em>);</pre>
 <p>Converts the text representation to an enumerated value.</p>
 <div class="refsect3">
 <a name="as-screenshot-kind-from-string.parameters"></a><h4>Parameters</h4>
@@ -208,15 +208,13 @@ as_screenshot_kind_from_string (<em class="parameter"><code>const <a href="../gl
 </div>
 <div class="refsect3">
 <a name="as-screenshot-kind-from-string.returns"></a><h4>Returns</h4>
-<p> a <a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><code class="literal">AsScreenshotKind</code></a>, or
-<a class="link" href="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"><code class="literal">AS_SCREENSHOT_KIND_UNKNOWN</code></a> if not known. </p>
-<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+<p> a <a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><code class="literal">AsScreenshotKind</code></a>, or <a class="link" href="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"><code class="literal">AS_SCREENSHOT_KIND_UNKNOWN</code></a> if not known.</p>
 </div>
 </div>
 <hr>
 <div class="refsect2">
 <a name="as-screenshot-kind-to-string"></a><h3>as_screenshot_kind_to_string ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_screenshot_kind_to_string (<em class="parameter"><code><a class="link" href="AsScreenshot.html#AsScreenshotKind" title="enum AsScreenshotKind"><span class="type">AsScreenshotKind</span></a> kind</code></em>);</pre>
 <p>Converts the enumerated value to an text representation.</p>
 <div class="refsect3">
@@ -243,7 +241,7 @@ as_screenshot_kind_to_string (<em class="parameter"><code><a class="link" href="
 <hr>
 <div class="refsect2">
 <a name="as-screenshot-is-valid"></a><h3>as_screenshot_is_valid ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_screenshot_is_valid (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Performs a quick validation on this screenshot</p>
 <div class="refsect3">
@@ -337,7 +335,7 @@ as_screenshot_set_kind (<em class="parameter"><code><a class="link" href="AsScre
 <hr>
 <div class="refsect2">
 <a name="as-screenshot-get-caption"></a><h3>as_screenshot_get_caption ()</h3>
-<pre class="programlisting">const <a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_screenshot_get_caption (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Gets the image caption</p>
 <div class="refsect3">
@@ -365,8 +363,8 @@ as_screenshot_get_caption (<em class="parameter"><code><a class="link" href="AsS
 <a name="as-screenshot-set-caption"></a><h3>as_screenshot_set_caption ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_screenshot_set_caption (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>,
-                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *caption</code></em>,
-                           <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
+                           <em class="parameter"><code>const <span class="type">gchar</span> *caption</code></em>,
+                           <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Sets a caption on the screenshot</p>
 <div class="refsect3">
 <a name="as-screenshot-set-caption.parameters"></a><h4>Parameters</h4>
@@ -393,10 +391,40 @@ as_screenshot_set_caption (<em class="parameter"><code><a class="link" href="AsS
 </div>
 <hr>
 <div class="refsect2">
+<a name="as-screenshot-get-images-all"></a><h3>as_screenshot_get_images_all ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_screenshot_get_images_all (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
+<p>Returns an array of all images we have, regardless of their
+size and language.</p>
+<div class="refsect3">
+<a name="as-screenshot-get-images-all.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>screenshot</p></td>
+<td class="parameter_description"><p>an <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-screenshot-get-images-all.returns"></a><h4>Returns</h4>
+<p> an array. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsImage]</span></p>
+</div>
+<p class="since">Since: 0.10</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-screenshot-get-images"></a><h3>as_screenshot_get_images ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
 as_screenshot_get_images (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
-<p>Gets the image sizes included in the screenshot.</p>
+<p>Gets the images for this screenshots. Only images valid for the current
+language are returned. We return all sizes.</p>
 <div class="refsect3">
 <a name="as-screenshot-get-images.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -415,7 +443,7 @@ as_screenshot_get_images (<em class="parameter"><code><a class="link" href="AsSc
 <div class="refsect3">
 <a name="as-screenshot-get-images.returns"></a><h4>Returns</h4>
 <p> an array. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsImage][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsImage]</span></p>
 </div>
 </div>
 <hr>
@@ -451,7 +479,7 @@ as_screenshot_add_image (<em class="parameter"><code><a class="link" href="AsScr
 <hr>
 <div class="refsect2">
 <a name="as-screenshot-get-active-locale"></a><h3>as_screenshot_get_active_locale ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting"><span class="returnvalue">gchar</span> *
 as_screenshot_get_active_locale (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
 <p>Get the current active locale, which
 is used to get localized messages.</p>
@@ -461,40 +489,12 @@ is used to get localized messages.</p>
 <a name="as-screenshot-set-active-locale"></a><h3>as_screenshot_set_active_locale ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 as_screenshot_set_active_locale (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>,
-                                 <em class="parameter"><code>const <a href="../glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *locale</code></em>);</pre>
+                                 <em class="parameter"><code>const <span class="type">gchar</span> *locale</code></em>);</pre>
 <p>Set the current active locale, which
 is used to get localized messages.
 If the <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> linking this <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> was fetched
 from a localized database, usually only
 one locale is available.</p>
-</div>
-<hr>
-<div class="refsect2">
-<a name="as-screenshot-get-images-localized"></a><h3>as_screenshot_get_images_localized ()</h3>
-<pre class="programlisting"><a href="../glib/glib-Pointer-Arrays.html#GPtrArray"><span class="returnvalue">GPtrArray</span></a> *
-as_screenshot_get_images_localized (<em class="parameter"><code><a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> *screenshot</code></em>);</pre>
-<p>Returns all images that are compatible with a specific locale.</p>
-<div class="refsect3">
-<a name="as-screenshot-get-images-localized.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>screenshot</p></td>
-<td class="parameter_description"><p>an <a class="link" href="AsScreenshot.html" title="AsScreenshot"><span class="type">AsScreenshot</span></a> instance.</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="as-screenshot-get-images-localized.returns"></a><h4>Returns</h4>
-<p> an array. </p>
-<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsImage][<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>]</span></p>
-</div>
-<p class="since">Since: 0.9.5</p>
 </div>
 </div>
 <div class="refsect1">
