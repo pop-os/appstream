@@ -41,7 +41,7 @@ Description: Software component metadata management
  pool as well as for working with AppStream metadata directly, including
  validating it for compliance with the specification.
 
-Package: libappstream3
+Package: libappstream4
 Architecture: any
 Section: libs
 Multi-Arch: same
@@ -64,7 +64,7 @@ Package: libappstream-dev
 Architecture: any
 Section: libdevel
 Depends: gir1.2-appstream (= ${binary:Version}),
-         libappstream3 (= ${binary:Version}),
+         libappstream4 (= ${binary:Version}),
          libglib2.0-dev (>= 2.46),
          ${misc:Depends}
 Suggests: appstream-generator
@@ -83,7 +83,7 @@ Architecture: any
 Section: introspection
 Depends: gir1.2-freedesktop (>= 1.32),
          gir1.2-glib-2.0 (>= 1.46),
-         libappstream3 (= ${binary:Version}),
+         libappstream4 (= ${binary:Version}),
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a metadata specification, allowing to write metadata for
