@@ -1,0 +1,155 @@
+From 50e6cf8c4c354ee75cfba28d80638a6f84da1826 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Wed, 31 Aug 2016 22:13:52 +0200
+Subject: [PATCH] Make addons find their target component again
+
+This is a tricky bit, since the data-id and component-id work
+differently.
+We now allow components in the same namespace to extend each other
+again.
+---
+ src/as-component.c     |  2 +-
+ src/as-pool.c          |  7 +++++-
+ src/as-utils-private.h |  7 +++++-
+ src/as-utils.c         | 60 ++++++++++++++++++++++++++++++++++++++++----------
+ 4 files changed, 61 insertions(+), 15 deletions(-)
+
+diff --git a/src/as-component.c b/src/as-component.c
+index d37f780..6e624d4 100644
+--- a/src/as-component.c
++++ b/src/as-component.c
+@@ -922,7 +922,7 @@ as_component_get_data_id (AsComponent *cpt)
+ {
+ 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+ 	if (priv->data_id == NULL)
+-		priv->data_id = as_utils_build_data_id (cpt);
++		priv->data_id = as_utils_build_data_id_for_cpt (cpt);
+ 	return priv->data_id;
+ }
+ 
+diff --git a/src/as-pool.c b/src/as-pool.c
+index 17d04ce..e5623b7 100644
+--- a/src/as-pool.c
++++ b/src/as-pool.c
+@@ -410,7 +410,12 @@ as_pool_update_addon_info (AsPool *pool, AsComponent *cpt)
+ 
+ 	for (i = 0; i < extends->len; i++) {
+ 		AsComponent *extended_cpt;
+-		const gchar *extended_cdid = (const gchar*) g_ptr_array_index (extends, i);
++		g_autofree gchar *extended_cdid = NULL;
++		const gchar *extended_cid = (const gchar*) g_ptr_array_index (extends, i);
++
++		extended_cdid = as_utils_build_data_id ("system", "os",
++							as_utils_get_component_bundle_kind (cpt),
++							extended_cid);
+ 
+ 		extended_cpt = g_hash_table_lookup (priv->cpt_table, extended_cdid);
+ 		if (extended_cpt == NULL) {
+diff --git a/src/as-utils-private.h b/src/as-utils-private.h
+index 3531e54..f1853ec 100644
+--- a/src/as-utils-private.h
++++ b/src/as-utils-private.h
+@@ -76,7 +76,12 @@ gboolean		as_arch_compatible (const gchar *arch1,
+ 
+ gboolean		as_utils_search_token_valid (const gchar *token);
+ 
+-gchar			*as_utils_build_data_id (AsComponent *cpt);
++gchar			*as_utils_build_data_id (const gchar *scope,
++						 const gchar *origin,
++						 AsBundleKind bundle_kind,
++						 const gchar *cid);
++AsBundleKind		as_utils_get_component_bundle_kind (AsComponent *cpt);
++gchar			*as_utils_build_data_id_for_cpt (AsComponent *cpt);
+ 
+ #pragma GCC visibility pop
+ G_END_DECLS
+diff --git a/src/as-utils.c b/src/as-utils.c
+index 7dc6a94..01af7bf 100644
+--- a/src/as-utils.c
++++ b/src/as-utils.c
+@@ -1052,15 +1052,55 @@ as_utils_compare_versions (const gchar* a, const gchar *b)
+  * as_utils_build_data_id:
+  * @cpt: The component to build the ID for.
+  *
++ * Builds the unique metadata ID using the supplied information.
++ */
++gchar*
++as_utils_build_data_id (const gchar *scope,
++			const gchar *origin,
++			AsBundleKind bundle_kind,
++			const gchar *cid)
++{
++	/* build the data-id */
++	return g_strdup_printf ("%s/%s/%s/%s",
++				scope,
++				origin,
++				as_bundle_kind_to_string (bundle_kind),
++				cid);
++}
++
++/**
++ * as_utils_get_component_bundle_kind:
++ *
++ * Check which bundling system the component uses.
++ */
++AsBundleKind
++as_utils_get_component_bundle_kind (AsComponent *cpt)
++{
++	GPtrArray *bundles;
++	AsBundleKind bundle_kind;
++
++	/* determine bundle - what should we do if there are multiple bundles of different types
++	 * defined for one component? */
++	bundle_kind = AS_BUNDLE_KIND_PACKAGE;
++	bundles = as_component_get_bundles (cpt);
++	if (bundles->len > 0)
++		bundle_kind = as_bundle_get_kind (AS_BUNDLE (g_ptr_array_index (bundles, 0)));
++
++	return bundle_kind;
++}
++
++/**
++ * as_utils_build_data_id_for_cpt:
++ * @cpt: The component to build the ID for.
++ *
+  * Builds the unique metadata ID for component @cpt.
+  */
+ gchar*
+-as_utils_build_data_id (AsComponent *cpt)
++as_utils_build_data_id_for_cpt (AsComponent *cpt)
+ {
+ 	const gchar *scope;
+ 	const gchar *origin;
+ 	AsBundleKind bundle_kind;
+-	GPtrArray *bundles;
+ 
+ 	/* FIXME: We don't really support scopes yet, will come in a future
+ 	 * release. */
+@@ -1068,21 +1108,17 @@ as_utils_build_data_id (AsComponent *cpt)
+ 
+ 	/* determine bundle - what should we do if there are multiple bundles of different types
+ 	 * defined for one component? */
+-	bundle_kind = AS_BUNDLE_KIND_PACKAGE;
+-	bundles = as_component_get_bundles (cpt);
+-	if (bundles->len > 0)
+-		bundle_kind = as_bundle_get_kind (AS_BUNDLE (g_ptr_array_index (bundles, 0)));
++	bundle_kind = as_utils_get_component_bundle_kind (cpt);
+ 
+ 	/* FIXME: packages share one namespace, therefore we edit the origin here for now. */
+ 	if (bundle_kind == AS_BUNDLE_KIND_PACKAGE)
+-		origin = "distribution";
++		origin = "os";
+ 	else
+ 		origin = as_component_get_origin (cpt);
+ 
+ 	/* build the data-id */
+-	return g_strdup_printf ("%s/%s/%s/%s",
+-				scope,
+-				origin,
+-				as_bundle_kind_to_string (bundle_kind),
+-				as_component_get_id (cpt));
++	return as_utils_build_data_id (scope,
++					origin,
++					bundle_kind,
++					as_component_get_id (cpt));
+ }
