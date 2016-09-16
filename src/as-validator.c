@@ -408,6 +408,76 @@ as_validator_check_appear_once (AsValidator *validator, xmlNode *node, GHashTabl
 }
 
 /**
+ * as_validator_validate_component_id:
+ *
+ * Validate the component-ID.
+ */
+static void
+as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsComponent *cpt)
+{
+	guint i;
+	g_auto(GStrv) cid_parts = NULL;
+	g_autofree gchar *cid = (gchar*) xmlNodeGetContent (idnode);
+
+	cid_parts = g_strsplit (cid, ".", 3);
+	if (g_strv_length (cid_parts) != 3) {
+		if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DESKTOP_APP) {
+			/* since the ID and .desktop-file-id are tied together, we can't make this an error for desktop apps */
+			as_validator_add_issue (validator, idnode,
+					AS_ISSUE_IMPORTANCE_WARNING,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"The component ID is not a reverse domain-name. Please update the ID and that of the accompanying .desktop file to follow the latest version of the Desktop-Entry and AppStream specifications and avoid future issues.");
+		} else {
+			/* anything which isn't a .desktop app must follow the schema though */
+			as_validator_add_issue (validator, idnode,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"The component ID is no reverse domain-name.");
+		}
+	} else {
+		/* some people just add random dots to their ID - check if we have an actual known TLD as first part, to be more certain that this is a reverse domain name
+		 * (this issue happens quite often with old .desktop files) */
+		if (!as_utils_is_tld (cid_parts[0])) {
+			as_validator_add_issue (validator, idnode,
+						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The component ID might not follow the reverse domain-name schema (we do not know about the TLD '%s').", cid_parts[0]);
+		}
+	}
+
+	/* validate characters in AppStream ID */
+	for (i = 0; cid[i] != '\0'; i++) {
+		/* check if we have a printable, alphanumeric ASCII character or a dot, hyphen or underscore */
+		if ((!g_ascii_isalnum (cid[i])) &&
+		    (cid[i] != '.') &&
+		    (cid[i] != '-') &&
+		    (cid[i] != '_')) {
+			g_autofree gchar *c = NULL;
+			c = g_utf8_substring (cid, i, i + 1);
+			as_validator_add_issue (validator, idnode,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"The component ID [%s] contains an invalid character: '%s'", cid, c);
+		}
+	}
+
+	/* project-group specific constraints on the ID */
+	if (g_strcmp0 (as_component_get_project_group (cpt), "KDE") == 0) {
+		if (!g_str_has_prefix (cid, "org.kde."))
+			as_validator_add_issue (validator, idnode,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The component is part of the KDE project, but its id does not start with KDEs reverse-DNS name (\"org.kde\").");
+	} else if (g_strcmp0 (as_component_get_project_group (cpt), "GNOME") == 0) {
+		if (!g_str_has_prefix (cid, "org.gnome."))
+			as_validator_add_issue (validator, idnode,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The component is part of the GNOME project, but its id does not start with GNOMEs reverse-DNS name (\"org.gnome\").");
+	}
+}
+
+/**
  * as_validator_validate_component_node:
  **/
 static AsComponent*
@@ -415,12 +485,9 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 {
 	xmlNode *iter;
 	AsComponent *cpt;
-	guint i;
 	g_autofree gchar *cpttype = NULL;
 	g_autoptr(GHashTable) found_tags = NULL;
-	g_auto(GStrv) cid_parts = NULL;
-	const gchar *summary;
-	const gchar *cid;
+
 	AsFormatStyle mode;
 	gboolean has_metadata_license = FALSE;
 
@@ -433,7 +500,6 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 	as_validator_set_current_cpt (validator, cpt);
 
 	/* check if component type is valid */
-	cid = as_component_get_id (cpt);
 	cpttype = (gchar*) xmlGetProp (root, (xmlChar*) "type");
 	if (cpttype != NULL) {
 		if (as_component_kind_from_string (cpttype) == AS_COMPONENT_KIND_UNKNOWN) {
@@ -458,51 +524,6 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 					AS_ISSUE_KIND_VALUE_WRONG,
 					"The component has a 'merge' method defined. This is not allowed in metainfo files.");
 	}
-
-	/* validate the AppStream ID */
-	cid_parts = g_strsplit (cid, ".", 3);
-	if (g_strv_length (cid_parts) != 3) {
-		if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DESKTOP_APP) {
-			/* since the ID and .desktop-file-id are tied together, we can't make this an error for desktop apps */
-			as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_WARNING,
-					AS_ISSUE_KIND_VALUE_WRONG,
-					"The component ID is not a reverse domain-name. Please update the ID and that of the accompanying .desktop file to follow the latest version of the specifications and avoid future issues.");
-		} else {
-			/* anything which isn't a .desktop app should follow the schema though */
-			as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_ERROR,
-					AS_ISSUE_KIND_VALUE_WRONG,
-					"The component ID is no reverse domain-name.");
-		}
-	} else {
-		/* some people just add random dots to their ID - check if we have an actual known TLD as first part, to be more certain that this is a reverse domain name
-		 * (this issue happens quite often with old .desktop files) */
-		if (!as_utils_is_tld (cid_parts[0])) {
-			as_validator_add_issue (validator, NULL,
-						AS_ISSUE_IMPORTANCE_INFO,
-						AS_ISSUE_KIND_VALUE_WRONG,
-						"The component ID might not follow the reverse domain-name schema (we do not know about the TLD '%s').", cid_parts[0]);
-		}
-	}
-
-	/* validate characters in AppStream ID */
-	for (i = 0; cid[i] != '\0'; i++) {
-		/* check if we have a printable, alphanumeric ASCII character or a dot, hyphen or underscore */
-		if ((!g_ascii_isalnum (cid[i])) &&
-		    (cid[i] != '.') &&
-		    (cid[i] != '-') &&
-		    (cid[i] != '_')) {
-			g_autofree gchar *c = NULL;
-			c = g_utf8_substring (cid, i, i + 1);
-			as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_ERROR,
-					AS_ISSUE_KIND_VALUE_WRONG,
-					"The component ID contains an invalid character: '%s'", c);
-		}
-	}
-
-
 
 	for (iter = root->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
@@ -533,6 +554,9 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 								"Component id belongs to a desktop-application, but does not resemble the .desktop file name: \"%s\"",
 								node_content);
 			}
+
+			/* validate the AppStream ID */
+			as_validator_validate_component_id (validator, iter, cpt);
 		} else if (g_strcmp0 (node_name, "metadata_license") == 0) {
 			has_metadata_license = TRUE;
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
@@ -558,8 +582,31 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "name") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+			if (g_str_has_suffix (node_content, ".")) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_INFO,
+							AS_ISSUE_KIND_VALUE_ISSUE,
+							"The component name should not end with a \".\" [%s]",
+							node_content);
+			}
+
 		} else if (g_strcmp0 (node_name, "summary") == 0) {
+			const gchar *summary = node_content;
+
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+			if (g_str_has_suffix (summary, "."))
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_INFO,
+							AS_ISSUE_KIND_VALUE_ISSUE,
+							"The component summary should not end with a \".\" [%s]",
+							summary);
+
+			if ((summary != NULL) && ((strstr (summary, "\n") != NULL) || (strstr (summary, "\t") != NULL))) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"The summary tag must not contain tabs or linebreaks.");
+			}
 		} else if (g_strcmp0 (node_name, "description") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_description_tag (validator, iter, cpt, mode);
@@ -646,18 +693,22 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			} else {
 				as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			}
-		} else if (g_strcmp0 (node_name, "metadata") == 0) {
+		} else if ((g_strcmp0 (node_name, "metadata") == 0) || (g_strcmp0 (node_name, "kudos") == 0)) {
+			/* these tags are GNOME / Fedora specific extensions and are therefore quite common. They shouldn't make the validation fail,
+			 * especially if we might standardize at leat the <kudos/> tag one day, but we should still complain about those tags to make
+			 * it obvious that they are not supported by all implementations */
 			as_validator_add_issue (validator, iter,
-						AS_ISSUE_IMPORTANCE_PEDANTIC,
+						AS_ISSUE_IMPORTANCE_INFO,
 						AS_ISSUE_KIND_TAG_UNKNOWN,
-						"Found custom metadata in <metadata/> tag. Use of this tag is common, but should be avoided if possible.");
+						"Found invalid tag: '%s'. This tag is a GNOME extensions to AppStream and is not supported by all implementations.",
+						node_name);
 			tag_valid = FALSE;
 		} else if (!g_str_has_prefix (node_name, "x-")) {
 			as_validator_add_issue (validator, iter,
 						AS_ISSUE_IMPORTANCE_WARNING,
 						AS_ISSUE_KIND_TAG_UNKNOWN,
 						"Found invalid tag: '%s'. Non-standard tags must be prefixed with \"x-\".",
-				node_name);
+						node_name);
 			tag_valid = FALSE;
 		}
 
@@ -676,15 +727,6 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 					AS_ISSUE_IMPORTANCE_ERROR,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"The essential tag 'metadata_license' is missing.");
-	}
-
-	/* check if the summary is sane */
-	summary = as_component_get_summary (cpt);
-	if ((summary != NULL) && ((strstr (summary, "\n") != NULL) || (strstr (summary, "\t") != NULL))) {
-		as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_ERROR,
-					AS_ISSUE_KIND_VALUE_WRONG,
-					"The summary tag must not contain tabs or linebreaks.");
 	}
 
 	/* check if we have a description */
@@ -725,19 +767,45 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 					"Type 'font' component, but no font information was provided via a provides/font tag.");
 	}
 
+	/* validate driver specific stuff */
+	if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DRIVER) {
+		if (as_component_get_provided_for_kind (cpt, AS_PROVIDED_KIND_MODALIAS) == NULL)
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_INFO,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"Type 'driver' component, but no modalias information was provided via a provides/modalias tag.");
+	}
+
 	/* validate addon specific stuff */
 	if (as_component_get_extends (cpt)->len > 0) {
-		if (as_component_get_kind (cpt) != AS_COMPONENT_KIND_ADDON)
+		AsComponentKind kind = as_component_get_kind (cpt);
+		if ((kind != AS_COMPONENT_KIND_ADDON) && (kind != AS_COMPONENT_KIND_LOCALIZATION))
 			as_validator_add_issue (validator, NULL,
 						AS_ISSUE_IMPORTANCE_ERROR,
 						AS_ISSUE_KIND_TAG_NOT_ALLOWED,
-						"An 'extends' tag is specified, but the component is not an addon.");
+						"An 'extends' tag is specified, but the component is not of type 'addon' or 'localization'.");
 	} else {
 		if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON)
 			as_validator_add_issue (validator, NULL,
 						AS_ISSUE_IMPORTANCE_ERROR,
 						AS_ISSUE_KIND_TAG_MISSING,
 						"The component is an addon, but no 'extends' tag was specified.");
+	}
+
+	/* validate l10n specific stuff */
+	if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_LOCALIZATION) {
+		if (as_component_get_extends (cpt)->len == 0) {
+			as_validator_add_issue (validator, NULL,
+						AS_ISSUE_IMPORTANCE_WARNING,
+						AS_ISSUE_KIND_TAG_MISSING,
+						"This 'localization' component is missing an An 'extends' tag, to specify the components it adds localization to.");
+		}
+		if (g_hash_table_size (as_component_get_languages_table (cpt)) == 0) {
+			as_validator_add_issue (validator, NULL,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_TAG_MISSING,
+						"This 'localization' component does not define any languages this localization is for.");
+		}
 	}
 
 	as_validator_clear_current_cpt (validator);

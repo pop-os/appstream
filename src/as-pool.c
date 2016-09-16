@@ -306,11 +306,13 @@ as_pool_add_component (AsPool *pool, AsComponent *cpt, GError **error)
 	cdid = as_component_get_data_id (cpt);
 	existing_cpt = g_hash_table_lookup (priv->cpt_table, cdid);
 
-	/* add additional data to the component, e.g. external screenshots. Also refines
-	 * the component's icon paths */
-	as_component_complete (cpt, priv->screenshot_service_url, priv->icon_dirs);
-
 	if (existing_cpt == NULL) {
+		/* add additional data to the component, e.g. external screenshots. Also refines
+		* the component's icon paths */
+		as_component_complete (cpt,
+					priv->screenshot_service_url,
+					priv->icon_dirs);
+
 		g_hash_table_insert (priv->cpt_table,
 					g_strdup (cdid),
 					g_object_ref (cpt));
@@ -410,7 +412,12 @@ as_pool_update_addon_info (AsPool *pool, AsComponent *cpt)
 
 	for (i = 0; i < extends->len; i++) {
 		AsComponent *extended_cpt;
-		const gchar *extended_cdid = (const gchar*) g_ptr_array_index (extends, i);
+		g_autofree gchar *extended_cdid = NULL;
+		const gchar *extended_cid = (const gchar*) g_ptr_array_index (extends, i);
+
+		extended_cdid = as_utils_build_data_id ("system", "os",
+							as_utils_get_component_bundle_kind (cpt),
+							extended_cid);
 
 		extended_cpt = g_hash_table_lookup (priv->cpt_table, extended_cdid);
 		if (extended_cpt == NULL) {
@@ -760,6 +767,11 @@ as_pool_load_cache_file (AsPool *pool, const gchar *fname, GError **error)
 			tmp_error = NULL;
 			continue;
 		}
+	}
+
+	/* find addons for the loaded components */
+	for (i = 0; i < cpts->len; i++) {
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
 
 		/* find and reference addons */
 		as_pool_update_addon_info (pool, cpt);
@@ -1033,7 +1045,7 @@ as_pool_build_search_terms (AsPool *pool, const gchar *search)
 /**
  * as_sort_components_by_score_cb:
  *
- * helper method to sort result arrays by the #AsComponent match score.
+ * Helper method to sort result arrays by the #AsComponent match score.
  */
 static gint
 as_sort_components_by_score_cb (gconstpointer a, gconstpointer b)

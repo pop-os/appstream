@@ -81,7 +81,7 @@ for more information.</para>
 <title>as_bundle_kind_to_string&#160;()</title>
 <indexterm zone="as-bundle-kind-to-string" role="0.8.0"><primary>as_bundle_kind_to_string</primary></indexterm>
 <programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> bundle_kind</parameter>);</programlisting>
+as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundleKind</type></link> kind</parameter>);</programlisting>
 <para>Converts the enumerated value to an text representation.</para>
 <refsect3 id="as-bundle-kind-to-string.parameters" role="parameters">
 <title>Parameters</title>
@@ -91,20 +91,20 @@ as_bundle_kind_to_string (<parameter><link linkend="AsBundleKind"><type>AsBundle
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<row><entry role="parameter_name"><para>kind</para></entry>
 <entry role="parameter_description"><para>the <link linkend="AsBundleKind"><literal>AsBundleKind</literal></link>.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-bundle-kind-to-string.returns" role="returns">
 <title>Returns</title>
-<para> string version of <parameter>bundle_kind</parameter>
+<para> string version of <parameter>kind</parameter>
 </para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.8.0">0.8.0</link></para></refsect2>
 <refsect2 id="as-bundle-kind-from-string" role="function">
 <title>as_bundle_kind_from_string&#160;()</title>
 <indexterm zone="as-bundle-kind-from-string"><primary>as_bundle_kind_from_string</primary></indexterm>
 <programlisting language="C"><link linkend="AsBundleKind"><returnvalue>AsBundleKind</returnvalue></link>
-as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *bundle_kind</parameter>);</programlisting>
+as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *bundle_str</parameter>);</programlisting>
 <para>Converts the text representation to an enumerated value.</para>
 <refsect3 id="as-bundle-kind-from-string.parameters" role="parameters">
 <title>Parameters</title>
@@ -114,7 +114,7 @@ as_bundle_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</
 <colspec colname="parameters_description"/>
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
-<row><entry role="parameter_name"><para>bundle_kind</para></entry>
+<row><entry role="parameter_name"><para>bundle_str</para></entry>
 <entry role="parameter_description"><para>the string.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
@@ -274,6 +274,11 @@ as_bundle_set_id (<parameter><link linkend="AsBundle"><type>AsBundle</type></lin
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-BUNDLE-KIND-FLATPAK:CAPS">AS_BUNDLE_KIND_FLATPAK</para></entry>
 <entry role="enum_member_description"><para>A Flatpak bundle</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-BUNDLE-KIND-APPIMAGE:CAPS">AS_BUNDLE_KIND_APPIMAGE</para></entry>
+<entry role="enum_member_description"><para>An AppImageKit bundle</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

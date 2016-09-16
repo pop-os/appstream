@@ -155,7 +155,7 @@ test_yamlwrite_general (void)
 
 	const gchar *expected_yaml = "---\n"
 				"File: DEP-11\n"
-				"Version: 0.10\n"
+				"Version: '0.10'\n"
 				"---\n"
 				"Type: firmware\n"
 				"ID: org.example.test.firmware\n"
@@ -208,7 +208,7 @@ test_yamlwrite_general (void)
 				"- locale: en_GB\n"
 				"  percentage: 100\n"
 				"Releases:\n"
-				"- version: 1.0\n"
+				"- version: '1.0'\n"
 				"  unix-timestamp: 1460463132\n"
 				"  description:\n"
 				"    de_DE: >-\n"
@@ -219,7 +219,7 @@ test_yamlwrite_general (void)
 				"      <p>Awesome initial release.</p>\n"
 				"\n"
 				"      <p>Second paragraph.</p>\n"
-				"- version: 1.2\n"
+				"- version: '1.2'\n"
 				"  unix-timestamp: 1462288512\n"
 				"  urgency: medium\n"
 				"  description:\n"
@@ -324,7 +324,7 @@ test_yaml_write_suggests (void)
 	g_autofree gchar *res = NULL;
 	const gchar *expected_sug_yaml = "---\n"
 					 "File: DEP-11\n"
-					 "Version: 0.10\n"
+					 "Version: '0.10'\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.SuggestsTest\n"
@@ -416,6 +416,13 @@ test_yaml_read_icons (void)
 					"      height: 128\n"
 					"      name: test_test.png\n"
 					"  stock: test\n";
+	const gchar *yamldata_icons_single = "---\n"
+					"ID: org.example.Test\n"
+					"Icon:\n"
+					"  cached:\n"
+					"    - width: 64\n"
+					"      height: 64\n"
+					"      name: single_test.png\n";
 
 	ydt = as_yamldata_new ();
 
@@ -452,6 +459,15 @@ test_yaml_read_icons (void)
 
 	g_assert_nonnull (as_component_get_icon_by_size (cpt, 64, 64));
 	g_assert_nonnull (as_component_get_icon_by_size (cpt, 128, 128));
+
+	/* check a component with just a single icon */
+	g_object_unref (cpt);
+	cpt = as_yaml_test_read_data (yamldata_icons_single, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
+
+	icons = as_component_get_icons (cpt);
+	g_assert_cmpint (icons->len, ==, 1);
+	g_assert_cmpstr (as_icon_get_filename (AS_ICON (g_ptr_array_index (icons, 0))), ==, "single_test.png");
 }
 
 /**
