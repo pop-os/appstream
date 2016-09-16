@@ -3,8 +3,8 @@
 set -e
 
 if [ "$1" = "purge" ]; then
-    # remove the AppStream cache
-    rm -rf /var/cache/app-info/pb
+    # remove the AppStream global cache
+    rm -rf /var/cache/app-info/gv
     rmdir /var/cache/app-info/ | true
 
     # remove the AppStream data
