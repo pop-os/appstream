@@ -77,12 +77,11 @@ Description: Library to access AppStream services (development files)
  This package contains development files necessary to develop
  software management tools which use the AppStream library.
 
-Package: gir1.2-appstream
+Package: gir1.2-appstream-1.0
 Architecture: any
 Section: introspection
-Depends: gir1.2-freedesktop (>= 1.32),
-         gir1.2-glib-2.0 (>= 1.46),
-         libappstream4 (= ${binary:Version}),
+Depends: libappstream4 (= ${binary:Version}),
+         ${gir:Depends},
          ${misc:Depends}
 Description: Library to access AppStream services (introspection data)
  AppStream is a metadata specification, allowing to write metadata for
