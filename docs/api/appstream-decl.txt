@@ -377,6 +377,7 @@ typedef enum {
 	AS_BUNDLE_KIND_PACKAGE,
 	AS_BUNDLE_KIND_LIMBA,
 	AS_BUNDLE_KIND_FLATPAK,
+	AS_BUNDLE_KIND_APPIMAGE,
 	/*< private >*/
 	AS_BUNDLE_KIND_LAST
 } AsBundleKind;
@@ -384,12 +385,12 @@ typedef enum {
 <FUNCTION>
 <NAME>as_bundle_kind_to_string</NAME>
 <RETURNS>const gchar 	*</RETURNS>
-AsBundleKind bundle_kind
+AsBundleKind kind
 </FUNCTION>
 <FUNCTION>
 <NAME>as_bundle_kind_from_string</NAME>
 <RETURNS>AsBundleKind 	</RETURNS>
-const gchar *bundle_kind
+const gchar *bundle_str
 </FUNCTION>
 <FUNCTION>
 <NAME>as_bundle_new</NAME>
@@ -1130,6 +1131,8 @@ typedef enum  {
 	AS_COMPONENT_KIND_CODEC,
 	AS_COMPONENT_KIND_INPUTMETHOD,
 	AS_COMPONENT_KIND_FIRMWARE,
+	AS_COMPONENT_KIND_DRIVER,
+	AS_COMPONENT_KIND_LOCALIZATION,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;

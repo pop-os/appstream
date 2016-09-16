@@ -111,7 +111,7 @@ ascli_print_key_value (const gchar* key, const gchar* val, gboolean highlight)
 	str = g_strdup_printf ("%s: ", key);
 
 	if (_nocolor_output) {
-		g_print ("%s%s\n  ", str, fmtval);
+		g_print ("%s%s\n", str, fmtval);
 	} else {
 		g_print ("%c[%dm%s%c[%dm%s\n", 0x1B, 1, str, 0x1B, 0, fmtval);
 	}
@@ -329,7 +329,7 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 			for (j = 0; j < imgs->len; j++) {
 				img = (AsImage*) g_ptr_array_index (imgs, j);
 				if (as_image_get_kind (img) == AS_IMAGE_KIND_SOURCE) {
-					ascli_print_key_value (_("Sample Screenshot URL"), as_image_get_url (img), FALSE);
+					ascli_print_key_value (_("Default Screenshot URL"), as_image_get_url (img), FALSE);
 					break;
 				}
 			}
@@ -363,9 +363,14 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 			g_autoptr(GPtrArray) addons_str = g_ptr_array_new_with_free_func (g_free);
 			for (i = 0; i < addons->len; i++) {
 				AsComponent *addon = AS_COMPONENT (g_ptr_array_index (addons, i));
-				g_ptr_array_add (addons_str, g_strdup_printf ("%s (%s)",
-										as_component_get_id (addon),
-										as_component_get_name (cpt)));
+				if (as_component_get_kind (addon) == AS_COMPONENT_KIND_LOCALIZATION) {
+					g_ptr_array_add (addons_str, g_strdup_printf ("l10n: %s",
+											as_component_get_id (addon)));
+				} else {
+					g_ptr_array_add (addons_str, g_strdup_printf ("%s (%s)",
+											as_component_get_id (addon),
+											as_component_get_name (cpt)));
+				}
 			}
 			str = ascli_ptrarray_to_pretty (addons_str);
 			/* TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor */

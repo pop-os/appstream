@@ -1,30 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
-<book xmlns="http://www.devhelp.net/book" title="AppStream Library Reference Manual" link="index.html" author="" name="appstream" version="2" language="c" online="http://www.freedesktop.org/software/appstream/docs/api/html">
+<book xmlns="http://www.devhelp.net/book" title="AppStream Library Reference Manual" link="index.html" author="" name="appstream" version="2" language="c" online="http://www.freedesktop.org/software/appstream/docs/api">
   <chapters>
     <sub name="AppStream API Reference" link="ch01.html">
       <sub name="AsComponent" link="AsComponent.html"/>
       <sub name="as-enums" link="appstream-as-enums.html"/>
-      <sub name="AsRelease" link="AsRelease.html"/>
       <sub name="AsIcon" link="AsIcon.html"/>
       <sub name="AsProvided" link="AsProvided.html"/>
+      <sub name="AsBundle" link="AsBundle.html"/>
+      <sub name="AsTranslation" link="AsTranslation.html"/>
       <sub name="AsSuggested" link="AsSuggested.html"/>
+      <sub name="AsRelease" link="AsRelease.html"/>
+      <sub name="AsChecksum" link="AsChecksum.html"/>
       <sub name="AsScreenshot" link="AsScreenshot.html"/>
       <sub name="AsImage" link="AsImage.html"/>
       <sub name="AsMetadata" link="AsMetadata.html"/>
       <sub name="AsPool" link="AsPool.html"/>
-      <sub name="AsDistroDetails" link="AsDistroDetails.html"/>
       <sub name="AsCategory" link="AsCategory.html"/>
       <sub name="AsValidator" link="AsValidator.html"/>
       <sub name="AsValidatorIssue" link="AsValidatorIssue.html"/>
       <sub name="as-spdx" link="appstream-as-spdx.html"/>
       <sub name="as-utils" link="appstream-as-utils.html"/>
+      <sub name="AsDistroDetails" link="AsDistroDetails.html"/>
     </sub>
     <sub name="Object Hierarchy" link="object-tree.html"/>
     <sub name="API Index" link="api-index-full.html"/>
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstreamcli" link="re17.html"/>
+      <sub name="appstreamcli" link="re20.html"/>
     </sub>
   </chapters>
   <functions>
@@ -138,31 +141,6 @@
     <keyword type="function" name="as_urgency_kind_from_string ()" link="appstream-as-enums.html#as-urgency-kind-from-string" since="0.6.5"/>
     <keyword type="enum" name="enum AsUrlKind" link="appstream-as-enums.html#AsUrlKind"/>
     <keyword type="enum" name="enum AsUrgencyKind" link="appstream-as-enums.html#AsUrgencyKind"/>
-    <keyword type="function" name="as_size_kind_to_string ()" link="AsRelease.html#as-size-kind-to-string" since="0.8.6"/>
-    <keyword type="function" name="as_size_kind_from_string ()" link="AsRelease.html#as-size-kind-from-string" since="0.8.6"/>
-    <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
-    <keyword type="function" name="as_release_get_active_locale ()" link="AsRelease.html#as-release-get-active-locale"/>
-    <keyword type="function" name="as_release_set_active_locale ()" link="AsRelease.html#as-release-set-active-locale"/>
-    <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
-    <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
-    <keyword type="function" name="as_release_vercmp ()" link="AsRelease.html#as-release-vercmp"/>
-    <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
-    <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
-    <keyword type="function" name="as_release_get_description ()" link="AsRelease.html#as-release-get-description"/>
-    <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
-    <keyword type="function" name="as_release_get_locations ()" link="AsRelease.html#as-release-get-locations" since="0.8.1"/>
-    <keyword type="function" name="as_release_add_location ()" link="AsRelease.html#as-release-add-location" since="0.8.1"/>
-    <keyword type="function" name="as_release_get_checksums ()" link="AsRelease.html#as-release-get-checksums" since="0.10"/>
-    <keyword type="function" name="as_release_get_checksum ()" link="AsRelease.html#as-release-get-checksum" since="0.8.2"/>
-    <keyword type="function" name="as_release_add_checksum ()" link="AsRelease.html#as-release-add-checksum" since="0.8.2"/>
-    <keyword type="function" name="as_release_get_urgency ()" link="AsRelease.html#as-release-get-urgency" since="0.6.5"/>
-    <keyword type="function" name="as_release_set_urgency ()" link="AsRelease.html#as-release-set-urgency" since="0.6.5"/>
-    <keyword type="function" name="as_release_get_size ()" link="AsRelease.html#as-release-get-size" since="0.8.6"/>
-    <keyword type="function" name="as_release_set_size ()" link="AsRelease.html#as-release-set-size" since="0.8.6"/>
-    <keyword type="macro" name="AS_TYPE_RELEASE" link="AsRelease.html#AS-TYPE-RELEASE:CAPS"/>
-    <keyword type="struct" name="struct AsReleaseClass" link="AsRelease.html#AsReleaseClass"/>
-    <keyword type="enum" name="enum AsSizeKind" link="AsRelease.html#AsSizeKind" since="0.8.6"/>
-    <keyword type="struct" name="AsRelease" link="AsRelease.html#AsRelease-struct"/>
     <keyword type="function" name="as_icon_kind_from_string ()" link="AsIcon.html#as-icon-kind-from-string"/>
     <keyword type="function" name="as_icon_kind_to_string ()" link="AsIcon.html#as-icon-kind-to-string"/>
     <keyword type="function" name="as_icon_new ()" link="AsIcon.html#as-icon-new"/>
@@ -195,6 +173,28 @@
     <keyword type="struct" name="struct AsProvidedClass" link="AsProvided.html#AsProvidedClass"/>
     <keyword type="enum" name="enum AsProvidedKind" link="AsProvided.html#AsProvidedKind"/>
     <keyword type="struct" name="AsProvided" link="AsProvided.html#AsProvided-struct"/>
+    <keyword type="function" name="as_bundle_kind_to_string ()" link="AsBundle.html#as-bundle-kind-to-string" since="0.8.0"/>
+    <keyword type="function" name="as_bundle_kind_from_string ()" link="AsBundle.html#as-bundle-kind-from-string"/>
+    <keyword type="function" name="as_bundle_new ()" link="AsBundle.html#as-bundle-new" since="0.10"/>
+    <keyword type="function" name="as_bundle_get_kind ()" link="AsBundle.html#as-bundle-get-kind" since="0.10"/>
+    <keyword type="function" name="as_bundle_set_kind ()" link="AsBundle.html#as-bundle-set-kind" since="0.10"/>
+    <keyword type="function" name="as_bundle_get_id ()" link="AsBundle.html#as-bundle-get-id" since="0.10"/>
+    <keyword type="function" name="as_bundle_set_id ()" link="AsBundle.html#as-bundle-set-id" since="0.10"/>
+    <keyword type="macro" name="AS_TYPE_BUNDLE" link="AsBundle.html#AS-TYPE-BUNDLE:CAPS"/>
+    <keyword type="struct" name="struct AsBundleClass" link="AsBundle.html#AsBundleClass"/>
+    <keyword type="enum" name="enum AsBundleKind" link="AsBundle.html#AsBundleKind"/>
+    <keyword type="struct" name="AsBundle" link="AsBundle.html#AsBundle-struct"/>
+    <keyword type="function" name="as_translation_kind_to_string ()" link="AsTranslation.html#as-translation-kind-to-string"/>
+    <keyword type="function" name="as_translation_kind_from_string ()" link="AsTranslation.html#as-translation-kind-from-string"/>
+    <keyword type="function" name="as_translation_new ()" link="AsTranslation.html#as-translation-new"/>
+    <keyword type="function" name="as_translation_get_kind ()" link="AsTranslation.html#as-translation-get-kind"/>
+    <keyword type="function" name="as_translation_set_kind ()" link="AsTranslation.html#as-translation-set-kind"/>
+    <keyword type="function" name="as_translation_get_id ()" link="AsTranslation.html#as-translation-get-id"/>
+    <keyword type="function" name="as_translation_set_id ()" link="AsTranslation.html#as-translation-set-id"/>
+    <keyword type="macro" name="AS_TYPE_TRANSLATION" link="AsTranslation.html#AS-TYPE-TRANSLATION:CAPS"/>
+    <keyword type="struct" name="struct AsTranslationClass" link="AsTranslation.html#AsTranslationClass"/>
+    <keyword type="enum" name="enum AsTranslationKind" link="AsTranslation.html#AsTranslationKind"/>
+    <keyword type="struct" name="AsTranslation" link="AsTranslation.html#AsTranslation-struct"/>
     <keyword type="function" name="as_suggested_kind_from_string ()" link="AsSuggested.html#as-suggested-kind-from-string"/>
     <keyword type="function" name="as_suggested_kind_to_string ()" link="AsSuggested.html#as-suggested-kind-to-string"/>
     <keyword type="function" name="as_suggested_new ()" link="AsSuggested.html#as-suggested-new"/>
@@ -207,6 +207,42 @@
     <keyword type="struct" name="struct AsSuggestedClass" link="AsSuggested.html#AsSuggestedClass"/>
     <keyword type="enum" name="enum AsSuggestedKind" link="AsSuggested.html#AsSuggestedKind"/>
     <keyword type="struct" name="AsSuggested" link="AsSuggested.html#AsSuggested-struct"/>
+    <keyword type="function" name="as_size_kind_to_string ()" link="AsRelease.html#as-size-kind-to-string" since="0.8.6"/>
+    <keyword type="function" name="as_size_kind_from_string ()" link="AsRelease.html#as-size-kind-from-string" since="0.8.6"/>
+    <keyword type="function" name="as_release_new ()" link="AsRelease.html#as-release-new"/>
+    <keyword type="function" name="as_release_get_active_locale ()" link="AsRelease.html#as-release-get-active-locale"/>
+    <keyword type="function" name="as_release_set_active_locale ()" link="AsRelease.html#as-release-set-active-locale"/>
+    <keyword type="function" name="as_release_get_version ()" link="AsRelease.html#as-release-get-version"/>
+    <keyword type="function" name="as_release_set_version ()" link="AsRelease.html#as-release-set-version"/>
+    <keyword type="function" name="as_release_vercmp ()" link="AsRelease.html#as-release-vercmp"/>
+    <keyword type="function" name="as_release_get_timestamp ()" link="AsRelease.html#as-release-get-timestamp"/>
+    <keyword type="function" name="as_release_set_timestamp ()" link="AsRelease.html#as-release-set-timestamp"/>
+    <keyword type="function" name="as_release_get_description ()" link="AsRelease.html#as-release-get-description"/>
+    <keyword type="function" name="as_release_set_description ()" link="AsRelease.html#as-release-set-description"/>
+    <keyword type="function" name="as_release_get_locations ()" link="AsRelease.html#as-release-get-locations" since="0.8.1"/>
+    <keyword type="function" name="as_release_add_location ()" link="AsRelease.html#as-release-add-location" since="0.8.1"/>
+    <keyword type="function" name="as_release_get_checksums ()" link="AsRelease.html#as-release-get-checksums" since="0.10"/>
+    <keyword type="function" name="as_release_get_checksum ()" link="AsRelease.html#as-release-get-checksum" since="0.8.2"/>
+    <keyword type="function" name="as_release_add_checksum ()" link="AsRelease.html#as-release-add-checksum" since="0.8.2"/>
+    <keyword type="function" name="as_release_get_urgency ()" link="AsRelease.html#as-release-get-urgency" since="0.6.5"/>
+    <keyword type="function" name="as_release_set_urgency ()" link="AsRelease.html#as-release-set-urgency" since="0.6.5"/>
+    <keyword type="function" name="as_release_get_size ()" link="AsRelease.html#as-release-get-size" since="0.8.6"/>
+    <keyword type="function" name="as_release_set_size ()" link="AsRelease.html#as-release-set-size" since="0.8.6"/>
+    <keyword type="macro" name="AS_TYPE_RELEASE" link="AsRelease.html#AS-TYPE-RELEASE:CAPS"/>
+    <keyword type="struct" name="struct AsReleaseClass" link="AsRelease.html#AsReleaseClass"/>
+    <keyword type="enum" name="enum AsSizeKind" link="AsRelease.html#AsSizeKind" since="0.8.6"/>
+    <keyword type="struct" name="AsRelease" link="AsRelease.html#AsRelease-struct"/>
+    <keyword type="function" name="as_checksum_kind_to_string ()" link="AsChecksum.html#as-checksum-kind-to-string"/>
+    <keyword type="function" name="as_checksum_kind_from_string ()" link="AsChecksum.html#as-checksum-kind-from-string"/>
+    <keyword type="function" name="as_checksum_new ()" link="AsChecksum.html#as-checksum-new"/>
+    <keyword type="function" name="as_checksum_get_kind ()" link="AsChecksum.html#as-checksum-get-kind"/>
+    <keyword type="function" name="as_checksum_set_kind ()" link="AsChecksum.html#as-checksum-set-kind"/>
+    <keyword type="function" name="as_checksum_get_value ()" link="AsChecksum.html#as-checksum-get-value"/>
+    <keyword type="function" name="as_checksum_set_value ()" link="AsChecksum.html#as-checksum-set-value"/>
+    <keyword type="macro" name="AS_TYPE_CHECKSUM" link="AsChecksum.html#AS-TYPE-CHECKSUM:CAPS"/>
+    <keyword type="struct" name="struct AsChecksumClass" link="AsChecksum.html#AsChecksumClass"/>
+    <keyword type="enum" name="enum AsChecksumKind" link="AsChecksum.html#AsChecksumKind"/>
+    <keyword type="struct" name="AsChecksum" link="AsChecksum.html#AsChecksum-struct"/>
     <keyword type="function" name="as_screenshot_kind_from_string ()" link="AsScreenshot.html#as-screenshot-kind-from-string"/>
     <keyword type="function" name="as_screenshot_kind_to_string ()" link="AsScreenshot.html#as-screenshot-kind-to-string"/>
     <keyword type="function" name="as_screenshot_is_valid ()" link="AsScreenshot.html#as-screenshot-is-valid"/>
@@ -306,18 +342,6 @@
     <keyword type="enum" name="enum AsPoolError" link="AsPool.html#AsPoolError"/>
     <keyword type="macro" name="AS_POOL_ERROR" link="AsPool.html#AS-POOL-ERROR:CAPS"/>
     <keyword type="struct" name="AsPool" link="AsPool.html#AsPool-struct"/>
-    <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
-    <keyword type="function" name="as_distro_details_get_id ()" link="AsDistroDetails.html#as-distro-details-get-id"/>
-    <keyword type="function" name="as_distro_details_get_name ()" link="AsDistroDetails.html#as-distro-details-get-name"/>
-    <keyword type="function" name="as_distro_details_get_version ()" link="AsDistroDetails.html#as-distro-details-get-version"/>
-    <keyword type="function" name="as_distro_details_get_str ()" link="AsDistroDetails.html#as-distro-details-get-str"/>
-    <keyword type="function" name="as_distro_details_get_bool ()" link="AsDistroDetails.html#as-distro-details-get-bool"/>
-    <keyword type="macro" name="AS_TYPE_DISTRO_DETAILS" link="AsDistroDetails.html#AS-TYPE-DISTRO-DETAILS:CAPS"/>
-    <keyword type="struct" name="struct AsDistroDetailsClass" link="AsDistroDetails.html#AsDistroDetailsClass"/>
-    <keyword type="struct" name="AsDistroDetails" link="AsDistroDetails.html#AsDistroDetails-struct"/>
-    <keyword type="property" name="The “id” property" link="AsDistroDetails.html#AsDistroDetails--id"/>
-    <keyword type="property" name="The “name” property" link="AsDistroDetails.html#AsDistroDetails--name"/>
-    <keyword type="property" name="The “version” property" link="AsDistroDetails.html#AsDistroDetails--version"/>
     <keyword type="function" name="as_category_new ()" link="AsCategory.html#as-category-new"/>
     <keyword type="function" name="as_category_get_id ()" link="AsCategory.html#as-category-get-id"/>
     <keyword type="function" name="as_category_set_id ()" link="AsCategory.html#as-category-set-id"/>
@@ -401,6 +425,18 @@
     <keyword type="function" name="as_utils_is_desktop_environment ()" link="appstream-as-utils.html#as-utils-is-desktop-environment" since="0.10.0"/>
     <keyword type="function" name="as_utils_sort_components_into_categories ()" link="appstream-as-utils.html#as-utils-sort-components-into-categories"/>
     <keyword type="function" name="as_utils_compare_versions ()" link="appstream-as-utils.html#as-utils-compare-versions"/>
+    <keyword type="function" name="as_distro_details_new ()" link="AsDistroDetails.html#as-distro-details-new"/>
+    <keyword type="function" name="as_distro_details_get_id ()" link="AsDistroDetails.html#as-distro-details-get-id"/>
+    <keyword type="function" name="as_distro_details_get_name ()" link="AsDistroDetails.html#as-distro-details-get-name"/>
+    <keyword type="function" name="as_distro_details_get_version ()" link="AsDistroDetails.html#as-distro-details-get-version"/>
+    <keyword type="function" name="as_distro_details_get_str ()" link="AsDistroDetails.html#as-distro-details-get-str"/>
+    <keyword type="function" name="as_distro_details_get_bool ()" link="AsDistroDetails.html#as-distro-details-get-bool"/>
+    <keyword type="macro" name="AS_TYPE_DISTRO_DETAILS" link="AsDistroDetails.html#AS-TYPE-DISTRO-DETAILS:CAPS"/>
+    <keyword type="struct" name="struct AsDistroDetailsClass" link="AsDistroDetails.html#AsDistroDetailsClass"/>
+    <keyword type="struct" name="AsDistroDetails" link="AsDistroDetails.html#AsDistroDetails-struct"/>
+    <keyword type="property" name="The “id” property" link="AsDistroDetails.html#AsDistroDetails--id"/>
+    <keyword type="property" name="The “name” property" link="AsDistroDetails.html#AsDistroDetails--name"/>
+    <keyword type="property" name="The “version” property" link="AsDistroDetails.html#AsDistroDetails--version"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_UNKNOWN" link="AsComponent.html#AS-COMPONENT-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_GENERIC" link="AsComponent.html#AS-COMPONENT-KIND-GENERIC:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_DESKTOP_APP" link="AsComponent.html#AS-COMPONENT-KIND-DESKTOP-APP:CAPS"/>
@@ -411,6 +447,8 @@
     <keyword type="constant" name="AS_COMPONENT_KIND_CODEC" link="AsComponent.html#AS-COMPONENT-KIND-CODEC:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_INPUTMETHOD" link="AsComponent.html#AS-COMPONENT-KIND-INPUTMETHOD:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_FIRMWARE" link="AsComponent.html#AS-COMPONENT-KIND-FIRMWARE:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_DRIVER" link="AsComponent.html#AS-COMPONENT-KIND-DRIVER:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_LOCALIZATION" link="AsComponent.html#AS-COMPONENT-KIND-LOCALIZATION:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_NONE" link="AsComponent.html#AS-MERGE-KIND-NONE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_REPLACE" link="AsComponent.html#AS-MERGE-KIND-REPLACE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_APPEND" link="AsComponent.html#AS-MERGE-KIND-APPEND:CAPS"/>
@@ -429,9 +467,6 @@
     <keyword type="constant" name="AS_URGENCY_KIND_MEDIUM" link="appstream-as-enums.html#AS-URGENCY-KIND-MEDIUM:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_HIGH" link="appstream-as-enums.html#AS-URGENCY-KIND-HIGH:CAPS"/>
     <keyword type="constant" name="AS_URGENCY_KIND_CRITICAL" link="appstream-as-enums.html#AS-URGENCY-KIND-CRITICAL:CAPS"/>
-    <keyword type="constant" name="AS_SIZE_KIND_UNKNOWN" link="AsRelease.html#AS-SIZE-KIND-UNKNOWN:CAPS"/>
-    <keyword type="constant" name="AS_SIZE_KIND_DOWNLOAD" link="AsRelease.html#AS-SIZE-KIND-DOWNLOAD:CAPS"/>
-    <keyword type="constant" name="AS_SIZE_KIND_INSTALLED" link="AsRelease.html#AS-SIZE-KIND-INSTALLED:CAPS"/>
     <keyword type="constant" name="AS_ICON_KIND_UNKNOWN" link="AsIcon.html#AS-ICON-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_ICON_KIND_CACHED" link="AsIcon.html#AS-ICON-KIND-CACHED:CAPS"/>
     <keyword type="constant" name="AS_ICON_KIND_STOCK" link="AsIcon.html#AS-ICON-KIND-STOCK:CAPS"/>
@@ -449,9 +484,23 @@
     <keyword type="constant" name="AS_PROVIDED_KIND_DBUS_USER" link="AsProvided.html#AS-PROVIDED-KIND-DBUS-USER:CAPS"/>
     <keyword type="constant" name="AS_PROVIDED_KIND_FIRMWARE_RUNTIME" link="AsProvided.html#AS-PROVIDED-KIND-FIRMWARE-RUNTIME:CAPS"/>
     <keyword type="constant" name="AS_PROVIDED_KIND_FIRMWARE_FLASHED" link="AsProvided.html#AS-PROVIDED-KIND-FIRMWARE-FLASHED:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_UNKNOWN" link="AsBundle.html#AS-BUNDLE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_PACKAGE" link="AsBundle.html#AS-BUNDLE-KIND-PACKAGE:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_LIMBA" link="AsBundle.html#AS-BUNDLE-KIND-LIMBA:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_FLATPAK" link="AsBundle.html#AS-BUNDLE-KIND-FLATPAK:CAPS"/>
+    <keyword type="constant" name="AS_BUNDLE_KIND_APPIMAGE" link="AsBundle.html#AS-BUNDLE-KIND-APPIMAGE:CAPS"/>
+    <keyword type="constant" name="AS_TRANSLATION_KIND_UNKNOWN" link="AsTranslation.html#AS-TRANSLATION-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_TRANSLATION_KIND_GETTEXT" link="AsTranslation.html#AS-TRANSLATION-KIND-GETTEXT:CAPS"/>
+    <keyword type="constant" name="AS_TRANSLATION_KIND_QT" link="AsTranslation.html#AS-TRANSLATION-KIND-QT:CAPS"/>
     <keyword type="constant" name="AS_SUGGESTED_KIND_UNKNOWN" link="AsSuggested.html#AS-SUGGESTED-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_SUGGESTED_KIND_UPSTREAM" link="AsSuggested.html#AS-SUGGESTED-KIND-UPSTREAM:CAPS"/>
     <keyword type="constant" name="AS_SUGGESTED_KIND_HEURISTIC" link="AsSuggested.html#AS-SUGGESTED-KIND-HEURISTIC:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_UNKNOWN" link="AsRelease.html#AS-SIZE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_DOWNLOAD" link="AsRelease.html#AS-SIZE-KIND-DOWNLOAD:CAPS"/>
+    <keyword type="constant" name="AS_SIZE_KIND_INSTALLED" link="AsRelease.html#AS-SIZE-KIND-INSTALLED:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_NONE" link="AsChecksum.html#AS-CHECKSUM-KIND-NONE:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA1" link="AsChecksum.html#AS-CHECKSUM-KIND-SHA1:CAPS"/>
+    <keyword type="constant" name="AS_CHECKSUM_KIND_SHA256" link="AsChecksum.html#AS-CHECKSUM-KIND-SHA256:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_UNKNOWN" link="AsScreenshot.html#AS-SCREENSHOT-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_DEFAULT" link="AsScreenshot.html#AS-SCREENSHOT-KIND-DEFAULT:CAPS"/>
     <keyword type="constant" name="AS_SCREENSHOT_KIND_EXTRA" link="AsScreenshot.html#AS-SCREENSHOT-KIND-EXTRA:CAPS"/>

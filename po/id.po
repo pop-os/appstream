@@ -8,51 +8,55 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-08-30 18:23+0200\n"
-"PO-Revision-Date: 2016-08-15 18:48+0000\n"
-"Last-Translator: Andika Triwidada <andika@gmail.com>\n"
-"Language-Team: Indonesian (http://www.transifex.com/freedesktop/appstream/"
-"language/id/)\n"
+"POT-Creation-Date: 2016-09-15 23:22+0200\n"
+"PO-Revision-Date: 2016-09-03 00:54+0000\n"
+"Last-Translator: Mohamad Hasan Al Banna <se7entime@protonmail.com>\n"
+"Language-Team: Indonesian <https://hosted.weblate.org/projects/appstream/"
+"translations/id/>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.8\n"
 
-#: ../src/as-category.c:164
-#, fuzzy
+#: ../tools/appstream-cli.c:136
+#, c-format
+msgid "'%s' command"
+msgstr ""
+
+#: ../src/as-category.c:168
 msgctxt "Category of Graphics"
 msgid "3D Graphics"
-msgstr "Kategori"
+msgstr "Grafis 3D"
 
-#: ../src/as-category.c:119
+#: ../src/as-category.c:123
 msgctxt "Category of Games"
 msgid "Action"
-msgstr ""
+msgstr "Aksi"
 
 #. TRANSLATORS: this is the main category for Add-ons
 #. TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor
-#: ../src/as-category.c:316 ../tools/ascli-utils.c:372
+#: ../src/as-category.c:320 ../tools/ascli-utils.c:377
 msgid "Add-ons"
-msgstr ""
+msgstr "Pengaya"
 
-#: ../src/as-category.c:122
+#: ../src/as-category.c:126
 msgctxt "Category of Games"
 msgid "Adventure"
-msgstr ""
+msgstr "Petualangan"
 
 #. TRANSLATORS: ascli flag description for: --pedantic
-#: ../tools/appstream-cli.c:153
-#, fuzzy
+#: ../tools/appstream-cli.c:114
 msgid "Also print pedantic hints when validating."
-msgstr "Cetak juga saran pedantik ketika memvalidasi"
+msgstr "Cetak juga saran pedantik ketika memvalidasi."
 
-#: ../tools/appstream-cli.c:61
+#: ../tools/appstream-cli.c:542
 msgid "An item type (e.g. lib, bin, python3, ...)"
 msgstr "Suatu tipe butir (mis. lib, bin, python3, ...)"
 
 #. TRANSLATORS: Output if appstreamcli --version is executed.
-#: ../tools/appstream-cli.c:181
+#: ../tools/appstream-cli.c:629
 #, c-format
 msgid "AppStream CLI tool version: %s"
 msgstr "Alat CLI AppStream versi: %s"
@@ -67,7 +71,7 @@ msgstr "Status AppStream:"
 msgid "AppStream cache update completed successfully."
 msgstr "Pemutakhiran singgahan AppStream berakhir dengan sukses."
 
-#: ../src/as-pool.c:1195
+#: ../src/as-pool.c:1208
 #, c-format
 msgid "AppStream cache update failed."
 msgstr "Pemutakhiran singgahan AppStream gagal."
@@ -76,12 +80,13 @@ msgstr "Pemutakhiran singgahan AppStream gagal."
 msgid "AppStream cache update is not necessary."
 msgstr "Pemutakhiran singgahan AppStream tidak perlu."
 
+#. TRANSLATORS: This is the header to the --help menu for subcommands
 #. TRANSLATORS: This is the header to the --help menu
-#: ../tools/appstream-cli.c:54
+#: ../tools/appstream-cli.c:133 ../tools/appstream-cli.c:535
 msgid "AppStream command-line interface"
 msgstr "Antar muka baris perintah AppStream"
 
-#: ../src/as-pool.c:1186
+#: ../src/as-pool.c:1199
 #, c-format
 msgid ""
 "AppStream data pool was loaded, but some metadata was ignored due to errors."
@@ -89,63 +94,63 @@ msgstr ""
 "Pool data AppStream dimuat, tapi beberapa metadata diabaikan karena "
 "kesalahan."
 
-#: ../src/as-category.c:125
+#: ../src/as-category.c:129
 msgctxt "Category of Games"
 msgid "Arcade"
-msgstr ""
+msgstr "Arkade"
 
-#: ../src/as-category.c:230
+#: ../src/as-category.c:234
 msgctxt "Category of Science"
 msgid "Artificial Intelligence"
-msgstr ""
+msgstr "Kecerdasan Buatan"
 
-#: ../src/as-category.c:97
+#: ../src/as-category.c:101
 msgctxt "Category of Education"
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomi"
 
-#: ../src/as-category.c:233
+#: ../src/as-category.c:237
 msgctxt "Category of Science"
 msgid "Astronomy"
-msgstr ""
+msgstr "Astronomi"
 
 #. TRANSLATORS: this is the menu spec main category for Audio & Video
-#: ../src/as-category.c:298
+#: ../src/as-category.c:302
 msgid "Audio & Video"
-msgstr ""
+msgstr "Audio & Video"
 
-#: ../src/as-category.c:64
+#: ../src/as-category.c:68
 msgctxt "Category of AudioVideo"
 msgid "Audio Creation & Editing"
-msgstr ""
+msgstr "Pembuatan & Penyuntingan Audio"
 
-#: ../src/as-provided.c:142
+#: ../src/as-provided.c:140
 msgid "Binaries"
 msgstr "Biner"
 
-#: ../src/as-category.c:128
+#: ../src/as-category.c:132
 msgctxt "Category of Games"
 msgid "Blocks"
-msgstr ""
+msgstr "Balok"
 
-#: ../src/as-category.c:131
+#: ../src/as-category.c:135
 msgctxt "Category of Games"
 msgid "Board"
-msgstr ""
+msgstr "Papan"
 
 #: ../tools/ascli-utils.c:278
 msgid "Bundle"
 msgstr "Bundel"
 
-#: ../src/as-pool.c:1129
+#: ../src/as-pool.c:1142
 #, c-format
 msgid "Cache location '%s' is not writable."
 msgstr "Lokasi singgahan '%s' tidak dapat ditulisi."
 
-#: ../src/as-category.c:187
+#: ../src/as-category.c:191
 msgctxt "Category of Office"
 msgid "Calendar"
-msgstr ""
+msgstr "Kalender"
 
 #: ../tools/ascli-actions-mdata.c:324
 #, c-format
@@ -156,45 +161,45 @@ msgstr ""
 "Tidak bisa menyalin '%s': Berkas tidak memiliki akhiran '.metainfo.xml' atau "
 "'.appdata.xml'."
 
-#: ../src/as-category.c:134
+#: ../src/as-category.c:138
 msgctxt "Category of Games"
 msgid "Card"
-msgstr ""
+msgstr "Kartu"
 
 #: ../tools/ascli-utils.c:348
 msgid "Categories"
 msgstr "Kategori"
 
-#: ../src/as-category.c:255
+#: ../src/as-category.c:259
 msgctxt "Category of Communication"
 msgid "Chat"
-msgstr ""
+msgstr "Komunikasi"
 
-#: ../src/as-category.c:100
+#: ../src/as-category.c:104
 msgctxt "Category of Education"
 msgid "Chemistry"
-msgstr ""
+msgstr "Kimia"
 
-#: ../src/as-category.c:236
+#: ../src/as-category.c:240
 msgctxt "Category of Science"
 msgid "Chemistry"
-msgstr ""
+msgstr "Kimia"
 
-#: ../src/as-category.c:210
+#: ../src/as-category.c:214
 msgctxt "Category of Addons"
 msgid "Codecs"
-msgstr ""
+msgstr "Kodek"
 
 #. TRANSLATORS: ascli has been run with unknown command.
-#: ../tools/appstream-cli.c:244
+#: ../tools/appstream-cli.c:671
 #, c-format
 msgid "Command '%s' is unknown."
 msgstr "Perintah '%s' tak dikenal."
 
 #. TRANSLATORS: this is the menu spec main category for Communication
-#: ../src/as-category.c:322
+#: ../src/as-category.c:326
 msgid "Communication & News"
-msgstr ""
+msgstr "Komunikasi & Berita"
 
 #. TRANSLATORS: We found no distribution package or bundle to install to make this software available
 #: ../tools/ascli-actions-pkgmgr.c:106
@@ -207,36 +212,41 @@ msgid "Compulsory for"
 msgstr "Wajib bagi"
 
 #. TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data.
-#: ../tools/appstream-cli.c:76
+#: ../tools/appstream-cli.c:557
+#, fuzzy
 msgid "Convert collection XML to YAML or vice versa."
-msgstr ""
+msgstr "Convert collection XML ke YAML atau sebaliknya."
 
 #. TRANSLATORS: Search for provided items (e.g. mimetypes, modaliases, ..) yielded no results
 #: ../tools/ascli-actions-mdata.c:225
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find component providing '%s::%s'."
-msgstr "Tidak bisa menemukan komponen yang menyediakan '%s;%s'!"
+msgstr "Tidak bisa menemukan komponen yang menyediakan '%s::%s'."
 
-#: ../src/as-provided.c:156
+#: ../src/as-provided.c:154
 msgid "DBus Session Services"
 msgstr "Layanan Sesi DBus"
 
-#: ../src/as-provided.c:154
+#: ../src/as-provided.c:152
 msgid "DBus System Services"
 msgstr "Layanan Sistem DBus"
 
-#: ../src/as-category.c:191
+#: ../src/as-category.c:195
 msgctxt "Category of Office"
 msgid "Database"
-msgstr ""
+msgstr "Basis data"
 
-#: ../src/as-category.c:82
+#: ../src/as-category.c:86
 msgctxt "Category of Development"
 msgid "Debuggers"
-msgstr ""
+msgstr "Debugger"
+
+#: ../tools/ascli-utils.c:332
+msgid "Default Screenshot URL"
+msgstr "Cuplikan Layar URL bawaan"
 
 #. TRANSLATORS: ascli flag description for: --format
-#: ../tools/appstream-cli.c:148
+#: ../tools/appstream-cli.c:83
 msgid ""
 "Default to the given metadata format (valid values are 'xml' and 'yaml')."
 msgstr ""
@@ -251,12 +261,11 @@ msgid "Developer"
 msgstr "Pengembang"
 
 #. TRANSLATORS: this is the menu spec main category for Development
-#: ../src/as-category.c:301
-#, fuzzy
+#: ../src/as-category.c:305
 msgid "Developer Tools"
-msgstr "Pengembang"
+msgstr "Alat Pengembang"
 
-#: ../tools/appstream-cli.c:73
+#: ../tools/appstream-cli.c:554
 msgid "Display status information about available AppStream metadata."
 msgstr "Tampilkan informasi status tentang metadata AppStream yang tersedia."
 
@@ -266,41 +275,38 @@ msgid "Distribution metadata:"
 msgstr "Metadata distribusi:"
 
 #. TRANSLATORS: ascli flag description for: --no-cache
-#: ../tools/appstream-cli.c:132
-#, fuzzy
+#: ../tools/appstream-cli.c:67
 msgid "Do not use any caches when performing the request."
-msgstr "Jangan gunakan singgahan Xapian ketika melaksanakan permintaan"
+msgstr "Jangan gunakan tembolok apapun ketika melakukan permintaan."
 
 #. TRANSLATORS: ascli flag description for: --no-color
-#: ../tools/appstream-cli.c:115
-#, fuzzy
+#: ../tools/appstream-cli.c:594
 msgid "Don't show colored output."
-msgstr "Jangan tampilkan keluaran berwarna"
+msgstr "Jangan tampilkan keluaran berwarna."
 
-#: ../tools/appstream-cli.c:64
+#: ../tools/appstream-cli.c:545
 msgid "Dump raw XML metadata for a component matching the ID."
 msgstr "Curahkan metadata XML mentah bagi suatu komponen yang cocok ID-nya."
 
 #. TRANSLATORS: this is the menu spec main category for Education
-#: ../src/as-category.c:304
+#: ../src/as-category.c:308
 msgid "Education"
-msgstr ""
+msgstr "Edukasi"
 
 #. TRANSLATORS: No metainfo files have been found
 #: ../tools/ascli-actions-misc.c:107 ../tools/ascli-actions-misc.c:127
 msgid "Empty."
 msgstr "Kosong."
 
-#: ../src/as-category.c:137
+#: ../src/as-category.c:141
 msgctxt "Category of Games"
 msgid "Emulators"
-msgstr ""
+msgstr "Emulator"
 
 #. TRANSLATORS: ascli flag description for: --force
-#: ../tools/appstream-cli.c:120
-#, fuzzy
+#: ../tools/appstream-cli.c:224
 msgid "Enforce a cache refresh."
-msgstr "Paksakan penyegaran singgahan"
+msgstr "Paksakan penyegaran tembolok."
 
 #: ../tools/ascli-actions-misc.c:157
 #, c-format
@@ -311,70 +317,70 @@ msgstr "Kesalahan ketika memuat pool metadata: %s"
 msgid "Extends"
 msgstr "Memperluas"
 
-#: ../src/as-category.c:61
+#: ../src/as-category.c:65
 msgctxt "Category of AudioVideo"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:252
+#: ../src/as-category.c:256
 msgctxt "Category of Communication"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:79
+#: ../src/as-category.c:83
 msgctxt "Category of Development"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:94
+#: ../src/as-category.c:98
 msgctxt "Category of Education"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:116
+#: ../src/as-category.c:120
 msgctxt "Category of Games"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:161
+#: ../src/as-category.c:165
 msgctxt "Category of Graphics"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:184
+#: ../src/as-category.c:188
 msgctxt "Category of Office"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:227
+#: ../src/as-category.c:231
 msgctxt "Category of Science"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:274
+#: ../src/as-category.c:278
 msgctxt "Category of Utility"
 msgid "Featured"
-msgstr ""
+msgstr "Unggulan"
 
-#: ../src/as-category.c:283
+#: ../src/as-category.c:287
 msgctxt "Category of Utility"
 msgid "File System"
 msgstr ""
 
-#: ../src/as-category.c:194
+#: ../src/as-category.c:198
 msgctxt "Category of Office"
 msgid "Finance"
 msgstr ""
 
-#: ../src/as-provided.c:160
+#: ../src/as-provided.c:158
 msgid "Flashed Firmware"
 msgstr "Firmware yang di-flash"
 
-#: ../src/as-provided.c:146
+#: ../src/as-provided.c:144
 msgid "Fonts"
 msgstr "Fonta"
 
-#: ../src/as-category.c:207
+#: ../src/as-category.c:211
 #, fuzzy
 msgctxt "Category of Addons"
 msgid "Fonts"
@@ -392,20 +398,20 @@ msgid "Found %i components."
 msgstr "Ditemukan %i komponen."
 
 #. TRANSLATORS: this is the menu spec main category for Game
-#: ../src/as-category.c:307
+#: ../src/as-category.c:311
 msgid "Games"
 msgstr ""
 
-#: ../tools/appstream-cli.c:60
+#: ../tools/appstream-cli.c:541
 msgid "Get components which provide the given item."
 msgstr "Dapatkan komponen yang menyediakan butir yang diberikan."
 
-#: ../tools/appstream-cli.c:59
+#: ../tools/appstream-cli.c:540
 msgid "Get information about a component by its ID."
 msgstr "Dapatkan informasi tentang suatu komponen berdasarkan ID-nya."
 
 #. TRANSLATORS: this is the menu spec main category for Graphics
-#: ../src/as-category.c:310
+#: ../src/as-category.c:314
 msgid "Graphics & Photography"
 msgstr ""
 
@@ -413,7 +419,7 @@ msgstr ""
 msgid "Homepage"
 msgstr "Beranda"
 
-#: ../src/as-category.c:85
+#: ../src/as-category.c:89
 msgctxt "Category of Development"
 msgid "IDEs"
 msgstr ""
@@ -430,16 +436,16 @@ msgstr "Set ikon"
 msgid "Identifier"
 msgstr "Identifier"
 
-#: ../src/as-category.c:213
+#: ../src/as-category.c:217
 msgctxt "Category of Addons"
 msgid "Input Sources"
 msgstr ""
 
-#: ../tools/appstream-cli.c:74
+#: ../tools/appstream-cli.c:555
 msgid "Install a metadata file into the right location."
 msgstr "Pasang suatu berkas metadata ke lokasi yang benar."
 
-#: ../tools/appstream-cli.c:70
+#: ../tools/appstream-cli.c:551
 msgid "Install software matching the component-id."
 msgstr "Pasang perangkat lunak yang cocok dengan id komponen."
 
@@ -449,22 +455,22 @@ msgstr ""
 "Tipe yang dipilih tak valid bagi butir yang disediakan. Nilai yang valid "
 "adalah:"
 
-#: ../src/as-category.c:140
+#: ../src/as-category.c:144
 msgctxt "Category of Games"
 msgid "Kids"
 msgstr ""
 
-#: ../src/as-category.c:216
+#: ../src/as-category.c:220
 msgctxt "Category of Addons"
 msgid "Language Packs"
 msgstr ""
 
-#: ../src/as-category.c:103
+#: ../src/as-category.c:107
 msgctxt "Category of Education"
 msgid "Languages"
 msgstr ""
 
-#: ../src/as-provided.c:140
+#: ../src/as-provided.c:138
 msgid "Libraries"
 msgstr "Pustaka"
 
@@ -473,35 +479,35 @@ msgstr "Pustaka"
 msgid "License"
 msgstr "Lisensi"
 
-#: ../src/as-category.c:219
+#: ../src/as-category.c:223
 msgctxt "Category of Addons"
 msgid "Localization"
 msgstr ""
 
-#: ../src/as-category.c:143
+#: ../src/as-category.c:147
 msgctxt "Category of Games"
 msgid "Logic"
 msgstr ""
 
 #. TRANSLATORS: ascli flag description for: --datapath
-#: ../tools/appstream-cli.c:143
+#: ../tools/appstream-cli.c:62
 #, fuzzy
 msgid "Manually set the location of AppStream metadata to scan."
 msgstr ""
 "Secara manual menata lokasi metadata AppStream bagi regenerasi singgahan"
 
 #. TRANSLATORS: ascli flag description for: --cachepath
-#: ../tools/appstream-cli.c:138
+#: ../tools/appstream-cli.c:57
 #, fuzzy
 msgid "Manually set the location of the AppStream cache."
 msgstr "Secara manual menata lokasi singgahan AppStream"
 
-#: ../src/as-category.c:107
+#: ../src/as-category.c:111
 msgctxt "Category of Education"
 msgid "Math"
 msgstr ""
 
-#: ../src/as-category.c:239
+#: ../src/as-category.c:243
 msgctxt "Category of Science"
 msgid "Math"
 msgstr ""
@@ -516,15 +522,15 @@ msgstr ""
 msgid "Metainfo files:"
 msgstr "Berkas metainfo:"
 
-#: ../src/as-provided.c:144
+#: ../src/as-provided.c:142
 msgid "Mimetypes"
 msgstr "Mimetype"
 
-#: ../src/as-provided.c:148
+#: ../src/as-provided.c:146
 msgid "Modaliases"
 msgstr "Modalias"
 
-#: ../src/as-category.c:70
+#: ../src/as-category.c:74
 msgctxt "Category of AudioVideo"
 msgid "Music Players"
 msgstr ""
@@ -533,7 +539,7 @@ msgstr ""
 msgid "Name"
 msgstr "Nama"
 
-#: ../src/as-category.c:262
+#: ../src/as-category.c:266
 msgctxt "Category of Communication"
 msgid "News"
 msgstr ""
@@ -560,21 +566,27 @@ msgid "No value for the item to search for defined."
 msgstr "Tidak ada nilai yang didefinisikan dari butir yang mesti ditemukan."
 
 #. TRANSLATORS: this is the menu spec main category for Office
-#: ../src/as-category.c:313
+#: ../src/as-category.c:317
 msgid "Office"
 msgstr ""
+
+#. TRANSLATORS: An unknown option was passed to appstreamcli.
+#: ../tools/appstream-cli.c:171
+#, fuzzy, c-format
+msgid "Option '%s' is unknown."
+msgstr "Perintah '%s' tak dikenal."
 
 #: ../tools/ascli-utils.c:277
 msgid "Package"
 msgstr "Paket"
 
-#: ../src/as-category.c:167
+#: ../src/as-category.c:171
 msgctxt "Category of Graphics"
 msgid "Photography"
 msgstr ""
 
 #. TRANSLATORS: ascli flag description for: --details
-#: ../tools/appstream-cli.c:126
+#: ../tools/appstream-cli.c:98
 #, fuzzy
 msgid "Print detailed output about found components."
 msgstr "Cetak keluaran terrinci tentang komponen yang ditemukan"
@@ -584,94 +596,99 @@ msgstr "Cetak keluaran terrinci tentang komponen yang ditemukan"
 msgid "Project Group"
 msgstr "Grup Proyek"
 
-#: ../tools/ascli-utils.c:379
+#: ../tools/ascli-utils.c:384
 msgid "Provided Items"
 msgstr "Butir Yang Disediakan"
 
-#: ../src/as-provided.c:150
+#: ../src/as-provided.c:148
 msgid "Python (Version 2)"
 msgstr "Python (Versi 2)"
 
-#: ../src/as-provided.c:152
+#: ../src/as-provided.c:150
 msgid "Python 3"
 msgstr "Python 3"
 
-#: ../tools/appstream-cli.c:65
+#: ../tools/appstream-cli.c:546
 msgid "Rebuild the component metadata cache."
 msgstr "Bangun ulang singgahan metadata komponen."
 
-#: ../tools/appstream-cli.c:71
+#: ../tools/appstream-cli.c:552
 msgid "Remove software matching the component-id."
 msgstr "Buang perangkat lunak yang cocok dengan id komponen."
 
-#: ../src/as-category.c:244
+#: ../src/as-category.c:248
 msgctxt "Category of Science"
 msgid "Robotics"
 msgstr ""
 
-#: ../src/as-category.c:146
+#: ../src/as-category.c:150
 msgctxt "Category of Games"
 msgid "Role Playing"
 msgstr ""
 
-#: ../tools/appstream-cli.c:173 ../tools/appstream-cli.c:193
+#: ../tools/appstream-cli.c:175 ../tools/appstream-cli.c:612
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
 "Jalankan '%s --help' untuk melihat daftar lengkap opsi baris perintah yang "
 "tersedia."
 
-#: ../src/as-provided.c:158
+#: ../tools/appstream-cli.c:177
+#, fuzzy, c-format
+msgid ""
+"Run '%s --help' to see a list of available commands and options, and '%s %s "
+"--help' to see a list of options specific for this subcommand."
+msgstr ""
+"Jalankan '%s --help' untuk melihat daftar lengkap opsi baris perintah yang "
+"tersedia."
+
+#: ../src/as-provided.c:156
 msgid "Runtime Firmware"
 msgstr "Firmware Runtime"
 
-#: ../tools/ascli-utils.c:332
-msgid "Sample Screenshot URL"
-msgstr "Contoh URL Cuplikan Layar"
-
-#: ../src/as-category.c:170
+#: ../src/as-category.c:174
 msgctxt "Category of Graphics"
 msgid "Scanning"
 msgstr ""
 
 #. TRANSLATORS: this is the menu spec main category for Science
-#: ../src/as-category.c:319
+#: ../src/as-category.c:323
 msgid "Science"
 msgstr ""
 
-#: ../tools/appstream-cli.c:58
+#: ../tools/appstream-cli.c:539
 msgid "Search the component database."
 msgstr "Cari basis data komponen."
 
-#: ../src/as-category.c:289
+#: ../src/as-category.c:293
 msgctxt "Category of Utility"
 msgid "Security"
 msgstr ""
 
 #. TRANSLATORS: ascli flag description for: --verbose
-#: ../tools/appstream-cli.c:110
+#: ../tools/appstream-cli.c:589
 #, fuzzy
 msgid "Show extra debugging information."
 msgstr "Tampilkan informasi debug ekstra"
 
 #. TRANSLATORS: ascli flag description for: --version
-#: ../tools/appstream-cli.c:104
+#: ../tools/appstream-cli.c:583
 #, fuzzy
 msgid "Show the program version."
 msgstr "Tampilkan versi program"
 
-#: ../src/as-category.c:149
+#: ../src/as-category.c:153
 msgctxt "Category of Games"
 msgid "Sports"
 msgstr ""
 
-#: ../src/as-category.c:153
+#: ../src/as-category.c:157
 msgctxt "Category of Games"
 msgid "Strategy"
 msgstr ""
 
 #. these are commands we can use with appstreamcli
-#: ../tools/appstream-cli.c:56
+#: ../tools/appstream-cli.c:537
 msgid "Subcommands:"
 msgstr "Sub perintah:"
 
@@ -684,17 +701,17 @@ msgstr "Ringkasan"
 msgid "Summary:"
 msgstr "Ringkasan:"
 
-#: ../src/as-category.c:286
+#: ../src/as-category.c:290
 msgctxt "Category of Utility"
 msgid "System Monitoring"
 msgstr ""
 
-#: ../src/as-category.c:280
+#: ../src/as-category.c:284
 msgctxt "Category of Utility"
 msgid "Terminal Emulators"
 msgstr ""
 
-#: ../src/as-category.c:277
+#: ../src/as-category.c:281
 msgctxt "Category of Utility"
 msgid "Text Editors"
 msgstr ""
@@ -729,15 +746,15 @@ msgid "Unable to write to '%s', can not install metainfo file."
 msgstr "Tidak bisa menulis ke '%s', tidak bisa memasang berkas metainfo."
 
 #. TRANSLATORS: this is the menu spec main category for Utilities
-#: ../src/as-category.c:325
+#: ../src/as-category.c:329
 msgid "Utilities"
 msgstr ""
 
-#: ../tools/appstream-cli.c:67
+#: ../tools/appstream-cli.c:548
 msgid "Validate AppStream XML files for issues."
 msgstr "Validasikan berkas XML AppStream apakah bermasalah."
 
-#: ../tools/appstream-cli.c:68
+#: ../tools/appstream-cli.c:549
 msgid "Validate an installed file-tree of an application for valid metadata."
 msgstr "Validasikan metadata pohon berkas terpasang dari suatu aplikasi."
 
@@ -749,11 +766,11 @@ msgstr "Validasi gagal."
 msgid "Validation was successful."
 msgstr "Validasi sukses."
 
-#: ../tools/appstream-cli.c:62
+#: ../tools/appstream-cli.c:543
 msgid "Value of the item that should be found."
 msgstr "Nilai dari butir yang mesti ditemukan."
 
-#: ../src/as-category.c:173
+#: ../src/as-category.c:177
 #, fuzzy
 msgctxt "Category of Graphics"
 msgid "Vector Graphics"
@@ -764,7 +781,7 @@ msgstr "Kategori"
 msgid "Version: %s"
 msgstr "Versi: %s"
 
-#: ../src/as-category.c:176
+#: ../src/as-category.c:180
 msgctxt "Category of Graphics"
 msgid "Viewers"
 msgstr ""
@@ -774,14 +791,20 @@ msgstr ""
 msgid "We have information on %i software components."
 msgstr "Kami punya informasi atas %i komponen perangkat lunak."
 
-#: ../src/as-category.c:266
+#: ../src/as-category.c:270
 msgctxt "Category of Communication"
 msgid "Web Browsers"
 msgstr ""
 
-#: ../src/as-category.c:198
+#: ../src/as-category.c:202
 msgctxt "Category of Office"
 msgid "Word Processor"
+msgstr ""
+
+#: ../tools/appstream-cli.c:560
+msgid ""
+"You can find information about subcommand-specific options by passing \"--"
+"help\" to the subcommand."
 msgstr ""
 
 #. TRANSLATORS: In ascli: The requested action needs higher permissions.
@@ -790,7 +813,7 @@ msgid "You might need superuser permissions to perform this action."
 msgstr "Anda mungkin perlu hak superuser untuk melakukan aksi ini."
 
 #. TRANSLATORS: ascli has been run without command.
-#: ../tools/appstream-cli.c:192
+#: ../tools/appstream-cli.c:611
 msgid "You need to specify a command."
 msgstr "Anda perlu menyatakan suatu perintah."
 
@@ -829,7 +852,7 @@ msgstr "Anda perlu menyatakan suatu berkas metadata."
 #. * to include in a search but that should normally be ignored in
 #. * the search.
 #.
-#: ../src/as-pool.c:100
+#: ../src/as-pool.c:101
 msgid "app;application;package;program;programme;suite;tool"
 msgstr "app;application;package;program;programme;suite;tool;aplikasi;paket"
 
