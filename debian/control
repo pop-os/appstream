@@ -61,6 +61,7 @@ Description: Library to access AppStream services
 
 Package: libappstream-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
 Depends: gir1.2-appstream (= ${binary:Version}),
          libappstream4 (= ${binary:Version}),
@@ -111,6 +112,7 @@ Description: Qt5 library to access AppStream services
 
 Package: libappstreamqt-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
 Depends: libappstreamqt1 (= ${binary:Version}),
          qtbase5-dev (>= 5.4),
@@ -127,6 +129,7 @@ Description: Qt5 library to access AppStream services (development files)
 
 Package: appstream-doc
 Architecture: all
+Multi-Arch: foreign
 Section: doc
 Depends: ${misc:Depends}
 Suggests: appstream
