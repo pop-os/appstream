@@ -63,7 +63,7 @@ Package: libappstream-dev
 Architecture: any
 Multi-Arch: same
 Section: libdevel
-Depends: gir1.2-appstream (= ${binary:Version}),
+Depends: gir1.2-appstream-1.0 (= ${binary:Version}),
          libappstream4 (= ${binary:Version}),
          libglib2.0-dev (>= 2.46),
          ${misc:Depends}
@@ -84,6 +84,8 @@ Section: introspection
 Depends: libappstream4 (= ${binary:Version}),
          ${gir:Depends},
          ${misc:Depends}
+Breaks: gir1.2-appstream (<< 0.10.1)
+Replaces: gir1.2-appstream (<< 0.10.1)
 Description: Library to access AppStream services (introspection data)
  AppStream is a metadata specification, allowing to write metadata for
  software projects in a general-purpose format. This allows software centers
