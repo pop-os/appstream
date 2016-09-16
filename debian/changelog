@@ -1,3 +1,13 @@
+appstream (0.10.1-1) unstable; urgency=medium
+
+  * New upstream release: 0.10.1
+  * Drop patches: Applied upstream
+  * Fix GIR package name and use GIR dh addon (Closes: #837684)
+  * Add more multiarch metadata
+  * Properly clean up the global cache on purge
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 16 Sep 2016 14:28:38 +0200
+
 appstream (0.10.0-2) unstable; urgency=medium
 
   * cache-serialization.patch: Correctly (de)serialize screenshot data
