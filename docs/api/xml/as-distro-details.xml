@@ -132,7 +132,8 @@ as_distro_details_get_str (<parameter><link linkend="AsDistroDetails"><type>AsDi
 <indexterm zone="as-distro-details-get-bool"><primary>as_distro_details_get_bool</primary></indexterm>
 <programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 as_distro_details_get_bool (<parameter><link linkend="AsDistroDetails"><type>AsDistroDetails</type></link> *distro</parameter>,
-                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *key</parameter>);</programlisting>
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *key</parameter>,
+                            <parameter><link linkend="gboolean"><type>gboolean</type></link> default_val</parameter>);</programlisting>
 </refsect2>
 
 </refsect1>

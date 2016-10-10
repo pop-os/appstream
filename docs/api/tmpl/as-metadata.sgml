@@ -52,6 +52,7 @@ AsMetadata
 @AS_FORMAT_KIND_UNKNOWN: 
 @AS_FORMAT_KIND_XML: 
 @AS_FORMAT_KIND_YAML: 
+@AS_FORMAT_KIND_DESKTOP_ENTRY: 
 
 <!-- ##### FUNCTION as_format_kind_to_string ##### -->
 <para>
@@ -161,6 +162,17 @@ AsMetadata
 @metad: 
 @data: 
 @format: 
+@error: 
+
+
+<!-- ##### FUNCTION as_metadata_parse_desktop_data ##### -->
+<para>
+
+</para>
+
+@metad: 
+@data: 
+@cid: 
 @error: 
 
 

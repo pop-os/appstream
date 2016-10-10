@@ -47,7 +47,8 @@
 
 typedef struct
 {
-	AsComponentKind kind;
+	AsComponentKind 	kind;
+	AsComponentScope	scope;
 	gchar			*active_locale;
 
 	gchar			*id;
@@ -94,6 +95,8 @@ typedef struct
 	GHashTable		*token_cache; /* of utf8:AsTokenType* */
 
 	AsValueFlags		value_flags;
+
+	gboolean		ignored; /* whether we should ignore this component */
 } AsComponentPrivate;
 
 typedef enum {
@@ -284,6 +287,42 @@ as_merge_kind_from_string (const gchar *kind_str)
 }
 
 /**
+ * as_component_scope_to_string:
+ * @scope: the #AsComponentScope.
+ *
+ * Converts the enumerated value to an text representation.
+ *
+ * Returns: string version of @scope
+ **/
+const gchar*
+as_component_scope_to_string (AsComponentScope scope)
+{
+	if (scope == AS_COMPONENT_SCOPE_SYSTEM)
+		return "system";
+	if (scope == AS_COMPONENT_SCOPE_USER)
+		return "user";
+	return "unknown";
+}
+
+/**
+ * as_component_scope_from_string:
+ * @scope_str: the string.
+ *
+ * Converts the text representation to an enumerated value.
+ *
+ * Returns: a #AsComponentScope or %AS_COMPONENT_SCOPE_UNKNOWN for unknown
+ **/
+AsMergeKind
+as_component_scope_from_string (const gchar *scope_str)
+{
+	if (g_strcmp0 (scope_str, "system") == 0)
+		return AS_COMPONENT_SCOPE_SYSTEM;
+	if (g_strcmp0 (scope_str, "user") == 0)
+		return AS_COMPONENT_SCOPE_USER;
+	return AS_COMPONENT_SCOPE_UNKNOWN;
+}
+
+/**
  * as_component_init:
  **/
 static void
@@ -446,12 +485,12 @@ as_component_to_string (AsComponent *cpt)
 	else
 		pkgs = g_strdup ("<none>");
 
-	res = g_strdup_printf ("[%s::%s]> name: %s | package: %s | summary: %s",
+	res = g_strdup_printf ("[%s::%s]> name: %s | summary: %s | package: %s",
 				as_component_kind_to_string (priv->kind),
 				as_component_get_data_id (cpt),
 				as_component_get_name (cpt),
-				pkgs,
-				as_component_get_summary (cpt));
+				as_component_get_summary (cpt),
+				pkgs);
 
 	return res;
 }
@@ -922,7 +961,7 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
  * %{scope}/%{origin}/%{distribution_system}/%{appstream_id}
  *
  * For example:
- * system/distributor/package/org.example.FooBar
+ * system/os/package/org.example.FooBar
  *
  * Returns: the unique session-specific identifier.
  */
@@ -1978,6 +2017,35 @@ as_component_add_translation (AsComponent *cpt, AsTranslation *tr)
 }
 
 /**
+ * as_component_get_scope:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: the #AsComponentScope of this component.
+ *
+ * Since: 0.10.2
+ */
+AsComponentScope
+as_component_get_scope (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->scope;
+}
+
+/**
+ * as_component_set_scope:
+ * @cpt: a #AsComponent instance.
+ * @scope: the #AsComponentKind.
+ *
+ * Sets the #AsComponentScope of this component.
+ */
+void
+as_component_set_scope (AsComponent *cpt, AsComponentScope scope)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	priv->scope = scope;
+}
+
+/**
  * as_component_add_icon_full:
  *
  * Internal helper function for as_component_refine_icons()
@@ -2619,6 +2687,35 @@ as_component_is_member_of_category (AsComponent *cpt, AsCategory *category)
 	}
 
 	return FALSE;
+}
+
+/**
+ * as_component_set_ignored:
+ * @cpt: a #AsComponent instance.
+ * @ignore: %TRUE if the metadata in @cpt should be ignored.
+ *
+ * Since: 0.10.2
+ */
+void
+as_component_set_ignored (AsComponent *cpt, gboolean ignore)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	priv->ignored = ignore;
+}
+
+/**
+ * as_component_is_ignored:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: Whether this component's metadata should be ignored.
+ *
+ * Since: 0.10.2
+ */
+gboolean
+as_component_is_ignored (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->ignored;
 }
 
 /**

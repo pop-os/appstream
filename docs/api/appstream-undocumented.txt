@@ -1,7 +1,7 @@
-63% symbol docs coverage.
-471 symbols documented.
-46 symbols incomplete.
-271 not documented.
+64% symbol docs coverage.
+484 symbols documented.
+48 symbols incomplete.
+278 not documented.
 
 
 AS_CURRENT_FORMAT_VERSION
@@ -93,18 +93,23 @@ as_component_get_icons
 as_component_get_keywords
 as_component_get_origin
 as_component_get_property
+as_component_get_scope
 as_component_get_source_pkgname
 as_component_get_value_flags
 as_component_has_bundle
 as_component_has_install_candidate
 as_component_init
+as_component_is_ignored
 as_component_is_member_of_category (Returns)
 as_component_set_architecture
+as_component_set_ignored
 as_component_set_kind_from_node
 as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
 as_component_set_value_flags
+as_desktop_entry_parse_data
+as_desktop_entry_parse_file (file, fversion, error, Returns)
 as_distro_details_class_init
 as_distro_details_finalize
 as_distro_details_get_bool
@@ -123,6 +128,7 @@ as_flags_add
 as_flags_contains
 as_flags_invert
 as_flags_remove
+as_get_locale_from_key
 as_icon_class_init
 as_icon_finalize
 as_icon_get_filename
@@ -161,6 +167,7 @@ as_pool_error_quark
 as_pool_finalize
 as_pool_get_cache_age (Returns)
 as_pool_get_cache_flags (Returns)
+as_pool_get_flags (Returns)
 as_pool_init
 as_pool_load (cancellable)
 as_pool_load_cache_file (Returns)
@@ -194,6 +201,7 @@ as_stemmer_class_init
 as_stemmer_finalize
 as_stemmer_init
 as_str_replace
+as_strequal_casefold
 as_suggested_class_init
 as_suggested_finalize
 as_suggested_init
@@ -311,6 +319,7 @@ as_yamldata_serialize_to_collection
 as_yamldata_set_check_valid (ydt)
 
 as-cache-file:Long_Description
+as-desktop-entry:Long_Description
 as-enums:Long_Description
 as-icon:Long_Description
 as-pool-private:Long_Description

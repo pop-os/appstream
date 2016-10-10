@@ -299,15 +299,15 @@
 			This is an example AppStream metadata file:
 		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0"<span xmlns="" class="perl_Keyword">?&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;components</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"0.6"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"application"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>firefox.desktop<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;components</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"0.10"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"desktop-application"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.mozilla.Firefox<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;pkgname&gt;</span>firefox-bin<span xmlns="" class="perl_Keyword">&lt;/pkgname&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Firefox<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;name</span><span xmlns="" class="perl_Others"> lang=</span><span xmlns="" class="perl_String">"en_GB"</span><span xmlns="" class="perl_Keyword">&gt;</span>Firefoux<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>Web browser<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;summary</span><span xmlns="" class="perl_Others"> lang=</span><span xmlns="" class="perl_String">"fr_FR"</span><span xmlns="" class="perl_Keyword">&gt;</span>Navigateur web<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>MPL-2<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>MPL-2.0<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;keywords&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;keyword&gt;</span>internet<span xmlns="" class="perl_Keyword">&lt;/keyword&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;keyword&gt;</span>web<span xmlns="" class="perl_Keyword">&lt;/keyword&gt;</span>
@@ -342,11 +342,11 @@
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/component&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;component&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>pulseaudio<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.freedesktop.PulseAudio<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>PulseAudio<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>The PulseAudio sound server<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.freedesktop.org/wiki/Software/PulseAudio/<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>GPLv2<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>GPL-2.0+<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;library&gt;</span>libpulse-simple.so.0<span xmlns="" class="perl_Keyword">&lt;/library&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;library&gt;</span>libpulse.so.0<span xmlns="" class="perl_Keyword">&lt;/library&gt;</span>
@@ -356,11 +356,12 @@
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"2.0"</span><span xmlns="" class="perl_Keyword">/&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/component&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"font"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>LinLibertine_M.otf<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Libertine<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.linuxlibertine.LinuxLibertine<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Linux Libertine<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>Linux Libertine Open fonts<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;font_classifier&gt;</span>Mono<span xmlns="" class="perl_Keyword">&lt;/font_classifier&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;font_parent&gt;</span>Libertine<span xmlns="" class="perl_Keyword">&lt;/font_parent&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;font&gt;</span>LinLibertine_M.otf<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/component&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Comment">&lt;!-- more components here! --&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/components&gt;</span></pre></div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Localization.html"><strong>Prev</strong>2.10. Localization</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-YAML.html"><strong>Next</strong>3.2. AppStream collection YAML</a></li></ul></body></html>

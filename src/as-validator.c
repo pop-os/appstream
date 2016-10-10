@@ -462,7 +462,14 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 	}
 
 	/* project-group specific constraints on the ID */
-	if (g_strcmp0 (as_component_get_project_group (cpt), "KDE") == 0) {
+	if ((g_strcmp0 (as_component_get_project_group (cpt), "Freedesktop") == 0) ||
+	    (g_strcmp0 (as_component_get_project_group (cpt), "FreeDesktop") == 0)) {
+		if (!g_str_has_prefix (cid, "org.freedesktop."))
+			as_validator_add_issue (validator, idnode,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The component is part of the Freedesktop project, but its id does not start with fd.o's reverse-DNS name (\"org.freedesktop\").");
+	} else if (g_strcmp0 (as_component_get_project_group (cpt), "KDE") == 0) {
 		if (!g_str_has_prefix (cid, "org.kde."))
 			as_validator_add_issue (validator, idnode,
 						AS_ISSUE_IMPORTANCE_ERROR,
@@ -471,7 +478,7 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 	} else if (g_strcmp0 (as_component_get_project_group (cpt), "GNOME") == 0) {
 		if (!g_str_has_prefix (cid, "org.gnome."))
 			as_validator_add_issue (validator, idnode,
-						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_IMPORTANCE_PEDANTIC,
 						AS_ISSUE_KIND_VALUE_WRONG,
 						"The component is part of the GNOME project, but its id does not start with GNOMEs reverse-DNS name (\"org.gnome\").");
 	}
@@ -660,7 +667,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			}
 		} else if (g_strcmp0 (node_name, "releases") == 0) {
 			as_validator_check_children_quick (validator, iter, "release", cpt);
-		} else if ((g_strcmp0 (node_name, "languages") == 0) && (mode == AS_FORMAT_STYLE_COLLECTION)) {
+		} else if (g_strcmp0 (node_name, "languages") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "lang", cpt);
 		} else if ((g_strcmp0 (node_name, "translation") == 0) && (mode == AS_FORMAT_STYLE_METAINFO)) {
@@ -668,7 +675,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			AsTranslationKind trkind;
 			prop = as_validator_check_type_property (validator, cpt, iter);
 			trkind = as_translation_kind_from_string (prop);
-			if (trkind == AS_TRANSLATION_KIND_UNKNOWN) {
+			if (prop != NULL && trkind == AS_TRANSLATION_KIND_UNKNOWN) {
 				as_validator_add_issue (validator, iter,
 							AS_ISSUE_IMPORTANCE_ERROR,
 							AS_ISSUE_KIND_VALUE_WRONG,
@@ -678,7 +685,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 		} else if (g_strcmp0 (node_name, "bundle") == 0) {
 			g_autofree gchar *prop = NULL;
 			prop = as_validator_check_type_property (validator, cpt, iter);
-			if (as_bundle_kind_from_string (prop) == AS_BUNDLE_KIND_UNKNOWN) {
+			if (prop != NULL && as_bundle_kind_from_string (prop) == AS_BUNDLE_KIND_UNKNOWN) {
 				as_validator_add_issue (validator, iter,
 							AS_ISSUE_IMPORTANCE_ERROR,
 							AS_ISSUE_KIND_VALUE_WRONG,
@@ -736,11 +743,16 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 
 		if ((cpt_kind == AS_COMPONENT_KIND_DESKTOP_APP) ||
 		    (cpt_kind == AS_COMPONENT_KIND_CONSOLE_APP) ||
-		    (cpt_kind == AS_COMPONENT_KIND_FONT)) {
+		    (cpt_kind == AS_COMPONENT_KIND_WEB_APP)) {
 			as_validator_add_issue (validator, NULL,
 					AS_ISSUE_IMPORTANCE_ERROR,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"The component is missing a long description. Components of this type must have a long description.");
+		} else if (cpt_kind == AS_COMPONENT_KIND_FONT) {
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_PEDANTIC,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"It would be useful for add a long description to this font to present it better to users.");
 		} else if (cpt_kind != AS_COMPONENT_KIND_GENERIC) {
 			as_validator_add_issue (validator, NULL,
 					AS_ISSUE_IMPORTANCE_INFO,

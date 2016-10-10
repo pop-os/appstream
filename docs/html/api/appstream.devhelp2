@@ -109,6 +109,7 @@
     <keyword type="function" name="as_component_get_merge_kind ()" link="AsComponent.html#as-component-get-merge-kind" since="0.9.8"/>
     <keyword type="function" name="as_component_set_merge_kind ()" link="AsComponent.html#as-component-set-merge-kind" since="0.9.8"/>
     <keyword type="function" name="as_component_is_member_of_category ()" link="AsComponent.html#as-component-is-member-of-category"/>
+    <keyword type="function" name="as_component_is_ignored ()" link="AsComponent.html#as-component-is-ignored" since="0.10.2"/>
     <keyword type="function" name="as_component_is_valid ()" link="AsComponent.html#as-component-is-valid"/>
     <keyword type="function" name="as_component_to_string ()" link="AsComponent.html#as-component-to-string"/>
     <keyword type="macro" name="AS_TYPE_COMPONENT" link="AsComponent.html#AS-TYPE-COMPONENT:CAPS"/>
@@ -285,6 +286,7 @@
     <keyword type="function" name="as_metadata_error_quark ()" link="AsMetadata.html#as-metadata-error-quark"/>
     <keyword type="function" name="as_metadata_parse_file ()" link="AsMetadata.html#as-metadata-parse-file"/>
     <keyword type="function" name="as_metadata_parse ()" link="AsMetadata.html#as-metadata-parse"/>
+    <keyword type="function" name="as_metadata_parse_desktop_data ()" link="AsMetadata.html#as-metadata-parse-desktop-data"/>
     <keyword type="function" name="as_metadata_get_component ()" link="AsMetadata.html#as-metadata-get-component"/>
     <keyword type="function" name="as_metadata_get_components ()" link="AsMetadata.html#as-metadata-get-components"/>
     <keyword type="function" name="as_metadata_clear_components ()" link="AsMetadata.html#as-metadata-clear-components"/>
@@ -335,10 +337,13 @@
     <keyword type="function" name="as_pool_add_metadata_location ()" link="AsPool.html#as-pool-add-metadata-location"/>
     <keyword type="function" name="as_pool_get_cache_flags ()" link="AsPool.html#as-pool-get-cache-flags"/>
     <keyword type="function" name="as_pool_set_cache_flags ()" link="AsPool.html#as-pool-set-cache-flags"/>
+    <keyword type="function" name="as_pool_get_flags ()" link="AsPool.html#as-pool-get-flags"/>
+    <keyword type="function" name="as_pool_set_flags ()" link="AsPool.html#as-pool-set-flags"/>
     <keyword type="function" name="as_pool_refresh_cache ()" link="AsPool.html#as-pool-refresh-cache"/>
     <keyword type="macro" name="AS_TYPE_POOL" link="AsPool.html#AS-TYPE-POOL:CAPS"/>
     <keyword type="struct" name="struct AsPoolClass" link="AsPool.html#AsPoolClass"/>
     <keyword type="enum" name="enum AsCacheFlags" link="AsPool.html#AsCacheFlags"/>
+    <keyword type="enum" name="enum AsPoolFlags" link="AsPool.html#AsPoolFlags"/>
     <keyword type="enum" name="enum AsPoolError" link="AsPool.html#AsPoolError"/>
     <keyword type="macro" name="AS_POOL_ERROR" link="AsPool.html#AS-POOL-ERROR:CAPS"/>
     <keyword type="struct" name="AsPool" link="AsPool.html#AsPool-struct"/>
@@ -513,6 +518,7 @@
     <keyword type="constant" name="AS_FORMAT_KIND_UNKNOWN" link="AsMetadata.html#AS-FORMAT-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_KIND_XML" link="AsMetadata.html#AS-FORMAT-KIND-XML:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_KIND_YAML" link="AsMetadata.html#AS-FORMAT-KIND-YAML:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_KIND_DESKTOP_ENTRY" link="AsMetadata.html#AS-FORMAT-KIND-DESKTOP-ENTRY:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_6" link="AsMetadata.html#AS-FORMAT-VERSION-V0-6:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_7" link="AsMetadata.html#AS-FORMAT-VERSION-V0-7:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_8" link="AsMetadata.html#AS-FORMAT-VERSION-V0-8:CAPS"/>
@@ -525,6 +531,10 @@
     <keyword type="constant" name="AS_CACHE_FLAG_NONE" link="AsPool.html#AS-CACHE-FLAG-NONE:CAPS"/>
     <keyword type="constant" name="AS_CACHE_FLAG_USE_USER" link="AsPool.html#AS-CACHE-FLAG-USE-USER:CAPS"/>
     <keyword type="constant" name="AS_CACHE_FLAG_USE_SYSTEM" link="AsPool.html#AS-CACHE-FLAG-USE-SYSTEM:CAPS"/>
+    <keyword type="constant" name="AS_POOL_FLAG_NONE" link="AsPool.html#AS-POOL-FLAG-NONE:CAPS"/>
+    <keyword type="constant" name="AS_POOL_FLAG_READ_COLLECTION" link="AsPool.html#AS-POOL-FLAG-READ-COLLECTION:CAPS"/>
+    <keyword type="constant" name="AS_POOL_FLAG_READ_METAINFO" link="AsPool.html#AS-POOL-FLAG-READ-METAINFO:CAPS"/>
+    <keyword type="constant" name="AS_POOL_FLAG_READ_DESKTOP_FILES" link="AsPool.html#AS-POOL-FLAG-READ-DESKTOP-FILES:CAPS"/>
     <keyword type="constant" name="AS_POOL_ERROR_FAILED" link="AsPool.html#AS-POOL-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_POOL_ERROR_TARGET_NOT_WRITABLE" link="AsPool.html#AS-POOL-ERROR-TARGET-NOT-WRITABLE:CAPS"/>
     <keyword type="constant" name="AS_POOL_ERROR_INCOMPLETE" link="AsPool.html#AS-POOL-ERROR-INCOMPLETE:CAPS"/>

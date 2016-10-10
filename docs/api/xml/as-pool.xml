@@ -60,6 +60,10 @@
 </entry><entry role="function_name"><link linkend="as-pool-get-cache-flags">as_pool_get_cache_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-pool-set-cache-flags">as_pool_set_cache_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsPoolFlags"><returnvalue>AsPoolFlags</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-pool-get-flags">as_pool_get_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-pool-set-flags">as_pool_set_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-pool-refresh-cache">as_pool_refresh_cache</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
@@ -77,6 +81,7 @@
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-POOL:CAPS">AS_TYPE_POOL</link></entry></row>
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsPoolClass">AsPoolClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsCacheFlags">AsCacheFlags</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsPoolFlags">AsPoolFlags</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsPoolError">AsPoolError</link></entry></row>
 <row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-POOL-ERROR:CAPS">AS_POOL_ERROR</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsPool-struct">AsPool</link></entry></row>
@@ -452,7 +457,7 @@ as_pool_get_components_by_categories (<parameter><link linkend="AsPool"><type>As
 as_pool_search (<parameter><link linkend="AsPool"><type>AsPool</type></link> *pool</parameter>,
                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *search</parameter>);</programlisting>
 <para>Search for a list of components matching the search terms.
-The list will be unordered.</para>
+The list will be ordered by match score.</para>
 <refsect3 id="as-pool-search.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -560,6 +565,48 @@ as_pool_set_cache_flags (<parameter><link linkend="AsPool"><type>AsPool</type></
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-pool-get-flags" role="function">
+<title>as_pool_get_flags&#160;()</title>
+<indexterm zone="as-pool-get-flags"><primary>as_pool_get_flags</primary></indexterm>
+<programlisting language="C"><link linkend="AsPoolFlags"><returnvalue>AsPoolFlags</returnvalue></link>
+as_pool_get_flags (<parameter><link linkend="AsPool"><type>AsPool</type></link> *pool</parameter>);</programlisting>
+<para>Get the <link linkend="AsPoolFlags"><type>AsPoolFlags</type></link> for this data pool.</para>
+<refsect3 id="as-pool-get-flags.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>pool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsPool"><type>AsPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-pool-set-flags" role="function">
+<title>as_pool_set_flags&#160;()</title>
+<indexterm zone="as-pool-set-flags"><primary>as_pool_set_flags</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_pool_set_flags (<parameter><link linkend="AsPool"><type>AsPool</type></link> *pool</parameter>,
+                   <parameter><link linkend="AsPoolFlags"><type>AsPoolFlags</type></link> flags</parameter>);</programlisting>
+<para>Set the <link linkend="AsPoolFlags"><type>AsPoolFlags</type></link> for this data pool.</para>
+<refsect3 id="as-pool-set-flags.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>pool</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsPool"><type>AsPool</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>flags</para></entry>
+<entry role="parameter_description"><para>The new <link linkend="AsPoolFlags"><type>AsPoolFlags</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
 <refsect2 id="as-pool-refresh-cache" role="function">
 <title>as_pool_refresh_cache&#160;()</title>
 <indexterm zone="as-pool-refresh-cache"><primary>as_pool_refresh_cache</primary></indexterm>
@@ -623,7 +670,7 @@ transparently in the background.</para>
 <colspec colname="enum_members_annotations" colwidth="200px"/>
 <tbody>
 <row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-FLAG-NONE:CAPS">AS_CACHE_FLAG_NONE</para></entry>
-<entry role="enum_member_description"><para>Type invalid or not known</para>
+<entry role="enum_member_description"><para>No flags.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
@@ -634,6 +681,40 @@ transparently in the background.</para>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-CACHE-FLAG-USE-SYSTEM:CAPS">AS_CACHE_FLAG_USE_SYSTEM</para></entry>
 <entry role="enum_member_description"><para>Use and - if possible - update the global metadata cache.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsPoolFlags" role="enum">
+<title>enum AsPoolFlags</title>
+<indexterm zone="AsPoolFlags"><primary>AsPoolFlags</primary></indexterm>
+<para>Flags on how caching should be used.</para>
+<refsect3 id="AsPoolFlags.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-POOL-FLAG-NONE:CAPS">AS_POOL_FLAG_NONE</para></entry>
+<entry role="enum_member_description"><para>No flags.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-POOL-FLAG-READ-COLLECTION:CAPS">AS_POOL_FLAG_READ_COLLECTION</para></entry>
+<entry role="enum_member_description"><para>Add AppStream collection metadata to the pool.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-POOL-FLAG-READ-METAINFO:CAPS">AS_POOL_FLAG_READ_METAINFO</para></entry>
+<entry role="enum_member_description"><para>Add data from AppStream metainfo files to the pool.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-POOL-FLAG-READ-DESKTOP-FILES:CAPS">AS_POOL_FLAG_READ_DESKTOP_FILES</para></entry>
+<entry role="enum_member_description"><para>Add metadata from .desktop files to the pool.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

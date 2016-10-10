@@ -193,6 +193,22 @@
 </tr>
 <tr>
 <td class="function_type">
+<a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="returnvalue">AsPoolFlags</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="AsPool.html#as-pool-get-flags" title="as_pool_get_flags ()">as_pool_get_flags</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsPool.html#as-pool-set-flags" title="as_pool_set_flags ()">as_pool_set_flags</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
 <span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
@@ -221,6 +237,10 @@
 <tr>
 <td class="datatype_keyword">enum</td>
 <td class="function_name"><a class="link" href="AsPool.html#AsCacheFlags" title="enum AsCacheFlags">AsCacheFlags</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags">AsPoolFlags</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">enum</td>
@@ -690,7 +710,7 @@ as_pool_get_components_by_categories (<em class="parameter"><code><a class="link
 as_pool_search (<em class="parameter"><code><a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a> *pool</code></em>,
                 <em class="parameter"><code>const <span class="type">gchar</span> *search</code></em>);</pre>
 <p>Search for a list of components matching the search terms.
-The list will be unordered.</p>
+The list will be ordered by match score.</p>
 <div class="refsect3">
 <a name="as-pool-search.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -829,6 +849,58 @@ as_pool_set_cache_flags (<em class="parameter"><code><a class="link" href="AsPoo
 </div>
 <hr>
 <div class="refsect2">
+<a name="as-pool-get-flags"></a><h3>as_pool_get_flags ()</h3>
+<pre class="programlisting"><a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="returnvalue">AsPoolFlags</span></a>
+as_pool_get_flags (<em class="parameter"><code><a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a> *pool</code></em>);</pre>
+<p>Get the <a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="type">AsPoolFlags</span></a> for this data pool.</p>
+<div class="refsect3">
+<a name="as-pool-get-flags.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>pool</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-pool-set-flags"></a><h3>as_pool_set_flags ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_pool_set_flags (<em class="parameter"><code><a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a> *pool</code></em>,
+                   <em class="parameter"><code><a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="type">AsPoolFlags</span></a> flags</code></em>);</pre>
+<p>Set the <a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="type">AsPoolFlags</span></a> for this data pool.</p>
+<div class="refsect3">
+<a name="as-pool-set-flags.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>pool</p></td>
+<td class="parameter_description"><p>An instance of <a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>flags</p></td>
+<td class="parameter_description"><p>The new <a class="link" href="AsPool.html#AsPoolFlags" title="enum AsPoolFlags"><span class="type">AsPoolFlags</span></a>.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
 <a name="as-pool-refresh-cache"></a><h3>as_pool_refresh_cache ()</h3>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 as_pool_refresh_cache (<em class="parameter"><code><a class="link" href="AsPool.html" title="AsPool"><span class="type">AsPool</span></a> *pool</code></em>,
@@ -899,7 +971,7 @@ transparently in the background.</p>
 <tr>
 <td class="enum_member_name"><p><a name="AS-CACHE-FLAG-NONE:CAPS"></a>AS_CACHE_FLAG_NONE</p></td>
 <td class="enum_member_description">
-<p>Type invalid or not known</p>
+<p>No flags.</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>
@@ -914,6 +986,51 @@ transparently in the background.</p>
 <td class="enum_member_name"><p><a name="AS-CACHE-FLAG-USE-SYSTEM:CAPS"></a>AS_CACHE_FLAG_USE_SYSTEM</p></td>
 <td class="enum_member_description">
 <p>Use and - if possible - update the global metadata cache.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="AsPoolFlags"></a><h3>enum AsPoolFlags</h3>
+<p>Flags on how caching should be used.</p>
+<div class="refsect3">
+<a name="AsPoolFlags.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="AS-POOL-FLAG-NONE:CAPS"></a>AS_POOL_FLAG_NONE</p></td>
+<td class="enum_member_description">
+<p>No flags.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-POOL-FLAG-READ-COLLECTION:CAPS"></a>AS_POOL_FLAG_READ_COLLECTION</p></td>
+<td class="enum_member_description">
+<p>Add AppStream collection metadata to the pool.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-POOL-FLAG-READ-METAINFO:CAPS"></a>AS_POOL_FLAG_READ_METAINFO</p></td>
+<td class="enum_member_description">
+<p>Add data from AppStream metainfo files to the pool.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-POOL-FLAG-READ-DESKTOP-FILES:CAPS"></a>AS_POOL_FLAG_READ_DESKTOP_FILES</p></td>
+<td class="enum_member_description">
+<p>Add metadata from .desktop files to the pool.</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>

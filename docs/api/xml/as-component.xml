@@ -179,6 +179,8 @@
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-is-member-of-category">as_component_is_member_of_category</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-is-ignored">as_component_is_ignored</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-is-valid">as_component_is_valid</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-to-string">as_component_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
@@ -514,7 +516,7 @@ a software component.</para>
 <para>The format of the unique id usually is:
 %{scope}/%{origin}/%{distribution_system}/%{appstream_id}</para>
 <para>For example:
-system/distributor/package/org.example.FooBar</para>
+system/os/package/org.example.FooBar</para>
 <refsect3 id="as-component-get-data-id.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -2127,6 +2129,27 @@ as_component_is_member_of_category (<parameter><link linkend="AsComponent"><type
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-is-ignored" role="function" condition="since:0.10.2">
+<title>as_component_is_ignored&#160;()</title>
+<indexterm zone="as-component-is-ignored" role="0.10.2"><primary>as_component_is_ignored</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_component_is_ignored (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<refsect3 id="as-component-is-ignored.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-is-ignored.returns" role="returns">
+<title>Returns</title>
+<para> Whether this component's metadata should be ignored.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.10.2">0.10.2</link></para></refsect2>
 <refsect2 id="as-component-is-valid" role="function">
 <title>as_component_is_valid&#160;()</title>
 <indexterm zone="as-component-is-valid"><primary>as_component_is_valid</primary></indexterm>

@@ -65,7 +65,7 @@
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 								<code class="code">generic</code> for <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">desktop-app</code> for <a class="xref" href="sect-Metadata-Application.html">Section 2.2, “Desktop Applications”</a>
+								<code class="code">desktop-application</code> for <a class="xref" href="sect-Metadata-Application.html">Section 2.2, “Desktop Applications”</a>
 							</div></li><li class="listitem"><div class="para">
 								<code class="code">console-application</code> for <a class="xref" href="sect-Metadata-ConsoleApplication.html">Section 2.3, “Console Applications”</a>
 							</div></li><li class="listitem"><div class="para">
@@ -214,7 +214,7 @@
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></dd><dt><span class="term">mimetypes</span></dt><dd><div class="para">
 									A list of mimetypes this component can handle.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></dd><dt><span class="term">firmware</span></dt><dd><div class="para">
-									A list of provided firmware. Each firmware entry is of type <span class="emphasis"><em>dict</em></span> and has a <code class="literal">type</code> key, which has either <code class="code">runtime</code> or <code class="code">flashed</code> as value. Firmware of type <code class="code">flashed</code> has a <code class="literal">guid</code> key, containing the GUID of the device the firmware is flashed on, while firmware of type <code class="code">runtime</code> has a <code class="literal">fname</code> key, containing the firmware filename which the kernel is looking for.
+									A list of provided firmware. Each firmware entry is of type <span class="emphasis"><em>dict</em></span> and has a <code class="literal">type</code> key, which has either <code class="code">runtime</code> or <code class="code">flashed</code> as value. Firmware of type <code class="code">flashed</code> has a <code class="literal">guid</code> key, containing the GUID of the device the firmware is flashed on, while firmware of type <code class="code">runtime</code> has a <code class="literal">file</code> key, containing the firmware filename which the kernel is looking for.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd><dt><span class="term">dbus</span></dt><dd><div class="para">
 									A list of provided DBus services. Each service entry in the list is of type <span class="emphasis"><em>dict</em></span> and has a <code class="literal">type</code> key, which has either <code class="code">system</code> or <code class="code">user</code> as value. <code class="code">user</code> means the DBus service name is for a user/session service, while <code class="code">system</code> means it describes a system service. The <code class="literal">service</code> key contains the name of the DBus service file. All dict values are of type <span class="emphasis"><em>str</em></span>.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd></dl></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-developername">
@@ -306,10 +306,7 @@ Version: '0.8'
 Origin: chromodoris-main
 MediaBaseUrl: http://metadata.tanglu.org/appstream/media/
 ---
-Categories:
-  - GNOME
-  - GTK
-  - System
+Type: desktop-application
 ID: gconf-editor.desktop
 Icon:
   cached: gconf-editor_gconf-editor.png
@@ -323,13 +320,12 @@ Summary:
   C: Directly edit your entire configuration database
   ar: حرّر مباشرة كامل قاعدة بيانات الإعدادات.
   de: Direkten Zugriff auf Ihre gesamte Konfigurationsdatenbank erlangen
-Type: desktop-app
----
 Categories:
-  - Qt
-  - KDE
-  - AudioVideo
-  - Player
+  - GNOME
+  - GTK
+  - System
+---
+Type: desktop-application
 ID: kmplayer.desktop
 Icon:
   cached: kmplayer_kmplayer.png
@@ -343,6 +339,13 @@ Name:
   sr@ijekavian: КМ‑плејер
   sv: Kmplayer
 Package: kmplayer
+Summary:
+  C: KDE interface for MPlayer
+Categories:
+  - Qt
+  - KDE
+  - AudioVideo
+  - Player
 Provides:
   mimetypes:
     - application/ogg
@@ -352,18 +355,19 @@ Provides:
     - application/x-kmplayer
     - video/webm
     - video/x-avi
-Summary:
-  C: KDE interface for MPlayer
-Type: desktop-app
 ---
-Categories:
-  - Office
-  - Publishing
+ID: texstudio.desktop
+Type: desktop-application
+Package: texstudio
+Name:
+  C: TeXstudio
+Summary:
+  C: LaTeX development environment
+  fr: Environnement de développement LaTeX
 Description:
   C: &lt;p&gt;TeXstudio is an integrated writing environment for creating LaTeX documents. It integrates editing,
     building and viewing into a single frontend.&lt;/p&gt;&lt;p&gt;Our goal is to make writing LaTeX as easy and comfortable
     as possible. This is achieved through a rich feature set including:&lt;/p&gt;
-ID: texstudio.desktop
 Icon:
   cached: texstudio_texstudio.png
 Keywords:
@@ -375,10 +379,12 @@ Keywords:
     - lualatex
     - context
     - bibtex
-Name:
-  C: TeXstudio
-Package: texstudio
 ProjectLicense: GPL-2.0
+Url:
+  homepage: http://texstudio.sourceforge.net/
+Categories:
+  - Office
+  - Publishing
 Provides:
   mimetypes:
     - text/x-tex
@@ -397,10 +403,4 @@ Screenshots:
         width: 624
       - height: 63
         url: texstudio_2.8.4+debian-3_amd64/screenshots/112x63/screenshot-1.png
-        width: 112
-Summary:
-  C: LaTeX development environment
-  fr: Environnement de développement LaTeX
-Type: desktop-app
-Url:
-  homepage: http://texstudio.sourceforge.net/</pre></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-CollectionData.html"><strong>Prev</strong>Chapter 3. Collection Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong>3.3. Icon Cache</a></li></ul></body></html>
+        width: 112</pre></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-CollectionData.html"><strong>Prev</strong>Chapter 3. Collection Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong>3.3. Icon Cache</a></li></ul></body></html>
