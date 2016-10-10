@@ -4,15 +4,16 @@ Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
 Build-Depends: cmake (>= 2.8),
                debhelper (>= 9.0.0),
+               gettext,
                gobject-introspection,
                gtk-doc-tools,
-               intltool,
+               itstool,
                libgirepository1.0-dev (>= 1.32),
                libglib2.0-dev (>= 2.46),
                libstemmer-dev,
                libxml2-dev (>= 2.8.0),
                libyaml-dev (>= 0.1.6),
-               qtbase5-dev (>= 5.4),
+               qtbase5-dev (>= 5.6),
                valac,
                xmlto
 Standards-Version: 3.9.8
