@@ -74,6 +74,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_origin@Base 0.10.0
  as_component_get_pkgname@Base 0.10.0
  as_component_get_pkgnames@Base 0.10.0
+ as_component_get_priority@Base 0.10.2
  as_component_get_project_group@Base 0.10.0
  as_component_get_project_license@Base 0.10.0
  as_component_get_provided@Base 0.10.0
@@ -92,6 +93,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_has_bundle@Base 0.10.0
  as_component_has_category@Base 0.10.0
  as_component_is_compulsory_for_desktop@Base 0.10.0
+ as_component_is_ignored@Base 0.10.2
  as_component_is_member_of_category@Base 0.10.0
  as_component_is_valid@Base 0.10.0
  as_component_kind_from_string@Base 0.10.0
@@ -113,6 +115,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_name@Base 0.10.0
  as_component_set_origin@Base 0.10.0
  as_component_set_pkgnames@Base 0.10.0
+ as_component_set_priority@Base 0.10.2
  as_component_set_project_group@Base 0.10.0
  as_component_set_project_license@Base 0.10.0
  as_component_set_source_pkgname@Base 0.10.0
@@ -187,6 +190,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_get_write_header@Base 0.10.0
  as_metadata_new@Base 0.10.0
  as_metadata_parse@Base 0.10.0
+ as_metadata_parse_desktop_data@Base 0.10.2
  as_metadata_parse_file@Base 0.10.0
  as_metadata_save_collection@Base 0.10.0
  as_metadata_save_metainfo@Base 0.10.0
@@ -208,6 +212,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_pool_get_components_by_id@Base 0.10.0
  as_pool_get_components_by_kind@Base 0.10.0
  as_pool_get_components_by_provided_item@Base 0.10.0
+ as_pool_get_flags@Base 0.10.2
  as_pool_get_locale@Base 0.10.0
  as_pool_get_type@Base 0.10.0
  as_pool_load@Base 0.10.0
@@ -217,6 +222,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_pool_save_cache_file@Base 0.10.0
  as_pool_search@Base 0.10.0
  as_pool_set_cache_flags@Base 0.10.0
+ as_pool_set_flags@Base 0.10.2
  as_pool_set_locale@Base 0.10.0
  as_provided_add_item@Base 0.10.0
  as_provided_get_items@Base 0.10.0
