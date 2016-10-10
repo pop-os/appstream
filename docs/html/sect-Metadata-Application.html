@@ -18,7 +18,7 @@
 				All tags defined in the generic component specification are valid for desktop application components as well. An application is just a specialized component, allowing tools like software centers to filter out the component types they want to display.
 			</div></div></div><div class="para">
 			The following list describes the special tags for application upstream metadata and provides some additional information about the values the tags are expected to have. If no information is given about a tag, refer to the respective tag in <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>.
-		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-application">
+		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-desktopapp">
       ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						For applications, the <code class="code">&lt;id/&gt;</code> tag value must be the same name as the installed <code class="filename">.desktop</code> file for the application, the <code class="filename">.desktop</code> suffix of the filename may be omitted.
 					</div><div class="para">
@@ -27,11 +27,17 @@
 						Example: If your application's <code class="filename">.desktop</code> file is named <code class="filename">org.example.FooBar.desktop</code> the component-id must be <code class="code">org.example.FooBar</code> (or <code class="code">org.example.FooBar.desktop</code>). If your application's <code class="filename">.desktop</code> file is named <code class="filename">frobnicator.desktop</code> the component-id must be <code class="code">frobnicator</code> (or <code class="code">frobnicator.desktop</code>) - it is highly recommended to modernize the .desktop filename to follow the Desktop Entry specification in these cases though.
 					</div></dd><dt><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;metadata_license/&gt;</code> tag as described in <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a> must be present.
-					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
-						While this tag is requited for a generic component, for an application metainfo file it is not necessary, but only recommended. You can omit this tag if you want the software center to have the same strings as defined in the XDG desktop file. In some cases it might be required to have a different name in the app-store, but most <code class="filename">appdata.xml</code> files will not need this.
-					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
-						While this tag is requited for a generic component, for an application metainfo file it is not necessary, but only recommended. You can omit this tag if you want the software center to have the same strings as defined in the XDG desktop file. In some cases it might be required to have a different name in the app-store, but most <code class="filename">appdata.xml</code> files will not need this.
-					</div></dd><dt><a id="tag-app-screenshots">
+					</div></dd><dt><a id="tag-dapp-name">
+      ⁠</a><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
+						While this tag is always requited for a generic component, for an application metainfo file it is not necessary, but only recommended. You can omit this tag if you want the software center to have the same strings as defined in the <code class="literal">Name</code> field of the <code class="filename">.desktop</code> file. In some cases it might be required to have a different name in the software center, but most metainfo files will not need this.
+					</div><div class="para">
+						If no <code class="literal">name</code> tag and no <code class="literal">Name</code> field is present, the metadata is considered invalid and might be ignored by the AppStream generator.
+					</div></dd><dt><a id="tag-dapp-summary">
+      ⁠</a><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
+						While this tag is always requited for a generic component, for a <code class="literal">desktop-application</code> metainfo file it is only essential if the accompanying <code class="filename">.desktop</code> file does not have a <code class="literal">Comment=</code> field. If the metainfo file has a <code class="literal">summary</code>, it wil override the value found in the <code class="literal">Comment</code> field of the <code class="filename">.desktop</code> file.
+					</div><div class="para">
+						If no <code class="literal">summary</code> tag and no <code class="literal">Comment</code> field is present, the metadata is considered invalid and might be ignored by the AppStream generator.
+					</div></dd><dt><a id="tag-dapp-screenshots">
       ⁠</a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
 						A screenshot presents your application to the outside world, and could be seen by hundreds or thousands of people.
 					</div><div class="para">
@@ -57,5 +63,5 @@
 					</div></dd><dt><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
 						The application metainfo should at least provide one <code class="code">&lt;releases/&gt;</code> tag, which has one or more <code class="code">&lt;release/&gt;</code> childs to define the version and release date of this application. For details, see <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> .
 					</div></dd></dl></div><div class="para">
-			For a component of type <code class="literal">desktop</code>, the following tags are required and must always be present: <a class="xref" href="sect-Metadata-Application.html#tag-id-application">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-description">&lt;description/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>.
+			For a component of type <code class="literal">desktop-application</code>, the following tags are required and must always be present: <a class="xref" href="sect-Metadata-Application.html#tag-id-desktopapp">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-description">&lt;description/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>. The following tags are strongly recommended / required conditionally: <a class="xref" href="sect-Metadata-Application.html#tag-dapp-name">&lt;name/&gt;</a>, <a class="xref" href="sect-Metadata-Application.html#tag-dapp-summary">&lt;summary/&gt;</a>.
 		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="chap-Metadata.html"><strong>Prev</strong>Chapter 2. Upstream Metadata</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-ConsoleApplication.html"><strong>Next</strong>2.3. Console Applications</a></li></ul></body></html>

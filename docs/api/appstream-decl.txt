@@ -784,7 +784,7 @@ AsDistroDetails *distro, const gchar *key
 <FUNCTION>
 <NAME>as_distro_details_get_bool</NAME>
 <RETURNS>gboolean 		</RETURNS>
-AsDistroDetails *distro, const gchar *key
+AsDistroDetails *distro, const gchar *key, gboolean default_val
 </FUNCTION>
 <STRUCT>
 <NAME>AsDistroDetails</NAME>
@@ -983,6 +983,15 @@ typedef enum {
 } AsCacheFlags;
 </ENUM>
 <ENUM>
+<NAME>AsPoolFlags</NAME>
+typedef enum {
+	AS_POOL_FLAG_NONE = 0,
+	AS_POOL_FLAG_READ_COLLECTION    = 1 << 0,
+	AS_POOL_FLAG_READ_METAINFO      = 1 << 1,
+	AS_POOL_FLAG_READ_DESKTOP_FILES = 1 << 2,
+} AsPoolFlags;
+</ENUM>
+<ENUM>
 <NAME>AsPoolError</NAME>
 typedef enum {
 	AS_POOL_ERROR_FAILED,
@@ -1093,6 +1102,16 @@ AsPool *pool
 AsPool *pool, AsCacheFlags flags
 </FUNCTION>
 <FUNCTION>
+<NAME>as_pool_get_flags</NAME>
+<RETURNS>AsPoolFlags 		</RETURNS>
+AsPool *pool
+</FUNCTION>
+<FUNCTION>
+<NAME>as_pool_set_flags</NAME>
+<RETURNS>void 			</RETURNS>
+AsPool *pool, AsPoolFlags flags
+</FUNCTION>
+<FUNCTION>
 <NAME>as_pool_refresh_cache</NAME>
 <RETURNS>gboolean 		</RETURNS>
 AsPool *pool, gboolean force, GError **error
@@ -1166,14 +1185,6 @@ typedef enum  {
 	AS_MERGE_KIND_LAST
 } AsMergeKind;
 </ENUM>
-<ENUM>
-<NAME>AsValueFlags</NAME>
-typedef enum {
-	AS_VALUE_FLAG_NONE = 0,
-	AS_VALUE_FLAG_DUPLICATE_CHECK = 1 << 0,
-	AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK = 1 << 1
-} AsValueFlags;
-</ENUM>
 <FUNCTION>
 <NAME>as_merge_kind_to_string</NAME>
 <RETURNS>const gchar 		*</RETURNS>
@@ -1184,6 +1195,14 @@ AsMergeKind kind
 <RETURNS>AsMergeKind 		</RETURNS>
 const gchar *kind_str
 </FUNCTION>
+<ENUM>
+<NAME>AsValueFlags</NAME>
+typedef enum {
+	AS_VALUE_FLAG_NONE = 0,
+	AS_VALUE_FLAG_DUPLICATE_CHECK = 1 << 0,
+	AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK = 1 << 1
+} AsValueFlags;
+</ENUM>
 <FUNCTION>
 <NAME>as_component_new</NAME>
 <RETURNS>AsComponent 		*</RETURNS>
@@ -1555,6 +1574,11 @@ AsComponent *cpt, AsMergeKind kind
 AsComponent *cpt, AsCategory *category
 </FUNCTION>
 <FUNCTION>
+<NAME>as_component_is_ignored</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
 <NAME>as_component_is_valid</NAME>
 <RETURNS>gboolean 		</RETURNS>
 AsComponent *cpt
@@ -1731,6 +1755,7 @@ typedef enum {
 	AS_FORMAT_KIND_UNKNOWN,
 	AS_FORMAT_KIND_XML,
 	AS_FORMAT_KIND_YAML,
+	AS_FORMAT_KIND_DESKTOP_ENTRY,
 	/*< private >*/
 	AS_FORMAT_KIND_LAST
 } AsFormatKind;
@@ -1805,6 +1830,11 @@ AsMetadata *metad, GFile *file, AsFormatKind format, GError **error
 <NAME>as_metadata_parse</NAME>
 <RETURNS>void 			</RETURNS>
 AsMetadata *metad, const gchar *data, AsFormatKind format, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_metadata_parse_desktop_data</NAME>
+<RETURNS>void 			</RETURNS>
+AsMetadata *metad, const gchar *data, const gchar *cid, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_metadata_get_component</NAME>
@@ -2136,6 +2166,16 @@ AsXMLData *xdt, gboolean check
 <STRUCT>
 <NAME>AsXMLData</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_desktop_entry_parse_data</NAME>
+<RETURNS>AsComponent 	*</RETURNS>
+const gchar *data, const gchar *cid, AsFormatVersion fversion, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_desktop_entry_parse_file</NAME>
+<RETURNS>AsComponent 	*</RETURNS>
+GFile *file, AsFormatVersion fversion, GError **error
+</FUNCTION>
 <MACRO>
 <NAME>as_flags_add</NAME>
 #define as_flags_add(bitfield,enum)		do { ((bitfield) |= enum); } while (0)

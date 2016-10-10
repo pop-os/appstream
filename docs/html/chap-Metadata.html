@@ -121,11 +121,11 @@
 								</div></dd><dt><span class="term">&lt;binary/&gt;</span></dt><dd><div class="para">
 									Name of a binary installed into a location in <code class="envar">PATH</code>.
 								</div></dd><dt><span class="term">&lt;font/&gt;</span></dt><dd><div class="para">
-									Name of a font provided by this component. For example <strong class="userinput"><code>Linux Libertine O</code></strong>. The tag must have a <code class="literal">file</code> property stating the filename of the referenced font.
+									Filename of a font provided by this component. For example <strong class="userinput"><code>Dustismo_Roman.ttf</code></strong>.
 								</div><div class="para">
 									Example:
 								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;font</span><span xmlns="" class="perl_Others"> file=</span><span xmlns="" class="perl_String">"LinLibertine_R.otf"</span><span xmlns="" class="perl_Keyword">&gt;</span>Linux Libertine O<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;font&gt;</span>LinLibertine_R.otf<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
 									A modalias glob representing the hardware types (for example USB, PCI, ACPI, DMI) this component handles. Useful for installing printer drivers or other USB protocol drivers for smartphones, firmware, and out of tree kernel drivers.
 								</div></dd><dt><span class="term">&lt;firmware/&gt;</span></dt><dd><div class="para">

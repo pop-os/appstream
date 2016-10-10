@@ -80,15 +80,6 @@ AsComponent
 @AS_MERGE_KIND_REPLACE: 
 @AS_MERGE_KIND_APPEND: 
 
-<!-- ##### ENUM AsValueFlags ##### -->
-<para>
-
-</para>
-
-@AS_VALUE_FLAG_NONE: 
-@AS_VALUE_FLAG_DUPLICATE_CHECK: 
-@AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK: 
-
 <!-- ##### FUNCTION as_merge_kind_to_string ##### -->
 <para>
 
@@ -106,6 +97,15 @@ AsComponent
 @kind_str: 
 @Returns: 
 
+
+<!-- ##### ENUM AsValueFlags ##### -->
+<para>
+
+</para>
+
+@AS_VALUE_FLAG_NONE: 
+@AS_VALUE_FLAG_DUPLICATE_CHECK: 
+@AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK: 
 
 <!-- ##### FUNCTION as_component_new ##### -->
 <para>
@@ -788,6 +788,15 @@ AsComponent
 
 @cpt: 
 @category: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_is_ignored ##### -->
+<para>
+
+</para>
+
+@cpt: 
 @Returns: 
 
 

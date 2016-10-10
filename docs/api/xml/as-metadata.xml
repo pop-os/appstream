@@ -38,6 +38,8 @@
 </entry><entry role="function_name"><link linkend="as-metadata-parse-file">as_metadata_parse_file</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-metadata-parse">as_metadata_parse</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-metadata-parse-desktop-data">as_metadata_parse_desktop_data</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsComponent"><returnvalue>AsComponent</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-metadata-get-component">as_metadata_get_component</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
@@ -295,6 +297,37 @@ as_metadata_parse (<parameter><link linkend="AsMetadata"><type>AsMetadata</type>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>format</para></entry>
 <entry role="parameter_description"><para>The format of the data (XML or YAML).</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-metadata-parse-desktop-data" role="function">
+<title>as_metadata_parse_desktop_data&#160;()</title>
+<indexterm zone="as-metadata-parse-desktop-data"><primary>as_metadata_parse_desktop_data</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_metadata_parse_desktop_data (<parameter><link linkend="AsMetadata"><type>AsMetadata</type></link> *metad</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *data</parameter>,
+                                <parameter>const <link linkend="gchar"><type>gchar</type></link> *cid</parameter>,
+                                <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Parses XDG Desktop Entry metadata and adds it to the pool.</para>
+<refsect3 id="as-metadata-parse-desktop-data.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>metad</para></entry>
+<entry role="parameter_description"><para>An instance of <link linkend="AsMetadata"><type>AsMetadata</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>data</para></entry>
+<entry role="parameter_description"><para>Metadata describing one or more software components.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>cid</para></entry>
+<entry role="parameter_description"><para>The component-id the new <link linkend="AsComponent"><type>AsComponent</type></link> should have.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>error</para></entry>
 <entry role="parameter_description"><para>A <link linkend="GError"><type>GError</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link>.</para></entry>
@@ -868,6 +901,11 @@ Usually you do not want to set this explicitly.</para>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-KIND-YAML:CAPS">AS_FORMAT_KIND_YAML</para></entry>
 <entry role="enum_member_description"><para>AppStream YAML (DEP-11) metadata.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-KIND-DESKTOP-ENTRY:CAPS">AS_FORMAT_KIND_DESKTOP_ENTRY</para></entry>
+<entry role="enum_member_description"><para>XDG Desktop Entry data.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

@@ -44,6 +44,16 @@ AsPool
 @AS_CACHE_FLAG_USE_USER: 
 @AS_CACHE_FLAG_USE_SYSTEM: 
 
+<!-- ##### ENUM AsPoolFlags ##### -->
+<para>
+
+</para>
+
+@AS_POOL_FLAG_NONE: 
+@AS_POOL_FLAG_READ_COLLECTION: 
+@AS_POOL_FLAG_READ_METAINFO: 
+@AS_POOL_FLAG_READ_DESKTOP_FILES: 
+
 <!-- ##### ENUM AsPoolError ##### -->
 <para>
 
@@ -236,6 +246,24 @@ AsPool
 
 
 <!-- ##### FUNCTION as_pool_set_cache_flags ##### -->
+<para>
+
+</para>
+
+@pool: 
+@flags: 
+
+
+<!-- ##### FUNCTION as_pool_get_flags ##### -->
+<para>
+
+</para>
+
+@pool: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_pool_set_flags ##### -->
 <para>
 
 </para>

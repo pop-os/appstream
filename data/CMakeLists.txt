@@ -1,16 +1,26 @@
-# CMakeLists for UAI data directory
+# CMakeLists for AppStream data directory
 
-find_program (LC_INTLTOOL_MERGE intltool-merge)
-mark_as_advanced (LC_INTLTOOL_MERGE)
+find_program (ITSTOOL itstool)
+mark_as_advanced (ITSTOOL)
 
-if (LC_INTLTOOL_MERGE STREQUAL "LC_INTLTOOL_MERGE-NOTFOUND")
-	message (FATAL_ERROR "Intltool was not found! Please install it to continue!")
-endif (LC_INTLTOOL_MERGE STREQUAL "LC_INTLTOOL_MERGE-NOTFOUND")
+if (NOT ITSTOOL)
+	message (FATAL_ERROR "Itstool was not found. Please install it to continue.")
+endif ()
 
 install(FILES appstream.conf
 	DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}
 )
 
-install(FILES org.freedesktop.appstream.cli.metainfo.xml
-	DESTINATION ${CMAKE_INSTALL_METAINFODIR}
+add_custom_target (merge-l10n ALL
+	${ITSTOOL}
+		-i ${CMAKE_SOURCE_DIR}/contrib/its/metainfo.its
+		-j ${CMAKE_CURRENT_SOURCE_DIR}/org.freedesktop.appstream.cli.metainfo.xml
+		-o ${CMAKE_CURRENT_BINARY_DIR}/org.freedesktop.appstream.cli.metainfo.xml
+		${CMAKE_BINARY_DIR}/po/*.gmo
+	DEPENDS org.freedesktop.appstream.cli.metainfo.xml translations_1
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.freedesktop.appstream.cli.metainfo.xml
+	DESTINATION share/metainfo
 )

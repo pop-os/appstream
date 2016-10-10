@@ -73,9 +73,9 @@ AsComponentKind
 as_component_kind_to_string
 as_component_kind_from_string
 AsMergeKind
-AsValueFlags
 as_merge_kind_to_string
 as_merge_kind_from_string
+AsValueFlags
 as_component_new
 as_component_get_value_flags
 as_component_set_value_flags
@@ -150,12 +150,19 @@ as_component_search_matches_all
 as_component_get_merge_kind
 as_component_set_merge_kind
 as_component_is_member_of_category
+as_component_is_ignored
 as_component_is_valid
 as_component_to_string
 AsComponent
 <SUBSECTION Standard>
 AS_TYPE_COMPONENT_KIND
 as_component_kind_get_type
+</SECTION>
+
+<SECTION>
+<FILE>as-desktop-entry</FILE>
+as_desktop_entry_parse_data
+as_desktop_entry_parse_file
 </SECTION>
 
 <SECTION>
@@ -256,6 +263,7 @@ as_metadata_new
 as_metadata_error_quark
 as_metadata_parse_file
 as_metadata_parse
+as_metadata_parse_desktop_data
 as_metadata_get_component
 as_metadata_get_components
 as_metadata_clear_components
@@ -287,6 +295,7 @@ AsMetadata
 AS_TYPE_POOL
 AsPoolClass
 AsCacheFlags
+AsPoolFlags
 AsPoolError
 AS_POOL_ERROR
 as_pool_error_quark
@@ -308,6 +317,8 @@ as_pool_clear_metadata_locations
 as_pool_add_metadata_location
 as_pool_get_cache_flags
 as_pool_set_cache_flags
+as_pool_get_flags
+as_pool_set_flags
 as_pool_refresh_cache
 AsPool
 </SECTION>

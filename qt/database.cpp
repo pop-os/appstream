@@ -42,17 +42,24 @@ using namespace Appstream;
 
 class Appstream::DatabasePrivate {
     public:
-        DatabasePrivate(const QString& cachePath) : m_cachePath(cachePath) {
+        DatabasePrivate(const QString& cachePath)
+            : m_cachePath(cachePath)
+            , m_errorString()
+            , m_loaded(false)
+        {
+            m_dpool = as_pool_new();
         }
 
         QString m_cachePath;
         QString m_errorString;
+        bool m_loaded;
         AsPool *m_dpool;
 
         bool open() {
-            g_autoptr(GError) error = NULL;
+            if (m_loaded)
+                return true; // Already loaded!
 
-            m_dpool = as_pool_new ();
+            g_autoptr(GError) error = NULL;
 
             if (m_cachePath.isEmpty())
                 as_pool_load (m_dpool, NULL, &error);
@@ -63,6 +70,7 @@ class Appstream::DatabasePrivate {
                 return false;
             }
 
+            m_loaded = true;
             return true;
         }
 
