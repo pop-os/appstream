@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2016-10-01 04:23+0200\n"
-"PO-Revision-Date: 2016-09-16 08:55+0000\n"
-"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
+"POT-Creation-Date: 2016-11-01 16:24+0100\n"
+"PO-Revision-Date: 2016-10-14 15:22+0000\n"
+"Last-Translator: Mingye Wang <arthur200126@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) <https://hosted.weblate.org/projects/"
 "appstream/translations/zh_TW/>\n"
 "Language: zh_TW\n"
@@ -37,7 +37,7 @@ msgstr "動作"
 
 #. TRANSLATORS: this is the main category for Add-ons
 #. TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor
-#: src/as-category.c:320 tools/ascli-utils.c:377
+#: src/as-category.c:320 tools/ascli-utils.c:386
 msgid "Add-ons"
 msgstr "附加元件"
 
@@ -51,23 +51,22 @@ msgstr "冒險"
 msgid "Also print pedantic hints when validating."
 msgstr "驗證時也列印繁冗的提示。"
 
-#: tools/appstream-cli.c:542
+#: tools/appstream-cli.c:540
 msgid "An item type (e.g. lib, bin, python3, ...)"
 msgstr "項目類型（例：lib、bin、python3…等）"
 
 #. (itstool) path: component/summary
 #: ../data/org.freedesktop.appstream.cli.metainfo.xml:9
 msgid "An utility to work with AppStream metadata"
-msgstr ""
+msgstr "用於操作 AppStream 詮釋資料的實用工具"
 
 #. (itstool) path: component/name
 #: ../data/org.freedesktop.appstream.cli.metainfo.xml:8
-#, fuzzy
 msgid "AppStream CLI"
-msgstr "AppStream 狀態："
+msgstr "AppStream 命令列介面"
 
 #. TRANSLATORS: Output if appstreamcli --version is executed.
-#: tools/appstream-cli.c:629
+#: tools/appstream-cli.c:627
 #, c-format
 msgid "AppStream CLI tool version: %s"
 msgstr "AppStream CLI 工具版本：%s"
@@ -78,25 +77,25 @@ msgid "AppStream Status:"
 msgstr "AppStream 狀態："
 
 #. TRANSLATORS: Updating the metadata cache succeeded
-#: tools/ascli-actions-mdata.c:72
+#: tools/ascli-actions-mdata.c:80
 msgid "AppStream cache update completed successfully."
 msgstr "AppStream 快取更新成功完成。"
 
-#: src/as-pool.c:1209
+#: src/as-pool.c:1336
 msgid "AppStream cache update failed."
 msgstr "AppStream 快取更新失敗。"
 
-#: tools/ascli-actions-mdata.c:82
+#: tools/ascli-actions-mdata.c:90
 msgid "AppStream cache update is not necessary."
 msgstr "不必更新 AppStream 快取。"
 
 #. TRANSLATORS: This is the header to the --help menu for subcommands
 #. TRANSLATORS: This is the header to the --help menu
-#: tools/appstream-cli.c:133 tools/appstream-cli.c:535
+#: tools/appstream-cli.c:133 tools/appstream-cli.c:533
 msgid "AppStream command-line interface"
 msgstr "AppStream 指令列介面"
 
-#: src/as-pool.c:1200
+#: src/as-pool.c:1327
 msgid ""
 "AppStream data pool was loaded, but some metadata was ignored due to errors."
 msgstr "已載入 AppStrem 資料集池，但是有些中介資料因錯誤而忽略。"
@@ -106,7 +105,7 @@ msgstr "已載入 AppStrem 資料集池，但是有些中介資料因錯誤而�
 msgid ""
 "AppStream is a cross-distribution specification to provide metadata about "
 "software components."
-msgstr ""
+msgstr "AppStream 為一個跨散佈版的規範，旨在提供軟體組件的中介資料。"
 
 #: src/as-category.c:129
 msgctxt "Category of Games"
@@ -152,11 +151,11 @@ msgctxt "Category of Games"
 msgid "Board"
 msgstr "棋盤"
 
-#: tools/ascli-utils.c:278
+#: tools/ascli-utils.c:287
 msgid "Bundle"
 msgstr "套組"
 
-#: src/as-pool.c:1143
+#: src/as-pool.c:1264
 #, c-format
 msgid "Cache location '%s' is not writable."
 msgstr "無法寫入「%s」快取位置。"
@@ -166,7 +165,7 @@ msgctxt "Category of Office"
 msgid "Calendar"
 msgstr "行事曆"
 
-#: tools/ascli-actions-mdata.c:324
+#: tools/ascli-actions-mdata.c:332
 #, c-format
 msgid ""
 "Can not copy '%s': File does not have a '.metainfo.xml' or '.appdata.xml' "
@@ -178,7 +177,7 @@ msgctxt "Category of Games"
 msgid "Card"
 msgstr "紙牌"
 
-#: tools/ascli-utils.c:348
+#: tools/ascli-utils.c:357
 msgid "Categories"
 msgstr "類別"
 
@@ -203,7 +202,7 @@ msgid "Codecs"
 msgstr "編解碼器"
 
 #. TRANSLATORS: ascli has been run with unknown command.
-#: tools/appstream-cli.c:671
+#: tools/appstream-cli.c:669
 #, c-format
 msgid "Command '%s' is unknown."
 msgstr "指令「%s」未知。"
@@ -219,17 +218,17 @@ msgstr "溝通和新聞"
 msgid "Component '%s' has no installation candidate."
 msgstr "「%s」組件尚無安裝候選。"
 
-#: tools/ascli-utils.c:356
+#: tools/ascli-utils.c:365
 msgid "Compulsory for"
 msgstr "強制項目為"
 
 #. TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data.
-#: tools/appstream-cli.c:557
+#: tools/appstream-cli.c:555
 msgid "Convert collection XML to YAML or vice versa."
 msgstr "將收藏集 XML 轉換成 YAML，或是相反。"
 
 #. TRANSLATORS: Search for provided items (e.g. mimetypes, modaliases, ..) yielded no results
-#: tools/ascli-actions-mdata.c:225
+#: tools/ascli-actions-mdata.c:233
 #, c-format
 msgid "Could not find component providing '%s::%s'."
 msgstr "找不到提供「%s::%s」的組件。"
@@ -252,7 +251,7 @@ msgctxt "Category of Development"
 msgid "Debuggers"
 msgstr "除錯器"
 
-#: tools/ascli-utils.c:332
+#: tools/ascli-utils.c:341
 msgid "Default Screenshot URL"
 msgstr "預設螢幕快照 URL"
 
@@ -262,12 +261,12 @@ msgid ""
 "Default to the given metadata format (valid values are 'xml' and 'yaml')."
 msgstr "給定中介資料格式的預設值 (有效的值為「xml」和「yaml」)。"
 
-#: tools/ascli-utils.c:312
+#: tools/ascli-utils.c:321
 msgid "Description"
 msgstr "描述"
 
 #. developer name
-#: tools/ascli-utils.c:300
+#: tools/ascli-utils.c:309
 msgid "Developer"
 msgstr "開發者"
 
@@ -276,7 +275,7 @@ msgstr "開發者"
 msgid "Developer Tools"
 msgstr "開發者工具"
 
-#: tools/appstream-cli.c:554
+#: tools/appstream-cli.c:552
 msgid "Display status information about available AppStream metadata."
 msgstr "顯示可用的 AppStream 中介資料相關狀態資訊。"
 
@@ -291,11 +290,11 @@ msgid "Do not use any caches when performing the request."
 msgstr "執行請求時不要使用任何快取。"
 
 #. TRANSLATORS: ascli flag description for: --no-color
-#: tools/appstream-cli.c:594
+#: tools/appstream-cli.c:592
 msgid "Don't show colored output."
 msgstr "不要顯示色彩化的輸出。"
 
-#: tools/appstream-cli.c:545
+#: tools/appstream-cli.c:543
 msgid "Dump raw XML metadata for a component matching the ID."
 msgstr "傾印符合該 ID 的組件原生 XML 中介資料。"
 
@@ -324,7 +323,7 @@ msgstr "強制重新整理快取。"
 msgid "Error while loading the metadata pool: %s"
 msgstr "載入中介資料集池時發生錯誤：%s"
 
-#: tools/ascli-utils.c:306
+#: tools/ascli-utils.c:315
 msgid "Extends"
 msgstr "擴展"
 
@@ -412,11 +411,11 @@ msgstr "找到 %i 個組件。"
 msgid "Games"
 msgstr "遊戲"
 
-#: tools/appstream-cli.c:541
+#: tools/appstream-cli.c:539
 msgid "Get components which provide the given item."
 msgstr "取得提供指定項目的組件。"
 
-#: tools/appstream-cli.c:540
+#: tools/appstream-cli.c:538
 msgid "Get information about a component by its ID."
 msgstr "根據 ID 取得組件的資訊。"
 
@@ -425,7 +424,7 @@ msgstr "根據 ID 取得組件的資訊。"
 msgid "Graphics & Photography"
 msgstr "圖形和攝影"
 
-#: tools/ascli-utils.c:279
+#: tools/ascli-utils.c:288
 msgid "Homepage"
 msgstr "首頁"
 
@@ -434,7 +433,7 @@ msgctxt "Category of Development"
 msgid "IDEs"
 msgstr "IDE"
 
-#: tools/ascli-utils.c:280
+#: tools/ascli-utils.c:289
 msgid "Icon"
 msgstr "圖示"
 
@@ -442,7 +441,7 @@ msgstr "圖示"
 msgid "Iconsets"
 msgstr "圖示集"
 
-#: tools/ascli-utils.c:274
+#: tools/ascli-utils.c:283
 msgid "Identifier"
 msgstr "辨識碼"
 
@@ -451,15 +450,15 @@ msgctxt "Category of Addons"
 msgid "Input Sources"
 msgstr "輸入來源"
 
-#: tools/appstream-cli.c:555
+#: tools/appstream-cli.c:553
 msgid "Install a metadata file into the right location."
 msgstr "安裝中介資料檔到適當位置。"
 
-#: tools/appstream-cli.c:551
+#: tools/appstream-cli.c:549
 msgid "Install software matching the component-id."
 msgstr "安裝符合組件 ID 的軟體。"
 
-#: tools/ascli-actions-mdata.c:210
+#: tools/ascli-actions-mdata.c:218
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr "選取的供應項目類型無效。有效的值有："
 
@@ -483,7 +482,7 @@ msgid "Libraries"
 msgstr "函式庫"
 
 #. license
-#: tools/ascli-utils.c:342
+#: tools/ascli-utils.c:351
 msgid "License"
 msgstr "授權條款"
 
@@ -517,7 +516,7 @@ msgctxt "Category of Science"
 msgid "Math"
 msgstr "數學"
 
-#: tools/ascli-actions-mdata.c:361
+#: tools/ascli-actions-mdata.c:369
 #, c-format
 msgid "Metadata file '%s' does not exist."
 msgstr "「%s」中介資料檔並不存在。"
@@ -529,18 +528,18 @@ msgstr "中介資料檔："
 
 #: src/as-provided.c:142
 msgid "Mimetypes"
-msgstr "Mimetypes"
+msgstr "Mime 類型"
 
 #: src/as-provided.c:146
 msgid "Modaliases"
-msgstr "Modaliases"
+msgstr "Modalias 檔"
 
 #: src/as-category.c:74
 msgctxt "Category of AudioVideo"
 msgid "Music Players"
 msgstr "音樂播放器"
 
-#: tools/ascli-utils.c:275
+#: tools/ascli-utils.c:284
 msgid "Name"
 msgstr "名稱"
 
@@ -549,7 +548,7 @@ msgctxt "Category of Communication"
 msgid "News"
 msgstr "新聞"
 
-#: tools/ascli-actions-mdata.c:179
+#: tools/ascli-actions-mdata.c:187
 #, c-format
 msgid "No component matching '%s' found."
 msgstr "找不到符合「%s」的組件。"
@@ -566,7 +565,7 @@ msgstr ""
 "找不到適當的軟體包管理程式 CLI。例如請確認「pkcon」是否可以使用（PackageKit "
 "的一部分）。"
 
-#: tools/ascli-actions-mdata.c:203
+#: tools/ascli-actions-mdata.c:211
 msgid "No value for the item to search for defined."
 msgstr "要搜尋的項目未定義該值。"
 
@@ -581,7 +580,7 @@ msgstr "辦公"
 msgid "Option '%s' is unknown."
 msgstr "「%s」選項不明。"
 
-#: tools/ascli-utils.c:277
+#: tools/ascli-utils.c:286
 msgid "Package"
 msgstr "軟體包"
 
@@ -596,11 +595,11 @@ msgid "Print detailed output about found components."
 msgstr "列印有關找到之組件的詳細輸出。"
 
 #. project group
-#: tools/ascli-utils.c:339
+#: tools/ascli-utils.c:348
 msgid "Project Group"
 msgstr "專案群組"
 
-#: tools/ascli-utils.c:384
+#: tools/ascli-utils.c:393
 msgid "Provided Items"
 msgstr "提供的項目"
 
@@ -612,11 +611,11 @@ msgstr "Python (第 2 版)"
 msgid "Python 3"
 msgstr "Python 3"
 
-#: tools/appstream-cli.c:546
+#: tools/appstream-cli.c:544
 msgid "Rebuild the component metadata cache."
 msgstr "重建組件的中介資料快取。"
 
-#: tools/appstream-cli.c:552
+#: tools/appstream-cli.c:550
 msgid "Remove software matching the component-id."
 msgstr "移除符合該組件 ID 的軟體。"
 
@@ -630,7 +629,7 @@ msgctxt "Category of Games"
 msgid "Role Playing"
 msgstr "角色扮演"
 
-#: tools/appstream-cli.c:175 tools/appstream-cli.c:612
+#: tools/appstream-cli.c:175 tools/appstream-cli.c:610
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr "執行「%s --help」查看可用指令列選項的完整清單。"
@@ -658,7 +657,7 @@ msgstr "掃描"
 msgid "Science"
 msgstr "科學"
 
-#: tools/appstream-cli.c:539
+#: tools/appstream-cli.c:537
 msgid "Search the component database."
 msgstr "搜尋組件資料庫。"
 
@@ -668,12 +667,12 @@ msgid "Security"
 msgstr "安全"
 
 #. TRANSLATORS: ascli flag description for: --verbose
-#: tools/appstream-cli.c:589
+#: tools/appstream-cli.c:587
 msgid "Show extra debugging information."
 msgstr "顯示額外除錯資訊。"
 
 #. TRANSLATORS: ascli flag description for: --version
-#: tools/appstream-cli.c:583
+#: tools/appstream-cli.c:581
 msgid "Show the program version."
 msgstr "顯示程式版本。"
 
@@ -688,11 +687,11 @@ msgid "Strategy"
 msgstr "策略"
 
 #. these are commands we can use with appstreamcli
-#: tools/appstream-cli.c:537
+#: tools/appstream-cli.c:535
 msgid "Subcommands:"
 msgstr "子指令："
 
-#: tools/ascli-utils.c:276
+#: tools/ascli-utils.c:285
 msgid "Summary"
 msgstr "摘要"
 
@@ -724,21 +723,24 @@ msgid ""
 "example query for software providing a specific mimetype and installing it "
 "by its software component identifier."
 msgstr ""
+"本工具可用於讀寫、驗證與變換 AppStream XML 或 YAML 中介資料；此外還可存取系統"
+"中介資料庫，進行諸如搜尋提供某種 mime 類型的軟體，並按照其軟體組件辨識碼安"
+"裝。"
 
 #. TRANSLATORS: User is trying to convert a file in ascli
-#: tools/ascli-actions-mdata.c:387
+#: tools/ascli-actions-mdata.c:396
 msgid ""
 "Unable to convert file: Could not determine output format, please set it "
 "explicitly using '--format='."
 msgstr "無法轉換檔案：無法判定輸出格式，請使用「--format=」明確設定。"
 
 #. TRANSLATORS: We failed to find any component in the database, likely due to an error
-#: tools/ascli-actions-mdata.c:174
+#: tools/ascli-actions-mdata.c:182
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "找不到符合 %s 的組件！"
 
-#: tools/ascli-actions-mdata.c:141 tools/ascli-actions-mdata.c:263
+#: tools/ascli-actions-mdata.c:149 tools/ascli-actions-mdata.c:271
 #: tools/ascli-actions-pkgmgr.c:93
 #, c-format
 msgid "Unable to find component with ID '%s'!"
@@ -749,7 +751,7 @@ msgstr "找不到 ID 為「%s」的組件！"
 msgid "Unable to spawn package manager: %s"
 msgstr "無法多重啟動軟體包管理程式：%s"
 
-#: tools/ascli-actions-mdata.c:319
+#: tools/ascli-actions-mdata.c:327
 #, c-format
 msgid "Unable to write to '%s', can not install metainfo file."
 msgstr "無法寫入「%s」，無法安裝中介資料檔。"
@@ -759,23 +761,23 @@ msgstr "無法寫入「%s」，無法安裝中介資料檔。"
 msgid "Utilities"
 msgstr "公用程式"
 
-#: tools/appstream-cli.c:548
+#: tools/appstream-cli.c:546
 msgid "Validate AppStream XML files for issues."
 msgstr "驗證 AppStream XML 檔是否有問題。"
 
-#: tools/appstream-cli.c:549
+#: tools/appstream-cli.c:547
 msgid "Validate an installed file-tree of an application for valid metadata."
 msgstr "驗證已安裝應用程式的檔案樹是否存在有效的中介資料。"
 
-#: tools/ascli-actions-validate.c:177 tools/ascli-actions-validate.c:211
+#: tools/ascli-actions-validate.c:175 tools/ascli-actions-validate.c:209
 msgid "Validation failed."
 msgstr "驗證失敗。"
 
-#: tools/ascli-actions-validate.c:175 tools/ascli-actions-validate.c:209
+#: tools/ascli-actions-validate.c:173 tools/ascli-actions-validate.c:207
 msgid "Validation was successful."
 msgstr "驗證成功。"
 
-#: tools/appstream-cli.c:543
+#: tools/appstream-cli.c:541
 msgid "Value of the item that should be found."
 msgstr "應找到的項目值。"
 
@@ -809,46 +811,46 @@ msgctxt "Category of Office"
 msgid "Word Processor"
 msgstr "文書處理器"
 
-#: tools/appstream-cli.c:560
+#: tools/appstream-cli.c:558
 msgid ""
 "You can find information about subcommand-specific options by passing \"--"
 "help\" to the subcommand."
 msgstr "您可以藉由傳遞「--help」給子指令來查詢子指令專屬的選項資訊。"
 
 #. TRANSLATORS: In ascli: The requested action needs higher permissions.
-#: tools/ascli-actions-mdata.c:62
+#: tools/ascli-actions-mdata.c:70
 msgid "You might need superuser permissions to perform this action."
 msgstr "您也許需要超級使用者權利才能執行此動作。"
 
 #. TRANSLATORS: ascli has been run without command.
-#: tools/appstream-cli.c:611
+#: tools/appstream-cli.c:609
 msgid "You need to specify a command."
 msgstr "您需要指定個指令。"
 
 #. TRANSLATORS: An AppStream component-id is missing in the command-line arguments
 #. TRANSLATORS: ascli was told to find a software component by its ID, but no component-id was specified.
-#: tools/ascli-actions-mdata.c:129 tools/ascli-actions-mdata.c:251
+#: tools/ascli-actions-mdata.c:137 tools/ascli-actions-mdata.c:259
 #: tools/ascli-actions-pkgmgr.c:80
 msgid "You need to specify a component-ID."
 msgstr "您需要指定組件 ID。"
 
-#: tools/ascli-actions-validate.c:163
+#: tools/ascli-actions-validate.c:161
 msgid "You need to specify a file to validate!"
 msgstr "您需要指定個檔案來驗證！"
 
-#: tools/ascli-actions-mdata.c:306
+#: tools/ascli-actions-mdata.c:314
 msgid "You need to specify a metadata file."
 msgstr "您需要指定中介資料檔。"
 
-#: tools/ascli-actions-validate.c:195
+#: tools/ascli-actions-validate.c:193
 msgid "You need to specify a root directory to start validation!"
 msgstr "您需要指定根基目錄才能開始驗證！"
 
-#: tools/ascli-actions-mdata.c:161
+#: tools/ascli-actions-mdata.c:169
 msgid "You need to specify a term to search for."
 msgstr "您需要指定個關鍵字來搜尋。"
 
-#: tools/ascli-actions-mdata.c:354
+#: tools/ascli-actions-mdata.c:362
 msgid "You need to specify an input and output file."
 msgstr "您需要指定輸入檔和輸出檔。"
 
@@ -858,7 +860,7 @@ msgstr "您需要指定輸入檔和輸出檔。"
 #. * to include in a search but that should normally be ignored in
 #. * the search.
 #.
-#: src/as-pool.c:101
+#: src/as-pool.c:103
 msgid "app;application;package;program;programme;suite;tool"
 msgstr ""
 "app;application;package;program;programme;suite;tool;程式;應用程式;軟體包;套"
