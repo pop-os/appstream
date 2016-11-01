@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2016 Aleix Pol Gonzalez <aleixpol@kde.org>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the GNU Lesser General Public License Version 2.1
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the license, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef APPSTREAMQT_RELEASE_H
@@ -28,16 +28,15 @@
 
 struct _AsRelease;
 
-namespace Appstream {
+namespace AppStream {
 
 class ReleaseData;
 
 struct Checksum {
     enum ChecksumKind {
-        NoneChecksum,
-        Sha256Checksum,
-        Sha1Checksum,
-        LastChecksum
+        KindNone,
+        KindSha256,
+        KindSha1
     };
     const ChecksumKind kind;
     const QByteArray data;
@@ -54,20 +53,18 @@ class APPSTREAMQT_EXPORT Release {
         bool operator==(const Release& r) const;
 
         enum SizeKind {
-            UnknownSize,
-            DownloadSize,
-            InstalledSize,
-            LastSize
+            SizeUnknown,
+            SizeDownload,
+            SizeInstalled
         };
         Q_ENUM(SizeKind)
 
         enum UrgencyKind {
-            UnknownUrgency,
-            LowUrgency,
-            MediumUrgency,
-            HighUrgency,
-            CriticalUrgency,
-            LastUrgency
+            UrgencyUnknown,
+            UrgencyLow,
+            UrgencyMedium,
+            UrgencyHigh,
+            UrgencyCritical
         };
         Q_ENUM(UrgencyKind)
 
@@ -92,6 +89,6 @@ class APPSTREAMQT_EXPORT Release {
 };
 }
 
-APPSTREAMQT_EXPORT QDebug operator<<(QDebug s, const Appstream::Release& release);
+APPSTREAMQT_EXPORT QDebug operator<<(QDebug s, const AppStream::Release& release);
 
 #endif // APPSTREAMQT_RELEASE_H

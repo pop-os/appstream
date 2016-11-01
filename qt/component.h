@@ -1,21 +1,20 @@
 /*
- * Part of Appstream, a library for accessing AppStream on-disk database
- * Copyright 2014  Sune Vuorela <sune@vuorela.dk>
+ * Copyright (C) 2016 Matthias Klumpp <matthias@tenstral.net>
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Licensed under the GNU Lesser General Public License Version 2.1
+ *
+ * This library is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the license, or
+ * (at your option) any later version.
  *
  * This library is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
- *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 #ifndef APPSTREAMQT_COMPONENT_H
@@ -27,25 +26,29 @@
 #include <QStringList>
 #include <QSize>
 #include "appstreamqt_export.h"
-#include "provides.h"
+#include "provided.h"
+#include "bundle.h"
 
-namespace Appstream {
+struct _AsComponent;
+namespace AppStream {
 
+class Icon;
 class Screenshot;
 class Release;
 
 class ComponentData;
 
 /**
- * Describes a Component (package) in appstream
+ * Describes a software component (application, driver, font, ...)
  */
 class APPSTREAMQT_EXPORT Component {
-    Q_GADGET
+Q_GADGET
+    friend class Pool;
     public:
         enum Kind  {
             KindUnknown,
             KindGeneric,
-            KindDesktop,
+            KindDesktopApp,
             KindConsoleApp,
             KindWebApp,
             KindAddon,
@@ -69,18 +72,16 @@ class APPSTREAMQT_EXPORT Component {
         };
         Q_ENUM(UrlKind)
 
-        enum BundleKind {
-            BundleKindUnknown,
-            BundleKindLimba,
-            BundleKindFlatpak
-        };
-        Q_ENUM(BundleKind)
+        static Kind stringToKind(const QString& kindString);
+        static QString kindToString(Kind kind);
 
+        static UrlKind stringToUrlKind(const QString& urlKindString);
+        static QString urlKindToString(AppStream::Component::UrlKind kind);
+
+        Component(_AsComponent *cpt);
         Component();
         Component(const Component& other);
         ~Component();
-        Component& operator=(const Component& other);
-        bool operator==(const Component& other);
 
         Kind kind () const;
         void setKind (Component::Kind kind);
@@ -88,17 +89,21 @@ class APPSTREAMQT_EXPORT Component {
         QString id() const;
         void setId(const QString& id);
 
+        QString dataId() const;
+        void setDataId(const QString& cdid);
+
+        QString desktopId() const;
+
         QStringList packageNames() const;
-        void setPackageNames(const QStringList& packageName);
 
         QString name() const;
-        void setName(const QString& name);
+        void setName(const QString& name, const QString& lang = {});
 
         QString summary() const;
-        void setSummary(const QString& summary);
+        void setSummary(const QString& summary, const QString& lang = {});
 
         QString description() const;
-        void setDescription(const QString& description);
+        void setDescription(const QString& description, const QString& lang = {});
 
         QString projectLicense() const;
         void setProjectLicense(const QString& license);
@@ -107,92 +112,45 @@ class APPSTREAMQT_EXPORT Component {
         void setProjectGroup(const QString& group);
 
         QString developerName() const;
-        void setDeveloperName(const QString& developerName);
+        void setDeveloperName(const QString& developerName, const QString& lang = {});
 
         QStringList compulsoryForDesktops() const;
-        void setCompulsoryForDesktops(const QStringList& desktops);
         bool isCompulsoryForDesktop(const QString& desktop) const;
 
         QStringList categories() const;
-        void setCategories(const QStringList& categories);
         bool hasCategory(const QString& category) const;
 
         QStringList extends() const;
         void setExtends(const QStringList& extends);
+        QList<AppStream::Component> addons() const;
 
-        QStringList extensions() const;
-        void setExtensions(const QStringList& extensions);
+        QUrl url(UrlKind kind) const;
 
-	QString desktopId() const;
-
-        /**
-         * \return generic (stock) icon name
-         */
-        QString icon() const;
-        void setIcon(const QString& icon);
+        QList<AppStream::Icon> icons() const;
+        AppStream::Icon icon(const QSize& size) const;
 
         /**
-         * \return absolute (local or remote) path to an icon of the given size
+         * \return the full list of provided entries for all kinds.
          */
-        QUrl iconUrl(const QSize& size) const;
-
-        /**
-         * \return urls to each icon
-         */
-        QMap<QSize, QUrl> iconUrls() const;
-
-        /**
-         * Sets the url for an icon
-         *
-         * The url can be an absolute filepath or a HTTP remote link.
-         */
-        void addIconUrl(const QUrl& iconUrl, const QSize& size);
-
-
-        void setUrls(const QMultiHash<UrlKind , QUrl >& urls);
-        QMultiHash<UrlKind, QUrl> urls() const;
-        QList<QUrl> urls(UrlKind kind) const;
+        QList<AppStream::Provided> provided() const;
 
         /**
          * \param kind for provides
-         * \return a list of all provides for this \param kind
+         * \return provided items for this \param kind
          */
-        QList<Appstream::Provides> provides(Provides::Kind kind) const;
-        void setProvides(const QList<Appstream::Provides>& provides);
-        /**
-         * \return the full list of provides for all kinds.
-         * Note that it might be ordered differently than the list given with
-         * \ref setProvides, but it will have the same entries.
-         */
-        QList<Appstream::Provides> provides() const;
+        AppStream::Provided provided(Provided::Kind kind) const;
 
-        QList<Appstream::Screenshot> screenshots() const;
-        void setScreenshots(const QList<Appstream::Screenshot>& screenshots);
+        QList<AppStream::Screenshot> screenshots() const;
 
+        QList<AppStream::Release> releases() const;
 
-        void setBundles(const QHash<BundleKind , QString >& bundles);
-        QHash<BundleKind, QString> bundles() const;
-        QString bundle(BundleKind kind) const;
+        QList<AppStream::Bundle> bundles() const;
+        AppStream::Bundle bundle(Bundle::Kind kind) const;
 
-        void setReleases(const QList<Appstream::Release> &releases);
-        QList<Appstream::Release> releases() const;
-
-        /**
-         * \returns whether the component is fully initialized
-         */
         bool isValid() const;
 
-        static Kind stringToKind(const QString& kindString);
-        static QString kindToString(Kind kind);
-
-        static UrlKind stringToUrlKind(const QString& urlKindString);
-        static QString urlKindToString(Appstream::Component::UrlKind kind);
-
-        static BundleKind stringToBundleKind(const QString& bundleKindString);
-        static QString bundleKindToString(Appstream::Component::BundleKind kind);
-
     private:
-        QSharedDataPointer<ComponentData> d;
+        _AsComponent *m_cpt;
 };
 }
 
