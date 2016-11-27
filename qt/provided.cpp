@@ -37,7 +37,8 @@ public:
         m_prov = as_provided_new();
     }
 
-    ProvidedData(AsProvided *prov) : m_prov(prov)
+    ProvidedData(AsProvided *prov)
+        : m_prov(prov)
     {
         g_object_ref(m_prov);
     }
@@ -65,21 +66,20 @@ Provided::Kind Provided::stringToKind(const QString& kindString)
     return Provided::Kind(as_provided_kind_from_string(qPrintable(kindString)));
 }
 
-Provided::Provided(const Provided& other) : d(other.d) {
+Provided::Provided(const Provided& other)
+    : d(other.d)
+{}
 
-}
+Provided::Provided(_AsProvided *prov)
+    : d(new ProvidedData(prov))
+{}
 
-Provided::Provided(_AsProvided *prov) : d(new ProvidedData(prov)) {
+Provided::Provided()
+    : d(new ProvidedData)
+{}
 
-}
-
-Provided::Provided() : d(new ProvidedData) {
-
-}
-
-Provided::~Provided() {
-
-}
+Provided::~Provided()
+{}
 
 Provided& Provided::operator=(const Provided& other)
 {
@@ -111,6 +111,14 @@ QStringList Provided::items() const
 bool Provided::hasItem(const QString& item) const
 {
     return as_provided_has_item (d->m_prov, qPrintable(item));
+}
+
+bool Provided::isEmpty() const
+{
+    auto array = as_provided_get_items(d->m_prov);
+    if (!array)
+        return true;
+    return array->len == 0;
 }
 
 QDebug operator<<(QDebug s, const AppStream::Provided& Provided) {
