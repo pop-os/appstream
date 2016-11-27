@@ -29,7 +29,7 @@ Breaks: appstream-index (<< ${source:Version})
 Provides: appstream-index
 Description: Software component metadata management
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format.
+ software projects in a standardized format.
  It provides facilities to easily access and transform the data, as well
  as a few additional services to allow building feature-rich software center
  applications.
@@ -51,7 +51,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Description: Library to access AppStream services
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
@@ -71,7 +71,7 @@ Depends: gir1.2-appstream-1.0 (= ${binary:Version}),
 Suggests: appstream-generator
 Description: Library to access AppStream services (development files)
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
@@ -89,7 +89,7 @@ Breaks: gir1.2-appstream (<< 0.10.1)
 Replaces: gir1.2-appstream (<< 0.10.1)
 Description: Library to access AppStream services (introspection data)
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
@@ -105,7 +105,7 @@ Depends: ${misc:Depends},
          ${shlibs:Depends}
 Description: Qt5 library to access AppStream services
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
@@ -122,7 +122,7 @@ Depends: libappstreamqt2 (= ${binary:Version}),
          ${misc:Depends}
 Description: Qt5 library to access AppStream services (development files)
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
@@ -138,7 +138,7 @@ Depends: ${misc:Depends}
 Suggests: appstream
 Description: Developer documentation for AppStream
  AppStream is a metadata specification, allowing to write metadata for
- software projects in a general-purpose format. This allows software centers
+ software projects in a standardized format. This allows software centers
  to display useful information for not installed software, as well as
  determining software the user might want to install (e.g. to open an
  unknown file type or to make missing firmware available).
