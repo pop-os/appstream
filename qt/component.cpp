@@ -30,6 +30,7 @@
 #include "screenshot.h"
 #include "release.h"
 #include "bundle.h"
+#include "suggested.h"
 
 using namespace AppStream;
 
@@ -290,7 +291,10 @@ QList<AppStream::Component> Component::addons() const
 
 QUrl Component::url(Component::UrlKind kind) const
 {
-    return QUrl(as_component_get_url(m_cpt, static_cast<AsUrlKind>(kind)));
+    auto url = as_component_get_url(m_cpt, static_cast<AsUrlKind>(kind));
+    if (url == NULL)
+        return QUrl();
+    return QUrl(url);
 }
 
 QList<Icon> Component::icons() const
@@ -330,6 +334,8 @@ QList<Provided> Component::provided() const
 AppStream::Provided Component::provided(Provided::Kind kind) const
 {
     auto prov = as_component_get_provided_for_kind(m_cpt, (AsProvidedKind) kind);
+    if (prov == NULL)
+        return Provided();
     return Provided(prov);
 }
 
@@ -378,6 +384,19 @@ Bundle Component::bundle(Bundle::Kind kind) const
     if (bundle == NULL)
         return Bundle();
     return Bundle(bundle);
+}
+
+QList<AppStream::Suggested> AppStream::Component::suggested() const
+{
+    QList<Suggested> res;
+
+    auto suggestions = as_component_get_suggested(m_cpt);
+    res.reserve(suggestions->len);
+    for (uint i = 0; i < suggestions->len; i++) {
+        auto suggestion = AS_SUGGESTED (g_ptr_array_index (suggestions, i));
+        res.append(Suggested(suggestion));
+    }
+    return res;
 }
 
 bool Component::isValid() const
