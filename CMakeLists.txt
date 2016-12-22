@@ -6,7 +6,7 @@ set(CMAKE_BUILD_TYPE "Debug")
 
 set(AS_VERSION_MAJOR  "0")
 set(AS_VERSION_MINOR  "10")
-set(AS_VERSION_PATCH  "4")
+set(AS_VERSION_PATCH  "5")
 set(AS_VERSION "${AS_VERSION_MAJOR}.${AS_VERSION_MINOR}.${AS_VERSION_PATCH}")
 set(APPSTREAM_LIB_API_LEVEL "4")
 
@@ -119,6 +119,7 @@ add_definitions("-Werror=implicit-function-declaration" "-Wno-unused-parameter")
 # enable C++11
 set(CMAKE_CXX_STANDARD "11")
 
+include(CMakePackageConfigHelpers)
 find_package(PkgConfig REQUIRED)
 
 add_subdirectory(src)

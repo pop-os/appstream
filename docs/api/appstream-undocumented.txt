@@ -1,7 +1,7 @@
-64% symbol docs coverage.
-486 symbols documented.
-48 symbols incomplete.
-279 not documented.
+63% symbol docs coverage.
+490 symbols documented.
+49 symbols incomplete.
+284 not documented.
 
 
 AS_CURRENT_FORMAT_VERSION
@@ -89,6 +89,8 @@ as_component_create_token_cache_target
 as_component_finalize
 as_component_get_categories
 as_component_get_compulsory_for_desktops
+as_component_get_custom
+as_component_get_custom_value (Returns)
 as_component_get_icons
 as_component_get_keywords
 as_component_get_origin
@@ -241,8 +243,10 @@ as_xml_get_node_value
 as_xml_icon_set_size_from_node
 as_xml_keywords_table_to_nodes_cb
 as_xml_lang_hashtable_to_nodes_cb
+as_xml_process_custom_tag
 as_xml_process_provides_tag
 as_xml_process_suggests_tag
+as_xml_serialize_custom
 as_xml_serialize_image
 as_xml_serialize_languages
 as_xml_serialize_provides
@@ -269,6 +273,7 @@ as_xmldata_serialize_to_collection_without_rootnode
 as_xmldata_set_check_valid (xdt)
 as_xmldata_set_format_style
 as_xmldata_update_cpt_with_metainfo_data (Returns)
+as_yaml_data_emit_custom
 as_yaml_data_emit_screenshots
 as_yaml_data_emit_suggests
 as_yaml_emit_bundles
@@ -297,7 +302,10 @@ as_yaml_localized_list_helper
 as_yaml_mapping_end
 as_yaml_mapping_start
 as_yaml_print_unknown
+as_yaml_process_custom
+as_yaml_process_languages
 as_yaml_process_provides
+as_yaml_process_suggests
 as_yaml_process_urls
 as_yaml_sequence_end
 as_yaml_sequence_start
@@ -313,9 +321,7 @@ as_yamldata_process_component_node
 as_yamldata_process_icon
 as_yamldata_process_icons
 as_yamldata_process_image
-as_yamldata_process_languages
 as_yamldata_process_screenshots
-as_yamldata_process_suggests
 as_yamldata_serialize_to_collection
 as_yamldata_set_check_valid (ydt)
 

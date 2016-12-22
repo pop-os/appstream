@@ -1589,6 +1589,21 @@ AsComponent *cpt
 <RETURNS>gchar 			*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_custom</NAME>
+<RETURNS>GHashTable 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_custom_value</NAME>
+<RETURNS>gchar 			*</RETURNS>
+AsComponent *cpt, const gchar *key
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_insert_custom_value</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsComponent *cpt, const gchar *key, const gchar *value
+</FUNCTION>
 <STRUCT>
 <NAME>AsComponent</NAME>
 </STRUCT>
