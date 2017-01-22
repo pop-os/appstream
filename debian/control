@@ -25,7 +25,9 @@ Package: appstream
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Breaks: appstream-index (<< ${source:Version})
+Breaks: appstream-index (<< ${source:Version}),
+        gnome-software (<< 3.22.5-1),
+        plasma-discover (<< 5.8.5-3)
 Provides: appstream-index
 Description: Software component metadata management
  AppStream is a metadata specification, allowing to write metadata for
