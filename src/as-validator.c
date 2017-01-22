@@ -244,6 +244,44 @@ as_validator_check_content_empty (AsValidator *validator, xmlNode *node, const g
 }
 
 /**
+ * as_validate_has_hyperlink:
+ *
+ * Check if @text contains a hyperlink.
+ */
+static gboolean
+as_validate_has_hyperlink (const gchar *text)
+{
+	if (text == NULL)
+		return FALSE;
+	if (g_strstr_len (text, -1, "http://") != NULL)
+		return TRUE;
+	if (g_strstr_len (text, -1, "https://") != NULL)
+		return TRUE;
+	if (g_strstr_len (text, -1, "ftp://") != NULL)
+		return TRUE;
+	return FALSE;
+}
+
+/**
+ * as_validate_is_url:
+ *
+ * Check if @str is an URL.
+ */
+static gboolean
+as_validate_is_url (const gchar *str)
+{
+	if (str == NULL)
+		return FALSE;
+	if (g_str_has_prefix (str, "http://"))
+		return TRUE;
+	if (g_str_has_prefix (str, "https://"))
+		return TRUE;
+	if (g_str_has_prefix (str, "ftp://"))
+		return TRUE;
+	return FALSE;
+}
+
+/**
  * as_validator_check_children_quick:
  **/
 static void
@@ -304,8 +342,6 @@ static void
 as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsComponent *cpt, AsFormatStyle mode)
 {
 	xmlNode *iter;
-	gchar *node_content;
-	gchar *node_name;
 	gboolean first_paragraph = TRUE;
 
 	if (mode == AS_FORMAT_STYLE_METAINFO) {
@@ -317,11 +353,12 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 	}
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name = (gchar*) iter->name;
+		g_autofree gchar *node_content = (gchar*) xmlNodeGetContent (iter);
+
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
-		node_name = (gchar*) iter->name;
-		node_content = (gchar*) xmlNodeGetContent (iter);
 
 		if ((g_strcmp0 (node_name, "ul") != 0) && (g_strcmp0 (node_name, "ol") != 0)) {
 			as_validator_check_content_empty (validator,
@@ -343,7 +380,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 				as_validator_add_issue (validator, iter,
 							AS_ISSUE_IMPORTANCE_INFO,
 							AS_ISSUE_KIND_VALUE_ISSUE,
-							"First 'description/p' paragraph might be too short.",
+							"First 'description/p' paragraph might be too short (< 100 characters).",
 							node_content);
 			}
 			first_paragraph = FALSE;
@@ -373,7 +410,13 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 						node_name);
 		}
 
-		g_free (node_content);
+		if (as_validate_has_hyperlink (node_content)) {
+			as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The description contains an URL. This is not allowed, please use the <url/> tag to share links.",
+						node_name);
+		}
 	}
 }
 
@@ -485,6 +528,65 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 }
 
 /**
+ * as_validator_validate_project_license:
+ */
+static void
+as_validator_validate_project_license (AsValidator *validator, xmlNode *license_node)
+{
+	guint i;
+	g_auto(GStrv) licenses = NULL;
+	g_autofree gchar *license_id = (gchar*) xmlNodeGetContent (license_node);
+
+	licenses = as_spdx_license_tokenize (license_id);
+	if (licenses == NULL) {
+		as_validator_add_issue (validator, license_node,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"SPDX license expression '%s' could not be parsed.",
+					license_id);
+		return;
+	}
+	for (i = 0; licenses[i] != NULL; i++) {
+		if (g_strcmp0 (licenses[i], "&") == 0 ||
+		    g_strcmp0 (licenses[i], "|") == 0 ||
+		    g_strcmp0 (licenses[i], "+") == 0 ||
+		    g_strcmp0 (licenses[i], "(") == 0 ||
+		    g_strcmp0 (licenses[i], ")") == 0)
+			continue;
+		if (licenses[i][0] != '@' ||
+		    !as_is_spdx_license_id (licenses[i] + 1)) {
+			as_validator_add_issue (validator, license_node,
+					AS_ISSUE_IMPORTANCE_WARNING,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"SPDX license ID '%s' is unknown.",
+					licenses[i]);
+			return;
+		}
+	}
+}
+
+/**
+ * as_validator_validate_update_contact:
+ */
+static void
+as_validator_validate_update_contact (AsValidator *validator, xmlNode *uc_node)
+{
+	g_autofree gchar *text = (gchar*) xmlNodeGetContent (uc_node);
+
+	if ((g_strstr_len (text, -1, "@") == NULL) &&
+	    (g_strstr_len (text, -1, "_at_") == NULL) &&
+	    (g_strstr_len (text, -1, "_AT_") == NULL)) {
+		if (g_strstr_len (text, -1, ".") == NULL) {
+			as_validator_add_issue (validator, uc_node,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The update-contact '%s' does not appear to be a valid email address.",
+						text);
+		}
+	}
+}
+
+/**
  * as_validator_validate_component_node:
  **/
 static AsComponent*
@@ -532,6 +634,24 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 					"The component has a 'merge' method defined. This is not allowed in metainfo files.");
 	}
 
+	/* the component must have a name */
+	if (as_str_empty (as_component_get_name (cpt))) {
+		/* we don't have a summary */
+		as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_MISSING,
+					"The component is missing a name (<name/> tag).");
+		}
+
+	/* the component must have a summary */
+	if (as_str_empty (as_component_get_summary (cpt))) {
+		/* we don't have a summary */
+		as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_MISSING,
+					"The component is missing a summary (<summary/> tag).");
+	}
+
 	for (iter = root->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
 		g_autofree gchar *node_content = NULL;
@@ -553,14 +673,6 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 							node_content);
 			}
 			g_free (prop);
-			if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DESKTOP_APP) {
-				if (!g_str_has_suffix (node_content, ".desktop"))
-					as_validator_add_issue (validator, iter,
-								AS_ISSUE_IMPORTANCE_WARNING,
-								AS_ISSUE_KIND_VALUE_WRONG,
-								"Component id belongs to a desktop-application, but does not resemble the .desktop file name: \"%s\"",
-								node_content);
-			}
 
 			/* validate the AppStream ID */
 			as_validator_validate_component_id (validator, iter, cpt);
@@ -614,6 +726,15 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 							AS_ISSUE_KIND_VALUE_WRONG,
 							"The summary tag must not contain tabs or linebreaks.");
 			}
+
+			if (as_validate_has_hyperlink (summary)) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"The summary must not contain any URL.",
+							node_name);
+			}
+
 		} else if (g_strcmp0 (node_name, "description") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_description_tag (validator, iter, cpt, mode);
@@ -621,11 +742,28 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			gchar *prop;
 			prop = as_validator_check_type_property (validator, cpt, iter);
 			if ((g_strcmp0 (prop, "cached") == 0) || (g_strcmp0 (prop, "stock") == 0)) {
-				if (g_strrstr (node_content, "/") != NULL)
+				if ((g_strrstr (node_content, "/") != NULL) || (as_validate_is_url (node_content)))
 					as_validator_add_issue (validator, iter,
 								AS_ISSUE_IMPORTANCE_ERROR,
 								AS_ISSUE_KIND_VALUE_WRONG,
-								"Icons of type 'stock' or 'cached' must not contain a full or relative path to the icon.");
+								"Icons of type 'stock' or 'cached' must not contain an URL or a full or relative path to the icon.");
+			}
+
+			if (g_strcmp0 (prop, "remote") == 0) {
+				if (!as_validate_is_url (node_content))
+					as_validator_add_issue (validator, iter,
+								AS_ISSUE_IMPORTANCE_ERROR,
+								AS_ISSUE_KIND_VALUE_WRONG,
+								"Icons of type 'remote' must contain an URL to the referenced icon.");
+			}
+
+			if (mode == AS_FORMAT_STYLE_METAINFO) {
+				if ((prop != NULL) && (g_strcmp0 (prop, "stock") != 0)) {
+					as_validator_add_issue (validator, iter,
+								AS_ISSUE_IMPORTANCE_ERROR,
+								AS_ISSUE_KIND_VALUE_WRONG,
+								"Metainfo files may only contain 'stock' icons, icons of kind '%s' are not allowed.", prop);
+				}
 			}
 			g_free (prop);
 		} else if (g_strcmp0 (node_name, "url") == 0) {
@@ -654,10 +792,18 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			as_validator_check_children_quick (validator, iter, "screenshot", cpt);
 		} else if (g_strcmp0 (node_name, "project_license") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+			as_validator_validate_project_license (validator, iter);
 		} else if (g_strcmp0 (node_name, "project_group") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 		} else if (g_strcmp0 (node_name, "developer_name") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
+
+			if (as_validate_has_hyperlink (node_content)) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_VALUE_ISSUE,
+							"The <developer_name/> can not contain a hyperlink.");
+			}
 		} else if (g_strcmp0 (node_name, "compulsory_for_desktop") == 0) {
 			if (!as_utils_is_desktop_environment (node_content)) {
 				as_validator_add_issue (validator, iter,
@@ -699,6 +845,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 							"The 'update_contact' tag should not be included in collection AppStream XML.");
 			} else {
 				as_validator_check_appear_once (validator, iter, found_tags, cpt);
+				as_validator_validate_update_contact (validator, iter);
 			}
 		} else if (g_strcmp0 (node_name, "suggests") == 0) {
 			as_validator_check_children_quick (validator, iter, "id", cpt);
@@ -712,7 +859,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 			as_validator_add_issue (validator, iter,
 						AS_ISSUE_IMPORTANCE_INFO,
 						AS_ISSUE_KIND_TAG_UNKNOWN,
-						"Found invalid tag: '%s'. This tag is a GNOME extensions to AppStream and is not supported by all implementations.",
+						"Found invalid tag: '%s'. This tag is a GNOME-specific extension to AppStream and is not supported by all implementations.",
 						node_name);
 			tag_valid = FALSE;
 		} else if (!g_str_has_prefix (node_name, "x-")) {
@@ -758,9 +905,14 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 					AS_ISSUE_IMPORTANCE_PEDANTIC,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"It would be useful for add a long description to this font to present it better to users.");
-		} else if (cpt_kind != AS_COMPONENT_KIND_GENERIC) {
+		} else if ((cpt_kind == AS_COMPONENT_KIND_DRIVER) || (cpt_kind == AS_COMPONENT_KIND_FIRMWARE)) {
 			as_validator_add_issue (validator, NULL,
 					AS_ISSUE_IMPORTANCE_INFO,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"It is recommended to add a long description to this component to present it better to users.");
+		} else if (cpt_kind != AS_COMPONENT_KIND_GENERIC) {
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_PEDANTIC,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"The component is missing a long description. It is recommended to add one.");
 		}
@@ -779,7 +931,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 	if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_FONT) {
 		if (as_component_get_provided_for_kind (cpt, AS_PROVIDED_KIND_FONT) == NULL)
 			as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_WARNING,
+					AS_ISSUE_IMPORTANCE_ERROR,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"Type 'font' component, but no font information was provided via a provides/font tag.");
 	}
@@ -788,7 +940,7 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 	if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_DRIVER) {
 		if (as_component_get_provided_for_kind (cpt, AS_PROVIDED_KIND_MODALIAS) == NULL)
 			as_validator_add_issue (validator, NULL,
-					AS_ISSUE_IMPORTANCE_INFO,
+					AS_ISSUE_IMPORTANCE_WARNING,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"Type 'driver' component, but no modalias information was provided via a provides/modalias tag.");
 	}
@@ -839,6 +991,51 @@ as_validator_validate_component_node (AsValidator *validator, AsXMLData *xdt, xm
 							AS_ISSUE_IMPORTANCE_ERROR,
 							AS_ISSUE_KIND_VALUE_WRONG,
 							"Suggestions of any type other than 'upstream' are not allowed in metainfo files (type was '%s')", as_suggested_kind_to_string (as_suggested_get_kind (prov)));
+			}
+		}
+	}
+
+	/* validate categories */
+	if (as_component_get_categories (cpt)->len > 0) {
+		guint j;
+		GPtrArray *cat_array;
+
+		cat_array = as_component_get_categories (cpt);
+		for (j = 0; j < cat_array->len; j++) {
+			const gchar *category_name = (const gchar*) g_ptr_array_index (cat_array, j);
+
+			if (!as_utils_is_category_name (category_name)) {
+				as_validator_add_issue (validator, NULL,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"The category '%s' defined is not valid. Refer to the Freedesktop menu specificaton for a list of valid categories.", category_name);
+			}
+		}
+	}
+
+	/* validate screenshots */
+	if (as_component_get_screenshots (cpt)->len > 0) {
+		guint j;
+		GPtrArray *scr_array;
+
+		scr_array = as_component_get_screenshots (cpt);
+		for (j = 0; j < scr_array->len; j++) {
+			AsScreenshot *scr = AS_SCREENSHOT (g_ptr_array_index (scr_array, j));
+			const gchar *scr_caption = as_screenshot_get_caption (scr);
+
+			if ((scr_caption != NULL) && (strlen (scr_caption) > 80)) {
+				as_validator_add_issue (validator, NULL,
+							AS_ISSUE_IMPORTANCE_PEDANTIC,
+							AS_ISSUE_KIND_VALUE_ISSUE,
+							"The screenshot caption '%s' is too long (should be <= 80 characters)",
+							scr_caption);
+			}
+
+			if (as_screenshot_get_images (scr)->len <= 0) {
+				as_validator_add_issue (validator, NULL,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_TAG_MISSING,
+							"The component contains a screenshot without any images.");
 			}
 		}
 	}
@@ -1110,28 +1307,6 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
 			} else {
 				/* we successfully opened the .desktop file, now perform some checks */
 
-				/* name */
-				if (as_str_empty (as_component_get_name (cpt)) &&
-				    (!g_key_file_has_key (dfile, G_KEY_FILE_DESKTOP_GROUP,
-								 G_KEY_FILE_DESKTOP_KEY_NAME, NULL))) {
-					/* we don't have a summary, and there is also none in the .desktop file - this is bad. */
-					as_validator_add_issue (data->validator, NULL,
-							AS_ISSUE_IMPORTANCE_ERROR,
-							AS_ISSUE_KIND_VALUE_MISSING,
-							"The component is missing a name (none found in its metainfo or .desktop file)");
-				}
-
-				/* summary */
-				if (as_str_empty (as_component_get_summary (cpt)) &&
-				    (!g_key_file_has_key (dfile, G_KEY_FILE_DESKTOP_GROUP,
-								 G_KEY_FILE_DESKTOP_KEY_COMMENT, NULL))) {
-					/* we don't have a summary, and there is also none in the .desktop file - this is bad. */
-					as_validator_add_issue (data->validator, NULL,
-							AS_ISSUE_IMPORTANCE_ERROR,
-							AS_ISSUE_KIND_VALUE_MISSING,
-							"The component is missing a summary (none found in its metainfo or .desktop file)");
-				}
-
 				/* categories */
 				if (g_key_file_has_key (dfile, G_KEY_FILE_DESKTOP_GROUP,
 								G_KEY_FILE_DESKTOP_KEY_CATEGORIES, NULL)) {
@@ -1147,7 +1322,7 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
 							continue;
 						if (!as_utils_is_category_name (cats[i])) {
 							as_validator_add_issue (data->validator, NULL,
-										AS_ISSUE_IMPORTANCE_ERROR,
+										AS_ISSUE_IMPORTANCE_WARNING,
 										AS_ISSUE_KIND_VALUE_WRONG,
 										"The category '%s' defined in the .desktop file does not exist.", cats[i]);
 						}

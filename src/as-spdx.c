@@ -82,6 +82,18 @@ as_spdx_license_tokenize_drop (AsSpdxHelper *helper)
 		return;
 	}
 
+	/* is license enum with "+" */
+	if (g_str_has_suffix (tmp, "+")) {
+		g_autofree gchar *license_id = g_strndup (tmp, strlen (tmp) - 1);
+		if (as_is_spdx_license_id (license_id)) {
+			g_ptr_array_add (helper->array, g_strdup_printf ("@%s", license_id));
+			g_ptr_array_add (helper->array, g_strdup ("+"));
+			helper->last_token_literal = FALSE;
+			g_string_truncate (helper->collect, 0);
+			return;
+		}
+	}
+
 	/* is old license enum */
 	for (i = 0; licenses[i].old != NULL; i++) {
 		if (g_strcmp0 (tmp, licenses[i].old) != 0)
@@ -201,6 +213,8 @@ as_is_spdx_license_expression (const gchar *license)
 			continue;
 		if (g_strcmp0 (tokens[i], "|") == 0)
 			continue;
+		if (g_strcmp0 (tokens[i], "+") == 0)
+			continue;
 		return FALSE;
 	}
 
@@ -290,6 +304,10 @@ as_spdx_license_detokenize (gchar **license_tokens)
 		}
 		if (g_strcmp0 (license_tokens[i], "|") == 0) {
 			g_string_append (tmp, " OR ");
+			continue;
+		}
+		if (g_strcmp0 (license_tokens[i], "+") == 0) {
+			g_string_append (tmp, "+");
 			continue;
 		}
 		if (license_tokens[i][0] != '@') {
@@ -411,23 +429,21 @@ as_license_to_spdx_id (const gchar *license)
 static gboolean
 as_validate_is_content_license_id (const gchar *license_id)
 {
+	if (g_strcmp0 (license_id, "@FSFAP") == 0)
+		return TRUE;
+	if (g_strcmp0 (license_id, "@MIT") == 0)
+		return TRUE;
+	if (g_strcmp0 (license_id, "@0BSD") == 0)
+		return TRUE;
 	if (g_strcmp0 (license_id, "@CC0-1.0") == 0)
 		return TRUE;
 	if (g_strcmp0 (license_id, "@CC-BY-3.0") == 0)
 		return TRUE;
-	if (g_strcmp0 (license_id, "@CC-BY-3.0+") == 0)
-		return TRUE;
 	if (g_strcmp0 (license_id, "@CC-BY-4.0") == 0)
-		return TRUE;
-	if (g_strcmp0 (license_id, "@CC-BY-4.0+") == 0)
 		return TRUE;
 	if (g_strcmp0 (license_id, "@CC-BY-SA-3.0") == 0)
 		return TRUE;
-	if (g_strcmp0 (license_id, "@CC-BY-SA-3.0+") == 0)
-		return TRUE;
 	if (g_strcmp0 (license_id, "@CC-BY-SA-4.0") == 0)
-		return TRUE;
-	if (g_strcmp0 (license_id, "@CC-BY-SA-4.0+") == 0)
 		return TRUE;
 	if (g_strcmp0 (license_id, "@GFDL-1.1") == 0)
 		return TRUE;
@@ -435,15 +451,17 @@ as_validate_is_content_license_id (const gchar *license_id)
 		return TRUE;
 	if (g_strcmp0 (license_id, "@GFDL-1.3") == 0)
 		return TRUE;
-	if (g_strcmp0 (license_id, "@FSFAP") == 0)
+	if (g_strcmp0 (license_id, "@BSL-1.0") == 0)
 		return TRUE;
-	if (g_strcmp0 (license_id, "@MIT") == 0)
+	if (g_strcmp0 (license_id, "@FTL") == 0)
 		return TRUE;
-	if (g_strcmp0 (license_id, "@0BSD") == 0)
+	if (g_strcmp0 (license_id, "@FSFUL") == 0)
 		return TRUE;
 	if (g_strcmp0 (license_id, "&") == 0)
 		return TRUE;
 	if (g_strcmp0 (license_id, "|") == 0)
+		return TRUE;
+	if (g_strcmp0 (license_id, "+") == 0)
 		return TRUE;
 	return FALSE;
 }

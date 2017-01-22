@@ -1,7 +1,7 @@
 63% symbol docs coverage.
-490 symbols documented.
+496 symbols documented.
 49 symbols incomplete.
-284 not documented.
+288 not documented.
 
 
 AS_CURRENT_FORMAT_VERSION
@@ -111,6 +111,7 @@ as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
 as_component_set_value_flags
+as_copy_l10n_hashtable_hfunc
 as_desktop_entry_parse_data
 as_desktop_entry_parse_file (file, fversion, error, Returns)
 as_distro_details_class_init
@@ -164,6 +165,7 @@ as_metadata_save_collection
 as_metadata_save_data
 as_metadata_save_metainfo (metad, error)
 as_pool_appstream_data_changed
+as_pool_check_file_newer_than_cache
 as_pool_class_init
 as_pool_ctime_newer
 as_pool_error_quark
@@ -234,7 +236,9 @@ as_validator_open_xml_document
 as_validator_validate_component_node
 as_validator_validate_data (Returns)
 as_validator_validate_file (Returns)
+as_validator_validate_project_license
 as_validator_validate_tree (Returns)
+as_validator_validate_update_contact
 as_xml_add_children_values_to_array
 as_xml_desc_lang_hashtable_to_nodes_cb
 as_xml_dump_node_children

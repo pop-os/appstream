@@ -23,7 +23,7 @@
 
 #include <glib-object.h>
 #include "as-component.h"
-#include "as-utils-private.h"
+#include "as-settings-private.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
@@ -121,6 +121,12 @@ void			as_component_set_scope (AsComponent *cpt,
 AsOriginKind		as_component_get_origin_kind (AsComponent *cpt);
 void			as_component_set_origin_kind (AsComponent *cpt,
 							AsOriginKind okind);
+
+gboolean		as_component_merge (AsComponent *cpt,
+					    AsComponent *source);
+void			as_component_merge_with_mode (AsComponent *cpt,
+							AsComponent *source,
+							AsMergeKind merge_kind);
 
 #pragma GCC visibility pop
 G_END_DECLS

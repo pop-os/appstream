@@ -11,8 +11,8 @@
 		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"addon"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>gedit-code-assistance<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;extends&gt;</span>gedit.desktop<span xmlns="" class="perl_Keyword">&lt;/extends&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.gnome.gedit-code-assistance<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;extends&gt;</span>org.gnome.gedit.desktop<span xmlns="" class="perl_Keyword">&lt;/extends&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Code Assistance<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>Code assistance for C, C++ and Objective-C<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://projects.gnome.org/gedit<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
@@ -29,7 +29,7 @@
 						This tag is refers to the ID of the component this addon is extending.
 					</div><div class="para">
 						For example, if there is a plugin "kipi" which extens the application "Gwenview", it needs to be referred to as:
-					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;extends&gt;</span>gwenview.desktop<span xmlns="" class="perl_Keyword">&lt;/extends&gt;</span></pre><div class="para">
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;extends&gt;</span>org.kde.Gwenview<span xmlns="" class="perl_Keyword">&lt;/extends&gt;</span></pre><div class="para">
 						The <code class="code">&lt;extends/&gt;</code> tag may be specified multiple times.
 					</div></dd></dl></div><div class="para">
 			For a component of type <code class="literal">addon</code>, the following tags are required and must be present: <a class="xref" href="sect-Metadata-Addon.html#tag-id-addon">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Addon.html#tag-extends">&lt;extends/&gt;</a>.
