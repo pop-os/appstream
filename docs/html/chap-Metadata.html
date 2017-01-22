@@ -6,6 +6,8 @@
 		A "component" is a piece of software, like an application, a library, a font or a codec. For several components, especially those which are shown in software-centers, we provide specialized metainfo files to define specific properties and data of these components. For example, applications and fonts support screenshots, while codecs don't.
 	</div><div class="para">
 		All metainfo files need to contain a minimal amount of information, defined in the "Generic Component" section, which also describes some optional elements which can be used. Specialized components might require more information to be complete and valid.
+	</div><div class="para">
+		The XML in metainfo files does not need any XML namespace, and adding one should generally be avoided. If you want to use a namespace though (maybe in case you want to embed the data in other contexts), the xmlns should be <code class="code">https://specifications.freedesktop.org/metainfo/1.0</code>.
 	</div><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-GenericComponent">
       ⁠</a>2.1. Generic Component</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-introduction">
       ⁠</a>2.1.1. Introduction</h3></div></div></div><div class="para">
@@ -28,7 +30,7 @@
       ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;id&gt;</code> tag is a unique identifier for this component. It must contain only ASCII characters, dots, hyphens and numbers. Spaces are not allowed.
 					</div><div class="para">
-						A general pattern for a valid ID tag is to use a reverse-DNS scheme, consisting of <code class="literal">{tld}.{vendor}.{product}</code>, for example <code class="code">org.kde.gwenview</code> or <code class="code">com.hugski.ColorHug2</code>. Ownership of <code class="literal">{vendor}.{tld}</code> in the domain name system guarantees uniqueness of IDs.
+						The ID must follow a reverse-DNS scheme, consisting of <code class="literal">{tld}.{vendor}.{product}</code>, for example <code class="code">org.kde.Gwenview</code> or <code class="code">com.hugski.ColorHug2</code>. Ownership of <code class="literal">{vendor}.{tld}</code> in the domain name system guarantees uniqueness of IDs.
 					</div><div class="para">
 						To increase the uniqueness and to distinguish between different pieces of a software suite, it is suggested to append the type name to the component-id in these cases. For example, one can use <code class="code">com.hugski.ColorHug2</code> for the client tools to control hardware, and <code class="code">com.hugski.ColorHug2.firmware</code> for the runtime firmware files.
 					</div><div class="para">
@@ -65,7 +67,13 @@
 						Do not assume the format is HTML. Only paragraph (<code class="literal">p</code>), ordered list (<code class="literal">ol</code>) and unordered list (<code class="literal">ul</code>) are supported at this time.
 					</div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
-					</div></dd><dt><a id="tag-url">
+					</div></dd><dt><a id="tag-categories">
+      ⁠</a><span class="term">&lt;categories/&gt;</span></dt><dd><div class="para">
+						This tag can contain one or more <code class="code">&lt;category&gt;&gt;</code> entries, describing the categories this software component is associated with. This tag is usually applied to components of type <code class="literal">desktop-application</code>, but can be used with any component. A list of valid category names can be found in the <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</a>. Example:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;categories&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>Game<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>ArcadeGame<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/categories&gt;</span></pre></dd><dt><a id="tag-url">
       ⁠</a><span class="term">&lt;url/&gt;</span></dt><dd><div class="para">
 						Defines web URLs for this component.There are several different URL types allowed:
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">homepage</span></dt><dd><div class="para">
@@ -221,7 +229,7 @@
 					</div><div class="para">
 						The <code class="code">&lt;update_contact/&gt;</code> tag must <span class="emphasis"><em>only be used by distributors</em></span>. It is not included in the distribution-provided AppStream XML file, and therefore not exposed to the end user via any kind of UI.
 					</div><div class="para">
-						Upstream authors might decide to add an email address in cleartext, but spam protection using <code class="code">_AT_</code> is also valid.
+						Upstream authors might decide to add an email address in cleartext, but spam protection using <code class="code">_AT_</code> is also valid. The value of this tag is generally treated a case-insensitive way.
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd><dt><a id="tag-translation">
@@ -254,7 +262,7 @@
 		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;component&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>foobar<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>com.example.foobar<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>Foo Bar<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>A foo-ish bar<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.example.org<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>

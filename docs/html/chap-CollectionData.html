@@ -52,9 +52,9 @@
 						The tag can be used by software center applications to group components. It is otherwise useful for the distributor to assign components to a source package and to fetch additional information about a package from the web.
 					</div></dd><dt><a id="tag-ct-name">
       ⁠</a><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
-						A human-readable name for this component.
+						A human-readable name for this software.
 					</div><div class="para">
-						In case of a component of type <code class="literal">desktop</code>, the application name as defined in the application's <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">desktop file</a> is used.
+						In case of a component of type <code class="literal">desktop-application</code>, the application name as defined in the application's <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">desktop file</a> is used.
 					</div></dd><dt><a id="tag-ct-project_license">
       ⁠</a><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;project_license/&gt;</code> tag is indicating the license of the component. It should be a string in SPDX format. Licenses may be combined using <span class="emphasis"><em>and</em></span> and <span class="emphasis"><em>or</em></span> logic. Possible values include: 
@@ -111,7 +111,7 @@
 							Components should only identify with an umbrella project if you use all their infrastructure and policies, for instance string freezes dates, bugtracker and source control instance.
 						</div></div></div></dd><dt><a id="tag-ct-icon">
       ⁠</a><span class="term">&lt;icon/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;icon/&gt;</code> tag describes the component icon. It is mostly used for GUI applications (component-type <code class="literal">desktop</code>). It can be of the type <code class="literal">stock</code>, <code class="literal">cached</code>, <code class="literal">local</code>, or <code class="literal">url</code>.
+						The <code class="code">&lt;icon/&gt;</code> tag describes the component icon. It is mostly used for GUI applications (component-type <code class="literal">desktop-application</code>). It can be of the type <code class="literal">stock</code>, <code class="literal">cached</code>, <code class="literal">local</code>, or <code class="literal">url</code>.
 					</div><div class="para">
 						<code class="literal">stock</code> icons are loaded from stock. The icon name should never include any file-extension or path.
 					</div><div class="para">
@@ -138,10 +138,9 @@
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;mimetype&gt;</span>application/rss+xml<span xmlns="" class="perl_Keyword">&lt;/mimetype&gt;</span>
 <span xmlns="" class="line">​</span> <span xmlns="" class="perl_Keyword">&lt;/mimetypes&gt;</span></pre></dd><dt><a id="tag-ct-categories">
       ⁠</a><span class="term">&lt;categories/&gt;</span></dt><dd><div class="para">
-						This tag can contain one or more <code class="code">&lt;category&gt;</code> tags, describing the categories this application is located in. This tag is usually applied to components of type <code class="literal">desktop</code>, although it might be used by others later. This data is usually taken from Desktop files, a list of categories can be found in the <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</a>. Example:
+						This tag can contain one or more <code class="code">&lt;category&gt;</code> tags, describing the categories this component is located in. This tag is usually applied to components of type <code class="literal">desktop-application</code>, although it might be used by others later. This data is usually taken from Desktop files, a list of categories can be found in the <a href="http://standards.freedesktop.org/menu-spec/latest/apa.html">Freedesktop menu spec</a>. Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;categories&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>GNOME<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>GTK<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>Science<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>Network<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;category&gt;</span>Telephony<span xmlns="" class="perl_Keyword">&lt;/category&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/categories&gt;</span></pre><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Deprecated Tags</strong></p></div><div class="admonition"><div class="para">
