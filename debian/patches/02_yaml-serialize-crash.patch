@@ -3,9 +3,6 @@ From: Matthias Klumpp <matthias@tenstral.net>
 Date: Thu, 23 Feb 2017 21:21:57 +0100
 Subject: [PATCH] yaml: Fix crash when serializing component with a dbus:user
  provided item
-
-This took me hours to debug, finding that the comparison operator was
-missing... Sometimes you are just blind and C is messing with you.
 ---
  src/as-yamldata.c | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)

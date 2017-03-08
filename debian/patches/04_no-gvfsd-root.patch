@@ -11,11 +11,9 @@ Looks like this ancient issue still needs workarounds.
  tools/appstream-cli.c | 3 +++
  2 files changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/src/as-pool.c b/src/as-pool.c
-index 28c23f7..984120e 100644
 --- a/src/as-pool.c
 +++ b/src/as-pool.c
-@@ -172,10 +172,14 @@ as_pool_init (AsPool *pool)
+@@ -172,10 +172,14 @@
  	/* system-wide cache locations */
  	priv->sys_cache_path = g_strdup (AS_APPSTREAM_CACHE_PATH);
  
@@ -32,11 +30,9 @@ index 28c23f7..984120e 100644
  	/* check the ctime of the cache directory, if it exists at all */
  	as_pool_check_cache_ctime (pool);
  
-diff --git a/tools/appstream-cli.c b/tools/appstream-cli.c
-index 14a4036..507925b 100644
 --- a/tools/appstream-cli.c
 +++ b/tools/appstream-cli.c
-@@ -680,6 +680,9 @@ as_client_run (char **argv, int argc)
+@@ -680,6 +680,9 @@
  	if (!isatty (fileno (stdout)))
  		ascli_set_output_colored (FALSE);
  
