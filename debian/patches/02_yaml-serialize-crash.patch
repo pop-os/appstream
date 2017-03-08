@@ -1,0 +1,35 @@
+From fe1d83d0003352d3667924db7d8e317290e566e2 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Thu, 23 Feb 2017 21:21:57 +0100
+Subject: [PATCH] yaml: Fix crash when serializing component with a dbus:user
+ provided item
+
+This took me hours to debug, finding that the comparison operator was
+missing... Sometimes you are just blind and C is messing with you.
+---
+ src/as-yamldata.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+--- a/src/as-yamldata.c
++++ b/src/as-yamldata.c
+@@ -1475,7 +1475,7 @@
+ 
+ 		if (dbus_system != NULL) {
+ 			for (i = 0; i < dbus_system->len; i++) {
+-				const gchar *value = g_ptr_array_index (dbus_system, i);
++				const gchar *value = (const gchar*) g_ptr_array_index (dbus_system, i);
+ 				as_yaml_mapping_start (emitter);
+ 
+ 				as_yaml_emit_entry (emitter, "type", "system");
+@@ -1486,8 +1486,9 @@
+ 		}
+ 
+ 		if (dbus_user != NULL) {
+-			for (i = 0; dbus_user->len; i++) {
+-				const gchar *value = g_ptr_array_index (dbus_user, i);
++			for (i = 0; i < dbus_user->len; i++) {
++				const gchar *value = (const gchar*) g_ptr_array_index (dbus_user, i);
++
+ 				as_yaml_mapping_start (emitter);
+ 
+ 				as_yaml_emit_entry (emitter, "type", "user");
