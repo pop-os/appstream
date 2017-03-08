@@ -1,3 +1,16 @@
+appstream (0.10.6-2) unstable; urgency=medium
+
+  * vala-deps.patch: Add Vala dependency file
+    - Fixes Vala builds which don't explicitly depend on GIO already.
+  * yaml-serialize-crash.patch: Don't crash when serializing components
+    with a session DBus provides to YAML.
+  * no-cache-if-no-cpts.patch: Don't attempt (and fail) to create a cache
+    if there are no components at all to serialize.
+  * no-gvfsd-root.patch: Ensure gvfsd and friends don't get spawned as
+    root (or at all in case of ascli). (Closes: #852696)
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 08 Mar 2017 20:48:26 +0100
+
 appstream (0.10.6-1) unstable; urgency=medium
 
   * New upstream version: 0.10.6
