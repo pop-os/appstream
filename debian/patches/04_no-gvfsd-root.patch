@@ -1,0 +1,48 @@
+From c51c91c627b89dbf667f0bd31f56627e17b603c3 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Wed, 8 Mar 2017 21:59:48 +0100
+Subject: [PATCH] Ensure GVFS never starts in root user slice
+
+See https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 for more
+information.
+Looks like this ancient issue still needs workarounds.
+---
+ src/as-pool.c         | 8 ++++++--
+ tools/appstream-cli.c | 3 +++
+ 2 files changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/src/as-pool.c b/src/as-pool.c
+index 28c23f7..984120e 100644
+--- a/src/as-pool.c
++++ b/src/as-pool.c
+@@ -172,10 +172,14 @@ as_pool_init (AsPool *pool)
+ 	/* system-wide cache locations */
+ 	priv->sys_cache_path = g_strdup (AS_APPSTREAM_CACHE_PATH);
+ 
+-	/* users umask shouldn't interfere with us creating new files when we are root */
+-	if (as_utils_is_root ())
++	if (as_utils_is_root ()) {
++		/* users umask shouldn't interfere with us creating new files when we are root */
+ 		as_reset_umask ();
+ 
++		/* ensure we never start gvfsd as root: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 */
++		g_setenv ("GIO_USE_VFS", "local", TRUE);
++	}
++
+ 	/* check the ctime of the cache directory, if it exists at all */
+ 	as_pool_check_cache_ctime (pool);
+ 
+diff --git a/tools/appstream-cli.c b/tools/appstream-cli.c
+index 14a4036..507925b 100644
+--- a/tools/appstream-cli.c
++++ b/tools/appstream-cli.c
+@@ -680,6 +680,9 @@ as_client_run (char **argv, int argc)
+ 	if (!isatty (fileno (stdout)))
+ 		ascli_set_output_colored (FALSE);
+ 
++	/* don't let gvfsd start it's own session bus: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 */
++	g_setenv ("GIO_USE_VFS", "local", TRUE);
++
+ 	/* process subcommands */
+ 	if ((g_strcmp0 (command, "search") == 0) || (g_strcmp0 (command, "s") == 0)) {
+ 		return as_client_run_search (argv, argc);
