@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">Chapter 2. Upstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.10-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-Metadata-Application.html" title="2.2. Desktop Applications" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" lang="en-US"><div class="titlepage"><div><div><h1 class="title"><a id="chap-Metadata">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">Chapter 2. Upstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.11-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-Metadata-Application.html" title="2.2. Desktop Applications" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" lang="en-US"><div class="titlepage"><div><div><h1 class="title"><a id="chap-Metadata">
       ⁠</a>Chapter 2. Upstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-Metadata.html#sect-Metadata-GenericComponent">2.1. Generic Component</a></span></dt><dt><span class="section"><a href="sect-Metadata-Application.html">2.2. Desktop Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-ConsoleApplication.html">2.3. Console Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-Addon.html">2.4. Addons</a></span></dt><dt><span class="section"><a href="sect-Metadata-Fonts.html">2.5. Fonts</a></span></dt><dt><span class="section"><a href="sect-Metadata-Codec.html">2.6. Codecs</a></span></dt><dt><span class="section"><a href="sect-Metadata-InputMethod.html">2.7. Input Methods</a></span></dt><dt><span class="section"><a href="sect-Metadata-Firmware.html">2.8. Firmware</a></span></dt><dt><span class="section"><a href="sect-Metadata-Driver.html">2.9. Driver</a></span></dt><dt><span class="section"><a href="sect-Metadata-Localization.html">2.10. Localization</a></span></dt></dl></div><div class="para">
 		AppStream allows upstream projects to define metadata about the components they provide using small XML files, metainfo files, which get installed into locations on the client system and are used by distribuors to enhance their metadata.
 	</div><div class="para">
@@ -37,9 +37,9 @@
 						Note that the value of this tag must be <span class="emphasis"><em>unique</em></span> across all distributions and software deployment platforms. In case it is not unique, distributors are expected to reject the conflicting components from inclusion into their metadata and notify the upstream projects about this issue.
 					</div></dd><dt><a id="tag-metadata_license">
       ⁠</a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;metadata_license/&gt;</code> tag indicates the content license that you are releasing the one Metainfo XML file under. This is typically not the same as the project license. Omitting the license value can result in your data not being incorporated into the distribution metadata (so this is a required tag).
+						The <code class="code">&lt;metadata_license/&gt;</code> tag indicates the content license that you are releasing the one metainfo XML file under. This is typically not the same as the project license. Omitting the license value can result in your data not being incorporated into the distribution metadata (so this is a required tag).
 					</div><div class="para">
-						A permissive license ensures your data can be combined with arbitrary other data in one file. Permissive license names include:
+						A <a href="https://en.wikipedia.org/wiki/Permissive_software_licence">permissive</a> license ensures your data can be combined with arbitrary other data in one file (this means copyleft licenses like the GPL are not suitable as metadata license). Valid permissive licenses include:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 								<code class="literal">CC0-1.0</code>
 							</div></li><li class="listitem"><div class="para">
@@ -90,7 +90,16 @@
 									URLs of this type should point to a webpage where users can submit or modify translations of the upstream project.
 								</div><div class="para">
 									Typically this should be a link to the project page in Weblate, Transifex or Zanata, but could also be a link to an upstream-hosted wiki page describing how to send translations upstream.
-								</div></dd></dl></div></dd><dt><a id="tag-releases">
+								</div></dd></dl></div></dd><dt><a id="tag-launchable">
+      ⁠</a><span class="term">&lt;launchable/&gt;</span></dt><dd><div class="para">
+						This optional tag indicates a possible method to launch the software described in this component. At time, it only supports launching software by their desktop-id.
+					</div><div class="para">
+						The <code class="code">&lt;launchable/&gt;</code> tag has a essential <code class="literal">type</code> property indicating the system that is used to launch the application. At time, only <code class="code">desktop-id</code> is allowed as value, indicating that an application can be launched via a desktop file. The value of the tag is a <a href="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id">desktop-file id</a> in that case.
+					</div><div class="para">
+						The <code class="code">&lt;launchable/&gt;</code> tag is allowed to appear multiple times in the metainfo data. In case a software component has multiple launchable entries, the software center might display a dialog to choose which entry to launch. If possible though, it should be avoided to add multiple <code class="literal">launchable</code> tags.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;launchable</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"desktop-id"</span><span xmlns="" class="perl_Keyword">&gt;</span>org.gnome.Sysprof2.desktop<span xmlns="" class="perl_Keyword">&lt;/launchable&gt;</span></pre></dd><dt><a id="tag-releases">
       ⁠</a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;releases&gt;</code> tag contains <code class="code">&lt;release/&gt;</code> child tags which describe some metainformation about the current release of the described software. The <code class="code">&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for the current version must always be present.
 					</div><div class="para">
@@ -129,12 +138,8 @@
 								</div></dd><dt><span class="term">&lt;binary/&gt;</span></dt><dd><div class="para">
 									Name of a binary installed into a location in <code class="envar">PATH</code>.
 								</div></dd><dt><span class="term">&lt;font/&gt;</span></dt><dd><div class="para">
-									Filename of a font provided by this component. For example <strong class="userinput"><code>Dustismo_Roman.ttf</code></strong>.
-								</div><div class="para">
-									Example:
-								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;font&gt;</span>LinLibertine_R.otf<span xmlns="" class="perl_Keyword">&lt;/font&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
+									Full name of a font provided by this component. See <a class="xref" href="sect-Metadata-Fonts.html">Section 2.5, “Fonts”</a> for more information.
+								</div></dd><dt><span class="term">&lt;modalias/&gt;</span></dt><dd><div class="para">
 									A modalias glob representing the hardware types (for example USB, PCI, ACPI, DMI) this component handles. Useful for installing printer drivers or other USB protocol drivers for smartphones, firmware, and out of tree kernel drivers.
 								</div></dd><dt><span class="term">&lt;firmware/&gt;</span></dt><dd><div class="para">
 									This provided element is described in details for the <code class="literal">firmware</code> component type, where it is mandatory. Please see <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-provides">&lt;provides/&gt; ↪ &lt;firmware/&gt;</a> for more information.
@@ -257,7 +262,29 @@
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;suggests&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.kde.gwenview.desktop<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>org.inkscape.Inkscape<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/suggests&gt;</span></pre></dd></dl></div><div class="para">
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/suggests&gt;</span></pre></dd><dt><a id="tag-content_rating">
+      ⁠</a><span class="term">&lt;content_rating/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;content_rating/&gt;</code> tag is an optional tag which can be added to specify age ratings for the respective software components. These maybe be used for parental control or to display their information in software centers.
+					</div><div class="para">
+						The tag must have a <code class="literal">type</code> property, indicating the type of the rating system that is used. At the moment, the <a href="https://odrs.gnome.org/oars">Open Age Ratings Service</a> (value <code class="code">oars-1.0</code>) is supported natively, but more services might be added in future.
+					</div><div class="para">
+						The <code class="code">&lt;content_rating/&gt;</code> must have <code class="code">&lt;content_attribute/&gt;</code> children which each have an <code class="literal">id</code> property indicating the specific section that is rated. Their value indicates the intensity of the rated section and can be one of:
+					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+								<code class="literal">none</code> - no rating given
+							</div></li><li class="listitem"><div class="para">
+								<code class="literal">mild</code>
+							</div></li><li class="listitem"><div class="para">
+								<code class="literal">moderate</code>
+							</div></li><li class="listitem"><div class="para">
+								<code class="literal">intense</code>
+							</div></li></ul></div><div class="para">
+						The website of the Open Age Ratings Service provides <a href="https://odrs.gnome.org/oars">an online form</a> which will automatically generate AppStream compatible markup based on a set of questions answered about the content.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;content_rating</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"oars-1.0"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;content_attribute</span><span xmlns="" class="perl_Others"> id=</span><span xmlns="" class="perl_Error">drugs-alcohol&gt;moderate&lt;/content_attribute&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Error">&lt;content_attribute</span> <span xmlns="" class="perl_Error">id=language-humor&gt;mild&lt;/content_attribute&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Error">&lt;/content_rating&gt;</span></pre></dd></dl></div><div class="para">
 			An example for a very basic component file could look like this:
 		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>

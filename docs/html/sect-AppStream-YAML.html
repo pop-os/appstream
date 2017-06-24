@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">3.2. AppStream collection YAML</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.10-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-CollectionData.html" title="Chapter 3. Collection Metadata" /><link rel="prev" href="chap-CollectionData.html" title="Chapter 3. Collection Metadata" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.3. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-CollectionData.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-AppStream-YAML">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">3.2. AppStream collection YAML</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.11-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-CollectionData.html" title="Chapter 3. Collection Metadata" /><link rel="prev" href="chap-CollectionData.html" title="Chapter 3. Collection Metadata" /><link rel="next" href="sect-AppStream-IconCache.html" title="3.3. Icon Cache" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-CollectionData.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-AppStream-IconCache.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-AppStream-YAML">
       ⁠</a>3.2. AppStream collection YAML</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-introduction">
       ⁠</a>3.2.1. Introduction</h3></div></div></div><div class="para">
 			DEP-11 is a YAML implementation of the AppStream collection specification, which is primarily used by Debian and its derivatives. This document describes the DEP-11 YAML. All AppStream support libraries available today are able to read both the YAML and the XML specification.
@@ -220,7 +220,16 @@
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd></dl></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-developername">
       ⁠</a><span class="term">DeveloperName</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-CollectionData.html#tag-ct-developer_name">&lt;developer_name/&gt;</a>.
-					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd><dt><a id="field-dep11-releases">
+					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd><dt><a id="field-dep11-launchable">
+      ⁠</a><span class="term">Launchable</span></dt><dd><div class="para">
+						See <a class="xref" href="chap-CollectionData.html#tag-ct-launchable">&lt;launchable/&gt;</a>.
+					</div><div class="para">
+						A dictionary containing the launchable-type as key, and a list of IDs used for launching the application as value.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting">Launch:
+  desktop-id:
+    - org.gnome.Sysprof2.desktop</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict(list)</em></span></p></div></dd><dt><a id="field-dep11-releases">
       ⁠</a><span class="term">Releases</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-CollectionData.html#tag-ct-releases">&lt;releases/&gt;</a>.
 					</div><div class="para">
@@ -289,14 +298,24 @@
 						A list of dictionaries containing suggested software components. The dictionaries must have a <code class="literal">type</code> key with the string value <code class="code">upstream</code> or <code class="code">heuristic</code> depending on where the suggestion originates from. The also must have a <code class="literal">ids</code> key containing a list of component-ids of the suggested software.
 					</div><div class="para">
 						Example:
-					</div><pre class="programlisting">Provides:
+					</div><pre class="programlisting">Suggests:
   - type: upstream
     ids:
       - org.example.Awesome
   - type: heuristic
     ids:
       - org.example.Test1
-      - org.example.Test2</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-example">
+      - org.example.Test2</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd><dt><a id="field-dep11-content_rating">
+      ⁠</a><span class="term">Suggests</span></dt><dd><div class="para">
+						See <a class="xref" href="chap-CollectionData.html#tag-ct-content_rating">&lt;content_rating/&gt;</a>.
+					</div><div class="para">
+						A dictionary containing the rating system as key, and a dictionary of rating-values as value. The value-dictionary itself has the content rating IDs as keys and the intensity values as values. The intensity values as well as IDs and rating system names match the values from the XML exactly.
+					</div><div class="para">
+						Example:
+					</div><pre class="programlisting">ContentRating:
+  oars-1.0:
+    drugs-alcohol: moderate
+    language-humor: mild</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict(dict)</em></span></p></div></dd></dl></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-dep11-example">
       ⁠</a>3.2.6. Example YAML file</h3></div></div></div><div class="para">
 			This is an example AppStream DEP-11 metadata file:
 		</div><pre class="programlisting">

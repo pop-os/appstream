@@ -206,15 +206,6 @@ AsComponent
 @value: 
 
 
-<!-- ##### FUNCTION as_component_get_desktop_id ##### -->
-<para>
-
-</para>
-
-@cpt: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_component_get_origin ##### -->
 <para>
 
@@ -333,6 +324,25 @@ AsComponent
 @cpt: 
 @value: 
 @locale: 
+
+
+<!-- ##### FUNCTION as_component_get_launchable ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_launchable ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@launchable: 
 
 
 <!-- ##### FUNCTION as_component_get_metadata_license ##### -->
@@ -845,6 +855,43 @@ AsComponent
 @cpt: 
 @key: 
 @value: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_content_ratings ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_get_content_rating ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@kind: 
+@Returns: 
+
+
+<!-- ##### FUNCTION as_component_add_content_rating ##### -->
+<para>
+
+</para>
+
+@cpt: 
+@content_rating: 
+
+
+<!-- ##### FUNCTION as_component_get_desktop_id ##### -->
+<para>
+
+</para>
+
+@cpt: 
 @Returns: 
 
 

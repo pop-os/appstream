@@ -76,9 +76,11 @@
 <indexentry><primaryie linkends="as-component-add-addon"><link linkend="as-component-add-addon">as_component_add_addon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-bundle"><link linkend="as-component-add-bundle">as_component_add_bundle</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-category"><link linkend="as-component-add-category">as_component_add_category</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-add-content-rating"><link linkend="as-component-add-content-rating">as_component_add_content_rating</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-extends"><link linkend="as-component-add-extends">as_component_add_extends</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-icon"><link linkend="as-component-add-icon">as_component_add_icon</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-language"><link linkend="as-component-add-language">as_component_add_language</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-add-launchable"><link linkend="as-component-add-launchable">as_component_add_launchable</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-provided"><link linkend="as-component-add-provided">as_component_add_provided</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-release"><link linkend="as-component-add-release">as_component_add_release</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-add-screenshot"><link linkend="as-component-add-screenshot">as_component_add_screenshot</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -91,6 +93,8 @@
 <indexentry><primaryie linkends="as-component-get-bundles"><link linkend="as-component-get-bundles">as_component_get_bundles</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-categories"><link linkend="as-component-get-categories">as_component_get_categories</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-compulsory-for-desktops"><link linkend="as-component-get-compulsory-for-desktops">as_component_get_compulsory_for_desktops</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-content-rating"><link linkend="as-component-get-content-rating">as_component_get_content_rating</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-content-ratings"><link linkend="as-component-get-content-ratings">as_component_get_content_ratings</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-custom"><link linkend="as-component-get-custom">as_component_get_custom</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-custom-value"><link linkend="as-component-get-custom-value">as_component_get_custom_value</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-data-id"><link linkend="as-component-get-data-id">as_component_get_data_id</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -105,6 +109,7 @@
 <indexentry><primaryie linkends="as-component-get-kind"><link linkend="as-component-get-kind">as_component_get_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-language"><link linkend="as-component-get-language">as_component_get_language</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-languages"><link linkend="as-component-get-languages">as_component_get_languages</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-component-get-launchable"><link linkend="as-component-get-launchable">as_component_get_launchable</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-merge-kind"><link linkend="as-component-get-merge-kind">as_component_get_merge_kind</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-metadata-license"><link linkend="as-component-get-metadata-license">as_component_get_metadata_license</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-get-name"><link linkend="as-component-get-name">as_component_get_name</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -155,6 +160,19 @@
 <indexentry><primaryie linkends="as-component-set-summary"><link linkend="as-component-set-summary">as_component_set_summary</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-set-value-flags"><link linkend="as-component-set-value-flags">as_component_set_value_flags</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-component-to-string"><link linkend="as-component-to-string">as_component_to_string</link>, function in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsContentRating-struct"><link linkend="AsContentRating-struct">AsContentRating</link>, struct in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsContentRatingClass"><link linkend="AsContentRatingClass">AsContentRatingClass</link>, struct in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsContentRatingKey"><link linkend="AsContentRatingKey">AsContentRatingKey</link>, struct in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsContentRatingValue"><link linkend="AsContentRatingValue">AsContentRatingValue</link>, enum in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-get-kind"><link linkend="as-content-rating-get-kind">as_content_rating_get_kind</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-get-minimum-age"><link linkend="as-content-rating-get-minimum-age">as_content_rating_get_minimum_age</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-get-value"><link linkend="as-content-rating-get-value">as_content_rating_get_value</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-get-value-array"><link linkend="as-content-rating-get-value-array">as_content_rating_get_value_array</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-new"><link linkend="as-content-rating-new">as_content_rating_new</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-set-kind"><link linkend="as-content-rating-set-kind">as_content_rating_set_kind</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-set-value"><link linkend="as-content-rating-set-value">as_content_rating_set_value</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-value-from-string"><link linkend="as-content-rating-value-from-string">as_content_rating_value_from_string</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-value-to-string"><link linkend="as-content-rating-value-to-string">as_content_rating_value_to_string</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-CURRENT-FORMAT-VERSION:CAPS"><link linkend="AS-CURRENT-FORMAT-VERSION:CAPS">AS_CURRENT_FORMAT_VERSION</link>, macro in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>D</title>
@@ -196,6 +214,7 @@
 <indexentry><primaryie linkends="as-icon-get-height"><link linkend="as-icon-get-height">as_icon_get_height</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-get-kind"><link linkend="as-icon-get-kind">as_icon_get_kind</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-get-name"><link linkend="as-icon-get-name">as_icon_get_name</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-icon-get-scale"><link linkend="as-icon-get-scale">as_icon_get_scale</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-get-url"><link linkend="as-icon-get-url">as_icon_get_url</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-get-width"><link linkend="as-icon-get-width">as_icon_get_width</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-kind-from-string"><link linkend="as-icon-kind-from-string">as_icon_kind_from_string</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
@@ -205,6 +224,7 @@
 <indexentry><primaryie linkends="as-icon-set-height"><link linkend="as-icon-set-height">as_icon_set_height</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-kind"><link linkend="as-icon-set-kind">as_icon_set_kind</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-name"><link linkend="as-icon-set-name">as_icon_set_name</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-icon-set-scale"><link linkend="as-icon-set-scale">as_icon_set_scale</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-url"><link linkend="as-icon-set-url">as_icon_set_url</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-width"><link linkend="as-icon-set-width">as_icon_set_width</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsImage-struct"><link linkend="AsImage-struct">AsImage</link>, struct in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
@@ -229,6 +249,16 @@
 <indexentry><primaryie linkends="as-is-spdx-license-id"><link linkend="as-is-spdx-license-id">as_is_spdx_license_id</link>, function in <link linkend="appstream-as-spdx">as-spdx</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>L</title>
+<indexentry><primaryie linkends="AsLaunchable-struct"><link linkend="AsLaunchable-struct">AsLaunchable</link>, struct in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsLaunchableClass"><link linkend="AsLaunchableClass">AsLaunchableClass</link>, struct in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AsLaunchableKind"><link linkend="AsLaunchableKind">AsLaunchableKind</link>, enum in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-add-entry"><link linkend="as-launchable-add-entry">as_launchable_add_entry</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-get-entries"><link linkend="as-launchable-get-entries">as_launchable_get_entries</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-get-kind"><link linkend="as-launchable-get-kind">as_launchable_get_kind</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-kind-from-string"><link linkend="as-launchable-kind-from-string">as_launchable_kind_from_string</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-kind-to-string"><link linkend="as-launchable-kind-to-string">as_launchable_kind_to_string</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-new"><link linkend="as-launchable-new">as_launchable_new</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-set-kind"><link linkend="as-launchable-set-kind">as_launchable_set_kind</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-license-is-metadata-license"><link linkend="as-license-is-metadata-license">as_license_is_metadata_license</link>, function in <link linkend="appstream-as-spdx">as-spdx</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-license-to-spdx-id"><link linkend="as-license-to-spdx-id">as_license_to_spdx_id</link>, function in <link linkend="appstream-as-spdx">as-spdx</link></primaryie></indexentry>
 </indexdiv>
@@ -390,9 +420,11 @@
 <indexentry><primaryie linkends="AS-TYPE-CATEGORY:CAPS"><link linkend="AS-TYPE-CATEGORY:CAPS">AS_TYPE_CATEGORY</link>, macro in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-CHECKSUM:CAPS"><link linkend="AS-TYPE-CHECKSUM:CAPS">AS_TYPE_CHECKSUM</link>, macro in <link linkend="AsChecksum">AsChecksum</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-COMPONENT:CAPS"><link linkend="AS-TYPE-COMPONENT:CAPS">AS_TYPE_COMPONENT</link>, macro in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-CONTENT:CAPS"><link linkend="AS-TYPE-CONTENT:CAPS">AS_TYPE_CONTENT</link>, macro in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-DISTRO-DETAILS:CAPS"><link linkend="AS-TYPE-DISTRO-DETAILS:CAPS">AS_TYPE_DISTRO_DETAILS</link>, macro in <link linkend="AsDistroDetails">AsDistroDetails</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-ICON:CAPS"><link linkend="AS-TYPE-ICON:CAPS">AS_TYPE_ICON</link>, macro in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-IMAGE:CAPS"><link linkend="AS-TYPE-IMAGE:CAPS">AS_TYPE_IMAGE</link>, macro in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="AS-TYPE-LAUNCH:CAPS"><link linkend="AS-TYPE-LAUNCH:CAPS">AS_TYPE_LAUNCH</link>, macro in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-METADATA:CAPS"><link linkend="AS-TYPE-METADATA:CAPS">AS_TYPE_METADATA</link>, macro in <link linkend="AsMetadata">AsMetadata</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-POOL:CAPS"><link linkend="AS-TYPE-POOL:CAPS">AS_TYPE_POOL</link>, macro in <link linkend="AsPool">AsPool</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AS-TYPE-PROVIDED:CAPS"><link linkend="AS-TYPE-PROVIDED:CAPS">AS_TYPE_PROVIDED</link>, macro in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>

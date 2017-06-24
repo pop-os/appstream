@@ -57,7 +57,6 @@ typedef struct
 	gchar			*origin;
 	gchar			**pkgnames;
 	gchar			*source_pkgname;
-	gchar			*desktop_file_id;
 
 	GHashTable		*name; /* localized entry */
 	GHashTable		*summary; /* localized entry */
@@ -69,6 +68,7 @@ typedef struct
 	gchar			*project_license;
 	gchar			*project_group;
 
+	GPtrArray		*launchables; /* of #AsLaunchable */
 	GPtrArray		*categories; /* of utf8 */
 	GPtrArray		*compulsory_for_desktops; /* of utf8 */
 	GPtrArray		*extends; /* of utf8 */
@@ -78,6 +78,7 @@ typedef struct
 	GPtrArray		*provided; /* of AsProvided */
 	GPtrArray		*bundles; /* of AsBundle */
 	GPtrArray		*suggestions; /* of AsSuggested elements */
+	GPtrArray		*content_ratings; /* of AsContentRating */
 
 	GHashTable		*urls; /* of int:utf8 */
 	GHashTable		*languages; /* of utf8:utf8 */
@@ -85,7 +86,6 @@ typedef struct
 	GPtrArray		*translations; /* of AsTranslation */
 
 	GPtrArray		*icons; /* of AsIcon elements */
-	GHashTable		*icons_sizetab; /* of utf8:object (object owned by priv->icons array) */
 
 	gchar			*arch; /* the architecture this data was generated from */
 	gint			priority; /* used internally */
@@ -344,6 +344,7 @@ as_component_init (AsComponent *cpt)
 	priv->keywords = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, (GDestroyNotify) g_strfreev);
 
 	/* lists */
+	priv->launchables = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->categories = g_ptr_array_new_with_free_func (g_free);
 	priv->compulsory_for_desktops = g_ptr_array_new_with_free_func (g_free);
 	priv->screenshots = g_ptr_array_new_with_free_func (g_object_unref);
@@ -353,14 +354,13 @@ as_component_init (AsComponent *cpt)
 	priv->extends = g_ptr_array_new_with_free_func (g_free);
 	priv->addons = g_ptr_array_new_with_free_func (g_object_unref);
 	priv->suggestions = g_ptr_array_new_with_free_func (g_object_unref);
-
 	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
-	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	/* others */
 	priv->urls = g_hash_table_new_full (g_direct_hash, g_direct_equal, NULL, g_free);
 	priv->languages = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 	priv->custom = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
+	priv->content_ratings = g_ptr_array_new_with_free_func (g_object_unref);
 
 	priv->token_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
@@ -384,7 +384,6 @@ as_component_finalize (GObject* object)
 	g_free (priv->project_group);
 	g_free (priv->active_locale);
 	g_free (priv->arch);
-	g_free (priv->desktop_file_id);
 
 	g_hash_table_unref (priv->name);
 	g_hash_table_unref (priv->summary);
@@ -392,6 +391,7 @@ as_component_finalize (GObject* object)
 	g_hash_table_unref (priv->developer_name);
 	g_hash_table_unref (priv->keywords);
 
+	g_ptr_array_unref (priv->launchables);
 	g_ptr_array_unref (priv->categories);
 	g_ptr_array_unref (priv->compulsory_for_desktops);
 
@@ -405,12 +405,11 @@ as_component_finalize (GObject* object)
 	g_hash_table_unref (priv->urls);
 	g_hash_table_unref (priv->languages);
 	g_hash_table_unref (priv->custom);
+	g_ptr_array_unref (priv->content_ratings);
+	g_ptr_array_unref (priv->icons);
 
 	if (priv->translations != NULL)
 		g_ptr_array_unref (priv->translations);
-
-	g_ptr_array_unref (priv->icons);
-	g_hash_table_unref (priv->icons_sizetab);
 
 	g_hash_table_unref (priv->token_cache);
 
@@ -945,9 +944,6 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	g_free (priv->id);
-	g_free (priv->desktop_file_id);
-	priv->desktop_file_id = NULL;
-
 	priv->id = g_strdup (value);
 	g_object_notify ((GObject *) cpt, "id");
 	as_component_invalidate_data_id (cpt);
@@ -996,36 +992,6 @@ as_component_set_data_id (AsComponent *cpt, const gchar* value)
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	g_free (priv->data_id);
 	priv->data_id = g_strdup (value);
-}
-
-/**
- * as_component_get_desktop_id:
- * @cpt: a #AsComponent instance.
- *
- * Get the Desktop Entry ID for this component, if it is
- * of type "desktop-application".
- * For most desktop-application components, this is the name
- * of the .desktop file.
- *
- * Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
- * information.
- *
- * Returns: The desktop file id.
- *
- * Since: 0.9.8
- */
-const gchar*
-as_component_get_desktop_id (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	if (priv->desktop_file_id == NULL) {
-		if (g_str_has_suffix (priv->id, ".desktop"))
-			priv->desktop_file_id = g_strdup (priv->id);
-		else
-			priv->desktop_file_id = g_strdup_printf ("%s.desktop", priv->id);
-	}
-	return priv->desktop_file_id;
 }
 
 /**
@@ -1377,21 +1343,30 @@ as_component_get_icons (AsComponent *cpt)
  * The icons are not filtered by type, and the first icon
  * which matches the size is returned.
  * If you want more control over which icons you use for displaying,
- * use the as_component_get_icons() function to get a list of all icons.
+ * use the %as_component_get_icons() function to get a list of all icons.
+ *
+ * Note that this function is not HiDPI aware! It will never return an icon with
+ * a scaling factor > 1.
  *
  * Returns: (transfer none): An icon matching the given width/height, or %NULL if not found.
  */
 AsIcon*
 as_component_get_icon_by_size (AsComponent *cpt, guint width, guint height)
 {
-	g_autofree gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	guint i;
 
-	if ((width == 0) && (height == 0))
-		return NULL;
+	for (i = 0; i < priv->icons->len; i++) {
+		AsIcon *icon = AS_ICON (g_ptr_array_index (priv->icons, i));
+		/* ignore scaled icons */
+		if (as_icon_get_scale (icon) > 1)
+			continue;
 
-	size = g_strdup_printf ("%ix%i", width, height);
-	return g_hash_table_lookup (priv->icons_sizetab, size);
+		if ((as_icon_get_width (icon) == width) && (as_icon_get_height (icon) == height))
+			return icon;
+	}
+
+	return NULL;
 }
 
 /**
@@ -1404,14 +1379,8 @@ as_component_get_icon_by_size (AsComponent *cpt, guint width, guint height)
 void
 as_component_add_icon (AsComponent *cpt, AsIcon *icon)
 {
-	gchar *size = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
 	g_ptr_array_add (priv->icons, g_object_ref (icon));
-	size = g_strdup_printf ("%ix%i",
-				as_icon_get_width (icon),
-				as_icon_get_height (icon));
-	g_hash_table_insert (priv->icons_sizetab, size, icon);
 }
 
 /**
@@ -2118,27 +2087,24 @@ static void
 as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 {
 	const gchar *extensions[] = { "png",
-				     "svg",
-				     "svgz",
-				     "gif",
-				     "ico",
-				     "xcf",
-				     NULL };
+				      "svg",
+				      "svgz",
+				      "gif",
+				      "ico",
+				      "xcf",
+				      NULL };
 	const gchar *sizes[] = { "", "64x64", "128x128", NULL };
 	const gchar *icon_fname = NULL;
 	guint i, j, k, l;
 	g_autoptr(GPtrArray) icons = NULL;
-	g_autoptr(GHashTable) icons_sizetab = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	if (priv->icons->len == 0)
 		return;
 
-	/* take control of the old icon list and hashtable and rewrite it */
+	/* take control of the old icon list and rewrite it */
 	icons = priv->icons;
-	icons_sizetab = priv->icons_sizetab;
 	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
-	priv->icons_sizetab = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, NULL);
 
 	/* Process the icons we have and extract sizes */
 	for (i = 0; i < icons->len; i++) {
@@ -2186,12 +2152,22 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 				g_autofree gchar *tmp_icon_path_wh = NULL;
 				const gchar *icon_path = (const gchar*) g_ptr_array_index (icon_paths, l);
 
-				tmp_icon_path_wh = g_strdup_printf ("%s/%s/%ix%i/%s",
-								icon_path,
-								priv->origin,
-								as_icon_get_width (icon),
-								as_icon_get_height (icon),
-								icon_fname);
+				if (as_icon_get_scale (icon) <= 1) {
+					tmp_icon_path_wh = g_strdup_printf ("%s/%s/%ix%i/%s",
+										icon_path,
+										priv->origin,
+										as_icon_get_width (icon),
+										as_icon_get_height (icon),
+										icon_fname);
+				} else {
+					tmp_icon_path_wh = g_strdup_printf ("%s/%s/%ix%i@%i/%s",
+										icon_path,
+										priv->origin,
+										as_icon_get_width (icon),
+										as_icon_get_height (icon),
+										as_icon_get_scale (icon),
+										icon_fname);
+				}
 
 				if (g_file_test (tmp_icon_path_wh, G_FILE_TEST_EXISTS)) {
 					as_icon_set_filename (icon, tmp_icon_path_wh);
@@ -2398,6 +2374,36 @@ as_component_add_token (AsComponent *cpt,
 }
 
 /**
+ * as_component_value_tokenize:
+ *
+ * Split a component value string into tokens.
+ */
+static gboolean
+as_component_value_tokenize (AsComponent *cpt, const gchar *value, gchar ***tokens_utf8, gchar ***tokens_ascii)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
+	/* tokenize with UTF-8 fallbacks */
+	if (g_strstr_len (value, -1, "+") == NULL &&
+	    g_strstr_len (value, -1, "-") == NULL) {
+		(*tokens_utf8) = g_str_tokenize_and_fold (value, priv->active_locale, tokens_ascii);
+	}
+
+	/* we might still be able to extract tokens if g_str_tokenize_and_fold() can't do it or +/- were found */
+	if ((*tokens_utf8) == NULL) {
+		g_autofree gchar *delim = NULL;
+		delim = g_utf8_strdown (value, -1);
+		g_strdelimit (delim, "/,.;:", ' ');
+		(*tokens_utf8) = g_strsplit (delim, " ", -1);
+	}
+
+	if (tokens_ascii == NULL)
+		return (*tokens_utf8) != NULL;
+	else
+		return ((*tokens_utf8) != NULL) || ((*tokens_ascii) != NULL);
+}
+
+/**
  * as_component_add_tokens:
  */
 static void
@@ -2409,7 +2415,6 @@ as_component_add_tokens (AsComponent *cpt,
 	guint i;
 	g_auto(GStrv) values_utf8 = NULL;
 	g_auto(GStrv) values_ascii = NULL;
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* sanity check */
 	if (value == NULL) {
@@ -2418,11 +2423,9 @@ as_component_add_tokens (AsComponent *cpt,
 		return;
 	}
 
-	/* tokenize with UTF-8 fallbacks */
-	if (g_strstr_len (value, -1, "+") == NULL &&
-	    g_strstr_len (value, -1, "-") == NULL) {
-		values_utf8 = g_str_tokenize_and_fold (value, priv->active_locale, &values_ascii);
-	}
+	/* create a set of tokens from the value string */
+	if (!as_component_value_tokenize (cpt, value, &values_utf8, &values_ascii))
+		return;
 
 	/* add each token */
 	for (i = 0; values_utf8 != NULL && values_utf8[i] != NULL; i++)
@@ -2809,6 +2812,123 @@ as_component_insert_custom_value (AsComponent *cpt, const gchar *key, const gcha
 }
 
 /**
+ * as_component_get_content_ratings:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets all content ratings defined for this software.
+ *
+ * Returns: (element-type AsContentRating) (transfer none): an array
+ *
+ * Since: 0.11.0
+ **/
+GPtrArray*
+as_component_get_content_ratings (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->content_ratings;
+}
+
+/**
+ * as_component_get_content_rating:
+ * @cpt: a #AsComponent instance.
+ * @kind: a ratings kind, e.g. "oars-1.0"
+ *
+ * Gets a content ratings of a specific type that are defined for this component.
+ *
+ * Returns: (transfer none): a #AsContentRating or %NULL if not found
+ *
+ * Since: 0.11.0
+ **/
+AsContentRating*
+as_component_get_content_rating (AsComponent *cpt, const gchar *kind)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	guint i;
+
+	for (i = 0; i < priv->content_ratings->len; i++) {
+		AsContentRating *content_rating = AS_CONTENT_RATING (g_ptr_array_index (priv->content_ratings, i));
+		if (g_strcmp0 (as_content_rating_get_kind (content_rating), kind) == 0)
+			return content_rating;
+	}
+	return NULL;
+}
+
+/**
+ * as_component_add_content_rating:
+ * @cpt: a #AsComponent instance.
+ * @content_rating: a #AsContentRating instance.
+ *
+ * Adds a content rating to this component.
+ *
+ * Since: 0.11.0
+ **/
+void
+as_component_add_content_rating (AsComponent *cpt, AsContentRating *content_rating)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_ptr_array_add (priv->content_ratings,
+			 g_object_ref (content_rating));
+}
+
+/**
+ * as_component_get_launchable:
+ * @cpt: a #AsComponent instance.
+ * @kind: a launch kind, e.g. %AS_LAUNCHABLE_KIND_DESKTOP_ID
+ *
+ * Gets a #AsLaunchable of a specific type that contains launchable entries for
+ * this component.
+ *
+ * Returns: (transfer none): a #AsLaunchable or %NULL if not found
+ *
+ * Since: 0.11.0
+ **/
+AsLaunchable*
+as_component_get_launchable (AsComponent *cpt, AsLaunchableKind kind)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	guint i;
+
+	for (i = 0; i < priv->launchables->len; i++) {
+		AsLaunchable *launch = AS_LAUNCH (g_ptr_array_index (priv->launchables, i));
+		if (as_launchable_get_kind (launch) == kind)
+			return launch;
+	}
+	return NULL;
+}
+
+/**
+ * as_component_get_launchables:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: (transfer none) (element-type #AsLaunchable): an array
+ *
+ * Since: 0.11.0
+ **/
+GPtrArray*
+as_component_get_launchables (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->launchables;
+}
+
+/**
+ * as_component_add_launchable:
+ * @cpt: a #AsComponent instance.
+ * @launchable: a #AsLaunchable instance.
+ *
+ * Adds a #AsLaunchable containing launchables entries for this component.
+ *
+ * Since: 0.11.0
+ **/
+void
+as_component_add_launchable (AsComponent *cpt, AsLaunchable *launchable)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_ptr_array_add (priv->launchables,
+			 g_object_ref (launchable));
+}
+
+/**
  * as_copy_l10n_hashtable_hfunc:
  */
 static void
@@ -2985,6 +3105,40 @@ as_component_merge (AsComponent *cpt, AsComponent *source)
 
 	as_component_merge_with_mode (cpt, source, merge_kind);
 	return TRUE;
+}
+
+/**
+ * as_component_get_desktop_id:
+ * @cpt: a #AsComponent instance.
+ *
+ * Get the Desktop Entry ID for this component, if it is
+ * of type "desktop-application".
+ * For most desktop-application components, this is the name
+ * of the .desktop file.
+ *
+ * Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
+ * information.
+ *
+ * Returns: The desktop file id.
+ *
+ * Since: 0.9.8
+ * Deprecated: 0.11.0: Replaced by #AsLaunchable and %as_component_get_launchable
+ */
+const gchar*
+as_component_get_desktop_id (AsComponent *cpt)
+{
+	AsLaunchable *launch;
+	GPtrArray *entries;
+
+	launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	if (launch == NULL)
+		return NULL;
+
+	entries = as_launchable_get_entries (launch);
+	if (entries->len <= 0)
+		return 0;
+
+	return (const gchar*) g_ptr_array_index (entries, 0);
 }
 
 /**

@@ -52,6 +52,10 @@
 </entry><entry role="function_name"><link linkend="as-icon-get-height">as_icon_get_height</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-icon-set-height">as_icon_set_height</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-icon-get-scale">as_icon_get_scale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-icon-set-scale">as_icon_set_scale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -415,6 +419,50 @@ as_icon_set_height (<parameter><link linkend="AsIcon"><type>AsIcon</type></link>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-icon-get-scale" role="function" condition="since:0.11.0">
+<title>as_icon_get_scale&#160;()</title>
+<indexterm zone="as-icon-get-scale" role="0.11.0"><primary>as_icon_get_scale</primary></indexterm>
+<programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+as_icon_get_scale (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>);</programlisting>
+<refsect3 id="as-icon-get-scale.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>icon</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-icon-get-scale.returns" role="returns">
+<title>Returns</title>
+<para> The icon scaling factor.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-icon-set-scale" role="function" condition="since:0.11.0">
+<title>as_icon_set_scale&#160;()</title>
+<indexterm zone="as-icon-set-scale" role="0.11.0"><primary>as_icon_set_scale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_icon_set_scale (<parameter><link linkend="AsIcon"><type>AsIcon</type></link> *icon</parameter>,
+                   <parameter><link linkend="guint"><type>guint</type></link> scale</parameter>);</programlisting>
+<para>Sets the icon scaling factor used for HiDPI displays.</para>
+<refsect3 id="as-icon-set-scale.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>icon</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsIcon"><type>AsIcon</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>scale</para></entry>
+<entry role="parameter_description"><para>the icon scaling factor.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsIcon.other_details" role="details">

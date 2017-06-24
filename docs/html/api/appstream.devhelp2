@@ -7,12 +7,14 @@
       <sub name="AsIcon" link="AsIcon.html"/>
       <sub name="AsProvided" link="AsProvided.html"/>
       <sub name="AsBundle" link="AsBundle.html"/>
+      <sub name="AsLaunchable" link="AsLaunchable.html"/>
       <sub name="AsTranslation" link="AsTranslation.html"/>
       <sub name="AsSuggested" link="AsSuggested.html"/>
       <sub name="AsRelease" link="AsRelease.html"/>
       <sub name="AsChecksum" link="AsChecksum.html"/>
       <sub name="AsScreenshot" link="AsScreenshot.html"/>
       <sub name="AsImage" link="AsImage.html"/>
+      <sub name="AsContentRating" link="AsContentRating.html"/>
       <sub name="AsMetadata" link="AsMetadata.html"/>
       <sub name="AsPool" link="AsPool.html"/>
       <sub name="AsCategory" link="AsCategory.html"/>
@@ -27,7 +29,7 @@
     <sub name="Index of deprecated API" link="deprecated-api-index.html"/>
     <sub name="Annotation Glossary" link="annotation-glossary.html"/>
     <sub name="AppStream Manual Pages" link="manpages.html">
-      <sub name="appstreamcli" link="re20.html"/>
+      <sub name="appstreamcli" link="re22.html"/>
     </sub>
   </chapters>
   <functions>
@@ -46,7 +48,6 @@
     <keyword type="function" name="as_component_set_data_id ()" link="AsComponent.html#as-component-set-data-id"/>
     <keyword type="function" name="as_component_get_kind ()" link="AsComponent.html#as-component-get-kind"/>
     <keyword type="function" name="as_component_set_kind ()" link="AsComponent.html#as-component-set-kind"/>
-    <keyword type="function" name="as_component_get_desktop_id ()" link="AsComponent.html#as-component-get-desktop-id" since="0.9.8"/>
     <keyword type="function" name="as_component_get_origin ()" link="AsComponent.html#as-component-get-origin"/>
     <keyword type="function" name="as_component_set_origin ()" link="AsComponent.html#as-component-set-origin"/>
     <keyword type="function" name="as_component_get_pkgname ()" link="AsComponent.html#as-component-get-pkgname"/>
@@ -60,6 +61,8 @@
     <keyword type="function" name="as_component_set_summary ()" link="AsComponent.html#as-component-set-summary"/>
     <keyword type="function" name="as_component_get_description ()" link="AsComponent.html#as-component-get-description"/>
     <keyword type="function" name="as_component_set_description ()" link="AsComponent.html#as-component-set-description"/>
+    <keyword type="function" name="as_component_get_launchable ()" link="AsComponent.html#as-component-get-launchable" since="0.11.0"/>
+    <keyword type="function" name="as_component_add_launchable ()" link="AsComponent.html#as-component-add-launchable" since="0.11.0"/>
     <keyword type="function" name="as_component_get_metadata_license ()" link="AsComponent.html#as-component-get-metadata-license"/>
     <keyword type="function" name="as_component_set_metadata_license ()" link="AsComponent.html#as-component-set-metadata-license"/>
     <keyword type="function" name="as_component_get_project_license ()" link="AsComponent.html#as-component-get-project-license"/>
@@ -115,6 +118,10 @@
     <keyword type="function" name="as_component_get_custom ()" link="AsComponent.html#as-component-get-custom" since="0.10.5"/>
     <keyword type="function" name="as_component_get_custom_value ()" link="AsComponent.html#as-component-get-custom-value" since="0.10.5"/>
     <keyword type="function" name="as_component_insert_custom_value ()" link="AsComponent.html#as-component-insert-custom-value" since="0.10.5"/>
+    <keyword type="function" name="as_component_get_content_ratings ()" link="AsComponent.html#as-component-get-content-ratings" since="0.11.0"/>
+    <keyword type="function" name="as_component_get_content_rating ()" link="AsComponent.html#as-component-get-content-rating" since="0.11.0"/>
+    <keyword type="function" name="as_component_add_content_rating ()" link="AsComponent.html#as-component-add-content-rating" since="0.11.0"/>
+    <keyword type="function" name="as_component_get_desktop_id ()" link="AsComponent.html#as-component-get-desktop-id" deprecated="0.11.0: Replaced by #AsLaunchable and %as_component_get_launchable" since="0.9.8"/>
     <keyword type="macro" name="AS_TYPE_COMPONENT" link="AsComponent.html#AS-TYPE-COMPONENT:CAPS"/>
     <keyword type="struct" name="struct AsComponentClass" link="AsComponent.html#AsComponentClass"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
@@ -160,6 +167,8 @@
     <keyword type="function" name="as_icon_set_width ()" link="AsIcon.html#as-icon-set-width"/>
     <keyword type="function" name="as_icon_get_height ()" link="AsIcon.html#as-icon-get-height"/>
     <keyword type="function" name="as_icon_set_height ()" link="AsIcon.html#as-icon-set-height"/>
+    <keyword type="function" name="as_icon_get_scale ()" link="AsIcon.html#as-icon-get-scale" since="0.11.0"/>
+    <keyword type="function" name="as_icon_set_scale ()" link="AsIcon.html#as-icon-set-scale" since="0.11.0"/>
     <keyword type="macro" name="AS_TYPE_ICON" link="AsIcon.html#AS-TYPE-ICON:CAPS"/>
     <keyword type="struct" name="struct AsIconClass" link="AsIcon.html#AsIconClass"/>
     <keyword type="enum" name="enum AsIconKind" link="AsIcon.html#AsIconKind"/>
@@ -188,6 +197,17 @@
     <keyword type="struct" name="struct AsBundleClass" link="AsBundle.html#AsBundleClass"/>
     <keyword type="enum" name="enum AsBundleKind" link="AsBundle.html#AsBundleKind"/>
     <keyword type="struct" name="AsBundle" link="AsBundle.html#AsBundle-struct"/>
+    <keyword type="function" name="as_launchable_kind_to_string ()" link="AsLaunchable.html#as-launchable-kind-to-string" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_kind_from_string ()" link="AsLaunchable.html#as-launchable-kind-from-string" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_new ()" link="AsLaunchable.html#as-launchable-new" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_get_kind ()" link="AsLaunchable.html#as-launchable-get-kind" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_set_kind ()" link="AsLaunchable.html#as-launchable-set-kind" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_get_entries ()" link="AsLaunchable.html#as-launchable-get-entries" since="0.11.0"/>
+    <keyword type="function" name="as_launchable_add_entry ()" link="AsLaunchable.html#as-launchable-add-entry" since="0.11.0"/>
+    <keyword type="macro" name="AS_TYPE_LAUNCH" link="AsLaunchable.html#AS-TYPE-LAUNCH:CAPS"/>
+    <keyword type="struct" name="struct AsLaunchableClass" link="AsLaunchable.html#AsLaunchableClass"/>
+    <keyword type="enum" name="enum AsLaunchableKind" link="AsLaunchable.html#AsLaunchableKind"/>
+    <keyword type="struct" name="AsLaunchable" link="AsLaunchable.html#AsLaunchable-struct"/>
     <keyword type="function" name="as_translation_kind_to_string ()" link="AsTranslation.html#as-translation-kind-to-string"/>
     <keyword type="function" name="as_translation_kind_from_string ()" link="AsTranslation.html#as-translation-kind-from-string"/>
     <keyword type="function" name="as_translation_new ()" link="AsTranslation.html#as-translation-new"/>
@@ -281,6 +301,18 @@
     <keyword type="struct" name="struct AsImageClass" link="AsImage.html#AsImageClass"/>
     <keyword type="enum" name="enum AsImageKind" link="AsImage.html#AsImageKind"/>
     <keyword type="struct" name="AsImage" link="AsImage.html#AsImage-struct"/>
+    <keyword type="function" name="as_content_rating_value_to_string ()" link="AsContentRating.html#as-content-rating-value-to-string" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_value_from_string ()" link="AsContentRating.html#as-content-rating-value-from-string" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_new ()" link="AsContentRating.html#as-content-rating-new" since="0.5.12"/>
+    <keyword type="function" name="as_content_rating_get_kind ()" link="AsContentRating.html#as-content-rating-get-kind" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_set_kind ()" link="AsContentRating.html#as-content-rating-set-kind" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_get_minimum_age ()" link="AsContentRating.html#as-content-rating-get-minimum-age" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_get_value ()" link="AsContentRating.html#as-content-rating-get-value" since="0.11.0"/>
+    <keyword type="function" name="as_content_rating_set_value ()" link="AsContentRating.html#as-content-rating-set-value" since="0.11.0"/>
+    <keyword type="macro" name="AS_TYPE_CONTENT" link="AsContentRating.html#AS-TYPE-CONTENT:CAPS"/>
+    <keyword type="struct" name="struct AsContentRatingClass" link="AsContentRating.html#AsContentRatingClass"/>
+    <keyword type="enum" name="enum AsContentRatingValue" link="AsContentRating.html#AsContentRatingValue"/>
+    <keyword type="struct" name="AsContentRating" link="AsContentRating.html#AsContentRating-struct"/>
     <keyword type="function" name="as_format_kind_to_string ()" link="AsMetadata.html#as-format-kind-to-string" since="0.10"/>
     <keyword type="function" name="as_format_kind_from_string ()" link="AsMetadata.html#as-format-kind-from-string" since="0.10"/>
     <keyword type="function" name="as_format_version_to_string ()" link="AsMetadata.html#as-format-version-to-string" since="0.10"/>
@@ -498,6 +530,8 @@
     <keyword type="constant" name="AS_BUNDLE_KIND_FLATPAK" link="AsBundle.html#AS-BUNDLE-KIND-FLATPAK:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_APPIMAGE" link="AsBundle.html#AS-BUNDLE-KIND-APPIMAGE:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_SNAP" link="AsBundle.html#AS-BUNDLE-KIND-SNAP:CAPS"/>
+    <keyword type="constant" name="AS_LAUNCHABLE_KIND_UNKNOWN" link="AsLaunchable.html#AS-LAUNCHABLE-KIND-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_LAUNCHABLE_KIND_DESKTOP_ID" link="AsLaunchable.html#AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_UNKNOWN" link="AsTranslation.html#AS-TRANSLATION-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_GETTEXT" link="AsTranslation.html#AS-TRANSLATION-KIND-GETTEXT:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_QT" link="AsTranslation.html#AS-TRANSLATION-KIND-QT:CAPS"/>
@@ -516,6 +550,11 @@
     <keyword type="constant" name="AS_IMAGE_KIND_UNKNOWN" link="AsImage.html#AS-IMAGE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_IMAGE_KIND_SOURCE" link="AsImage.html#AS-IMAGE-KIND-SOURCE:CAPS"/>
     <keyword type="constant" name="AS_IMAGE_KIND_THUMBNAIL" link="AsImage.html#AS-IMAGE-KIND-THUMBNAIL:CAPS"/>
+    <keyword type="constant" name="AS_CONTENT_RATING_VALUE_UNKNOWN" link="AsContentRating.html#AS-CONTENT-RATING-VALUE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_CONTENT_RATING_VALUE_NONE" link="AsContentRating.html#AS-CONTENT-RATING-VALUE-NONE:CAPS"/>
+    <keyword type="constant" name="AS_CONTENT_RATING_VALUE_MILD" link="AsContentRating.html#AS-CONTENT-RATING-VALUE-MILD:CAPS"/>
+    <keyword type="constant" name="AS_CONTENT_RATING_VALUE_MODERATE" link="AsContentRating.html#AS-CONTENT-RATING-VALUE-MODERATE:CAPS"/>
+    <keyword type="constant" name="AS_CONTENT_RATING_VALUE_INTENSE" link="AsContentRating.html#AS-CONTENT-RATING-VALUE-INTENSE:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_STYLE_UNKNOWN" link="AsMetadata.html#AS-FORMAT-STYLE-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_STYLE_METAINFO" link="AsMetadata.html#AS-FORMAT-STYLE-METAINFO:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_STYLE_COLLECTION" link="AsMetadata.html#AS-FORMAT-STYLE-COLLECTION:CAPS"/>
@@ -528,6 +567,7 @@
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_8" link="AsMetadata.html#AS-FORMAT-VERSION-V0-8:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_9" link="AsMetadata.html#AS-FORMAT-VERSION-V0-9:CAPS"/>
     <keyword type="constant" name="AS_FORMAT_VERSION_V0_10" link="AsMetadata.html#AS-FORMAT-VERSION-V0-10:CAPS"/>
+    <keyword type="constant" name="AS_FORMAT_VERSION_V0_11" link="AsMetadata.html#AS-FORMAT-VERSION-V0-11:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FAILED" link="AsMetadata.html#AS-METADATA-ERROR-FAILED:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_PARSE" link="AsMetadata.html#AS-METADATA-ERROR-PARSE:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FORMAT_UNEXPECTED" link="AsMetadata.html#AS-METADATA-ERROR-FORMAT-UNEXPECTED:CAPS"/>
