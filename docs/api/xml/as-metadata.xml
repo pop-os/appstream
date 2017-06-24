@@ -948,12 +948,17 @@ Usually you do not want to set this explicitly.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-FORMAT-VERSION-V0-11:CAPS">AS_FORMAT_VERSION_V0_11</para></entry>
+<entry role="enum_member_description"><para>0.11</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
 <refsect2 id="AS-CURRENT-FORMAT-VERSION:CAPS" role="macro">
 <title>AS_CURRENT_FORMAT_VERSION</title>
 <indexterm zone="AS-CURRENT-FORMAT-VERSION:CAPS"><primary>AS_CURRENT_FORMAT_VERSION</primary></indexterm>
-<programlisting language="C">#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_10
+<programlisting language="C">#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_11
 </programlisting>
 <para>
 </para>

@@ -475,6 +475,15 @@
 			</listitem>
 			</varlistentry>
 
+			<varlistentry id="tag-ct-launchable">
+				<term>&lt;launchable/&gt;</term>
+				<listitem>
+					<para>
+						This optional tag follows the same schema as described for metainfo files in <xref linkend="tag-launchable"/>.
+					</para>
+				</listitem>
+			</varlistentry>
+
 			<varlistentry id="tag-ct-releases">
 				<term>&lt;releases/&gt;</term>
 				<listitem>
@@ -615,6 +624,15 @@
 <suggests type="heuristic">
   <id>org.gimp.gimp.desktop</id>
 </suggests>]]></programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-ct-content_rating">
+				<term>&lt;content_rating/&gt;</term>
+				<listitem>
+					<para>
+						This optional tag follows the same schema as described for metainfo files in <xref linkend="tag-content_rating"/>.
+					</para>
 				</listitem>
 			</varlistentry>
 

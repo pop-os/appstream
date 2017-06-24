@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2014 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2017 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -24,6 +24,7 @@
 #include "as-utils-private.h"
 #include "as-component-private.h"
 #include "as-pool.h"
+#include "as-content-rating-private.h"
 
 /**
  * SECTION:as-cache-file
@@ -181,6 +182,75 @@ as_token_table_to_variant_cb (const gchar *term, AsTokenType *match_pval, GVaria
 }
 
 /**
+ * as_cache_serialize_content_rating:
+ */
+static void
+as_cache_serialize_content_rating (GVariantBuilder *cpt_builder, AsComponent *cpt)
+{
+	GPtrArray *content_ratings;
+	GVariantBuilder array_b;
+	guint i;
+
+	content_ratings = as_component_get_content_ratings (cpt);
+	if (content_ratings->len <= 0)
+		return;
+
+	g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+	for (i = 0; i < content_ratings->len; i++) {
+		GPtrArray *values;
+		GVariantBuilder values_b;
+		GVariantBuilder rating_b;
+		guint j;
+		AsContentRating *content_rating = AS_CONTENT_RATING (g_ptr_array_index (content_ratings, i));
+
+		g_variant_builder_init (&values_b, G_VARIANT_TYPE_ARRAY);
+		values = as_content_rating_get_value_array (content_rating);
+		for (j = 0; j < values->len; j++) {
+			AsContentRatingKey *key = (AsContentRatingKey*) g_ptr_array_index (values, j);
+			g_variant_builder_add (&values_b, "{su}", key->id, key->value);
+		}
+
+		g_variant_builder_init (&rating_b, G_VARIANT_TYPE_ARRAY);
+		g_variant_builder_add_parsed (&rating_b, "{'type', %v}", as_variant_mstring_new (as_content_rating_get_kind (content_rating)));
+		g_variant_builder_add_parsed (&rating_b, "{'values', %v}", g_variant_builder_end (&values_b));
+
+		g_variant_builder_add_value (&array_b, g_variant_builder_end (&rating_b));
+	}
+
+	as_variant_builder_add_kv (cpt_builder, "content_ratings",
+				   g_variant_builder_end (&array_b));
+}
+
+/**
+ * as_cache_serialize_launchables:
+ */
+static void
+as_cache_serialize_launchables (GVariantBuilder *cpt_builder, AsComponent *cpt)
+{
+	GPtrArray *launchables;
+	GVariantBuilder array_b;
+	guint i;
+
+	launchables = as_component_get_launchables (cpt);
+	if (launchables->len <= 0)
+		return;
+
+	g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+
+	for (i = 0; i < launchables->len; i++) {
+		AsLaunchable *launch = AS_LAUNCH (g_ptr_array_index (launchables, i));
+
+		GVariant *var = g_variant_new ("{uv}",
+						as_launchable_get_kind (launch),
+						as_string_ptrarray_to_variant (as_launchable_get_entries (launch)));
+		g_variant_builder_add_value (&array_b, var);
+	}
+
+	as_variant_builder_add_kv (cpt_builder, "launchables",
+				   g_variant_builder_end (&array_b));
+}
+
+/**
  * as_cache_file_save:
  * @fname: The file to save the data to.
  * @locale: The locale this cache file is for.
@@ -200,6 +270,7 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 	g_autoptr(GFileOutputStream) file_out = NULL;
 	g_autoptr(GOutputStream) zout = NULL;
 	g_autoptr(GZlibCompressor) compressor = NULL;
+	gboolean serializable_components_found = FALSE;
 	GError *tmp_error = NULL;
 	guint cindex;
 
@@ -232,6 +303,8 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 				 as_component_get_id (cpt));
 			continue;
 		}
+
+		serializable_components_found = TRUE;
 
 		/* start serializing our component */
 		g_variant_builder_init (&cb, G_VARIANT_TYPE_VARDICT);
@@ -277,6 +350,9 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 						   g_variant_builder_end (&array_b));
 		}
 
+		/* launchables */
+		as_cache_serialize_launchables (&cb, cpt);
+
 		/* extends */
 		as_variant_builder_add_kv (&cb, "extends",
 					   as_string_ptrarray_to_variant (as_component_get_extends (cpt)));
@@ -306,6 +382,7 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 				g_variant_builder_add_parsed (&icon_b, "{'type', <%u>}", as_icon_get_kind (icon));
 				g_variant_builder_add_parsed (&icon_b, "{'width', <%i>}", as_icon_get_width (icon));
 				g_variant_builder_add_parsed (&icon_b, "{'height', <%i>}", as_icon_get_height (icon));
+				g_variant_builder_add_parsed (&icon_b, "{'scale', <%i>}", as_icon_get_scale (icon));
 
 				if (as_icon_get_kind (icon) == AS_ICON_KIND_STOCK) {
 					g_variant_builder_add_parsed (&icon_b, "{'name', <%s>}", as_icon_get_name (icon));
@@ -484,6 +561,9 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 						   g_variant_builder_end (&array_b));
 		}
 
+		/* content ratings */
+		as_cache_serialize_content_rating (&cb, cpt);
+
 		/* custom data */
 		tmp_table_ref = as_component_get_custom (cpt);
 		if (g_hash_table_size (tmp_table_ref) > 0) {
@@ -513,6 +593,11 @@ as_cache_file_save (const gchar *fname, const gchar *locale, GPtrArray *cpts, GE
 		g_variant_builder_add_value (builder, g_variant_builder_end (&cb));
 	}
 
+	/* check if we actually have some valid components serialized to a GVariant */
+	if (!serializable_components_found) {
+		g_debug ("Skipped writing cache file: No valid components found for serialization.");
+		return;
+	}
 
 	/* write basic information and add components */
 	g_variant_builder_add (main_builder, "{sv}",
@@ -726,6 +811,98 @@ as_variant_to_image (GVariant *variant)
 	return img;
 }
 
+
+/**
+ * as_cache_read_content_ratings:
+ */
+static void
+as_cache_read_content_ratings (GVariantDict *cpt_dict, AsComponent *cpt)
+{
+	g_autoptr(GVariant) var = NULL;
+	GVariant *child = NULL;
+	GVariantIter gvi;
+
+	var = g_variant_dict_lookup_value (cpt_dict,
+					   "content_ratings",
+					   G_VARIANT_TYPE_ARRAY);
+	if (var == NULL)
+		return;
+
+	g_variant_iter_init (&gvi, var);
+	while ((child = g_variant_iter_next_value (&gvi))) {
+		GVariantIter inner_iter;
+		GVariantDict idict;
+		GVariant *tmp;
+		GVariant *v_child;
+		g_autoptr(GVariant) values_var = NULL;
+		g_autoptr(AsContentRating) rating = as_content_rating_new ();
+
+		g_variant_dict_init (&idict, child);
+
+		as_content_rating_set_kind (rating, as_variant_get_dict_mstr (&idict, "type", &tmp));
+		g_variant_unref (tmp);
+
+		values_var = g_variant_dict_lookup_value (&idict, "values", G_VARIANT_TYPE_ARRAY);
+		if (values_var == NULL) {
+			g_variant_unref (child);
+			continue;
+		}
+
+		g_variant_iter_init (&inner_iter, values_var);
+
+		while ((v_child = g_variant_iter_next_value (&inner_iter))) {
+			AsContentRatingValue val;
+			g_autofree gchar *id_str = NULL;
+
+			g_variant_get (v_child, "{su}", &id_str, &val);
+			as_content_rating_set_value (rating, id_str, val);
+
+			g_variant_unref (v_child);
+		}
+
+		as_component_add_content_rating (cpt, rating);
+		g_variant_unref (child);
+	}
+}
+
+/**
+ * as_cache_read_launchables:
+ */
+static void
+as_cache_read_launchables (GVariantDict *cpt_dict, AsComponent *cpt)
+{
+	g_autoptr(GVariant) var = NULL;
+	GVariant *child = NULL;
+	GVariantIter gvi;
+
+	var = g_variant_dict_lookup_value (cpt_dict,
+					   "launchables",
+					   G_VARIANT_TYPE_ARRAY);
+	if (var == NULL)
+		return;
+
+	g_variant_iter_init (&gvi, var);
+	while ((child = g_variant_iter_next_value (&gvi))) {
+		AsLaunchableKind kind;
+		GVariantIter inner_iter;
+		GVariant *entry_child;
+		g_autoptr(GVariant) entries_var = NULL;
+		g_autoptr(AsLaunchable) launch = as_launchable_new ();
+
+		g_variant_get (child, "{uv}", &kind, &entries_var);
+		as_launchable_set_kind (launch, kind);
+
+		g_variant_iter_init (&inner_iter, entries_var);
+		while ((entry_child = g_variant_iter_next_value (&inner_iter))) {
+			as_launchable_add_entry (launch, g_variant_get_string (entry_child, NULL));
+			g_variant_unref (entry_child);
+		}
+
+		as_component_add_launchable (cpt, launch);
+		g_variant_unref (child);
+	}
+}
+
 /**
  * as_cache_read:
  * @fname: The file to save the data to.
@@ -882,6 +1059,9 @@ as_cache_file_read (const gchar *fname, GError **error)
 			g_variant_unref (var);
 		}
 
+		/* launchables */
+		as_cache_read_launchables (&dict, cpt);
+
 		/* extends */
 		as_variant_to_string_ptrarray_by_dict (&dict,
 							"extends",
@@ -932,6 +1112,8 @@ as_cache_file_read (const gchar *fname, GError **error)
 						   as_variant_get_dict_int32 (&idict, "width"));
 				as_icon_set_height (icon,
 						   as_variant_get_dict_int32 (&idict, "height"));
+				as_icon_set_scale (icon,
+						   as_variant_get_dict_int32 (&idict, "scale"));
 
 				if (kind == AS_ICON_KIND_STOCK) {
 					as_icon_set_name (icon,
@@ -1182,6 +1364,9 @@ as_cache_file_read (const gchar *fname, GError **error)
 			}
 			g_variant_unref (var);
 		}
+
+		/* content ratings */
+		as_cache_read_content_ratings (&dict, cpt);
 
 		/* custom data */
 		var = g_variant_dict_lookup_value (&dict,

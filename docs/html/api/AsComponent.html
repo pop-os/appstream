@@ -161,13 +161,6 @@
 <td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
-<a class="link" href="AsComponent.html#as-component-get-desktop-id" title="as_component_get_desktop_id ()">as_component_get_desktop_id</a> <span class="c_punctuation">()</span>
-</td>
-</tr>
-<tr>
-<td class="function_type">const <span class="returnvalue">gchar</span> *
-</td>
-<td class="function_name">
 <a class="link" href="AsComponent.html#as-component-get-origin" title="as_component_get_origin ()">as_component_get_origin</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
@@ -261,6 +254,22 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsComponent.html#as-component-set-description" title="as_component_set_description ()">as_component_set_description</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="returnvalue">AsLaunchable</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-launchable" title="as_component_get_launchable ()">as_component_get_launchable</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-add-launchable" title="as_component_add_launchable ()">as_component_add_launchable</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -696,6 +705,37 @@
 </td>
 <td class="function_name">
 <a class="link" href="AsComponent.html#as-component-insert-custom-value" title="as_component_insert_custom_value ()">as_component_insert_custom_value</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">GPtrArray</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-content-ratings" title="as_component_get_content_ratings ()">as_component_get_content_ratings</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="AsContentRating.html" title="AsContentRating"><span class="returnvalue">AsContentRating</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-content-rating" title="as_component_get_content_rating ()">as_component_get_content_rating</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-add-content-rating" title="as_component_add_content_rating ()">as_component_add_content_rating</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <span class="returnvalue">gchar</span> *
+</td>
+<td class="function_name">
+<a class="link" href="AsComponent.html#as-component-get-desktop-id" title="as_component_get_desktop_id ()">as_component_get_desktop_id</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 </tbody>
@@ -1272,38 +1312,6 @@ as_component_set_kind (<em class="parameter"><code><a class="link" href="AsCompo
 </div>
 <hr>
 <div class="refsect2">
-<a name="as-component-get-desktop-id"></a><h3>as_component_get_desktop_id ()</h3>
-<pre class="programlisting">const <span class="returnvalue">gchar</span> *
-as_component_get_desktop_id (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
-<p>Get the Desktop Entry ID for this component, if it is
-of type "desktop-application".
-For most desktop-application components, this is the name
-of the .desktop file.</p>
-<p>Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
-information.</p>
-<div class="refsect3">
-<a name="as-component-get-desktop-id.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table class="informaltable" width="100%" border="0">
-<colgroup>
-<col width="150px" class="parameters_name">
-<col class="parameters_description">
-<col width="200px" class="parameters_annotations">
-</colgroup>
-<tbody><tr>
-<td class="parameter_name"><p>cpt</p></td>
-<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
-<td class="parameter_annotations"> </td>
-</tr></tbody>
-</table></div>
-</div>
-<div class="refsect3">
-<a name="as-component-get-desktop-id.returns"></a><h4>Returns</h4>
-<p> The desktop file id.</p>
-</div>
-<p class="since">Since: 0.9.8</p>
-</div>
-<hr>
-<div class="refsect2">
 <a name="as-component-get-origin"></a><h3>as_component_get_origin ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
 as_component_get_origin (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
@@ -1683,6 +1691,74 @@ as_component_set_description (<em class="parameter"><code><a class="link" href="
 </tbody>
 </table></div>
 </div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-launchable"></a><h3>as_component_get_launchable ()</h3>
+<pre class="programlisting"><a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="returnvalue">AsLaunchable</span></a> *
+as_component_get_launchable (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
+                             <em class="parameter"><code><a class="link" href="AsLaunchable.html#AsLaunchableKind" title="enum AsLaunchableKind"><span class="type">AsLaunchableKind</span></a> kind</code></em>);</pre>
+<p>Gets a <a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> of a specific type that contains launchable entries for
+this component.</p>
+<div class="refsect3">
+<a name="as-component-get-launchable.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>kind</p></td>
+<td class="parameter_description"><p>a launch kind, e.g. <a class="link" href="AsLaunchable.html#AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS"><code class="literal">AS_LAUNCHABLE_KIND_DESKTOP_ID</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-component-get-launchable.returns"></a><h4>Returns</h4>
+<p> a <a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> or <code class="literal">NULL</code> if not found. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.11.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-add-launchable"></a><h3>as_component_add_launchable ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_add_launchable (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
+                             <em class="parameter"><code><a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> *launchable</code></em>);</pre>
+<p>Adds a <a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> containing launchables entries for this component.</p>
+<div class="refsect3">
+<a name="as-component-add-launchable.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>launchable</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.11.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2253,7 +2329,9 @@ as_component_get_icon_by_size (<em class="parameter"><code><a class="link" href=
 The icons are not filtered by type, and the first icon
 which matches the size is returned.
 If you want more control over which icons you use for displaying,
-use the <a class="link" href="AsComponent.html#as-component-get-icons" title="as_component_get_icons ()"><code class="function">as_component_get_icons()</code></a> function to get a list of all icons.</p>
+use the <a class="link" href="AsComponent.html#as-component-get-icons" title="as_component_get_icons ()"><code class="literal">as_component_get_icons</code></a>() function to get a list of all icons.</p>
+<p>Note that this function is not HiDPI aware! It will never return an icon with
+a scaling factor &gt; 1.</p>
 <div class="refsect3">
 <a name="as-component-get-icon-by-size.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -3375,6 +3453,137 @@ as_component_insert_custom_value (<em class="parameter"><code><a class="link" hr
 <p> <code class="literal">TRUE</code> if the key did not exist yet.</p>
 </div>
 <p class="since">Since: 0.10.5</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-content-ratings"></a><h3>as_component_get_content_ratings ()</h3>
+<pre class="programlisting"><span class="returnvalue">GPtrArray</span> *
+as_component_get_content_ratings (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<p>Gets all content ratings defined for this software.</p>
+<div class="refsect3">
+<a name="as-component-get-content-ratings.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-component-get-content-ratings.returns"></a><h4>Returns</h4>
+<p> an array. </p>
+<p><span class="annotation">[<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> AsContentRating][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.11.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-content-rating"></a><h3>as_component_get_content_rating ()</h3>
+<pre class="programlisting"><a class="link" href="AsContentRating.html" title="AsContentRating"><span class="returnvalue">AsContentRating</span></a> *
+as_component_get_content_rating (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
+                                 <em class="parameter"><code>const <span class="type">gchar</span> *kind</code></em>);</pre>
+<p>Gets a content ratings of a specific type that are defined for this component.</p>
+<div class="refsect3">
+<a name="as-component-get-content-rating.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>kind</p></td>
+<td class="parameter_description"><p>a ratings kind, e.g. "oars-1.0"</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-component-get-content-rating.returns"></a><h4>Returns</h4>
+<p> a <a class="link" href="AsContentRating.html" title="AsContentRating"><span class="type">AsContentRating</span></a> or <code class="literal">NULL</code> if not found. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.11.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-add-content-rating"></a><h3>as_component_add_content_rating ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+as_component_add_content_rating (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>,
+                                 <em class="parameter"><code><a class="link" href="AsContentRating.html" title="AsContentRating"><span class="type">AsContentRating</span></a> *content_rating</code></em>);</pre>
+<p>Adds a content rating to this component.</p>
+<div class="refsect3">
+<a name="as-component-add-content-rating.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>content_rating</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsContentRating.html" title="AsContentRating"><span class="type">AsContentRating</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.11.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="as-component-get-desktop-id"></a><h3>as_component_get_desktop_id ()</h3>
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
+as_component_get_desktop_id (<em class="parameter"><code><a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> *cpt</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">as_component_get_desktop_id</code> has been deprecated since version 0.11.0 and should not be used in newly-written code.</p>
+<p>Replaced by <a class="link" href="AsLaunchable.html" title="AsLaunchable"><span class="type">AsLaunchable</span></a> and <a class="link" href="AsComponent.html#as-component-get-launchable" title="as_component_get_launchable ()"><code class="literal">as_component_get_launchable</code></a></p>
+</div>
+<p>Get the Desktop Entry ID for this component, if it is
+of type "desktop-application".
+For most desktop-application components, this is the name
+of the .desktop file.</p>
+<p>Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
+information.</p>
+<div class="refsect3">
+<a name="as-component-get-desktop-id.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>cpt</p></td>
+<td class="parameter_description"><p>a <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a> instance.</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="as-component-get-desktop-id.returns"></a><h4>Returns</h4>
+<p> The desktop file id.</p>
+</div>
+<p class="since">Since: 0.9.8</p>
 </div>
 </div>
 <div class="refsect1">

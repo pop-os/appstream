@@ -1,7 +1,7 @@
-63% symbol docs coverage.
-496 symbols documented.
-49 symbols incomplete.
-288 not documented.
+62% symbol docs coverage.
+526 symbols documented.
+52 symbols incomplete.
+316 not documented.
 
 
 AS_CURRENT_FORMAT_VERSION
@@ -11,9 +11,11 @@ AS_TYPE_BUNDLE
 AS_TYPE_CATEGORY
 AS_TYPE_CHECKSUM
 AS_TYPE_COMPONENT
+AS_TYPE_CONTENT
 AS_TYPE_DISTRO_DETAILS
 AS_TYPE_ICON
 AS_TYPE_IMAGE
+AS_TYPE_LAUNCH
 AS_TYPE_METADATA
 AS_TYPE_POOL
 AS_TYPE_PROVIDED
@@ -34,6 +36,9 @@ AsChecksum
 AsChecksumClass
 AsComponent
 AsComponentClass
+AsContentRating
+AsContentRatingClass
+AsContentRatingKey (<items>)
 AsDistroDetails
 AsDistroDetailsClass
 AsFormatStyle (AS_FORMAT_STYLE_UNKNOWN)
@@ -42,6 +47,8 @@ AsIconClass
 AsImage
 AsImageClass
 AsIssueImportance (AS_ISSUE_IMPORTANCE_UNKNOWN)
+AsLaunchable
+AsLaunchableClass
 AsMetadata
 AsMetadataClass
 AsPool
@@ -66,6 +73,10 @@ AsXMLDataClass
 AsYAMLData
 AsYAMLDataClass
 as_cache_file_read
+as_cache_read_content_ratings
+as_cache_read_launchables
+as_cache_serialize_content_rating
+as_cache_serialize_launchables
 as_category_class_init
 as_category_finalize
 as_category_get_children
@@ -93,6 +104,7 @@ as_component_get_custom
 as_component_get_custom_value (Returns)
 as_component_get_icons
 as_component_get_keywords
+as_component_get_launchables
 as_component_get_origin
 as_component_get_origin_kind
 as_component_get_property
@@ -111,6 +123,7 @@ as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
 as_component_set_value_flags
+as_content_rating_get_value_array (Returns)
 as_copy_l10n_hashtable_hfunc
 as_desktop_entry_parse_data
 as_desktop_entry_parse_file (file, fversion, error, Returns)
@@ -138,11 +151,16 @@ as_icon_finalize
 as_icon_get_filename
 as_icon_get_height
 as_icon_get_name
+as_icon_get_scale
 as_icon_get_width
 as_icon_init
 as_image_class_init
 as_image_finalize
 as_image_init
+as_launchable_add_entry (entry)
+as_launchable_class_init
+as_launchable_finalize
+as_launchable_init
 as_license_is_metadata_license (Returns)
 as_markup_convert_simple
 as_metadata_add_component (metad, cpt)
@@ -247,12 +265,16 @@ as_xml_get_node_value
 as_xml_icon_set_size_from_node
 as_xml_keywords_table_to_nodes_cb
 as_xml_lang_hashtable_to_nodes_cb
-as_xml_process_custom_tag
-as_xml_process_provides_tag
-as_xml_process_suggests_tag
+as_xml_parse_content_rating_tag
+as_xml_parse_custom_tag
+as_xml_parse_launchable_tag
+as_xml_parse_provides_tag
+as_xml_parse_suggests_tag
+as_xml_serialize_content_rating
 as_xml_serialize_custom
 as_xml_serialize_image
 as_xml_serialize_languages
+as_xml_serialize_launchable
 as_xml_serialize_provides
 as_xmldata_class_init
 as_xmldata_clear_error
@@ -277,6 +299,7 @@ as_xmldata_serialize_to_collection_without_rootnode
 as_xmldata_set_check_valid (xdt)
 as_xmldata_set_format_style
 as_xmldata_update_cpt_with_metainfo_data (Returns)
+as_yaml_data_emit_content_rating
 as_yaml_data_emit_custom
 as_yaml_data_emit_screenshots
 as_yaml_data_emit_suggests
@@ -288,6 +311,7 @@ as_yaml_emit_icons
 as_yaml_emit_lang_hashtable_entries
 as_yaml_emit_lang_hashtable_entries_long
 as_yaml_emit_languages
+as_yaml_emit_launchable
 as_yaml_emit_localized_entry
 as_yaml_emit_localized_entry_with_func
 as_yaml_emit_localized_strv
@@ -305,12 +329,14 @@ as_yaml_list_to_str_array
 as_yaml_localized_list_helper
 as_yaml_mapping_end
 as_yaml_mapping_start
+as_yaml_parse_content_rating
+as_yaml_parse_custom
+as_yaml_parse_languages
+as_yaml_parse_launchable
+as_yaml_parse_provides
+as_yaml_parse_suggests
+as_yaml_parse_urls
 as_yaml_print_unknown
-as_yaml_process_custom
-as_yaml_process_languages
-as_yaml_process_provides
-as_yaml_process_suggests
-as_yaml_process_urls
 as_yaml_sequence_end
 as_yaml_sequence_start
 as_yaml_serialize_component
@@ -330,9 +356,13 @@ as_yamldata_serialize_to_collection
 as_yamldata_set_check_valid (ydt)
 
 as-cache-file:Long_Description
+as-content-rating-private:Long_Description
+as-content-rating-private:Short_Description
 as-desktop-entry:Long_Description
 as-enums:Long_Description
 as-icon:Long_Description
+as-launchable:Long_Description
+as-launchable:Short_Description
 as-pool-private:Long_Description
 as-pool-private:Short_Description
 as-release-private:Long_Description

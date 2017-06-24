@@ -30,6 +30,7 @@
 #include "as-component-private.h"
 #include "as-screenshot-private.h"
 #include "as-release-private.h"
+#include "as-content-rating-private.h"
 
 typedef struct
 {
@@ -174,12 +175,12 @@ as_yaml_node_get_value (GNode *n)
 }
 
 /**
- * as_yaml_process_layer:
+ * as_yaml_parse_layer:
  *
  * Create GNode tree from DEP-11 YAML document
  */
 static void
-as_yaml_process_layer (yaml_parser_t *parser, GNode *data, GError **error)
+as_yaml_parse_layer (yaml_parser_t *parser, GNode *data, GError **error)
 {
 	GNode *last_leaf = data;
 	GNode *last_scalar;
@@ -222,7 +223,7 @@ as_yaml_process_layer (yaml_parser_t *parser, GNode *data, GError **error)
 				if (in_sequence)
 					last_leaf = g_node_append (last_leaf, g_node_new (NULL));
 
-				as_yaml_process_layer (parser, last_leaf, &tmp_error);
+				as_yaml_parse_layer (parser, last_leaf, &tmp_error);
 				if (tmp_error != NULL) {
 					g_propagate_error (error, tmp_error);
 					parse = FALSE;
@@ -347,12 +348,12 @@ as_yamldata_process_keywords (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_bundles:
+ * as_yaml_parse_bundles:
  *
  * Process a bundles node and add the data to an #AsComponent
  */
 static void
-as_yaml_process_bundles (GNode *node, AsComponent *cpt)
+as_yaml_parse_bundles (GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -379,10 +380,10 @@ as_yaml_process_bundles (GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_urls:
+ * as_yaml_parse_urls:
  */
 static void
-as_yaml_process_urls (GNode *node, AsComponent *cpt)
+as_yaml_parse_urls (GNode *node, AsComponent *cpt)
 {
 	GNode *n;
 	AsUrlKind url_kind;
@@ -408,6 +409,7 @@ as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIcon
 {
 	GNode *n;
 	guint64 size;
+	guint scale;
 	g_autoptr(AsIcon) icon = NULL;
 	AsYAMLDataPrivate *priv = GET_PRIVATE (ydt);
 
@@ -422,11 +424,14 @@ as_yamldata_process_icon (AsYAMLData *ydt, GNode *node, AsComponent *cpt, AsIcon
 		value = as_yaml_node_get_value (n);
 
 		if (g_strcmp0 (key, "width") == 0) {
-			size = g_ascii_strtoll (value, NULL, 10);
+			size = g_ascii_strtoull (value, NULL, 10);
 			as_icon_set_width (icon, size);
 		} else if (g_strcmp0 (key, "height") == 0) {
-			size = g_ascii_strtoll (value, NULL, 10);
+			size = g_ascii_strtoull (value, NULL, 10);
 			as_icon_set_height (icon, size);
+		} else if (g_strcmp0 (key, "scale") == 0) {
+			scale = g_ascii_strtoull (value, NULL, 10);
+			as_icon_set_scale (icon, scale);
 		} else {
 			if (kind == AS_ICON_KIND_REMOTE) {
 				if (g_strcmp0 (key, "url") == 0) {
@@ -496,10 +501,10 @@ as_yamldata_process_icons (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_provides:
+ * as_yaml_parse_provides:
  */
 static void
-as_yaml_process_provides (GNode *node, AsComponent *cpt)
+as_yaml_parse_provides (GNode *node, AsComponent *cpt)
 {
 	GNode *n;
 	GNode *sn;
@@ -757,10 +762,10 @@ as_yamldata_process_releases (AsYAMLData *ydt, GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_languages:
+ * as_yaml_parse_languages:
  */
 static void
-as_yaml_process_languages (GNode *node, AsComponent *cpt)
+as_yaml_parse_languages (GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -795,10 +800,10 @@ as_yaml_process_languages (GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_suggests:
+ * as_yaml_parse_suggests:
  */
 static void
-as_yaml_process_suggests (GNode *node, AsComponent *cpt)
+as_yaml_parse_suggests (GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -831,10 +836,10 @@ as_yaml_process_suggests (GNode *node, AsComponent *cpt)
 }
 
 /**
- * as_yaml_process_custom:
+ * as_yaml_parse_custom:
  */
 static void
-as_yaml_process_custom (GNode *node, AsComponent *cpt)
+as_yaml_parse_custom (GNode *node, AsComponent *cpt)
 {
 	GNode *sn;
 
@@ -846,6 +851,58 @@ as_yaml_process_custom (GNode *node, AsComponent *cpt)
 		value = as_yaml_node_get_value (sn);
 
 		as_component_insert_custom_value (cpt, key, value);
+	}
+}
+
+/**
+ * as_yaml_parse_content_rating:
+ */
+static void
+as_yaml_parse_content_rating (GNode *node, AsComponent *cpt)
+{
+	GNode *sn;
+
+	for (sn = node->children; sn != NULL; sn = sn->next) {
+		GNode *an;
+		g_autoptr(AsContentRating) rating = as_content_rating_new ();
+
+		as_content_rating_set_kind (rating, as_yaml_node_get_key (sn));
+		for (an = sn->children; an != NULL; an = an->next) {
+			AsContentRatingValue attr_value;
+
+			attr_value = as_content_rating_value_from_string (as_yaml_node_get_value (an));
+			if (attr_value == AS_CONTENT_RATING_VALUE_UNKNOWN)
+				continue;
+
+			as_content_rating_set_value (rating, as_yaml_node_get_key (an), attr_value);
+		}
+
+		as_component_add_content_rating (cpt, rating);
+	}
+}
+
+/**
+ * as_yaml_parse_launchable:
+ */
+static void
+as_yaml_parse_launchable (GNode *node, AsComponent *cpt)
+{
+	GNode *sn;
+
+	for (sn = node->children; sn != NULL; sn = sn->next) {
+		GNode *en;
+		g_autoptr(AsLaunchable) launch = as_launchable_new ();
+
+		as_launchable_set_kind (launch, as_launchable_kind_from_string (as_yaml_node_get_key (sn)));
+
+		for (en = sn->children; en != NULL; en = en->next) {
+			const gchar *entry = as_yaml_node_get_key (en);
+			if (entry == NULL)
+				continue;
+			as_launchable_add_entry (launch, entry);
+		}
+
+		as_component_add_launchable (cpt, launch);
 	}
 }
 
@@ -935,23 +992,27 @@ as_yamldata_process_component_node (AsYAMLData *ydt, GNode *root)
 		} else if (g_strcmp0 (key, "Keywords") == 0) {
 			as_yamldata_process_keywords (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Url") == 0) {
-			as_yaml_process_urls (node, cpt);
+			as_yaml_parse_urls (node, cpt);
 		} else if (g_strcmp0 (key, "Icon") == 0) {
 			as_yamldata_process_icons (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Bundles") == 0) {
-			as_yaml_process_bundles (node, cpt);
+			as_yaml_parse_bundles (node, cpt);
+		} else if (g_strcmp0 (key, "Launchable") == 0) {
+			as_yaml_parse_launchable (node, cpt);
 		} else if (g_strcmp0 (key, "Provides") == 0) {
-			as_yaml_process_provides (node, cpt);
+			as_yaml_parse_provides (node, cpt);
 		} else if (g_strcmp0 (key, "Screenshots") == 0) {
 			as_yamldata_process_screenshots (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Languages") == 0) {
-			as_yaml_process_languages (node, cpt);
+			as_yaml_parse_languages (node, cpt);
 		} else if (g_strcmp0 (key, "Releases") == 0) {
 			as_yamldata_process_releases (ydt, node, cpt);
 		} else if (g_strcmp0 (key, "Suggests") == 0) {
-			as_yaml_process_suggests (node, cpt);
+			as_yaml_parse_suggests (node, cpt);
+		} else if (g_strcmp0 (key, "ContentRating") == 0) {
+			as_yaml_parse_content_rating (node, cpt);
 		} else if (g_strcmp0 (key, "Custom") == 0) {
-			as_yaml_process_custom (node, cpt);
+			as_yaml_parse_custom (node, cpt);
 		} else {
 			as_yaml_print_unknown ("root", key);
 		}
@@ -1475,7 +1536,7 @@ as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 
 		if (dbus_system != NULL) {
 			for (i = 0; i < dbus_system->len; i++) {
-				const gchar *value = g_ptr_array_index (dbus_system, i);
+				const gchar *value = (const gchar*) g_ptr_array_index (dbus_system, i);
 				as_yaml_mapping_start (emitter);
 
 				as_yaml_emit_entry (emitter, "type", "system");
@@ -1486,8 +1547,9 @@ as_yaml_emit_provides (yaml_emitter_t *emitter, AsComponent *cpt)
 		}
 
 		if (dbus_user != NULL) {
-			for (i = 0; dbus_user->len; i++) {
-				const gchar *value = g_ptr_array_index (dbus_user, i);
+			for (i = 0; i < dbus_user->len; i++) {
+				const gchar *value = (const gchar*) g_ptr_array_index (dbus_user, i);
+
 				as_yaml_mapping_start (emitter);
 
 				as_yaml_emit_entry (emitter, "type", "user");
@@ -1699,6 +1761,12 @@ as_yaml_emit_icons (yaml_emitter_t *emitter, GPtrArray *icons)
 					as_yaml_emit_entry_uint (emitter,
 								 "height",
 								 as_icon_get_height (icon));
+				}
+
+				if (as_icon_get_scale (icon) > 1) {
+					as_yaml_emit_entry_uint (emitter,
+								 "scale",
+								 as_icon_get_scale (icon));
 				}
 
 				as_yaml_mapping_end (emitter);
@@ -1936,6 +2004,76 @@ as_yaml_data_emit_custom (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent 
 }
 
 /**
+ * as_yaml_data_emit_content_rating:
+ */
+static void
+as_yaml_data_emit_content_rating (AsYAMLData *ydt, yaml_emitter_t *emitter, AsComponent *cpt)
+{
+	GPtrArray *content_ratings;
+	guint i;
+
+	content_ratings = as_component_get_content_ratings (cpt);
+	if (content_ratings->len <= 0)
+		return;
+
+	as_yaml_emit_scalar (emitter, "ContentRating");
+	as_yaml_mapping_start (emitter);
+
+	for (i = 0; i < content_ratings->len; i++) {
+		const gchar *rating_type;
+		GPtrArray *values;
+		guint j;
+		AsContentRating *content_rating = AS_CONTENT_RATING (g_ptr_array_index (content_ratings, i));
+
+		rating_type = as_content_rating_get_kind (content_rating);
+		if (rating_type == NULL)
+			continue; /* we need to check for null to not mess up the YAML sequence */
+
+		as_yaml_emit_scalar (emitter, rating_type);
+
+		values = as_content_rating_get_value_array (content_rating);
+		as_yaml_mapping_start (emitter);
+		for (j = 0; j < values->len; j++) {
+			AsContentRatingKey *key = (AsContentRatingKey*) g_ptr_array_index (values, j);
+
+			as_yaml_emit_entry (emitter,
+					    key->id,
+					    as_content_rating_value_to_string (key->value));
+		}
+		as_yaml_mapping_end (emitter);
+	}
+
+	as_yaml_mapping_end (emitter);
+}
+
+/**
+ * as_yaml_emit_launchable:
+ */
+static void
+as_yaml_emit_launchable (yaml_emitter_t *emitter, AsComponent *cpt)
+{
+	GPtrArray *launchables;
+	guint i;
+
+	launchables = as_component_get_launchables (cpt);
+	if (launchables->len <= 0)
+		return;
+
+	as_yaml_emit_scalar (emitter, "Launchable");
+	as_yaml_mapping_start (emitter);
+
+	for (i = 0; i < launchables->len; i++) {
+		AsLaunchable *launch = AS_LAUNCH (g_ptr_array_index (launchables, i));
+
+		as_yaml_emit_sequence (emitter,
+				       as_launchable_kind_to_string (as_launchable_get_kind (launch)),
+				       as_launchable_get_entries (launch));
+	}
+
+	as_yaml_mapping_end (emitter);
+}
+
+/**
  * as_yaml_serialize_component:
  */
 static void
@@ -2075,6 +2213,9 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 	/* Bundles */
 	as_yaml_emit_bundles (emitter, cpt);
 
+	/* Launchable */
+	as_yaml_emit_launchable (emitter, cpt);
+
 	/* Provides */
 	as_yaml_emit_provides (emitter, cpt);
 
@@ -2089,6 +2230,9 @@ as_yaml_serialize_component (AsYAMLData *ydt, yaml_emitter_t *emitter, AsCompone
 
 	/* Suggests */
 	as_yaml_data_emit_suggests (ydt, emitter, cpt);
+
+	/* ContentRating */
+	as_yaml_data_emit_content_rating (ydt, emitter, cpt);
 
 	/* Custom fields */
 	as_yaml_data_emit_custom (ydt, emitter, cpt);
@@ -2284,7 +2428,7 @@ as_yamldata_parse_collection_data (AsYAMLData *ydt, const gchar *data, GError **
 			g_autoptr(GNode) root = NULL;
 
 			root = g_node_new (g_strdup (""));
-			as_yaml_process_layer (&parser, root, &tmp_error);
+			as_yaml_parse_layer (&parser, root, &tmp_error);
 			if (tmp_error != NULL) {
 				/* stop immediately, since we found an error when parsing the document */
 				g_propagate_error (error, tmp_error);

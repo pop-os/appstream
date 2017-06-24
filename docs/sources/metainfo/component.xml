@@ -89,12 +89,13 @@
 		<listitem>
 		<para>
 			The <code>&lt;metadata_license/&gt;</code> tag indicates the content license that you are releasing the one
-			Metainfo XML file under. This is typically not the same as the project license. Omitting the license value can result
+			metainfo XML file under. This is typically not the same as the project license. Omitting the license value can result
 			in your data not being incorporated into the distribution metadata (so this is a required tag).
 		</para>
 		<para>
-			A permissive license ensures your data can be combined with arbitrary other data in one file.
-			Permissive license names include:
+			A <ulink url="https://en.wikipedia.org/wiki/Permissive_software_licence">permissive</ulink> license ensures your data can
+			be combined with arbitrary other data in one file (this means copyleft licenses like the GPL are not suitable as metadata license).
+			Valid permissive licenses include:
 		</para>
 		<itemizedlist>
 			<listitem>
@@ -248,6 +249,28 @@
 		</listitem>
 		</varlistentry>
 
+		<varlistentry id="tag-launchable">
+		<term>&lt;launchable/&gt;</term>
+		<listitem>
+		<para>
+			This optional tag indicates a possible method to launch the software described in this component. At time, it only supports launching software by their desktop-id.
+		</para>
+		<para>
+			The <code>&lt;launchable/&gt;</code> tag has a essential <literal>type</literal> property indicating the system that is used to launch the application. At time, only
+			<code>desktop-id</code> is allowed as value, indicating that an application can be launched via a desktop file. The value of the tag is a
+			<ulink url="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id">desktop-file id</ulink> in that case.
+		</para>
+		<para>
+			The <code>&lt;launchable/&gt;</code> tag is allowed to appear multiple times in the metainfo data. In case a software component has multiple launchable entries,
+			the software center might display a dialog to choose which entry to launch. If possible though, it should be avoided to add multiple <literal>launchable</literal> tags.
+		</para>
+		<para>
+			Example:
+		</para>
+		<programlisting language="XML"><![CDATA[<launchable type="desktop-id">org.gnome.Sysprof2.desktop</launchable>]]></programlisting>
+		</listitem>
+		</varlistentry>
+
 		<varlistentry id="tag-releases">
 		<term>&lt;releases/&gt;</term>
 		<listitem>
@@ -344,14 +367,8 @@
 				<term>&lt;font/&gt;</term>
 				<listitem>
 				<para>
-					Filename of a font provided by this component. For example <userinput>Dustismo_Roman.ttf</userinput>.
+					Full name of a font provided by this component. See <xref linkend="sect-Metadata-Fonts"/> for more information.
 				</para>
-				<para>
-					Example:
-				</para>
-				<programlisting language="XML"><![CDATA[<provides>
-  <font>LinLibertine_R.otf</font>
-</provides>]]></programlisting>
 				</listitem>
 			</varlistentry>
 
@@ -624,6 +641,42 @@
   <id>org.kde.gwenview.desktop</id>
   <id>org.inkscape.Inkscape</id>
 </suggests>]]></programlisting>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry id="tag-content_rating">
+		<term>&lt;content_rating/&gt;</term>
+		<listitem>
+		<para>
+			The <code>&lt;content_rating/&gt;</code> tag is an optional tag which can be added to specify age ratings for the respective software components.
+			These maybe be used for parental control or to display their information in software centers.
+		</para>
+		<para>
+			The tag must have a <literal>type</literal> property, indicating the type of the rating system that is used. At the moment, the
+			<ulink url="https://odrs.gnome.org/oars">Open Age Ratings Service</ulink> (value <code>oars-1.0</code>) is supported natively, but more services might be
+			added in future.
+		</para>
+		<para>
+			The <code>&lt;content_rating/&gt;</code> must have <code>&lt;content_attribute/&gt;</code> children which each have an <literal>id</literal> property indicating
+			the specific section that is rated. Their value indicates the intensity of the rated section and can be one of:
+		</para>
+		<itemizedlist>
+			<listitem><para><literal>none</literal> - no rating given</para></listitem>
+			<listitem><para><literal>mild</literal></para></listitem>
+			<listitem><para><literal>moderate</literal></para></listitem>
+			<listitem><para><literal>intense</literal></para></listitem>
+		</itemizedlist>
+		<para>
+			The website of the Open Age Ratings Service provides <ulink url="https://odrs.gnome.org/oars">an online form</ulink> which will automatically generate AppStream compatible
+			markup based on a set of questions answered about the content.
+		</para>
+		<para>
+			Example:
+		</para>
+		<programlisting language="XML"><![CDATA[<content_rating type="oars-1.0">
+  <content_attribute id=drugs-alcohol>moderate</content_attribute>
+  <content_attribute id=language-humor>mild</content_attribute>
+</content_rating>]]></programlisting>
 		</listitem>
 		</varlistentry>
 

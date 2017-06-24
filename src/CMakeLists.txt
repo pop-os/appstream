@@ -62,6 +62,8 @@ set(APPSTREAM_LIB_SRC
 		as-icon.c
 		as-translation.c
 		as-suggested.c
+		as-content-rating.c
+		as-launchable.c
 )
 
 set(APPSTREAM_LIB_PUBLIC_HEADERS
@@ -85,6 +87,8 @@ set(APPSTREAM_LIB_PUBLIC_HEADERS
 		as-icon.h
 		as-translation.h
 		as-suggested.h
+		as-content-rating.h
+		as-launchable.h
 )
 
 set(APPSTREAM_LIB_PRIVATE_HEADERS
@@ -99,6 +103,7 @@ set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-release-private.h
 		as-distro-extras.h
 		as-stemmer.h
+		as-content-rating-private.h
 )
 
 include_directories(${CMAKE_BINARY_DIR}

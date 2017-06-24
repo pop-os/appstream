@@ -623,6 +623,79 @@ AsValidatorIssue *issue
 <NAME>AsValidatorIssue</NAME>
 </STRUCT>
 <MACRO>
+<NAME>AS_TYPE_CONTENT</NAME>
+#define AS_TYPE_CONTENT (as_content_rating_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsContentRatingClass</NAME>
+struct _AsContentRatingClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsContentRatingValue</NAME>
+typedef enum {
+	AS_CONTENT_RATING_VALUE_UNKNOWN,
+	AS_CONTENT_RATING_VALUE_NONE,
+	AS_CONTENT_RATING_VALUE_MILD,
+	AS_CONTENT_RATING_VALUE_MODERATE,
+	AS_CONTENT_RATING_VALUE_INTENSE,
+	/*< private >*/
+	AS_CONTENT_RATING_VALUE_LAST
+} AsContentRatingValue;
+</ENUM>
+<FUNCTION>
+<NAME>as_content_rating_value_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContentRatingValue value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_value_from_string</NAME>
+<RETURNS>AsContentRatingValue 	 </RETURNS>
+const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_new</NAME>
+<RETURNS>AsContentRating 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_get_kind</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContentRating *content_rating
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsContentRating *content_rating, const gchar *kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_get_minimum_age</NAME>
+<RETURNS>guint 			</RETURNS>
+AsContentRating *content_rating
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_get_value</NAME>
+<RETURNS>AsContentRatingValue 	</RETURNS>
+AsContentRating *content_rating, const gchar *id
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_set_value</NAME>
+<RETURNS>void 			</RETURNS>
+AsContentRating *content_rating, const gchar *id, AsContentRatingValue value
+</FUNCTION>
+<STRUCT>
+<NAME>AsContentRating</NAME>
+</STRUCT>
+<MACRO>
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
 </MACRO>
@@ -890,6 +963,18 @@ AsScreenshot *screenshot, const gchar *locale
 <NAME>as_pool_get_cache_age</NAME>
 <RETURNS>time_t 			</RETURNS>
 AsPool *pool
+</FUNCTION>
+<STRUCT>
+<NAME>AsContentRatingKey</NAME>
+typedef struct {
+	gchar			*id;
+	AsContentRatingValue	 value;
+} AsContentRatingKey;
+</STRUCT>
+<FUNCTION>
+<NAME>as_content_rating_get_value_array</NAME>
+<RETURNS>GPtrArray 	*</RETURNS>
+AsContentRating *content_rating
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CHECKSUM</NAME>
@@ -1260,11 +1345,6 @@ AsComponent *cpt
 AsComponent *cpt, AsComponentKind value
 </FUNCTION>
 <FUNCTION>
-<NAME>as_component_get_desktop_id</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsComponent *cpt
-</FUNCTION>
-<FUNCTION>
 <NAME>as_component_get_origin</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsComponent *cpt
@@ -1328,6 +1408,16 @@ AsComponent *cpt
 <NAME>as_component_set_description</NAME>
 <RETURNS>void 			</RETURNS>
 AsComponent *cpt, const gchar *value, const gchar *locale
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_launchable</NAME>
+<RETURNS>AsLaunchable 		*</RETURNS>
+AsComponent *cpt, AsLaunchableKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_launchable</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsLaunchable *launchable
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_metadata_license</NAME>
@@ -1604,6 +1694,27 @@ AsComponent *cpt, const gchar *key
 <RETURNS>gboolean 		</RETURNS>
 AsComponent *cpt, const gchar *key, const gchar *value
 </FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_content_ratings</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_content_rating</NAME>
+<RETURNS>AsContentRating 		*</RETURNS>
+AsComponent *cpt, const gchar *kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_add_content_rating</NAME>
+<RETURNS>void 			</RETURNS>
+AsComponent *cpt, AsContentRating *content_rating
+</FUNCTION>
+<FUNCTION>
+<NAME>as_component_get_desktop_id</NAME>
+<DEPRECATED/>
+<RETURNS>const gchar 		*</RETURNS>
+AsComponent *cpt
+</FUNCTION>
 <STRUCT>
 <NAME>AsComponent</NAME>
 </STRUCT>
@@ -1734,6 +1845,16 @@ AsIcon *icon
 <RETURNS>void 		 </RETURNS>
 AsIcon *icon, guint height
 </FUNCTION>
+<FUNCTION>
+<NAME>as_icon_get_scale</NAME>
+<RETURNS>guint 		</RETURNS>
+AsIcon *icon
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_scale</NAME>
+<RETURNS>void 		</RETURNS>
+AsIcon *icon, guint scale
+</FUNCTION>
 <STRUCT>
 <NAME>AsIcon</NAME>
 </STRUCT>
@@ -1794,6 +1915,7 @@ typedef enum {
 	AS_FORMAT_VERSION_V0_8,
 	AS_FORMAT_VERSION_V0_9,
 	AS_FORMAT_VERSION_V0_10,
+	AS_FORMAT_VERSION_V0_11,
 	/*< private >*/
 	AS_FORMAT_VERSION_LAST
 } AsFormatVersion;
@@ -1810,7 +1932,7 @@ const gchar *version_str
 </FUNCTION>
 <MACRO>
 <NAME>AS_CURRENT_FORMAT_VERSION</NAME>
-#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_10
+#define AS_CURRENT_FORMAT_VERSION AS_FORMAT_VERSION_V0_11
 </MACRO>
 <ENUM>
 <NAME>AsMetadataError</NAME>
@@ -2192,6 +2314,71 @@ const gchar *data, const gchar *cid, AsFormatVersion fversion, GError **error
 <RETURNS>AsComponent 	*</RETURNS>
 GFile *file, AsFormatVersion fversion, GError **error
 </FUNCTION>
+<MACRO>
+<NAME>AS_TYPE_LAUNCH</NAME>
+#define AS_TYPE_LAUNCH (as_launchable_get_type ())
+</MACRO>
+<STRUCT>
+<NAME>AsLaunchableClass</NAME>
+struct _AsLaunchableClass
+{
+	GObjectClass		parent_class;
+	/*< private >*/
+	void (*_as_reserved1)	(void);
+	void (*_as_reserved2)	(void);
+	void (*_as_reserved3)	(void);
+	void (*_as_reserved4)	(void);
+	void (*_as_reserved5)	(void);
+	void (*_as_reserved6)	(void);
+};
+</STRUCT>
+<ENUM>
+<NAME>AsLaunchableKind</NAME>
+typedef enum  {
+	AS_LAUNCHABLE_KIND_UNKNOWN,
+	AS_LAUNCHABLE_KIND_DESKTOP_ID,
+	/*< private >*/
+	AS_LAUNCHABLE_KIND_LAST
+} AsLaunchableKind;
+</ENUM>
+<FUNCTION>
+<NAME>as_launchable_kind_to_string</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsLaunchableKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_kind_from_string</NAME>
+<RETURNS>AsLaunchableKind 	</RETURNS>
+const gchar *kind_str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_new</NAME>
+<RETURNS>AsLaunchable 		*</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_get_kind</NAME>
+<RETURNS>AsLaunchableKind 	</RETURNS>
+AsLaunchable *launch
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_set_kind</NAME>
+<RETURNS>void 			</RETURNS>
+AsLaunchable *launch, AsLaunchableKind kind
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_get_entries</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+AsLaunchable *launch
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_add_entry</NAME>
+<RETURNS>void 			</RETURNS>
+AsLaunchable *launch, const gchar *entry
+</FUNCTION>
+<STRUCT>
+<NAME>AsLaunchable</NAME>
+</STRUCT>
 <MACRO>
 <NAME>as_flags_add</NAME>
 #define as_flags_add(bitfield,enum)		do { ((bitfield) |= enum); } while (0)

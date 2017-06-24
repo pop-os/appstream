@@ -1,0 +1,338 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsContentRating">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsContentRating.top_of_page">AsContentRating</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsContentRating</refname>
+<refpurpose>Object representing a content rating</refpurpose>
+</refnamediv>
+<refsect1 id="AsContentRating.stability-level">
+<title>Stability Level</title>
+<acronym>Unstable</acronym>, unless otherwise indicated
+</refsect1>
+
+<refsect1 id="AsContentRating.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-content-rating-value-to-string">as_content_rating_value_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsContentRatingValue"><returnvalue>AsContentRatingValue</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-content-rating-value-from-string">as_content_rating_value_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsContentRating"><returnvalue>AsContentRating</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-content-rating-new">as_content_rating_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-content-rating-get-kind">as_content_rating_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-content-rating-set-kind">as_content_rating_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-content-rating-get-minimum-age">as_content_rating_get_minimum_age</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsContentRatingValue"><returnvalue>AsContentRatingValue</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-content-rating-get-value">as_content_rating_get_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-content-rating-set-value">as_content_rating_set_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsContentRating.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-CONTENT:CAPS">AS_TYPE_CONTENT</link></entry></row>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsContentRatingClass">AsContentRatingClass</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsContentRatingValue">AsContentRatingValue</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsContentRating-struct">AsContentRating</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsContentRating.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsContentRating
+</screen>
+</refsect1>
+
+<refsect1 id="AsContentRating.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
+
+<refsect1 id="AsContentRating.description" role="desc">
+<title role="desc.title">Description</title>
+<para>Content ratings are age-specific guidelines for applications.</para>
+<para>See also: <link linkend="AsComponent"><type>AsComponent</type></link></para>
+
+</refsect1>
+<refsect1 id="AsContentRating.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-content-rating-value-to-string" role="function" condition="since:0.11.0">
+<title>as_content_rating_value_to_string&#160;()</title>
+<indexterm zone="as-content-rating-value-to-string" role="0.11.0"><primary>as_content_rating_value_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_content_rating_value_to_string (<parameter><link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link> value</parameter>);</programlisting>
+<para>Converts the enumerated value to an text representation.</para>
+<refsect3 id="as-content-rating-value-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-content-rating-value-to-string.returns" role="returns">
+<title>Returns</title>
+<para> string version of <parameter>value</parameter>
+</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-value-from-string" role="function" condition="since:0.11.0">
+<title>as_content_rating_value_from_string&#160;()</title>
+<indexterm zone="as-content-rating-value-from-string" role="0.11.0"><primary>as_content_rating_value_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsContentRatingValue"><returnvalue>AsContentRatingValue</returnvalue></link>
+as_content_rating_value_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 id="as-content-rating-value-from-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-content-rating-value-from-string.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link> or <link linkend="AS-CONTENT-RATING-VALUE-UNKNOWN:CAPS"><literal>AS_CONTENT_RATING_VALUE_UNKNOWN</literal></link> for unknown</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-new" role="function" condition="since:0.5.12">
+<title>as_content_rating_new&#160;()</title>
+<indexterm zone="as-content-rating-new" role="0.5.12"><primary>as_content_rating_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsContentRating"><returnvalue>AsContentRating</returnvalue></link>&#160;*
+as_content_rating_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsContentRating"><type>AsContentRating</type></link>.</para>
+<refsect3 id="as-content-rating-new.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsContentRating"><type>AsContentRating</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.5.12">0.5.12</link></para></refsect2>
+<refsect2 id="as-content-rating-get-kind" role="function" condition="since:0.11.0">
+<title>as_content_rating_get_kind&#160;()</title>
+<indexterm zone="as-content-rating-get-kind" role="0.11.0"><primary>as_content_rating_get_kind</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_content_rating_get_kind (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>);</programlisting>
+<para>Gets the content_rating kind.</para>
+<refsect3 id="as-content-rating-get-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-content-rating-get-kind.returns" role="returns">
+<title>Returns</title>
+<para> a string, e.g. "oars-1.0", or NULL</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-set-kind" role="function" condition="since:0.11.0">
+<title>as_content_rating_set_kind&#160;()</title>
+<indexterm zone="as-content-rating-set-kind" role="0.11.0"><primary>as_content_rating_set_kind</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_content_rating_set_kind (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>,
+                            <parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
+<para>Sets the content rating kind.</para>
+<refsect3 id="as-content-rating-set-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the rating kind, e.g. "oars-1.0"</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-get-minimum-age" role="function" condition="since:0.11.0">
+<title>as_content_rating_get_minimum_age&#160;()</title>
+<indexterm zone="as-content-rating-get-minimum-age" role="0.11.0"><primary>as_content_rating_get_minimum_age</primary></indexterm>
+<programlisting language="C"><link linkend="guint"><returnvalue>guint</returnvalue></link>
+as_content_rating_get_minimum_age (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>);</programlisting>
+<para>Gets the lowest Common Sense Media approved age for the content_rating block.
+NOTE: these numbers are based on the data and descriptions available from
+https://www.commonsensemedia.org/about-us/our-mission/about-our-ratings and
+you may disagree with them.</para>
+<para>You're free to disagree with these, and of course you should use your own
+brain to work our if your child is able to cope with the concepts enumerated
+here. Some 13 year olds mey be fine with the concept of mutilation of body
+parts, others may get nightmares.</para>
+<refsect3 id="as-content-rating-get-minimum-age.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-content-rating-get-minimum-age.returns" role="returns">
+<title>Returns</title>
+<para> The age in years, 0 for no rating, or G_MAXUINT for no details.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-get-value" role="function" condition="since:0.11.0">
+<title>as_content_rating_get_value&#160;()</title>
+<indexterm zone="as-content-rating-get-value" role="0.11.0"><primary>as_content_rating_get_value</primary></indexterm>
+<programlisting language="C"><link linkend="AsContentRatingValue"><returnvalue>AsContentRatingValue</returnvalue></link>
+as_content_rating_get_value (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *id</parameter>);</programlisting>
+<para>Gets the value of a content rating key.</para>
+<refsect3 id="as-content-rating-get-value.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>id</para></entry>
+<entry role="parameter_description"><para>A ratings ID, e.g. <literal>violence-bloodshed</literal>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-content-rating-get-value.returns" role="returns">
+<title>Returns</title>
+<para> the <link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link>, or <link linkend="AS-CONTENT-RATING-VALUE-UNKNOWN:CAPS"><literal>AS_CONTENT_RATING_VALUE_UNKNOWN</literal></link></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-content-rating-set-value" role="function" condition="since:0.11.0">
+<title>as_content_rating_set_value&#160;()</title>
+<indexterm zone="as-content-rating-set-value" role="0.11.0"><primary>as_content_rating_set_value</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_content_rating_set_value (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *id</parameter>,
+                             <parameter><link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link> value</parameter>);</programlisting>
+<para>Sets the value of a content rating key.</para>
+<refsect3 id="as-content-rating-set-value.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>id</para></entry>
+<entry role="parameter_description"><para>A ratings ID, e.g. <literal>violence-bloodshed</literal>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>A <link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link>, e.g. <link linkend="AS-CONTENT-RATING-VALUE-INTENSE:CAPS"><literal>AS_CONTENT_RATING_VALUE_INTENSE</literal></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+
+</refsect1>
+<refsect1 id="AsContentRating.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-CONTENT:CAPS" role="macro">
+<title>AS_TYPE_CONTENT</title>
+<indexterm zone="AS-TYPE-CONTENT:CAPS"><primary>AS_TYPE_CONTENT</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_CONTENT (as_content_rating_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsContentRatingClass" role="struct">
+<title>struct AsContentRatingClass</title>
+<indexterm zone="AsContentRatingClass"><primary>AsContentRatingClass</primary></indexterm>
+<programlisting language="C">struct AsContentRatingClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsContentRatingValue" role="enum">
+<title>enum AsContentRatingValue</title>
+<indexterm zone="AsContentRatingValue"><primary>AsContentRatingValue</primary></indexterm>
+<para>The specified level of an content_rating rating ID.</para>
+<refsect3 id="AsContentRatingValue.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CONTENT-RATING-VALUE-UNKNOWN:CAPS">AS_CONTENT_RATING_VALUE_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown value</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CONTENT-RATING-VALUE-NONE:CAPS">AS_CONTENT_RATING_VALUE_NONE</para></entry>
+<entry role="enum_member_description"><para>None</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CONTENT-RATING-VALUE-MILD:CAPS">AS_CONTENT_RATING_VALUE_MILD</para></entry>
+<entry role="enum_member_description"><para>A small amount</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CONTENT-RATING-VALUE-MODERATE:CAPS">AS_CONTENT_RATING_VALUE_MODERATE</para></entry>
+<entry role="enum_member_description"><para>A moderate amount</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-CONTENT-RATING-VALUE-INTENSE:CAPS">AS_CONTENT_RATING_VALUE_INTENSE</para></entry>
+<entry role="enum_member_description"><para>An intense amount</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsContentRating-struct" role="struct">
+<title>AsContentRating</title>
+<indexterm zone="AsContentRating-struct"><primary>AsContentRating</primary></indexterm>
+<programlisting language="C">typedef struct _AsContentRating AsContentRating;</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

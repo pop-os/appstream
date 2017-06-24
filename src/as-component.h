@@ -35,6 +35,8 @@
 #include "as-suggested.h"
 #include "as-category.h"
 #include "as-bundle.h"
+#include "as-content-rating.h"
+#include "as-launchable.h"
 
 G_BEGIN_DECLS
 
@@ -149,8 +151,6 @@ AsComponentKind		as_component_get_kind (AsComponent *cpt);
 void			as_component_set_kind (AsComponent *cpt,
 						AsComponentKind value);
 
-const gchar		*as_component_get_desktop_id (AsComponent *cpt);
-
 const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
 							const gchar *origin);
@@ -178,6 +178,11 @@ const gchar		*as_component_get_description (AsComponent *cpt);
 void			as_component_set_description (AsComponent *cpt,
 							const gchar *value,
 							const gchar *locale);
+
+AsLaunchable		*as_component_get_launchable (AsComponent *cpt,
+							AsLaunchableKind kind);
+void			as_component_add_launchable (AsComponent *cpt,
+							 AsLaunchable *launchable);
 
 const gchar		*as_component_get_metadata_license (AsComponent *cpt);
 void			as_component_set_metadata_license (AsComponent *cpt,
@@ -294,6 +299,18 @@ gchar			*as_component_get_custom_value (AsComponent *cpt,
 gboolean		as_component_insert_custom_value (AsComponent *cpt,
 							  const gchar *key,
 							  const gchar *value);
+
+GPtrArray		*as_component_get_content_ratings (AsComponent *cpt);
+AsContentRating		*as_component_get_content_rating (AsComponent *cpt,
+							  const gchar *kind);
+void			as_component_add_content_rating (AsComponent *cpt,
+							 AsContentRating *content_rating);
+
+
+/* DEPRECATED */
+
+G_GNUC_DEPRECATED
+const gchar		*as_component_get_desktop_id (AsComponent *cpt);
 
 G_END_DECLS
 

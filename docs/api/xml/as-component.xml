@@ -53,8 +53,6 @@
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-kind">as_component_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-</entry><entry role="function_name"><link linkend="as-component-get-desktop-id">as_component_get_desktop_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-origin">as_component_get_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-origin">as_component_set_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
@@ -80,6 +78,10 @@
 </entry><entry role="function_name"><link linkend="as-component-get-description">as_component_get_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-description">as_component_set_description</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsLaunchable"><returnvalue>AsLaunchable</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-launchable">as_component_get_launchable</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-add-launchable">as_component_add_launchable</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-metadata-license">as_component_get_metadata_license</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
@@ -190,6 +192,14 @@
 </entry><entry role="function_name"><link linkend="as-component-get-custom-value">as_component_get_custom_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-insert-custom-value">as_component_insert_custom_value</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-content-ratings">as_component_get_content_ratings</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsContentRating"><returnvalue>AsContentRating</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-content-rating">as_component_get_content_rating</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-component-add-content-rating">as_component_add_content_rating</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-component-get-desktop-id">as_component_get_desktop_id</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -611,33 +621,6 @@ as_component_set_kind (<parameter><link linkend="AsComponent"><type>AsComponent<
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
-<refsect2 id="as-component-get-desktop-id" role="function" condition="since:0.9.8">
-<title>as_component_get_desktop_id&#160;()</title>
-<indexterm zone="as-component-get-desktop-id" role="0.9.8"><primary>as_component_get_desktop_id</primary></indexterm>
-<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_component_get_desktop_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
-<para>Get the Desktop Entry ID for this component, if it is
-of type "desktop-application".
-For most desktop-application components, this is the name
-of the .desktop file.</para>
-<para>Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
-information.</para>
-<refsect3 id="as-component-get-desktop-id.parameters" role="parameters">
-<title>Parameters</title>
-<informaltable role="parameters_table" pgwide="1" frame="none">
-<tgroup cols="3">
-<colspec colname="parameters_name" colwidth="150px"/>
-<colspec colname="parameters_description"/>
-<colspec colname="parameters_annotations" colwidth="200px"/>
-<tbody>
-<row><entry role="parameter_name"><para>cpt</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
-<entry role="parameter_annotations"></entry></row>
-</tbody></tgroup></informaltable>
-</refsect3><refsect3 id="as-component-get-desktop-id.returns" role="returns">
-<title>Returns</title>
-<para> The desktop file id.</para>
-</refsect3><para role="since">Since: <link linkend="api-index-0.9.8">0.9.8</link></para></refsect2>
 <refsect2 id="as-component-get-origin" role="function">
 <title>as_component_get_origin&#160;()</title>
 <indexterm zone="as-component-get-origin"><primary>as_component_get_origin</primary></indexterm>
@@ -945,6 +928,57 @@ as_component_set_description (<parameter><link linkend="AsComponent"><type>AsCom
 <entry role="parameter_annotations"><emphasis role="annotation">[<acronym>nullable</acronym>]</emphasis></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
+<refsect2 id="as-component-get-launchable" role="function" condition="since:0.11.0">
+<title>as_component_get_launchable&#160;()</title>
+<indexterm zone="as-component-get-launchable" role="0.11.0"><primary>as_component_get_launchable</primary></indexterm>
+<programlisting language="C"><link linkend="AsLaunchable"><returnvalue>AsLaunchable</returnvalue></link>&#160;*
+as_component_get_launchable (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                             <parameter><link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link> kind</parameter>);</programlisting>
+<para>Gets a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> of a specific type that contains launchable entries for
+this component.</para>
+<refsect3 id="as-component-get-launchable.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>a launch kind, e.g. <link linkend="AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS"><literal>AS_LAUNCHABLE_KIND_DESKTOP_ID</literal></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-launchable.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not found. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-component-add-launchable" role="function" condition="since:0.11.0">
+<title>as_component_add_launchable&#160;()</title>
+<indexterm zone="as-component-add-launchable" role="0.11.0"><primary>as_component_add_launchable</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_add_launchable (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                             <parameter><link linkend="AsLaunchable"><type>AsLaunchable</type></link> *launchable</parameter>);</programlisting>
+<para>Adds a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> containing launchables entries for this component.</para>
+<refsect3 id="as-component-add-launchable.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>launchable</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
 <refsect2 id="as-component-get-metadata-license" role="function">
 <title>as_component_get_metadata_license&#160;()</title>
 <indexterm zone="as-component-get-metadata-license"><primary>as_component_get_metadata_license</primary></indexterm>
@@ -1402,7 +1436,9 @@ as_component_get_icon_by_size (<parameter><link linkend="AsComponent"><type>AsCo
 The icons are not filtered by type, and the first icon
 which matches the size is returned.
 If you want more control over which icons you use for displaying,
-use the <link linkend="as-component-get-icons"><function>as_component_get_icons()</function></link> function to get a list of all icons.</para>
+use the <link linkend="as-component-get-icons"><literal>as_component_get_icons</literal></link>() function to get a list of all icons.</para>
+<para>Note that this function is not HiDPI aware! It will never return an icon with
+a scaling factor &gt; 1.</para>
 <refsect3 id="as-component-get-icon-by-size.parameters" role="parameters">
 <title>Parameters</title>
 <informaltable role="parameters_table" pgwide="1" frame="none">
@@ -2278,6 +2314,108 @@ as_component_insert_custom_value (<parameter><link linkend="AsComponent"><type>A
 <title>Returns</title>
 <para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if the key did not exist yet.</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.10.5">0.10.5</link></para></refsect2>
+<refsect2 id="as-component-get-content-ratings" role="function" condition="since:0.11.0">
+<title>as_component_get_content_ratings&#160;()</title>
+<indexterm zone="as-component-get-content-ratings" role="0.11.0"><primary>as_component_get_content_ratings</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_component_get_content_ratings (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<para>Gets all content ratings defined for this software.</para>
+<refsect3 id="as-component-get-content-ratings.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-content-ratings.returns" role="returns">
+<title>Returns</title>
+<para> an array. </para>
+<para><emphasis role="annotation">[<acronym>element-type</acronym> AsContentRating][<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-component-get-content-rating" role="function" condition="since:0.11.0">
+<title>as_component_get_content_rating&#160;()</title>
+<indexterm zone="as-component-get-content-rating" role="0.11.0"><primary>as_component_get_content_rating</primary></indexterm>
+<programlisting language="C"><link linkend="AsContentRating"><returnvalue>AsContentRating</returnvalue></link>&#160;*
+as_component_get_content_rating (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                 <parameter>const <link linkend="gchar"><type>gchar</type></link> *kind</parameter>);</programlisting>
+<para>Gets a content ratings of a specific type that are defined for this component.</para>
+<refsect3 id="as-component-get-content-rating.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>a ratings kind, e.g. "oars-1.0"</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-content-rating.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsContentRating"><type>AsContentRating</type></link> or <link linkend="NULL:CAPS"><literal>NULL</literal></link> if not found. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-component-add-content-rating" role="function" condition="since:0.11.0">
+<title>as_component_add_content_rating&#160;()</title>
+<indexterm zone="as-component-add-content-rating" role="0.11.0"><primary>as_component_add_content_rating</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_component_add_content_rating (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>,
+                                 <parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>);</programlisting>
+<para>Adds a content rating to this component.</para>
+<refsect3 id="as-component-add-content-rating.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-component-get-desktop-id" role="function" condition="deprecated:0.11.0: Replaced by #AsLaunchable and %as_component_get_launchable|since:0.9.8">
+<title>as_component_get_desktop_id&#160;()</title>
+<indexterm zone="as-component-get-desktop-id" role="deprecated"><primary>as_component_get_desktop_id</primary></indexterm><indexterm zone="as-component-get-desktop-id" role="0.9.8"><primary>as_component_get_desktop_id</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_component_get_desktop_id (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
+<warning><para><literal>as_component_get_desktop_id</literal> has been deprecated since version 0.11.0 and should not be used in newly-written code.</para> <para>Replaced by <link linkend="AsLaunchable"><type>AsLaunchable</type></link> and <link linkend="as-component-get-launchable"><literal>as_component_get_launchable</literal></link></para>
+</warning>
+<para>Get the Desktop Entry ID for this component, if it is
+of type "desktop-application".
+For most desktop-application components, this is the name
+of the .desktop file.</para>
+<para>Refer to https://specifications.freedesktop.org/desktop-entry-spec/latest/ape.html for more
+information.</para>
+<refsect3 id="as-component-get-desktop-id.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cpt</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsComponent"><type>AsComponent</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-component-get-desktop-id.returns" role="returns">
+<title>Returns</title>
+<para> The desktop file id.</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.9.8">0.9.8</link></para></refsect2>
 
 </refsect1>
 <refsect1 id="AsComponent.other_details" role="details">

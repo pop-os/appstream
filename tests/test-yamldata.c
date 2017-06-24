@@ -156,7 +156,7 @@ test_yamlwrite_general (void)
 
 	const gchar *expected_yaml = "---\n"
 				"File: DEP-11\n"
-				"Version: '0.10'\n"
+				"Version: '0.11'\n"
 				"---\n"
 				"Type: firmware\n"
 				"ID: org.example.test.firmware\n"
@@ -375,6 +375,10 @@ test_yaml_read_icons (void)
 					"    - width: 64\n"
 					"      height: 64\n"
 					"      name: test_test.png\n"
+					"    - width: 64\n"
+					"      height: 64\n"
+					"      name: test_test.png\n"
+					"      scale: 2\n"
 					"    - width: 128\n"
 					"      height: 128\n"
 					"      name: test_test.png\n"
@@ -410,7 +414,7 @@ test_yaml_read_icons (void)
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
 
 	icons = as_component_get_icons (cpt);
-	g_assert_cmpint (icons->len, ==, 3);
+	g_assert_cmpint (icons->len, ==, 4);
 	for (i = 0; i < icons->len; i++) {
 		AsIcon *icon = AS_ICON (g_ptr_array_index (icons, i));
 
@@ -516,7 +520,7 @@ test_yaml_write_suggests (void)
 	g_autofree gchar *res = NULL;
 	const gchar *expected_sug_yaml = "---\n"
 					 "File: DEP-11\n"
-					 "Version: '0.10'\n"
+					 "Version: '0.11'\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.SuggestsTest\n"
@@ -597,7 +601,7 @@ test_yaml_read_suggests (void)
 
 static const gchar *yamldata_custom_field = "---\n"
 					 "File: DEP-11\n"
-					 "Version: '0.10'\n"
+					 "Version: '0.11'\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.CustomTest\n"
@@ -647,6 +651,128 @@ test_yaml_read_custom (void)
 	g_assert_cmpstr (as_component_get_custom_value (cpt, "Oh::Snap::Punctuation!"), ==, "Awesome!");
 }
 
+static const gchar *yamldata_content_rating_field = "---\n"
+						"File: DEP-11\n"
+						"Version: '0.11'\n"
+						"---\n"
+						"Type: generic\n"
+						"ID: org.example.ContentRatingTest\n"
+						"ContentRating:\n"
+						"  oars-1.0:\n"
+						"    drugs-alcohol: moderate\n"
+						"    language-humor: mild\n";
+
+/**
+ * test_yaml_write_content_rating:
+ *
+ * Test writing the ContentRating field.
+ */
+static void
+test_yaml_write_content_rating (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsContentRating) rating = NULL;
+	g_autofree gchar *res = NULL;
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.ContentRatingTest");
+
+	rating = as_content_rating_new ();
+	as_content_rating_set_kind (rating, "oars-1.0");
+
+	as_content_rating_set_value (rating, "drugs-alcohol", AS_CONTENT_RATING_VALUE_MODERATE);
+	as_content_rating_set_value (rating, "language-humor", AS_CONTENT_RATING_VALUE_MILD);
+
+	as_component_add_content_rating (cpt, rating);
+
+	/* test collection serialization */
+	res = as_yaml_test_serialize (cpt);
+	g_assert (as_test_compare_lines (res, yamldata_content_rating_field));
+}
+
+/**
+ * test_yaml_read_content_rating:
+ *
+ * Test if reading the ContentRating field works.
+ */
+static void
+test_yaml_read_content_rating (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	AsContentRating *rating;
+
+	cpt = as_yaml_test_read_data (yamldata_content_rating_field, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.ContentRatingTest");
+
+	rating = as_component_get_content_rating (cpt, "oars-1.0");
+	g_assert_nonnull (rating);
+	g_assert_cmpint (as_content_rating_get_value (rating, "drugs-alcohol"), ==, AS_CONTENT_RATING_VALUE_MODERATE);
+	g_assert_cmpint (as_content_rating_get_value (rating, "language-humor"), ==, AS_CONTENT_RATING_VALUE_MILD);
+}
+
+static const gchar *yamldata_launch_field = "---\n"
+						"File: DEP-11\n"
+						"Version: '0.11'\n"
+						"---\n"
+						"Type: generic\n"
+						"ID: org.example.LaunchTest\n"
+						"Launchable:\n"
+						"  desktop-id:\n"
+						"  - org.example.Test.desktop\n"
+						"  - kde4-kool.desktop\n";
+
+/**
+ * test_yaml_write_launch:
+ *
+ * Test writing the Launch field.
+ */
+static void
+test_yaml_write_launch (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsLaunchable) launch = NULL;
+	g_autofree gchar *res = NULL;
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.LaunchTest");
+
+	launch = as_launchable_new ();
+	as_launchable_set_kind (launch, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+
+	as_launchable_add_entry (launch, "org.example.Test.desktop");
+	as_launchable_add_entry (launch, "kde4-kool.desktop");
+
+	as_component_add_launchable (cpt, launch);
+
+	/* test collection serialization */
+	res = as_yaml_test_serialize (cpt);
+	g_assert (as_test_compare_lines (res, yamldata_launch_field));
+}
+
+/**
+ * test_yaml_read_launch:
+ *
+ * Test if reading the Launch field works.
+ */
+static void
+test_yaml_read_launch (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	AsLaunchable *launch;
+
+	cpt = as_yaml_test_read_data (yamldata_launch_field, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.LaunchTest");
+
+	launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	g_assert_nonnull (launch);
+
+	g_assert_cmpint (as_launchable_get_entries (launch)->len, ==, 2);
+	g_assert_cmpstr (g_ptr_array_index (as_launchable_get_entries (launch), 0), ==, "org.example.Test.desktop");
+	g_assert_cmpstr (g_ptr_array_index (as_launchable_get_entries (launch), 1), ==, "kde4-kool.desktop");
+}
+
 /**
  * main:
  */
@@ -684,6 +810,12 @@ main (int argc, char **argv)
 
 	g_test_add_func ("/YAML/Read/Custom", test_yaml_read_custom);
 	g_test_add_func ("/YAML/Write/Custom", test_yaml_write_custom);
+
+	g_test_add_func ("/YAML/Read/ContentRating", test_yaml_read_content_rating);
+	g_test_add_func ("/YAML/Write/ContentRating", test_yaml_write_content_rating);
+
+	g_test_add_func ("/YAML/Read/Launchable", test_yaml_read_launch);
+	g_test_add_func ("/YAML/Write/Launchable", test_yaml_write_launch);
 
 	ret = g_test_run ();
 	g_free (datadir);

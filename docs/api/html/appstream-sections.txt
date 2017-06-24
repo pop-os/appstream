@@ -87,7 +87,6 @@ as_component_get_data_id
 as_component_set_data_id
 as_component_get_kind
 as_component_set_kind
-as_component_get_desktop_id
 as_component_get_origin
 as_component_set_origin
 as_component_get_pkgname
@@ -101,6 +100,8 @@ as_component_get_summary
 as_component_set_summary
 as_component_get_description
 as_component_set_description
+as_component_get_launchable
+as_component_add_launchable
 as_component_get_metadata_license
 as_component_set_metadata_license
 as_component_get_project_license
@@ -156,10 +157,37 @@ as_component_to_string
 as_component_get_custom
 as_component_get_custom_value
 as_component_insert_custom_value
+as_component_get_content_ratings
+as_component_get_content_rating
+as_component_add_content_rating
+as_component_get_desktop_id
 AsComponent
 <SUBSECTION Standard>
 AS_TYPE_COMPONENT_KIND
 as_component_kind_get_type
+</SECTION>
+
+<SECTION>
+<FILE>as-content-rating</FILE>
+<TITLE>AsContentRating</TITLE>
+AS_TYPE_CONTENT
+AsContentRatingClass
+AsContentRatingValue
+as_content_rating_value_to_string
+as_content_rating_value_from_string
+as_content_rating_new
+as_content_rating_get_kind
+as_content_rating_set_kind
+as_content_rating_get_minimum_age
+as_content_rating_get_value
+as_content_rating_set_value
+AsContentRating
+</SECTION>
+
+<SECTION>
+<FILE>as-content-rating-private</FILE>
+AsContentRatingKey
+as_content_rating_get_value_array
 </SECTION>
 
 <SECTION>
@@ -222,6 +250,8 @@ as_icon_get_width
 as_icon_set_width
 as_icon_get_height
 as_icon_set_height
+as_icon_get_scale
+as_icon_set_scale
 AsIcon
 </SECTION>
 
@@ -245,6 +275,22 @@ as_image_set_height
 as_image_get_locale
 as_image_set_locale
 AsImage
+</SECTION>
+
+<SECTION>
+<FILE>as-launchable</FILE>
+<TITLE>AsLaunchable</TITLE>
+AS_TYPE_LAUNCH
+AsLaunchableClass
+AsLaunchableKind
+as_launchable_kind_to_string
+as_launchable_kind_from_string
+as_launchable_new
+as_launchable_get_kind
+as_launchable_set_kind
+as_launchable_get_entries
+as_launchable_add_entry
+AsLaunchable
 </SECTION>
 
 <SECTION>

@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-content-rating-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-content-rating-private.top_of_page">as-content-rating-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-content-rating-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-content-rating-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-content-rating-get-value-array">as_content_rating_get_value_array</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="appstream-as-content-rating-private.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsContentRatingKey">AsContentRatingKey</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+
+<refsect1 id="appstream-as-content-rating-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-content-rating-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-content-rating-get-value-array" role="function">
+<title>as_content_rating_get_value_array&#160;()</title>
+<indexterm zone="as-content-rating-get-value-array"><primary>as_content_rating_get_value_array</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_content_rating_get_value_array (<parameter><link linkend="AsContentRating"><type>AsContentRating</type></link> *content_rating</parameter>);</programlisting>
+<para>Internal helper function to read the value array.</para>
+<refsect3 id="as-content-rating-get-value-array.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>content_rating</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-content-rating-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AsContentRatingKey" role="struct">
+<title>AsContentRatingKey</title>
+<indexterm zone="AsContentRatingKey"><primary>AsContentRatingKey</primary></indexterm>
+<programlisting language="C">typedef struct {
+	gchar			*id;
+	AsContentRatingValue	 value;
+} AsContentRatingKey;
+</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

@@ -41,6 +41,8 @@ extern "C" {
 #include <as-checksum.h>
 #include <as-translation.h>
 #include <as-suggested.h>
+#include <as-content-rating.h>
+#include <as-launchable.h>
 
 #include <as-validator.h>
 #include <as-validator-issue.h>

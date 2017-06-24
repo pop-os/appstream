@@ -1,0 +1,278 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsLaunchable">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsLaunchable.top_of_page">AsLaunchable</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsLaunchable</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="AsLaunchable.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-launchable-kind-to-string">as_launchable_kind_to_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsLaunchableKind"><returnvalue>AsLaunchableKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-launchable-kind-from-string">as_launchable_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsLaunchable"><returnvalue>AsLaunchable</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-launchable-new">as_launchable_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsLaunchableKind"><returnvalue>AsLaunchableKind</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-launchable-get-kind">as_launchable_get_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-launchable-set-kind">as_launchable_set_kind</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-launchable-get-entries">as_launchable_get_entries</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-launchable-add-entry">as_launchable_add_entry</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsLaunchable.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-LAUNCH:CAPS">AS_TYPE_LAUNCH</link></entry></row>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsLaunchableClass">AsLaunchableClass</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsLaunchableKind">AsLaunchableKind</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsLaunchable-struct">AsLaunchable</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsLaunchable.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsLaunchable
+</screen>
+</refsect1>
+
+
+<refsect1 id="AsLaunchable.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="AsLaunchable.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-launchable-kind-to-string" role="function" condition="since:0.11.0">
+<title>as_launchable_kind_to_string&#160;()</title>
+<indexterm zone="as-launchable-kind-to-string" role="0.11.0"><primary>as_launchable_kind_to_string</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_launchable_kind_to_string (<parameter><link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link> kind</parameter>);</programlisting>
+<para>Converts the enumerated value to a text representation.</para>
+<refsect3 id="as-launchable-kind-to-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the <link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-launchable-kind-to-string.returns" role="returns">
+<title>Returns</title>
+<para> string version of <parameter>kind</parameter>
+</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-kind-from-string" role="function" condition="since:0.11.0">
+<title>as_launchable_kind_from_string&#160;()</title>
+<indexterm zone="as-launchable-kind-from-string" role="0.11.0"><primary>as_launchable_kind_from_string</primary></indexterm>
+<programlisting language="C"><link linkend="AsLaunchableKind"><returnvalue>AsLaunchableKind</returnvalue></link>
+as_launchable_kind_from_string (<parameter>const <link linkend="gchar"><type>gchar</type></link> *kind_str</parameter>);</programlisting>
+<para>Converts the text representation to an enumerated value.</para>
+<refsect3 id="as-launchable-kind-from-string.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>kind_str</para></entry>
+<entry role="parameter_description"><para>the string.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-launchable-kind-from-string.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link> or <link linkend="AS-LAUNCHABLE-KIND-UNKNOWN:CAPS"><literal>AS_LAUNCHABLE_KIND_UNKNOWN</literal></link> for unknown</para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-new" role="function" condition="since:0.11.0">
+<title>as_launchable_new&#160;()</title>
+<indexterm zone="as-launchable-new" role="0.11.0"><primary>as_launchable_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsLaunchable"><returnvalue>AsLaunchable</returnvalue></link>&#160;*
+as_launchable_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsLaunchable"><type>AsLaunchable</type></link>.</para>
+<refsect3 id="as-launchable-new.returns" role="returns">
+<title>Returns</title>
+<para> a <link linkend="AsLaunchable"><type>AsLaunchable</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-get-kind" role="function" condition="since:0.11.0">
+<title>as_launchable_get_kind&#160;()</title>
+<indexterm zone="as-launchable-get-kind" role="0.11.0"><primary>as_launchable_get_kind</primary></indexterm>
+<programlisting language="C"><link linkend="AsLaunchableKind"><returnvalue>AsLaunchableKind</returnvalue></link>
+as_launchable_get_kind (<parameter><link linkend="AsLaunchable"><type>AsLaunchable</type></link> *launch</parameter>);</programlisting>
+<para>The launch system for the entries this <link linkend="AsLaunchable"><type>AsLaunchable</type></link>
+object stores.</para>
+<refsect3 id="as-launchable-get-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>launch</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-launchable-get-kind.returns" role="returns">
+<title>Returns</title>
+<para> an enum of type <link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-set-kind" role="function" condition="since:0.11.0">
+<title>as_launchable_set_kind&#160;()</title>
+<indexterm zone="as-launchable-set-kind" role="0.11.0"><primary>as_launchable_set_kind</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_launchable_set_kind (<parameter><link linkend="AsLaunchable"><type>AsLaunchable</type></link> *launch</parameter>,
+                        <parameter><link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link> kind</parameter>);</programlisting>
+<para>Set the launch system for the entries this <link linkend="AsLaunchable"><type>AsLaunchable</type></link>
+object stores.</para>
+<refsect3 id="as-launchable-set-kind.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>launch</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>kind</para></entry>
+<entry role="parameter_description"><para>the new <link linkend="AsLaunchableKind"><type>AsLaunchableKind</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-get-entries" role="function" condition="since:0.11.0">
+<title>as_launchable_get_entries&#160;()</title>
+<indexterm zone="as-launchable-get-entries" role="0.11.0"><primary>as_launchable_get_entries</primary></indexterm>
+<programlisting language="C"><link linkend="GPtrArray"><returnvalue>GPtrArray</returnvalue></link>&#160;*
+as_launchable_get_entries (<parameter><link linkend="AsLaunchable"><type>AsLaunchable</type></link> *launch</parameter>);</programlisting>
+<para>Get an array of launchable entries.</para>
+<refsect3 id="as-launchable-get-entries.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>launch</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-launchable-get-entries.returns" role="returns">
+<title>Returns</title>
+<para> An string list of launch entries. </para>
+<para><emphasis role="annotation">[<acronym>transfer none</acronym>][<acronym>element-type</acronym> utf8]</emphasis></para>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+<refsect2 id="as-launchable-add-entry" role="function" condition="since:0.11.0">
+<title>as_launchable_add_entry&#160;()</title>
+<indexterm zone="as-launchable-add-entry" role="0.11.0"><primary>as_launchable_add_entry</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_launchable_add_entry (<parameter><link linkend="AsLaunchable"><type>AsLaunchable</type></link> *launch</parameter>,
+                         <parameter>const <link linkend="gchar"><type>gchar</type></link> *entry</parameter>);</programlisting>
+<para>Add a new launchable entry.</para>
+<refsect3 id="as-launchable-add-entry.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>launch</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsLaunchable"><type>AsLaunchable</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
+
+</refsect1>
+<refsect1 id="AsLaunchable.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-LAUNCH:CAPS" role="macro">
+<title>AS_TYPE_LAUNCH</title>
+<indexterm zone="AS-TYPE-LAUNCH:CAPS"><primary>AS_TYPE_LAUNCH</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_LAUNCH (as_launchable_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsLaunchableClass" role="struct">
+<title>struct AsLaunchableClass</title>
+<indexterm zone="AsLaunchableClass"><primary>AsLaunchableClass</primary></indexterm>
+<programlisting language="C">struct AsLaunchableClass {
+	GObjectClass		parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsLaunchableKind" role="enum">
+<title>enum AsLaunchableKind</title>
+<indexterm zone="AsLaunchableKind"><primary>AsLaunchableKind</primary></indexterm>
+<para>Type of launch system the entries belong to.</para>
+<refsect3 id="AsLaunchableKind.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-LAUNCHABLE-KIND-UNKNOWN:CAPS">AS_LAUNCHABLE_KIND_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown kind</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS">AS_LAUNCHABLE_KIND_DESKTOP_ID</para></entry>
+<entry role="enum_member_description"><para>Launch by desktop-id</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsLaunchable-struct" role="struct">
+<title>AsLaunchable</title>
+<indexterm zone="AsLaunchable-struct"><primary>AsLaunchable</primary></indexterm>
+<programlisting language="C">typedef struct _AsLaunchable AsLaunchable;</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>
