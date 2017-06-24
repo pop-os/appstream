@@ -146,13 +146,3 @@ Description: Developer documentation for AppStream
  unknown file type or to make missing firmware available).
  .
  This package provides developer documentation for AppStream.
-
-Package: appstream-index
-Architecture: all
-Section: oldlibs
-Priority: extra
-Depends: appstream (>= ${source:Version}),
-         ${misc:Depends}
-Description: Transitional package (appstream-index -> appstream)
- Transitional dummy package replacing appstream-index with
- appstream.
