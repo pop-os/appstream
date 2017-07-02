@@ -56,7 +56,7 @@
 
 	<para>
 		The XML for a generic component definition starts with a <code>&lt;component&gt;</code> tag as the root element.
-		The <code>&lt;component&gt;</code> element must at least have an <literal>id</literal>, <literal>name</literal> and <literal>releases</literal> tag; and
+		The <code>&lt;component&gt;</code> element must at least have an <literal>id</literal>, <literal>name</literal> and <literal>summary</literal> tag; and
 		a <literal>provides</literal> tag with appropriate children is highly recommended.
 		All possible tags in the generic set are:
 	</para>
@@ -253,17 +253,55 @@
 		<term>&lt;launchable/&gt;</term>
 		<listitem>
 		<para>
-			This optional tag indicates a possible method to launch the software described in this component. At time, it only supports launching software by their desktop-id.
+		         This optional tag indicates possible methods to launch the software described in this component.
+                         It is allowed to appear multiple times in the metainfo data.
 		</para>
+
 		<para>
-			The <code>&lt;launchable/&gt;</code> tag has a essential <literal>type</literal> property indicating the system that is used to launch the application. At time, only
-			<code>desktop-id</code> is allowed as value, indicating that an application can be launched via a desktop file. The value of the tag is a
-			<ulink url="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id">desktop-file id</ulink> in that case.
-		</para>
-		<para>
-			The <code>&lt;launchable/&gt;</code> tag is allowed to appear multiple times in the metainfo data. In case a software component has multiple launchable entries,
-			the software center might display a dialog to choose which entry to launch. If possible though, it should be avoided to add multiple <literal>launchable</literal> tags.
-		</para>
+		  The <code>&lt;launchable/&gt;</code> tag has a essential <literal>type</literal> property indicating the system that is used to launch the component.  The following types are allowed:
+                </para>
+                <variablelist>
+                  <varlistentry>
+                    <term>desktop-id</term>
+                    <listitem>
+                      <para>
+                        The application can be launched via a desktop file. The value of the tag is a
+			<ulink url="https://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-latest.html#desktop-file-id">desktop-file id</ulink>.
+                      </para>
+                      <para>
+                        In case a software component has multiple launchable entries,
+			the software center might display a dialog to choose which entry to launch.
+                        If possible though, it should be avoided to add multiple <literal>launchable</literal> tags of type <literal>desktop-id</literal>.
+                      </para>
+                    </listitem>
+                  </varlistentry>
+                  <varlistentry>
+                    <term>service</term>
+                    <listitem>
+                      <para>
+                        The software can be started, stopped, and monitored by the OS "init"
+                        facility, such as systemd. The value of the tag is a name that can be
+                        used with that facility, such as a systemd unit name.
+                      </para>
+                      <para>
+                        Multiple <literal>launchable</literal> tags of type <literal>service</literal> are not
+                        alternatives to start the same service, but the
+                        component does contain multiple services that might all need to be
+                        started.
+                      </para>
+                      <para>
+                        Only those services should be listed as launchables that the user is
+                        actually expected to start and stop manually.  Services that are
+                        started/stopped indirectly via dependencies of other services should
+                        not be listed.
+                      </para>
+                      <para>
+                        For systemd units, the services listed as launchables are expected to
+                        support enabling and disabling.
+                      </para>
+                    </listitem>
+                  </varlistentry>
+                </variablelist>
 		<para>
 			Example:
 		</para>
@@ -424,6 +462,19 @@
 				<programlisting language="XML"><![CDATA[<provides>
   <dbus type="system">org.freedesktop.PackageKit</dbus>
 </provides>]]></programlisting>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry>
+				<term>&lt;id/&gt;</term>
+				<listitem>
+				<para>
+					Contains the component-ID of another software component. The presence of this tag indicates that the software component containing it is able to
+					provide all functionality of the one referenced in the <code>&lt;provides/&gt; ↪ &lt;id/&gt;</code> tag.
+				</para>
+				<para>
+					This is useful in case a component-id had to be renamed in the past, e.g. because its domain-name changed.
+				</para>
 				</listitem>
 			</varlistentry>
 
@@ -674,8 +725,8 @@
 			Example:
 		</para>
 		<programlisting language="XML"><![CDATA[<content_rating type="oars-1.0">
-  <content_attribute id=drugs-alcohol>moderate</content_attribute>
-  <content_attribute id=language-humor>mild</content_attribute>
+  <content_attribute id="drugs-alcohol">moderate</content_attribute>
+  <content_attribute id="language-humor">mild</content_attribute>
 </content_rating>]]></programlisting>
 		</listitem>
 		</varlistentry>

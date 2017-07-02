@@ -52,6 +52,7 @@ AsComponent
 @AS_COMPONENT_KIND_FIRMWARE: 
 @AS_COMPONENT_KIND_DRIVER: 
 @AS_COMPONENT_KIND_LOCALIZATION: 
+@AS_COMPONENT_KIND_SERVICE: 
 
 <!-- ##### FUNCTION as_component_kind_to_string ##### -->
 <para>
@@ -97,6 +98,15 @@ AsComponent
 @kind_str: 
 @Returns: 
 
+
+<!-- ##### ENUM AsComponentScope ##### -->
+<para>
+
+</para>
+
+@AS_COMPONENT_SCOPE_UNKNOWN: 
+@AS_COMPONENT_SCOPE_SYSTEM: 
+@AS_COMPONENT_SCOPE_USER: 
 
 <!-- ##### ENUM AsValueFlags ##### -->
 <para>

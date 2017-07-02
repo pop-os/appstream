@@ -1,0 +1,539 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="AsContext">
+<refmeta>
+<refentrytitle role="top_of_page" id="AsContext.top_of_page">AsContext</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>AsContext</refname>
+<refpurpose>Context of an AppStream metadata document</refpurpose>
+</refnamediv>
+
+<refsect1 id="AsContext.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="AsContext"><returnvalue>AsContext</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-new">as_context_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-get-format-version">as_context_get_format_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-format-version">as_context_set_format_version</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="AsFormatStyle"><returnvalue>AsFormatStyle</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-get-style">as_context_get_style</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-style">as_context_set_style</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-get-priority">as_context_get_priority</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-priority">as_context_set_priority</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-get-origin">as_context_get_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-origin">as_context_set_origin</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-get-locale">as_context_get_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-locale">as_context_set_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-has-media-baseurl">as_context_has_media_baseurl</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-get-media-baseurl">as_context_get_media_baseurl</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-media-baseurl">as_context_set_media_baseurl</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-get-architecture">as_context_get_architecture</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-architecture">as_context_set_architecture</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-get-all-locale-enabled">as_context_get_all_locale_enabled</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+</entry><entry role="function_name"><link linkend="as-context-get-fname">as_context_get_fname</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-context-set-fname">as_context_set_fname</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsContext.other" role="other_proto">
+<title role="other_proto.title">Types and Values</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="name" colwidth="150px"/>
+<colspec colname="description"/>
+<tbody>
+<row><entry role="define_keyword">#define</entry><entry role="function_name"><link linkend="AS-TYPE-CONTEXT:CAPS">AS_TYPE_CONTEXT</link></entry></row>
+<row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsContextClass">AsContextClass</link></entry></row>
+<row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsContext-struct">AsContext</link></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+<refsect1 id="AsContext.object-hierarchy" role="object_hierarchy">
+<title role="object_hierarchy.title">Object Hierarchy</title>
+<screen>    <link linkend="GObject">GObject</link>
+    <phrase role="lineart">&#9584;&#9472;&#9472;</phrase> AsContext
+</screen>
+</refsect1>
+
+<refsect1 id="AsContext.includes"><title>Includes</title><synopsis>#include &lt;appstream.h&gt;
+</synopsis></refsect1>
+
+<refsect1 id="AsContext.description" role="desc">
+<title role="desc.title">Description</title>
+<para>Contains information about the context of AppStream metadata, from the
+root node of the document.
+This is a private/internal class.</para>
+
+</refsect1>
+<refsect1 id="AsContext.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-context-new" role="function">
+<title>as_context_new&#160;()</title>
+<indexterm zone="as-context-new"><primary>as_context_new</primary></indexterm>
+<programlisting language="C"><link linkend="AsContext"><returnvalue>AsContext</returnvalue></link>&#160;*
+as_context_new (<parameter><type>void</type></parameter>);</programlisting>
+<para>Creates a new <link linkend="AsContext"><type>AsContext</type></link>.</para>
+<refsect3 id="as-context-new.returns" role="returns">
+<title>Returns</title>
+<para> an <link linkend="AsContext"><type>AsContext</type></link>. </para>
+<para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-format-version" role="function">
+<title>as_context_get_format_version&#160;()</title>
+<indexterm zone="as-context-get-format-version"><primary>as_context_get_format_version</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatVersion"><returnvalue>AsFormatVersion</returnvalue></link>
+as_context_get_format_version (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-format-version.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-format-version.returns" role="returns">
+<title>Returns</title>
+<para> The AppStream format version.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-format-version" role="function">
+<title>as_context_set_format_version&#160;()</title>
+<indexterm zone="as-context-set-format-version"><primary>as_context_set_format_version</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_format_version (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                               <parameter><link linkend="AsFormatVersion"><type>AsFormatVersion</type></link> ver</parameter>);</programlisting>
+<para>Sets the AppStream format version.</para>
+<refsect3 id="as-context-set-format-version.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>ver</para></entry>
+<entry role="parameter_description"><para>the new format version.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-style" role="function">
+<title>as_context_get_style&#160;()</title>
+<indexterm zone="as-context-get-style"><primary>as_context_get_style</primary></indexterm>
+<programlisting language="C"><link linkend="AsFormatStyle"><returnvalue>AsFormatStyle</returnvalue></link>
+as_context_get_style (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-style.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-style.returns" role="returns">
+<title>Returns</title>
+<para> The document style.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-style" role="function">
+<title>as_context_set_style&#160;()</title>
+<indexterm zone="as-context-set-style"><primary>as_context_set_style</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_style (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                      <parameter><link linkend="AsFormatStyle"><type>AsFormatStyle</type></link> style</parameter>);</programlisting>
+<para>Sets the AppStream document style.</para>
+<refsect3 id="as-context-set-style.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>style</para></entry>
+<entry role="parameter_description"><para>the new document style.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-priority" role="function">
+<title>as_context_get_priority&#160;()</title>
+<indexterm zone="as-context-get-priority"><primary>as_context_get_priority</primary></indexterm>
+<programlisting language="C"><link linkend="gint"><returnvalue>gint</returnvalue></link>
+as_context_get_priority (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-priority.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-priority.returns" role="returns">
+<title>Returns</title>
+<para> The data priority.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-priority" role="function">
+<title>as_context_set_priority&#160;()</title>
+<indexterm zone="as-context-set-priority"><primary>as_context_set_priority</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_priority (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                         <parameter><link linkend="gint"><type>gint</type></link> priority</parameter>);</programlisting>
+<para>Sets the data priority.</para>
+<refsect3 id="as-context-set-priority.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>priority</para></entry>
+<entry role="parameter_description"><para>the new priority.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-origin" role="function">
+<title>as_context_get_origin&#160;()</title>
+<indexterm zone="as-context-get-origin"><primary>as_context_get_origin</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_context_get_origin (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-origin.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-origin.returns" role="returns">
+<title>Returns</title>
+<para> The data origin.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-origin" role="function">
+<title>as_context_set_origin&#160;()</title>
+<indexterm zone="as-context-set-origin"><primary>as_context_set_origin</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_origin (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Sets the data origin.</para>
+<refsect3 id="as-context-set-origin.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the new value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-locale" role="function">
+<title>as_context_get_locale&#160;()</title>
+<indexterm zone="as-context-get-locale"><primary>as_context_get_locale</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_context_get_locale (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-locale.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-locale.returns" role="returns">
+<title>Returns</title>
+<para> The active locale.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-locale" role="function">
+<title>as_context_set_locale&#160;()</title>
+<indexterm zone="as-context-set-locale"><primary>as_context_set_locale</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_locale (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                       <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Sets the active locale.</para>
+<refsect3 id="as-context-set-locale.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the new value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-has-media-baseurl" role="function">
+<title>as_context_has_media_baseurl&#160;()</title>
+<indexterm zone="as-context-has-media-baseurl"><primary>as_context_has_media_baseurl</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_context_has_media_baseurl (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-has-media-baseurl.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-has-media-baseurl.returns" role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if a media base URL is set.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-media-baseurl" role="function">
+<title>as_context_get_media_baseurl&#160;()</title>
+<indexterm zone="as-context-get-media-baseurl"><primary>as_context_get_media_baseurl</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_context_get_media_baseurl (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-media-baseurl.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-media-baseurl.returns" role="returns">
+<title>Returns</title>
+<para> The media base URL.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-media-baseurl" role="function">
+<title>as_context_set_media_baseurl&#160;()</title>
+<indexterm zone="as-context-set-media-baseurl"><primary>as_context_set_media_baseurl</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_media_baseurl (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                              <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Sets the media base URL.</para>
+<refsect3 id="as-context-set-media-baseurl.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the new value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-architecture" role="function">
+<title>as_context_get_architecture&#160;()</title>
+<indexterm zone="as-context-get-architecture"><primary>as_context_get_architecture</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_context_get_architecture (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-architecture.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-architecture.returns" role="returns">
+<title>Returns</title>
+<para> The current architecture for the document.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-architecture" role="function">
+<title>as_context_set_architecture&#160;()</title>
+<indexterm zone="as-context-set-architecture"><primary>as_context_set_architecture</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_architecture (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                             <parameter>const <link linkend="gchar"><type>gchar</type></link> *value</parameter>);</programlisting>
+<para>Sets the current architecture for this document.</para>
+<refsect3 id="as-context-set-architecture.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>value</para></entry>
+<entry role="parameter_description"><para>the new value.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-all-locale-enabled" role="function">
+<title>as_context_get_all_locale_enabled&#160;()</title>
+<indexterm zone="as-context-get-all-locale-enabled"><primary>as_context_get_all_locale_enabled</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_context_get_all_locale_enabled (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-all-locale-enabled.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-all-locale-enabled.returns" role="returns">
+<title>Returns</title>
+<para> <link linkend="TRUE:CAPS"><literal>TRUE</literal></link> if all locale should be parsed.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-get-fname" role="function">
+<title>as_context_get_fname&#160;()</title>
+<indexterm zone="as-context-get-fname"><primary>as_context_get_fname</primary></indexterm>
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+as_context_get_fname (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>);</programlisting>
+<refsect3 id="as-context-get-fname.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3><refsect3 id="as-context-get-fname.returns" role="returns">
+<title>Returns</title>
+<para> The name of the file the data originates from.</para>
+</refsect3></refsect2>
+<refsect2 id="as-context-set-fname" role="function">
+<title>as_context_set_fname&#160;()</title>
+<indexterm zone="as-context-set-fname"><primary>as_context_set_fname</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_context_set_fname (<parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                      <parameter>const <link linkend="gchar"><type>gchar</type></link> *fname</parameter>);</programlisting>
+<para>Sets the file name we are loading data from.</para>
+<refsect3 id="as-context-set-fname.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContext"><type>AsContext</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>fname</para></entry>
+<entry role="parameter_description"><para>the new file name.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="AsContext.other_details" role="details">
+<title role="details.title">Types and Values</title>
+<refsect2 id="AS-TYPE-CONTEXT:CAPS" role="macro">
+<title>AS_TYPE_CONTEXT</title>
+<indexterm zone="AS-TYPE-CONTEXT:CAPS"><primary>AS_TYPE_CONTEXT</primary></indexterm>
+<programlisting language="C">#define AS_TYPE_CONTEXT (as_context_get_type ())
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsContextClass" role="struct">
+<title>struct AsContextClass</title>
+<indexterm zone="AsContextClass"><primary>AsContextClass</primary></indexterm>
+<programlisting language="C">struct AsContextClass {
+	GObjectClass parent_class;
+};
+</programlisting>
+<para>
+</para>
+</refsect2>
+<refsect2 id="AsContext-struct" role="struct">
+<title>AsContext</title>
+<indexterm zone="AsContext-struct"><primary>AsContext</primary></indexterm>
+<programlisting language="C">typedef struct _AsContext AsContext;</programlisting>
+<para>
+</para>
+</refsect2>
+
+</refsect1>
+
+</refentry>

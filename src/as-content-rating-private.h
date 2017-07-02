@@ -22,8 +22,9 @@
 #define __AS_CONTENT_RATING_PRIVATE_H
 
 #include <glib-object.h>
-#include "as-component.h"
-#include "as-settings-private.h"
+#include "as-content-rating.h"
+#include "as-xml.h"
+#include "as-yaml.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
@@ -34,6 +35,22 @@ typedef struct {
 } AsContentRatingKey;
 
 GPtrArray	*as_content_rating_get_value_array (AsContentRating *content_rating);
+
+gboolean	as_content_rating_load_from_xml (AsContentRating *content_rating,
+						 AsContext *ctx,
+						 xmlNode *node,
+						 GError **error);
+void		as_content_rating_to_xml_node (AsContentRating *content_rating,
+						AsContext *ctx,
+						xmlNode *root);
+
+gboolean	as_content_rating_load_from_yaml (AsContentRating *content_rating,
+						  AsContext *ctx,
+						  GNode *node,
+						  GError **error);
+void		as_content_rating_emit_yaml (AsContentRating *content_rating,
+						AsContext *ctx,
+						yaml_emitter_t *emitter);
 
 #pragma GCC visibility pop
 G_END_DECLS

@@ -32,6 +32,7 @@
 
 #include "config.h"
 #include "as-image.h"
+#include "as-image-private.h"
 
 typedef struct
 {
@@ -263,6 +264,211 @@ as_image_set_locale (AsImage *image, const gchar *locale)
 	AsImagePrivate *priv = GET_PRIVATE (image);
 	g_free (priv->locale);
 	priv->locale = g_strdup (locale);
+}
+
+/**
+ * as_image_load_from_xml:
+ * @image: a #AsImage instance.
+ * @ctx: the AppStream document context.
+ * @node: the XML node.
+ * @error: a #GError.
+ *
+ * Loads image data from an XML node.
+ **/
+gboolean
+as_image_load_from_xml (AsImage *image, AsContext *ctx, xmlNode *node, GError **error)
+{
+	AsImagePrivate *priv = GET_PRIVATE (image);
+	g_autofree gchar *content = NULL;
+	g_autofree gchar *stype = NULL;
+	g_autofree gchar *lang = NULL;
+	gchar *str;
+
+	content = as_xml_get_node_value (node);
+	if (content == NULL)
+		return FALSE;
+
+	lang = as_xmldata_get_node_locale (ctx, node);
+
+	/* check if this image is for us */
+	if (lang == NULL)
+		return FALSE;
+	as_image_set_locale (image, lang);
+
+	str = (gchar*) xmlGetProp (node, (xmlChar*) "width");
+	if (str == NULL) {
+		priv->width = 0;
+	} else {
+		priv->width = g_ascii_strtoll (str, NULL, 10);
+		g_free (str);
+	}
+
+	str = (gchar*) xmlGetProp (node, (xmlChar*) "height");
+	if (str == NULL) {
+		priv->height = 0;
+	} else {
+		priv->height = g_ascii_strtoll (str, NULL, 10);
+		g_free (str);
+	}
+
+	stype = (gchar*) xmlGetProp (node, (xmlChar*) "type");
+	if (g_strcmp0 (stype, "thumbnail") == 0)
+		priv->kind = AS_IMAGE_KIND_THUMBNAIL;
+	else
+		priv->kind = AS_IMAGE_KIND_SOURCE;
+
+	/* discard invalid elements */
+	if (as_context_get_style (ctx) == AS_FORMAT_STYLE_COLLECTION) {
+		/* no sizes are okay for upstream XML, but not for distro XML */
+		if ((priv->width == 0) || (priv->height == 0)) {
+			if (priv->kind != AS_IMAGE_KIND_SOURCE) {
+				/* thumbnails w/o size information must never happen */
+				g_set_error_literal (error,
+						     AS_METADATA_ERROR,
+						     AS_METADATA_ERROR_VALUE_MISSING,
+						     "Ignored screenshot thumbnail image without size information.");
+				return FALSE;
+			}
+		}
+	}
+
+	if (!as_context_has_media_baseurl (ctx)) {
+		/* no baseurl, we can just set the value as URL */
+		as_image_set_url (image, content);
+	} else {
+		/* handle the media baseurl */
+		g_free (priv->url);
+		priv->url = g_build_filename (as_context_get_media_baseurl (ctx), content, NULL);
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_image_to_xml_node:
+ * @image: a #AsImage instance.
+ * @ctx: the AppStream document context.
+ * @root: XML node to attach the new nodes to.
+ *
+ * Serializes the data to an XML node.
+ **/
+void
+as_image_to_xml_node (AsImage *image, AsContext *ctx, xmlNode *root)
+{
+	AsImagePrivate *priv = GET_PRIVATE (image);
+	xmlNode* n_image = NULL;
+
+	n_image = xmlNewTextChild (root, NULL,
+				   (xmlChar*) "image",
+				   (xmlChar*) priv->url);
+
+	if (priv->kind == AS_IMAGE_KIND_THUMBNAIL)
+		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "thumbnail");
+	else
+		xmlNewProp (n_image, (xmlChar*) "type", (xmlChar*) "source");
+
+	if ((priv->width > 0) && (priv->height > 0)) {
+		gchar *size;
+
+		size = g_strdup_printf("%i", priv->width);
+		xmlNewProp (n_image, (xmlChar*) "width", (xmlChar*) size);
+		g_free (size);
+
+		size = g_strdup_printf("%i", priv->height);
+		xmlNewProp (n_image, (xmlChar*) "height", (xmlChar*) size);
+		g_free (size);
+	}
+
+	if ((priv->locale != NULL) && (g_strcmp0 (priv->locale, "C") != 0)) {
+		xmlNewProp (n_image, (xmlChar*) "xml:lang", (xmlChar*) priv->locale);
+	}
+
+	xmlAddChild (root, n_image);
+}
+
+/**
+ * as_image_load_from_yaml:
+ * @image: a #AsImage instance.
+ * @ctx: the AppStream document context.
+ * @node: the YAML node.
+ * @error: a #GError.
+ *
+ * Loads data from a YAML field.
+ **/
+gboolean
+as_image_load_from_yaml (AsImage *image, AsContext *ctx, GNode *node, AsImageKind kind, GError **error)
+{
+	AsImagePrivate *priv = GET_PRIVATE (image);
+	GNode *n;
+
+	priv->kind = kind;
+	for (n = node->children; n != NULL; n = n->next) {
+		const gchar *key = as_yaml_node_get_key (n);
+		const gchar *value = as_yaml_node_get_value (n);
+
+		if (value == NULL)
+			continue; /* there should be no key without value */
+
+		if (g_strcmp0 (key, "width") == 0) {
+			priv->width = g_ascii_strtoll (value, NULL, 10);
+		} else if (g_strcmp0 (key, "height") == 0) {
+			priv->height = g_ascii_strtoll (value, NULL, 10);
+		} else if (g_strcmp0 (key, "url") == 0) {
+			if (as_context_has_media_baseurl (ctx)) {
+				/* handle the media baseurl */
+				g_free (priv->url);
+				priv->url = g_build_filename (as_context_get_media_baseurl (ctx), value, NULL);
+			} else {
+				/* no baseurl, we can just set the value as URL */
+				as_image_set_url (image, value);
+			}
+		} else if (g_strcmp0 (key, "lang") == 0) {
+			as_image_set_locale (image, value);
+		} else {
+			as_yaml_print_unknown ("image", key);
+		}
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_image_emit_yaml:
+ * @image: a #AsImage instance.
+ * @ctx: the AppStream document context.
+ * @emitter: The YAML emitter to emit data on.
+ *
+ * Emit YAML data for this object.
+ **/
+void
+as_image_emit_yaml (AsImage *image, AsContext *ctx, yaml_emitter_t *emitter)
+{
+	AsImagePrivate *priv = GET_PRIVATE (image);
+	g_autofree gchar *url = NULL;
+
+	as_yaml_mapping_start (emitter);
+	if (as_context_has_media_baseurl (ctx)) {
+		if (g_str_has_prefix (priv->url, as_context_get_media_baseurl (ctx)))
+			url = g_strdup (priv->url + strlen (as_context_get_media_baseurl (ctx)));
+		else
+			url = g_strdup (priv->url);
+	} else {
+		url = g_strdup (priv->url);
+	}
+	g_strstrip (url);
+
+	as_yaml_emit_entry (emitter, "url", url);
+	if ((priv->width > 0) && (priv->height > 0)) {
+		as_yaml_emit_entry_uint (emitter,
+					 "width",
+					 priv->width);
+
+		as_yaml_emit_entry_uint (emitter,
+					 "height",
+					 priv->height);
+	}
+	as_yaml_emit_entry (emitter, "lang", priv->locale);
+	as_yaml_mapping_end (emitter);
 }
 
 /**

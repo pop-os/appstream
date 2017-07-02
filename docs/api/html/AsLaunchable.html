@@ -28,7 +28,7 @@
 <div class="refnamediv"><table width="100%"><tr>
 <td valign="top">
 <h2><span class="refentrytitle"><a name="AsLaunchable.top_of_page"></a>AsLaunchable</span></h2>
-<p>AsLaunchable</p>
+<p>AsLaunchable — Description of launchable entries for a software component</p>
 </td>
 <td class="gallery_image" valign="top" align="right"></td>
 </tr></table></div>
@@ -108,7 +108,7 @@
 <tbody>
 <tr>
 <td class="define_keyword">#define</td>
-<td class="function_name"><a class="link" href="AsLaunchable.html#AS-TYPE-LAUNCH:CAPS" title="AS_TYPE_LAUNCH">AS_TYPE_LAUNCH</a></td>
+<td class="function_name"><a class="link" href="AsLaunchable.html#AS-TYPE-LAUNCHABLE:CAPS" title="AS_TYPE_LAUNCHABLE">AS_TYPE_LAUNCHABLE</a></td>
 </tr>
 <tr>
 <td class="datatype_keyword">struct</td>
@@ -132,9 +132,15 @@
 </pre>
 </div>
 <div class="refsect1">
+<a name="AsLaunchable.includes"></a><h2>Includes</h2>
+<pre class="synopsis">#include &lt;appstream.h&gt;
+</pre>
+</div>
+<div class="refsect1">
 <a name="AsLaunchable.description"></a><h2>Description</h2>
-<p>
-</p>
+<p>Components can provide multiple launch-entries to launch the software they belong to.
+This class describes them.</p>
+<p>See also: <a class="link" href="AsComponent.html" title="AsComponent"><span class="type">AsComponent</span></a></p>
 </div>
 <div class="refsect1">
 <a name="AsLaunchable.functions_details"></a><h2>Functions</h2>
@@ -321,8 +327,8 @@ as_launchable_add_entry (<em class="parameter"><code><a class="link" href="AsLau
 <div class="refsect1">
 <a name="AsLaunchable.other_details"></a><h2>Types and Values</h2>
 <div class="refsect2">
-<a name="AS-TYPE-LAUNCH:CAPS"></a><h3>AS_TYPE_LAUNCH</h3>
-<pre class="programlisting">#define AS_TYPE_LAUNCH (as_launchable_get_type ())
+<a name="AS-TYPE-LAUNCHABLE:CAPS"></a><h3>AS_TYPE_LAUNCHABLE</h3>
+<pre class="programlisting">#define AS_TYPE_LAUNCHABLE (as_launchable_get_type ())
 </pre>
 <p>
 </p>
@@ -361,6 +367,13 @@ as_launchable_add_entry (<em class="parameter"><code><a class="link" href="AsLau
 <td class="enum_member_name"><p><a name="AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS"></a>AS_LAUNCHABLE_KIND_DESKTOP_ID</p></td>
 <td class="enum_member_description">
 <p>Launch by desktop-id</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="AS-LAUNCHABLE-KIND-SERVICE:CAPS"></a>AS_LAUNCHABLE_KIND_SERVICE</p></td>
+<td class="enum_member_description">
+<p>A systemd/SysV-init service name</p>
 </td>
 <td class="enum_member_annotations"> </td>
 </tr>

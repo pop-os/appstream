@@ -243,6 +243,7 @@
 <row><entry role="datatype_keyword">struct</entry><entry role="function_name"><link linkend="AsComponentClass">AsComponentClass</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsComponentKind">AsComponentKind</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsMergeKind">AsMergeKind</link></entry></row>
+<row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsComponentScope">AsComponentScope</link></entry></row>
 <row><entry role="datatype_keyword">enum</entry><entry role="function_name"><link linkend="AsValueFlags">AsValueFlags</link></entry></row>
 <row><entry role="datatype_keyword"></entry><entry role="function_name"><link linkend="AsComponent-struct">AsComponent</link></entry></row>
 
@@ -2510,6 +2511,10 @@ information.</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-KIND-SERVICE:CAPS">AS_COMPONENT_KIND_SERVICE</para></entry>
+<entry role="enum_member_description"></entry>
+<entry role="enum_member_annotations"></entry>
+</row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>
 <refsect2 id="AsMergeKind" role="enum">
@@ -2537,6 +2542,35 @@ set for merge.</para>
 </row>
 <row role="constant"><entry role="enum_member_name"><para id="AS-MERGE-KIND-APPEND:CAPS">AS_MERGE_KIND_APPEND</para></entry>
 <entry role="enum_member_description"><para>Merge appending data to target.</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="AsComponentScope" role="enum">
+<title>enum AsComponentScope</title>
+<indexterm zone="AsComponentScope"><primary>AsComponentScope</primary></indexterm>
+<para>Scope of the <link linkend="AsComponent"><type>AsComponent</type></link> (system-wide or user-scope)</para>
+<refsect3 id="AsComponentScope.members" role="enum_members">
+<title>Members</title>
+<informaltable role="enum_members_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="enum_members_name" colwidth="300px"/>
+<colspec colname="enum_members_description"/>
+<colspec colname="enum_members_annotations" colwidth="200px"/>
+<tbody>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-SCOPE-UNKNOWN:CAPS">AS_COMPONENT_SCOPE_UNKNOWN</para></entry>
+<entry role="enum_member_description"><para>Unknown scope</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-SCOPE-SYSTEM:CAPS">AS_COMPONENT_SCOPE_SYSTEM</para></entry>
+<entry role="enum_member_description"><para>System scope</para>
+</entry>
+<entry role="enum_member_annotations"></entry>
+</row>
+<row role="constant"><entry role="enum_member_name"><para id="AS-COMPONENT-SCOPE-USER:CAPS">AS_COMPONENT_SCOPE_USER</para></entry>
+<entry role="enum_member_description"><para>User scope</para>
 </entry>
 <entry role="enum_member_annotations"></entry>
 </row>

@@ -1,7 +1,7 @@
-62% symbol docs coverage.
-526 symbols documented.
-52 symbols incomplete.
-316 not documented.
+65% symbol docs coverage.
+561 symbols documented.
+74 symbols incomplete.
+300 not documented.
 
 
 AS_CURRENT_FORMAT_VERSION
@@ -12,10 +12,11 @@ AS_TYPE_CATEGORY
 AS_TYPE_CHECKSUM
 AS_TYPE_COMPONENT
 AS_TYPE_CONTENT
+AS_TYPE_CONTEXT
 AS_TYPE_DISTRO_DETAILS
 AS_TYPE_ICON
 AS_TYPE_IMAGE
-AS_TYPE_LAUNCH
+AS_TYPE_LAUNCHABLE
 AS_TYPE_METADATA
 AS_TYPE_POOL
 AS_TYPE_PROVIDED
@@ -26,8 +27,6 @@ AS_TYPE_SUGGESTED
 AS_TYPE_TRANSLATION
 AS_TYPE_VALIDATOR
 AS_TYPE_VALIDATOR_ISSUE
-AS_TYPE_XMLDATA
-AS_TYPE_YAMLDATA
 AsBundle
 AsBundleClass
 AsCategory
@@ -36,9 +35,12 @@ AsChecksum
 AsChecksumClass
 AsComponent
 AsComponentClass
+AsComponentKind (AS_COMPONENT_KIND_SERVICE)
 AsContentRating
 AsContentRatingClass
 AsContentRatingKey (<items>)
+AsContext
+AsContextClass
 AsDistroDetails
 AsDistroDetailsClass
 AsFormatStyle (AS_FORMAT_STYLE_UNKNOWN)
@@ -68,10 +70,8 @@ AsValidator
 AsValidatorClass
 AsValidatorIssue
 AsValidatorIssueClass
-AsXMLData
-AsXMLDataClass
-AsYAMLData
-AsYAMLDataClass
+as_bundle_load_from_xml (Returns)
+as_bundle_load_from_yaml (Returns)
 as_cache_file_read
 as_cache_read_content_ratings
 as_cache_read_launchables
@@ -91,6 +91,8 @@ as_category_set_icon (value)
 as_category_set_id (id)
 as_category_set_name (value)
 as_category_set_property
+as_checksum_load_from_xml (Returns)
+as_checksum_load_from_yaml (Returns)
 as_component_add_token
 as_component_add_token_helper
 as_component_add_tokens
@@ -116,6 +118,7 @@ as_component_has_install_candidate
 as_component_init
 as_component_is_ignored
 as_component_is_member_of_category (Returns)
+as_component_load_provides_from_xml
 as_component_set_architecture
 as_component_set_ignored
 as_component_set_kind_from_node
@@ -123,7 +126,35 @@ as_component_set_origin
 as_component_set_property
 as_component_set_source_pkgname
 as_component_set_value_flags
+as_component_xml_keywords_to_node
+as_component_xml_parse_custom_node
+as_component_xml_parse_languages_node
+as_component_xml_serialize_custom
+as_component_xml_serialize_languages
+as_component_xml_serialize_provides
+as_component_yaml_emit_custom
+as_component_yaml_emit_icons
+as_component_yaml_emit_languages
+as_component_yaml_emit_provides
+as_component_yaml_parse_custom
+as_component_yaml_parse_icon
+as_component_yaml_parse_icons
+as_component_yaml_parse_languages
+as_component_yaml_parse_provides
+as_component_yaml_parse_urls
 as_content_rating_get_value_array (Returns)
+as_content_rating_load_from_xml (Returns)
+as_content_rating_load_from_yaml (Returns)
+as_context_get_all_locale_enabled
+as_context_get_architecture
+as_context_get_fname
+as_context_get_format_version
+as_context_get_locale
+as_context_get_media_baseurl
+as_context_get_origin
+as_context_get_priority
+as_context_get_style
+as_context_has_media_baseurl
 as_copy_l10n_hashtable_hfunc
 as_desktop_entry_parse_data
 as_desktop_entry_parse_file (file, fversion, error, Returns)
@@ -154,13 +185,18 @@ as_icon_get_name
 as_icon_get_scale
 as_icon_get_width
 as_icon_init
+as_icon_load_from_xml (Returns)
 as_image_class_init
 as_image_finalize
 as_image_init
+as_image_load_from_xml (Returns)
+as_image_load_from_yaml (kind, Returns)
 as_launchable_add_entry (entry)
 as_launchable_class_init
+as_launchable_emit_yaml (launch)
 as_launchable_finalize
 as_launchable_init
+as_launchable_load_from_yaml (launch, Returns)
 as_license_is_metadata_license (Returns)
 as_markup_convert_simple
 as_metadata_add_component (metad, cpt)
@@ -176,12 +212,13 @@ as_metadata_get_origin
 as_metadata_get_update_existing
 as_metadata_get_write_header
 as_metadata_init
-as_metadata_init_xml
-as_metadata_init_yaml
-as_metadata_reload_parsers
+as_metadata_new_context
 as_metadata_save_collection
 as_metadata_save_data
 as_metadata_save_metainfo (metad, error)
+as_metadata_xml_parse_components_node
+as_metadata_xml_serialize_to_collection_with_rootnode
+as_metadata_xml_serialize_to_collection_without_rootnode
 as_pool_appstream_data_changed
 as_pool_check_file_newer_than_cache
 as_pool_class_init
@@ -211,6 +248,8 @@ as_release_get_checksums (release)
 as_release_get_description_table (release, Returns)
 as_release_get_locations (release)
 as_release_init
+as_release_load_from_xml (Returns)
+as_release_load_from_yaml (Returns)
 as_release_set_active_locale (release, locale)
 as_release_set_description (locale)
 as_screenshot_class_init
@@ -218,6 +257,8 @@ as_screenshot_finalize
 as_screenshot_get_active_locale (screenshot, Returns)
 as_screenshot_get_caption_table (screenshot, Returns)
 as_screenshot_init
+as_screenshot_load_from_xml (Returns)
+as_screenshot_load_from_yaml (Returns)
 as_screenshot_set_active_locale (screenshot, locale)
 as_screenshot_set_caption (locale)
 as_stemmer_class_init
@@ -228,10 +269,13 @@ as_strequal_casefold
 as_suggested_class_init
 as_suggested_finalize
 as_suggested_init
+as_suggested_load_from_xml (Returns)
+as_suggested_load_from_yaml (Returns)
 as_translation_class_init
 as_translation_finalize
 as_translation_get_id (Returns)
 as_translation_init
+as_translation_load_from_xml (Returns)
 as_utils_compare_versions (a, b)
 as_utils_find_files
 as_utils_find_files_matching
@@ -258,111 +302,68 @@ as_validator_validate_project_license
 as_validator_validate_tree (Returns)
 as_validator_validate_update_contact
 as_xml_add_children_values_to_array
-as_xml_desc_lang_hashtable_to_nodes_cb
+as_xml_add_description_node (ctx, root, desc_table)
+as_xml_add_localized_text_node (root, node_name, value_table)
+as_xml_add_node_list (root, name, child_name, array)
+as_xml_add_node_list_strv (root, name, child_name, strv, Returns)
+as_xml_add_text_node (root, name, value, Returns)
 as_xml_dump_node_children
+as_xml_get_children_as_string_list
 as_xml_get_children_as_strv
 as_xml_get_node_value
 as_xml_icon_set_size_from_node
-as_xml_keywords_table_to_nodes_cb
-as_xml_lang_hashtable_to_nodes_cb
-as_xml_parse_content_rating_tag
-as_xml_parse_custom_tag
-as_xml_parse_launchable_tag
-as_xml_parse_provides_tag
-as_xml_parse_suggests_tag
-as_xml_serialize_content_rating
-as_xml_serialize_custom
-as_xml_serialize_image
-as_xml_serialize_languages
-as_xml_serialize_launchable
-as_xml_serialize_provides
-as_xmldata_class_init
-as_xmldata_clear_error
-as_xmldata_finalize
-as_xmldata_get_format_style
+as_xml_node_to_str (root)
+as_xml_parse_document
+as_xml_parse_metainfo_description_node
+as_xml_set_out_of_context_error
 as_xmldata_get_node_locale
-as_xmldata_init
-as_xmldata_initialize (format_version, locale, origin, media_baseurl, arch, priority)
-as_xmldata_new
-as_xmldata_parse_component_node
-as_xmldata_parse_components_node
 as_xmldata_parse_document
-as_xmldata_process_languages_tag
-as_xmldata_process_metainfo_description_tag
-as_xmldata_process_releases_tag
-as_xmldata_process_screenshot
-as_xmldata_process_screenshots_tag
-as_xmldata_serialize_suggests
-as_xmldata_serialize_to_collection (cpts, write_header)
-as_xmldata_serialize_to_collection_with_rootnode
-as_xmldata_serialize_to_collection_without_rootnode
-as_xmldata_set_check_valid (xdt)
-as_xmldata_set_format_style
-as_xmldata_update_cpt_with_metainfo_data (Returns)
-as_yaml_data_emit_content_rating
-as_yaml_data_emit_custom
-as_yaml_data_emit_screenshots
-as_yaml_data_emit_suggests
-as_yaml_emit_bundles
 as_yaml_emit_entry
 as_yaml_emit_entry_timestamp
 as_yaml_emit_entry_uint
-as_yaml_emit_icons
 as_yaml_emit_lang_hashtable_entries
 as_yaml_emit_lang_hashtable_entries_long
-as_yaml_emit_languages
-as_yaml_emit_launchable
 as_yaml_emit_localized_entry
 as_yaml_emit_localized_entry_with_func
 as_yaml_emit_localized_strv
 as_yaml_emit_long_entry
 as_yaml_emit_long_localized_entry
-as_yaml_emit_provides
-as_yaml_emit_releases
 as_yaml_emit_scalar
 as_yaml_emit_scalar_key
 as_yaml_emit_scalar_uint
 as_yaml_emit_sequence
 as_yaml_emit_sequence_from_str_array
 as_yaml_free_node
+as_yaml_get_localized_node
+as_yaml_get_localized_value (ctx, node, locale_override, Returns)
 as_yaml_list_to_str_array
 as_yaml_localized_list_helper
 as_yaml_mapping_end
 as_yaml_mapping_start
-as_yaml_parse_content_rating
-as_yaml_parse_custom
-as_yaml_parse_languages
-as_yaml_parse_launchable
-as_yaml_parse_provides
-as_yaml_parse_suggests
-as_yaml_parse_urls
+as_yaml_node_get_key (n, Returns)
+as_yaml_node_get_value (n, Returns)
+as_yaml_parse_layer (parser, data, error)
 as_yaml_print_unknown
 as_yaml_sequence_end
 as_yaml_sequence_start
-as_yaml_serialize_component
-as_yamldata_class_init
-as_yamldata_finalize
-as_yamldata_get_localized_node
-as_yamldata_init
-as_yamldata_initialize (format_version, locale, origin, media_baseurl, arch, priority)
-as_yamldata_new
-as_yamldata_parse_collection_data (error)
-as_yamldata_process_component_node
-as_yamldata_process_icon
-as_yamldata_process_icons
-as_yamldata_process_image
-as_yamldata_process_screenshots
 as_yamldata_serialize_to_collection
-as_yamldata_set_check_valid (ydt)
 
+as-bundle-private:Long_Description
+as-bundle-private:Short_Description
 as-cache-file:Long_Description
+as-checksum-private:Long_Description
+as-checksum-private:Short_Description
 as-content-rating-private:Long_Description
 as-content-rating-private:Short_Description
 as-desktop-entry:Long_Description
 as-enums:Long_Description
+as-icon-private:Long_Description
+as-icon-private:Short_Description
 as-icon:Long_Description
-as-launchable:Long_Description
-as-launchable:Short_Description
+as-image-private:Long_Description
+as-image-private:Short_Description
+as-launchable-private:Long_Description
+as-launchable-private:Short_Description
 as-pool-private:Long_Description
 as-pool-private:Short_Description
 as-release-private:Long_Description
@@ -371,4 +372,9 @@ as-screenshot-private:Long_Description
 as-screenshot-private:Short_Description
 as-spdx:Long_Description
 as-stemmer:Long_Description
-as-yamldata:Short_Description
+as-suggested-private:Long_Description
+as-suggested-private:Short_Description
+as-translation-private:Long_Description
+as-translation-private:Short_Description
+as-xml:Long_Description
+as-yaml:Long_Description

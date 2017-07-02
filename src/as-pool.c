@@ -58,7 +58,6 @@
 #include "as-stemmer.h"
 
 #include "as-metadata.h"
-#include "as-yamldata.h"
 
 typedef struct
 {
@@ -299,17 +298,20 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 	}
 
 	if (existing_cpt == NULL) {
-		/* add additional data to the component, e.g. external screenshots. Also refines
-		* the component's icon paths */
-		as_component_complete (cpt,
-					priv->screenshot_service_url,
-					priv->icon_dirs);
-
 		g_hash_table_insert (priv->cpt_table,
 					g_strdup (cdid),
 					g_object_ref (cpt));
 		g_hash_table_add (priv->known_cids,
 				  g_strdup (as_component_get_id (cpt)));
+		return TRUE;
+	}
+
+	/* safety check so we don't ignore a good component because we added a bad one first */
+	if (!as_component_is_valid (existing_cpt)) {
+		g_debug ("Replacing invalid component '%s' with new one.", cdid);
+		g_hash_table_replace (priv->cpt_table,
+				      g_strdup (cdid),
+				      g_object_ref (cpt));
 		return TRUE;
 	}
 
@@ -534,6 +536,12 @@ as_pool_refine_data (AsPool *pool)
 			continue;
 		}
 
+		/* add additional data to the component, e.g. external screenshots. Also refines
+		* the component's icon paths */
+		as_component_complete (cpt,
+					priv->screenshot_service_url,
+					priv->icon_dirs);
+
 		/* set the "addons" information */
 		as_pool_update_addon_info (pool, cpt);
 
@@ -626,7 +634,7 @@ as_pool_metadata_changed (AsPool *pool)
  * Load fresh metadata from AppStream collection data directories.
  */
 static gboolean
-as_pool_load_collection_data (AsPool *pool, GError **error)
+as_pool_load_collection_data (AsPool *pool, gboolean refresh, GError **error)
 {
 	GPtrArray *cpts;
 	g_autoptr(GPtrArray) merge_cpts = NULL;
@@ -638,21 +646,23 @@ as_pool_load_collection_data (AsPool *pool, GError **error)
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 
 	/* see if we can use the caches */
-	if (!as_pool_metadata_changed (pool)) {
-		g_autofree gchar *fname = NULL;
-		g_debug ("Caches are up to date.");
+	if (!refresh) {
+		if (!as_pool_metadata_changed (pool)) {
+			g_autofree gchar *fname = NULL;
+			g_debug ("Caches are up to date.");
 
-		if (as_flags_contains (priv->cache_flags, AS_CACHE_FLAG_USE_SYSTEM)) {
-			g_debug ("Using cached data.");
+			if (as_flags_contains (priv->cache_flags, AS_CACHE_FLAG_USE_SYSTEM)) {
+				g_debug ("Using cached data.");
 
-			fname = g_strdup_printf ("%s/%s.gvz", priv->sys_cache_path, priv->locale);
-			if (g_file_test (fname, G_FILE_TEST_EXISTS)) {
-				return as_pool_load_cache_file (pool, fname, error);
+				fname = g_strdup_printf ("%s/%s.gvz", priv->sys_cache_path, priv->locale);
+				if (g_file_test (fname, G_FILE_TEST_EXISTS)) {
+					return as_pool_load_cache_file (pool, fname, error);
+				} else {
+					g_debug ("Missing cache for language '%s', attempting to load fresh data.", priv->locale);
+				}
 			} else {
-				g_debug ("Missing cache for language '%s', attempting to load fresh data.", priv->locale);
+				g_debug ("Not using system cache.");
 			}
-		} else {
-			g_debug ("Not using system cache.");
 		}
 	}
 
@@ -991,7 +1001,7 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 
 	/* read all AppStream metadata that we can find */
 	if (as_flags_contains (priv->flags, AS_POOL_FLAG_READ_COLLECTION))
-		ret = as_pool_load_collection_data (pool, error);
+		ret = as_pool_load_collection_data (pool, FALSE, error);
 
 	/* read all metainfo files that we can find */
 	if (as_flags_contains (priv->flags, AS_POOL_FLAG_READ_METAINFO))
@@ -1454,7 +1464,7 @@ as_pool_refresh_cache (AsPool *pool, gboolean force, GError **error)
 	/* NOTE: we will only cache AppStream metadata, no .desktop file metadata etc. */
 
 	/* load AppStream collection metadata only and refine it */
-	ret = as_pool_load_collection_data (pool, &data_load_error);
+	ret = as_pool_load_collection_data (pool, TRUE, &data_load_error);
 	ret_poolupdate = as_pool_refine_data (pool) && ret;
 	if (data_load_error != NULL)
 		g_debug ("Error while updating the in-memory data pool: %s", data_load_error->message);

@@ -126,6 +126,7 @@
     <keyword type="struct" name="struct AsComponentClass" link="AsComponent.html#AsComponentClass"/>
     <keyword type="enum" name="enum AsComponentKind" link="AsComponent.html#AsComponentKind"/>
     <keyword type="enum" name="enum AsMergeKind" link="AsComponent.html#AsMergeKind"/>
+    <keyword type="enum" name="enum AsComponentScope" link="AsComponent.html#AsComponentScope"/>
     <keyword type="enum" name="enum AsValueFlags" link="AsComponent.html#AsValueFlags"/>
     <keyword type="struct" name="AsComponent" link="AsComponent.html#AsComponent-struct"/>
     <keyword type="property" name="The “categories” property" link="AsComponent.html#AsComponent--categories"/>
@@ -204,7 +205,7 @@
     <keyword type="function" name="as_launchable_set_kind ()" link="AsLaunchable.html#as-launchable-set-kind" since="0.11.0"/>
     <keyword type="function" name="as_launchable_get_entries ()" link="AsLaunchable.html#as-launchable-get-entries" since="0.11.0"/>
     <keyword type="function" name="as_launchable_add_entry ()" link="AsLaunchable.html#as-launchable-add-entry" since="0.11.0"/>
-    <keyword type="macro" name="AS_TYPE_LAUNCH" link="AsLaunchable.html#AS-TYPE-LAUNCH:CAPS"/>
+    <keyword type="macro" name="AS_TYPE_LAUNCHABLE" link="AsLaunchable.html#AS-TYPE-LAUNCHABLE:CAPS"/>
     <keyword type="struct" name="struct AsLaunchableClass" link="AsLaunchable.html#AsLaunchableClass"/>
     <keyword type="enum" name="enum AsLaunchableKind" link="AsLaunchable.html#AsLaunchableKind"/>
     <keyword type="struct" name="AsLaunchable" link="AsLaunchable.html#AsLaunchable-struct"/>
@@ -303,7 +304,7 @@
     <keyword type="struct" name="AsImage" link="AsImage.html#AsImage-struct"/>
     <keyword type="function" name="as_content_rating_value_to_string ()" link="AsContentRating.html#as-content-rating-value-to-string" since="0.11.0"/>
     <keyword type="function" name="as_content_rating_value_from_string ()" link="AsContentRating.html#as-content-rating-value-from-string" since="0.11.0"/>
-    <keyword type="function" name="as_content_rating_new ()" link="AsContentRating.html#as-content-rating-new" since="0.5.12"/>
+    <keyword type="function" name="as_content_rating_new ()" link="AsContentRating.html#as-content-rating-new" since="0.11.0"/>
     <keyword type="function" name="as_content_rating_get_kind ()" link="AsContentRating.html#as-content-rating-get-kind" since="0.11.0"/>
     <keyword type="function" name="as_content_rating_set_kind ()" link="AsContentRating.html#as-content-rating-set-kind" since="0.11.0"/>
     <keyword type="function" name="as_content_rating_get_minimum_age ()" link="AsContentRating.html#as-content-rating-get-minimum-age" since="0.11.0"/>
@@ -489,9 +490,13 @@
     <keyword type="constant" name="AS_COMPONENT_KIND_FIRMWARE" link="AsComponent.html#AS-COMPONENT-KIND-FIRMWARE:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_DRIVER" link="AsComponent.html#AS-COMPONENT-KIND-DRIVER:CAPS"/>
     <keyword type="constant" name="AS_COMPONENT_KIND_LOCALIZATION" link="AsComponent.html#AS-COMPONENT-KIND-LOCALIZATION:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_KIND_SERVICE" link="AsComponent.html#AS-COMPONENT-KIND-SERVICE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_NONE" link="AsComponent.html#AS-MERGE-KIND-NONE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_REPLACE" link="AsComponent.html#AS-MERGE-KIND-REPLACE:CAPS"/>
     <keyword type="constant" name="AS_MERGE_KIND_APPEND" link="AsComponent.html#AS-MERGE-KIND-APPEND:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_SCOPE_UNKNOWN" link="AsComponent.html#AS-COMPONENT-SCOPE-UNKNOWN:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_SCOPE_SYSTEM" link="AsComponent.html#AS-COMPONENT-SCOPE-SYSTEM:CAPS"/>
+    <keyword type="constant" name="AS_COMPONENT_SCOPE_USER" link="AsComponent.html#AS-COMPONENT-SCOPE-USER:CAPS"/>
     <keyword type="constant" name="AS_VALUE_FLAG_NONE" link="AsComponent.html#AS-VALUE-FLAG-NONE:CAPS"/>
     <keyword type="constant" name="AS_VALUE_FLAG_DUPLICATE_CHECK" link="AsComponent.html#AS-VALUE-FLAG-DUPLICATE-CHECK:CAPS"/>
     <keyword type="constant" name="AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK" link="AsComponent.html#AS-VALUE-FLAG-NO-TRANSLATION-FALLBACK:CAPS"/>
@@ -524,6 +529,7 @@
     <keyword type="constant" name="AS_PROVIDED_KIND_DBUS_USER" link="AsProvided.html#AS-PROVIDED-KIND-DBUS-USER:CAPS"/>
     <keyword type="constant" name="AS_PROVIDED_KIND_FIRMWARE_RUNTIME" link="AsProvided.html#AS-PROVIDED-KIND-FIRMWARE-RUNTIME:CAPS"/>
     <keyword type="constant" name="AS_PROVIDED_KIND_FIRMWARE_FLASHED" link="AsProvided.html#AS-PROVIDED-KIND-FIRMWARE-FLASHED:CAPS"/>
+    <keyword type="constant" name="AS_PROVIDED_KIND_ID" link="AsProvided.html#AS-PROVIDED-KIND-ID:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_UNKNOWN" link="AsBundle.html#AS-BUNDLE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_PACKAGE" link="AsBundle.html#AS-BUNDLE-KIND-PACKAGE:CAPS"/>
     <keyword type="constant" name="AS_BUNDLE_KIND_LIMBA" link="AsBundle.html#AS-BUNDLE-KIND-LIMBA:CAPS"/>
@@ -532,6 +538,7 @@
     <keyword type="constant" name="AS_BUNDLE_KIND_SNAP" link="AsBundle.html#AS-BUNDLE-KIND-SNAP:CAPS"/>
     <keyword type="constant" name="AS_LAUNCHABLE_KIND_UNKNOWN" link="AsLaunchable.html#AS-LAUNCHABLE-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_LAUNCHABLE_KIND_DESKTOP_ID" link="AsLaunchable.html#AS-LAUNCHABLE-KIND-DESKTOP-ID:CAPS"/>
+    <keyword type="constant" name="AS_LAUNCHABLE_KIND_SERVICE" link="AsLaunchable.html#AS-LAUNCHABLE-KIND-SERVICE:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_UNKNOWN" link="AsTranslation.html#AS-TRANSLATION-KIND-UNKNOWN:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_GETTEXT" link="AsTranslation.html#AS-TRANSLATION-KIND-GETTEXT:CAPS"/>
     <keyword type="constant" name="AS_TRANSLATION_KIND_QT" link="AsTranslation.html#AS-TRANSLATION-KIND-QT:CAPS"/>
@@ -572,6 +579,7 @@
     <keyword type="constant" name="AS_METADATA_ERROR_PARSE" link="AsMetadata.html#AS-METADATA-ERROR-PARSE:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_FORMAT_UNEXPECTED" link="AsMetadata.html#AS-METADATA-ERROR-FORMAT-UNEXPECTED:CAPS"/>
     <keyword type="constant" name="AS_METADATA_ERROR_NO_COMPONENT" link="AsMetadata.html#AS-METADATA-ERROR-NO-COMPONENT:CAPS"/>
+    <keyword type="constant" name="AS_METADATA_ERROR_VALUE_MISSING" link="AsMetadata.html#AS-METADATA-ERROR-VALUE-MISSING:CAPS"/>
     <keyword type="constant" name="AS_CACHE_FLAG_NONE" link="AsPool.html#AS-CACHE-FLAG-NONE:CAPS"/>
     <keyword type="constant" name="AS_CACHE_FLAG_USE_USER" link="AsPool.html#AS-CACHE-FLAG-USE-USER:CAPS"/>
     <keyword type="constant" name="AS_CACHE_FLAG_USE_SYSTEM" link="AsPool.html#AS-CACHE-FLAG-USE-SYSTEM:CAPS"/>
