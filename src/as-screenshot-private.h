@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2015-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2015-2017 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -21,13 +21,30 @@
 #ifndef __AS_SCREENSHOT_PRIVATE_H
 #define __AS_SCREENSHOT_PRIVATE_H
 
-#include <glib-object.h>
 #include "as-screenshot.h"
+#include "as-xml.h"
+#include "as-yaml.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
 GHashTable		*as_screenshot_get_caption_table (AsScreenshot *screenshot);
+
+gboolean		as_screenshot_load_from_xml (AsScreenshot *screenshot,
+							AsContext *ctx,
+							xmlNode *node,
+							GError **error);
+void			as_screenshot_to_xml_node (AsScreenshot *screenshot,
+							AsContext *ctx,
+							xmlNode *root);
+
+gboolean		as_screenshot_load_from_yaml (AsScreenshot *screenshot,
+							AsContext *ctx,
+							GNode *node,
+							GError **error);
+void			as_screenshot_emit_yaml (AsScreenshot *screenshot,
+						 AsContext *ctx,
+						 yaml_emitter_t *emitter);
 
 #pragma GCC visibility pop
 G_END_DECLS

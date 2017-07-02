@@ -126,9 +126,9 @@ as_content_rating_value_from_string (<parameter>const <link linkend="gchar"><typ
 <title>Returns</title>
 <para> a <link linkend="AsContentRatingValue"><type>AsContentRatingValue</type></link> or <link linkend="AS-CONTENT-RATING-VALUE-UNKNOWN:CAPS"><literal>AS_CONTENT_RATING_VALUE_UNKNOWN</literal></link> for unknown</para>
 </refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
-<refsect2 id="as-content-rating-new" role="function" condition="since:0.5.12">
+<refsect2 id="as-content-rating-new" role="function" condition="since:0.11.0">
 <title>as_content_rating_new&#160;()</title>
-<indexterm zone="as-content-rating-new" role="0.5.12"><primary>as_content_rating_new</primary></indexterm>
+<indexterm zone="as-content-rating-new" role="0.11.0"><primary>as_content_rating_new</primary></indexterm>
 <programlisting language="C"><link linkend="AsContentRating"><returnvalue>AsContentRating</returnvalue></link>&#160;*
 as_content_rating_new (<parameter><type>void</type></parameter>);</programlisting>
 <para>Creates a new <link linkend="AsContentRating"><type>AsContentRating</type></link>.</para>
@@ -136,7 +136,7 @@ as_content_rating_new (<parameter><type>void</type></parameter>);</programlistin
 <title>Returns</title>
 <para> a <link linkend="AsContentRating"><type>AsContentRating</type></link>. </para>
 <para><emphasis role="annotation">[<acronym>transfer full</acronym>]</emphasis></para>
-</refsect3><para role="since">Since: <link linkend="api-index-0.5.12">0.5.12</link></para></refsect2>
+</refsect3><para role="since">Since: <link linkend="api-index-0.11.0">0.11.0</link></para></refsect2>
 <refsect2 id="as-content-rating-get-kind" role="function" condition="since:0.11.0">
 <title>as_content_rating_get_kind&#160;()</title>
 <indexterm zone="as-content-rating-get-kind" role="0.11.0"><primary>as_content_rating_get_kind</primary></indexterm>
@@ -152,7 +152,7 @@ as_content_rating_get_kind (<parameter><link linkend="AsContentRating"><type>AsC
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
 <row><entry role="parameter_name"><para>content_rating</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link> instance.</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3><refsect3 id="as-content-rating-get-kind.returns" role="returns">
@@ -175,7 +175,7 @@ as_content_rating_set_kind (<parameter><link linkend="AsContentRating"><type>AsC
 <colspec colname="parameters_annotations" colwidth="200px"/>
 <tbody>
 <row><entry role="parameter_name"><para>content_rating</para></entry>
-<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link> instance.</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsContentRating"><type>AsContentRating</type></link></para></entry>
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>kind</para></entry>
 <entry role="parameter_description"><para>the rating kind, e.g. "oars-1.0"</para></entry>

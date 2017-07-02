@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
- * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2012-2017 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -32,8 +32,9 @@
 #include "as-screenshot.h"
 #include "as-screenshot-private.h"
 
-#include "as-utils-private.h"
 #include "as-utils.h"
+#include "as-utils-private.h"
+#include "as-image-private.h"
 
 typedef struct
 {
@@ -317,6 +318,184 @@ as_screenshot_get_caption_table (AsScreenshot *screenshot)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 	return priv->caption;
+}
+
+/**
+ * as_screenshot_load_from_xml:
+ * @screenshot: an #AsScreenshot instance.
+ * @ctx: the AppStream document context.
+ * @node: the XML node.
+ * @error: a #GError.
+ *
+ * Loads data from an XML node.
+ **/
+gboolean
+as_screenshot_load_from_xml (AsScreenshot *screenshot, AsContext *ctx, xmlNode *node, GError **error)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	xmlNode *iter;
+	g_autofree gchar *prop = NULL;
+
+	/* propagate locale */
+	as_screenshot_set_active_locale (screenshot, as_context_get_locale (ctx));
+
+	prop = (gchar*) xmlGetProp (node, (xmlChar*) "type");
+	if (g_strcmp0 (prop, "default") == 0)
+		priv->kind = AS_SCREENSHOT_KIND_DEFAULT;
+	else
+		priv->kind = AS_SCREENSHOT_KIND_EXTRA;
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+
+		if (g_strcmp0 (node_name, "image") == 0) {
+			g_autoptr(AsImage) image = as_image_new ();
+			if (as_image_load_from_xml (image, ctx, iter, NULL))
+				as_screenshot_add_image (screenshot, image);
+		} else if (g_strcmp0 (node_name, "caption") == 0) {
+			g_autofree gchar *content = NULL;
+			g_autofree gchar *lang = NULL;
+
+			content = as_xml_get_node_value (iter);
+			if (content == NULL)
+				continue;
+
+			lang = as_xmldata_get_node_locale (ctx, iter);
+			if (lang != NULL)
+				as_screenshot_set_caption (screenshot, content, lang);
+		}
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_screenshot_to_xml_node:
+ * @screenshot: an #AsScreenshot instance.
+ * @ctx: the AppStream document context.
+ * @root: XML node to attach the new nodes to.
+ *
+ * Serializes the data to an XML node.
+ **/
+void
+as_screenshot_to_xml_node (AsScreenshot *screenshot, AsContext *ctx, xmlNode *root)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	xmlNode *subnode;
+	guint i;
+
+	subnode = xmlNewChild (root, NULL, (xmlChar*) "screenshot", NULL);
+	if (priv->kind == AS_SCREENSHOT_KIND_DEFAULT)
+		xmlNewProp (subnode, (xmlChar*) "type", (xmlChar*) "default");
+
+	as_xml_add_localized_text_node (subnode, "caption", priv->caption);
+
+	for (i = 0; i < priv->images->len; i++) {
+		AsImage *image = AS_IMAGE (g_ptr_array_index (priv->images, i));
+		as_image_to_xml_node (image, ctx, subnode);
+	}
+}
+
+/**
+ * as_screenshot_load_from_yaml:
+ * @screenshot: an #AsScreenshot instance.
+ * @ctx: the AppStream document context.
+ * @node: the YAML node.
+ * @error: a #GError.
+ *
+ * Loads data from a YAML field.
+ **/
+gboolean
+as_screenshot_load_from_yaml (AsScreenshot *screenshot, AsContext *ctx, GNode *node, GError **error)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	GNode *n;
+
+	/* propagate locale */
+	as_screenshot_set_active_locale (screenshot, as_context_get_locale (ctx));
+
+	for (n = node->children; n != NULL; n = n->next) {
+		GNode *in;
+		const gchar *key = as_yaml_node_get_key (n);
+		const gchar *value = as_yaml_node_get_value (n);
+
+		if (g_strcmp0 (key, "default") == 0) {
+			if (g_strcmp0 (value, "yes") == 0)
+				priv->kind = AS_SCREENSHOT_KIND_DEFAULT;
+			else
+				priv->kind = AS_SCREENSHOT_KIND_EXTRA;
+		} else if (g_strcmp0 (key, "caption") == 0) {
+			gchar *lvalue;
+			/* the caption is a localized element */
+			lvalue = as_yaml_get_localized_value (ctx, n, NULL);
+			as_screenshot_set_caption (screenshot, lvalue, NULL);
+		} else if (g_strcmp0 (key, "source-image") == 0) {
+			/* there can only be one source image */
+			g_autoptr(AsImage) image = as_image_new ();
+			if (as_image_load_from_yaml (image, ctx, n, AS_IMAGE_KIND_SOURCE, NULL))
+				as_screenshot_add_image (screenshot, image);
+		} else if (g_strcmp0 (key, "thumbnails") == 0) {
+			/* the thumbnails are a list of images */
+			for (in = n->children; in != NULL; in = in->next) {
+				g_autoptr(AsImage) image = as_image_new ();
+				if (as_image_load_from_yaml (image, ctx, in, AS_IMAGE_KIND_THUMBNAIL, NULL))
+					as_screenshot_add_image (screenshot, image);
+			}
+		} else {
+			as_yaml_print_unknown ("screenshot", key);
+		}
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_screenshot_emit_yaml:
+ * @screenshot: an #AsScreenshot instance.
+ * @ctx: the AppStream document context.
+ * @emitter: The YAML emitter to emit data on.
+ *
+ * Emit YAML data for this object.
+ **/
+void
+as_screenshot_emit_yaml (AsScreenshot *screenshot, AsContext *ctx, yaml_emitter_t *emitter)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	guint i;
+	AsImage *source_img = NULL;
+
+	as_yaml_mapping_start (emitter);
+
+	if (priv->kind == AS_SCREENSHOT_KIND_DEFAULT)
+		as_yaml_emit_entry (emitter, "default", "true");
+
+	as_yaml_emit_localized_entry (emitter, "caption", priv->caption);
+
+	as_yaml_emit_scalar (emitter, "thumbnails");
+	as_yaml_sequence_start (emitter);
+	for (i = 0; i < priv->images->len; i++) {
+		AsImage *img = AS_IMAGE (g_ptr_array_index (priv->images, i));
+
+		if (as_image_get_kind (img) == AS_IMAGE_KIND_SOURCE) {
+			source_img = img;
+			continue;
+		}
+
+		as_image_emit_yaml (img, ctx, emitter);
+	}
+	as_yaml_sequence_end (emitter);
+
+	/* we *must* have a source-image by now if the data follows the spec, but better be safe... */
+	if (source_img != NULL) {
+		as_yaml_emit_scalar (emitter, "source-image");
+		as_image_emit_yaml (source_img, ctx, emitter);
+	}
+
+	as_yaml_mapping_end (emitter);
 }
 
 /**

@@ -22,7 +22,7 @@
 #include <glib/gprintf.h>
 
 #include "appstream.h"
-#include "as-xmldata.h"
+#include "as-xml.h"
 #include "as-component-private.h"
 #include "as-test-utils.h"
 
@@ -251,6 +251,58 @@ test_appstream_write_locale ()
 }
 
 /**
+ * as_xml_test_read_data:
+ *
+ * Helper function for other tests.
+ */
+static AsComponent*
+as_xml_test_read_data (const gchar *data, AsFormatStyle mode)
+{
+	AsComponent *cpt = NULL;
+	GPtrArray *cpts;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(GError) error = NULL;
+
+	metad = as_metadata_new ();
+	as_metadata_parse (metad, data, AS_FORMAT_KIND_XML, &error);
+	g_assert_no_error (error);
+
+	cpts = as_metadata_get_components (metad);
+	g_assert_cmpint (cpts->len, >, 0);
+	if (mode == AS_FORMAT_STYLE_METAINFO)
+		g_assert_cmpint (cpts->len, ==, 1);
+	cpt = AS_COMPONENT (g_ptr_array_index (cpts, 0));
+
+	return g_object_ref (cpt);
+}
+
+/**
+ * as_xml_test_serialize:
+ *
+ * Helper function for other tests.
+ */
+static gchar*
+as_xml_test_serialize (AsComponent *cpt, AsFormatStyle mode)
+{
+	gchar *data;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(GError) error = NULL;
+
+	metad = as_metadata_new ();
+	as_metadata_add_component (metad, cpt);
+
+	if (mode == AS_FORMAT_STYLE_METAINFO) {
+		data = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, &error);
+		g_assert_no_error (error);
+	} else {
+		data = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_XML, &error);
+		g_assert_no_error (error);
+	}
+
+	return data;
+}
+
+/**
  * test_appstream_write_description:
  *
  * Test writing the description tag for catalog and metainfo XML.
@@ -430,57 +482,60 @@ test_appstream_write_description ()
 }
 
 /**
- * as_xml_test_read_data:
+ * test_appstream_read_description:
  *
- * Helper function for other tests.
+ * Test reading the description tag.
  */
-static AsComponent*
-as_xml_test_read_data (const gchar *data, AsFormatStyle mode)
+static void
+test_appstream_read_description (void)
 {
-	AsComponent *cpt;
-	GError *error = NULL;
-	g_autoptr(GPtrArray) cpts = NULL;
-	g_autoptr(AsXMLData) xdt = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
+	const gchar *xmldata_desc_mi1 = "<component>\n"
+					"  <id>org.example.DescTestMI-1</id>\n"
+					"  <description>\n"
+					"    <p>Agenda is a simple, slick, speedy and no-nonsense task manager. Use it to keep track of the tasks that matter most.</p>\n"
+					"    <ul>\n"
+					"      <li>Blazingly fast and light</li>\n"
+					"      <li>Remembers your list until you clear completed tasks</li>\n"
+					"      <li>...</li>\n"
+					"    </ul>\n"
+					"    <p>I dare you to find an easier, faster, more beautiful task manager for elementary OS.</p>\n"
+					"  </description>\n"
+					"</component>\n";
 
-	xdt = as_xmldata_new ();
-	as_xmldata_set_check_valid (xdt, FALSE);
+	const gchar *xmldata_desc_mi2 = "<component>\n"
+					"  <id>org.example.DescTestMI-2</id>\n"
+					"  <description>\n"
+					"    <ul>\n"
+					"      <li>I start with bullet points</li>\n"
+					"      <li>Yes, this is allowed now</li>\n"
+					"      <li>...</li>\n"
+					"    </ul>\n"
+					"    <p>Paragraph</p>\n"
+					"  </description>\n"
+					"</component>\n";
 
-	if (mode == AS_FORMAT_STYLE_METAINFO) {
-		cpt = as_xmldata_parse_metainfo_data (xdt, data, &error);
-		g_assert_no_error (error);
-	} else {
-		cpts = as_xmldata_parse_collection_data (xdt, data, &error);
-		g_assert_no_error (error);
-		cpt = AS_COMPONENT (g_ptr_array_index (cpts, 0));
-	}
+	cpt = as_xml_test_read_data (xmldata_desc_mi1, AS_FORMAT_STYLE_METAINFO);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.DescTestMI-1");
 
-	return g_object_ref (cpt);
-}
+	g_assert_cmpstr (as_component_get_description (cpt), ==, "<p>Agenda is a simple, slick, speedy and no-nonsense task manager. Use it to keep track of the tasks that matter most.</p>\n"
+								 "<ul>\n"
+								 "  <li>Blazingly fast and light</li>\n"
+								 "  <li>Remembers your list until you clear completed tasks</li>\n"
+								 "  <li>...</li>\n"
+								 "</ul>\n"
+								 "<p>I dare you to find an easier, faster, more beautiful task manager for elementary OS.</p>\n");
 
-/**
- * as_xml_test_serialize:
- *
- * Helper function for other tests.
- */
-static gchar*
-as_xml_test_serialize (AsComponent *cpt, AsFormatStyle mode)
-{
-	gchar *data;
-	g_autoptr(AsXMLData) xdt = NULL;
+	g_object_unref (cpt);
+	cpt = as_xml_test_read_data (xmldata_desc_mi2, AS_FORMAT_STYLE_METAINFO);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.DescTestMI-2");
 
-	xdt = as_xmldata_new ();
-	as_xmldata_set_check_valid (xdt, FALSE);
-
-	if (mode == AS_FORMAT_STYLE_METAINFO) {
-		data = as_xmldata_serialize_to_metainfo (xdt, cpt);
-	} else {
-		g_autoptr(GPtrArray) cpts = NULL;
-		cpts = g_ptr_array_new ();
-		g_ptr_array_add (cpts, cpt);
-		data = as_xmldata_serialize_to_collection (xdt, cpts, TRUE);
-	}
-
-	return data;
+	g_assert_cmpstr (as_component_get_description (cpt), ==, "<ul>\n"
+								 "  <li>I start with bullet points</li>\n"
+								 "  <li>Yes, this is allowed now</li>\n"
+								 "  <li>...</li>\n"
+								 "</ul>\n"
+								 "<p>Paragraph</p>\n");
 }
 
 /**
@@ -895,6 +950,8 @@ main (int argc, char **argv)
 	g_test_add_func ("/XML/LegacyData", test_appstream_parser_legacy);
 	g_test_add_func ("/XML/Read/ParserLocale", test_appstream_parser_locale);
 	g_test_add_func ("/XML/Write/WriterLocale", test_appstream_write_locale);
+
+	g_test_add_func ("/XML/Read/Description", test_appstream_read_description);
 	g_test_add_func ("/XML/Write/Description", test_appstream_write_description);
 
 	g_test_add_func ("/XML/Read/Url", test_xml_read_url);

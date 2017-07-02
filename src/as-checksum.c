@@ -29,7 +29,7 @@
  */
 
 #include "config.h"
-#include "as-checksum.h"
+#include "as-checksum-private.h"
 
 typedef struct
 {
@@ -163,6 +163,101 @@ as_checksum_set_value (AsChecksum *cs, const gchar *value)
 	AsChecksumPrivate *priv = GET_PRIVATE (cs);
 	g_free (priv->value);
 	priv->value = g_strdup (value);
+}
+
+/**
+ * as_checksum_load_from_xml:
+ * @cs: a #AsChecksum instance.
+ * @ctx: the AppStream document context.
+ * @node: the XML node.
+ * @error: a #GError.
+ *
+ * Loads data from an XML node.
+ **/
+gboolean
+as_checksum_load_from_xml (AsChecksum *cs, AsContext *ctx, xmlNode *node, GError **error)
+{
+	AsChecksumPrivate *priv = GET_PRIVATE (cs);
+	g_autofree gchar *prop = NULL;
+	g_autofree gchar *content = NULL;
+
+	prop = (gchar*) xmlGetProp (node, (xmlChar*) "type");
+	priv->kind = as_checksum_kind_from_string (prop);
+	if (priv->kind == AS_CHECKSUM_KIND_NONE)
+		return FALSE;
+
+	content = as_xml_get_node_value (node);
+	as_checksum_set_value (cs, content);
+
+	return TRUE;
+}
+
+/**
+ * as_checksum_to_xml_node:
+ * @cs: a #AsChecksum instance.
+ * @ctx: the AppStream document context.
+ * @root: XML node to attach the new nodes to.
+ *
+ * Serializes the data to an XML node.
+ **/
+void
+as_checksum_to_xml_node (AsChecksum *cs, AsContext *ctx, xmlNode *root)
+{
+	AsChecksumPrivate *priv = GET_PRIVATE (cs);
+	xmlNode *n;
+
+	if (priv->kind == AS_CHECKSUM_KIND_NONE)
+		return;
+
+	n = xmlNewTextChild (root, NULL,
+			     (xmlChar*) "checksum",
+			     (xmlChar*) priv->value);
+	xmlNewProp (n,
+		    (xmlChar*) "type",
+		    (xmlChar*) as_checksum_kind_to_string (priv->kind));
+}
+
+/**
+ * as_checksum_load_from_yaml:
+ * @cs: a #AsChecksum instance.
+ * @ctx: the AppStream document context.
+ * @node: the YAML node.
+ * @error: a #GError.
+ *
+ * Loads data from a YAML field.
+ **/
+gboolean
+as_checksum_load_from_yaml (AsChecksum *cs, AsContext *ctx, GNode *node, GError **error)
+{
+	AsChecksumPrivate *priv = GET_PRIVATE (cs);
+	const gchar *key = as_yaml_node_get_key (node);
+	const gchar *value = as_yaml_node_get_value (node);
+
+	priv->kind = as_checksum_kind_from_string (key);
+	if (priv->kind == AS_CHECKSUM_KIND_NONE)
+		return FALSE;
+
+	as_checksum_set_value (cs, value);
+
+	return TRUE;
+}
+
+/**
+ * as_checksum_emit_yaml:
+ * @cs: a #AsChecksum instance.
+ * @ctx: the AppStream document context.
+ * @emitter: The YAML emitter to emit data on.
+ *
+ * Emit YAML data for this object.
+ **/
+void
+as_checksum_emit_yaml (AsChecksum *cs, AsContext *ctx, yaml_emitter_t *emitter)
+{
+	AsChecksumPrivate *priv = GET_PRIVATE (cs);
+	if (priv->kind == AS_CHECKSUM_KIND_NONE)
+		return;
+
+	as_yaml_emit_entry (emitter, as_checksum_kind_to_string (priv->kind), priv->value);
 }
 
 /**

@@ -4,6 +4,26 @@
 AsRelease *release
 </FUNCTION>
 <FUNCTION>
+<NAME>as_release_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsRelease *release, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease *release, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsRelease *release, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsRelease *release, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
 <NAME>as_pool_scan_apt</NAME>
 <RETURNS>void 		</RETURNS>
 AsPool *pool, gboolean force, GError **error
@@ -73,66 +93,30 @@ GPtrArray *cpts, GPtrArray *categories, gboolean check_duplicates
 <RETURNS>gint 		</RETURNS>
 const gchar* a, const gchar *b
 </FUNCTION>
-<MACRO>
-<NAME>AS_TYPE_YAMLDATA</NAME>
-#define AS_TYPE_YAMLDATA (as_yamldata_get_type ())
-</MACRO>
-<STRUCT>
-<NAME>AsYAMLDataClass</NAME>
-struct _AsYAMLDataClass
-{
-	GObjectClass		parent_class;
-	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
-};
-</STRUCT>
-<FUNCTION>
-<NAME>as_yamldata_new</NAME>
-<RETURNS>AsYAMLData 		*</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_initialize</NAME>
-<RETURNS>void 			</RETURNS>
-AsYAMLData *ydt, AsFormatVersion format_version, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_parse_collection_data</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsYAMLData *ydt, const gchar *data, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_serialize_to_collection</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsYAMLData *ydt, GPtrArray *cpts, gboolean write_header, gboolean add_timestamp, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_get_locale</NAME>
-<RETURNS>const gchar 		*</RETURNS>
-AsYAMLData *ydt
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_set_locale</NAME>
-<RETURNS>void 			</RETURNS>
-AsYAMLData *ydt, const gchar *locale
-</FUNCTION>
-<FUNCTION>
-<NAME>as_yamldata_set_check_valid</NAME>
-<RETURNS>void 			</RETURNS>
-AsYAMLData *ydt, gboolean check
-</FUNCTION>
-<STRUCT>
-<NAME>AsYAMLData</NAME>
-</STRUCT>
 <FUNCTION>
 <NAME>as_screenshot_get_caption_table</NAME>
 <RETURNS>GHashTable 		*</RETURNS>
 AsScreenshot *screenshot
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_load_from_xml</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsScreenshot *screenshot, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_to_xml_node</NAME>
+<RETURNS>void 			</RETURNS>
+AsScreenshot *screenshot, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_load_from_yaml</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsScreenshot *screenshot, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_emit_yaml</NAME>
+<RETURNS>void 			</RETURNS>
+AsScreenshot *screenshot, AsContext *ctx, yaml_emitter_t *emitter
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
@@ -422,6 +406,26 @@ AsBundle *bundle, const gchar *id
 <NAME>AsBundle</NAME>
 </STRUCT>
 <FUNCTION>
+<NAME>as_suggested_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsSuggested *suggested, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_suggested_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsSuggested *suggested, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_suggested_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsSuggested *suggested, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_suggested_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsSuggested *suggested, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
 <NAME>as_cache_file_save</NAME>
 <RETURNS>void 		</RETURNS>
 const gchar *fname, const gchar *locale, GPtrArray *cpts, GError **error
@@ -430,6 +434,16 @@ const gchar *fname, const gchar *locale, GPtrArray *cpts, GError **error
 <NAME>as_cache_file_read</NAME>
 <RETURNS>GPtrArray 	*</RETURNS>
 const gchar *fname, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsIcon *icon, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsIcon *icon, AsContext *ctx, xmlNode *root
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_TRANSLATION</NAME>
@@ -497,6 +511,26 @@ AsTranslation *tr, const gchar *id
 <STRUCT>
 <NAME>AsTranslation</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_image_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsImage *image, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsImage *image, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsImage *image, AsContext *ctx, GNode *node, AsImageKind kind, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsImage *image, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR_ISSUE</NAME>
 #define AS_TYPE_VALIDATOR_ISSUE (as_validator_issue_get_type ())
@@ -695,6 +729,141 @@ AsContentRating *content_rating, const gchar *id, AsContentRatingValue value
 <STRUCT>
 <NAME>AsContentRating</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_yaml_parse_layer</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_parser_t *parser, GNode *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_free_node</NAME>
+<RETURNS>gboolean 	</RETURNS>
+GNode *node, gpointer data
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_node_get_key</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+GNode *n
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_node_get_value</NAME>
+<RETURNS>const gchar 	*</RETURNS>
+GNode *n
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_print_unknown</NAME>
+<RETURNS>void 		</RETURNS>
+const gchar *root, const gchar *key
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_mapping_start</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_mapping_end</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_sequence_start</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_sequence_end</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_scalar</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_scalar_uint</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, guint value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_scalar_key</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_entry</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_entry_uint</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, guint value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_entry_timestamp</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, guint64 unixtime
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_long_entry</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_sequence</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, GPtrArray *list
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_sequence_from_str_array</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, GPtrArray *array
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_localized_strv</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_get_localized_node</NAME>
+<RETURNS>GNode 		*</RETURNS>
+AsContext *ctx, GNode *node, gchar *locale_override
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_get_localized_value</NAME>
+<RETURNS>gchar 		*</RETURNS>
+AsContext *ctx, GNode *node, gchar *locale_override
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_localized_entry</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_emit_long_localized_entry</NAME>
+<RETURNS>void 		</RETURNS>
+yaml_emitter_t *emitter, const gchar *key, GHashTable *ltab
+</FUNCTION>
+<FUNCTION>
+<NAME>as_yaml_list_to_str_array</NAME>
+<RETURNS>void 		</RETURNS>
+GNode *node, GPtrArray *array
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsLaunchable *launchable, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsLaunchable *launch, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsLaunchable *launch, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
@@ -976,6 +1145,46 @@ typedef struct {
 <RETURNS>GPtrArray 	*</RETURNS>
 AsContentRating *content_rating
 </FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsContentRating *content_rating, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsContentRating *content_rating, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsContentRating *content_rating, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsContentRating *content_rating, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsBundle *bundle, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsBundle *bundle, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsBundle *bundle, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsBundle *bundle, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CHECKSUM</NAME>
 #define AS_TYPE_CHECKSUM (as_checksum_get_type ())
@@ -1042,6 +1251,16 @@ AsChecksum *cs, const gchar *value
 <STRUCT>
 <NAME>AsChecksum</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_translation_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsTranslation *tr, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_translation_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsTranslation *tr, AsContext *ctx, xmlNode *root
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_POOL</NAME>
 #define AS_TYPE_POOL (as_pool_get_type ())
@@ -1238,6 +1457,7 @@ typedef enum  {
 	AS_COMPONENT_KIND_FIRMWARE,
 	AS_COMPONENT_KIND_DRIVER,
 	AS_COMPONENT_KIND_LOCALIZATION,
+	AS_COMPONENT_KIND_SERVICE,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
@@ -1281,6 +1501,16 @@ AsMergeKind kind
 <RETURNS>AsMergeKind 		</RETURNS>
 const gchar *kind_str
 </FUNCTION>
+<ENUM>
+<NAME>AsComponentScope</NAME>
+typedef enum {
+	AS_COMPONENT_SCOPE_UNKNOWN,
+	AS_COMPONENT_SCOPE_SYSTEM,
+	AS_COMPONENT_SCOPE_USER,
+	/*< private >*/
+	AS_COMPONENT_SCOPE_LAST
+} AsComponentScope;
+</ENUM>
 <ENUM>
 <NAME>AsValueFlags</NAME>
 typedef enum {
@@ -1740,6 +1970,26 @@ AsStemmer *stemmer, const gchar *term
 <STRUCT>
 <NAME>AsStemmer</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_checksum_load_from_xml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsChecksum *cs, AsContext *ctx, xmlNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_to_xml_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsChecksum *cs, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_load_from_yaml</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsChecksum *cs, AsContext *ctx, GNode *node, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_emit_yaml</NAME>
+<RETURNS>void 		</RETURNS>
+AsChecksum *cs, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_ICON</NAME>
 #define AS_TYPE_ICON (as_icon_get_type ())
@@ -1941,6 +2191,7 @@ typedef enum {
 	AS_METADATA_ERROR_PARSE,
 	AS_METADATA_ERROR_FORMAT_UNEXPECTED,
 	AS_METADATA_ERROR_NO_COMPONENT,
+	AS_METADATA_ERROR_VALUE_MISSING,
 	/*< private >*/
 	AS_METADATA_ERROR_LAST
 } AsMetadataError;
@@ -2224,85 +2475,120 @@ AsRelease *release, guint64 size, AsSizeKind kind
 <NAME>AsRelease</NAME>
 </STRUCT>
 <MACRO>
-<NAME>AS_TYPE_XMLDATA</NAME>
-#define AS_TYPE_XMLDATA (as_xmldata_get_type ())
+<NAME>AS_TYPE_CONTEXT</NAME>
+#define AS_TYPE_CONTEXT (as_context_get_type ())
 </MACRO>
 <STRUCT>
-<NAME>AsXMLDataClass</NAME>
-struct _AsXMLDataClass
+<NAME>AsContextClass</NAME>
+struct _AsContextClass
 {
-	GObjectClass		parent_class;
+	GObjectClass parent_class;
 	/*< private >*/
-	void (*_as_reserved1)	(void);
-	void (*_as_reserved2)	(void);
-	void (*_as_reserved3)	(void);
-	void (*_as_reserved4)	(void);
-	void (*_as_reserved5)	(void);
-	void (*_as_reserved6)	(void);
+	void (*_as_reserved1) (void);
+	void (*_as_reserved2) (void);
+	void (*_as_reserved3) (void);
+	void (*_as_reserved4) (void);
+	void (*_as_reserved5) (void);
+	void (*_as_reserved6) (void);
 };
 </STRUCT>
 <FUNCTION>
-<NAME>as_xmldata_new</NAME>
-<RETURNS>AsXMLData 		*</RETURNS>
+<NAME>as_context_new</NAME>
+<RETURNS>AsContext 		*</RETURNS>
 void
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_initialize</NAME>
+<NAME>as_context_get_format_version</NAME>
+<RETURNS>AsFormatVersion 		</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_format_version</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, AsFormatVersion format_version, const gchar *locale, const gchar *origin, const gchar *media_baseurl, const gchar *arch, gint priority
+AsContext *ctx, AsFormatVersion ver
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_parse_metainfo_data</NAME>
-<RETURNS>AsComponent 		*</RETURNS>
-AsXMLData *xdt, const gchar *data, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_xmldata_parse_collection_data</NAME>
-<RETURNS>GPtrArray 		*</RETURNS>
-AsXMLData *xdt, const gchar *data, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_xmldata_update_cpt_with_metainfo_data</NAME>
-<RETURNS>gboolean 		</RETURNS>
-AsXMLData *xdt, const gchar *data, AsComponent *cpt, GError **error
-</FUNCTION>
-<FUNCTION>
-<NAME>as_xmldata_serialize_to_metainfo</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsXMLData *xdt, AsComponent *cpt
-</FUNCTION>
-<FUNCTION>
-<NAME>as_xmldata_serialize_to_collection</NAME>
-<RETURNS>gchar 			*</RETURNS>
-AsXMLData *xdt, GPtrArray *cpts, gboolean write_header
-</FUNCTION>
-<FUNCTION>
-<NAME>as_xmldata_get_format_style</NAME>
+<NAME>as_context_get_style</NAME>
 <RETURNS>AsFormatStyle 		</RETURNS>
-AsXMLData *xdt
+AsContext *ctx
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_set_format_style</NAME>
+<NAME>as_context_set_style</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, AsFormatStyle mode
+AsContext *ctx, AsFormatStyle style
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_parse_component_node</NAME>
+<NAME>as_context_get_priority</NAME>
+<RETURNS>gint 			</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_priority</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *metad, xmlNode *node, AsComponent *cpt, GError **error
+AsContext *ctx, gint priority
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_parse_document</NAME>
-<RETURNS>xmlDoc 			*</RETURNS>
-AsXMLData *xdt, const gchar *data, GError **error
+<NAME>as_context_get_origin</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContext *ctx
 </FUNCTION>
 <FUNCTION>
-<NAME>as_xmldata_set_check_valid</NAME>
+<NAME>as_context_set_origin</NAME>
 <RETURNS>void 			</RETURNS>
-AsXMLData *xdt, gboolean check
+AsContext *ctx, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_get_locale</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_locale</NAME>
+<RETURNS>void 			</RETURNS>
+AsContext *ctx, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_has_media_baseurl</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_get_media_baseurl</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_media_baseurl</NAME>
+<RETURNS>void 			</RETURNS>
+AsContext *ctx, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_get_architecture</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_architecture</NAME>
+<RETURNS>void 			</RETURNS>
+AsContext *ctx, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_get_all_locale_enabled</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_get_fname</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+AsContext *ctx
+</FUNCTION>
+<FUNCTION>
+<NAME>as_context_set_fname</NAME>
+<RETURNS>void 			</RETURNS>
+AsContext *ctx, const gchar *fname
 </FUNCTION>
 <STRUCT>
-<NAME>AsXMLData</NAME>
+<NAME>AsContext</NAME>
 </STRUCT>
 <FUNCTION>
 <NAME>as_desktop_entry_parse_data</NAME>
@@ -2315,8 +2601,8 @@ const gchar *data, const gchar *cid, AsFormatVersion fversion, GError **error
 GFile *file, AsFormatVersion fversion, GError **error
 </FUNCTION>
 <MACRO>
-<NAME>AS_TYPE_LAUNCH</NAME>
-#define AS_TYPE_LAUNCH (as_launchable_get_type ())
+<NAME>AS_TYPE_LAUNCHABLE</NAME>
+#define AS_TYPE_LAUNCHABLE (as_launchable_get_type ())
 </MACRO>
 <STRUCT>
 <NAME>AsLaunchableClass</NAME>
@@ -2337,6 +2623,7 @@ struct _AsLaunchableClass
 typedef enum  {
 	AS_LAUNCHABLE_KIND_UNKNOWN,
 	AS_LAUNCHABLE_KIND_DESKTOP_ID,
+	AS_LAUNCHABLE_KIND_SERVICE,
 	/*< private >*/
 	AS_LAUNCHABLE_KIND_LAST
 } AsLaunchableKind;
@@ -2474,6 +2761,7 @@ typedef enum  {
 	AS_PROVIDED_KIND_DBUS_USER,
 	AS_PROVIDED_KIND_FIRMWARE_RUNTIME,
 	AS_PROVIDED_KIND_FIRMWARE_FLASHED,
+	AS_PROVIDED_KIND_ID,
 	/*< private >*/
 	AS_PROVIDED_KIND_LAST
 } AsProvidedKind;
@@ -2526,3 +2814,73 @@ AsProvided *prov, const gchar *item
 <STRUCT>
 <NAME>AsProvided</NAME>
 </STRUCT>
+<FUNCTION>
+<NAME>as_xml_get_node_value</NAME>
+<RETURNS>gchar 		*</RETURNS>
+xmlNode *node
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xmldata_get_node_locale</NAME>
+<RETURNS>gchar 		*</RETURNS>
+AsContext *ctx, xmlNode *node
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_children_values_to_array</NAME>
+<RETURNS>void 		</RETURNS>
+xmlNode *node, const gchar *element_name, GPtrArray *array
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_get_children_as_string_list</NAME>
+<RETURNS>GPtrArray 	*</RETURNS>
+xmlNode *node, const gchar *element_name
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_get_children_as_strv</NAME>
+<RETURNS>gchar 		**</RETURNS>
+xmlNode *node, const gchar *element_name
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_parse_metainfo_description_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsContext *ctx, xmlNode *node, GHFunc func, gpointer entity
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_dump_node_children</NAME>
+<RETURNS>gchar 		*</RETURNS>
+xmlNode *node
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_description_node</NAME>
+<RETURNS>void 		</RETURNS>
+AsContext *ctx, xmlNode *root, GHashTable *desc_table
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_localized_text_node</NAME>
+<RETURNS>void 		</RETURNS>
+xmlNode *root, const gchar *node_name, GHashTable *value_table
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_node_list_strv</NAME>
+<RETURNS>xmlNode 		*</RETURNS>
+xmlNode *root, const gchar *name, const gchar *child_name, gchar **strv
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_node_list</NAME>
+<RETURNS>void 		</RETURNS>
+xmlNode *root, const gchar *name, const gchar *child_name, GPtrArray *array
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_add_text_node</NAME>
+<RETURNS>xmlNode 		*</RETURNS>
+xmlNode *root, const gchar *name, const gchar *value
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_parse_document</NAME>
+<RETURNS>xmlDoc 		*</RETURNS>
+const gchar *data, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_xml_node_to_str</NAME>
+<RETURNS>gchar 		*</RETURNS>
+xmlNode *root
+</FUNCTION>

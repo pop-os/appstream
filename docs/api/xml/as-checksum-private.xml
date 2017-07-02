@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-checksum-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-checksum-private.top_of_page">as-checksum-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-checksum-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-checksum-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-load-from-xml">as_checksum_load_from_xml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-to-xml-node">as_checksum_to_xml_node</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-load-from-yaml">as_checksum_load_from_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-checksum-emit-yaml">as_checksum_emit_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+
+<refsect1 id="appstream-as-checksum-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-checksum-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-checksum-load-from-xml" role="function">
+<title>as_checksum_load_from_xml&#160;()</title>
+<indexterm zone="as-checksum-load-from-xml"><primary>as_checksum_load_from_xml</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_checksum_load_from_xml (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                           <parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                           <parameter><link linkend="xmlNode"><type>xmlNode</type></link> *node</parameter>,
+                           <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Loads data from an XML node.</para>
+<refsect3 id="as-checksum-load-from-xml.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>the AppStream document context.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>node</para></entry>
+<entry role="parameter_description"><para>the XML node.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>a <link linkend="GError"><type>GError</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-to-xml-node" role="function">
+<title>as_checksum_to_xml_node&#160;()</title>
+<indexterm zone="as-checksum-to-xml-node"><primary>as_checksum_to_xml_node</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_checksum_to_xml_node (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                         <parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                         <parameter><link linkend="xmlNode"><type>xmlNode</type></link> *root</parameter>);</programlisting>
+<para>Serializes the data to an XML node.</para>
+<refsect3 id="as-checksum-to-xml-node.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>the AppStream document context.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>root</para></entry>
+<entry role="parameter_description"><para>XML node to attach the new nodes to.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-load-from-yaml" role="function">
+<title>as_checksum_load_from_yaml&#160;()</title>
+<indexterm zone="as-checksum-load-from-yaml"><primary>as_checksum_load_from_yaml</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_checksum_load_from_yaml (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                            <parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                            <parameter><link linkend="GNode"><type>GNode</type></link> *node</parameter>,
+                            <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
+<para>Loads data from a YAML field.</para>
+<refsect3 id="as-checksum-load-from-yaml.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>the AppStream document context.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>node</para></entry>
+<entry role="parameter_description"><para>the YAML node.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>error</para></entry>
+<entry role="parameter_description"><para>a <link linkend="GError"><type>GError</type></link>.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-checksum-emit-yaml" role="function">
+<title>as_checksum_emit_yaml&#160;()</title>
+<indexterm zone="as-checksum-emit-yaml"><primary>as_checksum_emit_yaml</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_checksum_emit_yaml (<parameter><link linkend="AsChecksum"><type>AsChecksum</type></link> *cs</parameter>,
+                       <parameter><link linkend="AsContext"><type>AsContext</type></link> *ctx</parameter>,
+                       <parameter><link linkend="yaml-emitter-t"><type>yaml_emitter_t</type></link> *emitter</parameter>);</programlisting>
+<para>Emit YAML data for this object.</para>
+<refsect3 id="as-checksum-emit-yaml.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>cs</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsChecksum"><type>AsChecksum</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>ctx</para></entry>
+<entry role="parameter_description"><para>the AppStream document context.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>emitter</para></entry>
+<entry role="parameter_description"><para>The YAML emitter to emit data on.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-checksum-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

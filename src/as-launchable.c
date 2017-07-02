@@ -18,14 +18,14 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "as-launchable.h"
+#include "as-launchable-private.h"
 
 #include <config.h>
 #include <glib/gi18n-lib.h>
 #include <glib.h>
 
 /**
- * SECTION:as-launch
+ * SECTION:as-launchable
  * @short_description: Description of launchable entries for a software component
  * @include: appstream.h
  *
@@ -60,6 +60,8 @@ as_launchable_kind_to_string (AsLaunchableKind kind)
 {
 	if (kind == AS_LAUNCHABLE_KIND_DESKTOP_ID)
 		return "desktop-id";
+	if (kind == AS_LAUNCHABLE_KIND_SERVICE)
+		return "service";
 	return "unknown";
 }
 
@@ -78,6 +80,8 @@ as_launchable_kind_from_string (const gchar *kind_str)
 {
 	if (g_strcmp0 (kind_str, "desktop-id") == 0)
 		return AS_LAUNCHABLE_KIND_DESKTOP_ID;
+	if (g_strcmp0 (kind_str, "service") == 0)
+		return AS_LAUNCHABLE_KIND_SERVICE;
 	return AS_LAUNCHABLE_KIND_UNKNOWN;
 }
 
@@ -87,7 +91,7 @@ as_launchable_kind_from_string (const gchar *kind_str)
 static void
 as_launchable_finalize (GObject *object)
 {
-	AsLaunchable *launch = AS_LAUNCH (object);
+	AsLaunchable *launch = AS_LAUNCHABLE (object);
 	AsLaunchablePrivate *priv = GET_PRIVATE (launch);
 
 	g_ptr_array_unref (priv->entries);
@@ -185,6 +189,78 @@ as_launchable_add_entry (AsLaunchable *launch, const gchar *entry)
 }
 
 /**
+ * as_launchable_to_xml_node:
+ * @launchable: an #AsLaunchable
+ * @ctx: the AppStream document context.
+ * @root: XML node to attach the new nodes to.
+ *
+ * Serializes the data to an XML node.
+ **/
+void
+as_launchable_to_xml_node (AsLaunchable *launchable, AsContext *ctx, xmlNode *root)
+{
+	AsLaunchablePrivate *priv = GET_PRIVATE (launchable);
+	guint i;
+
+	for (i = 0; i < priv->entries->len; i++) {
+		xmlNode *n;
+		const gchar *entry = g_ptr_array_index (priv->entries, i);
+		if (entry == NULL)
+			continue;
+
+		n = xmlNewTextChild (root, NULL,
+				     (xmlChar*) "launchable",
+				     (xmlChar*) entry);
+		xmlNewProp (n, (xmlChar*) "type",
+			    (xmlChar*) as_launchable_kind_to_string (priv->kind));
+	}
+}
+
+/**
+ * as_launchable_load_from_yaml:
+ * @launchable: an #AsLaunchable
+ * @ctx: the AppStream document context.
+ * @node: the YAML node.
+ * @error: a #GError.
+ *
+ * Loads data from a YAML field.
+ **/
+gboolean
+as_launchable_load_from_yaml (AsLaunchable *launch, AsContext *ctx, GNode *node, GError **error)
+{
+	AsLaunchablePrivate *priv = GET_PRIVATE (launch);
+	GNode *n;
+
+	priv->kind = as_launchable_kind_from_string (as_yaml_node_get_key (node));
+	for (n = node->children; n != NULL; n = n->next) {
+		const gchar *entry = as_yaml_node_get_key (n);
+		if (entry == NULL)
+			continue;
+		as_launchable_add_entry (launch, entry);
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_launchable_emit_yaml:
+ * @launchable: an #AsLaunchable
+ * @ctx: the AppStream document context.
+ * @emitter: The YAML emitter to emit data on.
+ *
+ * Emit YAML data for this object.
+ **/
+void
+as_launchable_emit_yaml (AsLaunchable *launch, AsContext *ctx, yaml_emitter_t *emitter)
+{
+	AsLaunchablePrivate *priv = GET_PRIVATE (launch);
+
+	as_yaml_emit_sequence (emitter,
+			       as_launchable_kind_to_string (priv->kind),
+			       priv->entries);
+}
+
+/**
  * as_launchable_new:
  *
  * Creates a new #AsLaunchable.
@@ -197,6 +273,6 @@ AsLaunchable*
 as_launchable_new (void)
 {
 	AsLaunchable *launch;
-	launch = g_object_new (AS_TYPE_LAUNCH, NULL);
-	return AS_LAUNCH (launch);
+	launch = g_object_new (AS_TYPE_LAUNCHABLE, NULL);
+	return AS_LAUNCHABLE (launch);
 }

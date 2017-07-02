@@ -29,8 +29,8 @@
 
 G_BEGIN_DECLS
 
-#define AS_TYPE_LAUNCH (as_launchable_get_type ())
-G_DECLARE_DERIVABLE_TYPE (AsLaunchable, as_launchable, AS, LAUNCH, GObject)
+#define AS_TYPE_LAUNCHABLE (as_launchable_get_type ())
+G_DECLARE_DERIVABLE_TYPE (AsLaunchable, as_launchable, AS, LAUNCHABLE, GObject)
 
 struct _AsLaunchableClass
 {
@@ -48,12 +48,14 @@ struct _AsLaunchableClass
  * AsLaunchableKind:
  * @AS_LAUNCHABLE_KIND_UNKNOWN:		Unknown kind
  * @AS_LAUNCHABLE_KIND_DESKTOP_ID:	Launch by desktop-id
+ * @AS_LAUNCHABLE_KIND_SERVICE:		A systemd/SysV-init service name
  *
  * Type of launch system the entries belong to.
  **/
 typedef enum  {
 	AS_LAUNCHABLE_KIND_UNKNOWN,
 	AS_LAUNCHABLE_KIND_DESKTOP_ID,
+	AS_LAUNCHABLE_KIND_SERVICE,
 	/*< private >*/
 	AS_LAUNCHABLE_KIND_LAST
 } AsLaunchableKind;

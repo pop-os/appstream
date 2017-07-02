@@ -40,6 +40,11 @@ class APPSTREAMQT_EXPORT Bundle {
         Bundle& operator=(const Bundle& bundle);
         bool operator==(const Bundle& r) const;
 
+        /**
+         * \returns the internally stored AsBundle
+         */
+        _AsBundle *asBundle() const;
+
         enum Kind {
             KindUnknown,
             KindPackage,

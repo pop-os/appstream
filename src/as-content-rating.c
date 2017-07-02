@@ -326,7 +326,7 @@ as_content_rating_get_minimum_age (AsContentRating *content_rating)
 
 /**
  * as_content_rating_get_kind:
- * @content_rating: a #AsContentRating instance.
+ * @content_rating: a #AsContentRating
  *
  * Gets the content_rating kind.
  *
@@ -343,7 +343,7 @@ as_content_rating_get_kind (AsContentRating *content_rating)
 
 /**
  * as_content_rating_set_kind:
- * @content_rating: a #AsContentRating instance.
+ * @content_rating: a #AsContentRating
  * @kind: the rating kind, e.g. "oars-1.0"
  *
  * Sets the content rating kind.
@@ -359,15 +359,151 @@ as_content_rating_set_kind (AsContentRating *content_rating, const gchar *kind)
 }
 
 /**
+ * as_content_rating_load_from_xml:
+ * @content_rating: a #AsContentRating
+ * @ctx: the AppStream document context.
+ * @node: the XML node.
+ * @error: a #GError.
+ *
+ * Loads data from an XML node.
+ **/
+gboolean
+as_content_rating_load_from_xml (AsContentRating *content_rating, AsContext *ctx, xmlNode *node, GError **error)
+{
+	xmlNode *iter;
+	g_autofree gchar *type_str = NULL;
+
+	/* set selected content-rating type (usually oars-1.0) */
+	type_str = (gchar*) xmlGetProp (node, (xmlChar*) "type");
+	as_content_rating_set_kind (content_rating, (gchar*) type_str);
+
+	/* read attributes */
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		g_autofree gchar *attr_id = NULL;
+		AsContentRatingValue attr_value;
+		g_autofree gchar *str_value = NULL;
+
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		if (g_strcmp0 ((gchar*) iter->name, "content_attribute") != 0)
+			continue;
+
+		attr_id = (gchar*) xmlGetProp (iter, (xmlChar*) "id");
+		str_value = as_xml_get_node_value (iter);
+		attr_value = as_content_rating_value_from_string (str_value);
+		if ((attr_value == AS_CONTENT_RATING_VALUE_UNKNOWN) || (attr_id == NULL))
+			continue; /* this rating attribute is invalid */
+
+		as_content_rating_set_value (content_rating, attr_id, attr_value);
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_content_rating_to_xml_node:
+ * @content_rating: a #AsContentRating
+ * @ctx: the AppStream document context.
+ * @root: XML node to attach the new nodes to.
+ *
+ * Serializes the data to an XML node.
+ **/
+void
+as_content_rating_to_xml_node (AsContentRating *content_rating, AsContext *ctx, xmlNode *root)
+{
+	AsContentRatingPrivate *priv = GET_PRIVATE (content_rating);
+	guint i;
+	xmlNode *rnode;
+
+	rnode = xmlNewChild (root, NULL, (xmlChar*) "content_rating", NULL);
+	xmlNewProp (rnode,
+		    (xmlChar*) "type",
+		    (xmlChar*) priv->kind);
+
+	for (i = 0; i < priv->keys->len; i++) {
+		xmlNode *anode;
+		AsContentRatingKey *key = (AsContentRatingKey*) g_ptr_array_index (priv->keys, i);
+
+		anode = xmlNewTextChild (rnode,
+					 NULL,
+					 (xmlChar*) "content_attribute",
+					 (xmlChar*) as_content_rating_value_to_string (key->value));
+		xmlNewProp (anode,
+			    (xmlChar*) "id",
+			    (xmlChar*) key->id);
+	}
+}
+
+/**
+ * as_content_rating_load_from_yaml:
+ * @content_rating: a #AsContentRating
+ * @ctx: the AppStream document context.
+ * @node: the YAML node.
+ * @error: a #GError.
+ *
+ * Loads data from a YAML field.
+ **/
+gboolean
+as_content_rating_load_from_yaml (AsContentRating *content_rating, AsContext *ctx, GNode *node, GError **error)
+{
+	GNode *n;
+
+	as_content_rating_set_kind (content_rating,
+				    as_yaml_node_get_key (node));
+	for (n = node->children; n != NULL; n = n->next) {
+		AsContentRatingValue attr_value;
+
+		attr_value = as_content_rating_value_from_string (as_yaml_node_get_value (n));
+		if (attr_value == AS_CONTENT_RATING_VALUE_UNKNOWN)
+			continue;
+
+		as_content_rating_set_value (content_rating,
+					     as_yaml_node_get_key (n),
+					     attr_value);
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_content_rating_emit_yaml:
+ * @content_rating: a #AsContentRating
+ * @ctx: the AppStream document context.
+ * @emitter: The YAML emitter to emit data on.
+ *
+ * Emit YAML data for this object.
+ **/
+void
+as_content_rating_emit_yaml (AsContentRating *content_rating, AsContext *ctx, yaml_emitter_t *emitter)
+{
+	AsContentRatingPrivate *priv = GET_PRIVATE (content_rating);
+	guint j;
+
+	if (priv->kind == NULL)
+		return; /* we need to check for null to not mess up the YAML sequence */
+	as_yaml_emit_scalar (emitter, priv->kind);
+
+	as_yaml_mapping_start (emitter);
+	for (j = 0; j < priv->keys->len; j++) {
+		AsContentRatingKey *key = (AsContentRatingKey*) g_ptr_array_index (priv->keys, j);
+
+		as_yaml_emit_entry (emitter,
+				    key->id,
+				    as_content_rating_value_to_string (key->value));
+	}
+	as_yaml_mapping_end (emitter);
+}
+
+/**
  * as_content_rating_new:
  *
  * Creates a new #AsContentRating.
  *
  * Returns: (transfer full): a #AsContentRating
  *
- * Since: 0.5.12
+ * Since: 0.11.0
  **/
-AsContentRating *
+AsContentRating*
 as_content_rating_new (void)
 {
 	AsContentRating *content_rating;
