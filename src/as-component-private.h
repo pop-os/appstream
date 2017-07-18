@@ -62,19 +62,11 @@ void			as_component_complete (AsComponent *cpt,
 						gchar *scr_base_url,
 						GPtrArray *icon_paths);
 
-GHashTable		*as_component_get_name_table (AsComponent *cpt);
-GHashTable		*as_component_get_summary_table (AsComponent *cpt);
-GHashTable		*as_component_get_description_table (AsComponent *cpt);
-GHashTable		*as_component_get_developer_name_table (AsComponent *cpt);
-GHashTable		*as_component_get_keywords_table (AsComponent *cpt);
 AS_INTERNAL_VISIBLE
 GHashTable		*as_component_get_languages_table (AsComponent *cpt);
 
 void			as_component_set_bundles_array (AsComponent *cpt,
 							GPtrArray *bundles);
-
-AS_INTERNAL_VISIBLE
-GHashTable		*as_component_get_urls_table (AsComponent *cpt);
 
 gboolean		as_component_has_package (AsComponent *cpt);
 gboolean		as_component_has_install_candidate (AsComponent *cpt);
@@ -115,6 +107,9 @@ void			as_component_merge_with_mode (AsComponent *cpt,
 
 GPtrArray		*as_component_get_launchables (AsComponent *cpt);
 
+AsContext		*as_component_get_context (AsComponent *cpt);
+void			as_component_set_context (AsComponent *cpt,
+						  AsContext *context);
 
 gboolean		as_component_load_from_xml (AsComponent *cpt,
 							AsContext *ctx,
@@ -131,6 +126,12 @@ gboolean		as_component_load_from_yaml (AsComponent *cpt,
 void			as_component_emit_yaml (AsComponent *cpt,
 						AsContext *ctx,
 						yaml_emitter_t *emitter);
+
+void			as_component_to_variant (AsComponent *cpt,
+						 GVariantBuilder *builder);
+gboolean		as_component_set_from_variant (AsComponent *cpt,
+							GVariant *variant,
+							const gchar *locale);
 
 #pragma GCC visibility pop
 G_END_DECLS

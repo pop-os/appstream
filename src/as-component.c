@@ -27,6 +27,7 @@
 #include "as-utils.h"
 #include "as-utils-private.h"
 #include "as-stemmer.h"
+#include "as-variant-cache.h"
 
 #include "as-icon-private.h"
 #include "as-screenshot-private.h"
@@ -36,6 +37,7 @@
 #include "as-suggested-private.h"
 #include "as-content-rating-private.h"
 #include "as-launchable-private.h"
+#include "as-provided-private.h"
 
 
 /**
@@ -60,7 +62,8 @@ typedef struct
 	AsComponentKind 	kind;
 	AsComponentScope	scope;
 	AsOriginKind		origin_kind;
-	gchar			*active_locale;
+	AsContext		*context; /* the document context associated with this component */
+	gchar			*active_locale_override;
 
 	gchar			*id;
 	gchar			*data_id;
@@ -348,9 +351,6 @@ as_component_init (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	/* our default locale is "unlocalized" */
-	priv->active_locale = g_strdup ("C");
-
 	/* translatable entities */
 	priv->name = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->summary = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
@@ -379,7 +379,7 @@ as_component_init (AsComponent *cpt)
 
 	priv->token_cache = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 
-	as_component_set_priority (cpt, 0);
+	priv->priority = 0;
 }
 
 /**
@@ -397,7 +397,7 @@ as_component_finalize (GObject* object)
 	g_free (priv->metadata_license);
 	g_free (priv->project_license);
 	g_free (priv->project_group);
-	g_free (priv->active_locale);
+	g_free (priv->active_locale_override);
 	g_free (priv->arch);
 
 	g_hash_table_unref (priv->name);
@@ -427,6 +427,9 @@ as_component_finalize (GObject* object)
 		g_ptr_array_unref (priv->translations);
 
 	g_hash_table_unref (priv->token_cache);
+
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
 
 	G_OBJECT_CLASS (as_component_parent_class)->finalize (object);
 }
@@ -560,23 +563,6 @@ as_component_add_release (AsComponent *cpt, AsRelease* release)
 
 	releases = as_component_get_releases (cpt);
 	g_ptr_array_add (releases, g_object_ref (release));
-}
-
-/**
- * as_component_get_urls_table:
- * @cpt: a #AsComponent instance.
- *
- * Gets the URLs set for the component.
- *
- * Returns: (transfer none) (element-type AsUrlKind utf8): URLs
- *
- * Since: 0.6.2
- **/
-GHashTable*
-as_component_get_urls_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->urls;
 }
 
 /**
@@ -1017,6 +1003,8 @@ const gchar*
 as_component_get_origin (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if ((priv->context != NULL) && (priv->origin == NULL))
+		return as_context_get_origin (priv->context);
 	return priv->origin;
 }
 
@@ -1044,6 +1032,8 @@ const gchar*
 as_component_get_architecture (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if ((priv->context != NULL) && (priv->arch == NULL))
+		return as_context_get_architecture (priv->context);
 	return priv->arch;
 }
 
@@ -1069,11 +1059,23 @@ as_component_set_architecture (AsComponent *cpt, const gchar *arch)
  *
  * Returns: the current active locale.
  */
-gchar*
+const gchar*
 as_component_get_active_locale (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->active_locale;
+	const gchar *locale;
+
+	/* return context locale, if the locale isn't explicitly overridden for this component */
+	if ((priv->context != NULL) && (priv->active_locale_override == NULL)) {
+		locale = as_context_get_locale (priv->context);
+	} else {
+		locale = priv->active_locale_override;
+	}
+
+	if (locale == NULL)
+		return "C";
+	else
+		return locale;
 }
 
 /**
@@ -1091,8 +1093,8 @@ as_component_set_active_locale (AsComponent *cpt, const gchar *locale)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_free (priv->active_locale);
-	priv->active_locale = g_strdup (locale);
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = g_strdup (locale);
 }
 
 /**
@@ -1109,7 +1111,7 @@ as_component_localized_get (AsComponent *cpt, GHashTable *lht)
 	gchar *msg;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	msg = g_hash_table_lookup (lht, priv->active_locale);
+	msg = g_hash_table_lookup (lht, as_component_get_active_locale (cpt));
 	if ((msg == NULL) && (!as_flags_contains (priv->value_flags, AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK))) {
 		/* fall back to untranslated / default */
 		msg = g_hash_table_lookup (lht, "C");
@@ -1130,12 +1132,10 @@ as_component_localized_get (AsComponent *cpt, GHashTable *lht)
 static void
 as_component_localized_set (AsComponent *cpt, GHashTable *lht, const gchar* value, const gchar *locale)
 {
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
 	/* if no locale was specified, we assume the default locale */
 	/* CAVE: %NULL does NOT mean lang=C! */
 	if (locale == NULL)
-		locale = priv->active_locale;
+		locale = as_component_get_active_locale (cpt);
 
 	g_hash_table_insert (lht,
 				as_locale_strip_encoding (g_strdup (locale)),
@@ -1175,19 +1175,6 @@ as_component_set_name (AsComponent *cpt, const gchar* value, const gchar *locale
 }
 
 /**
- * as_component_get_name_table:
- * @cpt: a #AsComponent instance.
- *
- * Internal method.
- */
-GHashTable*
-as_component_get_name_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->name;
-}
-
-/**
  * as_component_get_summary:
  * @cpt: a #AsComponent instance.
  *
@@ -1217,19 +1204,6 @@ as_component_set_summary (AsComponent *cpt, const gchar* value, const gchar *loc
 
 	as_component_localized_set (cpt, priv->summary, value, locale);
 	g_object_notify ((GObject *) cpt, "summary");
-}
-
-/**
- * as_component_get_summary_table:
- * @cpt: a #AsComponent instance.
- *
- * Internal method.
- */
-GHashTable*
-as_component_get_summary_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->summary;
 }
 
 /**
@@ -1265,19 +1239,6 @@ as_component_set_description (AsComponent *cpt, const gchar* value, const gchar 
 }
 
 /**
- * as_component_get_description_table:
- * @cpt: a #AsComponent instance.
- *
- * Internal method.
- */
-GHashTable*
-as_component_get_description_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->description;
-}
-
-/**
  * as_component_get_keywords:
  * @cpt: a #AsComponent instance.
  *
@@ -1289,7 +1250,7 @@ as_component_get_keywords (AsComponent *cpt)
 	gchar **strv;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	strv = g_hash_table_lookup (priv->keywords, priv->active_locale);
+	strv = g_hash_table_lookup (priv->keywords, as_component_get_active_locale (cpt));
 	if (strv == NULL) {
 		/* fall back to untranslated */
 		strv = g_hash_table_lookup (priv->keywords, "C");
@@ -1313,26 +1274,13 @@ as_component_set_keywords (AsComponent *cpt, gchar **value, const gchar *locale)
 
 	/* if no locale was specified, we assume the default locale */
 	if (locale == NULL)
-		locale = priv->active_locale;
+		locale = as_component_get_active_locale (cpt);
 
 	g_hash_table_insert (priv->keywords,
 				g_strdup (locale),
 				g_strdupv (value));
 
 	g_object_notify ((GObject *) cpt, "keywords");
-}
-
-/**
- * as_component_get_keywords_table:
- * @cpt: a #AsComponent instance.
- *
- * Internal method.
- */
-GHashTable*
-as_component_get_keywords_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->keywords;
 }
 
 /**
@@ -1569,19 +1517,6 @@ as_component_set_developer_name (AsComponent *cpt, const gchar *value, const gch
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	as_component_localized_set (cpt, priv->developer_name, value, locale);
-}
-
-/**
- * as_component_get_developer_name_table:
- * @cpt: a #AsComponent instance.
- *
- * Internal method.
- */
-GHashTable*
-as_component_get_developer_name_table (AsComponent *cpt)
-{
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	return priv->developer_name;
 }
 
 /**
@@ -2110,6 +2045,7 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 				      NULL };
 	const gchar *sizes[] = { "", "64x64", "128x128", NULL };
 	const gchar *icon_fname = NULL;
+	const gchar *origin;
 	guint i, j, k, l;
 	g_autoptr(GPtrArray) icons = NULL;
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
@@ -2120,6 +2056,8 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 	/* take control of the old icon list and rewrite it */
 	icons = priv->icons;
 	priv->icons = g_ptr_array_new_with_free_func (g_object_unref);
+
+	origin = as_component_get_origin (cpt);
 
 	/* Process the icons we have and extract sizes */
 	for (i = 0; i < icons->len; i++) {
@@ -2170,14 +2108,14 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 				if (as_icon_get_scale (icon) <= 1) {
 					tmp_icon_path_wh = g_strdup_printf ("%s/%s/%ix%i/%s",
 										icon_path,
-										priv->origin,
+										origin,
 										as_icon_get_width (icon),
 										as_icon_get_height (icon),
 										icon_fname);
 				} else {
 					tmp_icon_path_wh = g_strdup_printf ("%s/%s/%ix%i@%i/%s",
 										icon_path,
-										priv->origin,
+										origin,
 										as_icon_get_width (icon),
 										as_icon_get_height (icon),
 										as_icon_get_scale (icon),
@@ -2206,7 +2144,7 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 				/* sometimes, the file already has an extension */
 				tmp_icon_path = g_strdup_printf ("%s/%s/%s/%s",
 								icon_path,
-								priv->origin,
+								origin,
 								sizes[j],
 								icon_fname);
 
@@ -2232,7 +2170,7 @@ as_component_refine_icons (AsComponent *cpt, GPtrArray *icon_paths)
 					g_autofree gchar *tmp_icon_path_ext = NULL;
 					tmp_icon_path_ext = g_strdup_printf ("%s/%s/%s/%s.%s",
 								icon_path,
-								priv->origin,
+								origin,
 								sizes[j],
 								icon_fname,
 								extensions[k]);
@@ -2303,7 +2241,7 @@ as_component_complete (AsComponent *cpt, gchar *scr_service_url, GPtrArray *icon
 		sshot = as_screenshot_new ();
 
 		/* propagate locale */
-		as_screenshot_set_active_locale (sshot, priv->active_locale);
+		as_screenshot_set_active_locale (sshot, as_component_get_active_locale (cpt));
 
 		as_screenshot_add_image (sshot, img);
 		as_screenshot_set_kind (sshot, AS_SCREENSHOT_KIND_DEFAULT);
@@ -2396,12 +2334,12 @@ as_component_add_token (AsComponent *cpt,
 static gboolean
 as_component_value_tokenize (AsComponent *cpt, const gchar *value, gchar ***tokens_utf8, gchar ***tokens_ascii)
 {
-	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
 	/* tokenize with UTF-8 fallbacks */
 	if (g_strstr_len (value, -1, "+") == NULL &&
 	    g_strstr_len (value, -1, "-") == NULL) {
-		(*tokens_utf8) = g_str_tokenize_and_fold (value, priv->active_locale, tokens_ascii);
+		(*tokens_utf8) = g_str_tokenize_and_fold (value,
+							  as_component_get_active_locale (cpt),
+							  tokens_ascii);
 	}
 
 	/* we might still be able to extract tokens if g_str_tokenize_and_fold() can't do it or +/- were found */
@@ -2944,6 +2882,51 @@ as_component_add_launchable (AsComponent *cpt, AsLaunchable *launchable)
 }
 
 /**
+ * as_component_get_context:
+ * @cpt: a #AsComponent instance.
+ *
+ * Returns: the #AsContext associated with this component.
+ * This function may return %NULL if no context is set.
+ *
+ * Since: 0.11.2
+ */
+AsContext*
+as_component_get_context (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->context;
+}
+
+/**
+ * as_component_set_context:
+ * @cpt: a #AsComponent instance.
+ * @context: the #AsContext.
+ *
+ * Sets the document context this component is associated
+ * with.
+ *
+ * Since: 0.11.2
+ */
+void
+as_component_set_context (AsComponent *cpt, AsContext *context)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
+	priv->context = g_object_ref (context);
+
+	/* reset individual properties, so the new context overrides them */
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = NULL;
+
+	g_free (priv->origin);
+	priv->origin = NULL;
+
+	g_free (priv->arch);
+	priv->arch = NULL;
+}
+
+/**
  * as_copy_l10n_hashtable_hfunc:
  */
 static void
@@ -3340,8 +3323,8 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 		priv->merge_kind = as_merge_kind_from_string (merge_str);
 	}
 
-	/* set active locale for this component */
-	as_component_set_active_locale (cpt, as_context_get_locale (ctx));
+	/* set context for this component */
+	as_component_set_context (cpt, ctx);
 
 	for (iter = node->children; iter != NULL; iter = iter->next) {
 		g_autofree gchar *content = NULL;
@@ -3492,12 +3475,6 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 				as_component_add_content_rating (cpt, ctrating);
 		}
 	}
-
-	/* set the origin of this component */
-	as_component_set_origin (cpt, as_context_get_origin (ctx));
-
-	/* set the architecture of this component */
-	as_component_set_architecture (cpt, as_context_get_architecture (ctx));
 
 	/* add package name information to component */
 	{
@@ -3902,7 +3879,9 @@ as_component_yaml_parse_keywords (AsComponent *cpt, AsContext *ctx, GNode *node)
 	as_yaml_list_to_str_array (tnode, keywords);
 
 	strv = as_ptr_array_to_strv (keywords);
-	as_component_set_keywords (cpt, strv, NULL);
+	as_component_set_keywords (cpt,
+				   strv,
+				   as_yaml_node_get_key (tnode));
 }
 
 /**
@@ -3982,12 +3961,9 @@ static void
 as_component_yaml_parse_icons (AsComponent *cpt, AsContext *ctx, GNode *node)
 {
 	GNode *n;
-	const gchar *key;
-	const gchar *value;
-
 	for (n = node->children; n != NULL; n = n->next) {
-		key = (const gchar*) n->data;
-		value = (const gchar*) n->children->data;
+		const gchar *key = as_yaml_node_get_key (n);
+		const gchar *value = as_yaml_node_get_value (n);
 
 		if (g_strcmp0 (key, "stock") == 0) {
 			g_autoptr(AsIcon) icon = as_icon_new ();
@@ -4187,17 +4163,11 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	GNode *node;
 
-	/* set active locale for this component */
-	as_component_set_active_locale (cpt, as_context_get_locale (ctx));
+	/* set context for this component */
+	as_component_set_context (cpt, ctx);
 
 	/* set component default priority */
 	priv->priority = as_context_get_priority (ctx);
-
-	/* set component origin */
-	as_component_set_origin (cpt, as_context_get_origin (ctx));
-
-	/* set component architecture */
-	as_component_set_architecture (cpt, as_context_get_architecture (ctx));
 
 	for (node = root->children; node != NULL; node = node->next) {
 		const gchar *key;
@@ -4856,6 +4826,597 @@ as_component_emit_yaml (AsComponent *cpt, AsContext *ctx, yaml_emitter_t *emitte
 }
 
 /**
+ * as_component_to_variant:
+ * @cpt: an #AsComponent.
+ * @builder: A #GVariantBuilder
+ *
+ * Serialize the current active state of this object to a GVariant
+ * for use in the on-disk binary cache.
+ */
+void
+as_component_to_variant (AsComponent *cpt, GVariantBuilder *builder)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	GVariantBuilder cb;
+	guint i;
+
+	/* start serializing our component */
+	g_variant_builder_init (&cb, G_VARIANT_TYPE_VARDICT);
+
+
+	/* type */
+	as_variant_builder_add_kv (&cb, "type",
+				g_variant_new_uint32 (priv->kind));
+
+	/* id */
+	as_variant_builder_add_kv (&cb, "id",
+				as_variant_mstring_new (priv->id));
+
+	/* name */
+	as_variant_builder_add_kv (&cb, "name",
+				as_variant_mstring_new (as_component_get_name (cpt)));
+
+	/* summary */
+	as_variant_builder_add_kv (&cb, "summary",
+				as_variant_mstring_new (as_component_get_summary (cpt)));
+
+	/* source package name */
+	as_variant_builder_add_kv (&cb, "source_pkgname",
+				as_variant_mstring_new (priv->source_pkgname));
+
+	/* package name */
+	as_variant_builder_add_kv (&cb, "pkgnames",
+					g_variant_new_strv ((const gchar* const*) priv->pkgnames, priv->pkgnames? -1 : 0));
+
+	/* origin */
+	as_variant_builder_add_kv (&cb, "origin",
+				as_variant_mstring_new (as_component_get_origin (cpt)));
+
+	/* bundles */
+	if (priv->bundles->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+
+		for (i = 0; i < priv->bundles->len; i++) {
+			as_bundle_to_variant (AS_BUNDLE (g_ptr_array_index (priv->bundles, i)), &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "bundles", g_variant_builder_end (&array_b));
+	}
+
+	/* launchables */
+	if (priv->launchables->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+
+		for (i = 0; i < priv->launchables->len; i++) {
+			as_launchable_to_variant (AS_LAUNCHABLE (g_ptr_array_index (priv->launchables, i)), &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "launchables", g_variant_builder_end (&array_b));
+	}
+
+	/* extends */
+	as_variant_builder_add_kv (&cb, "extends",
+					as_variant_from_string_ptrarray (priv->extends));
+
+	/* URLs */
+	if (g_hash_table_size (priv->urls) > 0) {
+		GHashTableIter iter;
+		gpointer key, value;
+		GVariantBuilder dict_b;
+
+		g_variant_builder_init (&dict_b, G_VARIANT_TYPE_DICTIONARY);
+		g_hash_table_iter_init (&iter, priv->urls);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			g_variant_builder_add (&dict_b,
+						"{uv}",
+						(AsUrlKind) GPOINTER_TO_INT (key),
+						g_variant_new_string ((const gchar*) value));
+		}
+
+		as_variant_builder_add_kv (&cb, "urls",
+						g_variant_builder_end (&dict_b));
+	}
+
+	/* icons */
+	if (priv->icons->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->icons->len; i++) {
+			AsIcon *icon = AS_ICON (g_ptr_array_index (priv->icons, i));
+			as_icon_to_variant (icon, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "icons",
+						g_variant_builder_end (&array_b));
+	}
+
+	/* long description */
+	as_variant_builder_add_kv (&cb, "description",
+				as_variant_mstring_new (as_component_get_description (cpt)));
+
+	/* categories */
+	as_variant_builder_add_kv (&cb, "categories",
+					as_variant_from_string_ptrarray (priv->categories));
+
+
+	/* compulsory-for-desktop */
+	as_variant_builder_add_kv (&cb, "compulsory_for",
+					as_variant_from_string_ptrarray (priv->compulsory_for_desktops));
+
+	/* project license */
+	as_variant_builder_add_kv (&cb, "project_license",
+				as_variant_mstring_new (priv->project_license));
+
+	/* project group */
+	as_variant_builder_add_kv (&cb, "project_group",
+				as_variant_mstring_new (priv->project_group));
+
+	/* developer name */
+	as_variant_builder_add_kv (&cb, "developer_name",
+				as_variant_mstring_new (as_component_get_developer_name (cpt)));
+
+	/* provided items */
+	if (priv->provided->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->provided->len; i++) {
+			AsProvided *prov = AS_PROVIDED (g_ptr_array_index (priv->provided, i));
+			as_provided_to_variant (prov, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "provided",
+						g_variant_builder_end (&array_b));
+	}
+
+	/* screenshots */
+	if (priv->screenshots->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->screenshots->len; i++) {
+			AsScreenshot *scr = AS_SCREENSHOT (g_ptr_array_index (priv->screenshots, i));
+			as_screenshot_to_variant (scr, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "screenshots",
+						g_variant_builder_end (&array_b));
+	}
+
+	/* releases */
+	if (priv->releases->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->releases->len; i++) {
+			AsRelease *rel = AS_RELEASE (g_ptr_array_index (priv->releases, i));
+			as_release_to_variant (rel, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "releases",
+						g_variant_builder_end (&array_b));
+	}
+
+	/* languages */
+	if (g_hash_table_size (priv->languages) > 0) {
+		GHashTableIter iter;
+		gpointer key, value;
+		GVariantBuilder dict_b;
+
+		g_variant_builder_init (&dict_b, G_VARIANT_TYPE_DICTIONARY);
+		g_hash_table_iter_init (&iter, priv->languages);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			g_variant_builder_add (&dict_b,
+						"{su}",
+						(const gchar*) key,
+						GPOINTER_TO_INT (value));
+		}
+
+		as_variant_builder_add_kv (&cb, "languages",
+						g_variant_builder_end (&dict_b));
+	}
+
+	/* suggestions */
+	if (priv->suggestions->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->suggestions->len; i++) {
+			AsSuggested *suggested = AS_SUGGESTED (g_ptr_array_index (priv->suggestions, i));
+			as_suggested_to_variant (suggested, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb, "suggestions",
+						g_variant_builder_end (&array_b));
+	}
+
+	/* content ratings */
+	if (priv->content_ratings->len > 0) {
+		GVariantBuilder array_b;
+		g_variant_builder_init (&array_b, G_VARIANT_TYPE_ARRAY);
+		for (i = 0; i < priv->content_ratings->len; i++) {
+			AsContentRating *rating = AS_CONTENT_RATING (g_ptr_array_index (priv->content_ratings, i));
+			as_content_rating_to_variant (rating, &array_b);
+		}
+
+		as_variant_builder_add_kv (&cb,
+					   "content_ratings",
+					   g_variant_builder_end (&array_b));
+	}
+
+	/* custom data */
+	if (g_hash_table_size (priv->custom) > 0) {
+		GHashTableIter iter;
+		gpointer key, value;
+		GVariantBuilder dict_b;
+
+		g_variant_builder_init (&dict_b, G_VARIANT_TYPE_DICTIONARY);
+		g_hash_table_iter_init (&iter, priv->custom);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			if ((key == NULL) || (value == NULL))
+				continue;
+			g_variant_builder_add (&dict_b,
+						"{ss}",
+						(const gchar*) key,
+						(const gchar*) value);
+		}
+
+		as_variant_builder_add_kv (&cb, "custom",
+						g_variant_builder_end (&dict_b));
+	}
+
+	/* search tokens */
+	as_component_create_token_cache (cpt);
+	if (g_hash_table_size (priv->token_cache) > 0) {
+		GHashTableIter iter;
+		gpointer key, value;
+		GVariantBuilder dict_b;
+
+		g_variant_builder_init (&dict_b, G_VARIANT_TYPE_DICTIONARY);
+		g_hash_table_iter_init (&iter, priv->token_cache);
+		while (g_hash_table_iter_next (&iter, &key, &value)) {
+			if (value == NULL)
+				continue;
+
+			g_variant_builder_add (&dict_b, "{su}",
+						(const gchar*) key, *((AsTokenType*) value));
+		}
+
+		as_variant_builder_add_kv (&cb, "tokens",
+						g_variant_builder_end (&dict_b));
+	}
+
+	/* add to component list */
+	g_variant_builder_add_value (builder, g_variant_builder_end (&cb));
+}
+
+/**
+ * as_component_set_from_variant:
+ * @cpt: an #AsComponent.
+ * @variant: The #GVariant to read from.
+ *
+ * Read the active state of this object from a #GVariant serialization.
+ * This is used by the on-disk binary cache.
+ */
+gboolean
+as_component_set_from_variant (AsComponent *cpt, GVariant *variant, const gchar *locale)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	GVariantDict dict;
+	const gchar **strv;
+	GVariant *var;
+	GVariantIter gvi;
+
+	g_variant_dict_init (&dict, variant);
+
+	/* type */
+	priv->kind = as_variant_get_dict_uint32 (&dict, "type");
+
+	/* active locale */
+	as_component_set_active_locale (cpt, locale);
+
+	/* id */
+	as_component_set_id (cpt,
+				as_variant_get_dict_mstr (&dict, "id", &var));
+	g_variant_unref (var);
+
+	/* name */
+	as_component_set_name (cpt,
+				as_variant_get_dict_mstr (&dict, "name", &var),
+				locale);
+	g_variant_unref (var);
+
+	/* summary */
+	as_component_set_summary (cpt,
+				as_variant_get_dict_mstr (&dict, "summary", &var),
+				locale);
+	g_variant_unref (var);
+
+	/* source package name */
+	as_component_set_source_pkgname (cpt,
+					as_variant_get_dict_mstr (&dict, "source_pkgname", &var));
+	g_variant_unref (var);
+
+	/* package names */
+	strv = as_variant_get_dict_strv (&dict, "pkgnames", &var);
+	as_component_set_pkgnames (cpt, (gchar **) strv);
+	g_free (strv);
+	g_variant_unref (var);
+
+	/* origin */
+	as_component_set_origin (cpt, as_variant_get_dict_mstr (&dict, "origin", &var));
+	g_variant_unref (var);
+
+	/* bundles */
+	var = g_variant_dict_lookup_value (&dict, "bundles", G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsBundle) bundle = as_bundle_new ();
+			if (as_bundle_set_from_variant (bundle, child))
+				as_component_add_bundle (cpt, bundle);
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* launchables */
+	var = g_variant_dict_lookup_value (&dict, "launchables", G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsLaunchable) launch = as_launchable_new ();
+			if (as_launchable_set_from_variant (launch, child))
+				as_component_add_launchable (cpt, launch);
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* extends */
+	as_variant_to_string_ptrarray_by_dict (&dict,
+						"extends",
+						priv->extends);
+
+	/* URLs */
+	var = g_variant_dict_lookup_value (&dict,
+						"urls",
+						G_VARIANT_TYPE_DICTIONARY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			AsUrlKind kind;
+			g_autoptr(GVariant) url_var = NULL;
+
+			g_variant_get (child, "{uv}", &kind, &url_var);
+			as_component_add_url (cpt,
+						kind,
+						g_variant_get_string (url_var, NULL));
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* icons */
+	var = g_variant_dict_lookup_value (&dict,
+						"icons",
+						G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsIcon) icon = as_icon_new ();
+			if (as_icon_set_from_variant (icon, child))
+				as_component_add_icon (cpt, icon);
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* long description */
+	as_component_set_description (cpt,
+					as_variant_get_dict_mstr (&dict, "description", &var),
+					locale);
+	g_variant_unref (var);
+
+	/* categories */
+	as_variant_to_string_ptrarray_by_dict (&dict,
+						"categories",
+						priv->categories);
+
+	/* compulsory-for-desktop */
+	as_variant_to_string_ptrarray_by_dict (&dict,
+						"compulsory_for",
+						priv->compulsory_for_desktops);
+
+	/* project license */
+	as_component_set_project_license (cpt, as_variant_get_dict_mstr (&dict, "project_license", &var));
+	g_variant_unref (var);
+
+	/* project group */
+	as_component_set_project_group (cpt, as_variant_get_dict_mstr (&dict, "project_group", &var));
+	g_variant_unref (var);
+
+	/* developer name */
+	as_component_set_developer_name (cpt,
+					 as_variant_get_dict_mstr (&dict, "developer_name", &var),
+					 locale);
+	g_variant_unref (var);
+
+
+	/* provided items */
+	var = g_variant_dict_lookup_value (&dict,
+						"provided",
+						G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsProvided) prov = as_provided_new ();
+
+			if (as_provided_set_from_variant (prov, child))
+				as_component_add_provided (cpt, prov);
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* screenshots */
+	var = g_variant_dict_lookup_value (&dict,
+						"screenshots",
+						G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsScreenshot) scr = as_screenshot_new ();
+			if (as_screenshot_set_from_variant (scr, child, locale))
+				as_component_add_screenshot (cpt, scr);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* releases */
+	var = g_variant_dict_lookup_value (&dict,
+						"releases",
+						G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsRelease) rel = as_release_new ();
+			if (as_release_set_from_variant (rel, child, locale))
+				as_component_add_release (cpt, rel);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* languages */
+	var = g_variant_dict_lookup_value (&dict,
+					   "languages",
+					   G_VARIANT_TYPE_DICTIONARY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			guint percentage;
+			g_autofree gchar *lang;
+
+			g_variant_get (child, "{su}", &lang, &percentage);
+			as_component_add_language (cpt, lang, percentage);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* suggestions */
+	var = g_variant_dict_lookup_value (&dict,
+					   "suggestions",
+					   G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsSuggested) suggested = as_suggested_new ();
+			if (as_suggested_set_from_variant (suggested, child))
+				as_component_add_suggested (cpt, suggested);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* content ratings */
+	var = g_variant_dict_lookup_value (&dict,
+					   "content_ratings",
+					   G_VARIANT_TYPE_ARRAY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autoptr(AsContentRating) rating = as_content_rating_new ();
+			if (as_content_rating_set_from_variant (rating, child))
+				as_component_add_content_rating (cpt, rating);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* custom data */
+	var = g_variant_dict_lookup_value (&dict,
+					   "custom",
+					   G_VARIANT_TYPE_DICTIONARY);
+	if (var != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			g_autofree gchar *key = NULL;
+			g_autofree gchar *value = NULL;
+
+			g_variant_get (child, "{ss}", &key, &value);
+			as_component_insert_custom_value (cpt, key, value);
+
+			g_variant_unref (child);
+		}
+		g_variant_unref (var);
+	}
+
+	/* search tokens */
+	var = g_variant_dict_lookup_value (&dict,
+					   "tokens",
+					   G_VARIANT_TYPE_DICTIONARY);
+	if (var != NULL) {
+		GVariant *child;
+		gboolean tokens_added = FALSE;
+
+		g_variant_iter_init (&gvi, var);
+		while ((child = g_variant_iter_next_value (&gvi))) {
+			guint score;
+			gchar *token;
+			AsTokenType *match_pval;
+
+			g_variant_get (child, "{su}", &token, &score);
+
+			match_pval = g_new0 (AsTokenType, 1);
+			*match_pval = score;
+
+			g_hash_table_insert (priv->token_cache,
+						token,
+						match_pval);
+			tokens_added = TRUE;
+
+			g_variant_unref (child);
+		}
+
+		/* we added things to the token cache, so we just assume it's valid */
+		if (tokens_added)
+			as_component_set_token_cache_valid (cpt, TRUE);
+
+		g_variant_unref (var);
+	}
+
+	return TRUE;
+}
+
+/**
  * as_component_get_desktop_id:
  * @cpt: a #AsComponent instance.
  *
@@ -4897,6 +5458,8 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 {
 	AsComponent *cpt;
 	cpt = G_TYPE_CHECK_INSTANCE_CAST (object, AS_TYPE_COMPONENT, AsComponent);
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+
 	switch (property_id) {
 		case AS_COMPONENT_KIND:
 			g_value_set_enum (value, as_component_get_kind (cpt));
@@ -4923,7 +5486,7 @@ as_component_get_property (GObject * object, guint property_id, GValue * value, 
 			g_value_set_pointer (value, as_component_get_icons (cpt));
 			break;
 		case AS_COMPONENT_URLS:
-			g_value_set_boxed (value, as_component_get_urls_table (cpt));
+			g_value_set_boxed (value, priv->urls);
 			break;
 		case AS_COMPONENT_CATEGORIES:
 			g_value_set_boxed (value, as_component_get_categories (cpt));

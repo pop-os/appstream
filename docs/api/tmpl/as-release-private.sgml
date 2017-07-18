@@ -22,13 +22,22 @@ as-release-private
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### FUNCTION as_release_get_description_table ##### -->
+<!-- ##### FUNCTION as_release_get_context ##### -->
 <para>
 
 </para>
 
 @release: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_release_set_context ##### -->
+<para>
+
+</para>
+
+@release: 
+@context: 
 
 
 <!-- ##### FUNCTION as_release_load_from_xml ##### -->
@@ -73,5 +82,25 @@ as-release-private
 @release: 
 @ctx: 
 @emitter: 
+
+
+<!-- ##### FUNCTION as_release_to_variant ##### -->
+<para>
+
+</para>
+
+@release: 
+@builder: 
+
+
+<!-- ##### FUNCTION as_release_set_from_variant ##### -->
+<para>
+
+</para>
+
+@release: 
+@variant: 
+@locale: 
+@Returns: 
 
 

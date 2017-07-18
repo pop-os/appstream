@@ -30,6 +30,10 @@
 </entry><entry role="function_name"><link linkend="as-image-load-from-yaml">as_image_load_from_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-image-emit-yaml">as_image_emit_yaml</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-image-to-variant">as_image_to_variant</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-image-set-from-variant">as_image_set_from_variant</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 
 </tbody>
 </tgroup>
@@ -159,6 +163,54 @@ as_image_emit_yaml (<parameter><link linkend="AsImage"><type>AsImage</type></lin
 <entry role="parameter_annotations"></entry></row>
 <row><entry role="parameter_name"><para>emitter</para></entry>
 <entry role="parameter_description"><para>The YAML emitter to emit data on.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-image-to-variant" role="function">
+<title>as_image_to_variant&#160;()</title>
+<indexterm zone="as-image-to-variant"><primary>as_image_to_variant</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_image_to_variant (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                     <parameter><link linkend="GVariantBuilder"><type>GVariantBuilder</type></link> *builder</parameter>);</programlisting>
+<para>Serialize the current active state of this object to a GVariant
+for use in the on-disk binary cache.</para>
+<refsect3 id="as-image-to-variant.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>image</para></entry>
+<entry role="parameter_description"><para>An <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>builder</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GVariantBuilder"><type>GVariantBuilder</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-image-set-from-variant" role="function">
+<title>as_image_set_from_variant&#160;()</title>
+<indexterm zone="as-image-set-from-variant"><primary>as_image_set_from_variant</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_image_set_from_variant (<parameter><link linkend="AsImage"><type>AsImage</type></link> *image</parameter>,
+                           <parameter><link linkend="GVariant"><type>GVariant</type></link> *variant</parameter>);</programlisting>
+<para>Read the active state of this object from a <link linkend="GVariant"><type>GVariant</type></link> serialization.
+This is used by the on-disk binary cache.</para>
+<refsect3 id="as-image-set-from-variant.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>image</para></entry>
+<entry role="parameter_description"><para>An <link linkend="AsImage"><type>AsImage</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>variant</para></entry>
+<entry role="parameter_description"><para>The <link linkend="GVariant"><type>GVariant</type></link> to read from.</para></entry>
 <entry role="parameter_annotations"></entry></row>
 </tbody></tgroup></informaltable>
 </refsect3></refsect2>

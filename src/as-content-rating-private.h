@@ -34,8 +34,6 @@ typedef struct {
 	AsContentRatingValue	 value;
 } AsContentRatingKey;
 
-GPtrArray	*as_content_rating_get_value_array (AsContentRating *content_rating);
-
 gboolean	as_content_rating_load_from_xml (AsContentRating *content_rating,
 						 AsContext *ctx,
 						 xmlNode *node,
@@ -51,6 +49,11 @@ gboolean	as_content_rating_load_from_yaml (AsContentRating *content_rating,
 void		as_content_rating_emit_yaml (AsContentRating *content_rating,
 						AsContext *ctx,
 						yaml_emitter_t *emitter);
+
+void		as_content_rating_to_variant (AsContentRating *content_rating,
+					      GVariantBuilder *builder);
+gboolean	as_content_rating_set_from_variant (AsContentRating *content_rating,
+						    GVariant *variant);
 
 #pragma GCC visibility pop
 G_END_DECLS

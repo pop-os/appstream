@@ -28,7 +28,7 @@
 </entry><entry role="function_name"><link linkend="as-size-kind-from-string">as_size_kind_from_string</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="AsRelease"><returnvalue>AsRelease</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-release-new">as_release_new</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-release-get-active-locale">as_release_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-release-set-active-locale">as_release_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
@@ -166,7 +166,7 @@ as_release_new (<parameter><type>void</type></parameter>);</programlisting>
 <refsect2 id="as-release-get-active-locale" role="function">
 <title>as_release_get_active_locale&#160;()</title>
 <indexterm zone="as-release-get-active-locale"><primary>as_release_get_active_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_release_get_active_locale (<parameter><link linkend="AsRelease"><type>AsRelease</type></link> *release</parameter>);</programlisting>
 <para>Get the current active locale, which
 is used to get localized messages.</para>

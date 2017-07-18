@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.3//EN"
+               "http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd"
+[
+  <!ENTITY % local.common.attrib "xmlns:xi  CDATA  #FIXED 'http://www.w3.org/2003/XInclude'">
+]>
+<refentry id="appstream-as-provided-private">
+<refmeta>
+<refentrytitle role="top_of_page" id="appstream-as-provided-private.top_of_page">as-provided-private</refentrytitle>
+<manvolnum>3</manvolnum>
+<refmiscinfo>APPSTREAM Library</refmiscinfo>
+</refmeta>
+<refnamediv>
+<refname>as-provided-private</refname>
+<refpurpose></refpurpose>
+</refnamediv>
+
+<refsect1 id="appstream-as-provided-private.functions" role="functions_proto">
+<title role="functions_proto.title">Functions</title>
+<informaltable pgwide="1" frame="none">
+<tgroup cols="2">
+<colspec colname="functions_return" colwidth="150px"/>
+<colspec colname="functions_name"/>
+<tbody>
+<row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-to-variant">as_provided_to_variant</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+<row><entry role="function_type"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+</entry><entry role="function_name"><link linkend="as-provided-set-from-variant">as_provided_set_from_variant</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
+
+</tbody>
+</tgroup>
+</informaltable>
+</refsect1>
+
+
+<refsect1 id="appstream-as-provided-private.description" role="desc">
+<title role="desc.title">Description</title>
+<para>
+</para>
+
+</refsect1>
+<refsect1 id="appstream-as-provided-private.functions_details" role="details">
+<title role="details.title">Functions</title>
+<refsect2 id="as-provided-to-variant" role="function">
+<title>as_provided_to_variant&#160;()</title>
+<indexterm zone="as-provided-to-variant"><primary>as_provided_to_variant</primary></indexterm>
+<programlisting language="C"><link linkend="void"><returnvalue>void</returnvalue></link>
+as_provided_to_variant (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>,
+                        <parameter><link linkend="GVariantBuilder"><type>GVariantBuilder</type></link> *builder</parameter>);</programlisting>
+<para>Serialize the current active state of this object to a GVariant
+for use in the on-disk binary cache.</para>
+<refsect3 id="as-provided-to-variant.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>builder</para></entry>
+<entry role="parameter_description"><para>A <link linkend="GVariantBuilder"><type>GVariantBuilder</type></link></para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+<refsect2 id="as-provided-set-from-variant" role="function">
+<title>as_provided_set_from_variant&#160;()</title>
+<indexterm zone="as-provided-set-from-variant"><primary>as_provided_set_from_variant</primary></indexterm>
+<programlisting language="C"><link linkend="gboolean"><returnvalue>gboolean</returnvalue></link>
+as_provided_set_from_variant (<parameter><link linkend="AsProvided"><type>AsProvided</type></link> *prov</parameter>,
+                              <parameter><link linkend="GVariant"><type>GVariant</type></link> *variant</parameter>);</programlisting>
+<para>Read the active state of this object from a <link linkend="GVariant"><type>GVariant</type></link> serialization.
+This is used by the on-disk binary cache.</para>
+<refsect3 id="as-provided-set-from-variant.parameters" role="parameters">
+<title>Parameters</title>
+<informaltable role="parameters_table" pgwide="1" frame="none">
+<tgroup cols="3">
+<colspec colname="parameters_name" colwidth="150px"/>
+<colspec colname="parameters_description"/>
+<colspec colname="parameters_annotations" colwidth="200px"/>
+<tbody>
+<row><entry role="parameter_name"><para>prov</para></entry>
+<entry role="parameter_description"><para>a <link linkend="AsProvided"><type>AsProvided</type></link> instance.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+<row><entry role="parameter_name"><para>variant</para></entry>
+<entry role="parameter_description"><para>The <link linkend="GVariant"><type>GVariant</type></link> to read from.</para></entry>
+<entry role="parameter_annotations"></entry></row>
+</tbody></tgroup></informaltable>
+</refsect3></refsect2>
+
+</refsect1>
+<refsect1 id="appstream-as-provided-private.other_details" role="details">
+<title role="details.title">Types and Values</title>
+
+</refsect1>
+
+</refentry>

@@ -35,6 +35,7 @@
 #include "as-utils.h"
 #include "as-utils-private.h"
 #include "as-image-private.h"
+#include "as-variant-cache.h"
 
 typedef struct
 {
@@ -42,7 +43,9 @@ typedef struct
 	GHashTable *caption;
 	GPtrArray *images;
 	GPtrArray *images_lang;
-	gchar *active_locale;
+
+	AsContext *context;
+	gchar *active_locale_override;
 } AsScreenshotPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsScreenshot, as_screenshot, G_TYPE_OBJECT)
@@ -57,10 +60,12 @@ as_screenshot_finalize (GObject *object)
 	AsScreenshot *screenshot = AS_SCREENSHOT (object);
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 
-	g_free (priv->active_locale);
+	g_free (priv->active_locale_override);
 	g_ptr_array_unref (priv->images);
 	g_ptr_array_unref (priv->images_lang);
 	g_hash_table_unref (priv->caption);
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
 
 	G_OBJECT_CLASS (as_screenshot_parent_class)->finalize (object);
 }
@@ -73,7 +78,6 @@ as_screenshot_init (AsScreenshot *screenshot)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 
-	priv->active_locale = g_strdup ("C");
 	priv->kind = AS_SCREENSHOT_KIND_EXTRA;
 	priv->caption = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->images = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
@@ -186,7 +190,7 @@ as_screenshot_add_image (AsScreenshot *screenshot, AsImage *image)
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 	g_ptr_array_add (priv->images, g_object_ref (image));
 
-	if (as_utils_locale_is_compatible (as_image_get_locale (image), priv->active_locale))
+	if (as_utils_locale_is_compatible (as_image_get_locale (image), as_screenshot_get_active_locale (screenshot)))
 		g_ptr_array_add (priv->images_lang, g_object_ref (image));
 }
 
@@ -204,7 +208,8 @@ as_screenshot_get_caption (AsScreenshot *screenshot)
 	const gchar *caption;
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 
-	caption = g_hash_table_lookup (priv->caption, priv->active_locale);
+	caption = g_hash_table_lookup (priv->caption,
+					as_screenshot_get_active_locale (screenshot));
 	if (caption == NULL) {
 		/* fall back to untranslated / default */
 		caption = g_hash_table_lookup (priv->caption, "C");
@@ -226,7 +231,7 @@ as_screenshot_set_caption (AsScreenshot *screenshot, const gchar *caption, const
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 
 	if (locale == NULL)
-		locale = priv->active_locale;
+		locale = as_screenshot_get_active_locale (screenshot);
 
 	g_hash_table_insert (priv->caption,
 				as_locale_strip_encoding (g_strdup (locale)),
@@ -249,16 +254,51 @@ as_screenshot_is_valid (AsScreenshot *screenshot)
 }
 
 /**
+ * as_screenshot_rebuild_suitable_images_list:
+ * @screenshot: a #AsScreenshot instance.
+ *
+ * Rebuild list of images suitable for the selected locale.
+ */
+static void
+as_screenshot_rebuild_suitable_images_list (AsScreenshot *screenshot)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	guint i;
+
+	/* rebuild our list of images suitable for the current locale */
+	g_ptr_array_unref (priv->images_lang);
+	priv->images_lang = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
+	for (i = 0; i < priv->images->len; i++) {
+		AsImage *img = AS_IMAGE (g_ptr_array_index (priv->images, i));
+		if (!as_utils_locale_is_compatible (as_image_get_locale (img), as_screenshot_get_active_locale (screenshot)))
+			continue;
+		g_ptr_array_add (priv->images_lang, g_object_ref (img));
+	}
+}
+
+/**
  * as_screenshot_get_active_locale:
  *
  * Get the current active locale, which
  * is used to get localized messages.
  */
-gchar*
+const gchar*
 as_screenshot_get_active_locale (AsScreenshot *screenshot)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
-	return priv->active_locale;
+	const gchar *locale;
+
+	/* return context locale, if the locale isn't explicitly overridden for this component */
+	if ((priv->context != NULL) && (priv->active_locale_override == NULL)) {
+		locale = as_context_get_locale (priv->context);
+	} else {
+		locale = priv->active_locale_override;
+	}
+
+	if (locale == NULL)
+		return "C";
+	else
+		return locale;
 }
 
 /**
@@ -274,20 +314,12 @@ void
 as_screenshot_set_active_locale (AsScreenshot *screenshot, const gchar *locale)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
-	guint i;
 
-	g_free (priv->active_locale);
-	priv->active_locale = g_strdup (locale);
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = g_strdup (locale);
 
 	/* rebuild our list of images suitable for the current locale */
-	g_ptr_array_unref (priv->images_lang);
-	priv->images_lang = g_ptr_array_new_with_free_func ((GDestroyNotify) g_object_unref);
-	for (i = 0; i < priv->images->len; i++) {
-		AsImage *img = g_ptr_array_index (priv->images, i);
-		if (!as_utils_locale_is_compatible (as_image_get_locale (img), priv->active_locale))
-			continue;
-		g_ptr_array_add (priv->images_lang, g_object_ref (img));
-	}
+	as_screenshot_rebuild_suitable_images_list (screenshot);
 }
 
 /**
@@ -309,15 +341,44 @@ as_screenshot_get_images_all (AsScreenshot *screenshot)
 }
 
 /**
- * as_screenshot_get_caption_table:
+ * as_screenshot_get_context:
+ * @screenshot: an #AsScreenshot instance.
  *
- * Internal function.
+ * Returns: the #AsContext associated with this screenshot.
+ * This function may return %NULL if no context is set.
+ *
+ * Since: 0.11.2
  */
-GHashTable*
-as_screenshot_get_caption_table (AsScreenshot *screenshot)
+AsContext*
+as_screenshot_get_context (AsScreenshot *screenshot)
 {
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
-	return priv->caption;
+	return priv->context;
+}
+
+/**
+ * as_screenshot_set_context:
+ * @screenshot: an #AsScreenshot instance.
+ * @context: the #AsContext.
+ *
+ * Sets the document context this screenshot is associated
+ * with.
+ *
+ * Since: 0.11.2
+ */
+void
+as_screenshot_set_context (AsScreenshot *screenshot, AsContext *context)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
+	priv->context = g_object_ref (context);
+
+	/* reset individual properties, so the new context overrides them */
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = NULL;
+
+	as_screenshot_rebuild_suitable_images_list (screenshot);
 }
 
 /**
@@ -335,9 +396,6 @@ as_screenshot_load_from_xml (AsScreenshot *screenshot, AsContext *ctx, xmlNode *
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 	xmlNode *iter;
 	g_autofree gchar *prop = NULL;
-
-	/* propagate locale */
-	as_screenshot_set_active_locale (screenshot, as_context_get_locale (ctx));
 
 	prop = (gchar*) xmlGetProp (node, (xmlChar*) "type");
 	if (g_strcmp0 (prop, "default") == 0)
@@ -369,6 +427,9 @@ as_screenshot_load_from_xml (AsScreenshot *screenshot, AsContext *ctx, xmlNode *
 				as_screenshot_set_caption (screenshot, content, lang);
 		}
 	}
+
+	/* propagate context - we do this last so the image list for the selected locale is rebuilt properly */
+	as_screenshot_set_context (screenshot, ctx);
 
 	return TRUE;
 }
@@ -415,9 +476,6 @@ as_screenshot_load_from_yaml (AsScreenshot *screenshot, AsContext *ctx, GNode *n
 	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
 	GNode *n;
 
-	/* propagate locale */
-	as_screenshot_set_active_locale (screenshot, as_context_get_locale (ctx));
-
 	for (n = node->children; n != NULL; n = n->next) {
 		GNode *in;
 		const gchar *key = as_yaml_node_get_key (n);
@@ -449,6 +507,9 @@ as_screenshot_load_from_yaml (AsScreenshot *screenshot, AsContext *ctx, GNode *n
 			as_yaml_print_unknown ("screenshot", key);
 		}
 	}
+
+	/* propagate context - we do this last so the image list for the selected locale is rebuilt properly */
+	as_screenshot_set_context (screenshot, ctx);
 
 	return TRUE;
 }
@@ -499,13 +560,83 @@ as_screenshot_emit_yaml (AsScreenshot *screenshot, AsContext *ctx, yaml_emitter_
 }
 
 /**
+ * as_screenshot_to_variant:
+ * @screenshot: an #AsScreenshot instance.
+ * @builder: A #GVariantBuilder
+ *
+ * Serialize the current active state of this object to a GVariant
+ * for use in the on-disk binary cache.
+ */
+void
+as_screenshot_to_variant (AsScreenshot *screenshot, GVariantBuilder *builder)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	guint i;
+	GVariantBuilder images_b;
+	GVariantBuilder scr_b;
+
+	g_variant_builder_init (&images_b, G_VARIANT_TYPE_ARRAY);
+	for (i = 0; i < priv->images->len; i++)
+		as_image_to_variant (AS_IMAGE (g_ptr_array_index (priv->images, i)), &images_b);
+
+	g_variant_builder_init (&scr_b, G_VARIANT_TYPE_ARRAY);
+	g_variant_builder_add_parsed (&scr_b, "{'type', <%u>}", priv->kind);
+	g_variant_builder_add_parsed (&scr_b, "{'caption', %v}", as_variant_mstring_new (as_screenshot_get_caption (screenshot)));
+	g_variant_builder_add_parsed (&scr_b, "{'images', %v}", g_variant_builder_end (&images_b));
+
+	g_variant_builder_add_value (builder, g_variant_builder_end (&scr_b));
+
+}
+
+/**
+ * as_screenshot_set_from_variant:
+ * @screenshot: an #AsScreenshot instance.
+ * @variant: The #GVariant to read from.
+ *
+ * Read the active state of this object from a #GVariant serialization.
+ * This is used by the on-disk binary cache.
+ */
+gboolean
+as_screenshot_set_from_variant (AsScreenshot *screenshot, GVariant *variant, const gchar *locale)
+{
+	AsScreenshotPrivate *priv = GET_PRIVATE (screenshot);
+	GVariantIter inner_iter;
+	GVariantDict idict;
+	GVariant *tmp;
+	g_autoptr(GVariant) images_var = NULL;
+
+	as_screenshot_set_active_locale (screenshot, locale);
+	g_variant_dict_init (&idict, variant);
+
+	priv->kind = as_variant_get_dict_uint32 (&idict, "type");
+	as_screenshot_set_caption (screenshot,
+				   as_variant_get_dict_mstr (&idict, "caption", &tmp),
+				   locale);
+	g_variant_unref (tmp);
+
+	images_var = g_variant_dict_lookup_value (&idict, "images", G_VARIANT_TYPE_ARRAY);
+	if (images_var != NULL) {
+		GVariant *img_child;
+		g_variant_iter_init (&inner_iter, images_var);
+
+		while ((img_child = g_variant_iter_next_value (&inner_iter))) {
+			g_autoptr(AsImage) img = as_image_new ();
+			if (as_image_set_from_variant (img, img_child))
+				as_screenshot_add_image (screenshot, img);
+		}
+	}
+
+	return priv->images->len != 0;
+}
+
+/**
  * as_screenshot_new:
  *
  * Creates a new #AsScreenshot.
  *
  * Returns: (transfer full): a #AsScreenshot
  **/
-AsScreenshot *
+AsScreenshot*
 as_screenshot_new (void)
 {
 	AsScreenshot *screenshot;
