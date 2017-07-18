@@ -20,12 +20,8 @@ as_bundle_load_from_xml
 as_bundle_to_xml_node
 as_bundle_load_from_yaml
 as_bundle_emit_yaml
-</SECTION>
-
-<SECTION>
-<FILE>as-cache-file</FILE>
-as_cache_file_save
-as_cache_file_read
+as_bundle_to_variant
+as_bundle_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -78,6 +74,8 @@ as_checksum_load_from_xml
 as_checksum_to_xml_node
 as_checksum_load_from_yaml
 as_checksum_emit_yaml
+as_checksum_to_variant
+as_checksum_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -204,11 +202,12 @@ AsContentRating
 <SECTION>
 <FILE>as-content-rating-private</FILE>
 AsContentRatingKey
-as_content_rating_get_value_array
 as_content_rating_load_from_xml
 as_content_rating_to_xml_node
 as_content_rating_load_from_yaml
 as_content_rating_emit_yaml
+as_content_rating_to_variant
+as_content_rating_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -233,8 +232,8 @@ as_context_set_media_baseurl
 as_context_get_architecture
 as_context_set_architecture
 as_context_get_all_locale_enabled
-as_context_get_fname
-as_context_set_fname
+as_context_get_filename
+as_context_set_filename
 AsContext
 </SECTION>
 
@@ -307,6 +306,8 @@ AsIcon
 <FILE>as-icon-private</FILE>
 as_icon_load_from_xml
 as_icon_to_xml_node
+as_icon_to_variant
+as_icon_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -337,6 +338,8 @@ as_image_load_from_xml
 as_image_to_xml_node
 as_image_load_from_yaml
 as_image_emit_yaml
+as_image_to_variant
+as_image_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -360,6 +363,8 @@ AsLaunchable
 as_launchable_to_xml_node
 as_launchable_load_from_yaml
 as_launchable_emit_yaml
+as_launchable_to_variant
+as_launchable_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -444,6 +449,8 @@ AsPool
 <SECTION>
 <FILE>as-pool-private</FILE>
 as_pool_get_cache_age
+as_cache_file_save
+as_cache_file_read
 </SECTION>
 
 <SECTION>
@@ -462,6 +469,12 @@ as_provided_get_items
 as_provided_add_item
 as_provided_has_item
 AsProvided
+</SECTION>
+
+<SECTION>
+<FILE>as-provided-private</FILE>
+as_provided_to_variant
+as_provided_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -496,11 +509,14 @@ AsRelease
 
 <SECTION>
 <FILE>as-release-private</FILE>
-as_release_get_description_table
+as_release_get_context
+as_release_set_context
 as_release_load_from_xml
 as_release_to_xml_node
 as_release_load_from_yaml
 as_release_emit_yaml
+as_release_to_variant
+as_release_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -527,11 +543,14 @@ AsScreenshot
 
 <SECTION>
 <FILE>as-screenshot-private</FILE>
-as_screenshot_get_caption_table
+as_screenshot_get_context
+as_screenshot_set_context
 as_screenshot_load_from_xml
 as_screenshot_to_xml_node
 as_screenshot_load_from_yaml
 as_screenshot_emit_yaml
+as_screenshot_to_variant
+as_screenshot_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -576,6 +595,8 @@ as_suggested_load_from_xml
 as_suggested_to_xml_node
 as_suggested_load_from_yaml
 as_suggested_emit_yaml
+as_suggested_to_variant
+as_suggested_set_from_variant
 </SECTION>
 
 <SECTION>
@@ -647,6 +668,22 @@ as_validator_issue_get_line
 as_validator_issue_set_line
 as_validator_issue_get_location
 AsValidatorIssue
+</SECTION>
+
+<SECTION>
+<FILE>as-variant-cache</FILE>
+CACHE_FORMAT_VERSION
+as_variant_get_dict_uint32
+as_variant_get_dict_strv
+as_variant_get_dict_str
+as_variant_get_mstring
+as_variant_mstring_new
+as_variant_get_dict_mstr
+as_variant_get_dict_int32
+as_variant_from_string_ptrarray
+as_variant_to_string_ptrarray
+as_variant_to_string_ptrarray_by_dict
+as_variant_builder_add_kv
 </SECTION>
 
 <SECTION>

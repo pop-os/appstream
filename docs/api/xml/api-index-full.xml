@@ -17,14 +17,17 @@
 <indexentry><primaryie linkends="as-bundle-load-from-xml"><link linkend="as-bundle-load-from-xml">as_bundle_load_from_xml</link>, function in <link linkend="appstream-as-bundle-private">as-bundle-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-load-from-yaml"><link linkend="as-bundle-load-from-yaml">as_bundle_load_from_yaml</link>, function in <link linkend="appstream-as-bundle-private">as-bundle-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-new"><link linkend="as-bundle-new">as_bundle_new</link>, function in <link linkend="AsBundle">AsBundle</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-bundle-set-from-variant"><link linkend="as-bundle-set-from-variant">as_bundle_set_from_variant</link>, function in <link linkend="appstream-as-bundle-private">as-bundle-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-set-id"><link linkend="as-bundle-set-id">as_bundle_set_id</link>, function in <link linkend="AsBundle">AsBundle</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-set-kind"><link linkend="as-bundle-set-kind">as_bundle_set_kind</link>, function in <link linkend="AsBundle">AsBundle</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-bundle-to-variant"><link linkend="as-bundle-to-variant">as_bundle_to_variant</link>, function in <link linkend="appstream-as-bundle-private">as-bundle-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-bundle-to-xml-node"><link linkend="as-bundle-to-xml-node">as_bundle_to_xml_node</link>, function in <link linkend="appstream-as-bundle-private">as-bundle-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>C</title>
 <indexentry><primaryie linkends="AsCacheFlags"><link linkend="AsCacheFlags">AsCacheFlags</link>, enum in <link linkend="AsPool">AsPool</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-file-read"><link linkend="as-cache-file-read">as_cache_file_read</link>, function in <link linkend="appstream-as-cache-file">as-cache-file</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-cache-file-save"><link linkend="as-cache-file-save">as_cache_file_save</link>, function in <link linkend="appstream-as-cache-file">as-cache-file</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-cache-file-read"><link linkend="as-cache-file-read">as_cache_file_read</link>, function in <link linkend="appstream-as-pool-private">as-pool-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-cache-file-save"><link linkend="as-cache-file-save">as_cache_file_save</link>, function in <link linkend="appstream-as-pool-private">as-pool-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="CACHE-FORMAT-VERSION:CAPS"><link linkend="CACHE-FORMAT-VERSION:CAPS">CACHE_FORMAT_VERSION</link>, macro in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory-struct"><link linkend="AsCategory-struct">AsCategory</link>, struct in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory--children"><link linkend="AsCategory--children">AsCategory:children</link>, object property in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsCategory--icon"><link linkend="AsCategory--icon">AsCategory:icon</link>, object property in <link linkend="AsCategory">AsCategory</link></primaryie></indexentry>
@@ -61,8 +64,10 @@
 <indexentry><primaryie linkends="as-checksum-load-from-xml"><link linkend="as-checksum-load-from-xml">as_checksum_load_from_xml</link>, function in <link linkend="appstream-as-checksum-private">as-checksum-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-checksum-load-from-yaml"><link linkend="as-checksum-load-from-yaml">as_checksum_load_from_yaml</link>, function in <link linkend="appstream-as-checksum-private">as-checksum-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-checksum-new"><link linkend="as-checksum-new">as_checksum_new</link>, function in <link linkend="AsChecksum">AsChecksum</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-checksum-set-from-variant"><link linkend="as-checksum-set-from-variant">as_checksum_set_from_variant</link>, function in <link linkend="appstream-as-checksum-private">as-checksum-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-checksum-set-kind"><link linkend="as-checksum-set-kind">as_checksum_set_kind</link>, function in <link linkend="AsChecksum">AsChecksum</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-checksum-set-value"><link linkend="as-checksum-set-value">as_checksum_set_value</link>, function in <link linkend="AsChecksum">AsChecksum</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-checksum-to-variant"><link linkend="as-checksum-to-variant">as_checksum_to_variant</link>, function in <link linkend="appstream-as-checksum-private">as-checksum-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-checksum-to-xml-node"><link linkend="as-checksum-to-xml-node">as_checksum_to_xml_node</link>, function in <link linkend="appstream-as-checksum-private">as-checksum-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent-struct"><link linkend="AsComponent-struct">AsComponent</link>, struct in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsComponent--categories"><link linkend="AsComponent--categories">AsComponent:categories</link>, object property in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
@@ -177,12 +182,13 @@
 <indexentry><primaryie linkends="as-content-rating-get-kind"><link linkend="as-content-rating-get-kind">as_content_rating_get_kind</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-get-minimum-age"><link linkend="as-content-rating-get-minimum-age">as_content_rating_get_minimum_age</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-get-value"><link linkend="as-content-rating-get-value">as_content_rating_get_value</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-content-rating-get-value-array"><link linkend="as-content-rating-get-value-array">as_content_rating_get_value_array</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-load-from-xml"><link linkend="as-content-rating-load-from-xml">as_content_rating_load_from_xml</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-load-from-yaml"><link linkend="as-content-rating-load-from-yaml">as_content_rating_load_from_yaml</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-new"><link linkend="as-content-rating-new">as_content_rating_new</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-set-from-variant"><link linkend="as-content-rating-set-from-variant">as_content_rating_set_from_variant</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-set-kind"><link linkend="as-content-rating-set-kind">as_content_rating_set_kind</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-set-value"><link linkend="as-content-rating-set-value">as_content_rating_set_value</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-content-rating-to-variant"><link linkend="as-content-rating-to-variant">as_content_rating_to_variant</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-to-xml-node"><link linkend="as-content-rating-to-xml-node">as_content_rating_to_xml_node</link>, function in <link linkend="appstream-as-content-rating-private">as-content-rating-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-value-from-string"><link linkend="as-content-rating-value-from-string">as_content_rating_value_from_string</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-content-rating-value-to-string"><link linkend="as-content-rating-value-to-string">as_content_rating_value_to_string</link>, function in <link linkend="AsContentRating">AsContentRating</link></primaryie></indexentry>
@@ -190,7 +196,7 @@
 <indexentry><primaryie linkends="AsContextClass"><link linkend="AsContextClass">AsContextClass</link>, struct in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-get-all-locale-enabled"><link linkend="as-context-get-all-locale-enabled">as_context_get_all_locale_enabled</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-get-architecture"><link linkend="as-context-get-architecture">as_context_get_architecture</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-context-get-fname"><link linkend="as-context-get-fname">as_context_get_fname</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-context-get-filename"><link linkend="as-context-get-filename">as_context_get_filename</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-get-format-version"><link linkend="as-context-get-format-version">as_context_get_format_version</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-get-locale"><link linkend="as-context-get-locale">as_context_get_locale</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-get-media-baseurl"><link linkend="as-context-get-media-baseurl">as_context_get_media_baseurl</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
@@ -200,7 +206,7 @@
 <indexentry><primaryie linkends="as-context-has-media-baseurl"><link linkend="as-context-has-media-baseurl">as_context_has_media_baseurl</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-new"><link linkend="as-context-new">as_context_new</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-set-architecture"><link linkend="as-context-set-architecture">as_context_set_architecture</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-context-set-fname"><link linkend="as-context-set-fname">as_context_set_fname</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-context-set-filename"><link linkend="as-context-set-filename">as_context_set_filename</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-set-format-version"><link linkend="as-context-set-format-version">as_context_set_format_version</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-set-locale"><link linkend="as-context-set-locale">as_context_set_locale</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-context-set-media-baseurl"><link linkend="as-context-set-media-baseurl">as_context_set_media_baseurl</link>, function in <link linkend="AsContext">AsContext</link></primaryie></indexentry>
@@ -256,12 +262,14 @@
 <indexentry><primaryie linkends="as-icon-load-from-xml"><link linkend="as-icon-load-from-xml">as_icon_load_from_xml</link>, function in <link linkend="appstream-as-icon-private">as-icon-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-new"><link linkend="as-icon-new">as_icon_new</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-filename"><link linkend="as-icon-set-filename">as_icon_set_filename</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-icon-set-from-variant"><link linkend="as-icon-set-from-variant">as_icon_set_from_variant</link>, function in <link linkend="appstream-as-icon-private">as-icon-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-height"><link linkend="as-icon-set-height">as_icon_set_height</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-kind"><link linkend="as-icon-set-kind">as_icon_set_kind</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-name"><link linkend="as-icon-set-name">as_icon_set_name</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-scale"><link linkend="as-icon-set-scale">as_icon_set_scale</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-url"><link linkend="as-icon-set-url">as_icon_set_url</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-set-width"><link linkend="as-icon-set-width">as_icon_set_width</link>, function in <link linkend="AsIcon">AsIcon</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-icon-to-variant"><link linkend="as-icon-to-variant">as_icon_to_variant</link>, function in <link linkend="appstream-as-icon-private">as-icon-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-icon-to-xml-node"><link linkend="as-icon-to-xml-node">as_icon_to_xml_node</link>, function in <link linkend="appstream-as-icon-private">as-icon-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsImage-struct"><link linkend="AsImage-struct">AsImage</link>, struct in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsImageClass"><link linkend="AsImageClass">AsImageClass</link>, struct in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
@@ -277,11 +285,13 @@
 <indexentry><primaryie linkends="as-image-load-from-xml"><link linkend="as-image-load-from-xml">as_image_load_from_xml</link>, function in <link linkend="appstream-as-image-private">as-image-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-load-from-yaml"><link linkend="as-image-load-from-yaml">as_image_load_from_yaml</link>, function in <link linkend="appstream-as-image-private">as-image-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-new"><link linkend="as-image-new">as_image_new</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-image-set-from-variant"><link linkend="as-image-set-from-variant">as_image_set_from_variant</link>, function in <link linkend="appstream-as-image-private">as-image-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-height"><link linkend="as-image-set-height">as_image_set_height</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-kind"><link linkend="as-image-set-kind">as_image_set_kind</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-locale"><link linkend="as-image-set-locale">as_image_set_locale</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-url"><link linkend="as-image-set-url">as_image_set_url</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-set-width"><link linkend="as-image-set-width">as_image_set_width</link>, function in <link linkend="AsImage">AsImage</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-image-to-variant"><link linkend="as-image-to-variant">as_image_to_variant</link>, function in <link linkend="appstream-as-image-private">as-image-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-image-to-xml-node"><link linkend="as-image-to-xml-node">as_image_to_xml_node</link>, function in <link linkend="appstream-as-image-private">as-image-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueImportance"><link linkend="AsIssueImportance">AsIssueImportance</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsIssueKind"><link linkend="AsIssueKind">AsIssueKind</link>, enum in <link linkend="AsValidatorIssue">AsValidatorIssue</link></primaryie></indexentry>
@@ -300,7 +310,9 @@
 <indexentry><primaryie linkends="as-launchable-kind-to-string"><link linkend="as-launchable-kind-to-string">as_launchable_kind_to_string</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-launchable-load-from-yaml"><link linkend="as-launchable-load-from-yaml">as_launchable_load_from_yaml</link>, function in <link linkend="appstream-as-launchable-private">as-launchable-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-launchable-new"><link linkend="as-launchable-new">as_launchable_new</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-set-from-variant"><link linkend="as-launchable-set-from-variant">as_launchable_set_from_variant</link>, function in <link linkend="appstream-as-launchable-private">as-launchable-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-launchable-set-kind"><link linkend="as-launchable-set-kind">as_launchable_set_kind</link>, function in <link linkend="AsLaunchable">AsLaunchable</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-launchable-to-variant"><link linkend="as-launchable-to-variant">as_launchable_to_variant</link>, function in <link linkend="appstream-as-launchable-private">as-launchable-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-launchable-to-xml-node"><link linkend="as-launchable-to-xml-node">as_launchable_to_xml_node</link>, function in <link linkend="appstream-as-launchable-private">as-launchable-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-license-is-metadata-license"><link linkend="as-license-is-metadata-license">as_license_is_metadata_license</link>, function in <link linkend="appstream-as-spdx">as-spdx</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-license-to-spdx-id"><link linkend="as-license-to-spdx-id">as_license_to_spdx_id</link>, function in <link linkend="appstream-as-spdx">as-spdx</link></primaryie></indexentry>
@@ -383,7 +395,9 @@
 <indexentry><primaryie linkends="as-provided-kind-to-l10n-string"><link linkend="as-provided-kind-to-l10n-string">as_provided_kind_to_l10n_string</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-provided-kind-to-string"><link linkend="as-provided-kind-to-string">as_provided_kind_to_string</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-provided-new"><link linkend="as-provided-new">as_provided_new</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-provided-set-from-variant"><link linkend="as-provided-set-from-variant">as_provided_set_from_variant</link>, function in <link linkend="appstream-as-provided-private">as-provided-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-provided-set-kind"><link linkend="as-provided-set-kind">as_provided_set_kind</link>, function in <link linkend="AsProvided">AsProvided</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-provided-to-variant"><link linkend="as-provided-to-variant">as_provided_to_variant</link>, function in <link linkend="appstream-as-provided-private">as-provided-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>R</title>
 <indexentry><primaryie linkends="AsRelease-struct"><link linkend="AsRelease-struct">AsRelease</link>, struct in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
@@ -394,8 +408,8 @@
 <indexentry><primaryie linkends="as-release-get-active-locale"><link linkend="as-release-get-active-locale">as_release_get_active_locale</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-checksum"><link linkend="as-release-get-checksum">as_release_get_checksum</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-checksums"><link linkend="as-release-get-checksums">as_release_get_checksums</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-get-context"><link linkend="as-release-get-context">as_release_get_context</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-description"><link linkend="as-release-get-description">as_release_get_description</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-release-get-description-table"><link linkend="as-release-get-description-table">as_release_get_description_table</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-locations"><link linkend="as-release-get-locations">as_release_get_locations</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-size"><link linkend="as-release-get-size">as_release_get_size</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-get-timestamp"><link linkend="as-release-get-timestamp">as_release_get_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
@@ -405,11 +419,14 @@
 <indexentry><primaryie linkends="as-release-load-from-yaml"><link linkend="as-release-load-from-yaml">as_release_load_from_yaml</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-new"><link linkend="as-release-new">as_release_new</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-active-locale"><link linkend="as-release-set-active-locale">as_release_set_active_locale</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-set-context"><link linkend="as-release-set-context">as_release_set_context</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-description"><link linkend="as-release-set-description">as_release_set_description</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-set-from-variant"><link linkend="as-release-set-from-variant">as_release_set_from_variant</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-size"><link linkend="as-release-set-size">as_release_set_size</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-timestamp"><link linkend="as-release-set-timestamp">as_release_set_timestamp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-urgency"><link linkend="as-release-set-urgency">as_release_set_urgency</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-set-version"><link linkend="as-release-set-version">as_release_set_version</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-release-to-variant"><link linkend="as-release-to-variant">as_release_to_variant</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-to-xml-node"><link linkend="as-release-to-xml-node">as_release_to_xml_node</link>, function in <link linkend="appstream-as-release-private">as-release-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-release-vercmp"><link linkend="as-release-vercmp">as_release_vercmp</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 </indexdiv>
@@ -421,7 +438,7 @@
 <indexentry><primaryie linkends="as-screenshot-emit-yaml"><link linkend="as-screenshot-emit-yaml">as_screenshot_emit_yaml</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-active-locale"><link linkend="as-screenshot-get-active-locale">as_screenshot_get_active_locale</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-caption"><link linkend="as-screenshot-get-caption">as_screenshot_get_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
-<indexentry><primaryie linkends="as-screenshot-get-caption-table"><link linkend="as-screenshot-get-caption-table">as_screenshot_get_caption_table</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-get-context"><link linkend="as-screenshot-get-context">as_screenshot_get_context</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-images"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-images-all"><link linkend="as-screenshot-get-images-all">as_screenshot_get_images_all</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-get-kind"><link linkend="as-screenshot-get-kind">as_screenshot_get_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
@@ -433,7 +450,10 @@
 <indexentry><primaryie linkends="as-screenshot-new"><link linkend="as-screenshot-new">as_screenshot_new</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-set-active-locale"><link linkend="as-screenshot-set-active-locale">as_screenshot_set_active_locale</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-set-caption"><link linkend="as-screenshot-set-caption">as_screenshot_set_caption</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-set-context"><link linkend="as-screenshot-set-context">as_screenshot_set_context</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-set-from-variant"><link linkend="as-screenshot-set-from-variant">as_screenshot_set_from_variant</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-set-kind"><link linkend="as-screenshot-set-kind">as_screenshot_set_kind</link>, function in <link linkend="AsScreenshot">AsScreenshot</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-screenshot-to-variant"><link linkend="as-screenshot-to-variant">as_screenshot_to_variant</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-screenshot-to-xml-node"><link linkend="as-screenshot-to-xml-node">as_screenshot_to_xml_node</link>, function in <link linkend="appstream-as-screenshot-private">as-screenshot-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsSizeKind"><link linkend="AsSizeKind">AsSizeKind</link>, enum in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-size-kind-from-string"><link linkend="as-size-kind-from-string">as_size_kind_from_string</link>, function in <link linkend="AsRelease">AsRelease</link></primaryie></indexentry>
@@ -457,7 +477,9 @@
 <indexentry><primaryie linkends="as-suggested-load-from-xml"><link linkend="as-suggested-load-from-xml">as_suggested_load_from_xml</link>, function in <link linkend="appstream-as-suggested-private">as-suggested-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-suggested-load-from-yaml"><link linkend="as-suggested-load-from-yaml">as_suggested_load_from_yaml</link>, function in <link linkend="appstream-as-suggested-private">as-suggested-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-suggested-new"><link linkend="as-suggested-new">as_suggested_new</link>, function in <link linkend="AsSuggested">AsSuggested</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-suggested-set-from-variant"><link linkend="as-suggested-set-from-variant">as_suggested_set_from_variant</link>, function in <link linkend="appstream-as-suggested-private">as-suggested-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-suggested-set-kind"><link linkend="as-suggested-set-kind">as_suggested_set_kind</link>, function in <link linkend="AsSuggested">AsSuggested</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-suggested-to-variant"><link linkend="as-suggested-to-variant">as_suggested_to_variant</link>, function in <link linkend="appstream-as-suggested-private">as-suggested-private</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-suggested-to-xml-node"><link linkend="as-suggested-to-xml-node">as_suggested_to_xml_node</link>, function in <link linkend="appstream-as-suggested-private">as-suggested-private</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>T</title>
@@ -534,6 +556,17 @@
 <indexentry><primaryie linkends="as-validator-validate-file"><link linkend="as-validator-validate-file">as_validator_validate_file</link>, function in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="as-validator-validate-tree"><link linkend="as-validator-validate-tree">as_validator_validate_tree</link>, function in <link linkend="AsValidator">AsValidator</link></primaryie></indexentry>
 <indexentry><primaryie linkends="AsValueFlags"><link linkend="AsValueFlags">AsValueFlags</link>, enum in <link linkend="AsComponent">AsComponent</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-builder-add-kv"><link linkend="as-variant-builder-add-kv">as_variant_builder_add_kv</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-from-string-ptrarray"><link linkend="as-variant-from-string-ptrarray">as_variant_from_string_ptrarray</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-dict-int32"><link linkend="as-variant-get-dict-int32">as_variant_get_dict_int32</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-dict-mstr"><link linkend="as-variant-get-dict-mstr">as_variant_get_dict_mstr</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-dict-str"><link linkend="as-variant-get-dict-str">as_variant_get_dict_str</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-dict-strv"><link linkend="as-variant-get-dict-strv">as_variant_get_dict_strv</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-dict-uint32"><link linkend="as-variant-get-dict-uint32">as_variant_get_dict_uint32</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-get-mstring"><link linkend="as-variant-get-mstring">as_variant_get_mstring</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-mstring-new"><link linkend="as-variant-mstring-new">as_variant_mstring_new</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-to-string-ptrarray"><link linkend="as-variant-to-string-ptrarray">as_variant_to_string_ptrarray</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
+<indexentry><primaryie linkends="as-variant-to-string-ptrarray-by-dict"><link linkend="as-variant-to-string-ptrarray-by-dict">as_variant_to_string_ptrarray_by_dict</link>, function in <link linkend="appstream-as-variant-cache">as-variant-cache</link></primaryie></indexentry>
 </indexdiv>
 <indexdiv><title>X</title>
 <indexentry><primaryie linkends="as-xmldata-get-node-locale"><link linkend="as-xmldata-get-node-locale">as_xmldata_get_node_locale</link>, function in <link linkend="appstream-as-xml">as-xml</link></primaryie></indexentry>

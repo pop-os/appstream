@@ -30,15 +30,6 @@ as-content-rating-private
 @id: 
 @value: 
 
-<!-- ##### FUNCTION as_content_rating_get_value_array ##### -->
-<para>
-
-</para>
-
-@content_rating: 
-@Returns: 
-
-
 <!-- ##### FUNCTION as_content_rating_load_from_xml ##### -->
 <para>
 
@@ -81,5 +72,24 @@ as-content-rating-private
 @content_rating: 
 @ctx: 
 @emitter: 
+
+
+<!-- ##### FUNCTION as_content_rating_to_variant ##### -->
+<para>
+
+</para>
+
+@content_rating: 
+@builder: 
+
+
+<!-- ##### FUNCTION as_content_rating_set_from_variant ##### -->
+<para>
+
+</para>
+
+@content_rating: 
+@variant: 
+@Returns: 
 
 

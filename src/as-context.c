@@ -31,6 +31,8 @@
 #include "config.h"
 #include "as-context.h"
 
+#include "as-utils-private.h"
+
 typedef struct
 {
 	AsFormatVersion		format_version;
@@ -72,6 +74,7 @@ as_context_init (AsContext *ctx)
 	priv->format_version = AS_CURRENT_FORMAT_VERSION;
 	priv->style = AS_FORMAT_STYLE_UNKNOWN;
 	priv->fname = g_strdup (":memory:");
+	priv->priority = 0;
 }
 
 static void
@@ -215,11 +218,14 @@ as_context_set_locale (AsContext *ctx, const gchar *value)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
 	g_free (priv->locale);
-	priv->locale = g_strdup (value);
 
 	priv->all_locale = FALSE;
-	if (g_strcmp0 (priv->locale, "ALL") == 0)
+	if (g_strcmp0 (value, "ALL") == 0) {
 		priv->all_locale = TRUE;
+		priv->locale = as_get_current_locale ();
+	} else {
+		priv->locale = g_strdup (value);
+	}
 }
 
 /**
@@ -305,27 +311,27 @@ as_context_set_architecture (AsContext *ctx, const gchar *value)
 }
 
 /**
- * as_context_get_fname:
+ * as_context_get_filename:
  * @ctx: a #AsContext instance.
  *
  * Returns: The name of the file the data originates from.
  **/
 const gchar*
-as_context_get_fname (AsContext *ctx)
+as_context_get_filename (AsContext *ctx)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
 	return priv->fname;
 }
 
 /**
- * as_context_set_fname:
+ * as_context_set_filename:
  * @ctx: a #AsContext instance.
  * @fname: the new file name.
  *
  * Sets the file name we are loading data from.
  **/
 void
-as_context_set_fname (AsContext *ctx, const gchar *fname)
+as_context_set_filename (AsContext *ctx, const gchar *fname)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
 	g_free (priv->fname);

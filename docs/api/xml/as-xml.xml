@@ -192,7 +192,8 @@ as_xml_parse_document (<parameter>const <link linkend="gchar"><type>gchar</type>
 <title>as_xml_node_to_str&#160;()</title>
 <indexterm zone="as-xml-node-to-str"><primary>as_xml_node_to_str</primary></indexterm>
 <programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
-as_xml_node_to_str (<parameter><link linkend="xmlNode"><type>xmlNode</type></link> *root</parameter>);</programlisting>
+as_xml_node_to_str (<parameter><link linkend="xmlNode"><type>xmlNode</type></link> *root</parameter>,
+                    <parameter><link linkend="GError"><type>GError</type></link> **error</parameter>);</programlisting>
 <para>Converts an XML node into its textural representation.</para>
 <refsect3 id="as-xml-node-to-str.returns" role="returns">
 <title>Returns</title>

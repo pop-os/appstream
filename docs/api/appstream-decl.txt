@@ -1,27 +1,42 @@
 <FUNCTION>
-<NAME>as_release_get_description_table</NAME>
-<RETURNS>GHashTable 	*</RETURNS>
+<NAME>as_release_get_context</NAME>
+<RETURNS>AsContext 		*</RETURNS>
 AsRelease *release
 </FUNCTION>
 <FUNCTION>
+<NAME>as_release_set_context</NAME>
+<RETURNS>void 			</RETURNS>
+AsRelease *release, AsContext *context
+</FUNCTION>
+<FUNCTION>
 <NAME>as_release_load_from_xml</NAME>
-<RETURNS>gboolean 	</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsRelease *release, AsContext *ctx, xmlNode *node, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_to_xml_node</NAME>
-<RETURNS>void 		</RETURNS>
+<RETURNS>void 			</RETURNS>
 AsRelease *release, AsContext *ctx, xmlNode *root
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_load_from_yaml</NAME>
-<RETURNS>gboolean 	</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsRelease *release, AsContext *ctx, GNode *node, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_emit_yaml</NAME>
-<RETURNS>void 		</RETURNS>
+<RETURNS>void 			</RETURNS>
 AsRelease *release, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_to_variant</NAME>
+<RETURNS>void 			</RETURNS>
+AsRelease *release, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_release_set_from_variant</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsRelease *release, GVariant *variant, const gchar *locale
 </FUNCTION>
 <FUNCTION>
 <NAME>as_pool_scan_apt</NAME>
@@ -94,9 +109,14 @@ GPtrArray *cpts, GPtrArray *categories, gboolean check_duplicates
 const gchar* a, const gchar *b
 </FUNCTION>
 <FUNCTION>
-<NAME>as_screenshot_get_caption_table</NAME>
-<RETURNS>GHashTable 		*</RETURNS>
+<NAME>as_screenshot_get_context</NAME>
+<RETURNS>AsContext 		*</RETURNS>
 AsScreenshot *screenshot
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_context</NAME>
+<RETURNS>void 			</RETURNS>
+AsScreenshot *screenshot, AsContext *context
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_load_from_xml</NAME>
@@ -117,6 +137,16 @@ AsScreenshot *screenshot, AsContext *ctx, GNode *node, GError **error
 <NAME>as_screenshot_emit_yaml</NAME>
 <RETURNS>void 			</RETURNS>
 AsScreenshot *screenshot, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_to_variant</NAME>
+<RETURNS>void 			</RETURNS>
+AsScreenshot *screenshot, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_screenshot_set_from_variant</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsScreenshot *screenshot, GVariant *variant, const gchar *locale
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_IMAGE</NAME>
@@ -407,43 +437,53 @@ AsBundle *bundle, const gchar *id
 </STRUCT>
 <FUNCTION>
 <NAME>as_suggested_load_from_xml</NAME>
-<RETURNS>gboolean 	</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsSuggested *suggested, AsContext *ctx, xmlNode *node, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_suggested_to_xml_node</NAME>
-<RETURNS>void 		</RETURNS>
+<RETURNS>void 			</RETURNS>
 AsSuggested *suggested, AsContext *ctx, xmlNode *root
 </FUNCTION>
 <FUNCTION>
 <NAME>as_suggested_load_from_yaml</NAME>
-<RETURNS>gboolean 	</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsSuggested *suggested, AsContext *ctx, GNode *node, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_suggested_emit_yaml</NAME>
-<RETURNS>void 		</RETURNS>
+<RETURNS>void 			</RETURNS>
 AsSuggested *suggested, AsContext *ctx, yaml_emitter_t *emitter
 </FUNCTION>
 <FUNCTION>
-<NAME>as_cache_file_save</NAME>
-<RETURNS>void 		</RETURNS>
-const gchar *fname, const gchar *locale, GPtrArray *cpts, GError **error
+<NAME>as_suggested_to_variant</NAME>
+<RETURNS>void 			</RETURNS>
+AsSuggested *suggested, GVariantBuilder *builder
 </FUNCTION>
 <FUNCTION>
-<NAME>as_cache_file_read</NAME>
-<RETURNS>GPtrArray 	*</RETURNS>
-const gchar *fname, GError **error
+<NAME>as_suggested_set_from_variant</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsSuggested *suggested, GVariant *variant
 </FUNCTION>
 <FUNCTION>
 <NAME>as_icon_load_from_xml</NAME>
-<RETURNS>gboolean 	</RETURNS>
+<RETURNS>gboolean 		</RETURNS>
 AsIcon *icon, AsContext *ctx, xmlNode *node, GError **error
 </FUNCTION>
 <FUNCTION>
 <NAME>as_icon_to_xml_node</NAME>
-<RETURNS>void 		</RETURNS>
+<RETURNS>void 			</RETURNS>
 AsIcon *icon, AsContext *ctx, xmlNode *root
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_to_variant</NAME>
+<RETURNS>void 			</RETURNS>
+AsIcon *icon, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_icon_set_from_variant</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsIcon *icon, GVariant *variant
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_TRANSLATION</NAME>
@@ -530,6 +570,16 @@ AsImage *image, AsContext *ctx, GNode *node, AsImageKind kind, GError **error
 <NAME>as_image_emit_yaml</NAME>
 <RETURNS>void 		</RETURNS>
 AsImage *image, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_to_variant</NAME>
+<RETURNS>void 		</RETURNS>
+AsImage *image, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_image_set_from_variant</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsImage *image, GVariant *variant
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_VALIDATOR_ISSUE</NAME>
@@ -864,6 +914,16 @@ AsLaunchable *launch, AsContext *ctx, GNode *node, GError **error
 <RETURNS>void 		</RETURNS>
 AsLaunchable *launch, AsContext *ctx, yaml_emitter_t *emitter
 </FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_to_variant</NAME>
+<RETURNS>void 		</RETURNS>
+AsLaunchable *launch, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_launchable_set_from_variant</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsLaunchable *launch, GVariant *variant
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CATEGORY</NAME>
 #define AS_TYPE_CATEGORY (as_category_get_type ())
@@ -1117,7 +1177,7 @@ AsScreenshot *screenshot, AsImage *image
 </FUNCTION>
 <FUNCTION>
 <NAME>as_screenshot_get_active_locale</NAME>
-<RETURNS>gchar 				*</RETURNS>
+<RETURNS>const gchar 			*</RETURNS>
 AsScreenshot *screenshot
 </FUNCTION>
 <FUNCTION>
@@ -1133,6 +1193,16 @@ AsScreenshot *screenshot, const gchar *locale
 <RETURNS>time_t 			</RETURNS>
 AsPool *pool
 </FUNCTION>
+<FUNCTION>
+<NAME>as_cache_file_save</NAME>
+<RETURNS>void 			</RETURNS>
+const gchar *fname, const gchar *locale, GPtrArray *cpts, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_cache_file_read</NAME>
+<RETURNS>GPtrArray 		*</RETURNS>
+const gchar *fname, GError **error
+</FUNCTION>
 <STRUCT>
 <NAME>AsContentRatingKey</NAME>
 typedef struct {
@@ -1140,11 +1210,6 @@ typedef struct {
 	AsContentRatingValue	 value;
 } AsContentRatingKey;
 </STRUCT>
-<FUNCTION>
-<NAME>as_content_rating_get_value_array</NAME>
-<RETURNS>GPtrArray 	*</RETURNS>
-AsContentRating *content_rating
-</FUNCTION>
 <FUNCTION>
 <NAME>as_content_rating_load_from_xml</NAME>
 <RETURNS>gboolean 	</RETURNS>
@@ -1166,6 +1231,75 @@ AsContentRating *content_rating, AsContext *ctx, GNode *node, GError **error
 AsContentRating *content_rating, AsContext *ctx, yaml_emitter_t *emitter
 </FUNCTION>
 <FUNCTION>
+<NAME>as_content_rating_to_variant</NAME>
+<RETURNS>void 		</RETURNS>
+AsContentRating *content_rating, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_content_rating_set_from_variant</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsContentRating *content_rating, GVariant *variant
+</FUNCTION>
+<MACRO>
+<NAME>CACHE_FORMAT_VERSION</NAME>
+#define CACHE_FORMAT_VERSION 1
+</MACRO>
+<FUNCTION>
+<NAME>as_variant_get_dict_uint32</NAME>
+<RETURNS>guint32 			</RETURNS>
+GVariantDict *dict, const gchar *key
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_get_dict_strv</NAME>
+<RETURNS>const gchar 		**</RETURNS>
+GVariantDict *dict, const gchar *key, GVariant **var
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_get_dict_str</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+GVariantDict *dict, const gchar *key, GVariant **var
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_get_mstring</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+GVariant **var
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_mstring_new</NAME>
+<RETURNS>GVariant 		*</RETURNS>
+const gchar *str
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_get_dict_mstr</NAME>
+<RETURNS>const gchar 		*</RETURNS>
+GVariantDict *dict, const gchar *key, GVariant **var
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_get_dict_int32</NAME>
+<RETURNS>gint 			</RETURNS>
+GVariantDict *dict, const gchar *key
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_from_string_ptrarray</NAME>
+<RETURNS>GVariant 		*</RETURNS>
+GPtrArray *strarray
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_to_string_ptrarray</NAME>
+<RETURNS>void 			</RETURNS>
+GVariant *var, GPtrArray *dest
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_to_string_ptrarray_by_dict</NAME>
+<RETURNS>void 			</RETURNS>
+GVariantDict *dict, const gchar *key, GPtrArray *dest
+</FUNCTION>
+<FUNCTION>
+<NAME>as_variant_builder_add_kv</NAME>
+<RETURNS>void 			</RETURNS>
+GVariantBuilder *builder, const gchar *key, GVariant *value
+</FUNCTION>
+<FUNCTION>
 <NAME>as_bundle_load_from_xml</NAME>
 <RETURNS>gboolean 	</RETURNS>
 AsBundle *bundle, AsContext *ctx, xmlNode *node, GError **error
@@ -1184,6 +1318,16 @@ AsBundle *bundle, AsContext *ctx, GNode *node, GError **error
 <NAME>as_bundle_emit_yaml</NAME>
 <RETURNS>void 		</RETURNS>
 AsBundle *bundle, AsContext *ctx, yaml_emitter_t *emitter
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_to_variant</NAME>
+<RETURNS>void 		</RETURNS>
+AsBundle *bundle, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_bundle_set_from_variant</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsBundle *bundle, GVariant *variant
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_CHECKSUM</NAME>
@@ -1536,7 +1680,7 @@ AsComponent *cpt, AsValueFlags flags
 </FUNCTION>
 <FUNCTION>
 <NAME>as_component_get_active_locale</NAME>
-<RETURNS>gchar 			*</RETURNS>
+<RETURNS>const gchar 		*</RETURNS>
 AsComponent *cpt
 </FUNCTION>
 <FUNCTION>
@@ -1990,6 +2134,16 @@ AsChecksum *cs, AsContext *ctx, GNode *node, GError **error
 <RETURNS>void 		</RETURNS>
 AsChecksum *cs, AsContext *ctx, yaml_emitter_t *emitter
 </FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_to_variant</NAME>
+<RETURNS>void 		</RETURNS>
+AsChecksum *cs, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_checksum_set_from_variant</NAME>
+<RETURNS>gboolean 	</RETURNS>
+AsChecksum *cs, GVariant *variant
+</FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_ICON</NAME>
 #define AS_TYPE_ICON (as_icon_get_type ())
@@ -2383,7 +2537,7 @@ void
 </FUNCTION>
 <FUNCTION>
 <NAME>as_release_get_active_locale</NAME>
-<RETURNS>gchar 		*</RETURNS>
+<RETURNS>const gchar 	*</RETURNS>
 AsRelease *release
 </FUNCTION>
 <FUNCTION>
@@ -2578,12 +2732,12 @@ AsContext *ctx, const gchar *value
 AsContext *ctx
 </FUNCTION>
 <FUNCTION>
-<NAME>as_context_get_fname</NAME>
+<NAME>as_context_get_filename</NAME>
 <RETURNS>const gchar 		*</RETURNS>
 AsContext *ctx
 </FUNCTION>
 <FUNCTION>
-<NAME>as_context_set_fname</NAME>
+<NAME>as_context_set_filename</NAME>
 <RETURNS>void 			</RETURNS>
 AsContext *ctx, const gchar *fname
 </FUNCTION>
@@ -2599,6 +2753,16 @@ const gchar *data, const gchar *cid, AsFormatVersion fversion, GError **error
 <NAME>as_desktop_entry_parse_file</NAME>
 <RETURNS>AsComponent 	*</RETURNS>
 GFile *file, AsFormatVersion fversion, GError **error
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_to_variant</NAME>
+<RETURNS>void 			</RETURNS>
+AsProvided *prov, GVariantBuilder *builder
+</FUNCTION>
+<FUNCTION>
+<NAME>as_provided_set_from_variant</NAME>
+<RETURNS>gboolean 		</RETURNS>
+AsProvided *prov, GVariant *variant
 </FUNCTION>
 <MACRO>
 <NAME>AS_TYPE_LAUNCHABLE</NAME>
@@ -2882,5 +3046,5 @@ const gchar *data, GError **error
 <FUNCTION>
 <NAME>as_xml_node_to_str</NAME>
 <RETURNS>gchar 		*</RETURNS>
-xmlNode *root
+xmlNode *root, GError **error
 </FUNCTION>

@@ -389,11 +389,11 @@ as_xml_add_localized_text_node (xmlNode *root, const gchar *node_name, GHashTabl
 		const gchar *str = (const gchar*) value;
 
 		if (as_str_empty (str))
-			return;
+			continue;
 
 		/* skip cruft */
 		if (as_is_cruft_locale (locale))
-			return;
+			continue;
 
 		cnode = xmlNewTextChild (root, NULL, (xmlChar*) node_name, (xmlChar*) str);
 		if (g_strcmp0 (locale, "C") != 0) {
@@ -568,6 +568,7 @@ as_xml_parse_document (const gchar *data, GError **error)
 		as_xml_set_out_of_context_error (NULL);
 		return NULL;
 	}
+	as_xml_set_out_of_context_error (NULL);
 
 	root = xmlDocGetRootElement (doc);
 	if (root == NULL) {
@@ -590,19 +591,35 @@ as_xml_parse_document (const gchar *data, GError **error)
  * Returns: XML metadata.
  */
 gchar*
-as_xml_node_to_str (xmlNode *root)
+as_xml_node_to_str (xmlNode *root, GError **error)
 {
 	xmlDoc *doc;
 	gchar *xmlstr = NULL;
+	g_autofree gchar *error_msg_str = NULL;
 
+	as_xml_set_out_of_context_error (&error_msg_str);
 	doc = xmlNewDoc ((xmlChar*) NULL);
 	if (root == NULL)
 		goto out;
+
 	xmlDocSetRootElement (doc, root);
+	xmlDocDumpFormatMemoryEnc (doc, (xmlChar**) (&xmlstr), NULL, "utf-8", TRUE);
+
+	if (error_msg_str != NULL) {
+		if (error == NULL) {
+			g_warning ("Could not serialize XML document: %s", error_msg_str);
+			goto out;
+		} else {
+			g_set_error (error,
+					AS_METADATA_ERROR,
+					AS_METADATA_ERROR_FAILED,
+					"Could not serialize XML document: %s", error_msg_str);
+			goto out;
+		}
+	}
 
 out:
-	xmlDocDumpFormatMemoryEnc (doc, (xmlChar**) (&xmlstr), NULL, "utf-8", TRUE);
+	as_xml_set_out_of_context_error (NULL);
 	xmlFreeDoc (doc);
-
 	return xmlstr;
 }

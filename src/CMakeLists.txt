@@ -40,8 +40,8 @@ set(APPSTREAM_LIB_SRC
 		as-context.c
 		as-xml.c
 		as-yaml.c
+		as-variant-cache.c
 		as-desktop-entry.c
-		as-cache-file.c
 		as-distro-extras.c
 		as-stemmer.c
 		# (mostly) public
@@ -97,8 +97,8 @@ set(APPSTREAM_LIB_PRIVATE_HEADERS
 		as-context.h
 		as-xml.h
 		as-yaml.h
+		as-variant-cache.h
 		as-desktop-entry.h
-		as-cache-file.h
 		as-pool-private.h
 		as-image-private.h
 		as-component-private.h

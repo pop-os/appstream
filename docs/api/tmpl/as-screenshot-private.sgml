@@ -22,13 +22,22 @@ as-screenshot-private
 <!-- ##### SECTION Image ##### -->
 
 
-<!-- ##### FUNCTION as_screenshot_get_caption_table ##### -->
+<!-- ##### FUNCTION as_screenshot_get_context ##### -->
 <para>
 
 </para>
 
 @screenshot: 
 @Returns: 
+
+
+<!-- ##### FUNCTION as_screenshot_set_context ##### -->
+<para>
+
+</para>
+
+@screenshot: 
+@context: 
 
 
 <!-- ##### FUNCTION as_screenshot_load_from_xml ##### -->
@@ -73,5 +82,25 @@ as-screenshot-private
 @screenshot: 
 @ctx: 
 @emitter: 
+
+
+<!-- ##### FUNCTION as_screenshot_to_variant ##### -->
+<para>
+
+</para>
+
+@screenshot: 
+@builder: 
+
+
+<!-- ##### FUNCTION as_screenshot_set_from_variant ##### -->
+<para>
+
+</para>
+
+@screenshot: 
+@variant: 
+@locale: 
+@Returns: 
 
 

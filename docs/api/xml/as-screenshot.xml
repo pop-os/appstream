@@ -44,7 +44,7 @@
 </entry><entry role="function_name"><link linkend="as-screenshot-get-images">as_screenshot_get_images</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-screenshot-add-image">as_screenshot_add_image</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-screenshot-get-active-locale">as_screenshot_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-screenshot-set-active-locale">as_screenshot_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
@@ -329,7 +329,7 @@ as_screenshot_add_image (<parameter><link linkend="AsScreenshot"><type>AsScreens
 <refsect2 id="as-screenshot-get-active-locale" role="function">
 <title>as_screenshot_get_active_locale&#160;()</title>
 <indexterm zone="as-screenshot-get-active-locale"><primary>as_screenshot_get_active_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_screenshot_get_active_locale (<parameter><link linkend="AsScreenshot"><type>AsScreenshot</type></link> *screenshot</parameter>);</programlisting>
 <para>Get the current active locale, which
 is used to get localized messages.</para>

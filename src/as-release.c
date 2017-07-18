@@ -39,13 +39,16 @@
 #include "as-utils.h"
 #include "as-utils-private.h"
 #include "as-checksum-private.h"
+#include "as-variant-cache.h"
 
 typedef struct
 {
 	gchar		*version;
 	GHashTable	*description;
 	guint64		timestamp;
-	gchar		*active_locale;
+
+	AsContext	*context;
+	gchar		*active_locale_override;
 
 	GPtrArray	*locations;
 	GPtrArray	*checksums;
@@ -106,7 +109,6 @@ as_release_init (AsRelease *release)
 	guint i;
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 
-	priv->active_locale = g_strdup ("C");
 	priv->description = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
 	priv->locations = g_ptr_array_new_with_free_func (g_free);
 
@@ -127,10 +129,12 @@ as_release_finalize (GObject *object)
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 
 	g_free (priv->version);
-	g_free (priv->active_locale);
+	g_free (priv->active_locale_override);
 	g_hash_table_unref (priv->description);
 	g_ptr_array_unref (priv->locations);
 	g_ptr_array_unref (priv->checksums);
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
 
 	G_OBJECT_CLASS (as_release_parent_class)->finalize (object);
 }
@@ -307,7 +311,7 @@ as_release_get_description (AsRelease *release)
 	const gchar *desc;
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 
-	desc = g_hash_table_lookup (priv->description, priv->active_locale);
+	desc = g_hash_table_lookup (priv->description, as_release_get_active_locale (release));
 	if (desc == NULL) {
 		/* fall back to untranslated / default */
 		desc = g_hash_table_lookup (priv->description, "C");
@@ -329,25 +333,11 @@ as_release_set_description (AsRelease *release, const gchar *description, const 
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 
 	if (locale == NULL)
-		locale = priv->active_locale;
+		locale = as_release_get_active_locale (release);
 
 	g_hash_table_insert (priv->description,
 				g_strdup (locale),
 				g_strdup (description));
-}
-
-/**
- * as_release_get_description_table:
- *
- * Internal helper.
- *
- * Since: 0.9.5
- **/
-GHashTable*
-as_release_get_description_table (AsRelease *release)
-{
-	AsReleasePrivate *priv = GET_PRIVATE (release);
-	return priv->description;
 }
 
 /**
@@ -356,11 +346,23 @@ as_release_get_description_table (AsRelease *release)
  * Get the current active locale, which
  * is used to get localized messages.
  */
-gchar*
+const gchar*
 as_release_get_active_locale (AsRelease *release)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
-	return priv->active_locale;
+	const gchar *locale;
+
+	/* return context locale, if the locale isn't explicitly overridden for this component */
+	if ((priv->context != NULL) && (priv->active_locale_override == NULL)) {
+		locale = as_context_get_locale (priv->context);
+	} else {
+		locale = priv->active_locale_override;
+	}
+
+	if (locale == NULL)
+		return "C";
+	else
+		return locale;
 }
 
 /**
@@ -377,8 +379,8 @@ as_release_set_active_locale (AsRelease *release, const gchar *locale)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 
-	g_free (priv->active_locale);
-	priv->active_locale = g_strdup (locale);
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = g_strdup (locale);
 }
 
 /**
@@ -468,6 +470,45 @@ as_release_add_checksum (AsRelease *release, AsChecksum *cs)
 }
 
 /**
+ * as_release_get_context:
+ * @release: An instance of #AsRelease.
+ *
+ * Returns: the #AsContext associated with this release.
+ * This function may return %NULL if no context is set.
+ *
+ * Since: 0.11.2
+ */
+AsContext*
+as_release_get_context (AsRelease *release)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	return priv->context;
+}
+
+/**
+ * as_release_set_context:
+ * @release: An instance of #AsRelease.
+ * @context: the #AsContext.
+ *
+ * Sets the document context this release is associated
+ * with.
+ *
+ * Since: 0.11.2
+ */
+void
+as_release_set_context (AsRelease *release, AsContext *context)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	if (priv->context != NULL)
+		g_object_unref (priv->context);
+	priv->context = g_object_ref (context);
+
+	/* reset individual properties, so the new context overrides them */
+	g_free (priv->active_locale_override);
+	priv->active_locale_override = NULL;
+}
+
+/**
  * as_release_parse_xml_metainfo_description_cb:
  *
  * Helper function for GHashTable
@@ -497,8 +538,8 @@ as_release_load_from_xml (AsRelease *release, AsContext *ctx, xmlNode *node, GEr
 	xmlNode *iter;
 	gchar *prop;
 
-	/* propagate locale */
-	as_release_set_active_locale (release, as_context_get_locale (ctx));
+	/* propagate context */
+	as_release_set_context (release, ctx);
 
 	prop = (gchar*) xmlGetProp (node, (xmlChar*) "version");
 	as_release_set_version (release, prop);
@@ -511,7 +552,7 @@ as_release_load_from_xml (AsRelease *release, AsContext *ctx, xmlNode *node, GEr
 		if (time != NULL) {
 			priv->timestamp = g_date_time_to_unix (time);
 		} else {
-			g_debug ("Invalid ISO-8601 date in releases at %s line %li", as_context_get_fname (ctx), xmlGetLineNo (node));
+			g_debug ("Invalid ISO-8601 date in releases at %s line %li", as_context_get_filename (ctx), xmlGetLineNo (node));
 		}
 		g_free (prop);
 	}
@@ -670,7 +711,7 @@ as_release_load_from_yaml (AsRelease *release, AsContext *ctx, GNode *node, GErr
 	GNode *n;
 
 	/* propagate locale */
-	as_release_set_active_locale (release, as_context_get_locale (ctx));
+	as_release_set_context (release, ctx);
 
 	for (n = node->children; n != NULL; n = n->next) {
 		const gchar *key = as_yaml_node_get_key (n);
@@ -684,7 +725,7 @@ as_release_load_from_yaml (AsRelease *release, AsContext *ctx, GNode *node, GErr
 			if (time != NULL) {
 				priv->timestamp = g_date_time_to_unix (time);
 			} else {
-				g_debug ("Invalid ISO-8601 date in %s", as_context_get_fname (ctx)); // FIXME: Better error, maybe with line number?
+				g_debug ("Invalid ISO-8601 date in %s", as_context_get_filename (ctx)); // FIXME: Better error, maybe with line number?
 			}
 		} else if (g_strcmp0 (key, "version") == 0) {
 			as_release_set_version (release, value);
@@ -767,6 +808,139 @@ as_release_emit_yaml (AsRelease *release, AsContext *ctx, yaml_emitter_t *emitte
 
 	/* end mapping for the release */
 	as_yaml_mapping_end (emitter);
+}
+
+/**
+ * as_release_to_variant:
+ * @release: an #AsRelease
+ * @builder: A #GVariantBuilder
+ *
+ * Serialize the current active state of this object to a GVariant
+ * for use in the on-disk binary cache.
+ */
+void
+as_release_to_variant (AsRelease *release, GVariantBuilder *builder)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	guint j;
+	GVariantBuilder checksum_b;
+	GVariantBuilder sizes_b;
+	GVariantBuilder rel_b;
+
+	GVariant *locations_var;
+	GVariant *checksums_var;
+	GVariant *sizes_var;
+	gboolean have_sizes = FALSE;
+
+	/* build checksum info */
+	g_variant_builder_init (&checksum_b, G_VARIANT_TYPE_DICTIONARY);
+	for (j = 0; j < priv->checksums->len; j++) {
+		AsChecksum *cs = AS_CHECKSUM (g_ptr_array_index (priv->checksums, j));
+		as_checksum_to_variant (cs, &checksum_b);
+	}
+
+	/* build size info */
+	g_variant_builder_init (&sizes_b, G_VARIANT_TYPE_DICTIONARY);
+	for (j = 0; j < AS_SIZE_KIND_LAST; j++) {
+		if (as_release_get_size (release, (AsSizeKind) j) > 0) {
+			g_variant_builder_add (&sizes_b, "{ut}",
+						(AsSizeKind) j,
+						as_release_get_size (release, (AsSizeKind) j));
+			have_sizes = TRUE;
+		}
+	}
+
+	g_variant_builder_init (&rel_b, G_VARIANT_TYPE_ARRAY);
+	g_variant_builder_add_parsed (&rel_b, "{'version', %v}", as_variant_mstring_new (priv->version));
+	g_variant_builder_add_parsed (&rel_b, "{'timestamp', <%t>}", priv->timestamp);
+	g_variant_builder_add_parsed (&rel_b, "{'urgency', <%u>}", priv->urgency);
+	g_variant_builder_add_parsed (&rel_b, "{'description', %v}", as_variant_mstring_new (as_release_get_description (release)));
+
+	locations_var = as_variant_from_string_ptrarray (priv->locations);
+	if (locations_var)
+		g_variant_builder_add_parsed (&rel_b, "{'locations', %v}", locations_var);
+
+	checksums_var = priv->checksums->len > 0? g_variant_builder_end (&checksum_b) : NULL;
+	if (checksums_var)
+		g_variant_builder_add_parsed (&rel_b, "{'checksums', %v}", checksums_var);
+
+	sizes_var = have_sizes? g_variant_builder_end (&sizes_b) : NULL;
+	if (sizes_var)
+		g_variant_builder_add_parsed (&rel_b, "{'sizes', %v}", sizes_var);
+
+	g_variant_builder_add_value (builder, g_variant_builder_end (&rel_b));
+}
+
+/**
+ * as_release_set_from_variant:
+ * @release: an #AsRelease
+ * @variant: The #GVariant to read from.
+ *
+ * Read the active state of this object from a #GVariant serialization.
+ * This is used by the on-disk binary cache.
+ */
+gboolean
+as_release_set_from_variant (AsRelease *release, GVariant *variant, const gchar *locale)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	GVariant *tmp;
+	GVariantDict rdict;
+	GVariantIter riter;
+	GVariant *inner_child;;
+
+	as_release_set_active_locale (release, locale);
+	g_variant_dict_init (&rdict, variant);
+
+	as_release_set_version (release, as_variant_get_dict_mstr (&rdict, "version", &tmp));
+	g_variant_unref (tmp);
+
+	tmp = g_variant_dict_lookup_value (&rdict, "timestamp", G_VARIANT_TYPE_UINT64);
+	priv->timestamp = g_variant_get_uint64 (tmp);
+	g_variant_unref (tmp);
+
+	priv->urgency = as_variant_get_dict_uint32 (&rdict, "urgency");
+
+	as_release_set_description (release,
+					as_variant_get_dict_mstr (&rdict, "description", &tmp),
+					locale);
+	g_variant_unref (tmp);
+
+	/* locations */
+	as_variant_to_string_ptrarray_by_dict (&rdict,
+						"locations",
+						priv->locations);
+
+	/* sizes */
+	tmp = g_variant_dict_lookup_value (&rdict, "sizes", G_VARIANT_TYPE_DICTIONARY);
+	if (tmp != NULL) {
+		g_variant_iter_init (&riter, tmp);
+		while ((inner_child = g_variant_iter_next_value (&riter))) {
+			AsSizeKind kind;
+			guint64 size;
+
+			g_variant_get (inner_child, "{ut}", &kind, &size);
+			as_release_set_size (release, size, kind);
+
+			g_variant_unref (inner_child);
+		}
+		g_variant_unref (tmp);
+	}
+
+	/* checksums */
+	tmp = g_variant_dict_lookup_value (&rdict, "checksums", G_VARIANT_TYPE_DICTIONARY);
+	if (tmp != NULL) {
+		g_variant_iter_init (&riter, tmp);
+		while ((inner_child = g_variant_iter_next_value (&riter))) {
+			g_autoptr(AsChecksum) cs = as_checksum_new ();
+			if (as_checksum_set_from_variant (cs, inner_child))
+				as_release_add_checksum (release, cs);
+
+			g_variant_unref (inner_child);
+		}
+		g_variant_unref (tmp);
+	}
+
+	return TRUE;
 }
 
 /**

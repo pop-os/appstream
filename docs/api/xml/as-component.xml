@@ -36,7 +36,7 @@
 </entry><entry role="function_name"><link linkend="as-component-get-value-flags">as_component_get_value_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-value-flags">as_component_set_value_flags</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
-<row><entry role="function_type"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<row><entry role="function_type">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 </entry><entry role="function_name"><link linkend="as-component-get-active-locale">as_component_get_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
 <row><entry role="function_type"><link linkend="void"><returnvalue>void</returnvalue></link>
 </entry><entry role="function_name"><link linkend="as-component-set-active-locale">as_component_set_active_locale</link>&#160;<phrase role="c_punctuation">()</phrase></entry></row>
@@ -426,7 +426,7 @@ as_component_set_value_flags (<parameter><link linkend="AsComponent"><type>AsCom
 <refsect2 id="as-component-get-active-locale" role="function">
 <title>as_component_get_active_locale&#160;()</title>
 <indexterm zone="as-component-get-active-locale"><primary>as_component_get_active_locale</primary></indexterm>
-<programlisting language="C"><link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
+<programlisting language="C">const <link linkend="gchar"><returnvalue>gchar</returnvalue></link>&#160;*
 as_component_get_active_locale (<parameter><link linkend="AsComponent"><type>AsComponent</type></link> *cpt</parameter>);</programlisting>
 <para>Get the current active locale for this component, which
 is used to get localized messages.</para>
