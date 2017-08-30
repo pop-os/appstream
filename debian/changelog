@@ -1,7 +1,15 @@
-appstream (0.11.4-1) UNRELEASED; urgency=medium
+appstream (0.11.4-1) unstable; urgency=medium
 
   * New upstream version: 0.11.4
   * Adjust packaging to use the Meson buildsystem
+  * Update .install files
+  * Update .symbols file
+  * Fail on missing files
+  * Trim & update build-dependencies
+    - xmlto is no longer needed
+    - itstool is no longer needed
+    - libgirepository1.0-dev >= 1.53, older versions have bugs
+      breaking the build.
 
  -- Matthias Klumpp <mak@debian.org>  Wed, 30 Aug 2017 19:56:48 +0200
 
