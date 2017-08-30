@@ -13,4 +13,4 @@ override_dh_auto_configure:
 	dh_auto_configure -- $(AS_CONFIGURE_ARGS)
 
 override_dh_missing:
-	dh_missing --list-missing
+	dh_missing --fail-missing
