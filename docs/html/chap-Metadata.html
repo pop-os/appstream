@@ -107,6 +107,8 @@
 									Only those services should be listed as launchables that the user is actually expected to start and stop manually. Services that are started/stopped indirectly via dependencies of other services should not be listed.
 								</div><div class="para">
 									For systemd units, the services listed as launchables are expected to support enabling and disabling.
+								</div></dd><dt><span class="term">cockpit-manifest</span></dt><dd><div class="para">
+									The software can be launched from the menus of the <a href="http://cockpit-project.org">Cockpit</a> admin interface. The value of the tag is the name of a <a href="http://cockpit-project.org/guide/latest/packages.html">Cockpit package</a>.
 								</div></dd></dl></div><div class="para">
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;launchable</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"desktop-id"</span><span xmlns="" class="perl_Keyword">&gt;</span>org.gnome.Sysprof2.desktop<span xmlns="" class="perl_Keyword">&lt;/launchable&gt;</span></pre></dd><dt><a id="tag-releases">

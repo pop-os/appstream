@@ -633,14 +633,23 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 					"The component has a 'merge' method defined. This is not allowed in metainfo files.");
 	}
 
+	/* the component must have an id */
+	if (as_str_empty (as_component_get_id (cpt))) {
+		/* we don't have an id */
+		as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_MISSING,
+					"The component is missing an ID (<id/> tag).");
+	}
+
 	/* the component must have a name */
 	if (as_str_empty (as_component_get_name (cpt))) {
-		/* we don't have a summary */
+		/* we don't have a name */
 		as_validator_add_issue (validator, NULL,
 					AS_ISSUE_IMPORTANCE_ERROR,
 					AS_ISSUE_KIND_VALUE_MISSING,
 					"The component is missing a name (<name/> tag).");
-		}
+	}
 
 	/* the component must have a summary */
 	if (as_str_empty (as_component_get_summary (cpt))) {
@@ -827,6 +836,14 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 							"Unknown type '%s' for <translation/> tag.", prop);
 			}
 		} else if (g_strcmp0 (node_name, "launchable") == 0) {
+			g_autofree gchar *prop = NULL;
+			prop = as_validator_check_type_property (validator, cpt, iter);
+			if (as_launchable_kind_from_string (prop) == AS_LAUNCHABLE_KIND_UNKNOWN) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"Unknown type '%s' for <launchable/> tag.", prop);
+			}
 		} else if (g_strcmp0 (node_name, "extends") == 0) {
 		} else if (g_strcmp0 (node_name, "bundle") == 0) {
 			g_autofree gchar *prop = NULL;
