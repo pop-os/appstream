@@ -862,7 +862,7 @@ gchar*
 as_component_get_pkgname (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	if ((priv->pkgnames == NULL) || (priv->pkgnames[0] == '\0'))
+	if ((priv->pkgnames == NULL) || (priv->pkgnames[0] == NULL))
 		return NULL;
 	return priv->pkgnames[0];
 }
@@ -2215,6 +2215,16 @@ as_component_complete (AsComponent *cpt, gchar *scr_service_url, GPtrArray *icon
 	/* improve icon paths */
 	as_component_refine_icons (cpt, icon_paths);
 
+	/* "fake" a launchable entry for desktop-apps that failed to include one. This is used for legacy compatibility */
+	if ((priv->kind == AS_COMPONENT_KIND_DESKTOP_APP) && (priv->launchables->len <= 0)) {
+		if (g_str_has_suffix (priv->id, ".desktop")) {
+			g_autoptr(AsLaunchable) launchable = as_launchable_new ();
+			as_launchable_set_kind (launchable, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+			as_launchable_add_entry (launchable, priv->id);
+			as_component_add_launchable (cpt, launchable);
+		}
+	}
+
 	/* if there is no screenshot service URL, there is nothing left to do for us */
 	if (scr_service_url == NULL)
 		return;
@@ -3064,7 +3074,7 @@ as_component_merge_with_mode (AsComponent *cpt, AsComponent *source, AsMergeKind
 		as_copy_l10n_hashtable (src_priv->description, dest_priv->description);
 
 		/* merge package names */
-		if ((src_priv->pkgnames != NULL) && (src_priv->pkgnames[0] != '\0'))
+		if ((src_priv->pkgnames != NULL) && (src_priv->pkgnames[0] != NULL))
 			as_component_set_pkgnames (dest_cpt, src_priv->pkgnames);
 
 		/* merge bundles */
@@ -4673,7 +4683,7 @@ as_component_emit_yaml (AsComponent *cpt, AsContext *ctx, yaml_emitter_t *emitte
 
 	/* Package */
 	/* NOTE: a DEP-11 components do *not* support multiple packages per component */
-	if ((priv->pkgnames != NULL) && (priv->pkgnames[0] != '\0'))
+	if ((priv->pkgnames != NULL) && (priv->pkgnames[0] != NULL))
 		as_yaml_emit_entry (emitter, "Package", priv->pkgnames[0]);
 
 	/* Extends */
