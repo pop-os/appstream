@@ -1,7 +1,9 @@
 project('AppStream', 'c',
-  meson_version : '>=0.42',
-  license : 'LGPL-2.1+ and GPL-2.0+',
-  version : '0.11.5',
+  meson_version: '>=0.42',
+  default_options: ['c_std=gnu11', 'cpp_std=gnu++14'],
+
+  license: 'LGPL-2.1+ and GPL-2.0+',
+  version: '0.11.6',
 )
 
 ccompiler = meson.get_compiler('c')
@@ -19,10 +21,10 @@ conf.set_quoted('GETTEXT_PACKAGE', 'appstream')
 conf.set_quoted('LOCALEDIR', get_option('localedir'))
 conf.set_quoted('LOCALSTATEDIR', get_option('localstatedir'))
 
-if get_option('enable-apt-support')
+if get_option('apt-support')
     conf.set('HAVE_APT_SUPPORT', 1)
 endif
-if get_option('enable-stemming')
+if get_option('stemming')
     conf.set('HAVE_STEMMING', 1)
 endif
 
@@ -32,25 +34,27 @@ configure_file(output: 'config.h', configuration: conf)
 # Custom C flags
 #
 sanitizer_libs = []
-if get_option('enable-maintainer')
-    add_global_arguments(['-Werror',
-                          '-Wall',
-                          '-Wextra',
-                          '-Wcast-align',
-                          '-Wno-uninitialized',
-                          '-Wempty-body',
-                          '-Wformat-security',
-                          '-Winit-self',
-                          '-Wnull-dereference',
-                          '-Wfloat-equal',
-                          #'-Wformat-signedness',
-                          '-Winline'],
-                          language : 'c'
-    )
+if get_option('maintainer')
+    maintainer_c_args = ['-Werror',
+                         '-Wall',
+                         '-Wextra',
+                         '-Wcast-align',
+                         '-Wno-uninitialized',
+                         '-Wempty-body',
+                         '-Wformat-security',
+                         '-Winit-self',
+                         '-Wnull-dereference',
+                         '-Wfloat-equal',
+                         #'-Wformat-signedness',
+                         '-Winline'
+    ]
+    add_global_arguments(maintainer_c_args, language: 'c')
+    add_global_arguments(maintainer_c_args, language: 'cpp')
 endif
 
 # a few compiler warning flags we always want enabled
 add_global_arguments('-Werror=implicit-function-declaration', '-Wno-unused-parameter', language: 'c')
+add_global_arguments('-Werror=implicit-function-declaration', '-Wno-unused-parameter', language: 'cpp')
 add_global_arguments('-DAS_COMPILATION', language : 'c')
 
 #
@@ -64,7 +68,7 @@ xml2_dep = dependency('libxml-2.0')
 yaml_dep = dependency('yaml-0.1')
 
 stemmer_inc_dirs = include_directories(['/usr/include'])
-if get_option('enable-stemming')
+if get_option('stemming')
     stemmer_lib = ccompiler.find_library('stemmer', required: true)
     if not ccompiler.has_header('libstemmer.h')
         if ccompiler.has_header('libstemmer/libstemmer.h')
@@ -92,6 +96,6 @@ subdir('contrib/')
 subdir('po/')
 subdir('docs/')
 subdir('tests/')
-if get_option('enable-qt')
+if get_option('qt')
     subdir('qt/')
 endif
