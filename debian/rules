@@ -2,9 +2,9 @@
 # -*- makefile -*-
 #export DH_VERBOSE=1
 
-AS_CONFIGURE_ARGS = -Denable-qt=true \
-		-Denable-apt-support=true \
-		-Denable-vapi=true
+AS_CONFIGURE_ARGS = -Dqt=true \
+		-Dapt-support=true \
+		-Dvapi=true
 
 %:
 	dh $@ --parallel --with gir
