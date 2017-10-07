@@ -1,0 +1,22 @@
+From 77557fe07d12ab3c6d1fa3e59b01809f02edc914 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Tue, 3 Oct 2017 02:55:01 +0200
+Subject: [PATCH] Fix endless loop when validating screenshots
+
+---
+ src/as-validator.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/as-validator.c b/src/as-validator.c
+index df3447d..260c84f 100644
+--- a/src/as-validator.c
++++ b/src/as-validator.c
+@@ -604,7 +604,7 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
+ 		if (iter->type != XML_ELEMENT_NODE)
+ 			continue;
+ 
+-		for (iter2 = iter->children; iter2 != NULL; iter2 = iter->next) {
++		for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
+ 			const gchar *node_name = (const gchar*) iter2->name;
+ 
+ 			if (iter2->type != XML_ELEMENT_NODE)
