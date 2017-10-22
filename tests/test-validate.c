@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2017 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,31 +18,35 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __AS_UTILS_H
-#define __AS_UTILS_H
+#include <glib.h>
+#include "appstream.h"
+#include "as-component-private.h"
 
-#include <glib-object.h>
+#include "as-test-utils.h"
 
-G_BEGIN_DECLS
+static gchar *datadir = NULL;
 
-gchar		*as_markup_convert_simple (const gchar *markup,
-					   GError **error);
+int
+main (int argc, char **argv)
+{
+	int ret;
 
-gboolean	as_utils_locale_is_compatible (const gchar *locale1,
-					       const gchar *locale2);
-gboolean	as_utils_is_category_name (const gchar *category_name);
-gboolean	as_utils_is_tld (const gchar *tld);
-gboolean	as_utils_is_desktop_environment (const gchar *desktop);
+	if (argc == 0) {
+		g_error ("No test directory specified!");
+		return 1;
+	}
 
-void		as_utils_sort_components_into_categories (GPtrArray *cpts,
-							  GPtrArray *categories,
-							  gboolean check_duplicates);
+	g_assert (argv[1] != NULL);
+	datadir = g_build_filename (argv[1], "samples", NULL);
+	g_assert (g_file_test (datadir, G_FILE_TEST_EXISTS) != FALSE);
 
-gint		as_utils_compare_versions (const gchar* a,
-					   const gchar *b);
+	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
+	g_test_init (&argc, &argv, NULL);
 
-const gchar	*as_get_appstream_version (void);
+	/* only critical and error are fatal */
+	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
-G_END_DECLS
-
-#endif /* __AS_UTILS_H */
+	ret = g_test_run ();
+	g_free (datadir);
+	return ret;
+}

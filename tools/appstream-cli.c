@@ -102,6 +102,7 @@ const GOptionEntry find_options[] = {
 
 /* used by validate_options */
 static gboolean optn_pedantic = FALSE;
+static gboolean optn_nonet = FALSE;
 
 /**
  * General options for validation.
@@ -110,8 +111,13 @@ const GOptionEntry validate_options[] = {
 	{ "pedantic", (gchar) 0, 0,
 		G_OPTION_ARG_NONE,
 		&optn_pedantic,
-		/* TRANSLATORS: ascli flag description for: --pedantic */
-		N_("Also print pedantic hints when validating."), NULL },
+		/* TRANSLATORS: ascli flag description for: --pedantic (used by the "validate" command) */
+		N_("Also show pedantic hints."), NULL },
+	{ "nonet", (gchar) 0, 0,
+		G_OPTION_ARG_NONE,
+		&optn_nonet,
+		/* TRANSLATORS: ascli flag description for: --nonet (used by the "validate" command) */
+		N_("Do not use network access."), NULL },
 	{ NULL }
 };
 
@@ -379,7 +385,8 @@ as_client_run_validate (char **argv, int argc)
 
 	return ascli_validate_files (&argv[2],
 				     argc-2,
-				     optn_pedantic);
+				     optn_pedantic,
+				     !optn_nonet);
 }
 
 /**
@@ -405,7 +412,8 @@ as_client_run_validate_tree (char **argv, int argc)
 		value = argv[2];
 
 	return ascli_validate_tree (value,
-				    optn_pedantic);
+				    optn_pedantic,
+				    !optn_nonet);
 }
 
 /**
@@ -529,6 +537,8 @@ static int
 as_client_run_new_template (char **argv, int argc)
 {
 	g_autoptr(GOptionContext) opt_context = NULL;
+	g_autoptr(GString) desc_str = NULL;
+	guint i;
 	gint ret;
 	const gchar *command = "new-template";
 	const gchar *out_fname = NULL;
@@ -544,7 +554,17 @@ as_client_run_new_template (char **argv, int argc)
 		{ NULL }
 	};
 
+	/* TRANSLATORS: Additional help text for the 'new-template' ascli subcommand */
+	desc_str = g_string_new (_("This command takes optional TYPE and FILE positional arguments, FILE being a file to write to (or \"-\" for standard output)."));
+	g_string_append (desc_str, "\n");
+	/* TRANSLATORS: Additional help text for the 'new-template' ascli subcommand, a bullet-pointed list of types follows */
+	g_string_append_printf (desc_str, _("The TYPE must be a valid component-type, such as: %s"), "\n");
+	for (i = 1; i < AS_COMPONENT_KIND_LAST; i++)
+		g_string_append_printf (desc_str, " • %s\n", as_component_kind_to_string (i));
+
 	opt_context = as_client_new_subcommand_option_context (command, newtemplate_options);
+	g_option_context_set_description (opt_context, desc_str->str);
+
 	ret = as_client_option_context_parse (opt_context,
 					      command, &argc, &argv);
 	if (ret != 0)
@@ -664,8 +684,13 @@ as_client_run (char **argv, int argc)
 		return ret;
 
 	if (optn_show_version) {
-		/* TRANSLATORS: Output if appstreamcli --version is executed. */
-		ascli_print_stdout (_("AppStream CLI tool version: %s"), PACKAGE_VERSION);
+		if (g_strcmp0 (as_get_appstream_version (), PACKAGE_VERSION) == 0) {
+			/* TRANSLATORS: Output if appstreamcli --version is executed. */
+			ascli_print_stdout (_("AppStream version: %s"), PACKAGE_VERSION);
+		} else {
+			/* TRANSLATORS: Output if appstreamcli --version is run and the CLI and libappstream versions differ. */
+			ascli_print_stdout (_("AppStream CLI tool version: %s\nAppStream library version: %s"), PACKAGE_VERSION, as_get_appstream_version ());
+		}
 		return 0;
 	}
 
