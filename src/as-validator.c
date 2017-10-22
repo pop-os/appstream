@@ -51,6 +51,7 @@ typedef struct
 
 	AsComponent *current_cpt;
 	gchar *current_fname;
+	gboolean check_urls;
 } AsValidatorPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsValidator, as_validator, G_TYPE_OBJECT)
@@ -85,6 +86,7 @@ as_validator_init (AsValidator *validator)
 
 	priv->current_fname = NULL;
 	priv->current_cpt = NULL;
+	priv->check_urls = FALSE;
 }
 
 /**
@@ -193,6 +195,89 @@ as_validator_clear_issues (AsValidator *validator)
 {
 	AsValidatorPrivate *priv = GET_PRIVATE (validator);
 	g_hash_table_remove_all (priv->issues);
+}
+
+/**
+ * as_validator_can_check_urls:
+ *
+ * Check whether we can validate URLs using curl.
+ */
+static gboolean
+as_validator_can_check_urls (AsValidator *validator)
+{
+	return g_file_test ("/usr/bin/curl", G_FILE_TEST_EXISTS);
+}
+
+/**
+ * as_validator_web_url_exists:
+ *
+ * Check if an URL exists using curl.
+ */
+static gboolean
+as_validator_web_url_exists (AsValidator *validator, const gchar *url)
+{
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
+	/* we use absolute paths here to avoid someone injecting malicious curl/wget into our environment */
+	const gchar *curl_bin = "/usr/bin/curl";
+	gint exit_status = 0;
+
+	/* do nothing and assume the URL exists if we shouldn't check URLs */
+	if (!priv->check_urls)
+		return TRUE;
+
+	if (g_file_test (curl_bin, G_FILE_TEST_EXISTS)) {
+		const gchar *argv[8];
+		argv[0] = curl_bin;
+		argv[1] = "--output";
+		argv[2] = "/dev/null";
+		argv[3] = "--silent";
+		argv[4] = "--head";
+		argv[5] = "--fail";
+		argv[6] = url;
+		argv[7] = NULL;
+		g_spawn_sync (NULL, /* wdir */
+				(gchar**) argv,
+				NULL, /* env */
+				G_SPAWN_STDOUT_TO_DEV_NULL | G_SPAWN_STDERR_TO_DEV_NULL,
+				NULL, /* setup function */
+				NULL, /* user data */
+				NULL, /* stdin */
+				NULL, /* stderr */
+				&exit_status,
+				NULL);
+		return exit_status == 0;
+	} else {
+		/* we can't validate this because we have no wget/curl - we should have emitted an error about this already, so
+		 * we just return TRUE here to not spam the user in misleading error messages */
+		return TRUE;
+	}
+}
+
+/**
+ * as_validator_get_check_urls:
+ * @validator: a #AsValidator instance.
+ *
+ * Returns: %TRUE in case we check if remote URLs exist.
+ */
+gboolean
+as_validator_get_check_urls (AsValidator *validator)
+{
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
+	return priv->check_urls;
+}
+
+/**
+ * as_validator_set_check_urls:
+ * @validator: a #AsValidator instance.
+ *
+ * Set this value to make the #AsValidator check whether remote URLs
+ * actually exist.
+ */
+void
+as_validator_set_check_urls (AsValidator *validator, gboolean value)
+{
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
+	priv->check_urls = value;
 }
 
 /**
@@ -588,7 +673,7 @@ as_validator_validate_update_contact (AsValidator *validator, xmlNode *uc_node)
 /**
  * as_validator_check_screenshots:
  *
- * Validate a <screenshots/> tag.
+ * Validate a "screenshots" tag.
  **/
 static void
 as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsComponent *cpt)
@@ -604,23 +689,41 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 
-		for (iter2 = iter->children; iter2 != NULL; iter2 = iter->next) {
+		for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
 			const gchar *node_name = (const gchar*) iter2->name;
 
 			if (iter2->type != XML_ELEMENT_NODE)
 				continue;
 
-			if (g_strcmp0 (node_name, "image") == 0)
+			if (g_strcmp0 (node_name, "image") == 0) {
+				g_autofree gchar *image_url = (gchar*) xmlNodeGetContent (iter2);
+
 				image_found = TRUE;
-			else if (g_strcmp0 (node_name, "caption") == 0)
+
+				if (!as_validator_web_url_exists (validator, image_url)) {
+					as_validator_add_issue (validator, iter2,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_REMOTE_ERROR,
+							"Unable to reach screenshot image on remote location '%s' - does the image exist?",
+							image_url);
+				}
+			} else if (g_strcmp0 (node_name, "caption") == 0) {
 				caption_found = TRUE;
-			else {
+			} else {
 				as_validator_add_issue (validator, iter2,
 							AS_ISSUE_IMPORTANCE_WARNING,
 							AS_ISSUE_KIND_TAG_UNKNOWN,
-							"Found tag '%s' in a screenshot. Only <cpation/> and <image/> tags are allowed.",
+							"Found tag '%s' in a screenshot. Only <caption/> and <image/> tags are allowed.",
 							(const gchar*) iter2->name);
 			}
+		}
+
+		if (g_strcmp0 ((const gchar*) iter->name, "screenshot") != 0) {
+			as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_TAG_UNKNOWN,
+							"Found tag '%s' in a screenshots group. Only <screenshot/> tags are allowed.",
+							(const gchar*) iter->name);
 		}
 
 		if (!image_found) {
@@ -812,19 +915,28 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			}
 
 			if (g_strcmp0 (prop, "remote") == 0) {
-				if (!as_validate_is_url (node_content))
+				if (!as_validate_is_url (node_content)) {
 					as_validator_add_issue (validator, iter,
 								AS_ISSUE_IMPORTANCE_ERROR,
 								AS_ISSUE_KIND_VALUE_WRONG,
 								"Icons of type 'remote' must contain an URL to the referenced icon.");
+				} else {
+					if (!as_validator_web_url_exists (validator, node_content)) {
+						as_validator_add_issue (validator, iter,
+									AS_ISSUE_IMPORTANCE_WARNING,
+									AS_ISSUE_KIND_REMOTE_ERROR,
+									"Unable to reach remote icon at '%s' - does it exist?",
+									node_content);
+					}
+				}
 			}
 
 			if (mode == AS_FORMAT_STYLE_METAINFO) {
-				if ((prop != NULL) && (g_strcmp0 (prop, "stock") != 0)) {
+				if ((prop != NULL) && (g_strcmp0 (prop, "stock") != 0) && (g_strcmp0 (prop, "remote") != 0)) {
 					as_validator_add_issue (validator, iter,
 								AS_ISSUE_IMPORTANCE_ERROR,
 								AS_ISSUE_KIND_VALUE_WRONG,
-								"Metainfo files may only contain 'stock' icons, icons of kind '%s' are not allowed.", prop);
+								"Metainfo files may only contain 'stock' or 'remote' icons, icons of kind '%s' are not allowed.", prop);
 				}
 			}
 			g_free (prop);
@@ -839,6 +951,14 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 							prop);
 			}
 			g_free (prop);
+
+			if (!as_validator_web_url_exists (validator, node_content)) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_REMOTE_ERROR,
+							"Unable to reach remote location '%s' - does it exist?",
+							node_content);
+			}
 		} else if (g_strcmp0 (node_name, "categories") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "category", cpt);
@@ -998,6 +1118,31 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 					AS_ISSUE_IMPORTANCE_WARNING,
 					AS_ISSUE_KIND_TAG_MISSING,
 					"Type 'console-application' component, but no information about binaries in $PATH was provided via a provides/binary tag.");
+	}
+
+	/* validate webapp specific stuff */
+	if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_WEB_APP) {
+		AsLaunchable *launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_URL);
+		if (launch == NULL || as_launchable_get_entries (launch)->len == 0) {
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"This 'web-application' component is missing a 'launchable' tag of type 'url'.");
+		}
+
+		if (as_component_get_icons (cpt)->len <= 0) {
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"This 'web-application' component is missing a 'icon' tag to specify a valid icon.");
+		}
+
+		if (as_component_get_categories (cpt)->len <= 0) {
+			as_validator_add_issue (validator, NULL,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_TAG_MISSING,
+					"This 'web-application' component is missing categorizations. A 'categories' block is likely missing.");
+		}
 	}
 
 	/* validate font specific stuff */
@@ -1228,11 +1373,23 @@ as_validator_open_xml_document (AsValidator *validator, const gchar *xmldata)
 gboolean
 as_validator_validate_data (AsValidator *validator, const gchar *metadata)
 {
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
 	gboolean ret;
 	xmlNode* root;
 	xmlDoc *doc;
 	g_autoptr(AsContext) ctx = NULL;
 	AsComponent *cpt;
+
+	/* if we validate URLs, check if curl or wget are installed */
+	if (priv->check_urls) {
+		/* cheap way to notify the user if we can't validate URLs */
+		if (!as_validator_can_check_urls (validator)) {
+			as_validator_add_issue (validator, NULL,
+						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_KIND_UNKNOWN,
+						"Unable to find the curl binary. remote URLs can not be checked for validity!");
+		}
+	}
 
 	/* load the XML data */
 	ctx = as_context_new ();
@@ -1428,6 +1585,7 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
 gboolean
 as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 {
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
 	g_autofree gchar *metainfo_dir = NULL;
 	g_autofree gchar *legacy_metainfo_dir = NULL;
 	g_autofree gchar *apps_dir = NULL;
@@ -1464,6 +1622,17 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 					AS_ISSUE_IMPORTANCE_PEDANTIC, /* pedantic because not everything which has metadata is an application */
 					AS_ISSUE_KIND_FILE_MISSING,
 					"No XDG applications directory found.");
+	}
+
+	/* if we validate URLs, check if curl or wget are installed */
+	if (priv->check_urls) {
+		/* cheap way to notify the user if we can't validate URLs */
+		if (!as_validator_can_check_urls (validator)) {
+			as_validator_add_issue (validator, NULL,
+						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_KIND_UNKNOWN,
+						"Unable to find the curl binary. remote URLs can not be checked for validity!");
+		}
 	}
 
 	/* holds a filename -> component mapping */
