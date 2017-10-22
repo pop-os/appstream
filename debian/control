@@ -27,6 +27,7 @@ Breaks: appstream-index (<< ${source:Version}),
         gnome-software (<< 3.22.5-1),
         plasma-discover (<< 5.8.5-3)
 Provides: appstream-index
+Suggests: curl
 Description: Software component metadata management
  AppStream is a metadata specification, allowing to write metadata for
  software projects in a standardized format.
