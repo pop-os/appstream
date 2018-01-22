@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2017-10-22 16:39+0200\n"
-"PO-Revision-Date: 2017-10-22 15:04+0000\n"
+"POT-Creation-Date: 2018-01-14 04:20+0100\n"
+"PO-Revision-Date: 2018-01-14 03:23+0000\n"
 "Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
 "Language-Team: Polish "
 "<https://hosted.weblate.org/projects/appstream/translations/pl/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: tools/appstream-cli.c:142
 #, c-format
@@ -53,7 +53,7 @@ msgid "Also show pedantic hints."
 msgstr "Wyświetla także drobiazgowe uwagi."
 
 #: tools/appstream-cli.c:600
-msgid "An item type (e.g. lib, bin, python3, ...)"
+msgid "An item type (e.g. lib, bin, python3, …)"
 msgstr "Typ elementu (np. lib, bin, python3…)"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:9
@@ -222,12 +222,6 @@ msgctxt "Category of Addons"
 msgid "Codecs"
 msgstr "Kodeki"
 
-#. TRANSLATORS: ascli has been run with unknown command.
-#: tools/appstream-cli.c:740
-#, c-format
-msgid "Command '%s' is unknown."
-msgstr "Nieznane polecenie „%s”."
-
 #. TRANSLATORS: this is the menu spec main category for Communication
 #: src/as-category.c:326
 msgid "Communication & News"
@@ -260,7 +254,7 @@ msgstr "Nie można odnaleźć składnika dostarczającego „%s::%s”."
 
 #: tools/appstream-cli.c:616
 msgid ""
-"Create a template for a metainfo file (to be filed out by the upstream "
+"Create a template for a metainfo file (to be filled out by the upstream "
 "project)."
 msgstr "Tworzy szablon pliku Metainfo (do wypełnienia przez projekt)."
 
@@ -288,11 +282,8 @@ msgstr "Adres URL domyślnego zrzutu ekranu"
 
 #. TRANSLATORS: ascli flag description for: --format
 #: tools/appstream-cli.c:83
-msgid ""
-"Default to the given metadata format (valid values are 'xml' and 'yaml')."
-msgstr ""
-"Domyślnie używa podanego formatu metadanych (prawidłowe wartości to „xml” "
-"i „yaml”)."
+msgid "Default metadata format (valid values are 'xml' and 'yaml')."
+msgstr "Domyślny format metadanych (prawidłowe wartości to „xml” i „yaml”)."
 
 #: tools/ascli-utils.c:320
 msgid "Description"
@@ -316,11 +307,6 @@ msgstr "Wyświetla informacje o stanie dostępnych metadanych AppStream."
 #: tools/ascli-actions-misc.c:50
 msgid "Distribution metadata:"
 msgstr "Metadane dystrybucji:"
-
-#. TRANSLATORS: ascli flag description for: --no-cache
-#: tools/appstream-cli.c:67
-msgid "Do not use any caches when performing the request."
-msgstr "Bez używania pamięci podręcznych podczas wykonywania żądania."
 
 #. TRANSLATORS: ascli flag description for: --nonet (used by the "validate" command)
 #: tools/appstream-cli.c:120
@@ -493,7 +479,7 @@ msgid "Install a metadata file into the right location."
 msgstr "Instaluje plik metadanych we właściwym położeniu."
 
 #: tools/appstream-cli.c:609
-msgid "Install software matching the component-id."
+msgid "Install software matching the component-ID."
 msgstr "Instaluje oprogramowanie pasujące do identyfikatora składnika."
 
 #: tools/ascli-actions-mdata.c:210
@@ -534,15 +520,20 @@ msgctxt "Category of Games"
 msgid "Logic"
 msgstr "Gry logiczne"
 
-#. TRANSLATORS: ascli flag description for: --datapath
-#: tools/appstream-cli.c:62
-msgid "Manually set the location of AppStream metadata to scan."
-msgstr "Ręcznie ustawia położenie metadanych AppStream do skanowania."
+#. TRANSLATORS: ascli flag description for: --no-cache
+#: tools/appstream-cli.c:67
+msgid "Make request without any caching."
+msgstr "Tworzy żądanie bez pamięci podręcznej."
 
 #. TRANSLATORS: ascli flag description for: --cachepath
 #: tools/appstream-cli.c:57
-msgid "Manually set the location of the AppStream cache."
-msgstr "Ręcznie ustawia położenie pamięci podręcznej AppStream."
+msgid "Manually selected location of AppStream cache."
+msgstr "Ręcznie wybrane położenie pamięci podręcznej AppStream."
+
+#. TRANSLATORS: ascli flag description for: --datapath
+#: tools/appstream-cli.c:62
+msgid "Manually selected location of AppStream metadata to scan."
+msgstr "Ręcznie wybrane położenie metadanych AppStream do skanowania."
 
 #: src/as-category.c:111
 msgctxt "Category of Education"
@@ -609,7 +600,7 @@ msgstr ""
 "PackageKit)."
 
 #: tools/ascli-actions-mdata.c:203
-msgid "No value for the item to search for defined."
+msgid "No value for the item to search for was defined."
 msgstr "Nie określono wartości dla wyszukiwanego elementu."
 
 #. TRANSLATORS: this is the menu spec main category for Office
@@ -659,7 +650,7 @@ msgid "Rebuild the component metadata cache."
 msgstr "Ponownie buduje pamięć podręczną metadanych składników."
 
 #: tools/appstream-cli.c:610
-msgid "Remove software matching the component-id."
+msgid "Remove software matching the component-ID."
 msgstr "Usuwa oprogramowanie pasujące do identyfikatora składnika."
 
 #: src/as-category.c:248
@@ -800,16 +791,16 @@ msgstr ""
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:15
 msgid ""
-"This tool allows reading, writing, validating and transforming AppStream XML "
-"or YAML metadata. It also allows accessing the system metadata pool to for "
-"example query for software providing a specific mimetype and installing it "
-"by its software component identifier."
+"This tool allows for reading, writing, validating and transformation of "
+"AppStream XML or YAML metadata. It also gives access to the system metadata "
+"pool, for example to query for software that provides a specific MIME-type, "
+"and installing it by its software component identifier."
 msgstr ""
-"To narzędzie umożliwia odczytywanie, zapisywanie, sprawdzanie poprawności "
-"i przekształcanie metadanych AppStream w językach XML i YAML. Umożliwia "
-"także dostęp do puli metadanych systemu, aby na przykład wyszukać "
-"oprogramowanie dostarczające podany typ MIME i zainstalować je za pomocą "
-"jego identyfikatora składnika oprogramowania."
+"To narzędzie umożliwia odczytywanie, zapisywanie, sprawdzanie poprawności i "
+"przekształcanie metadanych AppStream w językach XML i YAML. Umożliwia także "
+"dostęp do puli metadanych systemu, aby na przykład wyszukać oprogramowanie "
+"dostarczające podany typ MIME i zainstalować je według jego identyfikatora "
+"składnika oprogramowania."
 
 #: tools/ascli-actions-mdata.c:541
 #, c-format
@@ -857,12 +848,18 @@ msgstr "Nie można wywołać menedżera pakietów: %s"
 msgid "Unable to write to '%s', can not install metainfo file."
 msgstr "Nie można zapisać do „%s”, nie można zainstalować pliku metainfo."
 
+#. TRANSLATORS: ascli has been run with unknown command.
+#: tools/appstream-cli.c:740
+#, c-format
+msgid "Unknown command '%s'."
+msgstr "Nieznane polecenie „%s”."
+
 #. TRANSLATORS: ascli flag description for: --from-desktop (part of the new-template subcommand)
 #: tools/appstream-cli.c:553
 msgid ""
-"Use the given .desktop file to fill in basic values in the metainfo file."
+"Use the given .desktop file to fill in the basic values of the metainfo file."
 msgstr ""
-"Używa podanego pliku .desktop do wypełnienia podstawowych wartości w pliku "
+"Używa podanego pliku .desktop do wypełnienia podstawowych wartości pliku "
 "Metainfo."
 
 #. TRANSLATORS: this is the menu spec main category for Utilities
@@ -1014,6 +1011,12 @@ msgstr "drobne problemy: %lu"
 #, c-format
 msgid "warnings: %lu"
 msgstr "ostrzeżenia: %lu"
+
+#~ msgid "Command '%s' is unknown."
+#~ msgstr "Nieznane polecenie „%s”."
+
+#~ msgid "Do not use any caches when performing the request."
+#~ msgstr "Bez używania pamięci podręcznych podczas wykonywania żądania."
 
 #~ msgid "AppStream cache update failed."
 #~ msgstr "Aktualizacja pamięci podręcznej AppStream się nie powiodła."
