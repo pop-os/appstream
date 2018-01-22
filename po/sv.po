@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2017-10-22 16:39+0200\n"
-"PO-Revision-Date: 2017-10-22 17:19+0000\n"
+"POT-Creation-Date: 2018-01-14 04:20+0100\n"
+"PO-Revision-Date: 2018-01-14 22:25+0000\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish "
 "<https://hosted.weblate.org/projects/appstream/translations/sv/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.17\n"
+"X-Generator: Weblate 2.19-dev\n"
 
 #: tools/appstream-cli.c:142
 #, c-format
@@ -52,7 +52,7 @@ msgid "Also show pedantic hints."
 msgstr "Visa också pedantiska tips."
 
 #: tools/appstream-cli.c:600
-msgid "An item type (e.g. lib, bin, python3, ...)"
+msgid "An item type (e.g. lib, bin, python3, …)"
 msgstr "Ett objekts typ (t.ex. lib, bin, python3, …)"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:9
@@ -219,12 +219,6 @@ msgctxt "Category of Addons"
 msgid "Codecs"
 msgstr "Kodekar"
 
-#. TRANSLATORS: ascli has been run with unknown command.
-#: tools/appstream-cli.c:740
-#, c-format
-msgid "Command '%s' is unknown."
-msgstr "Kommando ”%s” är okänt."
-
 #. TRANSLATORS: this is the menu spec main category for Communication
 #: src/as-category.c:326
 msgid "Communication & News"
@@ -257,10 +251,9 @@ msgstr "Kunde inte hitta komponent som tillhandahåller ”%s;%s”."
 
 #: tools/appstream-cli.c:616
 msgid ""
-"Create a template for a metainfo file (to be filed out by the upstream "
+"Create a template for a metainfo file (to be filled out by the upstream "
 "project)."
-msgstr ""
-"Skapa en mall för en metainfofil (att fyllas i av projektet uppströms)."
+msgstr "Skapa en mall för en metainfofil (att fyllas i av projektet uppströms)."
 
 #: src/as-provided.c:161
 msgid "DBus Session Services"
@@ -286,11 +279,8 @@ msgstr "URL för exempelbild"
 
 #. TRANSLATORS: ascli flag description for: --format
 #: tools/appstream-cli.c:83
-msgid ""
-"Default to the given metadata format (valid values are 'xml' and 'yaml')."
-msgstr ""
-"Använd det givna metadataformatet som standard (giltiga värden är ”xml” och "
-"”yaml”)."
+msgid "Default metadata format (valid values are 'xml' and 'yaml')."
+msgstr "Standardmetadataformat (giltiga värden är ”xml” och ”yaml”)."
 
 #: tools/ascli-utils.c:320
 msgid "Description"
@@ -315,15 +305,10 @@ msgstr "Visa statusinformation om tillgänglig AppStream-metadata."
 msgid "Distribution metadata:"
 msgstr "Distributionsmetadata:"
 
-#. TRANSLATORS: ascli flag description for: --no-cache
-#: tools/appstream-cli.c:67
-msgid "Do not use any caches when performing the request."
-msgstr "Använd inte cachar när begäran hanteras."
-
 #. TRANSLATORS: ascli flag description for: --nonet (used by the "validate" command)
 #: tools/appstream-cli.c:120
 msgid "Do not use network access."
-msgstr ""
+msgstr "Använd inte nätverksåtkomst."
 
 #. TRANSLATORS: ascli flag description for: --no-color
 #: tools/appstream-cli.c:653
@@ -491,7 +476,7 @@ msgid "Install a metadata file into the right location."
 msgstr "Installera en metadatafil på rätt plats."
 
 #: tools/appstream-cli.c:609
-msgid "Install software matching the component-id."
+msgid "Install software matching the component-ID."
 msgstr "Installera programvara som matchar komponent-ID:t."
 
 #: tools/ascli-actions-mdata.c:210
@@ -532,15 +517,20 @@ msgctxt "Category of Games"
 msgid "Logic"
 msgstr "Logik"
 
-#. TRANSLATORS: ascli flag description for: --datapath
-#: tools/appstream-cli.c:62
-msgid "Manually set the location of AppStream metadata to scan."
-msgstr "Ange manuellt platsen för AppStream-metadata att söka av."
+#. TRANSLATORS: ascli flag description for: --no-cache
+#: tools/appstream-cli.c:67
+msgid "Make request without any caching."
+msgstr "Gör förfrågan utan någon cachning."
 
 #. TRANSLATORS: ascli flag description for: --cachepath
 #: tools/appstream-cli.c:57
-msgid "Manually set the location of the AppStream cache."
-msgstr "Ange manuellt platsen för AppStream-cachen."
+msgid "Manually selected location of AppStream cache."
+msgstr "Manuellt angiven plats för AppStream-cache."
+
+#. TRANSLATORS: ascli flag description for: --datapath
+#: tools/appstream-cli.c:62
+msgid "Manually selected location of AppStream metadata to scan."
+msgstr "Manuellt angiven plats för AppStream-metadata att söka av."
 
 #: src/as-category.c:111
 msgctxt "Category of Education"
@@ -606,8 +596,8 @@ msgstr ""
 "”pkcon” (en del av PackageKit) finns tillgänglig."
 
 #: tools/ascli-actions-mdata.c:203
-msgid "No value for the item to search for defined."
-msgstr "Inget värdet för objektet att leta efter finns definierat."
+msgid "No value for the item to search for was defined."
+msgstr "Inget värde för objektet att leta efter finns definierat."
 
 #. TRANSLATORS: this is the menu spec main category for Office
 #: src/as-category.c:317
@@ -656,7 +646,7 @@ msgid "Rebuild the component metadata cache."
 msgstr "Bygg om cachen för komponentmetadata."
 
 #: tools/appstream-cli.c:610
-msgid "Remove software matching the component-id."
+msgid "Remove software matching the component-ID."
 msgstr "Ta bort programvara som matchar komponent-ID:t."
 
 #: src/as-category.c:248
@@ -776,7 +766,7 @@ msgstr ""
 #: tools/appstream-cli.c:561
 #, c-format
 msgid "The TYPE must be a valid component-type, such as: %s"
-msgstr ""
+msgstr "TYP måste vara en giltig komponenttyp, så som: %s"
 
 #: tools/ascli-actions-mdata.c:446
 #, c-format
@@ -792,18 +782,20 @@ msgid ""
 "This command takes optional TYPE and FILE positional arguments, FILE being a "
 "file to write to (or \"-\" for standard output)."
 msgstr ""
+"Detta kommando tar valfria positionsargument TYP och FIL, där FIL är en fil "
+"att skriva till (eller \"-\" för standard ut)."
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:15
 msgid ""
-"This tool allows reading, writing, validating and transforming AppStream XML "
-"or YAML metadata. It also allows accessing the system metadata pool to for "
-"example query for software providing a specific mimetype and installing it "
-"by its software component identifier."
+"This tool allows for reading, writing, validating and transformation of "
+"AppStream XML or YAML metadata. It also gives access to the system metadata "
+"pool, for example to query for software that provides a specific MIME-type, "
+"and installing it by its software component identifier."
 msgstr ""
 "Det här verktyget möjliggör läsning, skrivning, validering och "
 "transformering av AppStream XML- eller YAML-metadata. Det ger också åtkomst "
 "till systemmetadatapoolen för att till exempel söka efter program som "
-"innehåller en specifik mimetyp och installera den med med dess "
+"innehåller en specifik MIME-typ och installera den med dess "
 "programidentifierare."
 
 #: tools/ascli-actions-mdata.c:541
@@ -852,10 +844,16 @@ msgstr "Kunde inte starta pakethanterare: %s"
 msgid "Unable to write to '%s', can not install metainfo file."
 msgstr "Kunde inte skriva till ”%s”, kan inte installera metainfo-fil."
 
+#. TRANSLATORS: ascli has been run with unknown command.
+#: tools/appstream-cli.c:740
+#, c-format
+msgid "Unknown command '%s'."
+msgstr "Okänt kommando ”%s”."
+
 #. TRANSLATORS: ascli flag description for: --from-desktop (part of the new-template subcommand)
 #: tools/appstream-cli.c:553
 msgid ""
-"Use the given .desktop file to fill in basic values in the metainfo file."
+"Use the given .desktop file to fill in the basic values of the metainfo file."
 msgstr ""
 "Använd den givna .desktop-filen för att fylla i grundläggande värden i "
 "metainfofilen."
@@ -1008,6 +1006,12 @@ msgstr "pedantiska: %lu"
 #, c-format
 msgid "warnings: %lu"
 msgstr "varningar: %lu"
+
+#~ msgid "Command '%s' is unknown."
+#~ msgstr "Kommando ”%s” är okänt."
+
+#~ msgid "Do not use any caches when performing the request."
+#~ msgstr "Använd inte cachar när begäran hanteras."
 
 #~ msgid "AppStream cache update failed."
 #~ msgstr "Uppdatering av AppStreams cache misslyckades."
