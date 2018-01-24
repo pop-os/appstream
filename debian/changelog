@@ -1,3 +1,12 @@
+appstream (0.11.8-3) unstable; urgency=medium
+
+  * appstream-doc breaks older appstream package versions (Closes: #888301)
+    - The upstream NEWS file accidentally moved from appstream to
+      appstream-doc, and now that it is there it makes sense to
+      keep it in the -doc package.
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 24 Jan 2018 20:50:20 +0100
+
 appstream (0.11.8-2) unstable; urgency=medium
 
   * qt-define-locations-nodebug.patch: Allow finding the Qt library
