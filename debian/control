@@ -137,6 +137,7 @@ Multi-Arch: foreign
 Section: doc
 Depends: ${misc:Depends}
 Suggests: appstream
+Breaks: appstream (<< 0.11.8)
 Description: Developer documentation for AppStream
  AppStream is a metadata specification, allowing to write metadata for
  software projects in a standardized format. This allows software centers
