@@ -46,6 +46,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_add_language@Base 0.10.0
  as_component_add_launchable@Base 0.11.0
  as_component_add_provided@Base 0.10.0
+ as_component_add_relation@Base 0.12.0
  as_component_add_release@Base 0.10.0
  as_component_add_screenshot@Base 0.10.0
  as_component_add_suggested@Base 0.10.0
@@ -75,6 +76,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_languages@Base 0.10.0
  as_component_get_languages_table@Base 0.10.0
  as_component_get_launchable@Base 0.11.0
+ as_component_get_launchables@Base 0.12.0
  as_component_get_merge_kind@Base 0.10.0
  as_component_get_metadata_license@Base 0.10.0
  as_component_get_name@Base 0.10.0
@@ -86,7 +88,9 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_project_license@Base 0.10.0
  as_component_get_provided@Base 0.10.0
  as_component_get_provided_for_kind@Base 0.10.0
+ as_component_get_recommends@Base 0.12.0
  as_component_get_releases@Base 0.10.0
+ as_component_get_requires@Base 0.12.0
  as_component_get_screenshots@Base 0.10.0
  as_component_get_search_tokens@Base 0.10.0
  as_component_get_source_pkgname@Base 0.10.0
@@ -281,21 +285,46 @@ libappstream.so.4 libappstream4 #MINVER#
  as_provided_kind_to_string@Base 0.10.0
  as_provided_new@Base 0.10.0
  as_provided_set_kind@Base 0.10.0
+ as_relation_compare_from_string@Base 0.12.0
+ as_relation_compare_to_string@Base 0.12.0
+ as_relation_compare_to_symbols_string@Base 0.12.0
+ as_relation_get_compare@Base 0.12.0
+ as_relation_get_item_kind@Base 0.12.0
+ as_relation_get_kind@Base 0.12.0
+ as_relation_get_type@Base 0.12.0
+ as_relation_get_value@Base 0.12.0
+ as_relation_get_value_int@Base 0.12.0
+ as_relation_get_version@Base 0.12.0
+ as_relation_item_kind_from_string@Base 0.12.0
+ as_relation_item_kind_to_string@Base 0.12.0
+ as_relation_kind_from_string@Base 0.12.0
+ as_relation_kind_to_string@Base 0.12.0
+ as_relation_new@Base 0.12.0
+ as_relation_set_compare@Base 0.12.0
+ as_relation_set_item_kind@Base 0.12.0
+ as_relation_set_kind@Base 0.12.0
+ as_relation_set_value@Base 0.12.0
+ as_relation_set_version@Base 0.12.0
+ as_relation_version_compare@Base 0.12.0
  as_release_add_checksum@Base 0.10.0
  as_release_add_location@Base 0.10.0
  as_release_get_active_locale@Base 0.10.0
  as_release_get_checksum@Base 0.10.0
  as_release_get_checksums@Base 0.10.0
  as_release_get_description@Base 0.10.0
+ as_release_get_kind@Base 0.12.0
  as_release_get_locations@Base 0.10.0
  as_release_get_size@Base 0.10.0
  as_release_get_timestamp@Base 0.10.0
  as_release_get_type@Base 0.10.0
  as_release_get_urgency@Base 0.10.0
  as_release_get_version@Base 0.10.0
+ as_release_kind_from_string@Base 0.12.0
+ as_release_kind_to_string@Base 0.12.0
  as_release_new@Base 0.10.0
  as_release_set_active_locale@Base 0.10.0
  as_release_set_description@Base 0.10.0
+ as_release_set_kind@Base 0.12.0
  as_release_set_size@Base 0.10.0
  as_release_set_timestamp@Base 0.10.0
  as_release_set_urgency@Base 0.10.0
