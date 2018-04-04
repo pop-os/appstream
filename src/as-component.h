@@ -37,6 +37,7 @@
 #include "as-bundle.h"
 #include "as-content-rating.h"
 #include "as-launchable.h"
+#include "as-relation.h"
 
 G_BEGIN_DECLS
 
@@ -196,6 +197,7 @@ void			as_component_set_description (AsComponent *cpt,
 							const gchar *value,
 							const gchar *locale);
 
+GPtrArray		*as_component_get_launchables (AsComponent *cpt);
 AsLaunchable		*as_component_get_launchable (AsComponent *cpt,
 							AsLaunchableKind kind);
 void			as_component_add_launchable (AsComponent *cpt,
@@ -322,6 +324,11 @@ AsContentRating		*as_component_get_content_rating (AsComponent *cpt,
 							  const gchar *kind);
 void			as_component_add_content_rating (AsComponent *cpt,
 							 AsContentRating *content_rating);
+
+GPtrArray		*as_component_get_recommends (AsComponent *cpt);
+GPtrArray		*as_component_get_requires (AsComponent *cpt);
+void			as_component_add_relation (AsComponent *cpt,
+							AsRelation *relation);
 
 
 /* DEPRECATED */

@@ -231,16 +231,18 @@ as_validator_web_url_exists (AsValidator *validator, const gchar *url)
 		 * refuse to answer HEAD requests.
 		 * So, to be compatible with more stuff, we tell curl to attempt to fetch the first byte of the
 		 * document and report failure. We intentionally do not follow redirects. */
-		const gchar *argv[9];
+		const gchar *argv[11];
 		argv[0] = curl_bin;
 		argv[1] = "--output";
 		argv[2] = "/dev/null";
 		argv[3] = "--silent";
 		argv[4] = "--fail";
-		argv[5] = "-r";
-		argv[6] = "0-0";
-		argv[7] = url;
-		argv[8] = NULL;
+		argv[5] = "--max-time";
+		argv[6] = "20"; /* timeout of 20s, so this times out before a buildsystem (like Meson) times out after 30s */
+		argv[7] = "-r";
+		argv[8] = "0-0";
+		argv[9] = url;
+		argv[10] = NULL;
 		g_spawn_sync (NULL, /* wdir */
 				(gchar**) argv,
 				NULL, /* env */
@@ -610,7 +612,7 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 			as_validator_add_issue (validator, idnode,
 						AS_ISSUE_IMPORTANCE_INFO,
 						AS_ISSUE_KIND_VALUE_WRONG,
-						"The component ID [%s] contains a segement starting with a number. Starting a segment of the reverse-DNS ID with a number is strongly discouraged, "
+						"The component ID [%s] contains a segment starting with a number. Starting a segment of the reverse-DNS ID with a number is strongly discouraged, "
 						"to keep interoperability with other tools such as D-Bus. "
 						"Ideally, prefix these sections with an underscore (%s → _%s)", cid, cid_parts[i], cid_parts[i]);
 			break;
@@ -629,19 +631,19 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 			as_validator_add_issue (validator, idnode,
 						AS_ISSUE_IMPORTANCE_ERROR,
 						AS_ISSUE_KIND_VALUE_WRONG,
-						"The component is part of the Freedesktop project, but its id does not start with fd.o's reverse-DNS name (\"org.freedesktop\").");
+						"The component is part of the Freedesktop project, but its ID does not start with fd.o's reverse-DNS name (\"org.freedesktop\").");
 	} else if (g_strcmp0 (as_component_get_project_group (cpt), "KDE") == 0) {
 		if (!g_str_has_prefix (cid, "org.kde."))
 			as_validator_add_issue (validator, idnode,
 						AS_ISSUE_IMPORTANCE_ERROR,
 						AS_ISSUE_KIND_VALUE_WRONG,
-						"The component is part of the KDE project, but its id does not start with KDEs reverse-DNS name (\"org.kde\").");
+						"The component is part of the KDE project, but its ID does not start with KDEs reverse-DNS name (\"org.kde\").");
 	} else if (g_strcmp0 (as_component_get_project_group (cpt), "GNOME") == 0) {
 		if (!g_str_has_prefix (cid, "org.gnome."))
 			as_validator_add_issue (validator, idnode,
 						AS_ISSUE_IMPORTANCE_PEDANTIC,
 						AS_ISSUE_KIND_VALUE_WRONG,
-						"The component is part of the GNOME project, but its id does not start with GNOMEs reverse-DNS name (\"org.gnome\").");
+						"The component is part of the GNOME project, but its ID does not start with GNOMEs reverse-DNS name (\"org.gnome\").");
 	}
 }
 
@@ -681,6 +683,76 @@ as_validator_validate_project_license (AsValidator *validator, xmlNode *license_
 			return;
 		}
 	}
+}
+
+/**
+ * as_validator_validate_metadata_license:
+ */
+static void
+as_validator_validate_metadata_license (AsValidator *validator, xmlNode *license_node)
+{
+	gboolean requires_all_tokens = TRUE;
+	guint license_bad_cnt = 0;
+	guint license_good_cnt = 0;
+	g_auto(GStrv) tokens = NULL;
+	g_autofree gchar *license_expression = (gchar*) xmlNodeGetContent (license_node);
+
+	tokens = as_spdx_license_tokenize (license_expression);
+	if (tokens == NULL) {
+		as_validator_add_issue (validator, license_node,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_VALUE_WRONG,
+					"SPDX license expression '%s' could not be parsed.",
+					license_expression);
+		return;
+	}
+
+	/* this is too complicated to process */
+	for (guint i = 0; tokens[i] != NULL; i++) {
+		if (g_strcmp0 (tokens[i], "(") == 0 ||
+		    g_strcmp0 (tokens[i], ")") == 0) {
+			as_validator_add_issue (validator, license_node,
+						AS_ISSUE_IMPORTANCE_WARNING,
+						AS_ISSUE_KIND_VALUE_WRONG,
+						"The metadata itself seems to be licensed under a complex collection of licenses. Please license the data under a simple permissive license, like FSFAP, CC-0-1.0 or MIT "
+						"to allow distributors to include it in mixed data collections without the risk of license violations due to mutually incompatible licenses.");
+			return;
+		}
+	}
+
+	/* this is a simple expression parser and can be easily tricked */
+	for (guint i = 0; tokens[i] != NULL; i++) {
+		if (g_strcmp0 (tokens[i], "+") == 0)
+			continue;
+		if (g_strcmp0 (tokens[i], "|") == 0) {
+			requires_all_tokens = FALSE;
+			continue;
+		}
+		if (g_strcmp0 (tokens[i], "&") == 0) {
+			requires_all_tokens = TRUE;
+			continue;
+		}
+		if (as_license_is_metadata_license (tokens[i])) {
+			license_good_cnt++;
+		} else {
+			license_bad_cnt++;
+		}
+	}
+
+	/* any valid token makes this valid */
+	if (!requires_all_tokens && license_good_cnt > 0)
+		return;
+
+	/* all tokens are required to be valid */
+	if (requires_all_tokens && license_bad_cnt == 0)
+		return;
+
+	/* looks like the license was bad */
+	as_validator_add_issue (validator, license_node,
+				AS_ISSUE_IMPORTANCE_WARNING,
+				AS_ISSUE_KIND_VALUE_WRONG,
+				"The metadata itself does not seem to be licensed under a permissive license. Please license the data under a permissive license, like FSFAP, CC-0-1.0 or MIT "
+				"to allow distributors to include it in mixed data collections without the risk of license violations due to mutually incompatible licenses.");
 }
 
 /**
@@ -772,6 +844,96 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 						AS_ISSUE_IMPORTANCE_PEDANTIC,
 						AS_ISSUE_KIND_TAG_MISSING,
 						"The screenshot does not have a caption text.");
+		}
+	}
+}
+
+/**
+ * as_validator_check_requires_recommends:
+ **/
+static void
+as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, AsComponent *cpt, AsRelationKind kind)
+{
+	xmlNode *iter;
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		g_autofree gchar *content = NULL;
+		g_autofree gchar *version = NULL;
+		gboolean can_have_version;
+		AsRelationItemKind item_kind;
+
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+		content = as_xml_get_node_value (iter);
+
+		item_kind = as_relation_item_kind_from_string (node_name);
+		if (item_kind == AS_RELATION_ITEM_KIND_UNKNOWN) {
+			as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_WARNING,
+						AS_ISSUE_KIND_TAG_UNKNOWN,
+						"Found tag '%s' in a requires/recommends group. A relation of this type is unknown.",
+						node_name);
+			continue;
+		}
+
+		if (g_strcmp0 (content, "") == 0) {
+			as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_ERROR,
+						AS_ISSUE_KIND_VALUE_MISSING,
+						"Missing value for requires/recommends item.");
+			continue;
+		}
+
+		switch (item_kind) {
+		case AS_RELATION_ITEM_KIND_MEMORY:
+		case AS_RELATION_ITEM_KIND_MODALIAS:
+			can_have_version = FALSE;
+			break;
+		default:
+			can_have_version = TRUE;
+		}
+
+		version = (gchar*) xmlGetProp (iter, (xmlChar*) "version");
+		if (version != NULL) {
+			AsRelationCompare compare;
+			g_autofree gchar *compare_str = (gchar*) xmlGetProp (iter, (xmlChar*) "compare");
+
+			if (!can_have_version) {
+				as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_WARNING,
+						AS_ISSUE_KIND_PROPERTY_INVALID,
+						"Found version property on required/recommended item of type '%s'. Items of this type should not have a version.",
+						as_relation_item_kind_to_string (item_kind));
+				continue;
+			}
+
+			if (compare_str == NULL) {
+				as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_KIND_PROPERTY_MISSING,
+						"Found version property on required/recommended item, but not 'compare' property. It is recommended to explicitly define a comparison operation.");
+				continue;
+			}
+
+			compare = as_relation_compare_from_string (compare_str);
+			if (compare == AS_RELATION_COMPARE_UNKNOWN) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_ERROR,
+							AS_ISSUE_KIND_VALUE_WRONG,
+							"Invalid version comparison operation '%s' on item.",
+							compare_str);
+			}
+		}
+
+		if ((kind == AS_RELATION_KIND_REQUIRES) && (item_kind == AS_RELATION_ITEM_KIND_MEMORY)) {
+			as_validator_add_issue (validator, iter,
+						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_KIND_UNUSUAL,
+						"Found a memory size dependency in a 'requires' tag. This means users will not be able to even install the component without having enough RAM." " "
+					        "This is usually not intended and you want to use 'memory' in the 'recommends' tag instead.");
 		}
 	}
 }
@@ -880,15 +1042,8 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 
 			/* the license must allow easy mixing of metadata in metainfo files */
-			if (mode == AS_FORMAT_STYLE_METAINFO) {
-				if (!as_license_is_metadata_license (node_content)) {
-					as_validator_add_issue (validator, iter,
-								AS_ISSUE_IMPORTANCE_WARNING,
-								AS_ISSUE_KIND_VALUE_WRONG,
-								"The metadata itself does not seem to be licensed under a permissive license. Please license the data under a permissive license, like FSFAP, CC-0-1.0 or MIT "
-								"to allow distributors to include it in mixed data collections without the risk of license violations due to mutually incompatible licenses.");
-				}
-			}
+			if (mode == AS_FORMAT_STYLE_METAINFO)
+				as_validator_validate_metadata_license (validator, iter);
 		} else if (g_strcmp0 (node_name, "pkgname") == 0) {
 			if (g_hash_table_contains (found_tags, node_name)) {
 				as_validator_add_issue (validator, iter,
@@ -1076,6 +1231,10 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			as_validator_check_children_quick (validator, iter, "id", cpt);
 		} else if (g_strcmp0 (node_name, "content_rating") == 0) {
 			as_validator_check_children_quick (validator, iter, "content_attribute", cpt);
+		} else if (g_strcmp0 (node_name, "requires") == 0) {
+			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_REQUIRES);
+		} else if (g_strcmp0 (node_name, "recommends") == 0) {
+			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_RECOMMENDS);
 		} else if (g_strcmp0 (node_name, "custom") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "value", cpt);
@@ -1539,7 +1698,7 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
 		cid_base = g_strdup (as_component_get_id (cpt));
 	}
 	if (!as_matches_metainfo (fname, cid_base)) {
-		/* the name-without-type didn't match - check for the full id in the component name */
+		/* the name-without-type didn't match - check for the full ID in the component name */
 		if (!as_matches_metainfo (fname, as_component_get_id (cpt))) {
 			as_validator_add_issue (data->validator, NULL,
 					AS_ISSUE_IMPORTANCE_WARNING,

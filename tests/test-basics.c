@@ -112,7 +112,7 @@ test_component ()
 				  "  <pkgname>fedex</pkgname>\n"
 				  "</component>\n");
 	g_assert_cmpstr (str2, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-				   "<components version=\"0.11\">\n"
+				   "<components version=\"0.12\">\n"
 				   "  <component type=\"desktop-application\">\n"
 				   "    <id>org.example.test.desktop</id>\n"
 				   "    <name>Test</name>\n"
@@ -197,6 +197,13 @@ test_spdx (void)
 	tok = as_spdx_license_tokenize ("LGPL-2.0+ AND GPL-2.0 AND LGPL-3.0");
 	tmp = g_strjoinv ("  ", tok);
 	g_assert_cmpstr (tmp, ==, "@LGPL-2.0+  &  @GPL-2.0  &  @LGPL-3.0");
+	g_strfreev (tok);
+	g_free (tmp);
+
+	/* multiple licences, using the new style */
+	tok = as_spdx_license_tokenize ("LGPL-2.0-or-later AND GPL-2.0-only");
+	tmp = g_strjoinv ("  ", tok);
+	g_assert_cmpstr (tmp, ==, "@LGPL-2.0+  &  @GPL-2.0");
 	g_strfreev (tok);
 	g_free (tmp);
 
