@@ -1,3 +1,14 @@
+appstream (0.12.0-1) unstable; urgency=medium
+
+  * New upstream version: 0.12.0
+  * Drop all patches: Applied upstream
+  * Update .symbols file
+  * d/rules: Drop obsolete --parallel flag
+  * Add APT config snippet packages for an easy way of enabling
+    icon downloads for different sizes and HiDPI.
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 04 Apr 2018 18:36:26 +0200
+
 appstream (0.11.8-3) unstable; urgency=medium
 
   * appstream-doc breaks older appstream package versions (Closes: #888301)
