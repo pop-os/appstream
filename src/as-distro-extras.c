@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2018 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -47,7 +47,7 @@ static const gchar *apt_lists_dir = "/var/lib/apt/lists/";
 static const gchar *appstream_yml_target = "/var/lib/app-info/yaml";
 static const gchar *appstream_icons_target = "/var/lib/app-info/icons";
 
-static const gchar* const default_icon_sizes[] = { "64x64", "64x64@2", "128x128", "128x128@2", NULL };
+static const gchar* const default_icon_sizes[] = { "48x48", "48x48@2", "64x64", "64x64@2", "128x128", "128x128@2", NULL };
 
 
 /**
@@ -168,6 +168,7 @@ as_extract_icon_cache_tarball (const gchar *asicons_target,
 			       const gchar *apt_lists_dir,
 			       const gchar *icons_size)
 {
+	g_autofree gchar *escaped_size = NULL;
 	g_autofree gchar *icons_tarball = NULL;
 	g_autofree gchar *target_dir = NULL;
 	g_autofree gchar *cmd = NULL;
@@ -175,7 +176,8 @@ as_extract_icon_cache_tarball (const gchar *asicons_target,
 	gint res;
 	g_autoptr(GError) tmp_error = NULL;
 
-	icons_tarball = g_strdup_printf ("%s/%sicons-%s.tar.gz", apt_lists_dir, apt_basename, icons_size);
+	escaped_size = g_uri_escape_string (icons_size, NULL, FALSE);
+	icons_tarball = g_strdup_printf ("%s/%sicons-%s.tar.gz", apt_lists_dir, apt_basename, escaped_size);
 	if (!g_file_test (icons_tarball, G_FILE_TEST_EXISTS)) {
 		/* no icons found, stop here */
 		return;
@@ -312,6 +314,8 @@ as_pool_scan_apt (AsPool *pool, gboolean force, GError **error)
 			for (j = 0; default_icon_sizes[j] != NULL; j++) {
 				g_autofree gchar *icons_tarball = NULL;
 
+				/* NOTE: We would normally need to escape the "@" of HiDPI icons here, but since having only HiDPI icons is
+				 * a case that never happens and the 64x64px icons are required to be present anyway, we ignore that fact. */
 				icons_tarball = g_strdup_printf ("%s/%sicons-%s.tar.gz", apt_lists_dir, apt_basename, default_icon_sizes[j]);
 				if (g_file_test (icons_tarball, G_FILE_TEST_EXISTS)) {
 					icons_available = TRUE;

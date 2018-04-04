@@ -113,11 +113,15 @@ const GOptionEntry validate_options[] = {
 		&optn_pedantic,
 		/* TRANSLATORS: ascli flag description for: --pedantic (used by the "validate" command) */
 		N_("Also show pedantic hints."), NULL },
-	{ "nonet", (gchar) 0, 0,
+	{ "no-net", (gchar) 0, 0,
 		G_OPTION_ARG_NONE,
 		&optn_nonet,
-		/* TRANSLATORS: ascli flag description for: --nonet (used by the "validate" command) */
+		/* TRANSLATORS: ascli flag description for: --no-net (used by the "validate" command) */
 		N_("Do not use network access."), NULL },
+	{ "nonet", (gchar) 0, G_OPTION_FLAG_HIDDEN,
+		G_OPTION_ARG_NONE,
+		&optn_nonet,
+		NULL, NULL },
 	{ NULL }
 };
 
@@ -697,6 +701,12 @@ as_client_run (char **argv, int argc)
 	/* just a hack, we might need proper message handling later */
 	if (optn_verbose_mode) {
 		g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
+	}
+
+	/* allow disabling network access via an environment variable */
+	if (g_getenv ("AS_VALIDATE_NONET") != NULL) {
+		g_debug ("Disabling network usage: Environment variable AS_VALIDATE_NONET is set.");
+		optn_nonet = TRUE;
 	}
 
 	ascli_set_output_colored (!optn_no_color);

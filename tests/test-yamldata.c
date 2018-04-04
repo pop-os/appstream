@@ -153,7 +153,7 @@ test_yamlwrite_general (void)
 
 	const gchar *expected_yaml = "---\n"
 				"File: DEP-11\n"
-				"Version: '0.11'\n"
+				"Version: '0.12'\n"
 				"---\n"
 				"Type: firmware\n"
 				"ID: org.example.test.firmware\n"
@@ -210,6 +210,7 @@ test_yamlwrite_general (void)
 				"  percentage: 100\n"
 				"Releases:\n"
 				"- version: '1.0'\n"
+				"  type: development\n"
 				"  unix-timestamp: 1460463132\n"
 				"  description:\n"
 				"    de_DE: >-\n"
@@ -221,6 +222,7 @@ test_yamlwrite_general (void)
 				"\n"
 				"      <p>Second paragraph.</p>\n"
 				"- version: '1.2'\n"
+				"  type: stable\n"
 				"  unix-timestamp: 1462288512\n"
 				"  urgency: medium\n"
 				"  description:\n"
@@ -282,6 +284,7 @@ test_yamlwrite_general (void)
 
 	rel1 = as_release_new ();
 	as_release_set_version (rel1, "1.0");
+	as_release_set_kind (rel1, AS_RELEASE_KIND_DEVELOPMENT);
 	as_release_set_timestamp (rel1, 1460463132);
 	as_release_set_description (rel1, "<p>Awesome initial release.</p>\n<p>Second paragraph.</p>", "C");
 	as_release_set_description (rel1, "<p>Großartige erste Veröffentlichung.</p>\n<p>Zweite zeile.</p>", "de_DE");
@@ -521,7 +524,7 @@ test_yaml_write_suggests (void)
 	g_autofree gchar *res = NULL;
 	const gchar *expected_sug_yaml = "---\n"
 					 "File: DEP-11\n"
-					 "Version: '0.11'\n"
+					 "Version: '0.12'\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.SuggestsTest\n"
@@ -602,7 +605,7 @@ test_yaml_read_suggests (void)
 
 static const gchar *yamldata_custom_field = "---\n"
 					 "File: DEP-11\n"
-					 "Version: '0.11'\n"
+					 "Version: '0.12'\n"
 					 "---\n"
 					 "Type: generic\n"
 					 "ID: org.example.CustomTest\n"
@@ -654,7 +657,7 @@ test_yaml_read_custom (void)
 
 static const gchar *yamldata_content_rating_field = "---\n"
 						"File: DEP-11\n"
-						"Version: '0.11'\n"
+						"Version: '0.12'\n"
 						"---\n"
 						"Type: generic\n"
 						"ID: org.example.ContentRatingTest\n"
@@ -712,9 +715,9 @@ test_yaml_read_content_rating (void)
 	g_assert_cmpint (as_content_rating_get_value (rating, "language-humor"), ==, AS_CONTENT_RATING_VALUE_MILD);
 }
 
-static const gchar *yamldata_launch_field = "---\n"
+static const gchar *yamldata_launchable_field = "---\n"
 						"File: DEP-11\n"
-						"Version: '0.11'\n"
+						"Version: '0.12'\n"
 						"---\n"
 						"Type: generic\n"
 						"ID: org.example.LaunchTest\n"
@@ -724,12 +727,12 @@ static const gchar *yamldata_launch_field = "---\n"
 						"  - kde4-kool.desktop\n";
 
 /**
- * test_yaml_write_launch:
+ * test_yaml_write_launchable:
  *
  * Test writing the Launch field.
  */
 static void
-test_yaml_write_launch (void)
+test_yaml_write_launchable (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
 	g_autoptr(AsLaunchable) launch = NULL;
@@ -749,21 +752,21 @@ test_yaml_write_launch (void)
 
 	/* test collection serialization */
 	res = as_yaml_test_serialize (cpt);
-	g_assert (as_test_compare_lines (res, yamldata_launch_field));
+	g_assert (as_test_compare_lines (res, yamldata_launchable_field));
 }
 
 /**
- * test_yaml_read_launch:
+ * test_yaml_read_launchable:
  *
  * Test if reading the Launch field works.
  */
 static void
-test_yaml_read_launch (void)
+test_yaml_read_launchable (void)
 {
 	g_autoptr(AsComponent) cpt = NULL;
 	AsLaunchable *launch;
 
-	cpt = as_yaml_test_read_data (yamldata_launch_field, NULL);
+	cpt = as_yaml_test_read_data (yamldata_launchable_field, NULL);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.LaunchTest");
 
 	launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID);
@@ -772,6 +775,126 @@ test_yaml_read_launch (void)
 	g_assert_cmpint (as_launchable_get_entries (launch)->len, ==, 2);
 	g_assert_cmpstr (g_ptr_array_index (as_launchable_get_entries (launch), 0), ==, "org.example.Test.desktop");
 	g_assert_cmpstr (g_ptr_array_index (as_launchable_get_entries (launch), 1), ==, "kde4-kool.desktop");
+}
+
+static const gchar *yamldata_requires_recommends_field = "---\n"
+						"File: DEP-11\n"
+						"Version: '0.12'\n"
+						"---\n"
+						"Type: generic\n"
+						"ID: org.example.RelationsTest\n"
+						"Recommends:\n"
+						"- memory: '2500'\n"
+						"- modalias: usb:v1130p0202d*\n"
+						"Requires:\n"
+						"- kernel: Linux\n"
+						"  version: '>= 4.15'\n"
+						"- id: org.example.TestDependency\n"
+						"  version: == 1.2\n";
+
+/**
+ * test_yaml_write_requires_recommends:
+ *
+ * Test writing the Requires/Recommends fields.
+ */
+static void
+test_yaml_write_requires_recommends (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autofree gchar *res = NULL;
+	g_autoptr(AsRelation) mem_relation = NULL;
+	g_autoptr(AsRelation) moda_relation = NULL;
+	g_autoptr(AsRelation) kernel_relation = NULL;
+	g_autoptr(AsRelation) id_relation = NULL;
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.RelationsTest");
+
+	mem_relation = as_relation_new ();
+	moda_relation = as_relation_new ();
+	kernel_relation = as_relation_new ();
+	id_relation = as_relation_new ();
+
+	as_relation_set_kind (mem_relation, AS_RELATION_KIND_RECOMMENDS);
+	as_relation_set_kind (moda_relation, AS_RELATION_KIND_RECOMMENDS);
+	as_relation_set_kind (kernel_relation, AS_RELATION_KIND_REQUIRES);
+	as_relation_set_kind (id_relation, AS_RELATION_KIND_REQUIRES);
+
+	as_relation_set_item_kind (mem_relation, AS_RELATION_ITEM_KIND_MEMORY);
+	as_relation_set_value (mem_relation, "2500");
+	as_relation_set_item_kind (moda_relation, AS_RELATION_ITEM_KIND_MODALIAS);
+	as_relation_set_value (moda_relation, "usb:v1130p0202d*");
+
+	as_relation_set_item_kind (kernel_relation, AS_RELATION_ITEM_KIND_KERNEL);
+	as_relation_set_value (kernel_relation, "Linux");
+	as_relation_set_version (kernel_relation, "4.15");
+	as_relation_set_compare (kernel_relation, AS_RELATION_COMPARE_GE);
+
+	as_relation_set_item_kind (id_relation, AS_RELATION_ITEM_KIND_ID);
+	as_relation_set_value (id_relation, "org.example.TestDependency");
+	as_relation_set_version (id_relation, "1.2");
+	as_relation_set_compare (id_relation, AS_RELATION_COMPARE_EQ);
+
+	as_component_add_relation (cpt, mem_relation);
+	as_component_add_relation (cpt, moda_relation);
+	as_component_add_relation (cpt, kernel_relation);
+	as_component_add_relation (cpt, id_relation);
+
+	/* test collection serialization */
+	res = as_yaml_test_serialize (cpt);
+	g_assert (as_test_compare_lines (res, yamldata_requires_recommends_field));
+}
+
+/**
+ * test_yaml_read_requires_recommends:
+ *
+ * Test if reading the Requires/Recommends fields works.
+ */
+static void
+test_yaml_read_requires_recommends (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	GPtrArray *recommends;
+	GPtrArray *requires;
+	AsRelation *relation;
+
+	cpt = as_yaml_test_read_data (yamldata_requires_recommends_field, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.RelationsTest");
+
+	recommends = as_component_get_recommends (cpt);
+	requires = as_component_get_requires (cpt);
+
+	g_assert_cmpint (recommends->len, ==, 2);
+	g_assert_cmpint (requires->len, ==, 2);
+
+	/* memory relation */
+	relation = AS_RELATION (g_ptr_array_index (recommends, 0));
+	g_assert_cmpint (as_relation_get_kind (relation), ==, AS_RELATION_KIND_RECOMMENDS);
+	g_assert_cmpint (as_relation_get_item_kind (relation), ==, AS_RELATION_ITEM_KIND_MEMORY);
+	g_assert_cmpint (as_relation_get_value_int (relation), ==, 2500);
+
+	/* modalias relation */
+	relation = AS_RELATION (g_ptr_array_index (recommends, 1));
+	g_assert_cmpint (as_relation_get_kind (relation), ==, AS_RELATION_KIND_RECOMMENDS);
+	g_assert_cmpint (as_relation_get_item_kind (relation), ==, AS_RELATION_ITEM_KIND_MODALIAS);
+	g_assert_cmpstr (as_relation_get_value (relation), ==, "usb:v1130p0202d*");
+
+	/* kernel relation */
+	relation = AS_RELATION (g_ptr_array_index (requires, 0));
+	g_assert_cmpint (as_relation_get_kind (relation), ==, AS_RELATION_KIND_REQUIRES);
+	g_assert_cmpint (as_relation_get_item_kind (relation), ==, AS_RELATION_ITEM_KIND_KERNEL);
+	g_assert_cmpstr (as_relation_get_value (relation), ==, "Linux");
+	g_assert_cmpstr (as_relation_get_version (relation), ==, "4.15");
+	g_assert_cmpint (as_relation_get_compare (relation), ==, AS_RELATION_COMPARE_GE);
+
+	/* ID relation */
+	relation = AS_RELATION (g_ptr_array_index (requires, 1));
+	g_assert_cmpint (as_relation_get_kind (relation), ==, AS_RELATION_KIND_REQUIRES);
+	g_assert_cmpint (as_relation_get_item_kind (relation), ==, AS_RELATION_ITEM_KIND_ID);
+	g_assert_cmpstr (as_relation_get_value (relation), ==, "org.example.TestDependency");
+	g_assert_cmpstr (as_relation_get_version (relation), ==, "1.2");
+	g_assert_cmpint (as_relation_get_compare (relation), ==, AS_RELATION_COMPARE_EQ);
 }
 
 /**
@@ -815,8 +938,11 @@ main (int argc, char **argv)
 	g_test_add_func ("/YAML/Read/ContentRating", test_yaml_read_content_rating);
 	g_test_add_func ("/YAML/Write/ContentRating", test_yaml_write_content_rating);
 
-	g_test_add_func ("/YAML/Read/Launchable", test_yaml_read_launch);
-	g_test_add_func ("/YAML/Write/Launchable", test_yaml_write_launch);
+	g_test_add_func ("/YAML/Read/Launchable", test_yaml_read_launchable);
+	g_test_add_func ("/YAML/Write/Launchable", test_yaml_write_launchable);
+
+	g_test_add_func ("/YAML/Read/RequiresRecommends", test_yaml_read_requires_recommends);
+	g_test_add_func ("/YAML/Write/RequiresRecommends", test_yaml_write_requires_recommends);
 
 	ret = g_test_run ();
 	g_free (datadir);
