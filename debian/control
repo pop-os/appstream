@@ -27,7 +27,8 @@ Breaks: appstream-index (<< ${source:Version}),
         gnome-software (<< 3.22.5-1),
         plasma-discover (<< 5.8.5-3)
 Provides: appstream-index
-Suggests: curl
+Suggests: apt-config-icons,
+          curl
 Description: Software component metadata management
  AppStream is a metadata specification, allowing to write metadata for
  software projects in a standardized format.
@@ -146,3 +147,71 @@ Description: Developer documentation for AppStream
  unknown file type or to make missing firmware available).
  .
  This package provides developer documentation for AppStream.
+
+Package: apt-config-icons
+Architecture: all
+Multi-Arch: foreign
+Section: misc
+Depends: appstream,
+         ${misc:Depends}
+Description: APT configuration snippet to enable icon downloads
+ This package contains an APT configuration snippet that enables the
+ download of an icon tarball containing application icons for display in
+ software centers.
+ Icons get downloaded directly from the archive via regular cache updates,
+ and match the software currently available in the respective archive suites.
+ .
+ This snippet enables icons of the default icon size set in the AppStream
+ specification for software centers, 64x64px. It also enables downloads
+ of smaller 48x48px icons.
+
+Package: apt-config-icons-hidpi
+Architecture: all
+Multi-Arch: foreign
+Section: misc
+Depends: apt-config-icons,
+         ${misc:Depends}
+Description: APT configuration snippet to enable HiDPI icon downloads
+ This package contains an APT configuration snippet that enables the
+ download of an icon tarball containing application icons for display in
+ software centers.
+ Icons get downloaded directly from the archive via regular cache updates,
+ and match the software currently available in the respective archive suites.
+ .
+ This snippet enables icons in the size of 64x64@2, that are suitable for
+ HiDPI displays.
+
+Package: apt-config-icons-large
+Architecture: all
+Multi-Arch: foreign
+Section: misc
+Depends: apt-config-icons,
+         ${misc:Depends}
+Description: APT configuration snippet to enable large icon downloads
+ This package contains an APT configuration snippet that enables the
+ download of an icon tarball containing application icons for display in
+ software centers.
+ Icons get downloaded directly from the archive via regular cache updates,
+ and match the software currently available in the respective archive suites.
+ .
+ This snippet enables icon tarball downloads in large, 128x128px size.
+ If these bigger icons are not downloaded by APT, a software center may
+ decide to fetch them on-demand from a web location.
+
+Package: apt-config-icons-large-hidpi
+Architecture: all
+Multi-Arch: foreign
+Section: misc
+Depends: apt-config-icons,
+         ${misc:Depends}
+Description: APT configuration snippet to enable large HiDPI icon downloads
+ This package contains an APT configuration snippet that enables the
+ download of an icon tarball containing application icons for display in
+ software centers.
+ Icons get downloaded directly from the archive via regular cache updates,
+ and match the software currently available in the respective archive suites.
+ .
+ This snippet enables icon tarball downloads in large, 128x128@2 size that
+ are also suitable for HiDPI displays.
+ If these bigger icons are not downloaded by APT, a software center may
+ decide to fetch them on-demand from a web location.
