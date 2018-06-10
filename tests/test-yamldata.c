@@ -56,11 +56,11 @@ test_basic (void)
 	g_assert_no_error (error);
 
 	cpts = as_metadata_get_components (mdata);
-	g_assert_cmpint (cpts->len, ==, 6);
+	g_assert_cmpint (cpts->len, ==, 8);
 
 	for (i = 0; i < cpts->len; i++) {
-		AsComponent *cpt;
-		cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+		g_assert (as_component_is_valid (cpt));
 
 		if (g_strcmp0 (as_component_get_name (cpt), "I Have No Tomatoes") == 0)
 			cpt_tomatoes = cpt;
@@ -122,6 +122,7 @@ as_yaml_test_serialize (AsComponent *cpt)
 	GError *error = NULL;
 
 	metad = as_metadata_new ();
+	as_metadata_set_locale (metad, "ALL");
 	as_metadata_add_component (metad, cpt);
 	as_metadata_set_write_header (metad, TRUE);
 
@@ -334,6 +335,7 @@ as_yaml_test_read_data (const gchar *data, GError **error)
 	g_autoptr(AsMetadata) metad = NULL;
 
 	metad = as_metadata_new ();
+	as_metadata_set_locale (metad, "ALL");
 	as_metadata_set_format_style (metad, AS_FORMAT_STYLE_COLLECTION);
 
 	if (error == NULL) {
@@ -897,6 +899,95 @@ test_yaml_read_requires_recommends (void)
 	g_assert_cmpint (as_relation_get_compare (relation), ==, AS_RELATION_COMPARE_EQ);
 }
 
+
+static const gchar *yamldata_agreements = "---\n"
+						"File: DEP-11\n"
+						"Version: '0.12'\n"
+						"---\n"
+						"Type: generic\n"
+						"ID: org.example.AgreementsTest\n"
+						"Agreements:\n"
+						"- type: eula\n"
+						"  version_id: 1.2.3a\n"
+						"  sections:\n"
+						"  - type: intro\n"
+						"    name:\n"
+						"      C: Intro\n"
+						"      xde_DE: Einführung\n"
+						"    description:\n"
+						"      C: >-\n"
+						"        <p>Mighty Fine</p>\n";
+
+
+/**
+ * test_yaml_write_agreements:
+ *
+ * Test writing the Agreements field.
+ */
+static void
+test_yaml_write_agreements (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autofree gchar *res = NULL;
+	g_autoptr(AsAgreement) agreement = NULL;
+	g_autoptr(AsAgreementSection) sect = NULL;
+
+	cpt = as_component_new ();
+	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
+	as_component_set_id (cpt, "org.example.AgreementsTest");
+
+	agreement = as_agreement_new ();
+	sect = as_agreement_section_new ();
+
+	as_agreement_set_kind (agreement, AS_AGREEMENT_KIND_EULA);
+	as_agreement_set_version_id (agreement, "1.2.3a");
+
+	as_agreement_section_set_kind (sect, "intro");
+	as_agreement_section_set_name (sect, "Intro", "C");
+	as_agreement_section_set_name (sect, "Einführung", "xde_DE");
+
+	as_agreement_section_set_description (sect, "<p>Mighty Fine</p>", "C");
+
+	as_agreement_add_section (agreement, sect);
+	as_component_add_agreement (cpt, agreement);
+
+	/* test collection serialization */
+	res = as_yaml_test_serialize (cpt);
+	g_assert (as_test_compare_lines (res, yamldata_agreements));
+}
+
+/**
+ * test_yaml_read_agreements:
+ *
+ * Test if reading the Agreement field works.
+ */
+static void
+test_yaml_read_agreements (void)
+{
+	g_autoptr(AsComponent) cpt = NULL;
+	AsAgreement *agreement;
+	AsAgreementSection *sect;
+
+	cpt = as_yaml_test_read_data (yamldata_agreements, NULL);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.AgreementsTest");
+
+	agreement = as_component_get_agreement_by_kind (cpt, AS_AGREEMENT_KIND_EULA);
+	g_assert_nonnull (agreement);
+
+	g_assert_cmpint (as_agreement_get_kind (agreement), ==, AS_AGREEMENT_KIND_EULA);
+	g_assert_cmpstr (as_agreement_get_version_id (agreement), ==, "1.2.3a");
+	sect = as_agreement_get_section_default (agreement);
+	g_assert_nonnull (sect);
+
+	as_agreement_section_set_active_locale (sect, "C");
+	g_assert_cmpstr (as_agreement_section_get_kind (sect), ==, "intro");
+	g_assert_cmpstr (as_agreement_section_get_name (sect), ==, "Intro");
+	g_assert_cmpstr (as_agreement_section_get_description (sect), ==, "<p>Mighty Fine</p>");
+
+	as_agreement_section_set_active_locale (sect, "xde_DE");
+	g_assert_cmpstr (as_agreement_section_get_name (sect), ==, "Einführung");
+}
+
 /**
  * main:
  */
@@ -943,6 +1034,9 @@ main (int argc, char **argv)
 
 	g_test_add_func ("/YAML/Read/RequiresRecommends", test_yaml_read_requires_recommends);
 	g_test_add_func ("/YAML/Write/RequiresRecommends", test_yaml_write_requires_recommends);
+
+	g_test_add_func ("/YAML/Read/Agreements", test_yaml_read_agreements);
+	g_test_add_func ("/YAML/Write/Agreements", test_yaml_write_agreements);
 
 	ret = g_test_run ();
 	g_free (datadir);

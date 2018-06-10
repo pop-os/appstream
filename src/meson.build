@@ -4,7 +4,8 @@ appstream_lib_inc = include_directories ('.')
 
 aslib_src = [
     'as-utils.c',
-        # internal
+    # internal
+    'as-tag.c',
     'as-context.c',
     'as-xml.c',
     'as-yaml.c',
@@ -12,7 +13,7 @@ aslib_src = [
     'as-desktop-entry.c',
     'as-distro-extras.c',
     'as-stemmer.c',
-        # (mostly) public
+    # (mostly) public
     'as-spdx.c',
     'as-metadata.c',
     'as-component.c',
@@ -33,7 +34,9 @@ aslib_src = [
     'as-suggested.c',
     'as-content-rating.c',
     'as-launchable.c',
-    'as-relation.c'
+    'as-relation.c',
+    'as-agreement.c',
+    'as-agreement-section.c'
 ]
 
 aslib_pub_headers = [
@@ -59,11 +62,14 @@ aslib_pub_headers = [
     'as-suggested.h',
     'as-content-rating.h',
     'as-launchable.h',
-    'as-relation.h'
+    'as-relation.h',
+    'as-agreement.h',
+    'as-agreement-section.h'
 ]
 
 aslib_priv_headers = [
     'as-utils-private.h',
+    'as-tag.h',
     'as-context.h',
     'as-xml.h',
     'as-yaml.h',
@@ -81,7 +87,9 @@ aslib_priv_headers = [
     'as-checksum-private.h',
     'as-icon-private.h',
     'as-launchable-private.h',
-    'as-relation-private.h'
+    'as-relation-private.h',
+    'as-agreement-private.h',
+    'as-agreement-section-private.h'
 ]
 
 aslib_res = glib.compile_resources (
@@ -89,6 +97,32 @@ aslib_res = glib.compile_resources (
     c_name : 'as',
     source_dir : ['../data']
 )
+
+
+# gperf sources
+aslib_gperf_xml = custom_target(
+    'gperf as-xml-tag',
+    output : 'as-tag-xml-private.h',
+    input : 'as-tag-xml.gperf',
+    command : [
+        gperf.path(),
+        '@INPUT@',
+        '--output-file',
+        '@OUTPUT@'
+    ]
+)
+aslib_gperf_yaml = custom_target(
+    'gperf as-yaml-tag',
+    output : 'as-tag-yaml-private.h',
+    input : 'as-tag-yaml.gperf',
+    command : [
+        gperf.path(),
+        '@INPUT@',
+        '--output-file',
+        '@OUTPUT@'
+    ]
+)
+aslib_src = aslib_src + [aslib_gperf_xml, aslib_gperf_yaml]
 
 aslib_deps = [glib_dep, xml2_dep, yaml_dep, gobject_dep, gio_unix_dep]
 if get_option ('stemming')

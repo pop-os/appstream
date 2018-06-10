@@ -3,7 +3,7 @@ project('AppStream', 'c',
   default_options: ['c_std=gnu11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.12.0',
+  version: '0.12.1',
 )
 
 ccompiler = meson.get_compiler('c')
@@ -84,6 +84,9 @@ if get_option('stemming')
         endif
     endif
 endif
+
+# use gperf for faster string -> enum matching
+gperf = find_program('gperf')
 
 #
 # Modules

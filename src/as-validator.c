@@ -714,7 +714,7 @@ as_validator_validate_metadata_license (AsValidator *validator, xmlNode *license
 			as_validator_add_issue (validator, license_node,
 						AS_ISSUE_IMPORTANCE_WARNING,
 						AS_ISSUE_KIND_VALUE_WRONG,
-						"The metadata itself seems to be licensed under a complex collection of licenses. Please license the data under a simple permissive license, like FSFAP, CC-0-1.0 or MIT "
+						"The metadata itself seems to be licensed under a complex collection of licenses. Please license the data under a simple permissive license, like FSFAP, MIT or CC0-1.0 "
 						"to allow distributors to include it in mixed data collections without the risk of license violations due to mutually incompatible licenses.");
 			return;
 		}
@@ -1235,6 +1235,8 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_REQUIRES);
 		} else if (g_strcmp0 (node_name, "recommends") == 0) {
 			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_RECOMMENDS);
+		} else if (g_strcmp0 (node_name, "agreement") == 0) {
+			as_validator_check_children_quick (validator, iter, "agreement_section", cpt);
 		} else if (g_strcmp0 (node_name, "custom") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);
 			as_validator_check_children_quick (validator, iter, "value", cpt);
@@ -1359,11 +1361,13 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 	/* validate addon specific stuff */
 	if (as_component_get_extends (cpt)->len > 0) {
 		AsComponentKind kind = as_component_get_kind (cpt);
-		if ((kind != AS_COMPONENT_KIND_ADDON) && (kind != AS_COMPONENT_KIND_LOCALIZATION))
+		if ((kind != AS_COMPONENT_KIND_ADDON) &&
+		    (kind != AS_COMPONENT_KIND_LOCALIZATION) &&
+		    (kind != AS_COMPONENT_KIND_REPOSITORY))
 			as_validator_add_issue (validator, NULL,
 						AS_ISSUE_IMPORTANCE_ERROR,
 						AS_ISSUE_KIND_TAG_NOT_ALLOWED,
-						"An 'extends' tag is specified, but the component is not of type 'addon' or 'localization'.");
+						"An 'extends' tag is specified, but the component is not of type 'addon', 'localization' or 'repository'.");
 	} else {
 		if (as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON)
 			as_validator_add_issue (validator, NULL,
@@ -1858,7 +1862,7 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 			as_validator_set_current_fname (validator, fname_basename);
 
 			as_validator_add_issue (validator, NULL,
-						AS_ISSUE_IMPORTANCE_INFO,
+						AS_ISSUE_IMPORTANCE_WARNING,
 						AS_ISSUE_KIND_LEGACY,
 						"The metainfo file is stored in a legacy path. Please place it in '/usr/share/metainfo'.");
 

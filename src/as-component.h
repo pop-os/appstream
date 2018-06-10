@@ -38,6 +38,7 @@
 #include "as-content-rating.h"
 #include "as-launchable.h"
 #include "as-relation.h"
+#include "as-agreement.h"
 
 G_BEGIN_DECLS
 
@@ -70,6 +71,7 @@ struct _AsComponentClass
  * @AS_COMPONENT_KIND_FIRMWARE:		Firmware
  * @AS_COMPONENT_KIND_DRIVER:		A driver
  * @AS_COMPONENT_KIND_LOCALIZATION:	Software localization (usually l10n resources)
+ * @AS_COMPONENT_KIND_REPOSITORY:	A remote software or data source
  *
  * The type of an #AsComponent.
  **/
@@ -87,6 +89,7 @@ typedef enum  {
 	AS_COMPONENT_KIND_DRIVER,
 	AS_COMPONENT_KIND_LOCALIZATION,
 	AS_COMPONENT_KIND_SERVICE,
+	AS_COMPONENT_KIND_REPOSITORY,
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
@@ -328,7 +331,12 @@ void			as_component_add_content_rating (AsComponent *cpt,
 GPtrArray		*as_component_get_recommends (AsComponent *cpt);
 GPtrArray		*as_component_get_requires (AsComponent *cpt);
 void			as_component_add_relation (AsComponent *cpt,
-							AsRelation *relation);
+						   AsRelation *relation);
+
+void			as_component_add_agreement (AsComponent *cpt,
+						    AsAgreement *agreement);
+AsAgreement		*as_component_get_agreement_by_kind (AsComponent *cpt,
+							     AsAgreementKind kind);
 
 
 /* DEPRECATED */
