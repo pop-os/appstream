@@ -1,5 +1,26 @@
 libappstream.so.4 libappstream4 #MINVER#
  AS_APPSTREAM_METADATA_PATHS@Base 0.10.0
+ as_agreement_add_section@Base 0.12.1
+ as_agreement_get_kind@Base 0.12.1
+ as_agreement_get_section_default@Base 0.12.1
+ as_agreement_get_sections@Base 0.12.1
+ as_agreement_get_type@Base 0.12.1
+ as_agreement_get_version_id@Base 0.12.1
+ as_agreement_kind_from_string@Base 0.12.1
+ as_agreement_kind_to_string@Base 0.12.1
+ as_agreement_new@Base 0.12.1
+ as_agreement_section_get_active_locale@Base 0.12.1
+ as_agreement_section_get_description@Base 0.12.1
+ as_agreement_section_get_kind@Base 0.12.1
+ as_agreement_section_get_name@Base 0.12.1
+ as_agreement_section_get_type@Base 0.12.1
+ as_agreement_section_new@Base 0.12.1
+ as_agreement_section_set_active_locale@Base 0.12.1
+ as_agreement_section_set_description@Base 0.12.1
+ as_agreement_section_set_kind@Base 0.12.1
+ as_agreement_section_set_name@Base 0.12.1
+ as_agreement_set_kind@Base 0.12.1
+ as_agreement_set_version_id@Base 0.12.1
  as_bundle_get_id@Base 0.10.0
  as_bundle_get_kind@Base 0.10.0
  as_bundle_get_type@Base 0.10.0
@@ -38,6 +59,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_checksum_set_kind@Base 0.10.0
  as_checksum_set_value@Base 0.10.0
  as_component_add_addon@Base 0.10.0
+ as_component_add_agreement@Base 0.12.1
  as_component_add_bundle@Base 0.10.0
  as_component_add_category@Base 0.10.0
  as_component_add_content_rating@Base 0.11.0
@@ -54,6 +76,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_add_url@Base 0.10.0
  as_component_get_active_locale@Base 0.10.0
  as_component_get_addons@Base 0.10.0
+ as_component_get_agreement_by_kind@Base 0.12.1
  as_component_get_bundle@Base 0.10.0
  as_component_get_bundles@Base 0.10.0
  as_component_get_categories@Base 0.10.0
@@ -235,6 +258,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_get_format_version@Base 0.10.0
  as_metadata_get_locale@Base 0.10.0
  as_metadata_get_origin@Base 0.10.0
+ as_metadata_get_parse_flags@Base 0.12.1
  as_metadata_get_type@Base 0.10.0
  as_metadata_get_update_existing@Base 0.10.0
  as_metadata_get_write_header@Base 0.10.0
@@ -249,6 +273,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_set_format_version@Base 0.10.0
  as_metadata_set_locale@Base 0.10.0
  as_metadata_set_origin@Base 0.10.0
+ as_metadata_set_parse_flags@Base 0.12.1
  as_metadata_set_update_existing@Base 0.10.0
  as_metadata_set_write_header@Base 0.10.0
  as_pool_add_component@Base 0.10.0
