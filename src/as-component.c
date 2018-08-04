@@ -2767,7 +2767,7 @@ as_component_get_custom (AsComponent *cpt)
  *
  * Since: 0.10.5
  */
-gchar*
+const gchar*
 as_component_get_custom_value (AsComponent *cpt, const gchar *key)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
@@ -5394,7 +5394,7 @@ gboolean
 as_component_set_from_variant (AsComponent *cpt, GVariant *variant, const gchar *locale)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	GVariantDict dict;
+	g_auto(GVariantDict) dict;
 	const gchar **strv;
 	GVariant *var;
 	GVariantIter gvi;

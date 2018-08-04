@@ -276,7 +276,7 @@ out:
 GPtrArray*
 as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean recursive, GError **error)
 {
-	GPtrArray* list;
+	GPtrArray *list;
 	GFileInfo *file_info;
 	GFileEnumerator *enumerator = NULL;
 	GFile *fdir;
@@ -291,12 +291,16 @@ as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean r
 		goto out;
 
 	while ((file_info = g_file_enumerator_next_file (enumerator, NULL, &tmp_error)) != NULL) {
-		gchar *path;
+		g_autofree gchar *path = NULL;
 
-		if (tmp_error != NULL)
-			goto out;
-		if (g_file_info_get_is_hidden (file_info))
+		if (tmp_error != NULL) {
+			g_object_unref (file_info);
+			break;
+		}
+		if (g_file_info_get_is_hidden (file_info)) {
+			g_object_unref (file_info);
 			continue;
+		}
 
 		path = g_build_filename (dir,
 					 g_file_info_get_name (file_info),
@@ -310,8 +314,8 @@ as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean r
 			if (subdir_list == NULL) {
 				g_ptr_array_unref (list);
 				list = NULL;
-				g_free (path);
-				goto out;
+				g_object_unref (file_info);
+				break;
 			}
 			for (i=0; i<subdir_list->len; i++)
 				g_ptr_array_add (list,
@@ -320,12 +324,15 @@ as_utils_find_files_matching (const gchar* dir, const gchar* pattern, gboolean r
 		} else {
 			if (!as_str_empty (pattern)) {
 				if (!g_pattern_match_simple (pattern, g_file_info_get_name (file_info))) {
-					g_free (path);
+					g_object_unref (file_info);
 					continue;
 				}
 			}
 			g_ptr_array_add (list, path);
+			path = NULL;
 		}
+
+		g_object_unref (file_info);
 	}
 
 
