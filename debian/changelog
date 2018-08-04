@@ -1,3 +1,13 @@
+appstream (0.12.2-1) unstable; urgency=medium
+
+  * New upstream version: 0.12.2
+    - Fixes autopkgtest by working around Meson/pkg-config bug
+      (Closes: #901299)
+    - Closes a few memory leaks (Closes: #868785)
+  * Bump standards version: No changes needed
+
+ -- Matthias Klumpp <mak@debian.org>  Sat, 04 Aug 2018 15:48:52 +0800
+
 appstream (0.12.1-1) unstable; urgency=medium
 
   * New upstream version: 0.12.1
