@@ -974,7 +974,7 @@ as_release_set_from_variant (AsRelease *release, GVariant *variant, const gchar 
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 	GVariant *tmp;
-	GVariantDict rdict;
+	g_auto(GVariantDict) rdict;
 	GVariantIter riter;
 	GVariant *inner_child;;
 

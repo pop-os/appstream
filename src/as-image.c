@@ -509,7 +509,7 @@ gboolean
 as_image_set_from_variant (AsImage *image, GVariant *variant)
 {
 	AsImagePrivate *priv = GET_PRIVATE (image);
-	GVariantDict dict;
+	g_auto(GVariantDict) dict;
 	GVariant *tmp;
 
 	g_variant_dict_init (&dict, variant);

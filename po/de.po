@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
 "POT-Creation-Date: 2018-06-10 15:36+0200\n"
-"PO-Revision-Date: 2018-01-24 12:14+0000\n"
-"Last-Translator: Andreas Kleinert <Andy.Kleinert@gmail.com>\n"
+"PO-Revision-Date: 2018-06-17 13:06+0000\n"
+"Last-Translator: James Bond <christian.kirbach@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/appstream/"
 "translations/de/>\n"
 "Language: de\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.19-dev\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: tools/appstream-cli.c:146
 #, c-format
@@ -231,7 +231,7 @@ msgstr "Kommunikation und Nachrichten"
 
 #: tools/appstream-cli.c:712
 msgid "Compare two version numbers."
-msgstr ""
+msgstr "Zwei Versionsnummern vergleichen."
 
 #: src/as-provided.c:167
 msgid "Component"
@@ -259,7 +259,6 @@ msgid "Could not find component providing '%s::%s'."
 msgstr "Es konnte keine Komponente gefunden werden, die „%s;%s” bereitstellt."
 
 #: tools/appstream-cli.c:713
-#, fuzzy
 msgid ""
 "Create a template for a metainfo file (to be filled out by the upstream "
 "project)."
@@ -531,7 +530,6 @@ msgid "Logic"
 msgstr "Logik"
 
 #: src/as-provided.c:149
-#, fuzzy
 msgid "MIME types"
 msgstr "MIME-Typen"
 
@@ -820,6 +818,8 @@ msgid ""
 "Too many parameters: Need two version numbers or version numbers and a "
 "comparison operator."
 msgstr ""
+"Zu viele Parameter: Es werden zwei Versionsnummern oder Versionsnummern und "
+"ein Vergleichsoperator benötigt."
 
 #: tools/ascli-actions-mdata.c:541
 #, c-format
@@ -878,7 +878,7 @@ msgstr "Unbekannter Befehl „%s”"
 #: tools/appstream-cli.c:582
 #, c-format
 msgid "Unknown compare relation '%s'. Valid values are:"
-msgstr ""
+msgstr "Unbekannte Vergleichsbeziehung »%s«. Gültige Werte sind:"
 
 #. TRANSLATORS: ascli flag description for: --from-desktop (part of the new-template subcommand)
 #: tools/appstream-cli.c:649
@@ -977,6 +977,8 @@ msgstr ""
 msgid ""
 "You need to provide at least two version numbers to compare as parameters."
 msgstr ""
+"Sie müssen mindestens zwei Versionsnummern zum Vergleichen als Parameter "
+"angeben."
 
 #. TRANSLATORS: ascli has been run without command.
 #: tools/appstream-cli.c:767
