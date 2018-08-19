@@ -1,0 +1,77 @@
+From 734e9da66bf12fcaa94c10465db2dcf8bb2b94cb Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Sun, 19 Aug 2018 16:21:15 +0200
+Subject: [PATCH] cache: Set explicit variant types for cases where they can
+ not be inferred
+
+This ensures we do not run into assertion failures in case no array or
+dict elements exist from which the final variant type can be
+automatically inferred.
+This resolves #198
+---
+ src/as-agreement.c      | 2 +-
+ src/as-content-rating.c | 2 +-
+ src/as-release.c        | 4 ++--
+ src/as-screenshot.c     | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/src/as-agreement.c b/src/as-agreement.c
+index 0deee865..70fa5e67 100644
+--- a/src/as-agreement.c
++++ b/src/as-agreement.c
+@@ -450,7 +450,7 @@ as_agreement_to_variant (AsAgreement *agreement, GVariantBuilder *builder)
+ 	g_variant_builder_add_parsed (&agreement_b, "{'kind', <%u>}", priv->kind);
+ 	g_variant_builder_add_parsed (&agreement_b, "{'version_id', %v}", as_variant_mstring_new (priv->version_id));
+ 
+-	g_variant_builder_init (&sections_b, G_VARIANT_TYPE_ARRAY);
++	g_variant_builder_init (&sections_b, (const GVariantType *) "aa{sv}");
+ 	for (guint i = 0; i < priv->sections->len; i++) {
+ 		as_agreement_section_to_variant (AS_AGREEMENT_SECTION (g_ptr_array_index (priv->sections, i)), &sections_b);
+ 	}
+diff --git a/src/as-content-rating.c b/src/as-content-rating.c
+index 70b4bcde..263a6d01 100644
+--- a/src/as-content-rating.c
++++ b/src/as-content-rating.c
+@@ -499,7 +499,7 @@ as_content_rating_to_variant (AsContentRating *content_rating, GVariantBuilder *
+ 	GVariantBuilder rating_b;
+ 	guint j;
+ 
+-	g_variant_builder_init (&values_b, G_VARIANT_TYPE_ARRAY);
++	g_variant_builder_init (&values_b, (const GVariantType *) "a{su}");
+ 	for (j = 0; j < priv->keys->len; j++) {
+ 		AsContentRatingKey *key = (AsContentRatingKey*) g_ptr_array_index (priv->keys, j);
+ 		g_variant_builder_add (&values_b, "{su}", key->id, key->value);
+diff --git a/src/as-release.c b/src/as-release.c
+index 7a903519..e0908264 100644
+--- a/src/as-release.c
++++ b/src/as-release.c
+@@ -922,14 +922,14 @@ as_release_to_variant (AsRelease *release, GVariantBuilder *builder)
+ 	gboolean have_sizes = FALSE;
+ 
+ 	/* build checksum info */
+-	g_variant_builder_init (&checksum_b, G_VARIANT_TYPE_DICTIONARY);
++	g_variant_builder_init (&checksum_b, (const GVariantType *) "a{us}");
+ 	for (j = 0; j < priv->checksums->len; j++) {
+ 		AsChecksum *cs = AS_CHECKSUM (g_ptr_array_index (priv->checksums, j));
+ 		as_checksum_to_variant (cs, &checksum_b);
+ 	}
+ 
+ 	/* build size info */
+-	g_variant_builder_init (&sizes_b, G_VARIANT_TYPE_DICTIONARY);
++	g_variant_builder_init (&sizes_b, (const GVariantType *) "a{ut}");
+ 	for (j = 0; j < AS_SIZE_KIND_LAST; j++) {
+ 		if (as_release_get_size (release, (AsSizeKind) j) > 0) {
+ 			g_variant_builder_add (&sizes_b, "{ut}",
+diff --git a/src/as-screenshot.c b/src/as-screenshot.c
+index 7c834413..6569dbe3 100644
+--- a/src/as-screenshot.c
++++ b/src/as-screenshot.c
+@@ -596,7 +596,7 @@ as_screenshot_to_variant (AsScreenshot *screenshot, GVariantBuilder *builder)
+ 	if (priv->images->len == 0)
+ 		return FALSE;
+ 
+-	g_variant_builder_init (&images_b, G_VARIANT_TYPE_ARRAY);
++	g_variant_builder_init (&images_b, (const GVariantType *) "aa{sv}");
+ 	for (i = 0; i < priv->images->len; i++)
+ 		as_image_to_variant (AS_IMAGE (g_ptr_array_index (priv->images, i)), &images_b);
+ 
