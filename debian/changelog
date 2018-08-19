@@ -1,3 +1,14 @@
+appstream (0.12.2-2) unstable; urgency=medium
+
+  * Use HTTPS version of homepage URL
+  * cache-explicit-variants.patch: Set explicit variant types when
+    generating the cache, for cases were we may not be able to
+    infer them automatically (Closes: #906538)
+  * apt-ignore-exit-status.patch: Don't return failure on metadata issues,
+    only print a warning and exit normally (Closes: #868018)
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 19 Aug 2018 16:32:23 +0200
+
 appstream (0.12.2-1) unstable; urgency=medium
 
   * New upstream version: 0.12.2
