@@ -1,0 +1,25 @@
+From 2375bf9b79504e5d6caf18ce25a34515937c3231 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Sun, 19 Aug 2018 06:22:25 +0200
+Subject: [PATCH] apt: Ignore errors post-update
+
+If there are errors we still display them as informational messages so
+we know that something bad happened, but we will no longer return an
+error code and therefore give users the impression that the whole update
+procedure failed.
+This should make malformed metadata errors much less dramatic in future.
+---
+ contrib/apt-conf/50appstream | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/contrib/apt-conf/50appstream b/contrib/apt-conf/50appstream
+index e4bbc3e5..625b094a 100644
+--- a/contrib/apt-conf/50appstream
++++ b/contrib/apt-conf/50appstream
+@@ -73,5 +73,5 @@ Acquire::IndexTargets {
+ 
+ # Refresh AppStream cache when APT's cache is updated (i.e. apt update)
+ APT::Update::Post-Invoke-Success {
+-    "if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh-cache > /dev/null; fi";
++    "if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh-cache > /dev/null | true; fi";
+ };
