@@ -292,6 +292,7 @@ as_metadata_xml_parse_components_node (AsMetadata *metad, AsContext *context, xm
 
 		cpt = as_component_new ();
 		if (as_component_load_from_xml (cpt, context, iter, &tmp_error)) {
+			as_component_set_origin_kind (cpt, AS_ORIGIN_KIND_COLLECTION);
 			g_ptr_array_add (priv->cpts, g_object_ref (cpt));
 		} else {
 			if (tmp_error != NULL) {
@@ -311,7 +312,7 @@ as_metadata_xml_parse_components_node (AsMetadata *metad, AsContext *context, xm
  *
  * Read an array of #AsComponent from AppStream YAML metadata.
  *
- * Returns: (transfer container) (element-type AsComponent): An array of #AsComponent or %NULL
+ * Returns: (transfer container) (element-type AsComponent) (nullable): An array of #AsComponent or %NULL
  */
 static GPtrArray*
 as_metadata_yaml_parse_collection_doc (AsMetadata *metad, AsContext *context, const gchar *data, GError **error)
@@ -578,8 +579,12 @@ as_metadata_parse_desktop_data (AsMetadata *metad, const gchar *data, const gcha
 					   priv->format_version,
 					   error);
 	if (cpt == NULL) {
-		if (*error == NULL)
-			g_debug ("No component found in desktop-entry data.");
+		if (*error == NULL) {
+			if (cid == NULL)
+				g_debug ("No component found in desktop-entry data.");
+			else
+				g_debug ("No component found in desktop-entry file: %s", cid);
+		}
 		return;
 	}
 
@@ -1098,7 +1103,7 @@ as_metadata_add_component (AsMetadata *metad, AsComponent *cpt)
  * If the AppStream XML contained multiple components, return the first
  * component that has been parsed.
  *
- * Returns: (transfer none): An #AsComponent or %NULL
+ * Returns: (transfer none) (nullable): An #AsComponent or %NULL
  **/
 AsComponent*
 as_metadata_get_component (AsMetadata *metad)
