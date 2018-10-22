@@ -341,9 +341,9 @@
       ⁠</a><span class="term">&lt;content_rating/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;content_rating/&gt;</code> tag is an optional tag which can be added to specify age ratings for the respective software components. These maybe be used for parental control or to display their information in software centers.
 					</div><div class="para">
-						The tag must have a <code class="literal">type</code> property, indicating the type of the rating system that is used. At the moment, the <a href="https://odrs.gnome.org/oars">Open Age Ratings Service</a> (value <code class="code">oars-1.0</code>) is supported natively, but more services might be added in future.
+						The tag must have a <code class="literal">type</code> property, indicating the type of the rating system that is used. At the moment, the <a href="https://hughsie.github.io/oars/">Open Age Ratings Service</a> (value <code class="code">oars-1.0</code>) is supported natively, but more services might be added in future.
 					</div><div class="para">
-						The <code class="code">&lt;content_rating/&gt;</code> must have <code class="code">&lt;content_attribute/&gt;</code> children which each have an <code class="literal">id</code> property indicating the specific section that is rated. Their value indicates the intensity of the rated section and can be one of:
+						The <code class="code">&lt;content_rating/&gt;</code> tag may have <code class="code">&lt;content_attribute/&gt;</code> children which each must have an <code class="literal">id</code> property indicating the specific section that is rated. Their value indicates the intensity of the rated section and can be one of:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 								<code class="literal">none</code> - no rating given
 							</div></li><li class="listitem"><div class="para">
@@ -353,7 +353,9 @@
 							</div></li><li class="listitem"><div class="para">
 								<code class="literal">intense</code>
 							</div></li></ul></div><div class="para">
-						The website of the Open Age Ratings Service provides <a href="https://odrs.gnome.org/oars">an online form</a> which will automatically generate AppStream compatible markup based on a set of questions answered about the content.
+						In case the <code class="code">&lt;content_rating/&gt;</code> tag is empty (no <code class="code">&lt;content_attribute/&gt;</code> is present), it is assumed that the component was checked for age ratings and no age restrictions apply.
+					</div><div class="para">
+						The website of the Open Age Ratings Service provides <a href="https://hughsie.github.io/oars/generate.html">an online form</a> which will automatically generate AppStream compatible metadata based on a set of questions answered about the content.
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;content_rating</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"oars-1.0"</span><span xmlns="" class="perl_Keyword">&gt;</span>

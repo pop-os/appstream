@@ -232,7 +232,7 @@ as_release_set_kind (AsRelease *release, AsReleaseKind kind)
  *
  * Gets the release version.
  *
- * Returns: string, or %NULL for not set or invalid
+ * Returns: (nullable): string, or %NULL for not set or invalid
  **/
 const gchar*
 as_release_get_version (AsRelease *release)
@@ -380,7 +380,7 @@ as_release_set_size (AsRelease *release, guint64 size, AsSizeKind kind)
  *
  * Gets the release description markup for a given locale.
  *
- * Returns: markup, or %NULL for not set or invalid
+ * Returns: (nullable): markup, or %NULL for not set or invalid
  **/
 const gchar*
 as_release_get_description (AsRelease *release)
@@ -512,7 +512,7 @@ as_release_get_checksums (AsRelease *release)
  *
  * Gets the release checksum
  *
- * Returns: (transfer none): an #AsChecksum, or %NULL for not set or invalid
+ * Returns: (transfer none) (nullable): an #AsChecksum, or %NULL for not set or invalid
  *
  * Since: 0.8.2
  **/
@@ -922,14 +922,14 @@ as_release_to_variant (AsRelease *release, GVariantBuilder *builder)
 	gboolean have_sizes = FALSE;
 
 	/* build checksum info */
-	g_variant_builder_init (&checksum_b, G_VARIANT_TYPE_DICTIONARY);
+	g_variant_builder_init (&checksum_b, (const GVariantType *) "a{us}");
 	for (j = 0; j < priv->checksums->len; j++) {
 		AsChecksum *cs = AS_CHECKSUM (g_ptr_array_index (priv->checksums, j));
 		as_checksum_to_variant (cs, &checksum_b);
 	}
 
 	/* build size info */
-	g_variant_builder_init (&sizes_b, G_VARIANT_TYPE_DICTIONARY);
+	g_variant_builder_init (&sizes_b, (const GVariantType *) "a{ut}");
 	for (j = 0; j < AS_SIZE_KIND_LAST; j++) {
 		if (as_release_get_size (release, (AsSizeKind) j) > 0) {
 			g_variant_builder_add (&sizes_b, "{ut}",
