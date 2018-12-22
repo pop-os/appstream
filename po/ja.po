@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2018-06-10 15:36+0200\n"
-"PO-Revision-Date: 2018-10-09 13:29+0000\n"
-"Last-Translator: rikanotank1 <rikanotank1@gmail.com>\n"
+"POT-Creation-Date: 2018-12-16 22:43+0100\n"
+"PO-Revision-Date: 2018-12-03 02:53+0000\n"
+"Last-Translator: Ryo Nakano <ryonakaknock3@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/appstream/"
 "translations/ja/>\n"
 "Language: ja\n"
@@ -18,17 +18,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 3.2.1\n"
+"X-Generator: Weblate 3.3\n"
 
 #: tools/appstream-cli.c:146
 #, c-format
 msgid "'%s' command"
-msgstr "'%s1' コマンド"
+msgstr "'%s' コマンド"
 
 #: src/as-category.c:168
 msgctxt "Category of Graphics"
 msgid "3D Graphics"
-msgstr "三次元グラフィックス"
+msgstr "3D グラフィックス"
 
 #: src/as-category.c:123
 msgctxt "Category of Games"
@@ -37,7 +37,7 @@ msgstr "アクション"
 
 #. TRANSLATORS: this is the main category for Add-ons
 #. TRANSLATORS: Addons are extensions for existing software components, e.g. support for more visual effects for a video editor
-#: src/as-category.c:320 tools/ascli-utils.c:385
+#: src/as-category.c:320 tools/ascli-utils.c:395
 msgid "Add-ons"
 msgstr "アドオン"
 
@@ -49,19 +49,19 @@ msgstr "アドベンチャー"
 #. TRANSLATORS: ascli flag description for: --pedantic (used by the "validate" command)
 #: tools/appstream-cli.c:115
 msgid "Also show pedantic hints."
-msgstr "細部にこだわるヒントを常時示す"
+msgstr "詳細なヒントも表示します。"
 
 #: tools/appstream-cli.c:696
 msgid "An item type (e.g. lib, bin, python3, …)"
-msgstr "アイテム類別（例え lib, bin, python3など）"
+msgstr "アイテムの種類（例: lib、bin、python3 など）"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:9
 msgid "An utility to work with AppStream metadata"
-msgstr ""
+msgstr "AppStream メタデータを使用して動作するユーティリティー"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:8
 msgid "AppStream CLI"
-msgstr "アプリケーションストリーミングのキャラクタユーザインタフェース"
+msgstr "AppStream CLI"
 
 #. TRANSLATORS: Output if appstreamcli --version is run and the CLI and libappstream versions differ.
 #: tools/appstream-cli.c:789
@@ -70,35 +70,39 @@ msgid ""
 "AppStream CLI tool version: %s\n"
 "AppStream library version: %s"
 msgstr ""
+"AppStream CLI ツール バージョン: %s\n"
+"AppStream ライブラリ バージョン: %s"
 
 #. TRANSLATORS: In the status report of ascli: Header
 #: tools/ascli-actions-misc.c:45
 msgid "AppStream Status:"
-msgstr "アプリケーションストリーミングステータス:"
+msgstr "AppStream の状態:"
 
 #. we performed a cache refresh
 #. TRANSLATORS: Updating the metadata cache succeeded
 #: tools/ascli-actions-mdata.c:80
 msgid "AppStream cache update completed successfully."
-msgstr ""
+msgstr "AppStream キャッシュのアップデートは正しく完了しました。"
 
-#: src/as-pool.c:1560
+#: src/as-pool.c:1625
 #, c-format
 msgid ""
 "AppStream cache update failed. Turn on verbose mode to get more detailed "
 "issue information."
 msgstr ""
+"AppStream キャッシュのアップデートが失敗しました。より詳細な問題の情報を入手"
+"するには、詳細モードをオンにしてください。"
 
 #. cache wasn't updated, so the update wasn't necessary
 #: tools/ascli-actions-mdata.c:86
 msgid "AppStream cache update is not necessary."
-msgstr ""
+msgstr "AppStream キャッシュのアップデートは必要ではありません。"
 
 #. TRANSLATORS: This is the header to the --help menu for subcommands
 #. TRANSLATORS: This is the header to the --help menu
 #: tools/appstream-cli.c:143 tools/appstream-cli.c:689
 msgid "AppStream command-line interface"
-msgstr ""
+msgstr "AppStream コマンドラインインターフェース"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:12
 msgid ""
@@ -106,16 +110,18 @@ msgid ""
 "software components."
 msgstr ""
 
-#: src/as-pool.c:1546
+#: src/as-pool.c:1611
 #, c-format
 msgid "AppStream system cache was updated, but problems were found: %s"
 msgstr ""
+"AppStream システムキャッシュはアップデートされましたが、問題が見つかりまし"
+"た: %s"
 
 #. TRANSLATORS: Output if appstreamcli --version is executed.
 #: tools/appstream-cli.c:786
 #, c-format
 msgid "AppStream version: %s"
-msgstr ""
+msgstr "AppStream バージョン: %s"
 
 #: src/as-category.c:129
 msgctxt "Category of Games"
@@ -125,55 +131,55 @@ msgstr ""
 #: src/as-category.c:234
 msgctxt "Category of Science"
 msgid "Artificial Intelligence"
-msgstr ""
+msgstr "人工知能"
 
 #: src/as-category.c:101
 msgctxt "Category of Education"
 msgid "Astronomy"
-msgstr ""
+msgstr "天文学"
 
 #: src/as-category.c:237
 msgctxt "Category of Science"
 msgid "Astronomy"
-msgstr ""
+msgstr "天文学"
 
 #. TRANSLATORS: this is the menu spec main category for Audio & Video
 #: src/as-category.c:302
 msgid "Audio & Video"
-msgstr ""
+msgstr "オーディオとビデオ"
 
 #: src/as-category.c:68
 msgctxt "Category of AudioVideo"
 msgid "Audio Creation & Editing"
-msgstr ""
+msgstr "オーディオ制作と編集"
 
 #: src/as-provided.c:147
 msgid "Binaries"
-msgstr ""
+msgstr "バイナリ"
 
 #: src/as-category.c:132
 msgctxt "Category of Games"
 msgid "Blocks"
-msgstr ""
+msgstr "ブロック"
 
 #: src/as-category.c:135
 msgctxt "Category of Games"
 msgid "Board"
-msgstr ""
+msgstr "ボード"
 
-#: tools/ascli-utils.c:286
+#: tools/ascli-utils.c:296
 msgid "Bundle"
 msgstr ""
 
-#: src/as-pool.c:1486
+#: src/as-pool.c:1551
 #, c-format
 msgid "Cache location '%s' is not writable."
-msgstr ""
+msgstr "キャッシュの場所 '%s' が書き込み可能ではありません。"
 
 #: src/as-category.c:191
 msgctxt "Category of Office"
 msgid "Calendar"
-msgstr ""
+msgstr "カレンダー"
 
 #: tools/ascli-actions-mdata.c:324
 #, c-format
@@ -181,56 +187,58 @@ msgid ""
 "Can not copy '%s': File does not have a '.metainfo.xml' or '.appdata.xml' "
 "suffix."
 msgstr ""
+"'%s' をコピーできません。ファイルの拡張子が '.metainfo.xml' または '.appdata."
+"xml' ではありません。"
 
 #: src/as-category.c:138
 msgctxt "Category of Games"
 msgid "Card"
-msgstr ""
+msgstr "カード"
 
-#: tools/ascli-utils.c:356
+#: tools/ascli-utils.c:366
 msgid "Categories"
-msgstr ""
+msgstr "カテゴリー"
 
 #: src/as-category.c:259
 msgctxt "Category of Communication"
 msgid "Chat"
-msgstr ""
+msgstr "チャット"
 
 #: src/as-category.c:104
 msgctxt "Category of Education"
 msgid "Chemistry"
-msgstr ""
+msgstr "化学"
 
 #: src/as-category.c:240
 msgctxt "Category of Science"
 msgid "Chemistry"
-msgstr ""
+msgstr "化学"
 
 #: src/as-category.c:214
 msgctxt "Category of Addons"
 msgid "Codecs"
-msgstr ""
+msgstr "コーデック"
 
 #. TRANSLATORS: this is the menu spec main category for Communication
 #: src/as-category.c:326
 msgid "Communication & News"
-msgstr ""
+msgstr "コミュニケーションとニュース"
 
 #: tools/appstream-cli.c:712
 msgid "Compare two version numbers."
-msgstr ""
+msgstr "2 つのバージョン番号を比較します。"
 
 #: src/as-provided.c:167
 msgid "Component"
-msgstr ""
+msgstr "コンポーネント"
 
 #. TRANSLATORS: We found no distribution package or bundle to install to make this software available
 #: tools/ascli-actions-pkgmgr.c:106
 #, c-format
 msgid "Component '%s' has no installation candidate."
-msgstr ""
+msgstr "コンポーネント '%s' にはインストール候補がありません。"
 
-#: tools/ascli-utils.c:364
+#: tools/ascli-utils.c:374
 msgid "Compulsory for"
 msgstr ""
 
@@ -253,63 +261,63 @@ msgstr ""
 
 #: src/as-provided.c:161
 msgid "DBus Session Services"
-msgstr ""
+msgstr "DBus セッションサービス"
 
 #: src/as-provided.c:159
 msgid "DBus System Services"
-msgstr ""
+msgstr "DBus システムサービス"
 
 #: src/as-category.c:195
 msgctxt "Category of Office"
 msgid "Database"
-msgstr ""
+msgstr "データベース"
 
 #: src/as-category.c:86
 msgctxt "Category of Development"
 msgid "Debuggers"
-msgstr ""
+msgstr "デバッガ"
 
-#: tools/ascli-utils.c:340
+#: tools/ascli-utils.c:350
 msgid "Default Screenshot URL"
-msgstr ""
+msgstr "デフォルトのスクリーンショット URL"
 
 #. TRANSLATORS: ascli flag description for: --format
 #: tools/appstream-cli.c:83
 msgid "Default metadata format (valid values are 'xml' and 'yaml')."
-msgstr ""
+msgstr "デフォルトのメタデータファイル形式（有効な値は 'xml' と 'yaml'）。"
 
-#: tools/ascli-utils.c:320
+#: tools/ascli-utils.c:330
 msgid "Description"
 msgstr "説明"
 
 #. developer name
-#: tools/ascli-utils.c:308
+#: tools/ascli-utils.c:318
 msgid "Developer"
-msgstr ""
+msgstr "開発者"
 
 #. TRANSLATORS: this is the menu spec main category for Development
 #: src/as-category.c:305
 msgid "Developer Tools"
-msgstr ""
+msgstr "開発者ツール"
 
 #: tools/appstream-cli.c:708
 msgid "Display status information about available AppStream metadata."
-msgstr ""
+msgstr "利用可能な AppStream メタデータの状態情報を表示します。"
 
 #. TRANSLATORS: In the status report of ascli: Refers to the metadata shipped by distributions
 #: tools/ascli-actions-misc.c:50
 msgid "Distribution metadata:"
-msgstr ""
+msgstr "ディストリビューションメタデータ:"
 
 #. TRANSLATORS: ascli flag description for: --no-net (used by the "validate" command)
 #: tools/appstream-cli.c:120
 msgid "Do not use network access."
-msgstr ""
+msgstr "ネットワークアクセスを使用しません。"
 
 #. TRANSLATORS: ascli flag description for: --no-color
 #: tools/appstream-cli.c:750
 msgid "Don't show colored output."
-msgstr ""
+msgstr "カラーで出力を表示しません。"
 
 #: tools/appstream-cli.c:699
 msgid "Dump raw XML metadata for a component matching the ID."
@@ -318,86 +326,86 @@ msgstr ""
 #. TRANSLATORS: this is the menu spec main category for Education
 #: src/as-category.c:308
 msgid "Education"
-msgstr ""
+msgstr "教育"
 
 #. TRANSLATORS: No metainfo files have been found
 #: tools/ascli-actions-misc.c:107 tools/ascli-actions-misc.c:127
 msgid "Empty."
-msgstr ""
+msgstr "空です。"
 
 #: src/as-category.c:141
 msgctxt "Category of Games"
 msgid "Emulators"
-msgstr ""
+msgstr "エミュレータ"
 
 #. TRANSLATORS: ascli flag description for: --force
 #: tools/appstream-cli.c:234
 msgid "Enforce a cache refresh."
-msgstr ""
+msgstr "強制的にキャッシュを更新します。"
 
 #: tools/ascli-actions-misc.c:157
 #, c-format
 msgid "Error while loading the metadata pool: %s"
-msgstr ""
+msgstr "メタデータプールの読み込み中にエラーが発生しました: %s"
 
-#: tools/ascli-utils.c:314
+#: tools/ascli-utils.c:324
 msgid "Extends"
-msgstr ""
+msgstr "拡張"
 
 #: src/as-category.c:65
 msgctxt "Category of AudioVideo"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:256
 msgctxt "Category of Communication"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:83
 msgctxt "Category of Development"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:98
 msgctxt "Category of Education"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:120
 msgctxt "Category of Games"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:165
 msgctxt "Category of Graphics"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:188
 msgctxt "Category of Office"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:231
 msgctxt "Category of Science"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:278
 msgctxt "Category of Utility"
 msgid "Featured"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/as-category.c:287
 msgctxt "Category of Utility"
 msgid "File System"
-msgstr ""
+msgstr "ファイルシステム"
 
 #: src/as-category.c:198
 msgctxt "Category of Office"
 msgid "Finance"
-msgstr ""
+msgstr "ファイナンス"
 
 #: src/as-provided.c:165
 msgid "Flashed Firmware"
@@ -405,12 +413,12 @@ msgstr ""
 
 #: src/as-provided.c:151
 msgid "Fonts"
-msgstr ""
+msgstr "フォント"
 
 #: src/as-category.c:211
 msgctxt "Category of Addons"
 msgid "Fonts"
-msgstr ""
+msgstr "フォント"
 
 #. TRANSLATORS: Found metainfo files in legacy directories
 #: tools/ascli-actions-misc.c:136
@@ -421,12 +429,12 @@ msgstr ""
 #: tools/ascli-actions-misc.c:121
 #, c-format
 msgid "Found %i components."
-msgstr ""
+msgstr "%i 個のコンポーネントが見つかりました。"
 
 #. TRANSLATORS: this is the menu spec main category for Game
 #: src/as-category.c:311
 msgid "Games"
-msgstr ""
+msgstr "ゲーム"
 
 #: tools/appstream-cli.c:695
 msgid "Get components which provide the given item."
@@ -439,41 +447,41 @@ msgstr ""
 #. TRANSLATORS: this is the menu spec main category for Graphics
 #: src/as-category.c:314
 msgid "Graphics & Photography"
-msgstr ""
+msgstr "グラフィックスと写真"
 
-#: tools/ascli-utils.c:287
+#: tools/ascli-utils.c:297
 msgid "Homepage"
 msgstr "ホームページ"
 
 #: src/as-category.c:89
 msgctxt "Category of Development"
 msgid "IDEs"
-msgstr ""
+msgstr "統合開発環境"
 
-#: tools/ascli-utils.c:288
+#: tools/ascli-utils.c:298
 msgid "Icon"
 msgstr "アイコン"
 
 #: tools/ascli-actions-misc.c:92
 msgid "Iconsets"
-msgstr ""
+msgstr "アイコンセット"
 
-#: tools/ascli-utils.c:282
+#: tools/ascli-utils.c:292
 msgid "Identifier"
-msgstr ""
+msgstr "識別子"
 
 #: src/as-category.c:217
 msgctxt "Category of Addons"
 msgid "Input Sources"
-msgstr ""
+msgstr "入力ソース"
 
 #: tools/appstream-cli.c:709
 msgid "Install a metadata file into the right location."
-msgstr ""
+msgstr "メタデータファイルを正しい場所にインストールします。"
 
 #: tools/appstream-cli.c:705
 msgid "Install software matching the component-ID."
-msgstr ""
+msgstr "コンポーネント ID に一致するソフトウェアをインストールします。"
 
 #: tools/ascli-actions-mdata.c:210
 msgid "Invalid type for provided item selected. Valid values are:"
@@ -482,40 +490,40 @@ msgstr ""
 #: src/as-category.c:144
 msgctxt "Category of Games"
 msgid "Kids"
-msgstr ""
+msgstr "子ども向け"
 
 #: src/as-category.c:220
 msgctxt "Category of Addons"
 msgid "Language Packs"
-msgstr ""
+msgstr "言語パック"
 
 #: src/as-category.c:107
 msgctxt "Category of Education"
 msgid "Languages"
-msgstr ""
+msgstr "言語"
 
 #: src/as-provided.c:145
 msgid "Libraries"
-msgstr ""
+msgstr "ライブラリ"
 
 #. license
-#: tools/ascli-utils.c:350
+#: tools/ascli-utils.c:360
 msgid "License"
 msgstr "ライセンス"
 
 #: src/as-category.c:223
 msgctxt "Category of Addons"
 msgid "Localization"
-msgstr ""
+msgstr "ローカライゼーション"
 
 #: src/as-category.c:147
 msgctxt "Category of Games"
 msgid "Logic"
-msgstr ""
+msgstr "論理"
 
 #: src/as-provided.c:149
 msgid "MIME types"
-msgstr ""
+msgstr "MIME タイプ"
 
 #. TRANSLATORS: ascli flag description for: --no-cache
 #: tools/appstream-cli.c:67
@@ -532,29 +540,35 @@ msgstr ""
 msgid "Manually selected location of AppStream metadata to scan."
 msgstr ""
 
+#: src/as-pool.c:1084
+msgid ""
+"Many components have been recognized as invalid. See debug output for "
+"details."
+msgstr ""
+
 #: src/as-category.c:111
 msgctxt "Category of Education"
 msgid "Math"
-msgstr ""
+msgstr "数学"
 
 #: src/as-category.c:243
 msgctxt "Category of Science"
 msgid "Math"
-msgstr ""
+msgstr "数学"
 
 #: tools/ascli-actions-mdata.c:361
 #, c-format
 msgid "Metadata file '%s' does not exist."
-msgstr ""
+msgstr "メタデータファイル '%s' は存在しません。"
 
-#: src/as-pool.c:758
+#: src/as-pool.c:756
 msgid "Metadata files have errors:"
-msgstr ""
+msgstr "メタデータファイルにエラーがあります:"
 
 #. TRANSLATORS: Info about upstream metadata / metainfo files in the ascli status report
 #: tools/ascli-actions-misc.c:114
 msgid "Metainfo files:"
-msgstr ""
+msgstr "メタ情報ファイル:"
 
 #: src/as-provided.c:153
 msgid "Modaliases"
@@ -563,25 +577,25 @@ msgstr ""
 #: src/as-category.c:74
 msgctxt "Category of AudioVideo"
 msgid "Music Players"
-msgstr ""
+msgstr "音楽プレーヤー"
 
-#: tools/ascli-utils.c:283
+#: tools/ascli-utils.c:293
 msgid "Name"
 msgstr "名前"
 
 #: src/as-category.c:266
 msgctxt "Category of Communication"
 msgid "News"
-msgstr ""
+msgstr "ニュース"
 
 #: tools/ascli-actions-mdata.c:179
 #, c-format
 msgid "No component matching '%s' found."
-msgstr ""
+msgstr "'%s' に一致するコンポーネントは見つかりませんでした。"
 
 #: tools/ascli-actions-misc.c:103
 msgid "No icons."
-msgstr ""
+msgstr "アイコンはありません。"
 
 #: tools/ascli-actions-pkgmgr.c:53
 msgid ""
@@ -596,67 +610,69 @@ msgstr ""
 #. TRANSLATORS: this is the menu spec main category for Office
 #: src/as-category.c:317
 msgid "Office"
-msgstr ""
+msgstr "Office"
 
 #. TRANSLATORS: An unknown option was passed to appstreamcli.
 #: tools/appstream-cli.c:181
 #, c-format
 msgid "Option '%s' is unknown."
-msgstr ""
+msgstr "オプション '%s' は不明です。"
 
-#: tools/ascli-utils.c:285
+#: tools/ascli-utils.c:295
 msgid "Package"
 msgstr "パッケージ"
 
 #: src/as-category.c:171
 msgctxt "Category of Graphics"
 msgid "Photography"
-msgstr ""
+msgstr "写真"
 
 #. TRANSLATORS: ascli flag description for: --details
 #: tools/appstream-cli.c:98
 msgid "Print detailed output about found components."
-msgstr ""
+msgstr "見つかったコンポーネントの詳細な出力を表示します。"
 
 #. project group
-#: tools/ascli-utils.c:347
+#: tools/ascli-utils.c:357
 msgid "Project Group"
 msgstr "プロジェクトグループ"
 
-#: tools/ascli-utils.c:392
+#: tools/ascli-utils.c:402
 msgid "Provided Items"
-msgstr ""
+msgstr "指定されたアイテム"
 
 #: src/as-provided.c:155
 msgid "Python (Version 2)"
-msgstr ""
+msgstr "Python (バージョン 2)"
 
 #: src/as-provided.c:157
 msgid "Python 3"
-msgstr ""
+msgstr "Python 3"
 
 #: tools/appstream-cli.c:700
 msgid "Rebuild the component metadata cache."
-msgstr ""
+msgstr "コンポーネントのメタデータキャッシュを再構築します。"
 
 #: tools/appstream-cli.c:706
 msgid "Remove software matching the component-ID."
-msgstr ""
+msgstr "コンポーネント ID に一致するソフトウェアを削除します。"
 
 #: src/as-category.c:248
 msgctxt "Category of Science"
 msgid "Robotics"
-msgstr ""
+msgstr "ロボット工学"
 
 #: src/as-category.c:150
 msgctxt "Category of Games"
 msgid "Role Playing"
-msgstr ""
+msgstr "ロールプレイング"
 
 #: tools/appstream-cli.c:185 tools/appstream-cli.c:768
 #, c-format
 msgid "Run '%s --help' to see a full list of available command line options."
 msgstr ""
+"利用可能なコマンドラインオプションの完全なリストを見るには '%s --help' を実行"
+"してください。"
 
 #: tools/appstream-cli.c:187
 #, c-format
@@ -667,82 +683,82 @@ msgstr ""
 
 #: src/as-provided.c:163
 msgid "Runtime Firmware"
-msgstr ""
+msgstr "ランタイムファームウェア"
 
 #: src/as-category.c:174
 msgctxt "Category of Graphics"
 msgid "Scanning"
-msgstr ""
+msgstr "スキャン"
 
 #. TRANSLATORS: this is the menu spec main category for Science
 #: src/as-category.c:323
 msgid "Science"
-msgstr ""
+msgstr "科学"
 
 #: tools/appstream-cli.c:693
 msgid "Search the component database."
-msgstr ""
+msgstr "コンポーネントデータベースを検索します。"
 
 #: src/as-category.c:293
 msgctxt "Category of Utility"
 msgid "Security"
-msgstr ""
+msgstr "セキュリティ"
 
 #. TRANSLATORS: ascli flag description for: --verbose
 #: tools/appstream-cli.c:745
 msgid "Show extra debugging information."
-msgstr ""
+msgstr "追加のデバッグ情報を表示します。"
 
 #. TRANSLATORS: ascli flag description for: --version
 #: tools/appstream-cli.c:739
 msgid "Show the program version."
-msgstr ""
+msgstr "プログラムのバージョンを表示します。"
 
 #: src/as-category.c:153
 msgctxt "Category of Games"
 msgid "Sports"
-msgstr ""
+msgstr "スポーツ"
 
 #: src/as-category.c:157
 msgctxt "Category of Games"
 msgid "Strategy"
-msgstr ""
+msgstr "戦略"
 
 #. these are commands we can use with appstreamcli
 #: tools/appstream-cli.c:691
 msgid "Subcommands:"
-msgstr ""
+msgstr "サブコマンド:"
 
-#: tools/ascli-utils.c:284
+#: tools/ascli-utils.c:294
 msgid "Summary"
 msgstr "要約"
 
 #. TRANSLATORS: Status summary in ascli
 #: tools/ascli-actions-misc.c:143
 msgid "Summary:"
-msgstr ""
+msgstr "要約:"
 
 #: src/as-category.c:290
 msgctxt "Category of Utility"
 msgid "System Monitoring"
-msgstr ""
+msgstr "システム監視"
 
 #: src/as-category.c:284
 msgctxt "Category of Utility"
 msgid "Terminal Emulators"
-msgstr ""
+msgstr "ターミナルエミュレーター"
 
 #: src/as-category.c:281
 msgctxt "Category of Utility"
 msgid "Text Editors"
-msgstr ""
+msgstr "テキストエディター"
 
 #: tools/ascli-actions-mdata.c:464
 #, c-format
 msgid "The .desktop file '%s' does not exist."
-msgstr ""
+msgstr ".desktop ファイル '%s' は存在しません。"
 
-#: src/as-pool.c:1544
+#: src/as-pool.c:1609
 msgid ""
 "The AppStream system cache was updated, but some errors were detected, which "
 "might lead to missing metadata. Refer to the verbose log for more "
@@ -786,7 +802,7 @@ msgstr ""
 #: tools/ascli-actions-mdata.c:541
 #, c-format
 msgid "Unable to build the template metainfo file: %s"
-msgstr ""
+msgstr "メタ情報テンプレート ファイルを構築できません: %s"
 
 #. TRANSLATORS: User is trying to convert a file in ascli
 #: tools/ascli-actions-mdata.c:397
@@ -799,39 +815,39 @@ msgstr ""
 #: tools/ascli-actions-mdata.c:174
 #, c-format
 msgid "Unable to find component matching %s!"
-msgstr ""
+msgstr "%s に一致するコンポーネントが見つかりません！"
 
 #: tools/ascli-actions-mdata.c:141 tools/ascli-actions-mdata.c:263
 #: tools/ascli-actions-pkgmgr.c:93
 #, c-format
 msgid "Unable to find component with ID '%s'!"
-msgstr ""
+msgstr "ID が '%s' のコンポーネントは見つかりません！"
 
 #: tools/ascli-actions-mdata.c:470
 #, c-format
 msgid "Unable to read the .desktop file: %s"
-msgstr ""
+msgstr ".desktop ファイルを読み込めません: %s"
 
 #: tools/ascli-actions-mdata.c:549
 #, c-format
 msgid "Unable to save the template metainfo file: %s"
-msgstr ""
+msgstr "メタ情報テンプレートファイルを保存できません: %s"
 
 #: tools/ascli-actions-pkgmgr.c:67
 #, c-format
 msgid "Unable to spawn package manager: %s"
-msgstr ""
+msgstr "パッケージマネージャーを起動できません: %s"
 
 #: tools/ascli-actions-mdata.c:319
 #, c-format
 msgid "Unable to write to '%s', can not install metainfo file."
-msgstr ""
+msgstr "'%s' に書き込めません。メタ情報ファイルをインストールできません。"
 
 #. TRANSLATORS: ascli has been run with unknown command.
 #: tools/appstream-cli.c:845
 #, c-format
 msgid "Unknown command '%s'."
-msgstr ""
+msgstr "不明なコマンド '%s' です。"
 
 #. * TRANSLATORS: The user tried to compare version numbers, but the comparison operator (greater-then, equal, etc.) was invalid.
 #: tools/appstream-cli.c:582
@@ -848,7 +864,7 @@ msgstr ""
 #. TRANSLATORS: this is the menu spec main category for Utilities
 #: src/as-category.c:329
 msgid "Utilities"
-msgstr ""
+msgstr "ユーティリティー"
 
 #: tools/appstream-cli.c:702
 msgid "Validate AppStream XML files for issues."
@@ -879,17 +895,17 @@ msgstr ""
 #: src/as-category.c:177
 msgctxt "Category of Graphics"
 msgid "Vector Graphics"
-msgstr ""
+msgstr "ベクターグラフィックス"
 
 #: tools/ascli-actions-misc.c:46
 #, c-format
 msgid "Version: %s"
-msgstr ""
+msgstr "バージョン: %s"
 
 #: src/as-category.c:180
 msgctxt "Category of Graphics"
 msgid "Viewers"
-msgstr ""
+msgstr "ビューアー"
 
 #: tools/ascli-actions-misc.c:151
 #, c-format
@@ -899,12 +915,12 @@ msgstr ""
 #: src/as-category.c:270
 msgctxt "Category of Communication"
 msgid "Web Browsers"
-msgstr ""
+msgstr "Web ブラウザー"
 
 #: src/as-category.c:202
 msgctxt "Category of Office"
 msgid "Word Processor"
-msgstr ""
+msgstr "ワードプロセッサー"
 
 #: tools/appstream-cli.c:716
 msgid ""
@@ -916,6 +932,7 @@ msgstr ""
 #: tools/ascli-actions-mdata.c:70
 msgid "You might need superuser permissions to perform this action."
 msgstr ""
+"この操作を実行するにはスーパーユーザー権限が必要である可能性があります。"
 
 #: tools/ascli-actions-mdata.c:444
 msgid ""
@@ -931,36 +948,34 @@ msgstr ""
 #. TRANSLATORS: ascli has been run without command.
 #: tools/appstream-cli.c:767
 msgid "You need to specify a command."
-msgstr "コマンドを指定する必要があります。"
+msgstr "コマンドの指定が必要です。"
 
 #. TRANSLATORS: An AppStream component-id is missing in the command-line arguments
 #. TRANSLATORS: ascli was told to find a software component by its ID, but no component-id was specified.
 #: tools/ascli-actions-mdata.c:129 tools/ascli-actions-mdata.c:251
 #: tools/ascli-actions-pkgmgr.c:80
-#, fuzzy
 msgid "You need to specify a component-ID."
-msgstr "コマンドを指定する必要があります。"
+msgstr "コンポーネント ID の指定が必要です。"
 
 #: tools/ascli-actions-validate.c:223
 msgid "You need to specify a file to validate!"
-msgstr ""
+msgstr "検証するファイルの指定が必要です！"
 
 #: tools/ascli-actions-mdata.c:306
 msgid "You need to specify a metadata file."
-msgstr ""
+msgstr "メタデータファイルの指定が必要です。"
 
 #: tools/ascli-actions-validate.c:281
 msgid "You need to specify a root directory to start validation!"
-msgstr ""
+msgstr "検証を始めるには、ルートディレクトリの指定が必要です！"
 
 #: tools/ascli-actions-mdata.c:161
 msgid "You need to specify a term to search for."
-msgstr ""
+msgstr "検索する単語の指定が必要です。"
 
 #: tools/ascli-actions-mdata.c:354
-#, fuzzy
 msgid "You need to specify an input and output file."
-msgstr "コマンドを指定する必要があります。"
+msgstr "入力ファイルと出力ファイルの指定が必要です。"
 
 #. TRANSLATORS: List of "grey-listed" words sperated with ";"
 #. * Do not translate this list directly. Instead,
@@ -971,27 +986,29 @@ msgstr "コマンドを指定する必要があります。"
 #: src/as-pool.c:104
 msgid "app;application;package;program;programme;suite;tool"
 msgstr ""
+"app;application;package;program;programme;suite;tool;アプリ;アプリケーション;"
+"パッケージ;プログラム;スイート;ツール"
 
 #. TRANSLATORS: Used for small issue-statistics in appstreamcli-validate
 #: tools/ascli-actions-validate.c:183
 #, c-format
 msgid "errors: %lu"
-msgstr ""
+msgstr "エラー: %lu"
 
 #. TRANSLATORS: Used for small issue-statistics in appstreamcli-validate
 #: tools/ascli-actions-validate.c:197
 #, c-format
 msgid "infos: %lu"
-msgstr ""
+msgstr "情報: %lu"
 
 #. TRANSLATORS: Used for small issue-statistics in appstreamcli-validate
 #: tools/ascli-actions-validate.c:204
 #, c-format
 msgid "pedantic: %lu"
-msgstr ""
+msgstr "詳細: %lu"
 
 #. TRANSLATORS: Used for small issue-statistics in appstreamcli-validate
 #: tools/ascli-actions-validate.c:190
 #, c-format
 msgid "warnings: %lu"
-msgstr ""
+msgstr "警告: %lu"

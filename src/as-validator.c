@@ -225,6 +225,10 @@ as_validator_web_url_exists (AsValidator *validator, const gchar *url)
 	if (!priv->check_urls)
 		return TRUE;
 
+	/* we don't check mailto URLs */
+	if (g_str_has_prefix (url, "mailto:"))
+		return TRUE;
+
 	if (g_file_test (curl_bin, G_FILE_TEST_EXISTS)) {
 		/* Normally we would use the --head option of curl here to only fetch the server headers.
 		 * However, there is quite a bunch of unfriendly/misconfigured servers out there that simply
@@ -374,6 +378,22 @@ as_validate_is_url (const gchar *str)
 }
 
 /**
+ * as_validate_is_secure_url:
+ *
+ * Check if @str is a secure (HTTPS) URL.
+ */
+static gboolean
+as_validate_is_secure_url (const gchar *str)
+{
+	if (g_str_has_prefix (str, "https://"))
+		return TRUE;
+	/* mailto URLs are fine as well */
+	if (g_str_has_prefix (str, "mailto:"))
+		return TRUE;
+	return FALSE;
+}
+
+/**
  * as_validator_check_children_quick:
  **/
 static void
@@ -430,6 +450,65 @@ as_validator_check_nolocalized (AsValidator *validator, xmlNode* node, const gch
 }
 
 /**
+ * as_validator_check_description_paragraph:
+ **/
+static void
+as_validator_check_description_paragraph (AsValidator *validator, xmlNode *node)
+{
+	xmlNode *iter;
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+
+		as_validator_add_issue (validator, iter,
+					AS_ISSUE_IMPORTANCE_ERROR,
+					AS_ISSUE_KIND_MARKUP_INVALID,
+					"The description value is invalid: The '%s' paragraph contains an invalid '%s' XML tag.",
+					(const gchar*) node->name,
+					node_name);
+	}
+}
+
+/**
+ * as_validator_check_description_enumeration:
+ **/
+static void
+as_validator_check_description_enumeration (AsValidator *validator, xmlNode *node, AsComponent *cpt)
+{
+	xmlNode *iter;
+
+	for (iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+
+		if (g_strcmp0 (node_name, "li") == 0) {
+			g_autofree gchar *tag_path = NULL;
+			tag_path = g_strdup_printf ("%s/%s", (const gchar*) node->name, node_name);
+			as_validator_check_content_empty (validator,
+							  iter,
+							  tag_path,
+							  AS_ISSUE_IMPORTANCE_WARNING,
+							  cpt);
+			as_validator_check_description_paragraph (validator, iter);
+		} else {
+			as_validator_add_issue (validator, node,
+						AS_ISSUE_IMPORTANCE_WARNING,
+						AS_ISSUE_KIND_TAG_UNKNOWN,
+						"Found tag '%s' in section '%s'. Only 'li' tags are allowed.",
+						node_name,
+						(const gchar*) node->name);
+		}
+	}
+}
+
+/**
  * as_validator_check_description_tag:
  **/
 static void
@@ -456,7 +535,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 
 		if ((g_strcmp0 (node_name, "ul") != 0) && (g_strcmp0 (node_name, "ol") != 0)) {
 			as_validator_check_content_empty (validator,
-							  node,
+							  iter,
 							  node_name,
 							  AS_ISSUE_IMPORTANCE_WARNING,
 							  cpt);
@@ -478,6 +557,8 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 							node_content);
 			}
 			first_paragraph = FALSE;
+
+			as_validator_check_description_paragraph (validator, iter);
 		} else if (g_strcmp0 (node_name, "ul") == 0) {
 			if (mode == AS_FORMAT_STYLE_COLLECTION) {
 				as_validator_check_nolocalized (validator,
@@ -486,7 +567,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 								cpt,
 								"The '%s' tag should not be localized in collection metadata. Localize the whole 'description' tag instead.");
 			}
-			as_validator_check_children_quick (validator, iter, "li", cpt, FALSE);
+			as_validator_check_description_enumeration (validator, iter, cpt);
 		} else if (g_strcmp0 (node_name, "ol") == 0) {
 			if (mode == AS_FORMAT_STYLE_COLLECTION) {
 				as_validator_check_nolocalized (validator,
@@ -495,7 +576,7 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsCom
 								cpt,
 								"The '%s' tag should not be localized in collection metadata. Localize the whole 'description' tag instead.");
 			}
-			as_validator_check_children_quick (validator, iter, "li", cpt, FALSE);
+			as_validator_check_description_enumeration (validator, iter, cpt);
 		} else {
 			as_validator_add_issue (validator, iter,
 						AS_ISSUE_IMPORTANCE_WARNING,
@@ -797,6 +878,14 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 
+		if (g_strcmp0 ((const gchar*) iter->name, "screenshot") != 0) {
+			as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_WARNING,
+							AS_ISSUE_KIND_TAG_UNKNOWN,
+							"Found tag '%s' in a screenshots group. Only <screenshot/> tags are allowed.",
+							(const gchar*) iter->name);
+		}
+
 		for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
 			const gchar *node_name = (const gchar*) iter2->name;
 
@@ -815,6 +904,14 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 							"Unable to reach screenshot image on remote location '%s' - does the image exist?",
 							image_url);
 				}
+
+				if (!as_validate_is_secure_url (image_url)) {
+					as_validator_add_issue (validator, iter2,
+								AS_ISSUE_IMPORTANCE_INFO,
+								AS_ISSUE_KIND_VALUE_ISSUE,
+								"Consider using a secure (HTTPS) URL for '%s'", image_url);
+				}
+
 			} else if (g_strcmp0 (node_name, "caption") == 0) {
 				caption_found = TRUE;
 			} else {
@@ -824,14 +921,6 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 							"Found tag '%s' in a screenshot. Only <caption/> and <image/> tags are allowed.",
 							(const gchar*) iter2->name);
 			}
-		}
-
-		if (g_strcmp0 ((const gchar*) iter->name, "screenshot") != 0) {
-			as_validator_add_issue (validator, iter,
-							AS_ISSUE_IMPORTANCE_WARNING,
-							AS_ISSUE_KIND_TAG_UNKNOWN,
-							"Found tag '%s' in a screenshots group. Only <screenshot/> tags are allowed.",
-							(const gchar*) iter->name);
 		}
 
 		if (!image_found) {
@@ -1119,6 +1208,13 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 									"Unable to reach remote icon at '%s' - does it exist?",
 									node_content);
 					}
+
+					if (!as_validate_is_secure_url (node_content)) {
+						as_validator_add_issue (validator, iter,
+									AS_ISSUE_IMPORTANCE_INFO,
+									AS_ISSUE_KIND_VALUE_ISSUE,
+									"Consider using a secure (HTTPS) URL for '%s'", node_content);
+					}
 				}
 			}
 
@@ -1149,6 +1245,13 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 							AS_ISSUE_KIND_REMOTE_ERROR,
 							"Unable to reach remote location '%s' - does it exist?",
 							node_content);
+			}
+
+			if (!as_validate_is_secure_url (node_content)) {
+				as_validator_add_issue (validator, iter,
+							AS_ISSUE_IMPORTANCE_INFO,
+							AS_ISSUE_KIND_VALUE_ISSUE,
+							"Consider using a secure (HTTPS) URL for '%s'", node_content);
 			}
 		} else if (g_strcmp0 (node_name, "categories") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags, cpt);

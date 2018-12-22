@@ -82,7 +82,8 @@ Q_GADGET
             UrlKindFaq,
             UrlKindHelp,
             UrlKindDonation,
-            UrlTranslate
+            UrlTranslate,
+            UrlKindContact
         };
         Q_ENUM(UrlKind)
 
