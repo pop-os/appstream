@@ -254,6 +254,7 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 	gint pool_priority;
 	AsOriginKind new_cpt_orig_kind;
 	AsOriginKind existing_cpt_orig_kind;
+	AsMergeKind new_cpt_merge_kind;
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 
 	cdid = as_component_get_data_id (cpt);
@@ -287,6 +288,32 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 				return FALSE;
 			}
 		}
+	}
+
+	/* perform metadata merges if necessary */
+	new_cpt_merge_kind = as_component_get_merge_kind (cpt);
+	if (new_cpt_merge_kind != AS_MERGE_KIND_NONE) {
+		g_autoptr(GPtrArray) matches = NULL;
+		guint i;
+
+		/* we merge the data into all components with matching IDs at time */
+		matches = as_pool_get_components_by_id (pool,
+							as_component_get_id (cpt));
+		for (i = 0; i < matches->len; i++) {
+			AsComponent *match = AS_COMPONENT (g_ptr_array_index (matches, i));
+			if (new_cpt_merge_kind == AS_MERGE_KIND_REMOVE_COMPONENT) {
+				/* remove matching component from pool if its priority is lower */
+				if (as_component_get_priority (match) < as_component_get_priority (cpt)) {
+					const gchar *match_cdid = as_component_get_data_id (match);
+					g_hash_table_remove (priv->cpt_table, match_cdid);
+					g_debug ("Removed via merge component: %s", match_cdid);
+				}
+			} else {
+				as_component_merge (match, cpt);
+			}
+		}
+
+		return TRUE;
 	}
 
 	if (existing_cpt == NULL) {
@@ -356,22 +383,6 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 				g_strdup (cdid),
 				g_object_ref (cpt));
 		g_debug ("Replaced '%s' with data from metainfo file.", cdid);
-		return TRUE;
-	}
-
-	/* perform metadata merges if necessary */
-	if (as_component_get_merge_kind (cpt) != AS_MERGE_KIND_NONE) {
-		g_autoptr(GPtrArray) matches = NULL;
-		guint i;
-
-		/* we merge the data into all components with matching IDs at time */
-		matches = as_pool_get_components_by_id (pool,
-							as_component_get_id (cpt));
-		for (i = 0; i < matches->len; i++) {
-			AsComponent *match = AS_COMPONENT (g_ptr_array_index (matches, i));
-			as_component_merge (match, cpt);
-		}
-
 		return TRUE;
 	}
 
@@ -497,13 +508,13 @@ as_pool_update_addon_info (AsPool *pool, AsComponent *cpt)
  *
  * Returns: %TRUE if all metadata was used, %FALSE if we skipped some stuff.
  */
-static gboolean
+static guint
 as_pool_refine_data (AsPool *pool)
 {
 	GHashTableIter iter;
 	gpointer key, value;
 	GHashTable *refined_cpts;
-	gboolean ret = TRUE;
+	guint invalid_cpts = 0;
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 
 	/* since we might remove stuff from the pool, we need a new table to store the result */
@@ -528,7 +539,7 @@ as_pool_refine_data (AsPool *pool)
 				g_debug ("Ignored '%s': The component (from a .desktop file) is invalid.", as_component_get_id (cpt));
 			} else {
 				g_debug ("WARNING: Ignored component '%s': The component is invalid.", as_component_get_id (cpt));
-				ret = FALSE;
+				invalid_cpts++;
 			}
 			continue;
 		}
@@ -552,7 +563,7 @@ as_pool_refine_data (AsPool *pool)
 	g_hash_table_unref (priv->cpt_table);
 	priv->cpt_table = refined_cpts;
 
-	return ret;
+	return invalid_cpts;
 }
 
 /**
@@ -1048,6 +1059,9 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	gboolean ret = TRUE;
+	guint invalid_cpts_n;
+	guint all_cpts_n;
+	gdouble valid_percentage;
 
 	/* load means to reload, so we get rid of all the old data */
 	as_pool_clear (pool);
@@ -1060,15 +1074,23 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 	as_pool_load_metainfo_desktop_data (pool);
 
 	/* automatically refine the metadata we have in the pool */
-	ret = as_pool_refine_data (pool) && ret;
+	all_cpts_n = g_hash_table_size (priv->cpt_table);
+	invalid_cpts_n = as_pool_refine_data (pool);
+
+	valid_percentage = (100 / (gdouble) all_cpts_n) * (gdouble) (all_cpts_n - invalid_cpts_n);
+	g_debug ("Percentage of valid components: %0.3f", valid_percentage);
+
+	/* we only return a non-TRUE value if a significant amount (10%) of components has been declared invalid. */
+	if ((invalid_cpts_n != 0) && (valid_percentage <= 90))
+		ret = FALSE;
 	
 	/* report errors if refining has failed */
-	if ((!ret) && (error != NULL)) {
+	if (!ret && (error != NULL)) {
 		if (*error == NULL) {
 			g_set_error_literal (error,
 					     AS_POOL_ERROR,
 					     AS_POOL_ERROR_INCOMPLETE,
-					     "Some components are invalid. See debug output for details");
+					     _("Many components have been recognized as invalid. See debug output for details."));
 		} else {
 			g_prefix_error (error, "Some components have been ignored: ");
 		}
@@ -1147,7 +1169,7 @@ as_pool_save_cache_file (AsPool *pool, const gchar *fname, GError **error)
  *
  * Get a list of found components.
  *
- * Returns: (transfer container) (element-type AsComponent): an array of #AsComponent instances.
+ * Returns: (transfer full) (element-type AsComponent): an array of #AsComponent instances.
  */
 GPtrArray*
 as_pool_get_components (AsPool *pool)
