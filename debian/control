@@ -2,7 +2,7 @@ Source: appstream
 Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
-Build-Depends: debhelper (>= 11),
+Build-Depends: debhelper-compat (= 12),
                gettext,
                gobject-introspection,
                gperf,
