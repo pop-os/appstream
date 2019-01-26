@@ -187,17 +187,21 @@ libappstream.so.4 libappstream4 #MINVER#
  as_context_set_style@Base 0.11.1
  as_copy_file@Base 0.10.0
  as_distro_details_get_bool@Base 0.10.0
+ as_distro_details_get_cid@Base 0.12.5
+ as_distro_details_get_homepage@Base 0.12.5
  as_distro_details_get_id@Base 0.10.0
  as_distro_details_get_name@Base 0.10.0
  as_distro_details_get_str@Base 0.10.0
  as_distro_details_get_type@Base 0.10.0
  as_distro_details_get_version@Base 0.10.0
+ as_distro_details_load_data@Base 0.12.5
  as_distro_details_new@Base 0.10.0
  as_format_kind_from_string@Base 0.10.0
  as_format_kind_to_string@Base 0.10.0
  as_format_version_from_string@Base 0.10.0
  as_format_version_to_string@Base 0.10.0
  as_get_appstream_version@Base 0.11.7
+ as_get_current_distro_component_id@Base 0.12.5
  as_get_default_categories@Base 0.10.0
  as_icon_get_filename@Base 0.10.0
  as_icon_get_height@Base 0.10.0
@@ -336,24 +340,34 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_get_active_locale@Base 0.10.0
  as_release_get_checksum@Base 0.10.0
  as_release_get_checksums@Base 0.10.0
+ as_release_get_date@Base 0.12.5
+ as_release_get_date_eol@Base 0.12.5
  as_release_get_description@Base 0.10.0
  as_release_get_kind@Base 0.12.0
  as_release_get_locations@Base 0.10.0
  as_release_get_size@Base 0.10.0
  as_release_get_timestamp@Base 0.10.0
+ as_release_get_timestamp_eol@Base 0.12.5
  as_release_get_type@Base 0.10.0
  as_release_get_urgency@Base 0.10.0
+ as_release_get_url@Base 0.12.5
  as_release_get_version@Base 0.10.0
  as_release_kind_from_string@Base 0.12.0
  as_release_kind_to_string@Base 0.12.0
  as_release_new@Base 0.10.0
  as_release_set_active_locale@Base 0.10.0
+ as_release_set_date@Base 0.12.5
+ as_release_set_date_eol@Base 0.12.5
  as_release_set_description@Base 0.10.0
  as_release_set_kind@Base 0.12.0
  as_release_set_size@Base 0.10.0
  as_release_set_timestamp@Base 0.10.0
+ as_release_set_timestamp_eol@Base 0.12.5
  as_release_set_urgency@Base 0.10.0
+ as_release_set_url@Base 0.12.5
  as_release_set_version@Base 0.10.0
+ as_release_url_kind_from_string@Base 0.12.5
+ as_release_url_kind_to_string@Base 0.12.5
  as_release_vercmp@Base 0.10.0
  as_screenshot_add_image@Base 0.10.0
  as_screenshot_get_active_locale@Base 0.10.0
@@ -399,6 +413,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_url_kind_from_string@Base 0.10.0
  as_url_kind_to_string@Base 0.10.0
  as_utils_compare_versions@Base 0.10.0
+ as_utils_dns_to_rdns@Base 0.12.5
  as_utils_find_files@Base 0.10.0
  as_utils_find_files_matching@Base 0.10.0
  as_utils_is_category_name@Base 0.10.0
