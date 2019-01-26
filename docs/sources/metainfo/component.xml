@@ -186,7 +186,7 @@
 			A long description of this component. Some markup can be used.
 		</para>
 		<para>
-			Do not assume the format is HTML. Only paragraph (<literal>p</literal>), ordered list (<literal>ol</literal>) and unordered list (<literal>ul</literal>) are supported at this time.
+			Do not assume the format is HTML. Only paragraph (<literal>p</literal>), ordered list (<literal>ol</literal>) and unordered list (<literal>ul</literal>) with their list items (<literal>li</literal>) are currently supported.
 		</para>
 		<para>
 			In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <literal>&lt;p/&gt;</literal> child
@@ -397,6 +397,10 @@
 				In case both release-time tags are present, the <literal>timestamp</literal> tag will take precedence over <literal>date</literal>.
 			</para>
 			<para>
+				A <literal>release</literal> tag may also have a <literal>date_eol</literal> property that denotes the date when the release stops to receive
+				support from the software developers (end-of-life). Its value can be any time in <ulink url="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</ulink>.
+			</para>
+			<para>
 				Optionally, the <code>&lt;release/&gt;</code> tag may also have an <literal>urgency</literal> property, having one of the following values:
 			</para>
 			<itemizedlist>
@@ -412,7 +416,7 @@
 				The urgency defines how the update will be presented to the user, and sometimes if it will be installed automatically and immediately, or delayed.
 			</para>
 			<para>
-				Finally a <literal>release</literal> tag may have a <literal>type</literal> property
+				A <literal>release</literal> tag may have a <literal>type</literal> property
 				to classify releases with one of the following values:
 			</para>
 			<itemizedlist>
@@ -437,12 +441,19 @@
 				The size itself is set as the value and must be given in bytes.
 			</para>
 			<para>
+				A release may also have an <literal>url</literal> tag as child.
+				The release url should point to detailed release notes that explain the changes made in this particular release.
+				The <literal>url</literal> tag may have a <literal>type</literal> property with <code>details</code> as the only currently
+				allowed value. If the <literal>type</literal> is missing, an URL type of <code>details</code> is implicitly assumed.
+			</para>
+			<para>
 			Examples for a valid releases tag:
 			</para>
 			<programlisting language="XML"><![CDATA[<releases>
   <release version="1.2" date="2014-04-12" urgency="high">
     <size type="download">12345678</size>
     <size type="installed">42424242</size>
+    <url>https://example.org/releases/version-1.2.html</url>
   </release>
   <release version="1.1" type="development" date="2013-10-20" />
   <release version="1.0" date="2012-08-26" />

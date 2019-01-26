@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2019 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -47,6 +47,8 @@ typedef struct
 	gchar		*version;
 	GHashTable	*description;
 	guint64		timestamp;
+	gchar		*date;
+	gchar		*date_eol;
 
 	AsContext	*context;
 	gchar		*active_locale_override;
@@ -54,6 +56,8 @@ typedef struct
 	GPtrArray	*locations;
 	GPtrArray	*checksums;
 	guint64		size[AS_SIZE_KIND_LAST];
+
+	gchar		*url_details;
 
 	AsUrgencyKind	urgency;
 } AsReleasePrivate;
@@ -99,6 +103,44 @@ as_release_kind_from_string (const gchar *kind_str)
 	if (g_strcmp0 (kind_str, "development") == 0)
 		return AS_RELEASE_KIND_DEVELOPMENT;
 	return AS_RELEASE_KIND_UNKNOWN;
+}
+
+/**
+ * as_release_url_kind_to_string:
+ * @kind: the #AsReleaseUrlKind.
+ *
+ * Converts the enumerated value to an text representation.
+ *
+ * Returns: string version of @kind
+ *
+ * Since: 0.12.5
+ **/
+const gchar*
+as_release_url_kind_to_string (AsReleaseUrlKind kind)
+{
+	if (kind == AS_RELEASE_URL_KIND_DETAILS)
+		return "details";
+	return "unknown";
+}
+
+/**
+ * as_release_url_kind_from_string:
+ * @kind_str: the string.
+ *
+ * Converts the text representation to an enumerated value.
+ *
+ * Returns: an #AsReleaseUrlKind or %AS_RELEASE_URL_KIND_UNKNOWN for unknown
+ *
+ * Since: 0.12.5
+ **/
+AsReleaseUrlKind
+as_release_url_kind_from_string (const gchar *kind_str)
+{
+	if (kind_str == NULL)
+		return AS_RELEASE_URL_KIND_DETAILS;
+	if (g_strcmp0 (kind_str, "details") == 0)
+		return AS_RELEASE_URL_KIND_DETAILS;
+	return AS_RELEASE_URL_KIND_UNKNOWN;
 }
 
 /**
@@ -174,6 +216,9 @@ as_release_finalize (GObject *object)
 
 	g_free (priv->version);
 	g_free (priv->active_locale_override);
+	g_free (priv->date);
+	g_free (priv->date_eol);
+	g_free (priv->url_details);
 	g_hash_table_unref (priv->description);
 	g_ptr_array_unref (priv->locations);
 	g_ptr_array_unref (priv->checksums);
@@ -263,7 +308,7 @@ as_release_set_version (AsRelease *release, const gchar *version)
  *
  * Compare the version numbers of two releases.
  *
- * Returns: 1 if @rel1 version is higher than @rel2, 0 if versions are equal, -1 if @rel1 version is higher than @rel2.
+ * Returns: 1 if @rel1 version is higher than @rel2, 0 if versions are equal, -1 if @rel2 version is higher than @rel1.
  */
 gint
 as_release_vercmp (AsRelease *rel1, AsRelease *rel2)
@@ -298,7 +343,146 @@ void
 as_release_set_timestamp (AsRelease *release, guint64 timestamp)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
+	GTimeVal time;
+
 	priv->timestamp = timestamp;
+	time.tv_sec = priv->timestamp;
+	time.tv_usec = 0;
+
+	g_free (priv->date);
+	priv->date = g_time_val_to_iso8601 (&time);
+}
+
+/**
+ * as_release_get_date:
+ * @release: a #AsRelease instance.
+ *
+ * Gets the release date.
+ *
+ * Returns: The date in ISO8601 format.
+ *
+ * Since: 0.12.5
+ **/
+const gchar*
+as_release_get_date (AsRelease *release)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	return priv->date;
+}
+
+/**
+ * as_release_set_date:
+ * @release: a #AsRelease instance.
+ * @date: the date in ISO8601 format.
+ *
+ * Sets the release date.
+ *
+ * Since: 0.12.5
+ **/
+void
+as_release_set_date (AsRelease *release, const gchar *date)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	g_autoptr(GDateTime) time;
+
+	time = as_iso8601_to_datetime (date);
+	if (time != NULL) {
+		priv->timestamp = g_date_time_to_unix (time);
+	} else {
+		g_warning ("Tried to set invalid release date: %s", date);
+		return;
+	}
+
+	g_free (priv->date);
+	priv->date = g_strdup (date);
+}
+
+/**
+ * as_release_get_date_eol:
+ * @release: a #AsRelease instance.
+ *
+ * Gets the end-of-life date for this release.
+ *
+ * Returns: The EOL date in ISO8601 format.
+ *
+ * Since: 0.12.5
+ **/
+const gchar*
+as_release_get_date_eol (AsRelease *release)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	return priv->date_eol;
+}
+
+/**
+ * as_release_set_date_eol:
+ * @release: a #AsRelease instance.
+ * @date: the EOL date in ISO8601 format.
+ *
+ * Sets the end-of-life date for this release.
+ *
+ * Since: 0.12.5
+ **/
+void
+as_release_set_date_eol (AsRelease *release, const gchar *date)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	g_free (priv->date_eol);
+	priv->date_eol = g_strdup (date);
+}
+
+/**
+ * as_release_get_timestamp_eol:
+ * @release: a #AsRelease instance.
+ *
+ * Gets the UNIX timestamp for the date when this
+ * release is out of support (end-of-life).
+ *
+ * Returns: UNIX timestamp, or 0 for unset or invalid.
+ *
+ * Since: 0.12.5
+ **/
+guint64
+as_release_get_timestamp_eol (AsRelease *release)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	g_autoptr(GDateTime) time;
+
+	if (priv->date_eol == NULL)
+		return 0;
+
+	time = as_iso8601_to_datetime (priv->date_eol);
+	if (time != NULL) {
+		return g_date_time_to_unix (time);
+	} else {
+		g_warning ("Unable to retrieve EOL timestamp from EOL date: %s", priv->date_eol);
+		return 0;
+	}
+}
+
+/**
+ * as_release_set_timestamp_eol:
+ * @release: a #AsRelease instance.
+ * @timestamp: the timestamp value.
+ *
+ * Sets the UNIX timestamp for the date when this
+ * release is out of support (end-of-life).
+ *
+ * Since: 0.12.5
+ **/
+void
+as_release_set_timestamp_eol (AsRelease *release, guint64 timestamp)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+	GTimeVal time;
+
+	if (timestamp == 0)
+		return;
+
+	time.tv_sec = timestamp;
+	time.tv_usec = 0;
+	g_free (priv->date_eol);
+	priv->date_eol = g_time_val_to_iso8601 (&time);
 }
 
 /**
@@ -509,6 +693,7 @@ as_release_get_checksums (AsRelease *release)
 
 /**
  * as_release_get_checksum:
+ * @release: a #AsRelease instance.
  *
  * Gets the release checksum
  *
@@ -544,6 +729,48 @@ as_release_add_checksum (AsRelease *release, AsChecksum *cs)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
 	g_ptr_array_add (priv->checksums, g_object_ref (cs));
+}
+
+/**
+ * as_release_get_url:
+ * @release: a #AsRelease instance.
+ * @url_kind: the URL kind, e.g. %AS_RELEASE_URL_KIND_DETAILS.
+ *
+ * Gets an URL.
+ *
+ * Returns: (nullable): string, or %NULL if unset
+ *
+ * Since: 0.12.5
+ **/
+const gchar*
+as_release_get_url (AsRelease *release, AsReleaseUrlKind url_kind)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+
+	if (url_kind == AS_RELEASE_URL_KIND_DETAILS)
+		return priv->url_details;
+	return NULL;
+}
+
+/**
+ * as_release_set_url:
+ * @release: a #AsRelease instance.
+ * @url_kind: the URL kind, e.g. %AS_RELEASE_URL_KIND_DETAILS
+ * @url: the full URL.
+ *
+ * Sets an URL for this release.
+ *
+ * Since: 0.12.5
+ **/
+void
+as_release_set_url (AsRelease *release, AsReleaseUrlKind url_kind, const gchar *url)
+{
+	AsReleasePrivate *priv = GET_PRIVATE (release);
+
+	if (url_kind == AS_RELEASE_URL_KIND_DETAILS) {
+		g_free (priv->url_details);
+		priv->url_details = g_strdup (url);
+	}
 }
 
 /**
@@ -634,10 +861,18 @@ as_release_load_from_xml (AsRelease *release, AsContext *ctx, xmlNode *node, GEr
 		time = as_iso8601_to_datetime (prop);
 		if (time != NULL) {
 			priv->timestamp = g_date_time_to_unix (time);
+			g_free (priv->date);
+			priv->date = prop;
 		} else {
 			g_debug ("Invalid ISO-8601 date in releases at %s line %li", as_context_get_filename (ctx), xmlGetLineNo (node));
+			g_free (prop);
 		}
-		g_free (prop);
+	}
+
+	prop = (gchar*) xmlGetProp (node, (xmlChar*) "date_eol");
+	if (prop != NULL) {
+		g_free (priv->date_eol);
+		priv->date_eol = prop;
 	}
 
 	prop = (gchar*) xmlGetProp (node, (xmlChar*) "timestamp");
@@ -694,6 +929,10 @@ as_release_load_from_xml (AsRelease *release, AsContext *ctx, xmlNode *node, GEr
 									(GHFunc) as_release_parse_xml_metainfo_description_cb,
 									release);
 			}
+		} else if (g_strcmp0 ((gchar*) iter->name, "url") == 0) {
+			/* NOTE: Currently, every url in releases is a "details" URL */
+			content = as_xml_get_node_value (iter);
+			as_release_set_url (release, AS_RELEASE_URL_KIND_DETAILS, content);
 		}
 	}
 
@@ -739,6 +978,12 @@ as_release_to_xml_node (AsRelease *release, AsContext *ctx, xmlNode *root)
 		}
 	}
 
+	/* set end-of-life date */
+	if (priv->date_eol != NULL) {
+		xmlNewProp (subnode, (xmlChar*) "date_eol",
+				(xmlChar*) priv->date_eol);
+	}
+
 	/* set release urgency, if we have one */
 	if (priv->urgency != AS_URGENCY_KIND_UNKNOWN) {
 		const gchar *urgency_str;
@@ -778,6 +1023,10 @@ as_release_to_xml_node (AsRelease *release, AsContext *ctx, xmlNode *root)
 
 	/* add description */
 	as_xml_add_description_node (ctx, subnode, priv->description);
+
+	/* add details URL */
+	if (priv->url_details != NULL)
+		xmlNewTextChild (subnode, NULL, (xmlChar*) "url", (xmlChar*) priv->url_details);
 }
 
 /**
@@ -812,6 +1061,8 @@ as_release_load_from_yaml (AsRelease *release, AsContext *ctx, GNode *node, GErr
 			} else {
 				g_debug ("Invalid ISO-8601 date in %s", as_context_get_filename (ctx)); // FIXME: Better error, maybe with line number?
 			}
+		} else if (g_strcmp0 (key, "date-eol") == 0) {
+			as_release_set_date_eol (release, value);
 		} else if (g_strcmp0 (key, "type") == 0) {
 			priv->kind = as_release_kind_from_string (value);
 		} else if (g_strcmp0 (key, "version") == 0) {
@@ -820,6 +1071,18 @@ as_release_load_from_yaml (AsRelease *release, AsContext *ctx, GNode *node, GErr
 			priv->urgency = as_urgency_kind_from_string (value);
 		} else if (g_strcmp0 (key, "description") == 0) {
 			as_yaml_set_localized_table (ctx, n, priv->description);
+		} else if (g_strcmp0 (key, "url") == 0) {
+			GNode *urls_n;
+			AsReleaseUrlKind url_kind;
+
+			for (urls_n = n->children; urls_n != NULL; urls_n = urls_n->next) {
+				const gchar *key = as_yaml_node_get_key (urls_n);
+				const gchar *value = as_yaml_node_get_value (urls_n);
+
+				url_kind = as_release_url_kind_from_string (key);
+				if ((url_kind != AS_RELEASE_URL_KIND_UNKNOWN) && (value != NULL))
+					as_release_set_url (release, url_kind, value);
+			}
 		} else {
 			as_yaml_print_unknown ("release", key);
 		}
@@ -868,6 +1131,9 @@ as_release_emit_yaml (AsRelease *release, AsContext *ctx, yaml_emitter_t *emitte
 		}
 	}
 
+	/* EOL date */
+	as_yaml_emit_entry (emitter, "date-eol", priv->date_eol);
+
 	/* urgency */
 	if (priv->urgency != AS_URGENCY_KIND_UNKNOWN) {
 		as_yaml_emit_entry (emitter,
@@ -890,6 +1156,18 @@ as_release_emit_yaml (AsRelease *release, AsContext *ctx, yaml_emitter_t *emitte
 		}
 
 		as_yaml_sequence_end (emitter);
+	}
+
+	/* Urls */
+	if (priv->url_details != NULL) {
+		as_yaml_emit_scalar (emitter, "url");
+		as_yaml_mapping_start (emitter);
+
+		as_yaml_emit_entry (emitter,
+				    as_release_url_kind_to_string (AS_RELEASE_URL_KIND_DETAILS),
+				    (const gchar*) priv->url_details);
+
+		as_yaml_mapping_end (emitter);
 	}
 
 	/* TODO: Checksum and size are missing, because they are not specified yet for DEP-11.
@@ -945,6 +1223,7 @@ as_release_to_variant (AsRelease *release, GVariantBuilder *builder)
 	g_variant_builder_add_parsed (&rel_b, "{'timestamp', <%t>}", priv->timestamp);
 	g_variant_builder_add_parsed (&rel_b, "{'urgency', <%u>}", priv->urgency);
 	g_variant_builder_add_parsed (&rel_b, "{'description', %v}", as_variant_mstring_new (as_release_get_description (release)));
+	g_variant_builder_add_parsed (&rel_b, "{'date_eol', %v}", as_variant_mstring_new (priv->date_eol));
 
 	locations_var = as_variant_from_string_ptrarray (priv->locations);
 	if (locations_var)
@@ -957,6 +1236,20 @@ as_release_to_variant (AsRelease *release, GVariantBuilder *builder)
 	sizes_var = have_sizes? g_variant_builder_end (&sizes_b) : NULL;
 	if (sizes_var)
 		g_variant_builder_add_parsed (&rel_b, "{'sizes', %v}", sizes_var);
+
+	/* URLs */
+	if (priv->url_details != NULL) {
+		GVariantBuilder dict_b;
+
+		g_variant_builder_init (&dict_b, G_VARIANT_TYPE_DICTIONARY);
+		g_variant_builder_add (&dict_b,
+					"{uv}",
+					(AsReleaseUrlKind) GPOINTER_TO_INT (AS_RELEASE_URL_KIND_DETAILS),
+					g_variant_new_string ((const gchar*) priv->url_details));
+
+		as_variant_builder_add_kv (&rel_b, "urls",
+					   g_variant_builder_end (&dict_b));
+	}
 
 	g_variant_builder_add_value (builder, g_variant_builder_end (&rel_b));
 }
@@ -984,6 +1277,9 @@ as_release_set_from_variant (AsRelease *release, GVariant *variant, const gchar 
 	priv->kind = as_variant_get_dict_uint32 (&rdict, "kind");
 
 	as_release_set_version (release, as_variant_get_dict_mstr (&rdict, "version", &tmp));
+	g_variant_unref (tmp);
+
+	as_release_set_date_eol (release, as_variant_get_dict_mstr (&rdict, "date_eol", &tmp));
 	g_variant_unref (tmp);
 
 	tmp = g_variant_dict_lookup_value (&rdict, "timestamp", G_VARIANT_TYPE_UINT64);
@@ -1028,6 +1324,26 @@ as_release_set_from_variant (AsRelease *release, GVariant *variant, const gchar 
 				as_release_add_checksum (release, cs);
 
 			g_variant_unref (inner_child);
+		}
+		g_variant_unref (tmp);
+	}
+
+	/* URLs */
+	tmp = g_variant_dict_lookup_value (&rdict, "urls", G_VARIANT_TYPE_DICTIONARY);
+	if (tmp != NULL) {
+		GVariant *child;
+
+		g_variant_iter_init (&riter, tmp);
+		while ((child = g_variant_iter_next_value (&riter))) {
+			AsReleaseUrlKind kind;
+			g_autoptr(GVariant) url_var = NULL;
+
+			g_variant_get (child, "{uv}", &kind, &url_var);
+			as_release_set_url (release,
+					    kind,
+					    g_variant_get_string (url_var, NULL));
+
+			g_variant_unref (child);
 		}
 		g_variant_unref (tmp);
 	}
