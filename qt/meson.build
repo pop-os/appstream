@@ -21,7 +21,9 @@ asqt_src = [
     'contentrating.cpp',
     'launchable.cpp',
     'translation.cpp',
-    'metadata.cpp'
+    'metadata.cpp',
+    'spdx.cpp',
+    'utils.cpp'
 ]
 
 asqt_pub_headers = [
@@ -39,7 +41,9 @@ asqt_pub_headers = [
     'contentrating.h',
     'launchable.h',
     'translation.h',
-    'metadata.h'
+    'metadata.h',
+    'spdx.h',
+    'utils.h'
 ]
 
 asqt_priv_headers = [
