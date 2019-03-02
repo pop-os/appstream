@@ -21,6 +21,25 @@ libappstream.so.4 libappstream4 #MINVER#
  as_agreement_section_set_name@Base 0.12.1
  as_agreement_set_kind@Base 0.12.1
  as_agreement_set_version_id@Base 0.12.1
+ as_artifact_add_checksum@Base 0.12.6
+ as_artifact_add_location@Base 0.12.6
+ as_artifact_emit_yaml@Base 0.12.6
+ as_artifact_get_bundle_kind@Base 0.12.6
+ as_artifact_get_checksum@Base 0.12.6
+ as_artifact_get_checksums@Base 0.12.6
+ as_artifact_get_kind@Base 0.12.6
+ as_artifact_get_locations@Base 0.12.6
+ as_artifact_get_platform@Base 0.12.6
+ as_artifact_get_size@Base 0.12.6
+ as_artifact_get_type@Base 0.12.6
+ as_artifact_kind_from_string@Base 0.12.6
+ as_artifact_kind_to_string@Base 0.12.6
+ as_artifact_load_from_yaml@Base 0.12.6
+ as_artifact_new@Base 0.12.6
+ as_artifact_set_bundle_kind@Base 0.12.6
+ as_artifact_set_kind@Base 0.12.6
+ as_artifact_set_platform@Base 0.12.6
+ as_artifact_set_size@Base 0.12.6
  as_bundle_get_id@Base 0.10.0
  as_bundle_get_kind@Base 0.10.0
  as_bundle_get_type@Base 0.10.0
@@ -335,9 +354,11 @@ libappstream.so.4 libappstream4 #MINVER#
  as_relation_set_value@Base 0.12.0
  as_relation_set_version@Base 0.12.0
  as_relation_version_compare@Base 0.12.0
+ as_release_add_artifact@Base 0.12.6
  as_release_add_checksum@Base 0.10.0
  as_release_add_location@Base 0.10.0
  as_release_get_active_locale@Base 0.10.0
+ as_release_get_artifacts@Base 0.12.6
  as_release_get_checksum@Base 0.10.0
  as_release_get_checksums@Base 0.10.0
  as_release_get_date@Base 0.12.5
