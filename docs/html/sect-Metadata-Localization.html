@@ -5,6 +5,8 @@
 			The <code class="literal">localization</code> component type describes language packs for individual software components or groups of software components. A language pack includes anything necessary to localize a software component for a specific language and/or country. This is usually translations, but may also be translated media content, currency information and other things. A <code class="literal">localization</code> component <code class="literal">extends</code> one or multiple other components and defines the languages it provides via its <code class="literal">languages</code> tag.
 		</div><div class="para">
 			Language packs can ship one or more metainfo files as <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
+		</div><div class="para">
+			Do not confuse language packs with the software collection <a class="xref" href="chap-CollectionData.html#tag-ct-languages">&lt;languages/&gt;</a> tag, used to identify bundled translations.
 		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-l10n-example">
       ⁠</a>2.12.2. Example file</h3></div></div></div><div class="para">
 			A localization metainfo file can look like this:
