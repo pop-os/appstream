@@ -29,7 +29,11 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;releases&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"3.0.2"</span><span xmlns="" class="perl_Others"> date=</span><span xmlns="" class="perl_String">"2015-02-16"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;location&gt;</span>http://www.hughski.com/downloads/colorhug-als/firmware/colorhug-als-3.0.2.cab<span xmlns="" class="perl_Keyword">&lt;/location&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;artifacts&gt;</span>
+<span xmlns="" class="line">​</span>        <span xmlns="" class="perl_Keyword">&lt;artifact</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"binary"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>          <span xmlns="" class="perl_Keyword">&lt;location&gt;</span>http://www.hughski.com/downloads/colorhug-als/firmware/colorhug-als-3.0.2.cab<span xmlns="" class="perl_Keyword">&lt;/location&gt;</span>
+<span xmlns="" class="line">​</span>        <span xmlns="" class="perl_Keyword">&lt;/artifact&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;/artifacts&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
 <span xmlns="" class="line">​</span>        <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>This stable release fixes the following bugs:<span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
 <span xmlns="" class="line">​</span>        <span xmlns="" class="perl_Keyword">&lt;ul&gt;</span>
@@ -49,22 +53,23 @@
 						For firmware, the value of the <code class="code">&lt;id/&gt;</code> tag must follow the reverse-DNS scheme as described for generic components. It is sometimes useful to suffix the ID with <code class="literal">.firmware</code> to make it more unique. For example <code class="code">com.hughski.ColorHug2.firmware</code>.
 					</div></dd><dt><a id="tag-firmware-releases">
       ⁠</a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
-						This tag is almost identical to the generic <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> tag. Additional to the generic tag, for each <code class="code">&lt;release/&gt;</code> child a <code class="code">&lt;location/&gt;</code> tag is allowed, in case the component describes flashed firmware.
-					</div><div class="para"><a id="tag-firmware-location">
-      ⁠</a>
-						The <code class="code">&lt;location/&gt;</code> tag specifies a remote location where the firmware <code class="literal">.cab</code> can be downloaded from. The download location needs to be accessible via HTTP, HTTPS or FTP.
+						This tag is identical to the generic <a class="xref" href="chap-Metadata.html#tag-releases">&lt;releases/&gt;</a> tag. Additional to the generic tag, for each <code class="code">&lt;release/&gt;</code> child at least one <code class="code">&lt;artifact/&gt;</code> tag is required in case the component describes flashed firmware.
+					</div><div class="para">
+						The <code class="code">&lt;location/&gt;</code> tag of the binary artifact specifies a remote location where the firmware <code class="literal">.cab</code> can be downloaded from. The download location needs to be accessible via HTTP, HTTPS or FTP.
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;releases&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"3.0.2"</span><span xmlns="" class="perl_Others"> date=</span><span xmlns="" class="perl_String">"2015-02-16"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;location&gt;</span>http://www.hughski.com/downloads/colorhug-als/firmware/colorhug-als-3.0.2.cab<span xmlns="" class="perl_Keyword">&lt;/location&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;artifacts&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;artifact</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"binary"</span><span xmlns="" class="perl_Keyword">&gt;</span>
+<span xmlns="" class="line">​</span>        <span xmlns="" class="perl_Keyword">&lt;location&gt;</span>http://www.hughski.com/downloads/colorhug-als/firmware/colorhug-als-3.0.2.cab<span xmlns="" class="perl_Keyword">&lt;/location&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;/artifact&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/artifacts&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>This stable release fixes bugs.<span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/release&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span></pre><div class="para">
-						The <code class="code">&lt;location/&gt;</code> tag is currently only allowed to be specified once.
-					</div></dd><dt><a id="tag-firmware-provides">
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span></pre></dd><dt><a id="tag-firmware-provides">
       ⁠</a><span class="term">&lt;provides/&gt; ↪ &lt;firmware/&gt;</span></dt><dd><div class="para">
 						The <code class="literal">provides/firmware</code> tag describes the technical information needed to associate a firmware with a device, or describes which runtime firmware file it makes available to the kernel.
 					</div><div class="para">

@@ -239,19 +239,7 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"1.0"</span><span xmlns="" class="perl_Others"> timestamp=</span><span xmlns="" class="perl_String">"1345932000"</span> <span xmlns="" class="perl_Keyword">/&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/releases&gt;</span></pre><div class="para">
 						In case a <code class="code">&lt;release/&gt;</code> tag has a <code class="code">&lt;description/&gt;</code> tag as parameter, describing the new release briefly, distributors are encouraged to provide 2-4 <code class="code">&lt;release/&gt;</code> release tags for every component. If no description is provided, one tag is enough.
-					</div><div class="para">
-						Components of type <code class="literal">firmware</code> (<a class="xref" href="sect-Metadata-Firmware.html">Section 2.10, “Firmware”</a>) may also have a <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-location">&lt;location/&gt;</a> tag as child of one of the <code class="code">&lt;release/&gt;</code> tags. In case a <code class="code">&lt;location/&gt;</code> tag is present, it must be accompanied by a <code class="code">&lt;checksum/&gt;</code> tag, containing a checksum of the downloaded file. This is done to ensure the integrity of the downloaded firmware, and that the user gets the firmware which was tested by the distributor. The <code class="code">&lt;location/&gt;</code> tag is often used in case the distributor is not allowed to legally redistribute the firmware in a native package.
-					</div><div class="para">
-						The <code class="code">&lt;checksum/&gt;</code> tag has a <code class="code">type</code> attribute, describing the checksumming-algorithm that was used to create it. Currently, only <code class="literal">SHA1</code> is supported.
-					</div><div class="para">
-						Example for a <code class="code">&lt;release/&gt;</code> tag of a firmware component which makes use of <code class="code">&lt;location/&gt;</code>:
-					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;release</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"2.0.3"</span><span xmlns="" class="perl_Others"> timestamp=</span><span xmlns="" class="perl_String">"1429362707"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;location&gt;</span>http://www.hughski.com/downloads/colorhug2/firmware/colorhug2-2.0.3.cab<span xmlns="" class="perl_Keyword">&lt;/location&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;checksum</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"sha1"</span><span xmlns="" class="perl_Keyword">&gt;</span>40b59e37cb918f3241f65bc5ac2b90ab47b34e8c<span xmlns="" class="perl_Keyword">&lt;/checksum&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>This stable release fixes problems.<span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/release&gt;</span></pre></dd><dt><a id="tag-ct-languages">
+					</div></dd><dt><a id="tag-ct-languages">
       ⁠</a><span class="term">&lt;languages/&gt;</span></dt><dd><div class="para">
 						This tag gives information about the translations a component provides, and to which extent the software is translated.
 					</div><div class="para">
@@ -281,6 +269,8 @@
 									<a href="http://appimage.org/">AppImageKit</a> bundles, using the value <code class="code">appimage</code>.
 								</div></li><li class="listitem"><div class="para">
 									<a href="http://snapcraft.io/">Snappy</a> snap bundles, using the value <code class="code">snap</code>.
+								</div></li><li class="listitem"><div class="para">
+									Plain and possibly compressed tarballs, using the value <code class="code">tarball</code>.
 								</div></li></ul></div>
 
 					</div><div class="para">
