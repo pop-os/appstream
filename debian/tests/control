@@ -1,5 +1,6 @@
 Tests: build
-Depends: libappstream-dev, build-essential
+Depends: build-essential,
+         libappstream-dev
 
 Tests: cache-refresh
 Depends: appstream
