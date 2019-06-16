@@ -355,14 +355,15 @@ out:
 void
 as_xml_add_description_node (AsContext *ctx, xmlNode *root, GHashTable *desc_table)
 {
-	GHashTableIter iter;
-	gpointer key, value;
+	g_autoptr(GList) keys = NULL;
+	GList *link;
 	xmlNode *desc_node = NULL;
 
-	g_hash_table_iter_init (&iter, desc_table);
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
-		const gchar *locale = (const gchar*) key;
-		const gchar *desc_markup = (const gchar*) value;
+	keys = g_hash_table_get_keys (desc_table);
+	keys = g_list_sort (keys, (GCompareFunc) g_ascii_strcasecmp);
+	for (link = keys; link != NULL; link = link->next) {
+		const gchar *locale = (const gchar*) link->data;
+		const gchar *desc_markup = g_hash_table_lookup (desc_table, locale);
 
 		if (as_is_cruft_locale (locale))
 			continue;
@@ -379,14 +380,15 @@ as_xml_add_description_node (AsContext *ctx, xmlNode *root, GHashTable *desc_tab
 void
 as_xml_add_localized_text_node (xmlNode *root, const gchar *node_name, GHashTable *value_table)
 {
-	GHashTableIter iter;
-	gpointer key, value;
+	g_autoptr(GList) keys = NULL;
+	GList *link;
 
-	g_hash_table_iter_init (&iter, value_table);
-	while (g_hash_table_iter_next (&iter, &key, &value)) {
+	keys = g_hash_table_get_keys (value_table);
+	keys = g_list_sort (keys, (GCompareFunc) g_ascii_strcasecmp);
+	for (link = keys; link != NULL; link = link->next) {
 		xmlNode *cnode;
-		const gchar *locale = (const gchar*) key;
-		const gchar *str = (const gchar*) value;
+		const gchar *locale = (const gchar*) link->data;
+		const gchar *str = (const gchar*) g_hash_table_lookup (value_table, locale);
 
 		if (as_str_empty (str))
 			continue;
@@ -537,7 +539,7 @@ as_xml_set_out_of_context_error (gchar **error_msg_ptr)
  * as_xmldata_parse_document:
  */
 xmlDoc*
-as_xml_parse_document (const gchar *data, GError **error)
+as_xml_parse_document (const gchar *data, gssize len, GError **error)
 {
 	xmlDoc *doc;
 	xmlNode *root;
@@ -548,8 +550,11 @@ as_xml_parse_document (const gchar *data, GError **error)
 		return NULL;
 	}
 
+	if (len < 0)
+		len = strlen (data);
+
 	as_xml_set_out_of_context_error (&error_msg_str);
-	doc = xmlReadMemory (data, strlen (data),
+	doc = xmlReadMemory (data, len,
 			     NULL,
 			     "utf-8",
 			     XML_PARSE_NOBLANKS | XML_PARSE_NONET);

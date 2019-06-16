@@ -25,6 +25,7 @@
 #include "as-pool-private.h"
 #include "as-test-utils.h"
 #include "as-stemmer.h"
+#include "as-cache.h"
 #include "../src/as-utils-private.h"
 #include "../src/as-component-private.h"
 
@@ -61,71 +62,6 @@ _as_get_single_component_by_cid (AsPool *pool, const gchar *cid)
 	if (result->len == 0)
 		return NULL;
 	return g_object_ref (AS_COMPONENT (g_ptr_array_index (result, 0)));
-}
-
-/**
- * test_cache_simple:
- *
- * Test reading simple data from cache files.
- */
-static void
-test_cache_simple ()
-{
-	g_autoptr(AsPool) dpool = NULL;
-	g_autoptr(AsComponent) cpt1 = NULL;
-	g_autoptr(AsComponent) cpt2 = NULL;
-	g_autoptr(AsMetadata) mdata = NULL;
-	g_autoptr(GError) error = NULL;
-
-	/* prepare our components */
-	cpt1 = as_component_new ();
-	as_component_set_kind (cpt1, AS_COMPONENT_KIND_GENERIC);
-	as_component_set_id (cpt1, "org.example.FooBar1");
-	as_component_set_name (cpt1, "FooBar App 1", NULL);
-	as_component_set_summary (cpt1, "A unit-test dummy entry", NULL);
-
-	cpt2 = as_component_new ();
-	as_component_set_kind (cpt2, AS_COMPONENT_KIND_DESKTOP_APP);
-	as_component_set_id (cpt2, "org.example.NewFooBar");
-	as_component_set_name (cpt2, "Second FooBar App", NULL);
-	as_component_set_summary (cpt2, "Another unit-test dummy entry", NULL);
-	as_component_insert_custom_value (cpt2, "mykey", "stuff");
-
-	/* add data to the pool */
-	dpool = as_pool_new ();
-	as_pool_add_component (dpool, cpt1, &error);
-	g_assert_no_error (error);
-
-	as_pool_add_component (dpool, cpt2, &error);
-	g_assert_no_error (error);
-
-	/* export cache file and destroy old data pool */
-	as_pool_save_cache_file (dpool, "/tmp/as-unittest-dummy.gvz", &error);
-	g_assert_no_error (error);
-	g_object_unref (dpool);
-	g_object_unref (cpt1);
-	g_object_unref (cpt2);
-
-	/* load cache file */
-	dpool = as_pool_new ();
-	as_pool_load_cache_file (dpool, "/tmp/as-unittest-dummy.gvz", &error);
-	g_assert_no_error (error);
-
-	/* validate */
-	cpt1 = _as_get_single_component_by_cid (dpool, "org.example.FooBar1");
-	g_assert_nonnull (cpt1);
-
-	cpt2 = _as_get_single_component_by_cid (dpool, "org.example.NewFooBar");
-	g_assert_nonnull (cpt2);
-
-	g_assert_cmpint (as_component_get_kind (cpt1), ==, AS_COMPONENT_KIND_GENERIC);
-	g_assert_cmpstr (as_component_get_name (cpt1), ==, "FooBar App 1");
-	g_assert_cmpstr (as_component_get_summary (cpt1), ==, "A unit-test dummy entry");
-
-	g_assert_cmpint (as_component_get_kind (cpt2), ==, AS_COMPONENT_KIND_DESKTOP_APP);
-	g_assert_cmpstr (as_component_get_name (cpt2), ==, "Second FooBar App");
-	g_assert_cmpstr (as_component_get_summary (cpt2), ==, "Another unit-test dummy entry");
-	g_assert_cmpstr (as_component_get_custom_value (cpt2, "mykey"), ==, "stuff");
 }
 
 /**
@@ -208,24 +144,28 @@ as_assert_component_lists_equal (GPtrArray *cpts_a, GPtrArray *cpts_b)
 }
 
 /**
- * test_cache_complex:
+ * test_cache:
  *
  * Test if cache file (de)serialization works.
  */
 static void
-test_cache_complex ()
+test_cache ()
 {
 	g_autoptr(AsPool) pool = NULL;
 	g_autoptr(GPtrArray) cpts_prev = NULL;
 	g_autoptr(GPtrArray) cpts_post = NULL;
 	g_autoptr(AsMetadata) mdata = NULL;
+	g_autoptr(AsCache) cache = NULL;
+	g_autoptr(AsComponent) ccpt = NULL;
 	g_autoptr(GError) error = NULL;
 	g_autofree gchar *xmldata_precache = NULL;
 	g_autofree gchar *xmldata_postcache = NULL;
-	GPtrArray *cpts;
-	guint i;
+	gboolean ret;
+	static const gchar *cache_testpath = "/tmp/as-unittest-cache.cache";
 
 	pool = test_get_sampledata_pool (FALSE);
+	as_pool_set_cache_location (pool, cache_testpath);
+
 	as_pool_load (pool, NULL, &error);
 	g_assert_no_error (error);
 
@@ -234,9 +174,10 @@ test_cache_complex ()
 
 	/* get XML representation of the data currently in the pool */
 	mdata = as_metadata_new ();
-	cpts = as_pool_get_components (pool);
-	for (i = 0; i < cpts->len; i++) {
-		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+	cpts_prev = as_pool_get_components (pool);
+	as_sort_components (cpts_prev);
+	for (guint i = 0; i < cpts_prev->len; i++) {
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts_prev, i));
 
 		/* keywords are not cached explicitly, they are stored in the search terms list instead. Therefore, we don't
 		 * serialize them here */
@@ -251,32 +192,51 @@ test_cache_complex ()
 	xmldata_precache = as_metadata_components_to_collection (mdata, AS_FORMAT_KIND_XML, &error);
 	g_assert_no_error (error);
 
-	/* save cache file explicitly */
-	as_cache_file_save ("/tmp/as-unittest-cache.gvz", "C", cpts_prev, &error);
+	/* ensure we get the same result back that we cached before */
+	g_object_unref (pool);
+	pool = test_get_sampledata_pool (FALSE);
+	as_pool_clear_metadata_locations (pool);
+	as_pool_set_cache_flags (pool, as_pool_get_cache_flags (pool) | AS_CACHE_FLAG_NO_CLEAR);
+
+	as_pool_set_cache_location (pool, cache_testpath);
+	as_pool_load (pool, NULL, &error);
 	g_assert_no_error (error);
 
-	/* test deserialization */
-	cpts_post = as_cache_file_read ("/tmp/as-unittest-cache.gvz", &error);
-	g_assert_no_error (error);
+	cpts_post = as_pool_get_components (pool);
 	g_assert_cmpint (cpts_post->len, ==, 19);
 	as_assert_component_lists_equal (cpts_post, cpts_prev);
 
-	/* ensure we get the same result back that we cached before */
-	g_object_unref (pool);
-	pool = as_pool_new ();
-	as_pool_load_cache_file (pool, "/tmp/as-unittest-cache.gvz", &error);
-	g_assert_no_error (error);
-
 	as_metadata_clear_components (mdata);
-	cpts = as_pool_get_components (pool);
-	for (i = 0; i < cpts->len; i++) {
-		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts, i));
+	as_sort_components (cpts_post);
+	for (guint i = 0; i < cpts_post->len; i++) {
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts_post, i));
 		as_metadata_add_component (mdata, cpt);
 	}
 
 	xmldata_postcache = as_metadata_components_to_collection (mdata, AS_FORMAT_KIND_XML, &error);
 	g_assert_no_error (error);
 	g_assert (as_test_compare_lines (xmldata_precache, xmldata_postcache));
+
+	/* load an "modify" read-only cache */
+	cache = as_cache_new ();
+	as_cache_set_readonly (cache, TRUE);
+	as_cache_open (cache, cache_testpath, "C", &error);
+	g_assert_no_error (error);
+
+	ccpt = as_cache_get_component_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	g_assert_no_error (error);
+	g_assert_nonnull (ccpt);
+
+	g_assert_cmpstr (as_component_get_name (ccpt), ==, "Inkscape");
+	g_object_unref (ccpt);
+
+	ret = as_cache_remove_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	g_assert_no_error (error);
+	g_assert (ret);
+
+	ccpt = as_cache_get_component_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	g_assert_no_error (error);
+	g_assert_null (ccpt);
 }
 
 /**
@@ -342,11 +302,11 @@ test_pool_read ()
 	/* test searching for multiple words */
 	result = as_pool_search (dpool, "scalable graphics");
 	print_cptarray (result);
-	g_assert_cmpint (result->len, ==, 1);
+	g_assert_cmpint (result->len, ==, 2);
 	g_clear_pointer (&result, g_ptr_array_unref);
 
 	/* we return all components if the search string is too short */
-	result = as_pool_search (dpool, "sh");
+	result = as_pool_search (dpool, "s");
 	g_assert_cmpint (result->len, ==, 19);
 	g_clear_pointer (&result, g_ptr_array_unref);
 
@@ -552,8 +512,7 @@ main (int argc, char **argv)
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
 	g_test_add_func ("/AppStream/PoolRead", test_pool_read);
-	g_test_add_func ("/AppStream/Cache/Basic", test_cache_simple);
-	g_test_add_func ("/AppStream/Cache/Complex", test_cache_complex);
+	g_test_add_func ("/AppStream/Cache", test_cache);
 	g_test_add_func ("/AppStream/Merges", test_merge_components);
 
 #ifdef HAVE_STEMMING

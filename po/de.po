@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AppStream\n"
 "Report-Msgid-Bugs-To: appstream@lists.freedesktop.org\n"
-"POT-Creation-Date: 2019-01-26 17:14+0100\n"
-"PO-Revision-Date: 2019-01-06 11:05+0000\n"
-"Last-Translator: Johannes Keyser <johanneskeyser@posteo.de>\n"
+"POT-Creation-Date: 2019-06-16 18:42+0200\n"
+"PO-Revision-Date: 2019-04-16 07:03+0000\n"
+"Last-Translator: CurlingTongs <o11577482@nwytg.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/appstream/"
 "translations/de/>\n"
 "Language: de\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 3.4-dev\n"
+"X-Generator: Weblate 3.6-dev\n"
 
 #: tools/appstream-cli.c:146
 #, c-format
 msgid "'%s' command"
-msgstr "Befehl „%s”"
+msgstr "Befehl »%s«"
 
 #: src/as-category.c:168
 msgctxt "Category of Graphics"
@@ -54,7 +54,7 @@ msgstr "Auch kleinste Hinweise anzeigen."
 
 #: tools/appstream-cli.c:696
 msgid "An item type (e.g. lib, bin, python3, …)"
-msgstr "Ein Elementtyp (z.B. lib, bin, python3, …)"
+msgstr "Ein Elementtyp (z. B. lib, bin, python3, …)"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:9
 msgid "An utility to work with AppStream metadata"
@@ -62,7 +62,7 @@ msgstr "Ein Dienstprogramm zum Arbeiten mit AppStream-Metadaten"
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:8
 msgid "AppStream CLI"
-msgstr "AppStream CLI"
+msgstr "AppStream-CLI"
 
 #. TRANSLATORS: Output if appstreamcli --version is run and the CLI and libappstream versions differ.
 #: tools/appstream-cli.c:789
@@ -85,7 +85,7 @@ msgstr "AppStream-Status:"
 msgid "AppStream cache update completed successfully."
 msgstr "AppStream-Zwischenspeicher wurde erfolgreich vervollständigt."
 
-#: src/as-pool.c:1634
+#: src/as-pool.c:1799
 #, c-format
 msgid ""
 "AppStream cache update failed. Turn on verbose mode to get more detailed "
@@ -98,7 +98,7 @@ msgstr ""
 #: tools/ascli-actions-mdata.c:86
 msgid "AppStream cache update is not necessary."
 msgstr ""
-"Zwischenspeicher wurde nicht aktualisiert, so dass das Aktualisierung nicht "
+"Zwischenspeicher wurde nicht aktualisiert, so dass die Aktualisierung nicht "
 "notwendig war."
 
 #. TRANSLATORS: This is the header to the --help menu for subcommands
@@ -112,10 +112,10 @@ msgid ""
 "AppStream is a cross-distribution specification to provide metadata about "
 "software components."
 msgstr ""
-"AppStream ist eine Distributionsübergreifende Spezifikation zur "
+"AppStream ist eine distributionsübergreifende Spezifikation zur "
 "Bereitstellung von Metadaten über Softwarekomponenten."
 
-#: src/as-pool.c:1620
+#: src/as-pool.c:1786
 #, c-format
 msgid "AppStream system cache was updated, but problems were found: %s"
 msgstr ""
@@ -158,7 +158,7 @@ msgctxt "Category of AudioVideo"
 msgid "Audio Creation & Editing"
 msgstr "Audioerstellung und Bearbeitung"
 
-#: src/as-provided.c:147
+#: src/as-provided.c:146
 msgid "Binaries"
 msgstr "Binärdateien"
 
@@ -176,24 +176,24 @@ msgstr "Brettspiele"
 msgid "Bundle"
 msgstr "Bündel"
 
-#: src/as-pool.c:1560
+#: src/as-pool.c:1687
 #, c-format
 msgid "Cache location '%s' is not writable."
-msgstr "Zwischenspeicheradresse „%s” ist nicht beschreibbar."
+msgstr "Zwischenspeicheradresse »%s« ist nicht beschreibbar."
 
 #: src/as-category.c:191
 msgctxt "Category of Office"
 msgid "Calendar"
 msgstr "Kalender"
 
-#: tools/ascli-actions-mdata.c:324
+#: tools/ascli-actions-mdata.c:327
 #, c-format
 msgid ""
 "Can not copy '%s': File does not have a '.metainfo.xml' or '.appdata.xml' "
 "suffix."
 msgstr ""
-"„%s” konnte nicht kopiert werden: Datei besitzt keine „. metainfo.xml”- oder "
-"„.appdata.xml”-Dateiendung."
+"»%s« konnte nicht kopiert werden: Datei besitzt keine keine Dateiendung »."
+"metainfo.xml«- oder ».appdata.xml«."
 
 #: src/as-category.c:138
 msgctxt "Category of Games"
@@ -231,9 +231,9 @@ msgstr "Kommunikation und Nachrichten"
 
 #: tools/appstream-cli.c:712
 msgid "Compare two version numbers."
-msgstr "Vergleiche zwei Versionsnummern."
+msgstr "Zwei Versionsnummern vergleichen."
 
-#: src/as-provided.c:167
+#: src/as-provided.c:166
 msgid "Component"
 msgstr "Komponente"
 
@@ -241,7 +241,7 @@ msgstr "Komponente"
 #: tools/ascli-actions-pkgmgr.c:106
 #, c-format
 msgid "Component '%s' has no installation candidate."
-msgstr "Die Komponente „%s” besitzt keinen Installationskandidaten."
+msgstr "Die Komponente »%s« besitzt keinen Installationskandidaten."
 
 #: tools/ascli-utils.c:374
 msgid "Compulsory for"
@@ -250,13 +250,13 @@ msgstr "Verpflichtend für"
 #. TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data.
 #: tools/appstream-cli.c:711
 msgid "Convert collection XML to YAML or vice versa."
-msgstr "Konvertiert XML-Sammlungen nach YAML und umgekehrt"
+msgstr "Konvertiert XML-Sammlungen nach YAML und umgekehrt."
 
 #. TRANSLATORS: Search for provided items (e.g. mimetypes, modaliases, ..) yielded no results
-#: tools/ascli-actions-mdata.c:225
+#: tools/ascli-actions-mdata.c:228
 #, c-format
 msgid "Could not find component providing '%s::%s'."
-msgstr "Es konnte keine Komponente gefunden werden, die „%s;%s” bereitstellt."
+msgstr "Es konnte keine Komponente gefunden werden, die »%s;%s« bereitstellt."
 
 #: tools/appstream-cli.c:713
 msgid ""
@@ -266,11 +266,11 @@ msgstr ""
 "Erstellen Sie eine Vorlage für eine Metainfo-Datei (die vom vorgelagerten "
 "Projekt auszufüllen ist)."
 
-#: src/as-provided.c:161
+#: src/as-provided.c:160
 msgid "DBus Session Services"
 msgstr "DBus-Sitzungsdienste"
 
-#: src/as-provided.c:159
+#: src/as-provided.c:158
 msgid "DBus System Services"
 msgstr "DBus-Systemdienste"
 
@@ -291,7 +291,7 @@ msgstr "Standardadresse für Bildschirmfotos"
 #. TRANSLATORS: ascli flag description for: --format
 #: tools/appstream-cli.c:83
 msgid "Default metadata format (valid values are 'xml' and 'yaml')."
-msgstr "Standard-Metadatenformat (gültige Werte sind „XML” und „YAML”)."
+msgstr "Standard-Metadatenformat (gültige Werte sind »XML« und »YAML«)."
 
 #: tools/ascli-utils.c:330
 msgid "Description"
@@ -414,11 +414,11 @@ msgctxt "Category of Office"
 msgid "Finance"
 msgstr "Finanzen"
 
-#: src/as-provided.c:165
+#: src/as-provided.c:164
 msgid "Flashed Firmware"
 msgstr "Aufgespielte Firmware"
 
-#: src/as-provided.c:151
+#: src/as-provided.c:150
 msgid "Fonts"
 msgstr "Schriftarten"
 
@@ -490,7 +490,7 @@ msgstr "Metadaten im richtigen Ort installieren."
 msgid "Install software matching the component-ID."
 msgstr "Anwendung mit passender Komponentenkennung installieren."
 
-#: tools/ascli-actions-mdata.c:210
+#: tools/ascli-actions-mdata.c:213
 msgid "Invalid type for provided item selected. Valid values are:"
 msgstr ""
 "Ungültiger Typ für bereitgestelltes Objekt angegeben. Gültige Werte sind:"
@@ -510,7 +510,7 @@ msgctxt "Category of Education"
 msgid "Languages"
 msgstr "Sprachen"
 
-#: src/as-provided.c:145
+#: src/as-provided.c:144
 msgid "Libraries"
 msgstr "Bibliotheken"
 
@@ -529,7 +529,7 @@ msgctxt "Category of Games"
 msgid "Logic"
 msgstr "Logik"
 
-#: src/as-provided.c:149
+#: src/as-provided.c:148
 msgid "MIME types"
 msgstr "MIME-Typen"
 
@@ -548,7 +548,7 @@ msgstr "Ort des AppStream-Zwischenspeichers manuell angeben."
 msgid "Manually selected location of AppStream metadata to scan."
 msgstr "Ort der AppStream-Metadaten manuell angeben."
 
-#: src/as-pool.c:1093
+#: src/as-pool.c:1201
 msgid ""
 "Many components have been recognized as invalid. See debug output for "
 "details."
@@ -566,12 +566,12 @@ msgctxt "Category of Science"
 msgid "Math"
 msgstr "Mathematik"
 
-#: tools/ascli-actions-mdata.c:361
+#: tools/ascli-actions-mdata.c:364
 #, c-format
 msgid "Metadata file '%s' does not exist."
 msgstr "Metadaten-Datei »%s« existiert nicht."
 
-#: src/as-pool.c:767
+#: src/as-pool.c:841
 msgid "Metadata files have errors:"
 msgstr "Metadaten-Dateien haben Fehler:"
 
@@ -580,9 +580,9 @@ msgstr "Metadaten-Dateien haben Fehler:"
 msgid "Metainfo files:"
 msgstr "Metainfo-Dateien:"
 
-#: src/as-provided.c:153
+#: src/as-provided.c:152
 msgid "Modaliases"
-msgstr "Modaliase"
+msgstr "Modalias"
 
 #: src/as-category.c:74
 msgctxt "Category of AudioVideo"
@@ -598,7 +598,7 @@ msgctxt "Category of Communication"
 msgid "News"
 msgstr "Nachrichten"
 
-#: tools/ascli-actions-mdata.c:179
+#: tools/ascli-actions-mdata.c:182
 #, c-format
 msgid "No component matching '%s' found."
 msgstr "Es wurde keine auf »%s« passende Komponente gefunden."
@@ -616,7 +616,7 @@ msgstr ""
 "Bitte stellen Sie sicher, dass zum Beispiel »pkcon« (Teil von PackageKit) "
 "verfügbar ist."
 
-#: tools/ascli-actions-mdata.c:203
+#: tools/ascli-actions-mdata.c:206
 msgid "No value for the item to search for was defined."
 msgstr "Kein Wert für das zu suchende Objekt angegeben."
 
@@ -654,11 +654,11 @@ msgstr "Projektgruppe"
 msgid "Provided Items"
 msgstr "Bereitgestellte Objekte"
 
-#: src/as-provided.c:155
+#: src/as-provided.c:154
 msgid "Python (Version 2)"
 msgstr "Python (Version 2)"
 
-#: src/as-provided.c:157
+#: src/as-provided.c:156
 msgid "Python 3"
 msgstr "Python 3"
 
@@ -697,7 +697,7 @@ msgstr ""
 "Optionen zu sehen. Rufen Sie »%s %s --help« auf, um eine Liste der "
 "spezifischen Optionen für diesen Unterbefehl zu erhalten."
 
-#: src/as-provided.c:163
+#: src/as-provided.c:162
 msgid "Runtime Firmware"
 msgstr "Laufzeit-Firmware"
 
@@ -769,12 +769,12 @@ msgctxt "Category of Utility"
 msgid "Text Editors"
 msgstr "Textbearbeitung"
 
-#: tools/ascli-actions-mdata.c:464
+#: tools/ascli-actions-mdata.c:467
 #, c-format
 msgid "The .desktop file '%s' does not exist."
 msgstr "Die .desktop Datei »%s« ist nicht vorhanden."
 
-#: src/as-pool.c:1618
+#: src/as-pool.c:1784
 msgid ""
 "The AppStream system cache was updated, but some errors were detected, which "
 "might lead to missing metadata. Refer to the verbose log for more "
@@ -788,15 +788,15 @@ msgstr ""
 #: tools/appstream-cli.c:657
 #, c-format
 msgid "The TYPE must be a valid component-type, such as: %s"
-msgstr "Der TYPE muss ein gültiger Komponententyp sein, Beispielsweise: %s"
+msgstr "Der TYPE muss ein gültiger Komponententyp sein, beispielsweise: %s"
 
-#: tools/ascli-actions-mdata.c:446
+#: tools/ascli-actions-mdata.c:449
 #, c-format
 msgid ""
 "The software component type '%s' is not valid in AppStream. Possible values "
 "are:"
 msgstr ""
-"Der Software-Komponententyp „%s” ist in AppStream nicht gültig. Mögliche "
+"Der Software-Komponententyp »%s« ist in AppStream nicht gültig. Mögliche "
 "Werte sind:"
 
 #. TRANSLATORS: Additional help text for the 'new-template' ascli subcommand
@@ -806,7 +806,7 @@ msgid ""
 "file to write to (or \"-\" for standard output)."
 msgstr ""
 "Dieser Befehl verwendet optionale TYPE- und FILE-Positionsargumente, wobei "
-"FILE eine Datei ist, in die geschrieben werden muss (oder „-” für die "
+"FILE eine Datei ist, in die geschrieben werden muss (oder »-« für die "
 "Standardausgabe)."
 
 #: data/org.freedesktop.appstream.cli.metainfo.xml:15
@@ -829,13 +829,13 @@ msgstr ""
 "Zu viele Parameter: Es werden zwei Versionsnummern oder Versionsnummern und "
 "ein Vergleichsoperator benötigt."
 
-#: tools/ascli-actions-mdata.c:541
+#: tools/ascli-actions-mdata.c:544
 #, c-format
 msgid "Unable to build the template metainfo file: %s"
-msgstr "Nicht in der Lage, die Metainfo Vorlagendatei zu erstellen: %s"
+msgstr "Die Metainfo-Vorlagendatei konnte nicht erstellt werden: %s"
 
 #. TRANSLATORS: User is trying to convert a file in ascli
-#: tools/ascli-actions-mdata.c:397
+#: tools/ascli-actions-mdata.c:400
 msgid ""
 "Unable to convert file: Could not determine output format, please set it "
 "explicitly using '--format='."
@@ -844,23 +844,27 @@ msgstr ""
 "werden. Bitte legen Sie es explizit mit »--format=« fest."
 
 #. TRANSLATORS: We failed to find any component in the database, likely due to an error
-#: tools/ascli-actions-mdata.c:174
+#: tools/ascli-actions-mdata.c:177
 #, c-format
 msgid "Unable to find component matching %s!"
 msgstr "Eine %s entsprechende Komponente konnte nicht gefunden werden!"
 
-#: tools/ascli-actions-mdata.c:141 tools/ascli-actions-mdata.c:263
+#: tools/ascli-actions-mdata.c:144 tools/ascli-actions-mdata.c:266
 #: tools/ascli-actions-pkgmgr.c:93
 #, c-format
 msgid "Unable to find component with ID '%s'!"
 msgstr "Komponente mit Kennung »%s« kann nicht gefunden werden!"
 
-#: tools/ascli-actions-mdata.c:470
+#: tools/ascli-actions-mdata.c:473
 #, c-format
 msgid "Unable to read the .desktop file: %s"
 msgstr "Die .desktop-Datei konnte nicht gelesen werden: %s"
 
-#: tools/ascli-actions-mdata.c:549
+#: src/as-pool.c:583
+msgid "Unable to remove old cache."
+msgstr ""
+
+#: tools/ascli-actions-mdata.c:552
 #, c-format
 msgid "Unable to save the template metainfo file: %s"
 msgstr "Die Metainfo-Datei der Vorlage kann nicht gespeichert werden: %s"
@@ -870,17 +874,17 @@ msgstr "Die Metainfo-Datei der Vorlage kann nicht gespeichert werden: %s"
 msgid "Unable to spawn package manager: %s"
 msgstr "Paketverwaltung konnte nicht aufgerufen werden: %s"
 
-#: tools/ascli-actions-mdata.c:319
+#: tools/ascli-actions-mdata.c:322
 #, c-format
 msgid "Unable to write to '%s', can not install metainfo file."
 msgstr ""
-"'%s' kann nicht geschrieben werden, kann metainfo-Datei nicht installieren."
+"»%s« kann nicht geschrieben werden, kann metainfo-Datei nicht installieren."
 
 #. TRANSLATORS: ascli has been run with unknown command.
 #: tools/appstream-cli.c:845
 #, c-format
 msgid "Unknown command '%s'."
-msgstr "Unbekannter Befehl „%s”"
+msgstr "Unbekannter Befehl »%s«"
 
 #. * TRANSLATORS: The user tried to compare version numbers, but the comparison operator (greater-then, equal, etc.) was invalid.
 #: tools/appstream-cli.c:582
@@ -932,7 +936,7 @@ msgstr "Wert des Objekts, das gefunden werden soll."
 #: src/as-category.c:177
 msgctxt "Category of Graphics"
 msgid "Vector Graphics"
-msgstr "Vectorgrafik"
+msgstr "Vektorgrafik"
 
 #: tools/ascli-actions-misc.c:46
 #, c-format
@@ -973,13 +977,13 @@ msgid "You might need superuser permissions to perform this action."
 msgstr ""
 "Sie brauchen vielleicht Administratorrechte, um diese Aktion auszuführen."
 
-#: tools/ascli-actions-mdata.c:444
+#: tools/ascli-actions-mdata.c:447
 msgid ""
 "You need to give an AppStream software component type to generate a "
 "template. Possible values are:"
 msgstr ""
-"Um eine Vorlage zu erstellen, müssen Sie einen Softwarekomponententyp "
-"AppStream angeben. Mögliche Werte sind:"
+"Um eine Vorlage zu erstellen, müssen Sie einen AppStream-"
+"Softwarekomponententyp angeben. Mögliche Werte sind:"
 
 #: tools/appstream-cli.c:553
 msgid ""
@@ -995,7 +999,7 @@ msgstr "Sie müssen einen Befehl angeben."
 
 #. TRANSLATORS: An AppStream component-id is missing in the command-line arguments
 #. TRANSLATORS: ascli was told to find a software component by its ID, but no component-id was specified.
-#: tools/ascli-actions-mdata.c:129 tools/ascli-actions-mdata.c:251
+#: tools/ascli-actions-mdata.c:132 tools/ascli-actions-mdata.c:254
 #: tools/ascli-actions-pkgmgr.c:80
 msgid "You need to specify a component-ID."
 msgstr "Sie müssen eine Komponenten-ID angeben."
@@ -1004,7 +1008,7 @@ msgstr "Sie müssen eine Komponenten-ID angeben."
 msgid "You need to specify a file to validate!"
 msgstr "Sie müssen eine Datei zum Überprüfen angeben!"
 
-#: tools/ascli-actions-mdata.c:306
+#: tools/ascli-actions-mdata.c:309
 msgid "You need to specify a metadata file."
 msgstr "Sie müssen eine Metadatendatei angeben."
 
@@ -1013,11 +1017,11 @@ msgid "You need to specify a root directory to start validation!"
 msgstr ""
 "Sie müssen ein Root-Verzeichnis angeben, um die Validierung zu starten!"
 
-#: tools/ascli-actions-mdata.c:161
+#: tools/ascli-actions-mdata.c:164
 msgid "You need to specify a term to search for."
 msgstr "Sie müssen einen Suchbegriff angeben."
 
-#: tools/ascli-actions-mdata.c:354
+#: tools/ascli-actions-mdata.c:357
 msgid "You need to specify an input and output file."
 msgstr "Sie müssen eine Eingabe- und Ausgabedatei angeben."
 
@@ -1027,7 +1031,7 @@ msgstr "Sie müssen eine Eingabe- und Ausgabedatei angeben."
 #. * to include in a search but that should normally be ignored in
 #. * the search.
 #.
-#: src/as-pool.c:104
+#: src/as-pool.c:106
 msgid "app;application;package;program;programme;suite;tool"
 msgstr "app;anwendung;paket;programm;programme;suite;werkzeug"
 

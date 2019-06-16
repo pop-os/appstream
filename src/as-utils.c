@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2019 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C)      2016 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -1113,6 +1113,12 @@ as_utils_build_data_id (AsComponentScope scope,
 			AsBundleKind bundle_kind,
 			const gchar *cid)
 {
+	/* if we have a package in system scope, the origin is "os", as they share the same namespace
+	 * and we can not have multiple versions of the same software installed on the system.
+	 * The data ID is needed to deduplicate entries */
+	if ((scope == AS_COMPONENT_SCOPE_SYSTEM) && (bundle_kind == AS_BUNDLE_KIND_PACKAGE))
+		origin = "os";
+
 	/* build the data-id */
 	return g_strdup_printf ("%s/%s/%s/%s",
 				as_component_scope_to_string (scope),
@@ -1168,22 +1174,15 @@ as_utils_get_component_bundle_kind (AsComponent *cpt)
 gchar*
 as_utils_build_data_id_for_cpt (AsComponent *cpt)
 {
-	const gchar *origin;
 	AsBundleKind bundle_kind;
 
 	/* determine bundle - what should we do if there are multiple bundles of different types
 	 * defined for one component? */
 	bundle_kind = as_utils_get_component_bundle_kind (cpt);
 
-	/* NOTE: packages share one namespace, therefore we edit the origin here for now. */
-	if (bundle_kind == AS_BUNDLE_KIND_PACKAGE)
-		origin = "os";
-	else
-		origin = as_component_get_origin (cpt);
-
 	/* build the data-id */
 	return as_utils_build_data_id (as_component_get_scope (cpt),
-					origin,
+					as_component_get_origin (cpt),
 					bundle_kind,
 					as_component_get_id (cpt));
 }
@@ -1228,4 +1227,37 @@ as_utils_dns_to_rdns (const gchar *url, const gchar *suffix)
 		g_string_truncate (new_cid, new_cid->len - 1);
 
 	return g_string_free (new_cid, FALSE);
+}
+
+/**
+ * as_sort_components_by_score_cb:
+ *
+ * Helper method to sort result arrays by the #AsComponent match score
+ * with higher scores appearing higher in the list.
+ */
+static gint
+as_sort_components_by_score_cb (gconstpointer a, gconstpointer b)
+{
+	guint s1, s2;
+	AsComponent *cpt1 = *((AsComponent **) a);
+	AsComponent *cpt2 = *((AsComponent **) b);
+	s1 = as_component_get_sort_score (cpt1);
+	s2 = as_component_get_sort_score (cpt2);
+
+	if (s1 > s2)
+		return -1;
+	if (s1 < s2)
+		return 1;
+	return 0;
+}
+
+/**
+ * as_utils_sort_components_by_score:
+ *
+ * Sort components by their (search) match score.
+ */
+void
+as_utils_sort_components_by_score (GPtrArray *cpts)
+{
+	g_ptr_array_sort (cpts, as_sort_components_by_score_cb);
 }
