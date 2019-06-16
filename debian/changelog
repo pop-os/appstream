@@ -1,3 +1,15 @@
+appstream (0.12.7-1) unstable; urgency=medium
+
+  * New upstream version: 0.12.7
+  * Upload to unstable
+  * Drop patches: Applied upstream
+  * Update .symbols file
+  * 01_use-fallback-tempdir-if-user-home-does-not-exist.patch:
+    - Fix test failure
+  * Build-depend on LMDB
+
+ -- Matthias Klumpp <mak@debian.org>  Sun, 16 Jun 2019 22:16:48 +0200
+
 appstream (0.12.6-2) experimental; urgency=medium
 
   * Cherry-pick patches from upstream to fix test failures with GLib 2.59
