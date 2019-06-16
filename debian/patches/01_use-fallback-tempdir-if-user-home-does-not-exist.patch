@@ -1,0 +1,35 @@
+From 71bcc01b0a1b2921d573a35d4f32382c74223ab7 Mon Sep 17 00:00:00 2001
+From: Matthias Klumpp <matthias@tenstral.net>
+Date: Sun, 16 Jun 2019 22:58:45 +0200
+Subject: [PATCH] Use fallback tempdir if user /home does not exist
+
+This is the case in many automated test environments, e.g. when building
+& testing Debian packages.
+It also makes the cache more robust in general.
+---
+ src/as-cache.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/as-cache.c b/src/as-cache.c
+index 41f78a8..c13d7c0 100644
+--- a/src/as-cache.c
++++ b/src/as-cache.c
+@@ -737,10 +737,13 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
+ 
+ 	/* determine where to put a volatile database */
+ 	if (g_strcmp0 (fname, ":temporary") == 0) {
+-		if (as_utils_is_root ())
++		if (as_utils_is_root ()) {
+ 			volatile_dir = g_get_tmp_dir ();
+-		else
++		} else {
+ 			volatile_dir = g_get_user_cache_dir ();
++			if ((volatile_dir == NULL) || (!g_file_test (volatile_dir, G_FILE_TEST_IS_DIR)))
++				volatile_dir = g_get_tmp_dir ();
++		}
+ 
+ 		/* we can skip syncs in temporary mode - in case of a crash, the data is lost anyway */
+ 		nosync = TRUE;
+-- 
+2.20.1
+
