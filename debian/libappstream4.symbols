@@ -1,5 +1,5 @@
 libappstream.so.4 libappstream4 #MINVER#
- AS_APPSTREAM_METADATA_PATHS@Base 0.10.0
+ AS_SYSTEM_COLLECTION_METADATA_PATHS@Base 0.10.0
  as_agreement_add_section@Base 0.12.1
  as_agreement_get_kind@Base 0.12.1
  as_agreement_get_section_default@Base 0.12.1
@@ -48,8 +48,37 @@ libappstream.so.4 libappstream4 #MINVER#
  as_bundle_new@Base 0.10.0
  as_bundle_set_id@Base 0.10.0
  as_bundle_set_kind@Base 0.10.0
- as_cache_file_read@Base 0.10.0
- as_cache_file_save@Base 0.10.0
+ as_cache_checksum_equal@Base 0.12.7
+ as_cache_checksum_hash@Base 0.12.7
+ as_cache_close@Base 0.12.7
+ as_cache_count_components@Base 0.12.7
+ as_cache_error_quark@Base 0.12.7
+ as_cache_get_component_by_data_id@Base 0.12.7
+ as_cache_get_components_all@Base 0.12.7
+ as_cache_get_components_by_categories@Base 0.12.7
+ as_cache_get_components_by_id@Base 0.12.7
+ as_cache_get_components_by_kind@Base 0.12.7
+ as_cache_get_components_by_launchable@Base 0.12.7
+ as_cache_get_components_by_provided_item@Base 0.12.7
+ as_cache_get_ctime@Base 0.12.7
+ as_cache_get_location@Base 0.12.7
+ as_cache_get_nosync@Base 0.12.7
+ as_cache_get_readonly@Base 0.12.7
+ as_cache_get_type@Base 0.12.7
+ as_cache_has_component_id@Base 0.12.7
+ as_cache_insert@Base 0.12.7
+ as_cache_is_open@Base 0.12.7
+ as_cache_make_floating@Base 0.12.7
+ as_cache_new@Base 0.12.7
+ as_cache_open2@Base 0.12.7
+ as_cache_open@Base 0.12.7
+ as_cache_remove_by_data_id@Base 0.12.7
+ as_cache_search@Base 0.12.7
+ as_cache_set_location@Base 0.12.7
+ as_cache_set_nosync@Base 0.12.7
+ as_cache_set_readonly@Base 0.12.7
+ as_cache_set_refine_func@Base 0.12.7
+ as_cache_unfloat@Base 0.12.7
  as_category_add_child@Base 0.10.0
  as_category_add_component@Base 0.10.0
  as_category_add_desktop_group@Base 0.10.0
@@ -133,6 +162,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_recommends@Base 0.12.0
  as_component_get_releases@Base 0.10.0
  as_component_get_requires@Base 0.12.0
+ as_component_get_scope@Base 0.12.7
  as_component_get_screenshots@Base 0.10.0
  as_component_get_search_tokens@Base 0.10.0
  as_component_get_source_pkgname@Base 0.10.0
@@ -153,6 +183,8 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_kind_get_type@Base 0.10.0
  as_component_kind_to_string@Base 0.10.0
  as_component_new@Base 0.10.0
+ as_component_scope_from_string@Base 0.12.7
+ as_component_scope_to_string@Base 0.12.7
  as_component_search_matches@Base 0.10.0
  as_component_search_matches_all@Base 0.10.0
  as_component_set_active_locale@Base 0.10.0
@@ -171,6 +203,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_priority@Base 0.10.2
  as_component_set_project_group@Base 0.10.0
  as_component_set_project_license@Base 0.10.0
+ as_component_set_scope@Base 0.12.7
  as_component_set_source_pkgname@Base 0.10.0
  as_component_set_summary@Base 0.10.0
  as_component_set_value_flags@Base 0.10.0
@@ -188,6 +221,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_context_get_architecture@Base 0.11.1
  as_context_get_filename@Base 0.11.2
  as_context_get_format_version@Base 0.11.1
+ as_context_get_internal_mode@Base 0.12.7
  as_context_get_locale@Base 0.11.1
  as_context_get_media_baseurl@Base 0.11.1
  as_context_get_origin@Base 0.11.1
@@ -199,6 +233,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_context_set_architecture@Base 0.11.1
  as_context_set_filename@Base 0.11.2
  as_context_set_format_version@Base 0.11.1
+ as_context_set_internal_mode@Base 0.12.7
  as_context_set_locale@Base 0.11.1
  as_context_set_media_baseurl@Base 0.11.1
  as_context_set_origin@Base 0.11.1
@@ -222,6 +257,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_get_appstream_version@Base 0.11.7
  as_get_current_distro_component_id@Base 0.12.5
  as_get_default_categories@Base 0.10.0
+ as_get_license_url@Base 0.12.7
  as_icon_get_filename@Base 0.10.0
  as_icon_get_height@Base 0.10.0
  as_icon_get_kind@Base 0.10.0
@@ -301,10 +337,12 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_set_write_header@Base 0.10.0
  as_pool_add_component@Base 0.10.0
  as_pool_add_metadata_location@Base 0.10.0
+ as_pool_clear2@Base 0.12.7
  as_pool_clear@Base 0.10.0
  as_pool_clear_metadata_locations@Base 0.10.0
  as_pool_error_quark@Base 0.10.0
  as_pool_get_cache_flags@Base 0.10.0
+ as_pool_get_cache_location@Base 0.12.7
  as_pool_get_components@Base 0.10.0
  as_pool_get_components_by_categories@Base 0.10.0
  as_pool_get_components_by_id@Base 0.10.0
@@ -318,9 +356,11 @@ libappstream.so.4 libappstream4 #MINVER#
  as_pool_load_cache_file@Base 0.10.0
  as_pool_new@Base 0.10.0
  as_pool_refresh_cache@Base 0.10.0
+ as_pool_refresh_system_cache@Base 0.12.7
  as_pool_save_cache_file@Base 0.10.0
  as_pool_search@Base 0.10.0
  as_pool_set_cache_flags@Base 0.10.0
+ as_pool_set_cache_location@Base 0.12.7
  as_pool_set_flags@Base 0.10.2
  as_pool_set_locale@Base 0.10.0
  as_provided_add_item@Base 0.10.0
