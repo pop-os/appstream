@@ -41,7 +41,7 @@
       ⁠</a><span class="term">&lt;metadata_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;metadata_license/&gt;</code> tag indicates the content license that you are releasing the one metainfo XML file under. This is typically not the same as the project license. Omitting the license value can result in your data not being incorporated into the distribution metadata (so this is a required tag).
 					</div><div class="para">
-						A <a href="https://en.wikipedia.org/wiki/Permissive_software_licence">permissive</a> license ensures your data can be combined with arbitrary other data in one file (this means copyleft licenses like the GPL are not suitable as metadata license). Valid permissive licenses include:
+						A <a href="https://en.wikipedia.org/wiki/Permissive_software_licence">permissive</a> license ensures your data can be combined with arbitrary other data in one file (this means copyleft licenses like the GPL are not suitable as metadata license). Currently, only a restricted set of permissive licenses is supported by AppStream implementations. Valid permissive licenses include:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 								<code class="literal">CC0-1.0</code>
 							</div></li><li class="listitem"><div class="para">
@@ -75,7 +75,7 @@
       ⁠</a><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
 						A long description of this component. Some markup can be used.
 					</div><div class="para">
-						Do not assume the format is HTML. Only paragraph (<code class="literal">p</code>), ordered list (<code class="literal">ol</code>) and unordered list (<code class="literal">ul</code>) with their list items (<code class="literal">li</code>) are currently supported.
+						Do not assume the format is HTML. Only paragraph (<code class="literal">p</code>), ordered list (<code class="literal">ol</code>) and unordered list (<code class="literal">ul</code>) with their list items (<code class="literal">li</code>) are currently supported. Nested lists are not supported.
 					</div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
 					</div></dd><dt><a id="tag-categories">
@@ -286,11 +286,20 @@
 									<code class="literal">MIT</code>
 								</div></li><li class="listitem"><div class="para">
 									<code class="literal">CC-BY-SA-2.0</code>
+								</div></li><li class="listitem"><div class="para">
+									<code class="literal">LicenseRef-Proprietary=https://example.com/mylicense.html</code>
 								</div></li></ul></div>
 						 A full list of recognized licenses and their identifiers can be found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>.
 					</div><div class="para">
-						Although the <code class="literal">project_license</code> tag is not mandatory, it is recommended to include it.
-					</div></dd><dt><a id="tag-developer_name">
+						Custom licenses which are not in the SPDX registry, like proprietary licenses, can be denoted using the <code class="code">LicenseRef</code> notation. <code class="code">LicenseRef-Proprietary</code> can be used to denote a proprietary license, with an optional URL to the license text following after a <code class="code">=</code> sign.
+					</div><div class="para">
+						Although the <code class="literal">project_license</code> tag is not mandatory, it is highly recommended to include it.
+					</div><div class="para">
+						Examples:
+					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>LGPL-3.0+ OR MPL-2.0<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>LGPL-3.0+ OR MPL-2.0<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>GPL-3.0-or-later<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;ptoject_license&gt;</span>LicenseRef-proprietary=https://code.visualstudio.com/license<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span></pre></dd><dt><a id="tag-developer_name">
       ⁠</a><span class="term">&lt;developer_name/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;developer_name/&gt;</code> tag is designed to represent the developers or project responsible for development of the project described in the metadata.
 					</div><div class="para">
@@ -348,7 +357,7 @@
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;update_contact&gt;</span>developer_AT_example.com<span xmlns="" class="perl_Keyword">&lt;/update_contact&gt;</span></pre></dd><dt><a id="tag-translation">
       ⁠</a><span class="term">&lt;translation/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;translation/&gt;</code> tag is an optional tag which can be added to specify the translation domain used for this software component. It may be used by the AppStream distro metadata generator to determine the translation status of the respective software.
+						The <code class="code">&lt;translation/&gt;</code> tag is an optional tag which can be added to specify the translation domain used for this software component. It may be used by the AppStream distro metadata generator to determine the translation status of the respective software (e.g. which languages the software is translated into and how complete the translations are).
 					</div><div class="para">
 						The tag must have a <code class="literal">type</code> property, assuming the value of the translation system which is used. Right now, allowed translation systems and values for <code class="literal">type</code> are: 
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">

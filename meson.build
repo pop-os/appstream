@@ -3,7 +3,7 @@ project('AppStream', 'c',
   default_options: ['c_std=gnu11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.12.6',
+  version: '0.12.7',
 )
 
 ccompiler = meson.get_compiler('c')
@@ -66,6 +66,7 @@ gio_dep = dependency('gio-2.0', version : '>=2.54')
 gio_unix_dep = dependency('gio-unix-2.0', version : '>=2.54')
 xml2_dep = dependency('libxml-2.0')
 yaml_dep = dependency('yaml-0.1')
+lmdb_dep = dependency('lmdb')
 
 if get_option ('gir')
     # ensure we have a version of GIR that isn't broken with Meson

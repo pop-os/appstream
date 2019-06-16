@@ -9,7 +9,7 @@ aslib_src = [
     'as-context.c',
     'as-xml.c',
     'as-yaml.c',
-    'as-variant-cache.c',
+    'as-cache.c',
     'as-desktop-entry.c',
     'as-distro-extras.c',
     'as-stemmer.c',
@@ -75,7 +75,7 @@ aslib_priv_headers = [
     'as-context.h',
     'as-xml.h',
     'as-yaml.h',
-    'as-variant-cache.h',
+    'as-cache.h',
     'as-desktop-entry.h',
     'as-pool-private.h',
     'as-image-private.h',
@@ -127,7 +127,12 @@ aslib_gperf_yaml = custom_target(
 )
 aslib_src = aslib_src + [aslib_gperf_xml, aslib_gperf_yaml]
 
-aslib_deps = [glib_dep, xml2_dep, yaml_dep, gobject_dep, gio_unix_dep]
+aslib_deps = [glib_dep,
+              gobject_dep,
+              gio_unix_dep,
+              lmdb_dep,
+              xml2_dep,
+              yaml_dep]
 if get_option ('stemming')
     aslib_deps += [stemmer_lib]
 endif
