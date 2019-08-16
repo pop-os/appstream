@@ -292,6 +292,8 @@ libappstream.so.4 libappstream4 #MINVER#
  as_image_set_width@Base 0.10.0
  as_is_spdx_license_expression@Base 0.10.0
  as_is_spdx_license_id@Base 0.10.0
+ as_issue_severity_from_string@Base 0.12.8
+ as_issue_severity_to_string@Base 0.12.8
  as_launchable_add_entry@Base 0.11.0
  as_launchable_get_entries@Base 0.11.0
  as_launchable_get_kind@Base 0.11.0
@@ -431,12 +433,15 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_url_kind_to_string@Base 0.12.5
  as_release_vercmp@Base 0.10.0
  as_screenshot_add_image@Base 0.10.0
+ as_screenshot_add_video@Base 0.12.8
  as_screenshot_get_active_locale@Base 0.10.0
  as_screenshot_get_caption@Base 0.10.0
  as_screenshot_get_images@Base 0.10.0
  as_screenshot_get_images_all@Base 0.10.0
  as_screenshot_get_kind@Base 0.10.0
+ as_screenshot_get_media_kind@Base 0.12.8
  as_screenshot_get_type@Base 0.10.0
+ as_screenshot_get_videos@Base 0.12.8
  as_screenshot_is_valid@Base 0.10.0
  as_screenshot_kind_from_string@Base 0.10.0
  as_screenshot_kind_to_string@Base 0.10.0
@@ -486,24 +491,54 @@ libappstream.so.4 libappstream4 #MINVER#
  as_validator_clear_issues@Base 0.10.0
  as_validator_get_check_urls@Base 0.11.7
  as_validator_get_issues@Base 0.10.0
+ as_validator_get_issues_per_file@Base 0.12.8
+ as_validator_get_report_yaml@Base 0.12.8
+ as_validator_get_tag_explanation@Base 0.12.8
+ as_validator_get_tag_severity@Base 0.12.8
  as_validator_get_type@Base 0.10.0
  as_validator_issue_get_cid@Base 0.10.0
+ as_validator_issue_get_explanation@Base 0.12.8
  as_validator_issue_get_filename@Base 0.10.0
+ as_validator_issue_get_hint@Base 0.12.8
  as_validator_issue_get_importance@Base 0.10.0
  as_validator_issue_get_kind@Base 0.10.0
  as_validator_issue_get_line@Base 0.10.0
  as_validator_issue_get_location@Base 0.10.0
  as_validator_issue_get_message@Base 0.10.0
+ as_validator_issue_get_severity@Base 0.12.8
+ as_validator_issue_get_tag@Base 0.12.8
  as_validator_issue_get_type@Base 0.10.0
  as_validator_issue_new@Base 0.10.0
  as_validator_issue_set_cid@Base 0.10.0
+ as_validator_issue_set_explanation@Base 0.12.8
  as_validator_issue_set_filename@Base 0.10.0
+ as_validator_issue_set_hint@Base 0.12.8
  as_validator_issue_set_importance@Base 0.10.0
  as_validator_issue_set_kind@Base 0.10.0
  as_validator_issue_set_line@Base 0.10.0
  as_validator_issue_set_message@Base 0.10.0
+ as_validator_issue_set_severity@Base 0.12.8
+ as_validator_issue_set_tag@Base 0.12.8
  as_validator_new@Base 0.10.0
  as_validator_set_check_urls@Base 0.11.7
  as_validator_validate_data@Base 0.10.0
  as_validator_validate_file@Base 0.10.0
  as_validator_validate_tree@Base 0.10.0
+ as_video_codec_kind_from_string@Base 0.12.8
+ as_video_codec_kind_to_string@Base 0.12.8
+ as_video_container_kind_from_string@Base 0.12.8
+ as_video_container_kind_to_string@Base 0.12.8
+ as_video_get_codec_kind@Base 0.12.8
+ as_video_get_container_kind@Base 0.12.8
+ as_video_get_height@Base 0.12.8
+ as_video_get_locale@Base 0.12.8
+ as_video_get_type@Base 0.12.8
+ as_video_get_url@Base 0.12.8
+ as_video_get_width@Base 0.12.8
+ as_video_new@Base 0.12.8
+ as_video_set_codec_kind@Base 0.12.8
+ as_video_set_container_kind@Base 0.12.8
+ as_video_set_height@Base 0.12.8
+ as_video_set_locale@Base 0.12.8
+ as_video_set_url@Base 0.12.8
+ as_video_set_width@Base 0.12.8
