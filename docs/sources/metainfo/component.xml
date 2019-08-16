@@ -35,9 +35,9 @@
 	</para>
 	<note>
 		<para>
-			Applications are a special case here, because they are usually treated differently by software centers (and also for historical reasons).
-			If your metainfo file contains an application, as described in <xref linkend="sect-Metadata-Application"/>, you may want to install it as
-			<filename>/usr/share/metainfo/%{id}.appdata.xml</filename>.
+			Component metadata of type <literal>desktop-application</literal> as described in <xref linkend="sect-Metadata-Application"/> can be installed
+			with an <filename>.appdata.xml</filename> extension as well for historical reasons.
+			AppStream implementations will read the XML files as long as they end up in the right location on the filesystem.
 		</para>
 	</note>
 	<important>
@@ -46,7 +46,7 @@
 			AppStream tools scan the <filename>/usr/share/appdata/</filename> path for legacy compatibility as well. It should not be used
 			anymore by new software though, even on older Linux distributions (like RHEL 7 and Ubuntu 16.04 LTS) the metainfo path is well
 			supported.
-			Support for the legacy path might be dropped completely in future.
+			Support for the legacy path will likely be dropped completely with a future AppStream 1.0 release.
 		</para>
 	</important>
 
@@ -187,8 +187,28 @@
 			A long description of this component. Some markup can be used.
 		</para>
 		<para>
-			Do not assume the format is HTML. Only paragraph (<literal>p</literal>), ordered list (<literal>ol</literal>) and unordered list (<literal>ul</literal>) with their list items (<literal>li</literal>) are currently supported. Nested lists are not supported.
+			Do not assume the format is HTML. This list contains all currently supported formatting options:
 		</para>
+		<itemizedlist>
+			<listitem>
+			<para>Paragraph (<literal>p</literal>)</para>
+			</listitem>
+			<listitem>
+			<para>Ordered list (<literal>ol</literal>), with list items (<literal>li</literal>)</para>
+			</listitem>
+			<listitem>
+			<para>Unordered list (<literal>ul</literal>), with list items (<literal>li</literal>)</para>
+			</listitem>
+			<listitem>
+			<para>
+				Within paragraphs and list items, emphasis (<literal>em</literal>) and inline code (<literal>code</literal>) text styles are supported.
+				The emphasis is commonly rendered in italic, while inline code is shown in a monospaced font.
+			</para>
+			</listitem>
+			<listitem>
+			<para>Nested lists are not supported</para>
+			</listitem>
+		</itemizedlist>
 		<para>
 			In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <literal>&lt;p/&gt;</literal> child
 			has a language property.
@@ -386,20 +406,22 @@
 			<para>
 				The <code><![CDATA[<releases>]]></code> tag contains <code>&lt;release/&gt;</code> child tags which
 				describe some metainformation about the current release of the described software.
-				The <code>&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for
-				the current version must always be present.
+				Each release of the software component should have a <code>&lt;release/&gt;</code> tag describing it,
+				but at least one <literal>release</literal> child must be present for the current release of the software.
+				The <literal>release</literal> children should be sorted in a latest-to-oldest order to simplify reading
+				the metadata file.
 			</para>
 			<para>
 				A <literal>release</literal> tag can have the properties <literal>version</literal>, <literal>date</literal> and <literal>timestamp</literal>.
 				The <literal>date</literal> property can have any time in <ulink url="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</ulink> format as its value and
-				should be present for every release.
+				should be present for every release. At least day-level granularity is required, which means that the ISO 8601 string must contain at least a full date (e.g. 2019-08-12).
 				The <literal>timestamp</literal> tag contains the release time in the form of a UNIX epoch. This tag should not be used in metainfo files in newly
 				written metadata, but will still be parsed in case it is present. The <literal>timestamp</literal> property is mainly used in generated distro-metadata.
 				In case both release-time tags are present, the <literal>timestamp</literal> tag will take precedence over <literal>date</literal>.
 			</para>
 			<para>
 				A <literal>release</literal> tag may also have a <literal>date_eol</literal> property that denotes the date when the release stops to receive
-				support from the software developers (end-of-life). Its value can be any time in <ulink url="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</ulink>.
+				support from the software developers (end-of-life). Its value can be any complete date or time in <ulink url="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</ulink>.
 			</para>
 			<para>
 				Optionally, the <code>&lt;release/&gt;</code> tag may also have an <literal>urgency</literal> property, having one of the following values:
@@ -827,14 +849,20 @@
 		<listitem>
 		<para>
 			Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
+			Screenshots can be either a video or a static image.
 		</para>
 		<para>
 			The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> children, where at least one of them must have the property
 			<code>type="default"</code> to indicate the primary screenshot of the software. Every <code>&lt;screenshot/&gt;</code> tag must have at least
-			one <code>&lt;image/&gt;</code> child.
+			one <code>&lt;image/&gt;</code> or <code>&lt;video/&gt;</code> child, but never an <literal>image</literal> and <literal>video</literal> at the same time.
+			Also, screenshots containing videos must not be the default screenshot.
 		</para>
 		<para>
-			The value of the <code>&lt;image/&gt;</code> tag is a direct HTTP/HTTPS/FTP URL to a screenshot uploaded to a public location on the web.
+			The value of the <code>&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web.
+			Images should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other
+			images where a lossy format like JPEG may compress better.
+		</para>
+		<para>
 			The <code>&lt;image/&gt;</code> tag may have the following properties:
 			<itemizedlist>
 				<listitem>
@@ -866,13 +894,56 @@
 			</itemizedlist>
 		</para>
 		<para>
+			The value of the <code>&lt;video/&gt;</code> tag is a direct HTTP/HTTPS URL to a video uploaded to a public location on the web. The video must be in a
+			<ulink url="https://www.matroska.org/">Matroska (.mkv)</ulink> or <ulink url="https://www.webmproject.org/">WebM</ulink> container and use either the
+			<ulink url="https://www.webmproject.org/vp9/">VP9</ulink> or <ulink url="http://aomedia.org/av1-features/">AV1</ulink> codec.
+			The video should ideally work without any audio, but if audio is needed, the <ulink url="https://opus-codec.org/">Opus</ulink> codec should be used.
+			Software centers may still play the video without any sound though. Additionally, AppStream metadata repositories (like in distributions such as Fedora and Debian)
+			may impose size limitations to video files delivered by their CDN, so it is recommended to keep the video file size below 10MiB.
+			There is also a chance that software centers do not display any video at all, so a video must never be in a default screenshot.
+		</para>
+		<para>
+			The <code>&lt;video/&gt;</code> tag may have the following properties:
+			<itemizedlist>
+				<listitem>
+					<para><code>container</code></para>
+					<para>
+						The video container used, can be <code>webm</code> or <code>mkv</code>.
+					</para>
+				</listitem>
+				<listitem>
+					<para><code>codec</code></para>
+					<para>
+						The video codec used, can be <code>av1</code> or <code>vp9</code>.
+					</para>
+				</listitem>
+				<listitem>
+					<para><code>width</code></para>
+					<para>
+						The width of the video in pixels.
+					</para>
+				</listitem>
+				<listitem>
+					<para><code>height</code></para>
+					<para>
+						The height of the video in pixels.
+					</para>
+				</listitem>
+				<listitem>
+					<para><code>xml:lang</code></para>
+					<para>
+						The language this video is translated in. This property should only be present if there are multiple videos with
+						different locales present.
+					</para>
+				</listitem>
+			</itemizedlist>
+		</para>
+		<para>
 			Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a translatable <code>&lt;caption/&gt;</code> child, defining a short (ideally not more than 256 characters)
 			description of what the user can see on the referenced screenshot.
 		</para>
 		<para>
-			Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels.
-			They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other
-			images where a lossy format like JPEG may compress better.
+			Ideally, all image screenshots as well as videos should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels.
 		</para>
 		<para>
 			Example:
@@ -885,6 +956,9 @@
   <screenshot>
     <caption>Foobar showing the frobnicate functionality.</caption>
     <image type="source" width="1600" height="900">https://example.com/foobar/screenshot-2.png</image>
+  </screenshot>
+  <screenshot>
+    <video codec="av1" width="1600" height="900">https://example.com/foobar/screencast.mkv</video>
   </screenshot>
  </screenshots>]]></programlisting>
 

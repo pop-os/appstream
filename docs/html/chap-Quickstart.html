@@ -7,9 +7,9 @@
       ⁠</a>4.1.1. Introduction</h3></div></div></div><div class="para">
 			Every software center that exists allows the user to look at screenshots and a long description of the application before it is installed. For most users it allows them to answer the question <span class="quote">“<span class="quote">Do I want to install this application?</span>”</span>. Traditionally in Linux distributions, we have none of this data for the vast majority of our desktop user-installable applications. The packages-descriptions are describing all contents of a package, and not just a single application. They are also often written in a technical language and refer to other packages, which makes it hard for beginners to understand what the application they want to install really does. Additionally, if you are not using Debian or Ubuntu, the package descriptions are often untranslated. Also, packages do not provide some metadata users might be interested in before installing an application.
 		</div><div class="para">
-			To solve this, we have defined a new data file, which the upstream project can optionally translate using the same technique as <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> or GSetting schemas. The application metainfo ("appdata") specification is a subset of the AppStream metadata (see <a class="xref" href="chap-CollectionData.html#sect-AppStream-XML">Section 3.1, “AppStream collection XML”</a>) and extends the generic component metadata with fields specific for applications (see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>).
+			To solve this, we have defined a new data file, which the upstream project can optionally translate using the same technique as <a href="http://standards.freedesktop.org/desktop-entry-spec/latest/">Desktop files</a> or GSetting schemas. The application metainfo specification is a subset of the AppStream metadata (see <a class="xref" href="chap-CollectionData.html#sect-AppStream-XML">Section 3.1, “AppStream collection XML”</a>) and extends the generic component metadata with fields specific for applications (see <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>).
 		</div><div class="para">
-			The application-metainfo files override any values which are automatically fetched by the AppStream data generator. Applications can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.appdata.xml</code>.
+			The application-metainfo files override any values which are automatically fetched by the AppStream data generator. Applications can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
 		</div><div class="para">
 			Application metainfo files can - just like all other metainfo files - be translated. See the section about translation for more information about that.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
@@ -99,13 +99,17 @@
 					</div></dd><dt><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
 						The <code class="literal">&lt;project_license/&gt;</code> tag is indicating the license(s) this application is released under. Take a look at the specification of the <a class="xref" href="chap-Metadata.html#tag-project_license">&lt;project_license/&gt;</a> tag for details on how to properly use it.
 					</div></dd><dt><span class="term">&lt;name/&gt;</span></dt><dd><div class="para">
-						While this tag is always requited for a generic component, for an application metainfo file it is not necessary, but only recommended. You can omit this tag if you want the software center to have the same strings as defined in the <code class="literal">Name</code> field of the <code class="filename">.desktop</code> file. In that case, one <a class="xref" href="chap-Quickstart.html#qsr-app-launchable-info">&lt;launchable/&gt;</a> tag must be present.
+						It is highly recommended to have this tag present and contain a name of your application as value.
 					</div><div class="para">
-						If no <code class="literal">name</code> tag and no <code class="literal">Name</code> field is present, the metadata is considered invalid and might be ignored by the AppStream generator.
+						In theory you can omit this tag and have the AppStream generator of a Linux distribution automatically use the <code class="literal">Name</code> field of the associated <code class="filename">.desktop</code> file (In which case one <a class="xref" href="chap-Quickstart.html#qsr-app-launchable-info">&lt;launchable/&gt;</a> tag must be present). However, a large amount of tools expect the metainfo file to be complete and self-sufficient now, which is why omitting this tag will render it invalid for tools like Flatpak and others use cases which do not involve a metadata preprocessing step.
+					</div><div class="para">
+						If no <code class="literal">name</code> tag (and no <code class="literal">Name</code> desktop-entry field) is present, the metadata is considered invalid and will be ignored by the AppStream generator.
 					</div></dd><dt><span class="term">&lt;summary/&gt;</span></dt><dd><div class="para">
-						While this tag is always requited for a generic component, for a <code class="literal">desktop-application</code> metainfo file it is only essential if the accompanying <code class="filename">.desktop</code> file does not have a <code class="literal">Comment=</code> field. Data from a .desktop file is only taken into consideration if one <a class="xref" href="chap-Quickstart.html#qsr-app-launchable-info">&lt;launchable/&gt;</a> tag is present. If the metainfo file has a <code class="literal">summary</code>, it wil override the value found in the <code class="literal">Comment</code> field of the <code class="filename">.desktop</code> file.
+						It is highly recommended to have this tag present and contain a brief summary of what your application is about.
 					</div><div class="para">
-						If no <code class="literal">summary</code> tag and no <code class="literal">Comment</code> field is present, the metadata is considered invalid and might be ignored by the AppStream generator.
+						In theory you can omit this tag and have the AppStream generator of a Linux distribution automatically use the <code class="literal">Comment</code> field of the associated <code class="filename">.desktop</code> file (In which case one <a class="xref" href="chap-Quickstart.html#qsr-app-launchable-info">&lt;launchable/&gt;</a> tag must be present). However, a large amount of tools expect the metainfo file to be complete and self-sufficient now, which is why omitting this tag will render it invalid for tools like Flatpak and others use cases which do not involve a metadata preprocessing step.
+					</div><div class="para">
+						If no <code class="literal">summary</code> tag (and no <code class="literal">Comment</code> desktop-entry field) is present, the metadata is considered invalid and will be ignored by the AppStream generator.
 					</div></dd><dt><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
 						The long description is an important part of the file. Important things to consider when writing the application description:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
@@ -133,7 +137,7 @@
 							</div></li><li class="listitem"><div class="para">
 								Only mention what the application can do now, rather than what is planned
 							</div></li></ul></div><div class="para">
-						Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time.
+						Do not assume the format is HTML. Only paragraph, ordered list and unordered list are supported at this time, as well as emphasis and inline code. See <a class="xref" href="chap-Metadata.html#tag-description">&lt;description/&gt;</a> for more information.
 					</div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
 					</div></dd><dt><a id="qsr-app-launchable-info">

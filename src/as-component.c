@@ -179,6 +179,7 @@ as_component_kind_get_type (void)
 					{AS_COMPONENT_KIND_SERVICE,      "AS_COMPONENT_KIND_SERVICE",      "service"},
 					{AS_COMPONENT_KIND_REPOSITORY,   "AS_COMPONENT_KIND_REPOSITORY",   "repository"},
 					{AS_COMPONENT_KIND_OPERATING_SYSTEM, "AS_COMPONENT_KIND_OPERATING_SYSTEM", "operating-system"},
+					{AS_COMPONENT_KIND_ICON_THEME,   "AS_COMPONENT_KIND_ICON_THEME",   "icon-theme"},
 					{0, NULL, NULL}
 		};
 		GType as_component_type_type_id;
@@ -227,6 +228,8 @@ as_component_kind_to_string (AsComponentKind kind)
 		return "repository";
 	if (kind == AS_COMPONENT_KIND_OPERATING_SYSTEM)
 		return "operating-system";
+	if (kind == AS_COMPONENT_KIND_ICON_THEME)
+		return "icon-theme";
 	return "unknown";
 }
 
@@ -271,6 +274,8 @@ as_component_kind_from_string (const gchar *kind_str)
 		return AS_COMPONENT_KIND_REPOSITORY;
 	if (g_strcmp0 (kind_str, "operating-system") == 0)
 		return AS_COMPONENT_KIND_OPERATING_SYSTEM;
+	if (g_strcmp0 (kind_str, "icon-theme") == 0)
+		return AS_COMPONENT_KIND_ICON_THEME;
 
 	/* legacy */
 	if (g_strcmp0 (kind_str, "desktop") == 0)
@@ -585,10 +590,8 @@ as_component_get_releases (AsComponent *cpt)
 void
 as_component_add_release (AsComponent *cpt, AsRelease* release)
 {
-	GPtrArray* releases;
-
-	releases = as_component_get_releases (cpt);
-	g_ptr_array_add (releases, g_object_ref (release));
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_ptr_array_add (priv->releases, g_object_ref (release));
 }
 
 /**
@@ -3325,7 +3328,11 @@ as_component_load_provides_from_xml (AsComponent *cpt, xmlNode *node)
 		if (content == NULL)
 			continue;
 
-		if (g_strcmp0 (node_name, "library") == 0) {
+		if (g_strcmp0 (node_name, "id") == 0) {
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_ID, content);
+		} else if (g_strcmp0 (node_name, "mediatype") == 0) {
+			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MEDIATYPE, content);
+		} else if (g_strcmp0 (node_name, "library") == 0) {
 			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_LIBRARY, content);
 		} else if (g_strcmp0 (node_name, "binary") == 0) {
 			as_component_add_provided_item (cpt, AS_PROVIDED_KIND_BINARY, content);
@@ -3480,16 +3487,7 @@ as_component_releases_sort_cb (gconstpointer a, gconstpointer b)
 {
 	AsRelease **rel1 = (AsRelease **) a;
 	AsRelease **rel2 = (AsRelease **) b;
-	guint64 ts1 = as_release_get_timestamp (*rel1);
-	guint64 ts2 = as_release_get_timestamp (*rel2);
 	gint ret;
-
-	/* if we can sort by date, we avoid the more expensive version comparison */
-	if (ts1 > 0 && ts2 > 0) {
-		if (ts1 == ts2)
-			return 0;
-		return (ts1 > ts2)? -1 : 1;
-	}
 
 	/* compare version strings */
 	ret = as_release_vercmp (*rel1, *rel2);
@@ -3681,7 +3679,7 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 				if (g_strcmp0 ((const gchar*) iter2->name, "release") == 0) {
 					g_autoptr(AsRelease) release = as_release_new ();
 					if (as_release_load_from_xml (release, ctx, iter2, NULL))
-						as_component_add_release (cpt, release);
+						g_ptr_array_add (priv->releases, g_steal_pointer (&release));
 				}
 			}
 		} else if (tag_id == AS_TAG_EXTENDS) {
@@ -3728,9 +3726,6 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 			}
 		}
 	}
-
-	/* ensure releases are sorted after loading XML */
-	as_component_sort_releases (cpt);
 
 	/* add package name information to component */
 	{
@@ -3815,6 +3810,11 @@ as_component_xml_serialize_provides (AsComponent *cpt, xmlNode *cnode)
 		switch (as_provided_get_kind (prov)) {
 			case AS_PROVIDED_KIND_MIMETYPE:
 				/* we already handled those */
+				break;
+			case AS_PROVIDED_KIND_ID:
+				as_xml_add_node_list (node, NULL,
+							"id",
+							items);
 				break;
 			case AS_PROVIDED_KIND_LIBRARY:
 				as_xml_add_node_list (node, NULL,
@@ -4097,6 +4097,7 @@ as_component_to_xml_node (AsComponent *cpt, AsContext *ctx, xmlNode *root)
 	if (priv->releases->len > 0) {
 		xmlNode *rnode = xmlNewChild (cnode, NULL, (xmlChar*) "releases", NULL);
 
+		/* ensure releases are sorted, then emit XML nodes */
 		as_component_sort_releases (cpt);
 		for (i = 0; i < priv->releases->len; i++) {
 			AsRelease *rel = AS_RELEASE (g_ptr_array_index (priv->releases, i));
@@ -4307,7 +4308,11 @@ as_component_yaml_parse_provides (AsComponent *cpt, GNode *node)
 	for (n = node->children; n != NULL; n = n->next) {
 		const gchar *key = as_yaml_node_get_key (n);
 
-		if (g_strcmp0 (key, "libraries") == 0) {
+		if (g_strcmp0 (key, "ids") == 0) {
+			for (sn = n->children; sn != NULL; sn = sn->next) {
+				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_ID, (gchar*) sn->data);
+			}
+		} else if (g_strcmp0 (key, "libraries") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
 				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_LIBRARY, (gchar*) sn->data);
 			}
@@ -4360,7 +4365,7 @@ as_component_yaml_parse_provides (AsComponent *cpt, GNode *node)
 			for (sn = n->children; sn != NULL; sn = sn->next) {
 				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_PYTHON, (gchar*) sn->data);
 			}
-		} else if (g_strcmp0 (key, "mimetypes") == 0) {
+		} else if ((g_strcmp0 (key, "mimetypes") == 0) || (g_strcmp0 (key, "mediatypes") == 0)) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
 				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_MIMETYPE, (gchar*) sn->data);
 			}
@@ -4575,7 +4580,7 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 			for (n = node->children; n != NULL; n = n->next) {
 				g_autoptr(AsRelease) release = as_release_new ();
 				if (as_release_load_from_yaml (release, ctx, n, NULL))
-					as_component_add_release (cpt, release);
+					g_ptr_array_add (priv->releases, g_steal_pointer (&release));
 			}
 		} else if (field_id == AS_TAG_SUGGESTS) {
 			GNode *n;
@@ -4608,9 +4613,6 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 			as_yaml_print_unknown ("root", key);
 		}
 	}
-
-	/* ensure releases are sorted after loading YAML */
-	as_component_sort_releases (cpt);
 
 	return TRUE;
 }
@@ -4736,6 +4738,11 @@ as_component_yaml_emit_provides (AsComponent *cpt, yaml_emitter_t *emitter)
 
 		kind = as_provided_get_kind (prov);
 		switch (kind) {
+			case AS_PROVIDED_KIND_ID:
+				as_yaml_emit_sequence (emitter,
+							"ids",
+							items);
+				break;
 			case AS_PROVIDED_KIND_LIBRARY:
 				as_yaml_emit_sequence (emitter,
 							"libraries",

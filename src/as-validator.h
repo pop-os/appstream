@@ -26,6 +26,7 @@
 #define __AS_VALIDATOR_H
 
 #include <glib-object.h>
+#include "as-validator-issue.h"
 
 G_BEGIN_DECLS
 
@@ -55,10 +56,18 @@ gboolean	as_validator_validate_tree (AsValidator *validator,
 						const gchar *root_dir);
 
 GList		*as_validator_get_issues (AsValidator *validator);
+GHashTable	*as_validator_get_issues_per_file (AsValidator *validator);
+gboolean	as_validator_get_report_yaml (AsValidator *validator,
+					      gchar **yaml_report);
 
 gboolean	as_validator_get_check_urls (AsValidator *validator);
 void		as_validator_set_check_urls (AsValidator *validator,
 						gboolean value);
+
+const gchar	*as_validator_get_tag_explanation (AsValidator *validator,
+						   const gchar *tag);
+AsIssueSeverity	as_validator_get_tag_severity (AsValidator *validator,
+					       const gchar *tag);
 
 G_END_DECLS
 

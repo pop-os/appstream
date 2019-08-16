@@ -4,7 +4,7 @@
       ⁠</a>4.4.1. Introduction</h3></div></div></div><div class="para">
 			Most AppStream metadata can be translated, This page contains some practical instructions how to translate the metadata.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>For KDE developers</strong></p></div><div class="admonition"><div class="para">
-				If you are a KDE developer and using the KDE infrastructure with it's localization support, you need to do nothing to get translated metadata. Just place your <code class="filename">*.appdata.xml*</code> or <code class="filename">*.metainfo.xml*</code> file at a sane place, and the l10n-script will translate the file in-place automatically.
+				If you are a KDE developer and using the KDE infrastructure with it's localization support, you need to do nothing to get translated metadata. Just place your <code class="filename">*.metainfo.xml*</code> (or <code class="filename">*.appdata.xml*</code> file) at a sane place, and the l10n-script will translate the file in-place automatically.
 			</div></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="qsr-l10n-intltool">
       ⁠</a>4.4.2. Translating using Intltool</h3></div></div></div><div class="para">
 			If you ship an <code class="filename">.xml.in</code> file rather than an <code class="filename">.xml</code> file, you can use Intltool to translate the data.
@@ -22,20 +22,20 @@
       ⁠</a>4.4.2.1. Integrating with Autotools (the AppStream way)</h4></div></div></div><div class="para">
 				The generic way to add translation to your AppStream metadata in case you use Autotools is by using the following code snippet:
 			</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstreamdir </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">datadir</span><span xmlns="" class="perl_Char">)</span><span xmlns="" class="perl_String">/metainfo/</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_in_files </span><span xmlns="" class="perl_String">= gedit.appdata.xml.in</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_in_files </span><span xmlns="" class="perl_String">= gedit.metainfo.xml.in</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_DATA </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appstream_in_files:.xml.in=.xml</span><span xmlns="" class="perl_Char">)</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Char">@</span><span xmlns="" class="perl_BaseN">INTLTOOL_XML_RULE</span>@
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">EXTRA_DIST </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appdata_in_files</span><span xmlns="" class="perl_Char">)</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">EXTRA_DIST </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">metainfo_in_files</span><span xmlns="" class="perl_Char">)</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">CLEANFILES </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appstream_DATA</span><span xmlns="" class="perl_Char">)</span></pre><div class="para">
 				The code assumes you are using the Intltool Automake code.
 			</div></div><div class="section"><div class="titlepage"><div><div><h4 class="title"><a id="qsr-l10n-intltool-autotools-asglib">
       ⁠</a>4.4.2.2. Integrating with Autotools (the AppStream-GLib way)</h4></div></div></div><div class="para">
 				In case you want to use the macro provided by the AppStream-GLib library, you can use this code snippet:
 			</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Char">@</span><span xmlns="" class="perl_BaseN">APPSTREAM_XML_RULES</span>@
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_in_files </span><span xmlns="" class="perl_String">= gedit.appdata.xml.in</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_in_files </span><span xmlns="" class="perl_String">= gedit.metainfo.xml.in</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">appstream_XML </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appstream_in_files:.xml.in=.xml</span><span xmlns="" class="perl_Char">)</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Char">@</span><span xmlns="" class="perl_BaseN">INTLTOOL_XML_RULE</span>@
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">EXTRA_DIST </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appdata_in_files</span><span xmlns="" class="perl_Char">)</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">EXTRA_DIST </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">metainfo_in_files</span><span xmlns="" class="perl_Char">)</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_DataType">CLEANFILES </span><span xmlns="" class="perl_String">= </span><span xmlns="" class="perl_Char">$(</span><span xmlns="" class="perl_DataType">appstream_XML</span><span xmlns="" class="perl_Char">)</span></pre><div class="para">
 				Make sure you have the additional AppStream macro installed.
 			</div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="qsr-l10n-itstool">
@@ -53,9 +53,9 @@
 			Save this file as <code class="filename">as-metainfo.its</code> for example.
 		</div><div class="para">
 			To extract a GNU Gettext <code class="filename">.pot</code> file from your XML file, run itstool with the follwing arguments (replacing "foo" with your project name):
-		</div><pre class="programlisting"><span xmlns="" class="line">​</span>itstool -i <span xmlns="" class="perl_BString">as</span>-metainfo.its -o <span xmlns="" class="perl_Others">$podir</span>/foo_metadata.pot data/foo.appdata.xml</pre><div class="para">
+		</div><pre class="programlisting"><span xmlns="" class="line">​</span>itstool -i <span xmlns="" class="perl_BString">as</span>-metainfo.its -o <span xmlns="" class="perl_Others">$podir</span>/foo_metadata.pot data/foo.metainfo.xml</pre><div class="para">
 			You can then translate the <code class="filename">.pot</code> file using the standard methods for translating files like these. You obtain <code class="filename">.po</code> files, which you can convert into <code class="filename">.mo</code> files (using msgfmt) like you would do with any other localization. Then, you need to call <code class="command">itstool</code> again, to create a translated version of the original XML file:
-		</div><pre class="programlisting"><span xmlns="" class="line">​</span>itstool -i <span xmlns="" class="perl_BString">as</span>-metainfo.its -j data/foo.appdata.xml -o output/foo.appdata.xml <span xmlns="" class="perl_Others">$modir</span>/*.mo</pre><div class="para">
+		</div><pre class="programlisting"><span xmlns="" class="line">​</span>itstool -i <span xmlns="" class="perl_BString">as</span>-metainfo.its -j data/foo.metainfo.xml -o output/foo.metainfo.xml <span xmlns="" class="perl_Others">$modir</span>/*.mo</pre><div class="para">
 			Please ensure that the <code class="filename">.mo</code> files in <code class="filename">$modir</code> are named with their language codes.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
 				You can find more information about Itstool <a href="http://itstool.org/">on their homepage</a>.
