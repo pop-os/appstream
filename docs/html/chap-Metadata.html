@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">Chapter 2. Upstream Metadata</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.12-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="index.html" title="AppStream" /><link rel="prev" href="chap-AppStream-About.html" title="Chapter 1. About AppStream" /><link rel="next" href="sect-Metadata-Application.html" title="2.2. Desktop Applications" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="chap-AppStream-About.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Application.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="chapter" lang="en-US"><div class="titlepage"><div><div><h1 class="title"><a id="chap-Metadata">
-      ⁠</a>Chapter 2. Upstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-Metadata.html#sect-Metadata-GenericComponent">2.1. Generic Component</a></span></dt><dt><span class="section"><a href="sect-Metadata-Application.html">2.2. Desktop Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-ConsoleApplication.html">2.3. Console Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-WebApplication.html">2.4. Web Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-Service.html">2.5. Services</a></span></dt><dt><span class="section"><a href="sect-Metadata-Addon.html">2.6. Addons</a></span></dt><dt><span class="section"><a href="sect-Metadata-Fonts.html">2.7. Fonts</a></span></dt><dt><span class="section"><a href="sect-Metadata-Codec.html">2.8. Codecs</a></span></dt><dt><span class="section"><a href="sect-Metadata-InputMethod.html">2.9. Input Methods</a></span></dt><dt><span class="section"><a href="sect-Metadata-Firmware.html">2.10. Firmware</a></span></dt><dt><span class="section"><a href="sect-Metadata-Driver.html">2.11. Driver</a></span></dt><dt><span class="section"><a href="sect-Metadata-Localization.html">2.12. Localization</a></span></dt><dt><span class="section"><a href="sect-Metadata-Repository.html">2.13. Repositories</a></span></dt><dt><span class="section"><a href="sect-Metadata-OS.html">2.14. Operating System</a></span></dt></dl></div><div class="para">
+      ⁠</a>Chapter 2. Upstream Metadata</h1></div></div></div><div class="toc"><dl class="toc"><dt><span class="section"><a href="chap-Metadata.html#sect-Metadata-GenericComponent">2.1. Generic Component</a></span></dt><dt><span class="section"><a href="sect-Metadata-Application.html">2.2. Desktop Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-ConsoleApplication.html">2.3. Console Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-WebApplication.html">2.4. Web Applications</a></span></dt><dt><span class="section"><a href="sect-Metadata-Service.html">2.5. Services</a></span></dt><dt><span class="section"><a href="sect-Metadata-Addon.html">2.6. Addons</a></span></dt><dt><span class="section"><a href="sect-Metadata-Fonts.html">2.7. Fonts</a></span></dt><dt><span class="section"><a href="sect-Metadata-IconTheme.html">2.8. Icon Themes</a></span></dt><dt><span class="section"><a href="sect-Metadata-Codec.html">2.9. Codecs</a></span></dt><dt><span class="section"><a href="sect-Metadata-InputMethod.html">2.10. Input Methods</a></span></dt><dt><span class="section"><a href="sect-Metadata-Firmware.html">2.11. Firmware</a></span></dt><dt><span class="section"><a href="sect-Metadata-Driver.html">2.12. Driver</a></span></dt><dt><span class="section"><a href="sect-Metadata-Localization.html">2.13. Localization</a></span></dt><dt><span class="section"><a href="sect-Metadata-Repository.html">2.14. Repositories</a></span></dt><dt><span class="section"><a href="sect-Metadata-OS.html">2.15. Operating System</a></span></dt></dl></div><div class="para">
 		AppStream allows upstream projects to define metadata about the components they provide using small XML files, metainfo files, which get installed into locations on the client system and are used by distribuors to enhance their metadata.
 	</div><div class="para">
 		A "component" is a piece of software, like an application, a library, a font or a codec. For several components, especially those which are shown in software-centers, we provide specialized metainfo files to define specific properties and data of these components. For example, applications and fonts support screenshots, while codecs don't.
@@ -20,9 +20,9 @@
       ⁠</a>2.1.2. Filesystem locations</h3></div></div></div><div class="para">
 			Upstream projects can ship one or more metainfo files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>, where <code class="literal">id</code> is a unique identifier of this specific component.
 		</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
-				Applications are a special case here, because they are usually treated differently by software centers (and also for historical reasons). If your metainfo file contains an application, as described in <a class="xref" href="sect-Metadata-Application.html">Section 2.2, “Desktop Applications”</a>, you may want to install it as <code class="filename">/usr/share/metainfo/%{id}.appdata.xml</code>.
+				Component metadata of type <code class="literal">desktop-application</code> as described in <a class="xref" href="sect-Metadata-Application.html">Section 2.2, “Desktop Applications”</a> can be installed with an <code class="filename">.appdata.xml</code> extension as well for historical reasons. AppStream implementations will read the XML files as long as they end up in the right location on the filesystem.
 			</div></div></div><div xmlns:d="http://docbook.org/ns/docbook" class="important"><div class="admonition_header"><p><strong>Legacy Path</strong></p></div><div class="admonition"><div class="para">
-				AppStream tools scan the <code class="filename">/usr/share/appdata/</code> path for legacy compatibility as well. It should not be used anymore by new software though, even on older Linux distributions (like RHEL 7 and Ubuntu 16.04 LTS) the metainfo path is well supported. Support for the legacy path might be dropped completely in future.
+				AppStream tools scan the <code class="filename">/usr/share/appdata/</code> path for legacy compatibility as well. It should not be used anymore by new software though, even on older Linux distributions (like RHEL 7 and Ubuntu 16.04 LTS) the metainfo path is well supported. Support for the legacy path will likely be dropped completely with a future AppStream 1.0 release.
 			</div></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-component-filespec">
       ⁠</a>2.1.3. XML Specification</h3></div></div></div><div class="para">
 			The XML for a generic component definition starts with a <code class="code">&lt;component&gt;</code> tag as the root element. The <code class="code">&lt;component&gt;</code> element must at least have an <code class="literal">id</code>, <code class="literal">name</code> and <code class="literal">summary</code> tag; and a <code class="literal">provides</code> tag with appropriate children is highly recommended. All possible tags in the generic set are:
@@ -75,8 +75,18 @@
       ⁠</a><span class="term">&lt;description/&gt;</span></dt><dd><div class="para">
 						A long description of this component. Some markup can be used.
 					</div><div class="para">
-						Do not assume the format is HTML. Only paragraph (<code class="literal">p</code>), ordered list (<code class="literal">ol</code>) and unordered list (<code class="literal">ul</code>) with their list items (<code class="literal">li</code>) are currently supported. Nested lists are not supported.
-					</div><div class="para">
+						Do not assume the format is HTML. This list contains all currently supported formatting options:
+					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+								Paragraph (<code class="literal">p</code>)
+							</div></li><li class="listitem"><div class="para">
+								Ordered list (<code class="literal">ol</code>), with list items (<code class="literal">li</code>)
+							</div></li><li class="listitem"><div class="para">
+								Unordered list (<code class="literal">ul</code>), with list items (<code class="literal">li</code>)
+							</div></li><li class="listitem"><div class="para">
+								Within paragraphs and list items, emphasis (<code class="literal">em</code>) and inline code (<code class="literal">code</code>) text styles are supported. The emphasis is commonly rendered in italic, while inline code is shown in a monospaced font.
+							</div></li><li class="listitem"><div class="para">
+								Nested lists are not supported
+							</div></li></ul></div><div class="para">
 						In metainfo files, this tag should be translated by-paragraph, meaning that in a translated file, each translated <code class="literal">&lt;p/&gt;</code> child has a language property.
 					</div></dd><dt><a id="tag-categories">
       ⁠</a><span class="term">&lt;categories/&gt;</span></dt><dd><div class="para">
@@ -130,11 +140,11 @@
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;launchable</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"desktop-id"</span><span xmlns="" class="perl_Keyword">&gt;</span>org.gnome.Sysprof2.desktop<span xmlns="" class="perl_Keyword">&lt;/launchable&gt;</span></pre></dd><dt><a id="tag-releases">
       ⁠</a><span class="term">&lt;releases/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;releases&gt;</code> tag contains <code class="code">&lt;release/&gt;</code> child tags which describe some metainformation about the current release of the described software. The <code class="code">&lt;release/&gt;</code> tag may be present multiple times (for older releases), but a tag for the current version must always be present.
+						The <code class="code">&lt;releases&gt;</code> tag contains <code class="code">&lt;release/&gt;</code> child tags which describe some metainformation about the current release of the described software. Each release of the software component should have a <code class="code">&lt;release/&gt;</code> tag describing it, but at least one <code class="literal">release</code> child must be present for the current release of the software. The <code class="literal">release</code> children should be sorted in a latest-to-oldest order to simplify reading the metadata file.
 					</div><div class="para">
-						A <code class="literal">release</code> tag can have the properties <code class="literal">version</code>, <code class="literal">date</code> and <code class="literal">timestamp</code>. The <code class="literal">date</code> property can have any time in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format as its value and should be present for every release. The <code class="literal">timestamp</code> tag contains the release time in the form of a UNIX epoch. This tag should not be used in metainfo files in newly written metadata, but will still be parsed in case it is present. The <code class="literal">timestamp</code> property is mainly used in generated distro-metadata. In case both release-time tags are present, the <code class="literal">timestamp</code> tag will take precedence over <code class="literal">date</code>.
+						A <code class="literal">release</code> tag can have the properties <code class="literal">version</code>, <code class="literal">date</code> and <code class="literal">timestamp</code>. The <code class="literal">date</code> property can have any time in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> format as its value and should be present for every release. At least day-level granularity is required, which means that the ISO 8601 string must contain at least a full date (e.g. 2019-08-12). The <code class="literal">timestamp</code> tag contains the release time in the form of a UNIX epoch. This tag should not be used in metainfo files in newly written metadata, but will still be parsed in case it is present. The <code class="literal">timestamp</code> property is mainly used in generated distro-metadata. In case both release-time tags are present, the <code class="literal">timestamp</code> tag will take precedence over <code class="literal">date</code>.
 					</div><div class="para">
-						A <code class="literal">release</code> tag may also have a <code class="literal">date_eol</code> property that denotes the date when the release stops to receive support from the software developers (end-of-life). Its value can be any time in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>.
+						A <code class="literal">release</code> tag may also have a <code class="literal">date_eol</code> property that denotes the date when the release stops to receive support from the software developers (end-of-life). Its value can be any complete date or time in <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a>.
 					</div><div class="para">
 						Optionally, the <code class="code">&lt;release/&gt;</code> tag may also have an <code class="literal">urgency</code> property, having one of the following values:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
@@ -308,11 +318,13 @@
 						This tag is translatable.
 					</div></dd><dt><a id="tag-screenshots">
       ⁠</a><span class="term">&lt;screenshots/&gt;</span></dt><dd><div class="para">
-						Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata.
+						Visual components (like fonts or graphical applications) may choose to add one or multiple screenshots to their metadata. Screenshots can be either a video or a static image.
 					</div><div class="para">
-						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the primary screenshot of the software. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> child.
+						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the primary screenshot of the software. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> or <code class="code">&lt;video/&gt;</code> child, but never an <code class="literal">image</code> and <code class="literal">video</code> at the same time. Also, screenshots containing videos must not be the default screenshot.
 					</div><div class="para">
-						The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS/FTP URL to a screenshot uploaded to a public location on the web. The <code class="code">&lt;image/&gt;</code> tag may have the following properties: 
+						The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web. Images should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
+					</div><div class="para">
+						The <code class="code">&lt;image/&gt;</code> tag may have the following properties: 
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 									<code class="code">type</code>
 								</div><div class="para">
@@ -332,9 +344,35 @@
 								</div></li></ul></div>
 
 					</div><div class="para">
+						The value of the <code class="code">&lt;video/&gt;</code> tag is a direct HTTP/HTTPS URL to a video uploaded to a public location on the web. The video must be in a <a href="https://www.matroska.org/">Matroska (.mkv)</a> or <a href="https://www.webmproject.org/">WebM</a> container and use either the <a href="https://www.webmproject.org/vp9/">VP9</a> or <a href="http://aomedia.org/av1-features/">AV1</a> codec. The video should ideally work without any audio, but if audio is needed, the <a href="https://opus-codec.org/">Opus</a> codec should be used. Software centers may still play the video without any sound though. Additionally, AppStream metadata repositories (like in distributions such as Fedora and Debian) may impose size limitations to video files delivered by their CDN, so it is recommended to keep the video file size below 10MiB. There is also a chance that software centers do not display any video at all, so a video must never be in a default screenshot.
+					</div><div class="para">
+						The <code class="code">&lt;video/&gt;</code> tag may have the following properties: 
+						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+									<code class="code">container</code>
+								</div><div class="para">
+									The video container used, can be <code class="code">webm</code> or <code class="code">mkv</code>.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">codec</code>
+								</div><div class="para">
+									The video codec used, can be <code class="code">av1</code> or <code class="code">vp9</code>.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">width</code>
+								</div><div class="para">
+									The width of the video in pixels.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">height</code>
+								</div><div class="para">
+									The height of the video in pixels.
+								</div></li><li class="listitem"><div class="para">
+									<code class="code">xml:lang</code>
+								</div><div class="para">
+									The language this video is translated in. This property should only be present if there are multiple videos with different locales present.
+								</div></li></ul></div>
+
+					</div><div class="para">
 						Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a translatable <code class="code">&lt;caption/&gt;</code> child, defining a short (ideally not more than 256 characters) description of what the user can see on the referenced screenshot.
 					</div><div class="para">
-						Ideally, all screenshots should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels. They should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
+						Ideally, all image screenshots as well as videos should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels.
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;screenshots&gt;</span>
@@ -345,6 +383,9 @@
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;caption&gt;</span>Foobar showing the frobnicate functionality.<span xmlns="" class="perl_Keyword">&lt;/caption&gt;</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"source"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"1600"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"900"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://example.com/foobar/screenshot-2.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;video</span><span xmlns="" class="perl_Others"> codec=</span><span xmlns="" class="perl_String">"av1"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"1600"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"900"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://example.com/foobar/screencast.mkv<span xmlns="" class="perl_Keyword">&lt;/video&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span> <span xmlns="" class="perl_Keyword">&lt;/screenshots&gt;</span></pre></dd><dt><a id="tag-update_contact">
       ⁠</a><span class="term">&lt;update_contact/&gt;</span></dt><dd><div class="para">

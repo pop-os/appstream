@@ -25,6 +25,7 @@ aslib_src = [
     'as-distro-details.c',
     'as-screenshot.c',
     'as-image.c',
+    'as-video.c',
     'as-release.c',
     'as-checksum.c',
     'as-validator.c',
@@ -54,6 +55,7 @@ aslib_pub_headers = [
     'as-distro-details.h',
     'as-screenshot.h',
     'as-image.h',
+    'as-video.h',
     'as-release.h',
     'as-checksum.h',
     'as-validator.h',
@@ -92,7 +94,8 @@ aslib_priv_headers = [
     'as-launchable-private.h',
     'as-relation-private.h',
     'as-agreement-private.h',
-    'as-agreement-section-private.h'
+    'as-agreement-section-private.h',
+    'as-validator-issue-tag.h'
 ]
 
 aslib_res = glib.compile_resources (
@@ -133,6 +136,9 @@ aslib_deps = [glib_dep,
               lmdb_dep,
               xml2_dep,
               yaml_dep]
+if not lmdb_dep.found()
+    aslib_deps += [lmdb_lib]
+endif
 if get_option ('stemming')
     aslib_deps += [stemmer_lib]
 endif

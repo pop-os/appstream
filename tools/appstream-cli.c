@@ -102,6 +102,7 @@ const GOptionEntry find_options[] = {
 
 /* used by validate_options */
 static gboolean optn_pedantic = FALSE;
+static gboolean optn_explain = FALSE;
 static gboolean optn_nonet = FALSE;
 
 /**
@@ -113,11 +114,21 @@ const GOptionEntry validate_options[] = {
 		&optn_pedantic,
 		/* TRANSLATORS: ascli flag description for: --pedantic (used by the "validate" command) */
 		N_("Also show pedantic hints."), NULL },
+	{ "explain", (gchar) 0, 0,
+		G_OPTION_ARG_NONE,
+		&optn_explain,
+		/* TRANSLATORS: ascli flag description for: --explain (used by the "validate" command) */
+		N_("Print detailed explanation for found issues."), NULL },
 	{ "no-net", (gchar) 0, 0,
 		G_OPTION_ARG_NONE,
 		&optn_nonet,
 		/* TRANSLATORS: ascli flag description for: --no-net (used by the "validate" command) */
 		N_("Do not use network access."), NULL },
+	{ "format", 0, 0,
+		G_OPTION_ARG_STRING,
+		&optn_format,
+		/* TRANSLATORS: ascli flag description for: --format  when validating XML files */
+		N_("Format of the generated report (valid values are 'text' and 'yaml')."), NULL },
 	{ "nonet", (gchar) 0, G_OPTION_FLAG_HIDDEN,
 		G_OPTION_ARG_NONE,
 		&optn_nonet,
@@ -387,10 +398,18 @@ as_client_run_validate (char **argv, int argc)
 	if (ret != 0)
 		return ret;
 
-	return ascli_validate_files (&argv[2],
-				     argc-2,
-				     optn_pedantic,
-				     !optn_nonet);
+	if (optn_format == NULL) {
+		return ascli_validate_files (&argv[2],
+					     argc-2,
+					     optn_pedantic,
+					     optn_explain,
+					     !optn_nonet);
+	} else {
+		return ascli_validate_files_format (&argv[2],
+						    argc-2,
+						    optn_format,
+						    !optn_nonet);
+	}
 }
 
 /**
@@ -415,9 +434,16 @@ as_client_run_validate_tree (char **argv, int argc)
 	if (argc > 2)
 		value = argv[2];
 
-	return ascli_validate_tree (value,
-				    optn_pedantic,
-				    !optn_nonet);
+	if (optn_format == NULL) {
+		return ascli_validate_tree (value,
+					    optn_pedantic,
+					    optn_explain,
+					    !optn_nonet);
+	} else {
+		return ascli_validate_tree_format (value,
+						   optn_format,
+						   !optn_nonet);
+	}
 }
 
 /**

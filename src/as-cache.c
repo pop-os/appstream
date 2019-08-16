@@ -737,10 +737,13 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 
 	/* determine where to put a volatile database */
 	if (g_strcmp0 (fname, ":temporary") == 0) {
-		if (as_utils_is_root ())
+		if (as_utils_is_root ()) {
 			volatile_dir = g_get_tmp_dir ();
-		else
+		} else {
 			volatile_dir = g_get_user_cache_dir ();
+			if ((volatile_dir == NULL) || (!g_file_test (volatile_dir, G_FILE_TEST_IS_DIR)))
+				volatile_dir = g_get_tmp_dir ();
+		}
 
 		/* we can skip syncs in temporary mode - in case of a crash, the data is lost anyway */
 		nosync = TRUE;
@@ -1350,9 +1353,11 @@ as_cache_insert (AsCache *cache, AsComponent *cpt, GError **error)
 		}
 	}
 
-	/* add addon/extension mapping */
+	/* add addon/extension mapping for quick lookup of addons */
 	extends = as_component_get_extends (cpt);
-	if ((extends != NULL) && (extends->len > 0)) {
+	if ((as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON) &&
+	    (extends != NULL) &&
+	    (extends->len > 0)) {
 		for (guint i = 0; i < extends->len; i++) {
 			g_autofree gchar *extended_cdid = NULL;
 			g_autofree guint8 *hash_list = NULL;
@@ -1365,10 +1370,10 @@ as_cache_insert (AsCache *cache, AsComponent *cpt, GError **error)
 								extended_cid);
 
 			hash_list = lmdb_val_memdup (as_cache_txn_get_value (cache,
-									   txn,
-									   priv->db_addons,
-									   extended_cdid,
-									   &tmp_error), &hash_list_len);
+									     txn,
+									     priv->db_addons,
+									     extended_cdid,
+									     &tmp_error), &hash_list_len);
 			if (tmp_error != NULL) {
 				g_propagate_error (error, tmp_error);
 				goto fail;
@@ -1486,8 +1491,9 @@ as_cache_component_from_dval (AsCache *cache, MDB_txn *txn, MDB_val dval, GError
 		return NULL;
 	}
 
-	/* find addons (if there are any) */
-	if (!as_cache_register_addons_for_component (cache, txn, cpt, error)) {
+	/* find addons (if there are any) - ensure addons don't have addons themselves */
+	if ((as_component_get_kind (cpt) != AS_COMPONENT_KIND_ADDON) &&
+	    !as_cache_register_addons_for_component (cache, txn, cpt, error)) {
 		xmlFreeDoc (doc);
 		return NULL;
 	}
@@ -1573,7 +1579,7 @@ as_cache_register_addons_for_component (AsCache *cache, MDB_txn *txn, AsComponen
 {
 	AsCachePrivate *priv = GET_PRIVATE (cache);
 	MDB_val dval;
-	g_autoptr(GPtrArray) addons = NULL;
+	g_autofree guint8 *cpt_checksum = NULL;
 	GError *tmp_error = NULL;
 
 	dval = as_cache_txn_get_value (cache,
@@ -1588,9 +1594,33 @@ as_cache_register_addons_for_component (AsCache *cache, MDB_txn *txn, AsComponen
 	if (dval.mv_size == 0)
 		return TRUE;
 
-	addons = as_cache_components_by_hash_list (cache, txn, dval.mv_data, dval.mv_size, &tmp_error);
-	for (guint i = 0; i < addons->len; i++)
-		as_component_add_addon (cpt, AS_COMPONENT (g_ptr_array_index (addons, i)));
+	/* retrieve cache checksum of this component */
+	as_generate_cache_checksum (as_component_get_data_id (cpt),
+				    -1,
+				    &cpt_checksum,
+				    NULL);
+
+	g_assert_cmpint (dval.mv_size % AS_CACHE_CHECKSUM_LEN, ==, 0);
+	for (gsize i = 0; i < dval.mv_size; i += AS_CACHE_CHECKSUM_LEN) {
+		const guint8 *chash = dval.mv_data + i;
+		g_autoptr(AsComponent) addon = NULL;
+
+		/* ignore addon that extends itself to prevent infinite recursion */
+		if (memcmp (chash, cpt_checksum, AS_CACHE_CHECKSUM_LEN) == 0)
+			continue;
+
+		addon = as_cache_component_by_hash (cache, txn, chash, &tmp_error);
+		if (tmp_error != NULL) {
+			g_propagate_prefixed_error (error, tmp_error, "Failed to retrieve addon component data: ");
+			return FALSE;
+		}
+
+		/* ensure we only link addons to the component directly, to prevent loops in refcounting and annoying
+		 * dependency graph issues.
+		 * Frontends can get their non-addon extensions via the "extends" property of #AsComponent and a pool query instead */
+		if ((addon != NULL) && (as_component_get_kind (addon) == AS_COMPONENT_KIND_ADDON))
+			as_component_add_addon (cpt, addon);
+	}
 
 	return TRUE;
 }
@@ -1637,8 +1667,10 @@ as_cache_get_components_all (AsCache *cache, GError **error)
 	rc = mdb_cursor_get (cur, &dkey, &dval, MDB_FIRST);
 	while (rc == 0) {
 		AsComponent *cpt;
-		if (dval.mv_size <= 0)
+		if (dval.mv_size <= 0) {
+			rc = mdb_cursor_get (cur, NULL, &dval, MDB_NEXT);
 			continue;
+		}
 
 		/* in case we "removed" the component on a readonly cache */
 		if (priv->readonly) {
@@ -1652,7 +1684,7 @@ as_cache_get_components_all (AsCache *cache, GError **error)
 			return NULL; /* error */
 		g_ptr_array_add (results, cpt);
 
-		rc = mdb_cursor_get(cur, NULL, &dval, MDB_NEXT);
+		rc = mdb_cursor_get (cur, NULL, &dval, MDB_NEXT);
 	}
 	mdb_cursor_close (cur);
 
@@ -1909,8 +1941,7 @@ as_cache_get_components_by_categories (AsCache *cache, gchar **categories, GErro
 			return NULL;
 		}
 
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	if (result == NULL) {
@@ -2151,7 +2182,7 @@ as_cache_search (AsCache *cache, gchar **terms, gboolean sort, GError **error)
 
 	/* sort the results by their priority */
 	if (sort)
-		as_utils_sort_components_by_score (results);
+		as_sort_components_by_score (results);
 
 	lmdb_transaction_commit (txn, NULL);
 	return g_steal_pointer (&results);
@@ -2208,16 +2239,16 @@ as_cache_has_component_id (AsCache *cache, const gchar *id, GError **error)
  *
  * Get the amount of components the cache holds.
  *
- * Returns: Components count in the database.
+ * Returns: Components count in the database, or -1 on error.
  */
-gsize
+gssize
 as_cache_count_components (AsCache *cache, GError **error)
 {
 	AsCachePrivate *priv = GET_PRIVATE (cache);
 	MDB_txn *txn;
 	MDB_stat stats;
 	gint rc;
-	gsize count;
+	gssize count = -1;
 
 	if (!as_cache_check_opened (cache, FALSE, error))
 		return 0;

@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2016 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2019 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -30,19 +30,71 @@
 
 #include "as-validator-issue.h"
 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 typedef struct
 {
-	AsIssueKind		kind;
-	AsIssueImportance	importance;
-	gchar			*message;
+	gchar		*tag;
+	AsIssueSeverity	severity;
 
-	gchar			*fname;
-	gchar			*cid;
-	gint			line;
+	gchar		*hint;
+	gchar		*explanation;
+
+	gchar		*fname;
+	gchar		*cid;
+	glong		line;
+
+	AsIssueKind	kind; /* deprecated */
 } AsValidatorIssuePrivate;
+G_GNUC_END_IGNORE_DEPRECATIONS
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsValidatorIssue, as_validator_issue, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_validator_issue_get_instance_private (o))
+
+/**
+ * as_issue_severity_from_string:
+ * @str: the string.
+ *
+ * Converts the text representation to an enumerated value.
+ *
+ * Returns: a #AsIssueSeverity, or %AS_ISSUE_SEVERITY_UNKNOWN for unknown.
+ *
+ **/
+AsIssueSeverity
+as_issue_severity_from_string (const gchar *str)
+{
+	if (g_strcmp0 (str, "error") == 0)
+		return AS_ISSUE_SEVERITY_ERROR;
+	if (g_strcmp0 (str, "warning") == 0)
+		return AS_ISSUE_SEVERITY_WARNING;
+	if (g_strcmp0 (str, "info") == 0)
+		return AS_ISSUE_SEVERITY_INFO;
+	if (g_strcmp0 (str, "pedantic") == 0)
+		return AS_ISSUE_SEVERITY_PEDANTIC;
+	return AS_ISSUE_SEVERITY_UNKNOWN;
+}
+
+/**
+ * as_issue_severity_to_string:
+ * @severity: the #AsIssueSeverity.
+ *
+ * Converts the enumerated value to an text representation.
+ *
+ * Returns: string version of @severity
+ *
+ **/
+const gchar*
+as_issue_severity_to_string (AsIssueSeverity severity)
+{
+	if (severity == AS_ISSUE_SEVERITY_ERROR)
+		return "error";
+	if (severity == AS_ISSUE_SEVERITY_WARNING)
+		return "warning";
+	if (severity == AS_ISSUE_SEVERITY_INFO)
+		return "info";
+	if (severity == AS_ISSUE_SEVERITY_PEDANTIC)
+		return "pedantic";
+	return NULL;
+}
 
 /**
  * as_validator_issue_finalize:
@@ -53,7 +105,10 @@ as_validator_issue_finalize (GObject *object)
 	AsValidatorIssue *issue = AS_VALIDATOR_ISSUE (object);
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
 
-	g_free (priv->message);
+	g_free (priv->tag);
+	g_free (priv->hint);
+	g_free (priv->explanation);
+
 	g_free (priv->fname);
 	g_free (priv->cid);
 
@@ -67,8 +122,7 @@ static void
 as_validator_issue_init (AsValidatorIssue *issue)
 {
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	priv->kind = AS_ISSUE_KIND_UNKNOWN;
-	priv->importance = AS_ISSUE_IMPORTANCE_UNKNOWN;
+	priv->severity = AS_ISSUE_SEVERITY_UNKNOWN;
 	priv->line = -1;
 }
 
@@ -83,91 +137,135 @@ as_validator_issue_class_init (AsValidatorIssueClass *klass)
 }
 
 /**
- * as_validator_issue_get_kind:
+ * as_validator_issue_get_tag:
  * @issue: a #AsValidatorIssue instance.
  *
- * Gets the issue kind enum, if available.
+ * Gets the issue tag string for this issue.
  *
- * Returns: a #AsIssueKind
- **/
-AsIssueKind
-as_validator_issue_get_kind (AsValidatorIssue *issue)
-{
-	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	return priv->kind;
-}
-
-/**
- * as_validator_issue_set_kind:
- * @issue: a #AsValidatorIssue instance.
- * @kind: the #AsIssueKind.
+ * Returns: the tag
  *
- * Sets the kind enum for this issue, if known.
- **/
-void
-as_validator_issue_set_kind (AsValidatorIssue *issue, AsIssueKind kind)
-{
-	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	priv->kind = kind;
-}
-
-/**
- * as_validator_issue_get_importance:
- * @issue: a #AsValidatorIssue instance.
- *
- * Gets the importance of this issue.
- *
- * Returns: a #AsIssueImportance
- **/
-AsIssueImportance
-as_validator_issue_get_importance (AsValidatorIssue *issue)
-{
-	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	return priv->importance;
-}
-
-/**
- * as_validator_issue_set_importance:
- * @issue: a #AsValidatorIssue instance.
- * @importance: the #AsIssueImportance.
- *
- * Sets the importance for this issue.
- **/
-void
-as_validator_issue_set_importance (AsValidatorIssue *issue, AsIssueImportance importance)
-{
-	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	priv->importance = importance;
-}
-
-/**
- * as_validator_issue_get_message:
- * @issue: a #AsValidatorIssue instance.
- *
- * Gets the message for the issue.
- *
- * Returns: the message
+ * Since: 0.12.8
  **/
 const gchar*
-as_validator_issue_get_message (AsValidatorIssue *issue)
+as_validator_issue_get_tag (AsValidatorIssue *issue)
 {
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	return priv->message;
+	return priv->tag;
 }
 
 /**
- * as_validator_issue_set_message:
+ * as_validator_issue_set_tag:
  * @issue: a #AsValidatorIssue instance.
- * @message: the message text.
+ * @tag: the tag.
  *
- * Sets a message on the issue.
+ * Sets the issue tag.
+ *
+ * Since: 0.12.8
  **/
 void
-as_validator_issue_set_message (AsValidatorIssue *issue, const gchar *message)
+as_validator_issue_set_tag (AsValidatorIssue *issue, const gchar *tag)
 {
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
-	g_free (priv->message);
-	priv->message = g_strdup (message);
+	g_free (priv->tag);
+	priv->tag = g_strdup (tag);
+}
+
+/**
+ * as_validator_issue_get_severity:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * Gets the severity of this issue.
+ *
+ * Returns: a #AsIssueSeverity
+ **/
+AsIssueSeverity
+as_validator_issue_get_severity (AsValidatorIssue *issue)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	return priv->severity;
+}
+
+/**
+ * as_validator_issue_set_severity:
+ * @issue: a #AsValidatorIssue instance.
+ * @severity: the #AsIssueSeverity.
+ *
+ * Sets the severity for this issue.
+ **/
+void
+as_validator_issue_set_severity (AsValidatorIssue *issue, AsIssueSeverity severity)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	priv->severity = severity;
+}
+
+/**
+ * as_validator_issue_get_hint:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * Get a short context hint for this issue.
+ *
+ * Returns: the hint
+ *
+ * Since: 0.12.8
+ **/
+const gchar*
+as_validator_issue_get_hint (AsValidatorIssue *issue)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	return priv->hint;
+}
+
+/**
+ * as_validator_issue_set_hint:
+ * @issue: a #AsValidatorIssue instance.
+ * @hint: the hint.
+ *
+ * Sets short issue hint.
+ *
+ * Since: 0.12.8
+ **/
+void
+as_validator_issue_set_hint (AsValidatorIssue *issue, const gchar *hint)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	g_free (priv->hint);
+	priv->hint = g_strdup (hint);
+}
+
+/**
+ * as_validator_issue_get_explanation:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * Get an extended explanation on this issue, or return %NULL
+ * if none is available.
+ *
+ * Returns: the explanation
+ *
+ * Since: 0.12.8
+ **/
+const gchar*
+as_validator_issue_get_explanation (AsValidatorIssue *issue)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	return priv->explanation;
+}
+
+/**
+ * as_validator_issue_set_explanation:
+ * @issue: a #AsValidatorIssue instance.
+ * @explanation: the explanation.
+ *
+ * Set explanatory text for this issue.
+ *
+ * Since: 0.12.8
+ **/
+void
+as_validator_issue_set_explanation (AsValidatorIssue *issue, const gchar *explanation)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	g_free (priv->explanation);
+	priv->explanation = g_strdup (explanation);
 }
 
 /**
@@ -208,7 +306,7 @@ as_validator_issue_set_cid (AsValidatorIssue *issue, const gchar *cid)
  *
  * Returns: the line number where this issue occured, or -1 if unknown.
  **/
-gint
+glong
 as_validator_issue_get_line (AsValidatorIssue *issue)
 {
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
@@ -220,10 +318,10 @@ as_validator_issue_get_line (AsValidatorIssue *issue)
  * @issue: a #AsValidatorIssue instance.
  * @line: the line number.
  *
- * Sets the importance for this issue.
+ * Sets the line number where this issue was found.
  **/
 void
-as_validator_issue_set_line (AsValidatorIssue *issue, gint line)
+as_validator_issue_set_line (AsValidatorIssue *issue, glong line)
 {
 	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
 	priv->line = line;
@@ -287,10 +385,97 @@ as_validator_issue_get_location (AsValidatorIssue *issue)
 		g_string_append_printf (location, ":%s", priv->cid);
 
 	if (priv->line >= 0) {
-		g_string_append_printf (location, ":%i", priv->line);
+		g_string_append_printf (location, ":%li", priv->line);
 	}
 
 	return g_string_free (location, FALSE);
+}
+
+/**
+ * as_validator_issue_get_kind:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * This function is deprecated.
+ *
+ * Returns: a #AsIssueKind
+ **/
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+AsIssueKind
+as_validator_issue_get_kind (AsValidatorIssue *issue)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	return priv->kind;
+}
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+/**
+ * as_validator_issue_set_kind:
+ * @issue: a #AsValidatorIssue instance.
+ * @kind: the #AsIssueKind.
+ *
+ * This function is deprecated.
+ **/
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+void
+as_validator_issue_set_kind (AsValidatorIssue *issue, AsIssueKind kind)
+{
+	AsValidatorIssuePrivate *priv = GET_PRIVATE (issue);
+	priv->kind = kind;
+}
+G_GNUC_END_IGNORE_DEPRECATIONS
+
+/**
+ * as_validator_issue_get_importance:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * This function is deprecated and should not be used in new code.
+ *
+ * Returns: a #AsIssueSeverity
+ **/
+AsIssueSeverity
+as_validator_issue_get_importance (AsValidatorIssue *issue)
+{
+	return as_validator_issue_get_severity (issue);
+}
+
+/**
+ * as_validator_issue_set_importance:
+ * @issue: a #AsValidatorIssue instance.
+ * @importance: the #AsIssueSeverity.
+ *
+ * This function is deprecated and should not be used in new code.
+ **/
+void
+as_validator_issue_set_importance (AsValidatorIssue *issue, AsIssueSeverity importance)
+{
+	as_validator_issue_set_severity (issue, importance);
+}
+
+/**
+ * as_validator_issue_get_message:
+ * @issue: a #AsValidatorIssue instance.
+ *
+ * This function is deprecated.
+ *
+ * Returns: the message
+ **/
+const gchar*
+as_validator_issue_get_message (AsValidatorIssue *issue)
+{
+	return as_validator_issue_get_hint (issue);
+}
+
+/**
+ * as_validator_issue_set_message:
+ * @issue: a #AsValidatorIssue instance.
+ * @message: the message text.
+ *
+ * This function is deprecated.
+ **/
+void
+as_validator_issue_set_message (AsValidatorIssue *issue, const gchar *message)
+{
+	as_validator_issue_set_hint (issue, message);
 }
 
 /**

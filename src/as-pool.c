@@ -362,7 +362,7 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 		return FALSE;
 	}
 
-	existing_cpt = as_pool_get_component_by_data_id (pool, cdid, NULL);
+	existing_cpt = as_pool_get_component_by_data_id (pool, cdid, &tmp_error);
 	if (tmp_error != NULL) {
 		g_propagate_error (error, tmp_error);
 		return FALSE;
@@ -378,7 +378,7 @@ as_pool_add_component_internal (AsPool *pool, AsComponent *cpt, gboolean pedanti
 		if (existing_cpt == NULL) {
 			tmp_cdid = g_strdup_printf ("%s.desktop", cdid);
 
-			existing_cpt = as_pool_get_component_by_data_id (pool, tmp_cdid, NULL);
+			existing_cpt = as_pool_get_component_by_data_id (pool, tmp_cdid, &tmp_error);
 			if (tmp_error != NULL) {
 				g_propagate_error (error, tmp_error);
 				return FALSE;
@@ -1154,7 +1154,7 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	gboolean ret = TRUE;
 	guint invalid_cpts_n;
-	guint all_cpts_n;
+	gssize all_cpts_n;
 	gdouble valid_percentage;
 	GError *tmp_error = NULL;
 
@@ -1179,13 +1179,21 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 
 	/* automatically refine the metadata we have in the pool */
 	invalid_cpts_n = as_cache_unfloat (priv->cache, &tmp_error);
-	all_cpts_n = as_cache_count_components (priv->cache, NULL);
 	if (tmp_error != NULL) {
 		g_propagate_error (error, tmp_error);
 		return FALSE;
 	}
+	all_cpts_n = as_cache_count_components (priv->cache, &tmp_error);
+	if (all_cpts_n < 0) {
+		if (tmp_error != NULL) {
+			g_warning ("Unable to retrieve component count from cache: %s", tmp_error->message);
+			g_error_free (tmp_error);
+			tmp_error = NULL;
+		}
+		all_cpts_n = 0;
+	}
 
-	valid_percentage = (100 / (gdouble) all_cpts_n) * (gdouble) (all_cpts_n - invalid_cpts_n);
+	valid_percentage = (all_cpts_n == 0)? 100 : (100 / (gdouble) all_cpts_n) * (gdouble) (all_cpts_n - invalid_cpts_n);
 	g_debug ("Percentage of valid components: %0.3f", valid_percentage);
 
 	/* we only return a non-TRUE value if a significant amount (10%) of components has been declared invalid. */
@@ -1283,8 +1291,7 @@ as_pool_get_components (AsPool *pool)
 			g_warning ("Unable to retrieve all components from system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1321,8 +1328,7 @@ as_pool_get_components_by_id (AsPool *pool, const gchar *cid)
 			g_warning ("Unable find components by ID in system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1360,8 +1366,7 @@ as_pool_get_components_by_provided_item (AsPool *pool,
 			g_warning ("Unable find components by provided item in system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1396,8 +1401,7 @@ as_pool_get_components_by_kind (AsPool *pool, AsComponentKind kind)
 			g_warning ("Unable find components by kind in system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1439,8 +1443,7 @@ as_pool_get_components_by_categories (AsPool *pool, gchar **categories)
 			g_warning ("Unable find components by categories in system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1481,8 +1484,7 @@ as_pool_get_components_by_launchable (AsPool *pool,
 			g_warning ("Unable find components by launchable in system cache: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	return result;
@@ -1629,13 +1631,12 @@ as_pool_search (AsPool *pool, const gchar *search)
 			g_warning ("Search in system cache failed: %s", tmp_error->message);
 			return result;
 		}
-		while (tmp_res->len != 0)
-			g_ptr_array_add (result, g_ptr_array_steal_index_fast (tmp_res, 0));
+		as_object_ptr_array_absorb (result, tmp_res);
 	}
 
 	/* sort the results by their priority (this was explicitly disabled for the caches before,
 	 * so we could sort the combines result list) */
-	as_utils_sort_components_by_score (result);
+	as_sort_components_by_score (result);
 
 	return result;
 }
@@ -1671,7 +1672,6 @@ as_pool_refresh_system_cache (AsPool *pool, gboolean force, GError **error)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	gboolean ret = FALSE;
-	gboolean ret_poolupdate;
 	g_autofree gchar *cache_fname = NULL;
 	g_autoptr(GError) data_load_error = NULL;
 	g_autoptr(GError) tmp_error = NULL;
@@ -1743,6 +1743,8 @@ as_pool_refresh_system_cache (AsPool *pool, gboolean force, GError **error)
 
 	/* load AppStream collection metadata only and refine it */
 	ret = as_pool_load_collection_data (pool, TRUE, &data_load_error);
+	if (data_load_error != NULL)
+		g_debug ("Error while updating the in-memory data pool: %s", data_load_error->message);
 
 	/* un-float the cache, persisting all data */
 	invalid_cpts_n = as_cache_unfloat (priv->cache, &tmp_error);
@@ -1750,10 +1752,6 @@ as_pool_refresh_system_cache (AsPool *pool, gboolean force, GError **error)
 		g_propagate_error (error, tmp_error);
 		return FALSE;
 	}
-
-	ret_poolupdate = (invalid_cpts_n == 0) && ret;
-	if (data_load_error != NULL)
-		g_debug ("Error while updating the in-memory data pool: %s", data_load_error->message);
 
 	/* save the cache object */
 	as_cache_close (priv->cache);
@@ -1767,36 +1765,26 @@ as_pool_refresh_system_cache (AsPool *pool, gboolean force, GError **error)
 	/* reset (so the proper session cache is opened again) */
 	as_pool_clear2 (pool, NULL);
 
-	if (tmp_error != NULL) {
-		/* the exact error is not forwarded here, since we might be able to partially update the cache */
-		g_warning ("Error while updating the cache: %s", tmp_error->message);
-		g_error_free (tmp_error);
-		tmp_error = NULL;
-		ret = FALSE;
-	} else {
-		ret = TRUE;
-	}
-
 	if (ret) {
-		if (!ret_poolupdate) {
+		if (invalid_cpts_n != 0) {
 			g_autofree gchar *error_message = NULL;
 			if (data_load_error == NULL)
-				error_message = g_strdup (_("The AppStream system cache was updated, but some errors were detected, which might lead to missing metadata. Refer to the verbose log for more information."));
+				error_message = g_strdup (_("The AppStream system cache was updated, but some components were ignored. Refer to the verbose log for more information."));
 			else
-				error_message = g_strdup_printf (_("AppStream system cache was updated, but problems were found: %s"), data_load_error->message);
+				error_message = g_strdup_printf (_("The AppStream system cache was updated, but problems were found which resulted in metadata being ignored: %s"), data_load_error->message);
 
 			g_set_error_literal (error,
-				AS_POOL_ERROR,
-				AS_POOL_ERROR_INCOMPLETE,
-				error_message);
+					     AS_POOL_ERROR,
+					     AS_POOL_ERROR_INCOMPLETE,
+					     error_message);
 		}
 		/* update the cache mtime, to not needlessly rebuild it again */
 		as_touch_location (cache_fname);
 	} else {
 		g_set_error (error,
-				AS_POOL_ERROR,
-				AS_POOL_ERROR_FAILED,
-				_("AppStream cache update failed. Turn on verbose mode to get more detailed issue information."));
+			     AS_POOL_ERROR,
+			     AS_POOL_ERROR_FAILED,
+			     _("AppStream system cache refresh failed. Turn on verbose mode to get detailed issue information."));
 	}
 
 	return TRUE;

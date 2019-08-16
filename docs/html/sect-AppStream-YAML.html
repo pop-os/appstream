@@ -71,11 +71,11 @@
 							</div></li><li class="listitem"><div class="para">
 								<code class="code">addon</code> for <a class="xref" href="sect-Metadata-Addon.html">Section 2.6, “Addons”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">codec</code> for <a class="xref" href="sect-Metadata-Codec.html">Section 2.8, “Codecs”</a>
+								<code class="code">codec</code> for <a class="xref" href="sect-Metadata-Codec.html">Section 2.9, “Codecs”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">inputmethod</code> for <a class="xref" href="sect-Metadata-InputMethod.html">Section 2.9, “Input Methods”</a>
+								<code class="code">inputmethod</code> for <a class="xref" href="sect-Metadata-InputMethod.html">Section 2.10, “Input Methods”</a>
 							</div></li><li class="listitem"><div class="para">
-								<code class="code">firmware</code> for <a class="xref" href="sect-Metadata-Firmware.html">Section 2.10, “Firmware”</a>
+								<code class="code">firmware</code> for <a class="xref" href="sect-Metadata-Firmware.html">Section 2.11, “Firmware”</a>
 							</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><a id="field-dep11-merge">
       ⁠</a><span class="term">Merge</span></dt><dd><div class="para">
 						The optional <code class="literal">Merge</code> field describes the merge strategy that should be applied when merging data of this component into its base. It may assume the values <code class="code">append</code>, <code class="code">replace</code> or <code class="code">remove-component</code>.
@@ -111,9 +111,9 @@
 					</div><div class="para">
 						Example:
 					</div><pre class="programlisting">Url:
-  homepage: http://example.org
-  faq: http://example.org/faq
-  bugtracker: http://bugs.example.org/report-issue</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-projectgroup">
+  homepage: https://example.org
+  faq: https://example.org/faq
+  bugtracker: https://bugs.example.org/report-issue</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></dd><dt><a id="field-dep11-projectgroup">
       ⁠</a><span class="term">ProjectGroup</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-CollectionData.html#tag-ct-project_group">&lt;project_group/&gt;</a>.
 					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span></p></div></dd><dt><a id="field-dep11-icon">
@@ -161,7 +161,7 @@
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">default</span></dt><dd><div class="para">
 									If <code class="literal">default</code> is <code class="code">true</code>, the screenshot is selected as default screenshot. There has to be at least one screenshot which is marked as default.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>bool</em></span></p></div></dd><dt><span class="term">source-image</span></dt><dd><div class="para">
-									Describes the source image for this screenshot. It has the following keys:
+									Describes the source image for this screenshot. If this field is present, <code class="literal">videos</code> must not be present as well. The field valus is a dictionary with the following keys:
 								</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 											<code class="literal">height</code>
 										</div><div class="para">
@@ -178,9 +178,35 @@
 											<code class="literal">lang</code>
 										</div><div class="para">
 											The language this screenshot image is translated in. The value is a locale string. (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span>)
-										</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><span class="term">thumbnails</span></dt><dd><div class="para">
-									A list of an arbitrary number of screenshots. All screenshots are of type <span class="emphasis"><em>dict</em></span> and must contain the same keys as described for <code class="literal">source-image</code>.
-								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><span class="term">caption</span></dt><dd><div class="para">
+										</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span>, <span class="property">required</span>:<span class="emphasis"><em>conditional</em></span></p></div></dd><dt><span class="term">thumbnails</span></dt><dd><div class="para">
+									A list of an arbitrary number of screenshots. All screenshots are of type <span class="emphasis"><em>dict</em></span> and must contain the same keys as described for <code class="literal">source-image</code>. This key must not be present if <code class="literal">videos</code> is present.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></dd><dt><span class="term">videos</span></dt><dd><div class="para">
+									Contains a list of video dicts for this screenshot. If this field is present, <code class="literal">source-image</code> must not be present as well. The field valus is a dictionary with the following keys:
+								</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+											<code class="literal">container</code>
+										</div><div class="para">
+											The video container format (string, as described in the XML specification)
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">codec</code>
+										</div><div class="para">
+											The video codec format (string, as described in the XML specification)
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">height</code>
+										</div><div class="para">
+											The video height (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">width</code>
+										</div><div class="para">
+											The video width (<span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>)
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">url</code>
+										</div><div class="para">
+											The full video url, or the url component added to <code class="literal">MediaBaseUrl</code>, if defined (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>).
+										</div></li><li class="listitem"><div class="para">
+											<code class="literal">lang</code>
+										</div><div class="para">
+											The language this screenshot video is translated in. The value is a locale string. (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span>)
+										</div></li></ul></div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span>, <span class="property">required</span>:<span class="emphasis"><em>conditional</em></span></p></div></dd><dt><span class="term">caption</span></dt><dd><div class="para">
 									A caption for this screenshot.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd></dl></div><div class="para">
 						Example for a <code class="literal">Screenshots</code> field containing one screenshot:
@@ -191,15 +217,21 @@
       si: Foobar shoeewing kischän-sünk funzionality
     source-image:
       height: 800
-      url: http://www.example.org/en_US/main.png
+      url: https://www.example.org/en_US/main.png
       width: 600
     thumbnails:
       - height: 423
         width: 752
-        url: http://www.example.org/en_US/main-large.png
+        url: https://www.example.org/en_US/main-large.png
       - height: 63
         width: 112
-        url: http://www.example.org/en_US/main-small.png</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span></p></div></dd><dt><a id="field-dep11-compulsoryfordesktop">
+        url: https://www.example.org/en_US/main-small.png
+  - source-video:
+      container: mkv
+      codec: av1
+      height: 900
+      url: https://www.example.org/en_US/screencast.mkv
+      width: 1600</pre><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list</em></span></p></div></dd><dt><a id="field-dep11-compulsoryfordesktop">
       ⁠</a><span class="term">CompulsoryForDesktop</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-CollectionData.html#tag-ct-compulsory_for_desktop">&lt;compulsory_for_desktop/&gt;</a>.
 					</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span></p></div></dd><dt><a id="field-dep11-provides">
@@ -233,7 +265,7 @@
       ⁠</a><span class="term">Releases</span></dt><dd><div class="para">
 						See <a class="xref" href="chap-CollectionData.html#tag-ct-releases">&lt;releases/&gt;</a>.
 					</div><div class="para">
-						The <code class="literal">Releases</code> contains a list of releases, where each list items contains the following fields/keys:
+						The <code class="literal">Releases</code> contains a list of releases sorted latest-to-oldest, where each list items contains the following fields/keys:
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">version</span></dt><dd><div class="para">
 									The version number of this release.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></dd><dt><span class="term">unix-timestamp</span></dt><dd><div class="para">
@@ -241,7 +273,7 @@
 								</div><div class="para">
 									One of the <code class="literal">unix-timestamp</code> or <code class="literal">date</code> fields must be present.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></dd><dt><span class="term">date</span></dt><dd><div class="para">
-									The <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> date of when this software was released.
+									The <a href="https://en.wikipedia.org/wiki/ISO_8601">ISO 8601</a> complete date of when this software was released.
 								</div><div class="para">
 									One of the <code class="literal">unix-timestamp</code> or <code class="literal">date</code> fields must be present.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></dd><dt><span class="term">description</span></dt><dd><div class="para">
@@ -367,7 +399,7 @@ Requires:
 File: DEP-11
 Version: '0.8'
 Origin: chromodoris-main
-MediaBaseUrl: http://metadata.tanglu.org/appstream/media/
+MediaBaseUrl: https://metadata.tanglu.org/appstream/media/
 ---
 Type: desktop-application
 ID: gconf-editor.desktop
@@ -444,7 +476,7 @@ Keywords:
     - bibtex
 ProjectLicense: GPL-2.0
 Url:
-  homepage: http://texstudio.sourceforge.net/
+  homepage: https://texstudio.sourceforge.net/
 Categories:
   - Office
   - Publishing
