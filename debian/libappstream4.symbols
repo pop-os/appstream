@@ -142,6 +142,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_icons@Base 0.10.0
  as_component_get_id@Base 0.10.0
  as_component_get_keywords@Base 0.10.0
+ as_component_get_keywords_table@Base 0.12.9
  as_component_get_kind@Base 0.10.0
  as_component_get_language@Base 0.10.0
  as_component_get_languages@Base 0.10.0
@@ -151,6 +152,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_merge_kind@Base 0.10.0
  as_component_get_metadata_license@Base 0.10.0
  as_component_get_name@Base 0.10.0
+ as_component_get_name_table@Base 0.12.9
  as_component_get_origin@Base 0.10.0
  as_component_get_pkgname@Base 0.10.0
  as_component_get_pkgnames@Base 0.10.0
@@ -168,6 +170,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_source_pkgname@Base 0.10.0
  as_component_get_suggested@Base 0.10.0
  as_component_get_summary@Base 0.10.0
+ as_component_get_summary_table@Base 0.12.9
  as_component_get_translations@Base 0.10.0
  as_component_get_type@Base 0.10.0
  as_component_get_url@Base 0.10.0
@@ -250,6 +253,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_distro_details_get_version@Base 0.10.0
  as_distro_details_load_data@Base 0.12.5
  as_distro_details_new@Base 0.10.0
+ as_filebasename_from_uri@Base 0.12.9
  as_format_kind_from_string@Base 0.10.0
  as_format_kind_to_string@Base 0.10.0
  as_format_version_from_string@Base 0.10.0
@@ -292,6 +296,16 @@ libappstream.so.4 libappstream4 #MINVER#
  as_image_set_width@Base 0.10.0
  as_is_spdx_license_expression@Base 0.10.0
  as_is_spdx_license_id@Base 0.10.0
+ as_issue_get_id@Base 0.12.9
+ as_issue_get_kind@Base 0.12.9
+ as_issue_get_type@Base 0.12.9
+ as_issue_get_url@Base 0.12.9
+ as_issue_kind_from_string@Base 0.12.9
+ as_issue_kind_to_string@Base 0.12.9
+ as_issue_new@Base 0.12.9
+ as_issue_set_id@Base 0.12.9
+ as_issue_set_kind@Base 0.12.9
+ as_issue_set_url@Base 0.12.9
  as_issue_severity_from_string@Base 0.12.8
  as_issue_severity_to_string@Base 0.12.8
  as_launchable_add_entry@Base 0.11.0
@@ -337,6 +351,10 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_set_parse_flags@Base 0.12.1
  as_metadata_set_update_existing@Base 0.10.0
  as_metadata_set_write_header@Base 0.10.0
+ as_news_format_kind_from_string@Base 0.12.9
+ as_news_format_kind_to_string@Base 0.12.9
+ as_news_to_releases_from_data@Base 0.12.9
+ as_news_to_releases_from_file@Base 0.12.9
  as_pool_add_component@Base 0.10.0
  as_pool_add_metadata_location@Base 0.10.0
  as_pool_clear2@Base 0.12.7
@@ -375,6 +393,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_provided_kind_to_string@Base 0.10.0
  as_provided_new@Base 0.10.0
  as_provided_set_kind@Base 0.10.0
+ as_ptr_array_to_str@Base 0.12.9
  as_relation_compare_from_string@Base 0.12.0
  as_relation_compare_to_string@Base 0.12.0
  as_relation_compare_to_symbols_string@Base 0.12.0
@@ -398,6 +417,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_relation_version_compare@Base 0.12.0
  as_release_add_artifact@Base 0.12.6
  as_release_add_checksum@Base 0.10.0
+ as_release_add_issue@Base 0.12.9
  as_release_add_location@Base 0.10.0
  as_release_get_active_locale@Base 0.10.0
  as_release_get_artifacts@Base 0.12.6
@@ -406,6 +426,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_get_date@Base 0.12.5
  as_release_get_date_eol@Base 0.12.5
  as_release_get_description@Base 0.10.0
+ as_release_get_issues@Base 0.12.9
  as_release_get_kind@Base 0.12.0
  as_release_get_locations@Base 0.10.0
  as_release_get_size@Base 0.10.0
@@ -432,6 +453,9 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_url_kind_from_string@Base 0.12.5
  as_release_url_kind_to_string@Base 0.12.5
  as_release_vercmp@Base 0.10.0
+ as_releases_to_metainfo_xml_chunk@Base 0.12.9
+ as_releases_to_news_data@Base 0.12.9
+ as_releases_to_news_file@Base 0.12.9
  as_screenshot_add_image@Base 0.10.0
  as_screenshot_add_video@Base 0.12.8
  as_screenshot_get_active_locale@Base 0.10.0
@@ -495,13 +519,13 @@ libappstream.so.4 libappstream4 #MINVER#
  as_validator_get_report_yaml@Base 0.12.8
  as_validator_get_tag_explanation@Base 0.12.8
  as_validator_get_tag_severity@Base 0.12.8
+ as_validator_get_tags@Base 0.12.9
  as_validator_get_type@Base 0.10.0
  as_validator_issue_get_cid@Base 0.10.0
  as_validator_issue_get_explanation@Base 0.12.8
  as_validator_issue_get_filename@Base 0.10.0
  as_validator_issue_get_hint@Base 0.12.8
  as_validator_issue_get_importance@Base 0.10.0
- as_validator_issue_get_kind@Base 0.10.0
  as_validator_issue_get_line@Base 0.10.0
  as_validator_issue_get_location@Base 0.10.0
  as_validator_issue_get_message@Base 0.10.0
@@ -514,7 +538,6 @@ libappstream.so.4 libappstream4 #MINVER#
  as_validator_issue_set_filename@Base 0.10.0
  as_validator_issue_set_hint@Base 0.12.8
  as_validator_issue_set_importance@Base 0.10.0
- as_validator_issue_set_kind@Base 0.10.0
  as_validator_issue_set_line@Base 0.10.0
  as_validator_issue_set_message@Base 0.10.0
  as_validator_issue_set_severity@Base 0.12.8
