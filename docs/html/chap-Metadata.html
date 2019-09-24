@@ -43,6 +43,8 @@
 					</div><div class="para">
 						A <a href="https://en.wikipedia.org/wiki/Permissive_software_licence">permissive</a> license ensures your data can be combined with arbitrary other data in one file (this means copyleft licenses like the GPL are not suitable as metadata license). Currently, only a restricted set of permissive licenses is supported by AppStream implementations. Valid permissive licenses include:
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
+								<code class="literal">FSFAP</code>
+							</div></li><li class="listitem"><div class="para">
 								<code class="literal">CC0-1.0</code>
 							</div></li><li class="listitem"><div class="para">
 								<code class="literal">CC-BY-3.0</code>
@@ -52,8 +54,6 @@
 								<code class="literal">GFDL-1.3</code>
 							</div></li><li class="listitem"><div class="para">
 								<code class="literal">MIT</code>
-							</div></li><li class="listitem"><div class="para">
-								<code class="literal">FSFAP</code>
 							</div></li></ul></div><div class="para">
 						The license codes correspond to the identifiers found at the <a href="http://spdx.org/licenses/">SPDX OpenSource License Registry</a>. For instance, <code class="literal">CC-BY-SA-3.0</code> corresponds to the license at <a href="http://creativecommons.org/licenses/by-sa/3.0/">creativecommons.org/licenses/by-sa/3.0</a>.
 					</div></dd><dt><a id="tag-name">
@@ -170,6 +170,8 @@
 					</div><div class="para">
 						A release may also have an <code class="literal">url</code> tag as child. The release url should point to detailed release notes that explain the changes made in this particular release. The <code class="literal">url</code> tag may have a <code class="literal">type</code> property with <code class="code">details</code> as the only currently allowed value. If the <code class="literal">type</code> is missing, an URL type of <code class="code">details</code> is implicitly assumed.
 					</div><div class="para">
+						In order to mention issues that were resolved in a release, and especially reference <a href="https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures">CVE</a> IDs, <code class="literal">issue</code> tags can be used as children of one <code class="literal">issues</code> tag within a <code class="literal">release</code>. The value of an <code class="literal">issue</code> tag must be the bug number, ticket name, or CVE ID and is typically displayed to the user, but may also in case of CVE IDs be read by machines. If the value is a CVE ID, the <code class="literal">type</code> property of the <code class="literal">issue</code> tag must be set to <code class="code">cve</code>. If the <code class="literal">type</code> property is missing, an issue type of <code class="code">generic</code> is assumed. The <code class="literal">url</code> property can be used to provide a web URL to a details page on the respective issue. It is required for all issue types, except for the <code class="code">cve</code> type, where it is optional.
+					</div><div class="para">
 						To denote release artifacts, the <code class="literal">artifacts</code> child tag can be used. It itself contains the artifacts as <code class="literal">artifact</code> children. Each artifact tag must have a <code class="literal">type</code> property with the value of either <code class="code">binary</code> or <code class="code">source</code> to indicate whether the artifact is the releases' source-code or a binary distribution. In case of a <code class="code">binary</code> type, an optional <code class="literal">platform</code> property may also be set, containing a target triplet (also known as normalized GNU triplet), such as <code class="code">x86_64-linux-gnu</code>. Refer to <a href="https://wiki.debian.org/Multiarch/Tuples#Used_solution">Debian multiarch tuples</a> for a list of possible triplets to use and more information on their purpose. For the Windows platform, a platform identifier string such as <code class="code">win32</code> is also permitted as platform identifier. Binary artifacts may also have a <code class="literal">bundle</code> property to indicate the bundling system the binary distribution is made for. Refer to the bundle types in <a class="xref" href="chap-CollectionData.html#tag-ct-bundle">&lt;bundle/&gt;</a> for a list of possible values. Each <code class="literal">artifact</code> can have a number of children:
 					</div><div class="variablelist"><dl class="variablelist"><dt><span class="term">location</span></dt><dd><div class="para">
 									Each artifact must have a <code class="literal">location</code> child, denoting the web location (HTTP or HTTPS) where it can be downloaded from. Multiple location tags are allowed to make it possible to have mirror options to download the same artifact from.
@@ -186,6 +188,11 @@
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
 <span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;url&gt;</span>https://example.org/releases/version-1.2.html<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
+<span xmlns="" class="line">​</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;issues&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;issue</span><span xmlns="" class="perl_Others"> url=</span><span xmlns="" class="perl_String">"https://example.com/bugzilla/12345"</span><span xmlns="" class="perl_Keyword">&gt;</span>bz#12345<span xmlns="" class="perl_Keyword">&lt;/issue&gt;</span>
+<span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;issue</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"cve"</span><span xmlns="" class="perl_Keyword">&gt;</span>CVE-2019-123456<span xmlns="" class="perl_Keyword">&lt;/issue&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/issues&gt;</span>
 <span xmlns="" class="line">​</span>
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;artifacts&gt;</span>
 <span xmlns="" class="line">​</span>      <span xmlns="" class="perl_Keyword">&lt;artifact</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"binary"</span><span xmlns="" class="perl_Others"> platform=</span><span xmlns="" class="perl_String">"x86_64-linux-gnu"</span><span xmlns="" class="perl_Keyword">&gt;</span>
@@ -272,7 +279,13 @@
 									Set a relation to the amount of physical memory (RAM) the system should have to run the software component. The memory size is set in MiB. You usually only want to use this with the <code class="literal">recommends</code> tag, because users might want to install the software on systems even if they have a lesser amount of memory compared to what would be ideal. Example:
 								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;recommends&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;memory&gt;</span>2048<span xmlns="" class="perl_Keyword">&lt;/memory&gt;</span> <span xmlns="" class="perl_Comment">&lt;!-- recommend at least 2GiB of memory --&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/recommends&gt;</span></pre></dd></dl></div></dd><dt><a id="tag-mimetypes">
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/recommends&gt;</span></pre></dd><dt><span class="term">&lt;firmware/&gt;</span></dt><dd><div class="para">
+									Depend on a specific device firmware. The value of this tag should either be a name like <code class="literal">bootloader</code>, be empty to reference the firmware itself described by the <code class="literal">firmware</code>-type component this tag is contained in, or contain a GUID. This tag is commonly used and interpreted by <a href="https://www.fwupd.org/">Fwupd</a>. Example:
+								</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;requires&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware</span><span xmlns="" class="perl_Others"> compare=</span><span xmlns="" class="perl_String">"ge"</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"0.1.2"</span><span xmlns="" class="perl_Keyword">&gt;</span>6de5d951-d755-576b-bd09-c5cf66b27234<span xmlns="" class="perl_Keyword">&lt;/firmware&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware</span><span xmlns="" class="perl_Others"> compare=</span><span xmlns="" class="perl_String">"ge"</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"0.1.2"</span><span xmlns="" class="perl_Keyword">/&gt;</span>
+<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;firmware</span><span xmlns="" class="perl_Others"> compare=</span><span xmlns="" class="perl_String">"ge"</span><span xmlns="" class="perl_Others"> version=</span><span xmlns="" class="perl_String">"0.3.4"</span><span xmlns="" class="perl_Keyword">&gt;</span>bootloader<span xmlns="" class="perl_Keyword">&lt;/firmware&gt;</span>
+<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/requires&gt;</span></pre></dd></dl></div></dd><dt><a id="tag-mimetypes">
       ⁠</a><span class="term">&lt;mimetypes/&gt;</span></dt><dd><div class="para">
 						This tag can contain one or more <code class="code">&lt;mimetype/&gt;</code> children, describing the MIME types this application supports. This tag is especially useful for generic components and addon-type components. For applications, the metadata will automatically be fetched from their <code class="filename">.desktop</code> files by the distribution's metadata generator. Example:
 					</div><pre class="programlisting"><span xmlns="" class="line">​</span>
@@ -285,7 +298,16 @@
 						If you include the <code class="code">&lt;project_group/&gt;</code> tag then this identifies your project with a specific upstream umbrella project. Known values include <code class="literal">GNOME</code>, <code class="literal">KDE</code>, <code class="literal">XFCE</code>, <code class="literal">MATE</code> and <code class="literal">LXDE</code>, although other umbrella projects like Yorba or Mozilla make sense too.
 					</div><div xmlns:d="http://docbook.org/ns/docbook" class="note"><div class="admonition_header"><p><strong>Note</strong></p></div><div class="admonition"><div class="para">
 							You should only identify with an umbrella project if you use <span class="emphasis"><em>all</em></span> their infrastructure and policies, for instance string freezes dates, bugtracker and source control instance.
-						</div></div></div></dd><dt><a id="tag-project_license">
+						</div></div></div></dd><dt><a id="tag-compulsory_for_desktop">
+      ⁠</a><span class="term">&lt;compulsory_for_desktop/&gt;</span></dt><dd><div class="para">
+						The <code class="code">&lt;compulsory_for_desktop&gt;</code> tag indicates that the component which the metadata belongs to is essential for the functionality of the defined desktop environment. Examples for compulsory components are the <code class="literal">GNOME Shell</code> by the GNOME Project, or the <code class="literal">Plasma Desktop</code> by KDE, as well as things like <code class="literal">iBus</code> or the desktop login manager.
+					</div><div class="para">
+						Software centers are expected to detect the running desktop environment and disable uninstallation for compulsory components of that desktop, so users will not be able to damage their currently running, primary desktop environment.
+					</div><div class="para">
+						Multiple occurrences of the <code class="code">&lt;compulsory_for_desktop&gt;</code> tag are allowed, so a project can be essential for many desktops. The distributor decides which components should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
+					</div><div class="para">
+						A list of all allowed values for this tag is defined in the <a href="https://standards.freedesktop.org/menu-spec/latest/apb.html">XDG Menu Specification</a>. Software center applications will only recognize these values.
+					</div></dd><dt><a id="tag-project_license">
       ⁠</a><span class="term">&lt;project_license/&gt;</span></dt><dd><div class="para">
 						The <code class="code">&lt;project_license/&gt;</code> tag is indicating the license of the component (application/library/addon/font/etc.) described in the metadata document. It should be a <a href="https://spdx.org/specifications">SPDX license expression</a>. Possible values include: 
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
@@ -322,7 +344,7 @@
 					</div><div class="para">
 						The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property <code class="code">type="default"</code> to indicate the primary screenshot of the software. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least one <code class="code">&lt;image/&gt;</code> or <code class="code">&lt;video/&gt;</code> child, but never an <code class="literal">image</code> and <code class="literal">video</code> at the same time. Also, screenshots containing videos must not be the default screenshot.
 					</div><div class="para">
-						The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web. Images should also be in be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like JPEG may compress better.
+						The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web. Images should ideally be provided in the PNG format, however using JPEG or WebP is also fine for images in metainfo files.
 					</div><div class="para">
 						The <code class="code">&lt;image/&gt;</code> tag may have the following properties: 
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
@@ -350,7 +372,7 @@
 						<div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 									<code class="code">container</code>
 								</div><div class="para">
-									The video container used, can be <code class="code">webm</code> or <code class="code">mkv</code>.
+									The video container that is used, can be <code class="code">webm</code> or <code class="code">matroska</code>.
 								</div></li><li class="listitem"><div class="para">
 									<code class="code">codec</code>
 								</div><div class="para">

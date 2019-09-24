@@ -480,11 +480,11 @@
 							<itemizedlist>
 								<listitem>
 									<para><literal>container</literal></para>
-									<para>The video container format (string, as described in the XML specification)</para>
+									<para>The video container format (<property>value-type</property>:<emphasis>str</emphasis>, values as described in the XML specification)</para>
 								</listitem>
 								<listitem>
 									<para><literal>codec</literal></para>
-									<para>The video codec format (string, as described in the XML specification)</para>
+									<para>The video codec format (<property>value-type</property>:<emphasis>str</emphasis>, values as described in the XML specification)</para>
 								</listitem>
 								<listitem>
 									<para><literal>height</literal></para>
@@ -544,7 +544,7 @@
         width: 112
         url: https://www.example.org/en_US/main-small.png
   - source-video:
-      container: mkv
+      container: matroska
       codec: av1
       height: 900
       url: https://www.example.org/en_US/screencast.mkv
@@ -715,6 +715,19 @@
 								A description of this release. May contain allowed HTML markup.
 							</para>
 							<literallayout>Field info: <property>value-type</property>:<emphasis>localized</emphasis></literallayout>
+						</listitem>
+						</varlistentry>
+
+						<varlistentry>
+						<term>issues</term>
+						<listitem>
+							<para>
+								A list of dictionaries describing the issues resolved by this release. The dictionaries contain a
+								<literal>id</literal> key for the value of an issue as described in the XML specification, as well as a
+								<literal>type</literal> and <literal>url</literal> key for the tag properties of the same name described in the
+								XML AppStream specification.
+							</para>
+							<literallayout>Field info: <property>value-type</property>:<emphasis>list(dict)</emphasis></literallayout>
 						</listitem>
 						</varlistentry>
 				</variablelist>

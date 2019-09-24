@@ -305,28 +305,25 @@ test_appstream_write_description ()
 						"  <summary xml:lang=\"de\">Nur ein Unittest.</summary>\n"
 						"  <description>\n"
 						"    <p>First paragraph</p>\n"
+						"    <p xml:lang=\"de\">Erster paragraph</p>\n"
 						"    <ol>\n"
 						"      <li>One</li>\n"
+						"      <li xml:lang=\"de\">Eins</li>\n"
 						"      <li>Two</li>\n"
+						"      <li xml:lang=\"de\">Zwei</li>\n"
 						"      <li>Three is &gt; 2 &amp; 1</li>\n"
+						"      <li xml:lang=\"de\">Drei</li>\n"
 						"    </ol>\n"
 						"    <p>Paragraph2</p>\n"
+						"    <p xml:lang=\"de\">Zweiter Paragraph</p>\n"
 						"    <ul>\n"
 						"      <li>First</li>\n"
+						"      <li xml:lang=\"de\">Erstens</li>\n"
 						"      <li>Second</li>\n"
+						"      <li xml:lang=\"de\">Zweitens</li>\n"
 						"    </ul>\n"
 						"    <p>Paragraph3 &amp; the last one</p>\n"
-						"    <p xml:lang=\"de\">First paragraph</p>\n"
-						"    <ol>\n"
-						"      <li xml:lang=\"de\">One</li>\n"
-						"      <li xml:lang=\"de\">Two</li>\n"
-						"      <li xml:lang=\"de\">Three</li>\n"
-						"    </ol>\n"
-						"    <ul>\n"
-						"      <li xml:lang=\"de\">First</li>\n"
-						"      <li xml:lang=\"de\">Second</li>\n"
-						"    </ul>\n"
-						"    <p xml:lang=\"de\">Paragraph2</p>\n"
+						"    <p xml:lang=\"de\">Paragraph3</p>\n"
 						"  </description>\n"
 						"  <icon type=\"cached\" width=\"20\" height=\"20\">test_writetest.png</icon>\n"
 						"  <icon type=\"cached\" width=\"40\" height=\"40\">test_writetest.png</icon>\n"
@@ -358,17 +355,18 @@ test_appstream_write_description ()
 					   "      <p>Paragraph3 &amp; the last one</p>\n"
 					   "    </description>\n"
 					   "    <description xml:lang=\"de\">\n"
-					   "      <p>First paragraph</p>\n"
+					   "      <p>Erster paragraph</p>\n"
 					   "      <ol>\n"
-					   "        <li>One</li>\n"
-					   "        <li>Two</li>\n"
-					   "        <li>Three</li>\n"
+					   "        <li>Eins</li>\n"
+					   "        <li>Zwei</li>\n"
+					   "        <li>Drei</li>\n"
 					   "      </ol>\n"
+					   "      <p>Zweiter Paragraph</p>\n"
 					   "      <ul>\n"
-					   "        <li>First</li>\n"
-					   "        <li>Second</li>\n"
+					   "        <li>Erstens</li>\n"
+					   "        <li>Zweitens</li>\n"
 					   "      </ul>\n"
-					   "      <p>Paragraph2</p>\n"
+					   "      <p>Paragraph3</p>\n"
 					   "    </description>\n"
 					   "    <icon type=\"cached\" width=\"20\" height=\"20\">test_writetest.png</icon>\n"
 					   "    <icon type=\"cached\" width=\"40\" height=\"40\">test_writetest.png</icon>\n"
@@ -423,7 +421,7 @@ test_appstream_write_description ()
 	/* add localization */
 	as_component_set_summary (cpt, "Nur ein Unittest.", "de");
 	as_component_set_description (cpt,
-				"<p>First paragraph</p>\n<ol><li>One</li><li>Two</li><li>Three</li></ol><ul><li>First</li><li>Second</li></ul><p>Paragraph2</p>",
+				"<p>Erster paragraph</p>\n<ol><li>Eins</li><li>Zwei</li><li>Drei</li></ol><p>Zweiter Paragraph</p><ul><li>Erstens</li><li>Zweitens</li></ul><p>Paragraph3</p>",
 				"de");
 
 	tmp = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, NULL);
@@ -977,8 +975,8 @@ static const gchar *xmldata_screenshots = "<?xml version=\"1.0\" encoding=\"utf-
 					"      <image type=\"source\" xml:lang=\"de_DE\">https://example.org/localized_de.png</image>\n"
 					"    </screenshot>\n"
 					"    <screenshot>\n"
-					"      <video codec=\"av1\" container=\"mkv\" width=\"1916\" height=\"1056\">https://example.org/screencast.mkv</video>\n"
-					"      <video codec=\"av1\" container=\"mkv\" width=\"1916\" height=\"1056\" xml:lang=\"de_DE\">https://example.org/screencast_de.mkv</video>\n"
+					"      <video codec=\"av1\" container=\"matroska\" width=\"1916\" height=\"1056\">https://example.org/screencast.mkv</video>\n"
+					"      <video codec=\"av1\" container=\"matroska\" width=\"1916\" height=\"1056\" xml:lang=\"de_DE\">https://example.org/screencast_de.mkv</video>\n"
 					"    </screenshot>\n"
 					"  </screenshots>\n"
 					"</component>\n";
@@ -1417,6 +1415,10 @@ static const gchar *xmldata_releases = "<?xml version=\"1.0\" encoding=\"utf-8\"
 					"        <p xml:lang=\"de\">Eine Beschreibung der Veröffentlichung.</p>\n"
 					"      </description>\n"
 					"      <url>https://example.org/releases/1.2.html</url>\n"
+					"      <issues>\n"
+					"        <issue url=\"https://example.com/bugzilla/12345\">bz#12345</issue>\n"
+					"        <issue type=\"cve\">CVE-2019-123456</issue>\n"
+					"      </issues>\n"
 					"      <artifacts>\n"
 					"        <artifact type=\"binary\" platform=\"x86_64-linux-gnu\" bundle=\"tarball\">\n"
 					"          <location>https://example.com/mytarball.bin.tar.xz</location>\n"
@@ -1443,6 +1445,7 @@ test_xml_read_releases (void)
 	g_autoptr(AsComponent) cpt = NULL;
 	AsRelease *rel;
 	GPtrArray *artifacts;
+	GPtrArray *issues;
 
 	cpt = as_xml_test_read_data (xmldata_releases, AS_FORMAT_STYLE_METAINFO);
 	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.ReleaseTest");
@@ -1489,6 +1492,24 @@ test_xml_read_releases (void)
 			g_assert_not_reached ();
 		}
 	}
+
+	issues = as_release_get_issues (rel);
+	g_assert_cmpint (issues->len, ==, 2);
+	for (guint i = 0; i < issues->len; i++) {
+		AsIssue *issue = AS_ISSUE (g_ptr_array_index (issues, i));
+
+		if (as_issue_get_kind (issue) == AS_ISSUE_KIND_GENERIC) {
+			g_assert_cmpstr (as_issue_get_id (issue), ==, "bz#12345");
+			g_assert_cmpstr (as_issue_get_url (issue), ==, "https://example.com/bugzilla/12345");
+
+		} else if (as_issue_get_kind (issue) == AS_ISSUE_KIND_CVE) {
+			g_assert_cmpstr (as_issue_get_id (issue), ==, "CVE-2019-123456");
+			g_assert_cmpstr (as_issue_get_url (issue), ==, "https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-123456");
+
+		} else {
+			g_assert_not_reached ();
+		}
+	}
 }
 
 /**
@@ -1504,6 +1525,7 @@ test_xml_write_releases (void)
 	g_autofree gchar *res = NULL;
 	AsArtifact *artifact;
 	AsChecksum *cs;
+	AsIssue *issue;
 
 	cpt = as_component_new ();
 	as_component_set_id (cpt, "org.example.ReleaseTest");
@@ -1540,6 +1562,19 @@ test_xml_write_releases (void)
 	g_object_unref (cs);
 	as_release_add_artifact (rel, artifact);
 	g_object_unref (artifact);
+
+	/* issues */
+	issue = as_issue_new ();
+	as_issue_set_id (issue, "bz#12345");
+	as_issue_set_url (issue, "https://example.com/bugzilla/12345");
+	as_release_add_issue (rel, issue);
+	g_object_unref (issue);
+
+	issue = as_issue_new ();
+	as_issue_set_kind (issue, AS_ISSUE_KIND_CVE);
+	as_issue_set_id (issue, "CVE-2019-123456");
+	as_release_add_issue (rel, issue);
+	g_object_unref (issue);
 
 	as_component_add_release (cpt, rel);
 

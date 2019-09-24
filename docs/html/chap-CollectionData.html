@@ -185,20 +185,16 @@
 <span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;image</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"thumbnail"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"112"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"63"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://www.example.org/en_US/main-small.png<span xmlns="" class="perl_Keyword">&lt;/image&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;video</span><span xmlns="" class="perl_Others"> container=</span><span xmlns="" class="perl_String">"mkv"</span><span xmlns="" class="perl_Others"> codec=</span><span xmlns="" class="perl_String">"av1"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"800"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"600"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://www.example.org/en_US/screencast.mkv<span xmlns="" class="perl_Keyword">&lt;/video&gt;</span>
+<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;video</span><span xmlns="" class="perl_Others"> container=</span><span xmlns="" class="perl_String">"matroska"</span><span xmlns="" class="perl_Others"> codec=</span><span xmlns="" class="perl_String">"av1"</span><span xmlns="" class="perl_Others"> width=</span><span xmlns="" class="perl_String">"800"</span><span xmlns="" class="perl_Others"> height=</span><span xmlns="" class="perl_String">"600"</span><span xmlns="" class="perl_Keyword">&gt;</span>https://www.example.org/en_US/screencast.mkv<span xmlns="" class="perl_Keyword">&lt;/video&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;screenshot&gt;</span>
 <span xmlns="" class="line">​</span>     ....
 <span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/screenshot&gt;</span>
 <span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/screenshots&gt;</span></pre></dd><dt><a id="tag-ct-compulsory_for_desktop">
       ⁠</a><span class="term">&lt;compulsory_for_desktop/&gt;</span></dt><dd><div class="para">
-						The <code class="code">&lt;compulsory_for_desktop&gt;</code> tag indicates that the component which the metadata belongs to is essential for the functionality of the defined desktop environment. Examples for compulsory components are the <code class="literal">GNOME-Shell</code> by the GNOME-Project, or the <code class="literal">Plasma-Desktop</code> by KDE, as well as things like <code class="literal">iBus</code> or the desktop login manager.
+						The <code class="code">&lt;compulsory_for_desktop&gt;</code> tag indicates that the component which the metadata belongs to is essential for the functionality of the defined desktop environment.
 					</div><div class="para">
-						Software centers are expected to detect the running desktop environment and disable uninstallation for compulsory components of that desktop, so users will not be able to damage their currently running, primary desktop environment.
-					</div><div class="para">
-						Multiple occurrences of the <code class="code">&lt;compulsory_for_desktop&gt;</code> tag are allowed, so a project can be essential for many desktops. The distributor decides which components should be made compulsory, however it is generally a good idea to follow upstream's recommendations on that matter.
-					</div><div class="para">
-						A list of all allowed values for this tag is defined in the <a href="https://standards.freedesktop.org/menu-spec/latest/apb.html">XDG Menu Specification</a>. Software center applications will only recognize these values.
+						This tag is described in detail at <a class="xref" href="chap-Metadata.html#tag-compulsory_for_desktop">&lt;compulsory_for_desktop/&gt;</a>.
 					</div></dd><dt><a id="tag-ct-provides">
       ⁠</a><span class="term">&lt;provides/&gt;</span></dt><dd><div class="para">
 						This tag is described in detail at <a class="xref" href="chap-Metadata.html#sect-Metadata-GenericComponent">Section 2.1, “Generic Component”</a>.

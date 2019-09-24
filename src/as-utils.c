@@ -68,16 +68,16 @@ as_get_appstream_version (void)
 }
 
 /**
- * as_description_markup_convert_simple:
- * @markup: the text to copy.
+ * as_description_markup_convert:
+ * @markup: the XML markup to transform.
  * @error: A #GError or %NULL.
  *
- * Converts an XML description markup into a simple printable form.
+ * Converts XML description markup into other forms of markup.
  *
  * Returns: (transfer full): a newly allocated %NULL terminated string.
  **/
 gchar*
-as_markup_convert_simple (const gchar *markup, GError **error)
+as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError **error)
 {
 	xmlDoc *doc = NULL;
 	xmlNode *root;
@@ -95,6 +95,10 @@ as_markup_convert_simple (const gchar *markup, GError **error)
 		formatted = g_strdup (markup);
 		goto out;
 	}
+
+	/* if we already have XML, do nothing */
+	if (to_kind == AS_MARKUP_KIND_XML)
+		goto out;
 
 	/* make XML parser happy by providing a root element */
 	xmldata = g_strdup_printf ("<root>%s</root>", markup);
@@ -114,29 +118,43 @@ as_markup_convert_simple (const gchar *markup, GError **error)
 
 	str = g_string_new ("");
 	for (iter = root->children; iter != NULL; iter = iter->next) {
-		gchar *content;
 		xmlNode *iter2;
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
 
 		if (g_strcmp0 ((gchar*) iter->name, "p") == 0) {
-			content = (gchar*) xmlNodeGetContent (iter);
+			g_auto(GStrv) strv = NULL;
+			g_autofree gchar *tmp = NULL;
+			g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter);
+			g_strstrip (content);
+
+			/* remove extra whitespaces */
+			strv = g_strsplit (content, "\n", -1);
+			for (guint i = 0; strv[i] != NULL; ++i)
+				g_strstrip (strv[i]);
+			tmp = g_strjoinv ("\n", strv);
+
 			if (str->len > 0)
 				g_string_append (str, "\n");
-			g_string_append_printf (str, "%s\n", content);
-			g_free (content);
+			g_string_append_printf (str, "%s\n", tmp);
 		} else if ((g_strcmp0 ((gchar*) iter->name, "ul") == 0) || (g_strcmp0 ((gchar*) iter->name, "ol") == 0)) {
 			/* iterate over itemize contents */
 			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
 				if (iter2->type != XML_ELEMENT_NODE)
 					continue;
 				if (g_strcmp0 ((gchar*) iter2->name, "li") == 0) {
-					content = (gchar*) xmlNodeGetContent (iter2);
-					g_string_append_printf (str,
-								" • %s\n",
+					g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter2);
+					g_strstrip (content);
+					if (to_kind == AS_MARKUP_KIND_MARKDOWN) {
+						g_string_append_printf (str,
+								" - %s\n",
 								content);
-					g_free (content);
+					} else {
+						g_string_append_printf (str,
+									" • %s\n",
+									content);
+					}
 				} else {
 					/* only <li> is valid in lists */
 					ret = FALSE;
@@ -161,6 +179,21 @@ out:
 			formatted = g_string_free (str, FALSE);
 	}
 	return formatted;
+}
+
+/**
+ * as_description_markup_convert_simple:
+ * @markup: the XML markup to transform.
+ * @error: A #GError or %NULL.
+ *
+ * Converts an XML description markup into a simple printable form.
+ *
+ * Returns: (transfer full): a newly allocated %NULL terminated string.
+ **/
+gchar*
+as_markup_convert_simple (const gchar *markup, GError **error)
+{
+	return as_description_markup_convert (markup, AS_MARKUP_KIND_TEXT, error);
 }
 
 /**
@@ -837,7 +870,7 @@ as_utils_search_token_valid (const gchar *token)
 
 /**
  * as_utils_is_category_id:
- * @category_name: an XDG category name, e.g. "ProjectManagement"
+ * @category_name: a XDG category name, e.g. "ProjectManagement"
  *
  * Searches the known list of registered XDG category names.
  * See https://specifications.freedesktop.org/menu-spec/menu-spec-1.0.html#category-registry
@@ -1285,4 +1318,59 @@ as_object_ptr_array_absorb (GPtrArray *dest, GPtrArray *src)
 		g_ptr_array_remove_index_fast (src, 0);
 	}
 #endif
+}
+
+/**
+ * as_ptr_array_to_str:
+ *
+ * Convert a string GPtrArray to a single string with
+ * the array values separated by a separator.
+ */
+gchar*
+as_ptr_array_to_str (GPtrArray *array, const gchar *separator)
+{
+	GString *str;
+	if ((array == NULL) || (array->len == 0))
+		return NULL;
+
+	str = g_string_new ("");
+	for (guint i = 0; i < array->len; i++) {
+		g_string_append_printf (str,
+					"%s%s",
+					(const gchar*) g_ptr_array_index (array, i),
+					separator);
+	}
+	if (str->len >= 1)
+		g_string_truncate (str, str->len -1);
+
+	return g_string_free (str, FALSE);
+}
+
+/**
+ * as_filebasename_from_uri:
+ *
+ * Get the file basename from an URI.
+ * This is the last component of the path, with any query or fragment
+ * stripped off.
+ *
+ * Returns: The filename.
+ */
+gchar*
+as_filebasename_from_uri (const gchar *uri)
+{
+	gchar *tmp;
+	gchar *bname;
+
+	if (uri == NULL)
+		return NULL;
+	bname = g_path_get_basename (uri);
+
+	tmp = g_strstr_len (bname, -1, "?");
+	if (tmp != NULL)
+		tmp[0] = '\0';
+	tmp = g_strstr_len (bname, -1, "#");
+	if (tmp != NULL)
+		tmp[0] = '\0';
+
+	return bname;
 }

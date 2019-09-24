@@ -23,10 +23,35 @@
 
 #include <glib-object.h>
 #include "as-settings-private.h"
+#include "as-utils.h"
 #include "as-component.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
+
+/**
+ * AsMarkupKind:
+ * @AS_MARKUP_KIND_UNKNOWN:	Unknown markup.
+ * @AS_MARKUP_KIND_XML:		XML markup.
+ * @AS_MARKUP_KIND_YAML:	YAML markup.
+ * @AS_MARKUP_KIND_TEXT:	Simple text.
+ * @AS_MARKUP_KIND_MARKDOWN:	Markdown
+ *
+ * Markup types.
+ **/
+typedef enum {
+	AS_MARKUP_KIND_UNKNOWN,
+	AS_MARKUP_KIND_XML,
+	AS_MARKUP_KIND_YAML,
+	AS_MARKUP_KIND_TEXT,
+	AS_MARKUP_KIND_MARKDOWN,
+	/*< private >*/
+	AS_MARKUP_KIND_LAST
+} AsMarkupKind;
+
+gchar			*as_description_markup_convert (const gchar *markup,
+							AsMarkupKind to_kind,
+							GError **error);
 
 gchar			*as_get_current_locale (void);
 
@@ -95,6 +120,13 @@ void			as_sort_components_by_score (GPtrArray *cpts);
 
 void			as_object_ptr_array_absorb (GPtrArray *dest,
 						    GPtrArray *src);
+
+AS_INTERNAL_VISIBLE
+gchar			*as_ptr_array_to_str (GPtrArray *array,
+						const gchar *separator);
+
+AS_INTERNAL_VISIBLE
+gchar			*as_filebasename_from_uri (const gchar *uri);
 
 #pragma GCC visibility pop
 G_END_DECLS

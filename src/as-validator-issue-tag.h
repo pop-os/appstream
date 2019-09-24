@@ -390,7 +390,7 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "unknown-desktop-id",
 	  AS_ISSUE_SEVERITY_ERROR,
-	  N_("The given values in not an identifier for a desktop environment as registered with Freedesktop.org."),
+	  N_("The given values is not an identifier for a desktop environment as registered with Freedesktop.org."),
 	},
 
 	{ "launchable-unknown-type",
@@ -561,7 +561,7 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "root-tag-unknown",
 	  AS_ISSUE_SEVERITY_ERROR,
-	  N_("This XML document has an Unknown root tag, Maybe this file is not a metainfo document?"),
+	  N_("This XML document has an unknown root tag. Maybe this file is not a metainfo document?"),
 	},
 
 	{ "metainfo-filename-cid-mismatch",
@@ -581,7 +581,7 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "desktop-file-category-invalid",
 	  AS_ISSUE_SEVERITY_WARNING,
-	  N_("The category defined in the .desktop file is not valid. Refer to the XDG Manu Specification for a list of valid categories."),
+	  N_("The category defined in the .desktop file is not valid. Refer to the XDG Menu Specification for a list of valid categories."),
 	},
 
 	{ "dir-no-metadata.found",
