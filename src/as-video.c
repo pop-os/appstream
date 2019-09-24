@@ -119,10 +119,12 @@ as_video_codec_kind_to_string (AsVideoCodecKind kind)
 AsVideoContainerKind
 as_video_container_kind_from_string (const gchar *str)
 {
-	if (g_strcmp0 (str, "mkv") == 0)
+	if (g_strcmp0 (str, "matroska") == 0)
 		return AS_VIDEO_CONTAINER_KIND_MKV;
 	if (g_strcmp0 (str, "webm") == 0)
 		return AS_VIDEO_CONTAINER_KIND_WEBM;
+	if (g_strcmp0 (str, "mkv") == 0)
+		return AS_VIDEO_CONTAINER_KIND_MKV;
 	return AS_VIDEO_CONTAINER_KIND_UNKNOWN;
 }
 
@@ -139,7 +141,7 @@ const gchar*
 as_video_container_kind_to_string (AsVideoContainerKind kind)
 {
 	if (kind == AS_VIDEO_CONTAINER_KIND_MKV)
-		return "mkv";
+		return "matroska";
 	if (kind == AS_VIDEO_CONTAINER_KIND_WEBM)
 		return "webm";
 	return NULL;
@@ -430,9 +432,8 @@ as_video_to_xml_node (AsVideo *video, AsContext *ctx, xmlNode *root)
 		g_free (size);
 	}
 
-	if ((priv->locale != NULL) && (g_strcmp0 (priv->locale, "C") != 0)) {
+	if ((priv->locale != NULL) && (g_strcmp0 (priv->locale, "C") != 0))
 		xmlNewProp (n_video, (xmlChar*) "xml:lang", (xmlChar*) priv->locale);
-	}
 
 	xmlAddChild (root, n_video);
 }
@@ -529,7 +530,9 @@ as_video_emit_yaml (AsVideo *video, AsContext *ctx, yaml_emitter_t *emitter)
 					 "height",
 					 priv->height);
 	}
-	as_yaml_emit_entry (emitter, "lang", priv->locale);
+	if ((priv->locale != NULL) && (g_strcmp0 (priv->locale, "C") != 0))
+		as_yaml_emit_entry (emitter, "lang", priv->locale);
+
 	as_yaml_mapping_end (emitter);
 }
 

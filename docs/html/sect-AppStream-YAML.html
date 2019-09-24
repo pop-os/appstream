@@ -185,11 +185,11 @@
 								</div><div xmlns:d="http://docbook.org/ns/docbook" class="itemizedlist"><ul><li class="listitem"><div class="para">
 											<code class="literal">container</code>
 										</div><div class="para">
-											The video container format (string, as described in the XML specification)
+											The video container format (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, values as described in the XML specification)
 										</div></li><li class="listitem"><div class="para">
 											<code class="literal">codec</code>
 										</div><div class="para">
-											The video codec format (string, as described in the XML specification)
+											The video codec format (<span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, values as described in the XML specification)
 										</div></li><li class="listitem"><div class="para">
 											<code class="literal">height</code>
 										</div><div class="para">
@@ -227,7 +227,7 @@
         width: 112
         url: https://www.example.org/en_US/main-small.png
   - source-video:
-      container: mkv
+      container: matroska
       codec: av1
       height: 900
       url: https://www.example.org/en_US/screencast.mkv
@@ -278,7 +278,9 @@
 									One of the <code class="literal">unix-timestamp</code> or <code class="literal">date</code> fields must be present.
 								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></dd><dt><span class="term">description</span></dt><dd><div class="para">
 									A description of this release. May contain allowed HTML markup.
-								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd></dl></div><div class="para">
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></dd><dt><span class="term">issues</span></dt><dd><div class="para">
+									A list of dictionaries describing the issues resolved by this release. The dictionaries contain a <code class="literal">id</code> key for the value of an issue as described in the XML specification, as well as a <code class="literal">type</code> and <code class="literal">url</code> key for the tag properties of the same name described in the XML AppStream specification.
+								</div><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></dd></dl></div><div class="para">
 						It is recommended to order this list starting with the latest timestamp to the olderst one.
 					</div><div class="para">
 						Example:

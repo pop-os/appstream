@@ -372,11 +372,11 @@ as_metadata_yaml_parse_collection_doc (AsMetadata *metad, AsContext *context, co
 
 					if ((n->data == NULL) || (n->children == NULL)) {
 						parse = FALSE;
+						ret = FALSE;
 						g_set_error_literal (error,
 								AS_METADATA_ERROR,
 								AS_METADATA_ERROR_FAILED,
 								"Invalid DEP-11 file found: Header invalid");
-						ret = FALSE;
 						break;
 					}
 
@@ -386,6 +386,7 @@ as_metadata_yaml_parse_collection_doc (AsMetadata *metad, AsContext *context, co
 					if (g_strcmp0 (key, "File") == 0) {
 						if (g_strcmp0 (value, "DEP-11") != 0) {
 							parse = FALSE;
+							ret = FALSE;
 							g_set_error_literal (error,
 									AS_METADATA_ERROR,
 									AS_METADATA_ERROR_FAILED,
@@ -402,6 +403,7 @@ as_metadata_yaml_parse_collection_doc (AsMetadata *metad, AsContext *context, co
 							as_context_set_origin (context, value);
 						} else {
 							parse = FALSE;
+							ret = FALSE;
 							g_set_error_literal (error,
 									AS_METADATA_ERROR,
 									AS_METADATA_ERROR_FAILED,
@@ -457,7 +459,7 @@ as_metadata_yaml_parse_collection_doc (AsMetadata *metad, AsContext *context, co
 
 	/* return NULL on error, otherwise return the list of found components */
 	if (ret)
-		return g_ptr_array_ref (cpts);
+		return g_steal_pointer (&cpts);
 	else
 		return NULL;
 }
@@ -498,7 +500,7 @@ as_metadata_parse (AsMetadata *metad, const gchar *data, AsFormatKind format, GE
 				/* we explicitly allow parsing single component entries in distro-XML mode, since this is a scenario
 				* which might very well happen, e.g. in AppStream metadata generators */
 				if (as_component_load_from_xml (cpt, context, root, error))
-					g_ptr_array_add (priv->cpts, g_object_ref (cpt));
+					g_ptr_array_add (priv->cpts, g_steal_pointer (&cpt));
 			} else {
 				g_set_error_literal (error,
 							AS_METADATA_ERROR,
@@ -507,7 +509,7 @@ as_metadata_parse (AsMetadata *metad, const gchar *data, AsFormatKind format, GE
 			}
 		} else {
 			g_autoptr(AsContext) context = NULL;
-			AsComponent *cpt = as_component_new ();
+			g_autoptr(AsComponent) cpt = NULL;
 
 			context = as_metadata_new_context (metad, AS_FORMAT_STYLE_METAINFO, NULL);
 			if (priv->update_existing) {
@@ -520,9 +522,12 @@ as_metadata_parse (AsMetadata *metad, const gchar *data, AsFormatKind format, GE
 								"No component found that could be updated.");
 					xmlFreeDoc (doc);
 					return;
+				} else {
+					cpt = g_object_ref (cpt);
+					as_component_load_from_xml (cpt, context, root, error);
 				}
-				as_component_load_from_xml (cpt, context, root, error);
 			} else {
+				cpt = as_component_new ();
 				if (as_component_load_from_xml (cpt, context, root, error))
 					g_ptr_array_add (priv->cpts, g_object_ref (cpt));
 			}
@@ -548,8 +553,7 @@ as_metadata_parse (AsMetadata *metad, const gchar *data, AsFormatKind format, GE
 				AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (new_cpts, i));
 				as_component_set_origin_kind (cpt, AS_ORIGIN_KIND_COLLECTION);
 
-				g_ptr_array_add (priv->cpts,
-						 g_object_ref (cpt));
+				g_ptr_array_add (priv->cpts, g_object_ref (cpt));
 			}
 		} else {
 			g_warning ("Can not load non-collection AppStream YAML data, because their format is not specified.");

@@ -3,7 +3,7 @@ project('AppStream', 'c',
   default_options: ['c_std=gnu11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.12.8',
+  version: '0.12.9',
 )
 
 cc = meson.get_compiler('c')
@@ -54,7 +54,7 @@ endif
 
 # a few compiler warning flags we always want enabled
 add_global_arguments('-Werror=implicit-function-declaration', '-Wno-unused-parameter', language: 'c')
-add_global_arguments('-Werror=implicit-function-declaration', '-Wno-unused-parameter', language: 'cpp')
+add_global_arguments('-Wno-unused-parameter', '-Wno-error=deprecated-copy', language: 'cpp')
 add_global_arguments('-DAS_COMPILATION', language : 'c')
 
 #

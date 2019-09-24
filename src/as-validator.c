@@ -178,10 +178,11 @@ as_validator_add_issue (AsValidator *validator, xmlNode *node, const gchar *tag,
 	/* str ownership is transferred to the hashtable */
 	if (g_hash_table_insert (priv->issues, id_str, issue)) {
 		/* the issue is new, we can add it to our by-file listing */
-		GPtrArray *ilist = g_hash_table_lookup (priv->issues_per_file, priv->current_fname);
+		const gchar *fname_key = priv->current_fname? priv->current_fname : "";
+		GPtrArray *ilist = g_hash_table_lookup (priv->issues_per_file, fname_key);
 		if (ilist == NULL) {
 			ilist = g_ptr_array_new_with_free_func (g_object_unref);
-			g_hash_table_insert (priv->issues_per_file, g_strdup (priv->current_fname), ilist);
+			g_hash_table_insert (priv->issues_per_file, g_strdup (fname_key), ilist);
 		}
 		g_ptr_array_add (ilist, g_object_ref (issue));
 	}
@@ -956,7 +957,7 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 						as_validator_add_issue (validator, iter2, "screenshot-video-container-invalid", container_str);
 				}
 
-				video_url_basename = g_path_get_basename (video_url);
+				video_url_basename = as_filebasename_from_uri (video_url);
 				video_url_base_lower = g_utf8_strdown (video_url_basename, -1);
 				if (g_strstr_len (video_url_base_lower, -1, ".") != NULL) {
 					if (!g_str_has_suffix (video_url_base_lower, ".mkv") &&
@@ -1018,10 +1019,13 @@ as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, A
 		}
 
 		if (g_strcmp0 (content, "") == 0) {
-			as_validator_add_issue (validator, iter,
-						"relation-item-no-value",
-						NULL);
-			continue;
+			/* only firmware relations are permitted to be empty, and only if the component is of type=firmware */
+			if ((as_component_get_kind (cpt) != AS_COMPONENT_KIND_FIRMWARE) && (item_kind != AS_RELATION_ITEM_KIND_FIRMWARE)) {
+				as_validator_add_issue (validator, iter,
+							"relation-item-no-value",
+							NULL);
+				continue;
+			}
 		}
 
 		/* check for circular relation */
@@ -2300,6 +2304,32 @@ as_validator_get_tag_severity (AsValidator *validator, const gchar *tag)
 	if (tag_data == NULL)
 		return AS_ISSUE_SEVERITY_UNKNOWN;
 	return tag_data->severity;
+}
+
+/**
+ * as_validator_get_tags:
+ * @validator: An instance of #AsValidator.
+ *
+ * Get an array of all tags known to the validator.
+ *
+ * Returns: (transfer full): A string array of tags
+ */
+gchar**
+as_validator_get_tags (AsValidator *validator)
+{
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
+	GHashTableIter iter;
+	gpointer ht_key;
+	guint i = 0;
+	gchar **result;
+
+	result = g_new0 (gchar*, g_hash_table_size (priv->issue_tags) + 1);
+	g_hash_table_iter_init (&iter, priv->issue_tags);
+	while (g_hash_table_iter_next (&iter, &ht_key, NULL)) {
+		result[i++] = g_strdup ((const gchar*) ht_key);
+	}
+
+	return result;
 }
 
 /**

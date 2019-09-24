@@ -29,7 +29,7 @@
 			Applications can ship one or more files in <filename>/usr/share/metainfo/%{id}.metainfo.xml</filename>.
 		</para>
 		<para>
-			Data will only be fetched from a desktop file if one <xref linkend="tag-dapp-launchable"/> tag is present to define a .desktop file ID. If multiple <literal>launch</literal> tags are
+			Data will only be fetched from a desktop file if one <xref linkend="tag-dapp-launchable"/> tag is present to define a .desktop file ID. If multiple <literal>launchable</literal> tags are
 			defined, no data will be merged in from .desktop files.
 		</para>
 		<note>
@@ -43,6 +43,14 @@
 				While <literal>desktop-application</literal> metadata is commonly stored in <filename>/usr/share/metainfo/%{id}.metainfo.xml</filename> (with a <filename>.metainfo.xml</filename> extension),
 				using a <filename>.appdata.xml</filename> extension is also permitted for this component type for legacy compatibility.
 				AppStream implementations will recognize either file type, as long as it ends up in the right location on the filesystem.
+			</para>
+		</note>
+		<note>
+			<para>
+				If you want to hide a desktop-entry file from AppStream metadata generators which synthesize components from desktop-entry data, you may
+				want to add <code>X-AppStream-Ignore=True</code> to the <code>Desktop Entry</code> section of the .desktop file.
+				Keep in mind that if your .desktop file already has a <code>NoDisplay=True</code> key or is not of <code>Type=Application</code>, it will
+				always be ignored, unless metainfo file exists that references it (in which case its data may be merged with the metainfo data).
 			</para>
 		</note>
 	</section>
@@ -171,8 +179,8 @@
 					</listitem>
 					<listitem>
 						<para>
-							Screenshots should be in PNG or JPEG format. PNG is the preferred format; JPEG should only be used when screenshots include large photographs or other images where a lossy format like
-							JPEG may compress better.
+							Screenshots should ideally be in the PNG format, but JPEG and WebP images are also fine. Keep in mind though that the images are converted into PNG
+							when collection metadata is generated for a software distribution.
 						</para>
 					</listitem>
 					<listitem>

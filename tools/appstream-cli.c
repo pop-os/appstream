@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2015 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2019 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -703,6 +703,134 @@ as_client_run_new_template (char **argv, int argc)
 }
 
 /**
+ * as_client_run_make_desktop_file:
+ *
+ * Create desktop-entry file from metainfo file.
+ */
+static int
+as_client_run_make_desktop_file (char **argv, int argc)
+{
+	const gchar *command = "make-desktop-file";
+	g_autoptr(GOptionContext) opt_context = NULL;
+	const gchar *optn_exec_command = NULL;
+	const gchar *mi_fname = NULL;
+	const gchar *de_fname = NULL;
+	gint ret;
+
+	const GOptionEntry make_desktop_file_options[] = {
+		{ "exec", 0, 0,
+			G_OPTION_ARG_STRING,
+			&optn_exec_command,
+			/* TRANSLATORS: ascli flag description for: --exec (part of the make-desktop-file subcommand) */
+			N_("Use the specified line for the 'Exec=' key of the desktop-entry file."), NULL },
+		{ NULL }
+	};
+
+	opt_context = as_client_new_subcommand_option_context (command, make_desktop_file_options);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
+
+	if (argc > 2)
+		mi_fname = argv[2];
+	if (argc > 3)
+		de_fname = argv[3];
+
+	return ascli_make_desktop_entry_file (mi_fname,
+					      de_fname,
+					      optn_exec_command);
+}
+
+/**
+ * as_client_run_news_to_metainfo:
+ *
+ * Convert NEWS file to metainfo data.
+ */
+static int
+as_client_run_news_to_metainfo (char **argv, int argc)
+{
+	const gchar *command = "news-to-metainfo";
+	g_autoptr(GOptionContext) opt_context = NULL;
+	const gchar *optn_format_text = NULL;
+	guint optn_limit = 0;
+	const gchar *mi_fname = NULL;
+	const gchar *news_fname = NULL;
+	const gchar *out_fname = NULL;
+	gint ret;
+
+	const GOptionEntry news_to_metainfo_options[] = {
+		{ "format", 0, 0,
+			G_OPTION_ARG_STRING,
+			&optn_format_text,
+			/* TRANSLATORS: ascli flag description for: --format as part of the news-to-metainfo command */
+			N_("Assume the input file is in the selected format ('yaml' or 'text')."), NULL },
+		{ "limit", 0, 0,
+			G_OPTION_ARG_INT,
+			&optn_limit,
+			/* TRANSLATORS: ascli flag description for: --limit as part of the news-to-metainfo command */
+			N_("Limit the number of release entries that end up in the metainfo file (0 for unlimited)."), NULL },
+		{ NULL }
+	};
+
+	opt_context = as_client_new_subcommand_option_context (command, news_to_metainfo_options);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
+
+	if (argc > 2)
+		news_fname = argv[2];
+	if (argc > 3)
+		mi_fname = argv[3];
+	if (argc > 4)
+		out_fname = argv[4];
+
+	return ascli_news_to_metainfo (news_fname,
+					mi_fname,
+					out_fname,
+					optn_limit,
+					optn_format_text);
+}
+
+/**
+ * as_client_run_metainfo_to_news:
+ *
+ * Convert metainfo data to NEWS file.
+ */
+static int
+as_client_run_metainfo_to_news (char **argv, int argc)
+{
+	const gchar *command = "metainfo-to-news";
+	g_autoptr(GOptionContext) opt_context = NULL;
+	const gchar *optn_format_text = NULL;
+	const gchar *mi_fname = NULL;
+	const gchar *news_fname = NULL;
+	gint ret;
+
+	const GOptionEntry metainfo_to_news_options[] = {
+		{ "format", 0, 0,
+			G_OPTION_ARG_STRING,
+			&optn_format_text,
+			/* TRANSLATORS: ascli flag description for: --format as part of the metainfo-to-news command */
+			N_("Generate the output in the selected format ('yaml' or 'text')."), NULL },
+		{ NULL }
+	};
+
+	opt_context = as_client_new_subcommand_option_context (command, metainfo_to_news_options);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
+
+	if (argc > 2)
+		mi_fname = argv[2];
+	if (argc > 3)
+		news_fname = argv[3];
+
+	return ascli_metainfo_to_news (mi_fname,
+					news_fname,
+					optn_format_text);
+}
+
+/**
  * as_client_get_summary:
  **/
 static gchar*
@@ -736,7 +864,11 @@ as_client_get_summary ()
 	/* TRANSLATORS: "convert" command in ascli. "Collection XML" is a term describing a specific type of AppStream XML data. */
 	g_string_append_printf (string, "  %s - %s\n", "convert FILE FILE", _("Convert collection XML to YAML or vice versa."));
 	g_string_append_printf (string, "  %s - %s\n", "compare-versions VER1 [COMP] VER2", _("Compare two version numbers."));
+	g_string_append (string, "\n");
 	g_string_append_printf (string, "  %s - %s\n", "new-template TYPE FILE", _("Create a template for a metainfo file (to be filled out by the upstream project)."));
+	g_string_append_printf (string, "  %s - %s\n", "make-desktop-file MI_FILE DESKTOP_FILE", _("Create a XDG desktop-entry file from a metainfo file."));
+	g_string_append_printf (string, "  %s - %s\n", "news-to-metainfo NEWS_FILE MI_FILE [OUT_FILE]", _("Convert a YAML or text NEWS file into metainfo releases."));
+	g_string_append_printf (string, "  %s - %s\n", "metainfo-to-news MI_FILE NEWS_FILE", _("Write NEWS text or YAML file with information from a metainfo file."));
 
 	g_string_append (string, "\n");
 	g_string_append (string, _("You can find information about subcommand-specific options by passing \"--help\" to the subcommand."));
@@ -866,6 +998,12 @@ as_client_run (char **argv, int argc)
 		return as_client_run_compare_versions (argv, argc);
 	} else if (g_strcmp0 (command, "new-template") == 0) {
 		return as_client_run_new_template (argv, argc);
+	} else if (g_strcmp0 (command, "make-desktop-file") == 0) {
+		return as_client_run_make_desktop_file (argv, argc);
+	} else if (g_strcmp0 (command, "news-to-metainfo") == 0) {
+		return as_client_run_news_to_metainfo (argv, argc);
+	} else if (g_strcmp0 (command, "metainfo-to-news") == 0) {
+		return as_client_run_metainfo_to_news (argv, argc);
 	} else {
 		/* TRANSLATORS: ascli has been run with unknown command. */
 		ascli_print_stderr (_("Unknown command '%s'."), command);
