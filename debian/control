@@ -23,7 +23,8 @@ Vcs-Browser: https://salsa.debian.org/pkgutopia-team/appstream
 
 Package: appstream
 Architecture: any
-Depends: ${misc:Depends},
+Depends: shared-mime-info,
+         ${misc:Depends},
          ${shlibs:Depends}
 Breaks: appstream-index (<< ${source:Version}),
         gnome-software (<< 3.22.5-1),
