@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2018-2020 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2020 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -18,22 +18,32 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef __AS_DISTRO_DETAILS_PRIVATE_H
-#define __AS_DISTRO_DETAILS_PRIVATE_H
+#ifndef __AS_CONTEXT_PRIVATE_H
+#define __AS_CONTEXT_PRIVATE_H
 
-#include "as-distro-details.h"
-#include "as-settings-private.h"
+#include "as-context.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
-AS_INTERNAL_VISIBLE
-void
-as_distro_details_load_data (AsDistroDetails *distro,
-			     const gchar *os_release_fname,
-			     const gchar *as_config_fname);
+const gchar		*as_context_get_architecture (AsContext *ctx);
+void			as_context_set_architecture (AsContext *ctx,
+						     const gchar *value);
+
+gboolean		as_context_get_internal_mode (AsContext *ctx);
+void			as_context_set_internal_mode (AsContext *ctx,
+						      gboolean enabled);
+
+const gchar		*as_context_localized_ht_get (AsContext *ctx,
+						      GHashTable *lht,
+						      const gchar *locale_override,
+						      AsValueFlags value_flags);
+void			as_context_localized_ht_set (AsContext *ctx,
+						     GHashTable *lht,
+						     const gchar *value,
+						     const gchar *locale);
 
 #pragma GCC visibility pop
 G_END_DECLS
 
-#endif /* __AS_DISTRO_DETAILS_PRIVATE_H */
+#endif /* __AS_CONTEXT_PRIVATE_H */
