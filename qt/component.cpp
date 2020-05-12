@@ -412,6 +412,11 @@ bool Component::hasCategory(const QString& category) const
     return as_component_has_category(m_cpt, qPrintable(category));
 }
 
+bool AppStream::Component::isMemberOfCategory(const AppStream::Category& category) const
+{
+    return as_component_is_member_of_category(m_cpt, category.asCategory());
+}
+
 QStringList Component::extends() const
 {
     return valueWrap(as_component_get_extends(m_cpt));
@@ -641,6 +646,16 @@ uint AppStream::Component::searchMatchesAll(const QStringList& terms) const
     return searchMatches;
 }
 
+uint AppStream::Component::sortScore() const
+{
+    return as_component_get_sort_score(m_cpt);
+}
+
+void AppStream::Component::setSortScore(uint score)
+{
+    as_component_set_sort_score(m_cpt, score);
+}
+
 AppStream::Component::MergeKind AppStream::Component::mergeKind() const
 {
     return static_cast<Component::MergeKind>(as_component_get_merge_kind(m_cpt));
@@ -701,9 +716,14 @@ void AppStream::Component::addContentRating(const AppStream::ContentRating& cont
     as_component_add_content_rating(m_cpt, contentRating.asContentRating());
 }
 
-bool AppStream::Component::isMemberOfCategory(const AppStream::Category& category) const
+QString Component::nameVariantSuffix() const
 {
-    return as_component_is_member_of_category(m_cpt, category.asCategory());
+    return valueWrap(as_component_get_name_variant_suffix(m_cpt));
+}
+
+void Component::setNameVariantSuffix(const QString& variantSuffix, const QString& lang)
+{
+    as_component_set_name_variant_suffix(m_cpt, qPrintable(variantSuffix), lang.isEmpty()? NULL : qPrintable(lang));
 }
 
 bool AppStream::Component::isIgnored() const

@@ -146,7 +146,7 @@ typedef enum {
 } AsComponentScope;
 
 const gchar		*as_component_scope_to_string (AsComponentScope scope);
-AsMergeKind		as_component_scope_from_string (const gchar *scope_str);
+AsComponentScope	as_component_scope_from_string (const gchar *scope_str);
 
 /**
  * AsValueFlags:
@@ -359,6 +359,12 @@ const gchar		*as_component_get_name_variant_suffix (AsComponent *cpt);
 void			as_component_set_name_variant_suffix (AsComponent *cpt,
 								const gchar *value,
 								const gchar *locale);
+
+guint			as_component_get_sort_score (AsComponent *cpt);
+void			as_component_set_sort_score (AsComponent *cpt,
+							guint score);
+
+AsContext		*as_component_get_context (AsComponent *cpt);
 
 GHashTable		*as_component_get_name_table (AsComponent *cpt);
 GHashTable		*as_component_get_summary_table (AsComponent *cpt);

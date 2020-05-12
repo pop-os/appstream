@@ -362,8 +362,7 @@ as_news_releases_to_yaml (GPtrArray *releases, gchar **yaml_data)
 								continue;
 							if (g_strcmp0 ((gchar*) iter2->name, "li") == 0) {
 								g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter2);
-								g_strstrip (content);
-								as_yaml_emit_scalar (&emitter, content);
+								as_yaml_emit_scalar (&emitter, as_strstripnl (content));
 							}
 						}
 					}
@@ -543,8 +542,9 @@ as_news_text_to_list_markup (GString *desc, gchar **lines, GError **error)
 	as_news_text_add_markup (desc, "ul", NULL);
 	for (i = 0; lines[i] != NULL; i++) {
 		guint prefix = 0;
-		if ((g_str_has_prefix (lines[i], " - ")) || (g_str_has_prefix (lines[i], " * ")))
-			prefix = 3;
+		g_strstrip(lines[i]);
+		if ((g_str_has_prefix (lines[i], "- ")) || (g_str_has_prefix (lines[i], "* ")))
+			prefix = 2;
 		as_news_text_add_markup (desc, "li", lines[i] + prefix);
 	}
 	as_news_text_add_markup (desc, "/ul", NULL);
@@ -560,8 +560,9 @@ as_news_text_to_para_markup (GString *desc, const gchar *txt, GError **error)
 	lines = g_strsplit (txt, "\n", -1);
 	for (i = 1; lines[i] != NULL; i++) {
 		guint prefix = 0;
-		if ((g_str_has_prefix (lines[i], " - ")) || (g_str_has_prefix (lines[i], " * ")))
-			prefix = 3;
+		g_strstrip(lines[i]);
+		if ((g_str_has_prefix (lines[i], "- ")) || (g_str_has_prefix (lines[i], "* ")))
+			prefix = 2;
 		as_news_text_add_markup (desc, "p", lines[i] + prefix);
 	}
 	return TRUE;

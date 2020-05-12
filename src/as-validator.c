@@ -283,7 +283,7 @@ as_validator_setup_networking (AsValidator *validator)
 	priv->soup_session = soup_session_new_with_options (SOUP_SESSION_USER_AGENT,
 							    "appstream-validator",
 							    SOUP_SESSION_TIMEOUT,
-							    5000,
+							    90,
 							    NULL);
 	if (priv->soup_session == NULL) {
 		g_critical ("Failed to set up networking support");
@@ -429,8 +429,7 @@ as_validator_check_content_empty (AsValidator *validator, xmlNode *node, const g
 {
 	g_autofree gchar *node_content = NULL;
 
-	node_content = (gchar*) xmlNodeGetContent (node);
-	g_strstrip (node_content);
+	node_content = as_strstripnl ((gchar*) xmlNodeGetContent (node));
 	if (!as_str_empty (node_content))
 		return;
 
@@ -756,6 +755,9 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 			hyphen_found = TRUE;
 			as_validator_add_issue (validator, idnode, "cid-contains-hyphen", cid);
 		}
+
+		if (g_ascii_isalpha (cid[i]) && g_ascii_isupper (cid[i]))
+			as_validator_add_issue (validator, idnode, "cid-contains-uppercase-letter", cid);
 	}
 
 	/* check if any segment starts with a number */
@@ -950,11 +952,9 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 				continue;
 
 			if (g_strcmp0 (node_name, "image") == 0) {
-				g_autofree gchar *image_url = (gchar*) xmlNodeGetContent (iter2);
-				g_strstrip (image_url);
+				g_autofree gchar *image_url = as_strstripnl ((gchar*) xmlNodeGetContent (iter2));
 
 				image_found = TRUE;
-
 				if (!as_validate_is_secure_url (image_url)) {
 					as_validator_add_issue (validator, iter2,
 								"screenshot-media-url-not-secure",
@@ -971,8 +971,7 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 				g_autofree gchar *container_str = NULL;
 				g_autofree gchar *video_url_basename = NULL;
 				g_autofree gchar *video_url_base_lower = NULL;
-				g_autofree gchar *video_url = (gchar*) xmlNodeGetContent (iter2);
-				g_strstrip (video_url);
+				g_autofree gchar *video_url = as_strstripnl ((gchar*) xmlNodeGetContent (iter2));
 
 				video_found = TRUE;
 
@@ -1090,6 +1089,7 @@ as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, A
 		switch (item_kind) {
 		case AS_RELATION_ITEM_KIND_MEMORY:
 		case AS_RELATION_ITEM_KIND_MODALIAS:
+		case AS_RELATION_ITEM_KIND_CONTROL:
 			can_have_version = FALSE;
 			break;
 		default:
@@ -1121,8 +1121,17 @@ as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, A
 			}
 		}
 
-		if ((kind == AS_RELATION_KIND_REQUIRES) && (item_kind == AS_RELATION_ITEM_KIND_MEMORY))
-			as_validator_add_issue (validator, iter, "relation-memory-in-requires", NULL);
+		if (kind == AS_RELATION_KIND_REQUIRES) {
+			if (item_kind == AS_RELATION_ITEM_KIND_MEMORY)
+				as_validator_add_issue (validator, iter, "relation-memory-in-requires", NULL);
+			else if (item_kind == AS_RELATION_ITEM_KIND_CONTROL)
+				as_validator_add_issue (validator, iter, "relation-control-in-requires", NULL);
+		}
+
+		if (item_kind == AS_RELATION_ITEM_KIND_CONTROL) {
+			if (as_control_kind_from_string (content) == AS_CONTROL_KIND_UNKNOWN)
+				as_validator_add_issue (validator, iter, "relation-control-value-unknown", content);
+		}
 	}
 }
 
@@ -2285,7 +2294,7 @@ as_validator_get_report_yaml (AsValidator *validator, gchar **yaml_report)
 			if (cid != NULL)
 				as_yaml_emit_entry (&emitter, "component", cid);
 			if (line > 0)
-				as_yaml_emit_entry_uint (&emitter, "line", (guint) line);
+				as_yaml_emit_entry_uint64 (&emitter, "line", (guint) line);
 			if (hint != NULL)
 				as_yaml_emit_entry (&emitter, "hint", hint);
 			as_yaml_emit_long_entry (&emitter,
