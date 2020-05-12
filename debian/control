@@ -2,13 +2,14 @@ Source: appstream
 Section: admin
 Priority: optional
 Maintainer: Matthias Klumpp <mak@debian.org>
-Build-Depends: debhelper-compat (= 12),
+Build-Depends: debhelper-compat (= 13),
                gettext,
                gobject-introspection,
                gperf,
                gtk-doc-tools,
                libgirepository1.0-dev (>= 1.58),
                libglib2.0-dev (>= 2.58),
+               libjs-highlight.js,
                liblmdb-dev,
                libsoup2.4-dev (>= 2.56),
                libstemmer-dev,
@@ -140,7 +141,8 @@ Package: appstream-doc
 Architecture: all
 Multi-Arch: foreign
 Section: doc
-Depends: ${misc:Depends}
+Depends: libjs-highlight.js,
+         ${misc:Depends}
 Suggests: appstream
 Breaks: appstream (<< 0.11.8)
 Description: Developer documentation for AppStream

@@ -14,3 +14,9 @@ override_dh_auto_configure:
 
 override_dh_missing:
 	dh_missing --fail-missing
+
+execute_after_dh_auto_install:
+	# replace embedded highlight.js copy with a packaged one
+	rm $(CURDIR)/debian/tmp/usr/share/doc/appstream/html/static/js/highlight.min.js
+	ln -s /usr/share/javascript/highlight.js/highlight.min.js \
+		$(CURDIR)/debian/tmp/usr/share/doc/appstream/html/static/js/highlight.min.js
