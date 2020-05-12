@@ -23,7 +23,6 @@ libappstream.so.4 libappstream4 #MINVER#
  as_agreement_set_version_id@Base 0.12.1
  as_artifact_add_checksum@Base 0.12.6
  as_artifact_add_location@Base 0.12.6
- as_artifact_emit_yaml@Base 0.12.6
  as_artifact_get_bundle_kind@Base 0.12.6
  as_artifact_get_checksum@Base 0.12.6
  as_artifact_get_checksums@Base 0.12.6
@@ -34,7 +33,6 @@ libappstream.so.4 libappstream4 #MINVER#
  as_artifact_get_type@Base 0.12.6
  as_artifact_kind_from_string@Base 0.12.6
  as_artifact_kind_to_string@Base 0.12.6
- as_artifact_load_from_yaml@Base 0.12.6
  as_artifact_new@Base 0.12.6
  as_artifact_set_bundle_kind@Base 0.12.6
  as_artifact_set_kind@Base 0.12.6
@@ -104,6 +102,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_checksum_kind_from_string@Base 0.10.0
  as_checksum_kind_to_string@Base 0.10.0
  as_checksum_new@Base 0.10.0
+ as_checksum_new_for_kind_value@Base 0.12.11
  as_checksum_set_kind@Base 0.10.0
  as_checksum_set_value@Base 0.10.0
  as_component_add_addon@Base 0.10.0
@@ -131,6 +130,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_compulsory_for_desktops@Base 0.10.0
  as_component_get_content_rating@Base 0.11.0
  as_component_get_content_ratings@Base 0.11.0
+ as_component_get_context@Base 0.12.11
  as_component_get_custom@Base 0.10.5
  as_component_get_custom_value@Base 0.10.5
  as_component_get_data_id@Base 0.10.0
@@ -168,6 +168,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_scope@Base 0.12.7
  as_component_get_screenshots@Base 0.10.0
  as_component_get_search_tokens@Base 0.10.0
+ as_component_get_sort_score@Base 0.12.11
  as_component_get_source_pkgname@Base 0.10.0
  as_component_get_suggested@Base 0.10.0
  as_component_get_summary@Base 0.10.0
@@ -210,6 +211,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_project_group@Base 0.10.0
  as_component_set_project_license@Base 0.10.0
  as_component_set_scope@Base 0.12.7
+ as_component_set_sort_score@Base 0.12.11
  as_component_set_source_pkgname@Base 0.10.0
  as_component_set_summary@Base 0.10.0
  as_component_set_value_flags@Base 0.10.0
@@ -245,6 +247,8 @@ libappstream.so.4 libappstream4 #MINVER#
  as_context_set_origin@Base 0.11.1
  as_context_set_priority@Base 0.11.1
  as_context_set_style@Base 0.11.1
+ as_control_kind_from_string@Base 0.12.11
+ as_control_kind_to_string@Base 0.12.11
  as_copy_file@Base 0.10.0
  as_distro_details_get_bool@Base 0.10.0
  as_distro_details_get_cid@Base 0.12.5
@@ -409,6 +413,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_relation_get_kind@Base 0.12.0
  as_relation_get_type@Base 0.12.0
  as_relation_get_value@Base 0.12.0
+ as_relation_get_value_control_kind@Base 0.12.11
  as_relation_get_value_int@Base 0.12.0
  as_relation_get_version@Base 0.12.0
  as_relation_item_kind_from_string@Base 0.12.0
@@ -488,6 +493,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_stemmer_get_type@Base 0.10.0
  as_stemmer_reload@Base 0.10.0
  as_stemmer_stem@Base 0.10.0
+ as_strstripnl@Base 0.12.11
  as_suggested_add_id@Base 0.10.0
  as_suggested_get_ids@Base 0.10.0
  as_suggested_get_kind@Base 0.10.0
