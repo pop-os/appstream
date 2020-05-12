@@ -1,3 +1,13 @@
+appstream (0.12.11-1) unstable; urgency=medium
+
+  * New upstream version 0.12.11
+  * Drop all patches: Applied upstream
+  * Update .symbols file
+  * Use packaged copy of highlight.js for documentation
+  * Add full-source copy of highlight.js to debian/ dir
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 12 May 2020 18:28:42 +0200
+
 appstream (0.12.10-2) unstable; urgency=medium
 
   * Add fix-free-license-check.patch: Non-free licenses were previously
