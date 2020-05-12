@@ -72,7 +72,7 @@ as_yaml_parse_layer (yaml_parser_t *parser, GNode *data, GError **error)
 			g_set_error (error,
 					AS_METADATA_ERROR,
 					AS_METADATA_ERROR_PARSE,
-					"Invalid DEP-11 file found. Could not parse YAML: %s", parser->problem);
+					"Metadata is invalid. Unable to parse YAML: %s", parser->problem);
 			break;
 		}
 
@@ -270,16 +270,16 @@ as_yaml_emit_scalar_raw (yaml_emitter_t *emitter, const gchar *value)
 }
 
 /**
- * as_yaml_emit_scalar_uint:
+ * as_yaml_emit_scalar_uint64:
  */
 void
-as_yaml_emit_scalar_uint (yaml_emitter_t *emitter, guint value)
+as_yaml_emit_scalar_uint64 (yaml_emitter_t *emitter, guint64 value)
 {
 	gint ret;
 	yaml_event_t event;
 	g_autofree gchar *value_str = NULL;
 
-	value_str = g_strdup_printf("%i", value);
+	value_str = g_strdup_printf ("%" G_GUINT64_FORMAT, value);
 	yaml_scalar_event_initialize (&event,
 					NULL,
 					NULL,
@@ -336,13 +336,13 @@ as_yaml_emit_entry (yaml_emitter_t *emitter, const gchar *key, const gchar *valu
 }
 
 /**
- * as_yaml_emit_entry_uint:
+ * as_yaml_emit_entry_uint64:
  */
 void
-as_yaml_emit_entry_uint (yaml_emitter_t *emitter, const gchar *key, guint value)
+as_yaml_emit_entry_uint64 (yaml_emitter_t *emitter, const gchar *key, guint64 value)
 {
 	as_yaml_emit_scalar_key (emitter, key);
-	as_yaml_emit_scalar_uint (emitter, value);
+	as_yaml_emit_scalar_uint64 (emitter, value);
 }
 
 /**
@@ -531,8 +531,7 @@ as_yaml_emit_lang_hashtable_entries (gchar *key, gchar *value, yaml_emitter_t *e
 	if (as_is_cruft_locale (key))
 		return;
 
-	g_strstrip (value);
-	as_yaml_emit_entry (emitter, key, value);
+	as_yaml_emit_entry (emitter, key, as_strstripnl (value));
 }
 
 /**
@@ -560,8 +559,7 @@ as_yaml_emit_lang_hashtable_entries_long (gchar *key, gchar *value, yaml_emitter
 	if (as_is_cruft_locale (key))
 		return;
 
-	g_strstrip (value);
-	as_yaml_emit_long_entry (emitter, key, value);
+	as_yaml_emit_long_entry (emitter, key, as_strstripnl (value));
 }
 
 /**
@@ -629,7 +627,7 @@ as_yaml_localized_list_helper (gchar *key, gchar **strv, yaml_emitter_t *emitter
 	if (as_is_cruft_locale (key))
 		return;
 
-	as_yaml_emit_scalar (emitter, key);
+	as_yaml_emit_scalar (emitter, as_locale_strip_encoding (key));
 	as_yaml_sequence_start (emitter);
 	for (i = 0; strv[i] != NULL; i++) {
 		as_yaml_emit_scalar (emitter, strv[i]);

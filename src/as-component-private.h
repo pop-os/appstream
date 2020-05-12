@@ -82,10 +82,6 @@ GHashTable		*as_component_get_token_cache_table (AsComponent *cpt);
 void			 as_component_set_token_cache_valid (AsComponent *cpt,
 							     gboolean valid);
 
-guint			as_component_get_sort_score (AsComponent *cpt);
-void			as_component_set_sort_score (AsComponent *cpt,
-							guint score);
-
 void			as_component_set_ignored (AsComponent *cpt,
 						  gboolean ignore);
 
@@ -99,7 +95,6 @@ void			as_component_merge_with_mode (AsComponent *cpt,
 							AsComponent *source,
 							AsMergeKind merge_kind);
 
-AsContext		*as_component_get_context (AsComponent *cpt);
 void			as_component_set_context (AsComponent *cpt,
 						  AsContext *context);
 

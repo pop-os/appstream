@@ -363,7 +363,7 @@ as_component_scope_to_string (AsComponentScope scope)
  *
  * Returns: a #AsComponentScope or %AS_COMPONENT_SCOPE_UNKNOWN for unknown
  **/
-AsMergeKind
+AsComponentScope
 as_component_scope_from_string (const gchar *scope_str)
 {
 	if (g_strcmp0 (scope_str, "system") == 0)
@@ -1869,7 +1869,18 @@ as_component_set_priority (AsComponent *cpt, gint priority)
  *
  * Returns the sorting priority of this component.
  *
- * Since: 0.9.8
+ * This will only return a valid value if this component
+ * was the result of or involved in a search operation which
+ * returned sorted results.
+ * In most cases you will not need to access this value explicitly,
+ * as all results of search operations in AppStream are already sorted
+ * from best match to worst.
+ *
+ * The returned value is an arbitrary integer value, valid only for
+ * the search terms involved in the search operation that yielded
+ * this component as a result.
+ *
+ * Since: 0.12.11
  */
 guint
 as_component_get_sort_score (AsComponent *cpt)
@@ -3119,8 +3130,12 @@ as_component_get_agreement_by_kind (AsComponent *cpt, AsAgreementKind kind)
  * as_component_get_context:
  * @cpt: a #AsComponent instance.
  *
- * Returns: the #AsContext associated with this component.
- * This function may return %NULL if no context is set.
+ * Get the #AsContext associated with this component.
+ * This function may return %NULL if no context is set
+ * (which will be the case if the component was not loaded from
+ * a file or cache but constructed in memory).
+ *
+ * Returns: (transfer none) (nullable): the associated #AsContext or %NULL
  *
  * Since: 0.11.2
  */
@@ -4770,19 +4785,19 @@ as_component_yaml_emit_icons (AsComponent* cpt, yaml_emitter_t *emitter, GPtrArr
 					as_yaml_emit_entry (emitter, "name", as_icon_get_name (icon));
 
 				if (as_icon_get_width (icon) > 0) {
-					as_yaml_emit_entry_uint (emitter,
+					as_yaml_emit_entry_uint64 (emitter,
 								 "width",
 								 as_icon_get_width (icon));
 				}
 
 				if (as_icon_get_height (icon) > 0) {
-					as_yaml_emit_entry_uint (emitter,
+					as_yaml_emit_entry_uint64 (emitter,
 								 "height",
 								 as_icon_get_height (icon));
 				}
 
 				if (as_icon_get_scale (icon) > 1) {
-					as_yaml_emit_entry_uint (emitter,
+					as_yaml_emit_entry_uint64 (emitter,
 								 "scale",
 								 as_icon_get_scale (icon));
 				}
@@ -5004,7 +5019,7 @@ as_component_yaml_emit_languages (AsComponent *cpt, yaml_emitter_t *emitter)
 
 		as_yaml_mapping_start (emitter);
 		as_yaml_emit_entry (emitter, "locale", locale);
-		as_yaml_emit_entry_uint (emitter, "percentage", percentage);
+		as_yaml_emit_entry_uint64 (emitter, "percentage", percentage);
 		as_yaml_mapping_end (emitter);
 	}
 

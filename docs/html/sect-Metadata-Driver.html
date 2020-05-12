@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title xmlns:d="http://docbook.org/ns/docbook">2.12. Driver</title><link rel="stylesheet" type="text/css" href="Common_Content/css/default.css" /><link rel="stylesheet" media="print" href="Common_Content/css/print.css" type="text/css" /><meta xmlns:d="http://docbook.org/ns/docbook" name="generator" content="publican v4.3.2" /><meta xmlns:d="http://docbook.org/ns/docbook" name="package" content="AppStream-AppStream-0.12-en-US-0.0-0" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="prev" href="sect-Metadata-Firmware.html" title="2.11. Firmware" /><link rel="next" href="sect-Metadata-Localization.html" title="2.13. Localization" /></head><body><p id="title"><a class="left" href="http://www.freedesktop.org/wiki/Distributions/AppStream/"><img alt="Product Site" src="Common_Content/images//image_left.png" /></a><a class="right" href="http://www.freedesktop.org/software/appstream/docs/"><img alt="Documentation Site" src="Common_Content/images//image_right.png" /></a></p><ul class="docnav top"><li class="previous"><a accesskey="p" href="sect-Metadata-Firmware.html"><strong>Prev</strong></a></li><li class="home">AppStream</li><li class="next"><a accesskey="n" href="sect-Metadata-Localization.html"><strong>Next</strong></a></li></ul><div xml:lang="en-US" class="section" lang="en-US"><div class="titlepage"><div><div><h2 class="title"><a id="sect-Metadata-Driver">
-      ⁠</a>2.12. Driver</h2></div></div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-driver-introduction">
-      ⁠</a>2.12.1. Introduction</h3></div></div></div><div class="para">
-			The <code class="literal">driver</code> component type describes drivers for hardware devices as well as other Linux kernel drivers for e.g. virtualization support. It usually <code class="literal">provides</code> one or multiple modaliases.
-		</div><div class="para">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Driver | AppStream | AppStream 0.12</title><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /><link rel="stylesheet" type="text/css" href="static/css/style.css" /><link rel="stylesheet" type="text/css" href="static/css/highlight.css" /><meta name="generator" content="DAPS 3.0.0" /><meta name="product-name" content="AppStream" /><meta name="product-number" content="0.12" /><meta name="book-title" content="AppStream" /><meta name="chapter-title" content="2.12. Driver" /><meta name="description" content="2.12.1 Introduction # The driver component type describes drivers for hardware devices as well as other Linux kernel drivers for e.g. virtualization support. It usually provides one or multiple modaliases. Drivers can ship one or more files in /usr/share/metainfo/%{id}.metainfo.xml. 2.12.2 Example f…" /><link rel="home" href="index.html" title="AppStream" /><link rel="up" href="chap-Metadata.html" title="Chapter 2. Upstream Metadata" /><link rel="prev" href="sect-Metadata-Firmware.html" title="2.11. Firmware" /><link rel="next" href="sect-Metadata-Localization.html" title="2.13. Localization" />
+<script src="static/js/highlight.min.js" type="text/javascript"></script><script>
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  document.querySelectorAll('.verbatim-wrap.highlight').forEach((block) => {
+    hljs.highlightBlock(block);
+  });
+});
+hljs.configure({
+  useBR: false
+});
+
+</script></head><body class="offline js-off"><div class="bypass-block"><a href="#_content">Jump to content</a><a href="#_bottom-navigation">Jump to page navigation: previous page [access key p]/next page [access key n]</a></div><div id="_outer-wrap"><div id="_white-bg"><div id="_header"><div id="_logo"><a href="https://www.freedesktop.org/software/appstream/docs/"><img src="static/images/logo.png" alt="Logo" /><span>AppStream</span></a></div><div class="crumbs"><a class="book-link" href="index.html" title="AppStream"><span class="book-icon">AppStream</span></a><span> › </span><a class="crumb" href="chap-Metadata.html">Upstream Metadata</a><span> › </span><a class="crumb" href="sect-Metadata-Driver.html" accesskey="c"><span class="single-contents-icon"></span>Driver</a></div><div class="clearme"></div></div></div><div id="_toolbar-wrap"><div id="_toolbar"><div id="_toc-area" class="inactive"><a id="_toc-area-button" class="tool" title="Contents" accesskey="c" href="index.html"><span class="tool-spacer"><span class="toc-icon">Contents</span><span class="clearme"></span></span><span class="tool-label">Contents</span></a><div class="active-contents bubble-corner"></div><div class="active-contents bubble"><div class="bubble-container"><h6>AppStream</h6><div id="_bubble-toc"><ol><li class="inactive"><a href="chap-AppStream-About.html"><span class="number">1 </span><span class="name">About AppStream</span></a></li><li class="inactive"><a href="chap-Metadata.html"><span class="number">2 </span><span class="name">Upstream Metadata</span></a></li><li class="inactive"><a href="chap-CollectionData.html"><span class="number">3 </span><span class="name">Collection Metadata</span></a></li><li class="inactive"><a href="chap-Quickstart.html"><span class="number">4 </span><span class="name">Metadata Quickstart</span></a></li><li class="inactive"><a href="chap-AppStream-Services.html"><span class="number">5 </span><span class="name">Services</span></a></li><li class="inactive"><a href="chap-AppStream-ManualPages.html"><span class="number">6 </span><span class="name">Manual pages</span></a></li><li class="inactive"><a href="chap-AppStream-API.html"><span class="number">7 </span><span class="name">AppStream API Reference</span></a></li><li class="inactive"><a href="ix01.html"><span class="number"> </span><span class="name">Index</span></a></li></ol></div><div class="clearme"></div></div></div></div><div id="_nav-area" class="inactive"><div class="tool"><span class="nav-inner"><span class="tool-label">Navigation</span><a accesskey="p" class="tool-spacer" title="2.11. Firmware" href="sect-Metadata-Firmware.html"><span class="prev-icon">←</span></a><a accesskey="n" class="tool-spacer" title="2.13. Localization" href="sect-Metadata-Localization.html"><span class="next-icon">→</span></a></span></div></div></div></div><div id="_fixed-header-wrap" class="inactive"><div id="_fixed-header"><div class="crumbs"><a class="book-link" href="index.html" title="AppStream"><span class="book-icon">AppStream</span></a><span> › </span><a class="crumb" href="chap-Metadata.html">Upstream Metadata</a><span> › </span><a class="crumb" href="sect-Metadata-Driver.html" accesskey="c"><span class="single-contents-icon"></span>Driver</a></div><div class="buttons"><a class="top-button button" href="#">Top</a><div class="button"><a accesskey="p" class="tool-spacer" title="2.11. Firmware" href="sect-Metadata-Firmware.html"><span class="prev-icon">←</span></a><a accesskey="n" class="tool-spacer" title="2.13. Localization" href="sect-Metadata-Localization.html"><span class="next-icon">→</span></a></div><div class="clearme"></div></div><div class="clearme"></div></div></div><div id="_content" class=""><div class="documentation"><div class="sect1" id="sect-Metadata-Driver"><div class="titlepage"><div><div><h2 class="title" id="sect-Metadata-Driver"><span class="number">2.12 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">Driver</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html">#</a></h2></div></div></div><div class="sect2" id="spec-driver-introduction"><div class="titlepage"><div><div><h3 class="title" id="spec-driver-introduction"><span class="number">2.12.1 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">Introduction</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html#spec-driver-introduction">#</a></h3></div></div></div><p>
+			The <code class="literal">driver</code> component type describes drivers for hardware devices as well as other Linux kernel
+			drivers for e.g. virtualization support.
+			It usually <code class="literal">provides</code> one or multiple modaliases.
+		</p><p>
 			Drivers can ship one or more files in <code class="filename">/usr/share/metainfo/%{id}.metainfo.xml</code>.
-		</div></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-driver-example">
-      ⁠</a>2.12.2. Example file</h3></div></div></div><div class="para">
+		</p></div><div class="sect2" id="spec-driver-example"><div class="titlepage"><div><div><h3 class="title" id="spec-driver-example"><span class="number">2.12.2 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">Example file</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html#spec-driver-example">#</a></h3></div></div></div><p>
 			A driver metainfo file can look like this:
-		</div><pre class="programlisting"><span xmlns="" class="line">​</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;?xml</span> version="1.0" encoding="UTF-8"<span xmlns="" class="perl_Keyword">?&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;component</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"driver"</span><span xmlns="" class="perl_Keyword">&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;id&gt;</span>com.nvidia.GeForce<span xmlns="" class="perl_Keyword">&lt;/id&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;name&gt;</span>NVIDIA GeForce<span xmlns="" class="perl_Keyword">&lt;/name&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;summary&gt;</span>NVIDIA Graphics Driver<span xmlns="" class="perl_Keyword">&lt;/summary&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;description&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;p&gt;</span>
-<span xmlns="" class="line">​</span>      The NVIDIA Accelerated Linux Graphics Driver brings accelerated 2D
-<span xmlns="" class="line">​</span>      functionality and high-performance OpenGL support to Linux x86 with the
-<span xmlns="" class="line">​</span>      use of NVIDIA graphics processing units.
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;/p&gt;</span>
-<span xmlns="" class="line">​</span>    ...
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/description&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;url</span><span xmlns="" class="perl_Others"> type=</span><span xmlns="" class="perl_String">"homepage"</span><span xmlns="" class="perl_Keyword">&gt;</span>http://www.nvidia.com/Download/index.aspx<span xmlns="" class="perl_Keyword">&lt;/url&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;metadata_license&gt;</span>CC0-1.0<span xmlns="" class="perl_Keyword">&lt;/metadata_license&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;project_license&gt;</span>LicenseRef-proprietary:NVIDIA<span xmlns="" class="perl_Keyword">&lt;/project_license&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;developer_name&gt;</span>NVIDIA Corporation<span xmlns="" class="perl_Keyword">&lt;/developer_name&gt;</span>
-<span xmlns="" class="line">​</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
-<span xmlns="" class="line">​</span>    <span xmlns="" class="perl_Keyword">&lt;modalias&gt;</span>pci:v000010DEd*sv*sd*bc03sc00i00*<span xmlns="" class="perl_Keyword">&lt;/modalias&gt;</span>
-<span xmlns="" class="line">​</span>    ...
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/component&gt;</span></pre></div><div class="section"><div class="titlepage"><div><div><h3 class="title"><a id="spec-driver-filespec">
-      ⁠</a>2.12.3. File specification</h3></div></div></div><div class="para">
-			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">driver</code>. This clearly identifies this metainfo document as describing a driver.
-		</div><div class="variablelist"><dl class="variablelist"><dt><a id="tag-id-driver">
-      ⁠</a><span class="term">&lt;id/&gt;</span></dt><dd><div class="para">
-						For drivers, the value of the <code class="code">&lt;id/&gt;</code> tag must follow the reverse-DNS scheme as described for generic components. It is sometimes useful to suffix the ID with <code class="literal">.driver</code> to make it more unique.
-					</div></dd><dt><a id="tag-driver-provides">
-      ⁠</a><span class="term">&lt;provides/&gt; ↪ &lt;modalias/&gt;</span></dt><dd><div class="para">
-						The <code class="literal">provides/modalias</code> tags contain all the modaliases the described driver supports and allow to automatically offer installation of the described driver on systems where hardware matching the modalias has been detected.
-					</div><div class="para">
-						Using wildcards for modaliases is permitted.
-					</div><div class="para">
-						Example:
-					</div><pre class="programlisting"><span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;provides&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;modalias&gt;</span>pci:v000010DEd00001194sv*sd*bc03sc*i*<span xmlns="" class="perl_Keyword">&lt;/modalias&gt;</span>
-<span xmlns="" class="line">​</span>  <span xmlns="" class="perl_Keyword">&lt;modalias&gt;</span>pci:v000010DEd00001199sv*sd*bc03sc*i*<span xmlns="" class="perl_Keyword">&lt;/modalias&gt;</span>
-<span xmlns="" class="line">​</span><span xmlns="" class="perl_Keyword">&lt;/provides&gt;</span></pre></dd></dl></div><div class="para">
-			For a component of type <code class="literal">driver</code>, the following tags are required and must be present for a valid document: <a class="xref" href="sect-Metadata-Driver.html#tag-id-driver">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Driver.html#tag-driver-provides">&lt;provides/&gt; ↪ &lt;modalias/&gt;</a>.
-		</div></div></div><ul class="docnav"><li class="previous"><a accesskey="p" href="sect-Metadata-Firmware.html"><strong>Prev</strong>2.11. Firmware</a></li><li class="up"><a accesskey="u" href="#"><strong>Up</strong></a></li><li class="home"><a accesskey="h" href="index.html"><strong>Home</strong></a></li><li class="next"><a accesskey="n" href="sect-Metadata-Localization.html"><strong>Next</strong>2.13. Localization</a></li></ul></body></html>
+		</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;component type="driver"&gt;
+  &lt;id&gt;com.nvidia.GeForce&lt;/id&gt;
+  &lt;name&gt;NVIDIA GeForce&lt;/name&gt;
+  &lt;summary&gt;NVIDIA Graphics Driver&lt;/summary&gt;
+  &lt;description&gt;
+    &lt;p&gt;
+      The NVIDIA Accelerated Linux Graphics Driver brings accelerated 2D
+      functionality and high-performance OpenGL support to Linux x86 with the
+      use of NVIDIA graphics processing units.
+    &lt;/p&gt;
+    ...
+  &lt;/description&gt;
+  &lt;url type="homepage"&gt;http://www.nvidia.com/Download/index.aspx&lt;/url&gt;
+  &lt;metadata_license&gt;CC0-1.0&lt;/metadata_license&gt;
+  &lt;project_license&gt;LicenseRef-proprietary:NVIDIA&lt;/project_license&gt;
+  &lt;developer_name&gt;NVIDIA Corporation&lt;/developer_name&gt;
+
+  &lt;provides&gt;
+    &lt;modalias&gt;pci:v000010DEd*sv*sd*bc03sc00i00*&lt;/modalias&gt;
+    ...
+  &lt;/provides&gt;
+&lt;/component&gt;</pre></div></div><div class="sect2" id="spec-driver-filespec"><div class="titlepage"><div><div><h3 class="title" id="spec-driver-filespec"><span class="number">2.12.3 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">File specification</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html#spec-driver-filespec">#</a></h3></div></div></div><p>
+			Note that the XML root must have the <code class="literal">type</code> property set to <code class="code">driver</code>.
+			This clearly identifies this metainfo document as describing a driver.
+		</p><div class="variablelist"><dl class="variablelist"><dt id="tag-id-driver"><span class="term">&lt;id/&gt;</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html#tag-id-driver">#</a></dt><dd><p>
+					For drivers, the value of the <code class="code">&lt;id/&gt;</code> tag must follow the reverse-DNS scheme as described for generic components.
+					It is sometimes useful to suffix the ID with <code class="literal">.driver</code> to make it more unique.
+				</p></dd><dt id="tag-driver-provides"><span class="term">&lt;provides/&gt; ↪ &lt;modalias/&gt;</span> <a title="Permalink" class="permalink" href="sect-Metadata-Driver.html#tag-driver-provides">#</a></dt><dd><p>
+					The <code class="literal">provides/modalias</code> tags contain all the modaliases the described driver supports and allow
+					to automatically offer installation of the described driver on systems where hardware matching the modalias has been
+					detected.
+				</p><p>
+					Using wildcards for modaliases is permitted.
+				</p><p>
+					Example:
+				</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;provides&gt;
+  &lt;modalias&gt;pci:v000010DEd00001194sv*sd*bc03sc*i*&lt;/modalias&gt;
+  &lt;modalias&gt;pci:v000010DEd00001199sv*sd*bc03sc*i*&lt;/modalias&gt;
+&lt;/provides&gt;</pre></div></dd></dl></div><p>
+			For a component of type <code class="literal">driver</code>, the following tags are required and must be present for a valid document:
+			<a class="xref" href="sect-Metadata-Driver.html#tag-id-driver">&lt;id/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-name">&lt;name/&gt;</a>, <a class="xref" href="chap-Metadata.html#tag-summary">&lt;summary/&gt;</a>,
+			<a class="xref" href="chap-Metadata.html#tag-metadata_license">&lt;metadata_license/&gt;</a>, <a class="xref" href="sect-Metadata-Driver.html#tag-driver-provides">&lt;provides/&gt; ↪ &lt;modalias/&gt;</a>.
+		</p></div></div></div><div class="page-bottom"><div id="_bottom-navigation"><a class="nav-link" href="sect-Metadata-Localization.html"><span class="next-icon">→</span><span class="nav-label">Localization</span></a><a class="nav-link" href="sect-Metadata-Firmware.html"><span class="prev-icon">←</span><span class="nav-label">Firmware</span></a></div></div></div><div id="_inward"></div></div><div id="_footer-wrap"><div id="_footer"><p>©
+        2020 
+        Freedesktop.org, the AppStream Project</p></div></div></body></html>

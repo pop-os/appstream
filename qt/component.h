@@ -181,6 +181,7 @@ Q_GADGET
         QStringList categories() const;
         void addCategory(const QString& category);
         bool hasCategory(const QString& category) const;
+        bool isMemberOfCategory(const AppStream::Category& category) const;
 
         QStringList extends() const;
         void setExtends(const QStringList& extends);
@@ -233,6 +234,9 @@ Q_GADGET
         uint searchMatches(const QString& term) const;
         uint searchMatchesAll(const QStringList& terms) const;
 
+        uint sortScore() const;
+        void setSortScore(uint score);
+
         MergeKind mergeKind() const;
         void setMergeKind(MergeKind kind);
 
@@ -244,7 +248,8 @@ Q_GADGET
         AppStream::ContentRating contentRating(const QString& kind) const;
         void addContentRating(const AppStream::ContentRating& contentRating);
 
-        bool isMemberOfCategory(const AppStream::Category& category) const;
+        QString nameVariantSuffix() const;
+        void setNameVariantSuffix(const QString& variantSuffix, const QString& lang = {});
 
         bool isIgnored() const;
         bool isValid() const;
