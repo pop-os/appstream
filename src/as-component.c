@@ -156,43 +156,6 @@ enum  {
 };
 
 /**
- * as_component_kind_get_type:
- *
- * Defines registered component types.
- */
-GType
-as_component_kind_get_type (void)
-{
-	static volatile gsize as_component_kind_type_id__volatile = 0;
-	if (g_once_init_enter (&as_component_kind_type_id__volatile)) {
-		static const GEnumValue values[] = {
-					{AS_COMPONENT_KIND_UNKNOWN,      "AS_COMPONENT_KIND_UNKNOWN",      "unknown"},
-					{AS_COMPONENT_KIND_GENERIC,      "AS_COMPONENT_KIND_GENERIC",      "generic"},
-					{AS_COMPONENT_KIND_DESKTOP_APP,  "AS_COMPONENT_KIND_DESKTOP_APP",  "desktop-app"},
-					{AS_COMPONENT_KIND_CONSOLE_APP,  "AS_COMPONENT_KIND_CONSOLE_APP",  "console-app"},
-					{AS_COMPONENT_KIND_WEB_APP,      "AS_COMPONENT_KIND_WEB_APP",      "web-app"},
-					{AS_COMPONENT_KIND_ADDON,        "AS_COMPONENT_KIND_ADDON",        "addon"},
-					{AS_COMPONENT_KIND_FONT,         "AS_COMPONENT_KIND_FONT",         "font"},
-					{AS_COMPONENT_KIND_CODEC,        "AS_COMPONENT_KIND_CODEC",        "codec"},
-					{AS_COMPONENT_KIND_INPUTMETHOD,  "AS_COMPONENT_KIND_INPUTMETHOD",  "inputmethod"},
-					{AS_COMPONENT_KIND_FIRMWARE,     "AS_COMPONENT_KIND_FIRMWARE",     "firmware"},
-					{AS_COMPONENT_KIND_DRIVER,       "AS_COMPONENT_KIND_DRIVER",       "driver"},
-					{AS_COMPONENT_KIND_LOCALIZATION, "AS_COMPONENT_KIND_LOCALIZATION", "localization"},
-					{AS_COMPONENT_KIND_SERVICE,      "AS_COMPONENT_KIND_SERVICE",      "service"},
-					{AS_COMPONENT_KIND_REPOSITORY,   "AS_COMPONENT_KIND_REPOSITORY",   "repository"},
-					{AS_COMPONENT_KIND_OPERATING_SYSTEM, "AS_COMPONENT_KIND_OPERATING_SYSTEM", "operating-system"},
-					{AS_COMPONENT_KIND_ICON_THEME,   "AS_COMPONENT_KIND_ICON_THEME",   "icon-theme"},
-					{AS_COMPONENT_KIND_RUNTIME,      "AS_COMPONENT_KIND_RUNTIME",      "runtime"},
-					{0, NULL, NULL}
-		};
-		GType as_component_type_type_id;
-		as_component_type_type_id = g_enum_register_static ("AsComponentKind", values);
-		g_once_init_leave (&as_component_kind_type_id__volatile, as_component_type_type_id);
-	}
-	return as_component_kind_type_id__volatile;
-}
-
-/**
  * as_component_kind_to_string:
  * @kind: the #AsComponentKind.
  *
@@ -512,14 +475,14 @@ as_component_is_valid (AsComponent *cpt)
 		return FALSE;
 	if (priv->merge_kind != AS_MERGE_KIND_NONE) {
 		/* merge components only need an ID to be valid */
-		return !as_str_empty (priv->id);
+		return !as_is_empty (priv->id);
 	}
 
 	cname = as_component_get_name (cpt);
 	csummary = as_component_get_summary (cpt);
-	if ((!as_str_empty (priv->id)) &&
-		(!as_str_empty (cname)) &&
-		(!as_str_empty (csummary))) {
+	if ((!as_is_empty (priv->id)) &&
+		(!as_is_empty (cname)) &&
+		(!as_is_empty (csummary))) {
 			return TRUE;
 	}
 
@@ -568,6 +531,7 @@ void
 as_component_add_screenshot (AsComponent *cpt, AsScreenshot* sshot)
 {
 	GPtrArray* sslist;
+	g_return_if_fail (sshot != NULL);
 
 	sslist = as_component_get_screenshots (cpt);
 	g_ptr_array_add (sslist, g_object_ref (sshot));
@@ -1717,6 +1681,7 @@ void
 as_component_add_provided (AsComponent *cpt, AsProvided *prov)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_return_if_fail (prov != NULL);
 
 	if (as_flags_contains (priv->value_flags, AS_VALUE_FLAG_DUPLICATE_CHECK)) {
 		guint i;
@@ -1753,7 +1718,7 @@ as_component_add_provided_item (AsComponent *cpt, AsProvidedKind kind, const gch
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
 	/* we just skip empty items */
-	if (as_str_empty (item))
+	if (as_is_empty (item))
 		return;
 
 	prov = as_component_get_provided_for_kind (cpt, kind);
@@ -3020,6 +2985,7 @@ void
 as_component_add_launchable (AsComponent *cpt, AsLaunchable *launchable)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_return_if_fail (launchable != NULL);
 	g_ptr_array_add (priv->launchables,
 			 g_object_ref (launchable));
 }
@@ -4422,8 +4388,18 @@ as_component_yaml_parse_provides (AsComponent *cpt, GNode *node)
 				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_BINARY, (gchar*) sn->data);
 			}
 		} else if (g_strcmp0 (key, "fonts") == 0) {
+			GNode *dn;
 			for (sn = n->children; sn != NULL; sn = sn->next) {
-				as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FONT, (gchar*) sn->data);
+				for (dn = sn->children; dn != NULL; dn = dn->next) {
+					gchar *dvalue = NULL;
+					const gchar *dkey = (const gchar*) dn->data;
+					if (dn->children)
+						dvalue = (gchar*) dn->children->data;
+					if (dvalue == NULL)
+						continue;
+					if (g_strcmp0 (dkey, "name") == 0)
+						as_component_add_provided_item (cpt, AS_PROVIDED_KIND_FONT, dvalue);
+				}
 			}
 		} else if (g_strcmp0 (key, "modaliases") == 0) {
 			for (sn = n->children; sn != NULL; sn = sn->next) {
@@ -4435,10 +4411,8 @@ as_component_yaml_parse_provides (AsComponent *cpt, GNode *node)
 				gchar *kind = NULL;
 				gchar *fwdata = NULL;
 				for (dn = sn->children; dn != NULL; dn = dn->next) {
-					gchar *dkey;
 					gchar *dvalue;
-
-					dkey = (gchar*) dn->data;
+					const gchar *dkey = (const gchar*) dn->data;
 					if (dn->children)
 						dvalue = (gchar*) dn->children->data;
 					else
@@ -4476,14 +4450,10 @@ as_component_yaml_parse_provides (AsComponent *cpt, GNode *node)
 				gchar *kind = NULL;
 				gchar *service = NULL;
 				for (dn = sn->children; dn != NULL; dn = dn->next) {
-					gchar *dkey;
-					gchar *dvalue;
-
-					dkey = (gchar*) dn->data;
+					gchar *dvalue = NULL;
+					const gchar *dkey = (const gchar*) dn->data;
 					if (dn->children)
 						dvalue = (gchar*) dn->children->data;
-					else
-						dvalue = NULL;
 					if (g_strcmp0 (dkey, "type") == 0) {
 						kind = dvalue;
 					} else if (g_strcmp0 (dkey, "service") == 0) {

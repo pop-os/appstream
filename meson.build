@@ -3,7 +3,7 @@ project('AppStream', 'c',
   default_options: ['c_std=gnu11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.12.11',
+  version: '0.13.0',
 )
 
 cc = meson.get_compiler('c')
@@ -29,6 +29,7 @@ if get_option('stemming')
 endif
 
 configure_file(output: 'config.h', configuration: conf)
+root_inc_dir = include_directories ('.')
 
 #
 # Custom C flags
@@ -55,7 +56,7 @@ endif
 # a few compiler warning flags we always want enabled
 add_global_arguments('-Werror=implicit-function-declaration', '-Wno-unused-parameter', language: 'c')
 add_global_arguments('-Wno-unused-parameter', '-Wno-error=deprecated-copy', language: 'cpp')
-add_global_arguments('-DAS_COMPILATION', language : 'c')
+add_global_arguments('-DAS_COMPILATION', language: 'c')
 
 #
 # Dependencies
@@ -111,6 +112,9 @@ subdir('src/')
 subdir('tools/')
 subdir('data/')
 subdir('contrib/')
+if get_option('compose')
+    subdir('compose/')
+endif
 subdir('po/')
 subdir('docs/')
 subdir('tests/')
