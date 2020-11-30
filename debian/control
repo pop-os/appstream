@@ -17,9 +17,14 @@ Build-Depends: debhelper-compat (= 13),
                libyaml-dev (>= 0.1.6),
                meson (>= 0.48),
                qtbase5-dev (>= 5.6),
-               valac
+               valac,
+               libgdk-pixbuf-2.0-dev,
+               librsvg2-dev,
+               libcairo2-dev,
+               libfontconfig-dev,
+               libpango1.0-dev
 Rules-Requires-Root: no
-Standards-Version: 4.5.0
+Standards-Version: 4.5.1
 Homepage: https://www.freedesktop.org/wiki/Distributions/AppStream/
 Vcs-Git: https://salsa.debian.org/pkgutopia-team/appstream.git
 Vcs-Browser: https://salsa.debian.org/pkgutopia-team/appstream
@@ -136,6 +141,41 @@ Description: Qt5 library to access AppStream services (development files)
  .
  This package contains development files necessary to develop
  software management tools which use the Qt-based AppStream library.
+
+Package: libappstream-compose0
+Architecture: any
+Section: libs
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: ${misc:Depends},
+         ${shlibs:Depends}
+Description: Building blocks to compose AppStream metadata
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a standardized format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
+ .
+ This package contains a GObject-based library of high-level functions
+ to compose AppStream metadata and auxiliary data (like font renderings,
+ icons, etc.).
+
+Package: libappstream-compose-dev
+Architecture: any
+Section: libdevel
+Depends: libappstream-compose0 (= ${binary:Version}),
+         libappstream-dev (= ${binary:Version}),
+         ${misc:Depends}
+Suggests: appstream-generator
+Description: Library to access AppStream services (development files)
+ AppStream is a metadata specification, allowing to write metadata for
+ software projects in a standardized format. This allows software centers
+ to display useful information for not installed software, as well as
+ determining software the user might want to install (e.g. to open an
+ unknown file type or to make missing firmware available).
+ .
+ This package contains development files necessary to develop
+ applications using the AppStream compose library.
 
 Package: appstream-doc
 Architecture: all
