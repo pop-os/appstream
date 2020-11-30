@@ -7,6 +7,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_agreement_get_type@Base 0.12.1
  as_agreement_get_version_id@Base 0.12.1
  as_agreement_kind_from_string@Base 0.12.1
+ as_agreement_kind_get_type@Base 0.13.1
  as_agreement_kind_to_string@Base 0.12.1
  as_agreement_new@Base 0.12.1
  as_agreement_section_get_active_locale@Base 0.12.1
@@ -32,6 +33,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_artifact_get_size@Base 0.12.6
  as_artifact_get_type@Base 0.12.6
  as_artifact_kind_from_string@Base 0.12.6
+ as_artifact_kind_get_type@Base 0.13.1
  as_artifact_kind_to_string@Base 0.12.6
  as_artifact_new@Base 0.12.6
  as_artifact_set_bundle_kind@Base 0.12.6
@@ -42,6 +44,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_bundle_get_kind@Base 0.10.0
  as_bundle_get_type@Base 0.10.0
  as_bundle_kind_from_string@Base 0.10.0
+ as_bundle_kind_get_type@Base 0.13.1
  as_bundle_kind_to_string@Base 0.10.0
  as_bundle_new@Base 0.10.0
  as_bundle_set_id@Base 0.10.0
@@ -51,6 +54,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_cache_close@Base 0.12.7
  as_cache_count_components@Base 0.12.7
  as_cache_error_quark@Base 0.12.7
+ as_cache_flags_get_type@Base 0.13.1
  as_cache_get_component_by_data_id@Base 0.12.7
  as_cache_get_components_all@Base 0.12.7
  as_cache_get_components_by_categories@Base 0.12.7
@@ -100,6 +104,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_checksum_get_type@Base 0.10.0
  as_checksum_get_value@Base 0.10.0
  as_checksum_kind_from_string@Base 0.10.0
+ as_checksum_kind_get_type@Base 0.13.1
  as_checksum_kind_to_string@Base 0.10.0
  as_checksum_new@Base 0.10.0
  as_checksum_new_for_kind_value@Base 0.12.11
@@ -190,6 +195,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_load_from_xml_data@Base 0.12.10
  as_component_new@Base 0.10.0
  as_component_scope_from_string@Base 0.12.7
+ as_component_scope_get_type@Base 0.13.1
  as_component_scope_to_string@Base 0.12.7
  as_component_search_matches@Base 0.10.0
  as_component_search_matches_all@Base 0.10.0
@@ -217,6 +223,8 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_value_flags@Base 0.10.0
  as_component_to_string@Base 0.10.0
  as_component_to_xml_data@Base 0.12.10
+ as_content_rating_attribute_from_csm_age@Base 0.13.1
+ as_content_rating_attribute_get_description@Base 0.13.1
  as_content_rating_attribute_to_csm_age@Base 0.12.10
  as_content_rating_get_all_rating_ids@Base 0.12.10
  as_content_rating_get_kind@Base 0.11.0
@@ -227,7 +235,14 @@ libappstream.so.4 libappstream4 #MINVER#
  as_content_rating_new@Base 0.11.0
  as_content_rating_set_kind@Base 0.11.0
  as_content_rating_set_value@Base 0.11.0
+ as_content_rating_system_format_age@Base 0.13.1
+ as_content_rating_system_from_locale@Base 0.13.1
+ as_content_rating_system_get_csm_ages@Base 0.13.1
+ as_content_rating_system_get_formatted_ages@Base 0.13.1
+ as_content_rating_system_get_type@Base 0.13.1
+ as_content_rating_system_to_string@Base 0.13.1
  as_content_rating_value_from_string@Base 0.11.0
+ as_content_rating_value_get_type@Base 0.13.1
  as_content_rating_value_to_string@Base 0.11.0
  as_context_get_filename@Base 0.11.2
  as_context_get_format_version@Base 0.11.1
@@ -248,8 +263,15 @@ libappstream.so.4 libappstream4 #MINVER#
  as_context_set_priority@Base 0.11.1
  as_context_set_style@Base 0.11.1
  as_control_kind_from_string@Base 0.12.11
+ as_control_kind_get_type@Base 0.13.1
  as_control_kind_to_string@Base 0.12.11
  as_copy_file@Base 0.10.0
+ as_display_length_kind_from_string@Base 0.13.1
+ as_display_length_kind_get_type@Base 0.13.1
+ as_display_length_kind_to_string@Base 0.13.1
+ as_display_side_kind_from_string@Base 0.13.1
+ as_display_side_kind_get_type@Base 0.13.1
+ as_display_side_kind_to_string@Base 0.13.1
  as_distro_details_get_bool@Base 0.10.0
  as_distro_details_get_cid@Base 0.12.5
  as_distro_details_get_homepage@Base 0.12.5
@@ -262,8 +284,11 @@ libappstream.so.4 libappstream4 #MINVER#
  as_distro_details_new@Base 0.10.0
  as_filebasename_from_uri@Base 0.12.9
  as_format_kind_from_string@Base 0.10.0
+ as_format_kind_get_type@Base 0.13.1
  as_format_kind_to_string@Base 0.10.0
+ as_format_style_get_type@Base 0.13.1
  as_format_version_from_string@Base 0.10.0
+ as_format_version_get_type@Base 0.13.1
  as_format_version_to_string@Base 0.10.0
  as_get_appstream_version@Base 0.11.7
  as_get_current_distro_component_id@Base 0.12.5
@@ -278,6 +303,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_icon_get_url@Base 0.10.0
  as_icon_get_width@Base 0.10.0
  as_icon_kind_from_string@Base 0.10.0
+ as_icon_kind_get_type@Base 0.13.1
  as_icon_kind_to_string@Base 0.10.0
  as_icon_new@Base 0.10.0
  as_icon_set_filename@Base 0.10.0
@@ -294,6 +320,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_image_get_url@Base 0.10.0
  as_image_get_width@Base 0.10.0
  as_image_kind_from_string@Base 0.10.0
+ as_image_kind_get_type@Base 0.13.1
  as_image_kind_to_string@Base 0.10.0
  as_image_new@Base 0.10.0
  as_image_set_height@Base 0.10.0
@@ -301,6 +328,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_image_set_locale@Base 0.10.0
  as_image_set_url@Base 0.10.0
  as_image_set_width@Base 0.10.0
+ as_is_empty@Base 0.13.1
  as_is_spdx_license_exception_id@Base 0.12.10
  as_is_spdx_license_expression@Base 0.10.0
  as_is_spdx_license_id@Base 0.10.0
@@ -309,18 +337,21 @@ libappstream.so.4 libappstream4 #MINVER#
  as_issue_get_type@Base 0.12.9
  as_issue_get_url@Base 0.12.9
  as_issue_kind_from_string@Base 0.12.9
+ as_issue_kind_get_type@Base 0.13.1
  as_issue_kind_to_string@Base 0.12.9
  as_issue_new@Base 0.12.9
  as_issue_set_id@Base 0.12.9
  as_issue_set_kind@Base 0.12.9
  as_issue_set_url@Base 0.12.9
  as_issue_severity_from_string@Base 0.12.8
+ as_issue_severity_get_type@Base 0.13.1
  as_issue_severity_to_string@Base 0.12.8
  as_launchable_add_entry@Base 0.11.0
  as_launchable_get_entries@Base 0.11.0
  as_launchable_get_kind@Base 0.11.0
  as_launchable_get_type@Base 0.11.0
  as_launchable_kind_from_string@Base 0.11.0
+ as_launchable_kind_get_type@Base 0.13.1
  as_launchable_kind_to_string@Base 0.11.0
  as_launchable_new@Base 0.11.0
  as_launchable_set_kind@Base 0.11.0
@@ -329,11 +360,13 @@ libappstream.so.4 libappstream4 #MINVER#
  as_license_to_spdx_id@Base 0.10.0
  as_markup_convert_simple@Base 0.10.0
  as_merge_kind_from_string@Base 0.10.0
+ as_merge_kind_get_type@Base 0.13.1
  as_merge_kind_to_string@Base 0.10.0
  as_metadata_add_component@Base 0.10.0
  as_metadata_clear_components@Base 0.10.0
  as_metadata_component_to_metainfo@Base 0.10.0
  as_metadata_components_to_collection@Base 0.10.0
+ as_metadata_error_get_type@Base 0.13.1
  as_metadata_error_quark@Base 0.10.0
  as_metadata_get_architecture@Base 0.10.0
  as_metadata_get_component@Base 0.10.0
@@ -364,12 +397,15 @@ libappstream.so.4 libappstream4 #MINVER#
  as_news_format_kind_to_string@Base 0.12.9
  as_news_to_releases_from_data@Base 0.12.9
  as_news_to_releases_from_file@Base 0.12.9
+ as_parse_flags_get_type@Base 0.13.1
  as_pool_add_component@Base 0.10.0
  as_pool_add_metadata_location@Base 0.10.0
  as_pool_clear2@Base 0.12.7
  as_pool_clear@Base 0.10.0
  as_pool_clear_metadata_locations@Base 0.10.0
+ as_pool_error_get_type@Base 0.13.1
  as_pool_error_quark@Base 0.10.0
+ as_pool_flags_get_type@Base 0.13.1
  as_pool_get_cache_flags@Base 0.10.0
  as_pool_get_cache_location@Base 0.12.7
  as_pool_get_components@Base 0.10.0
@@ -400,31 +436,45 @@ libappstream.so.4 libappstream4 #MINVER#
  as_provided_get_type@Base 0.10.0
  as_provided_has_item@Base 0.10.0
  as_provided_kind_from_string@Base 0.10.0
+ as_provided_kind_get_type@Base 0.13.1
  as_provided_kind_to_l10n_string@Base 0.10.0
  as_provided_kind_to_string@Base 0.10.0
  as_provided_new@Base 0.10.0
  as_provided_set_kind@Base 0.10.0
  as_ptr_array_to_str@Base 0.12.9
  as_relation_compare_from_string@Base 0.12.0
+ as_relation_compare_get_type@Base 0.13.1
  as_relation_compare_to_string@Base 0.12.0
  as_relation_compare_to_symbols_string@Base 0.12.0
  as_relation_get_compare@Base 0.12.0
+ as_relation_get_display_side_kind@Base 0.13.1
  as_relation_get_item_kind@Base 0.12.0
  as_relation_get_kind@Base 0.12.0
  as_relation_get_type@Base 0.12.0
  as_relation_get_value@Base 0.12.0
  as_relation_get_value_control_kind@Base 0.12.11
+ as_relation_get_value_display_length_kind@Base 0.13.1
  as_relation_get_value_int@Base 0.12.0
+ as_relation_get_value_px@Base 0.13.1
+ as_relation_get_value_str@Base 0.13.1
  as_relation_get_version@Base 0.12.0
  as_relation_item_kind_from_string@Base 0.12.0
+ as_relation_item_kind_get_type@Base 0.13.1
  as_relation_item_kind_to_string@Base 0.12.0
  as_relation_kind_from_string@Base 0.12.0
+ as_relation_kind_get_type@Base 0.13.1
  as_relation_kind_to_string@Base 0.12.0
  as_relation_new@Base 0.12.0
  as_relation_set_compare@Base 0.12.0
+ as_relation_set_display_side_kind@Base 0.13.1
  as_relation_set_item_kind@Base 0.12.0
  as_relation_set_kind@Base 0.12.0
  as_relation_set_value@Base 0.12.0
+ as_relation_set_value_control_kind@Base 0.13.1
+ as_relation_set_value_display_length_kind@Base 0.13.1
+ as_relation_set_value_int@Base 0.13.1
+ as_relation_set_value_px@Base 0.13.1
+ as_relation_set_value_str@Base 0.13.1
  as_relation_set_version@Base 0.12.0
  as_relation_version_compare@Base 0.12.0
  as_release_add_artifact@Base 0.12.6
@@ -449,6 +499,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_get_url@Base 0.12.5
  as_release_get_version@Base 0.10.0
  as_release_kind_from_string@Base 0.12.0
+ as_release_kind_get_type@Base 0.13.1
  as_release_kind_to_string@Base 0.12.0
  as_release_new@Base 0.10.0
  as_release_set_active_locale@Base 0.10.0
@@ -463,6 +514,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_release_set_url@Base 0.12.5
  as_release_set_version@Base 0.10.0
  as_release_url_kind_from_string@Base 0.12.5
+ as_release_url_kind_get_type@Base 0.13.1
  as_release_url_kind_to_string@Base 0.12.5
  as_release_vercmp@Base 0.10.0
  as_releases_to_metainfo_xml_chunk@Base 0.12.9
@@ -480,12 +532,15 @@ libappstream.so.4 libappstream4 #MINVER#
  as_screenshot_get_videos@Base 0.12.8
  as_screenshot_is_valid@Base 0.10.0
  as_screenshot_kind_from_string@Base 0.10.0
+ as_screenshot_kind_get_type@Base 0.13.1
  as_screenshot_kind_to_string@Base 0.10.0
+ as_screenshot_media_kind_get_type@Base 0.13.1
  as_screenshot_new@Base 0.10.0
  as_screenshot_set_active_locale@Base 0.10.0
  as_screenshot_set_caption@Base 0.10.0
  as_screenshot_set_kind@Base 0.10.0
  as_size_kind_from_string@Base 0.10.0
+ as_size_kind_get_type@Base 0.13.1
  as_size_kind_to_string@Base 0.10.0
  as_spdx_license_detokenize@Base 0.10.0
  as_spdx_license_tokenize@Base 0.10.0
@@ -493,6 +548,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_stemmer_get_type@Base 0.10.0
  as_stemmer_reload@Base 0.10.0
  as_stemmer_stem@Base 0.10.0
+ as_str_replace@Base 0.13.1
  as_strstripnl@Base 0.12.11
  as_suggested_add_id@Base 0.10.0
  as_suggested_get_ids@Base 0.10.0
@@ -500,6 +556,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_suggested_get_type@Base 0.10.0
  as_suggested_is_valid@Base 0.10.0
  as_suggested_kind_from_string@Base 0.10.0
+ as_suggested_kind_get_type@Base 0.13.1
  as_suggested_kind_to_string@Base 0.10.0
  as_suggested_new@Base 0.10.0
  as_suggested_set_kind@Base 0.10.0
@@ -507,13 +564,16 @@ libappstream.so.4 libappstream4 #MINVER#
  as_translation_get_kind@Base 0.10.0
  as_translation_get_type@Base 0.10.0
  as_translation_kind_from_string@Base 0.10.0
+ as_translation_kind_get_type@Base 0.13.1
  as_translation_kind_to_string@Base 0.10.0
  as_translation_new@Base 0.10.0
  as_translation_set_id@Base 0.10.0
  as_translation_set_kind@Base 0.10.0
  as_urgency_kind_from_string@Base 0.10.0
+ as_urgency_kind_get_type@Base 0.13.1
  as_urgency_kind_to_string@Base 0.10.0
  as_url_kind_from_string@Base 0.10.0
+ as_url_kind_get_type@Base 0.13.1
  as_url_kind_to_string@Base 0.10.0
  as_utils_compare_versions@Base 0.10.0
  as_utils_dns_to_rdns@Base 0.12.5
@@ -560,9 +620,12 @@ libappstream.so.4 libappstream4 #MINVER#
  as_validator_validate_data@Base 0.10.0
  as_validator_validate_file@Base 0.10.0
  as_validator_validate_tree@Base 0.10.0
+ as_value_flags_get_type@Base 0.13.1
  as_video_codec_kind_from_string@Base 0.12.8
+ as_video_codec_kind_get_type@Base 0.13.1
  as_video_codec_kind_to_string@Base 0.12.8
  as_video_container_kind_from_string@Base 0.12.8
+ as_video_container_kind_get_type@Base 0.13.1
  as_video_container_kind_to_string@Base 0.12.8
  as_video_get_codec_kind@Base 0.12.8
  as_video_get_container_kind@Base 0.12.8
