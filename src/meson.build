@@ -1,6 +1,6 @@
 # Meson build configuration for the AppStream library
 
-appstream_lib_inc = include_directories ('.')
+appstream_lib_inc = include_directories('.')
 
 aslib_src = [
     'as-utils.c',
@@ -104,19 +104,24 @@ aslib_priv_headers = [
     'as-issue-private.h'
 ]
 
-aslib_res = glib.compile_resources (
-    'as-resources', 'appstream.gresource.xml',
-    c_name : 'as',
-    source_dir : ['../data']
+aslib_pub_enums = glib.mkenums_simple('as-enums-types',
+    sources: aslib_pub_headers,
+    install_header: true,
+    install_dir: 'appstream'
 )
 
+aslib_res = glib.compile_resources (
+    'as-resources', 'appstream.gresource.xml',
+    c_name: 'as',
+    source_dir: ['../data']
+)
 
 # gperf sources
 aslib_gperf_xml = custom_target(
     'gperf as-xml-tag',
-    output : 'as-tag-xml-private.h',
-    input : 'as-tag-xml.gperf',
-    command : [
+    output: 'as-tag-xml-private.h',
+    input: 'as-tag-xml.gperf',
+    command: [
         gperf.path(),
         '@INPUT@',
         '--output-file',
@@ -125,9 +130,9 @@ aslib_gperf_xml = custom_target(
 )
 aslib_gperf_yaml = custom_target(
     'gperf as-yaml-tag',
-    output : 'as-tag-yaml-private.h',
-    input : 'as-tag-yaml.gperf',
-    command : [
+    output: 'as-tag-yaml-private.h',
+    input: 'as-tag-yaml.gperf',
+    command: [
         gperf.path(),
         '@INPUT@',
         '--output-file',
@@ -154,18 +159,30 @@ appstream_lib = library ('appstream',
     [aslib_src,
      aslib_pub_headers,
      aslib_priv_headers,
-     aslib_res],
+     aslib_res,
+     aslib_pub_enums],
     soversion: as_api_level,
     version: as_version,
     dependencies: [aslib_deps],
     include_directories: [stemmer_inc_dirs,
-                          include_directories ('..')],
+                          root_inc_dir],
     install: true
 )
 
-pkgc.generate (
+appstream_dep = declare_dependency(
+    link_with: appstream_lib,
+    sources: [
+        aslib_pub_headers,
+        aslib_pub_enums
+    ],
+    dependencies: [glib_dep,
+                   gobject_dep],
+    include_directories: [appstream_lib_inc]
+)
+
+pkgc.generate(
+    appstream_lib,
     version: as_version,
-    libraries: appstream_lib,
     name: 'appstream',
     description: 'Library to work with AppStream metadata.',
     filebase: 'appstream',
@@ -189,7 +206,7 @@ install_headers(aslib_pub_headers, subdir: 'appstream')
 if get_option ('gir')
     as_gir_typelib = glib.generate_gir (
         appstream_lib,
-        sources: aslib_src + aslib_pub_headers,
+        sources: aslib_src + aslib_pub_headers + aslib_pub_enums,
         nsversion: '1.0',
         namespace: 'AppStream',
         symbol_prefix: 'as',
@@ -199,7 +216,7 @@ if get_option ('gir')
             'GObject-2.0',
             'Gio-2.0'
         ],
-        extra_args: ['--c-include=appstream.h'],
+        header: 'appstream.h',
         install: true
     )
 

@@ -112,17 +112,17 @@ as_xml_dump_node (xmlNode *node, gchar **content, gssize *len)
 }
 
 /**
- * as_xml_dump_node_content:
+ * as_xml_dump_node_content_raw:
  */
 gchar*
-as_xml_dump_node_content (xmlNode *node)
+as_xml_dump_node_content_raw (xmlNode *node)
 {
 	g_autofree gchar *content = NULL;
 	gchar *tmp;
 	gssize len;
 
 	/* discard spaces */
-	if (node->type != XML_ELEMENT_NODE)
+	if (G_UNLIKELY (node->type != XML_ELEMENT_NODE))
 		return NULL;
 
 	if (!as_xml_dump_node (node, &content, &len))
@@ -170,15 +170,15 @@ as_xml_dump_node_children (xmlNode *node)
 }
 
 /**
- * as_xml_dump_desc_para_node_content:
+ * as_xml_dump_desc_para_node_content_raw:
  */
 static gchar*
-as_xml_dump_desc_para_node_content (xmlNode *node)
+as_xml_dump_desc_para_node_content_raw (xmlNode *node)
 {
 	gboolean is_valid_markup = TRUE;
 
 	/* ignore node if it is a space */
-	if (node->type != XML_ELEMENT_NODE)
+	if (G_UNLIKELY (node->type != XML_ELEMENT_NODE))
 		return NULL;
 
 	/* perform a sanity check before dumping the node contents */
@@ -198,11 +198,15 @@ as_xml_dump_desc_para_node_content (xmlNode *node)
 	 * was deemed valid. Otherwise we will just try to dump any string content, and hope
 	 * people call the validator on their files to see that their metadata is broken.
 	 * TODO: Parse the data properly, and remove only the bad nodes on error, if libxml permits
-	 * that somehow? */
-	if (is_valid_markup)
-		return as_xml_dump_node_content (node);
-	else
-		return as_xml_get_node_value (node);
+	 * that in an efficient way? */
+	if (G_LIKELY (is_valid_markup)) {
+		return as_xml_dump_node_content_raw (node);
+	} else {
+		g_autofree gchar *tmp = as_xml_get_node_value (node);
+		if (G_UNLIKELY (tmp == NULL))
+			return NULL;
+		return g_markup_escape_text (tmp, -1);
+	}
 }
 
 /**
@@ -405,7 +409,7 @@ as_xml_parse_metainfo_description_node (AsContext *ctx, xmlNode *node, GHFunc fu
 				g_hash_table_insert (desc, g_strdup (lang), str);
 			}
 
-			content = as_xml_dump_desc_para_node_content (iter);
+			content = as_xml_dump_desc_para_node_content_raw (iter);
 			if (content != NULL)
 				g_string_append_printf (str, "<p>%s</p>\n", content);
 
@@ -443,7 +447,7 @@ as_xml_parse_metainfo_description_node (AsContext *ctx, xmlNode *node, GHFunc fu
 					g_hash_table_insert (desc, g_strdup (lang), str);
 				}
 
-				content = as_xml_dump_desc_para_node_content (iter2);
+				content = as_xml_dump_desc_para_node_content_raw (iter2);
 				if (content != NULL)
 					g_string_append_printf (str, "  <%s>%s</%s>\n", (gchar*) iter2->name, content, (gchar*) iter2->name);
 			}
@@ -472,7 +476,7 @@ as_xml_add_description_collection_mode_helper (xmlNode *parent, const gchar *des
 	xmlNode *cnode;
 	g_autoptr(AsXMLMarkupParseHelper) helper = NULL;
 
-	if (as_str_empty (description_markup))
+	if (as_is_empty (description_markup))
 		return FALSE;
 
 	/* skip cruft */
@@ -629,7 +633,7 @@ as_xml_add_localized_text_node (xmlNode *root, const gchar *node_name, GHashTabl
 		const gchar *locale = (const gchar*) link->data;
 		const gchar *str = (const gchar*) g_hash_table_lookup (value_table, locale);
 
-		if (as_str_empty (str))
+		if (as_is_empty (str))
 			continue;
 
 		/* skip cruft */
@@ -721,7 +725,7 @@ as_xml_add_node_list (xmlNode *root, const gchar *name, const gchar *child_name,
 xmlNode*
 as_xml_add_text_node (xmlNode *root, const gchar *name, const gchar *value)
 {
-	if (as_str_empty (value))
+	if (as_is_empty (value))
 		return NULL;
 
 	return xmlNewTextChild (root, NULL, (xmlChar*) name, (xmlChar*) value);
