@@ -15,8 +15,3 @@ override_dh_auto_configure:
 
 override_dh_missing:
 	dh_missing --fail-missing
-
-execute_after_dh_auto_install:
-	# place highlight.js link to allow documentation example highlighting
-	ln -s /usr/share/javascript/highlight.js/highlight.min.js \
-		$(CURDIR)/debian/tmp/usr/share/doc/appstream/html/static/js/highlight.min.js
