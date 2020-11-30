@@ -1,3 +1,17 @@
+appstream (0.13.1-1) unstable; urgency=medium
+
+  * New upstream version: 0.13.1
+    - Includes workaround for a gobject-introspection ambiguity that
+      prevents declaring certain ownership relations. The workaround,
+      at least for now, makes both Python and Vala work again when
+      using GIR data (Closes: #974107)
+  * Drop extra highlight.js copy
+  * Add packages for the experimental appstream-compose library
+  * Update description texts slightly
+  * Update symbols file
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 01 Dec 2020 10:10:16 +0100
+
 appstream (0.12.11-1) unstable; urgency=medium
 
   * New upstream version 0.12.11
