@@ -27,6 +27,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_artifact_get_bundle_kind@Base 0.12.6
  as_artifact_get_checksum@Base 0.12.6
  as_artifact_get_checksums@Base 0.12.6
+ as_artifact_get_filename@Base 0.14.0
  as_artifact_get_kind@Base 0.12.6
  as_artifact_get_locations@Base 0.12.6
  as_artifact_get_platform@Base 0.12.6
@@ -37,6 +38,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_artifact_kind_to_string@Base 0.12.6
  as_artifact_new@Base 0.12.6
  as_artifact_set_bundle_kind@Base 0.12.6
+ as_artifact_set_filename@Base 0.14.0
  as_artifact_set_kind@Base 0.12.6
  as_artifact_set_platform@Base 0.12.6
  as_artifact_set_size@Base 0.12.6
@@ -120,8 +122,10 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_add_language@Base 0.10.0
  as_component_add_launchable@Base 0.11.0
  as_component_add_provided@Base 0.10.0
+ as_component_add_provided_item@Base 0.14.0
  as_component_add_relation@Base 0.12.0
  as_component_add_release@Base 0.10.0
+ as_component_add_review@Base 0.14.0
  as_component_add_screenshot@Base 0.10.0
  as_component_add_suggested@Base 0.10.0
  as_component_add_translation@Base 0.10.0
@@ -129,6 +133,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_active_locale@Base 0.10.0
  as_component_get_addons@Base 0.10.0
  as_component_get_agreement_by_kind@Base 0.12.1
+ as_component_get_branch@Base 0.14.0
  as_component_get_bundle@Base 0.10.0
  as_component_get_bundles@Base 0.10.0
  as_component_get_categories@Base 0.10.0
@@ -170,6 +175,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_get_recommends@Base 0.12.0
  as_component_get_releases@Base 0.10.0
  as_component_get_requires@Base 0.12.0
+ as_component_get_reviews@Base 0.14.0
  as_component_get_scope@Base 0.12.7
  as_component_get_screenshots@Base 0.10.0
  as_component_get_search_tokens@Base 0.10.0
@@ -192,6 +198,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_kind_from_string@Base 0.10.0
  as_component_kind_get_type@Base 0.10.0
  as_component_kind_to_string@Base 0.10.0
+ as_component_load_from_bytes@Base 0.14.0
  as_component_load_from_xml_data@Base 0.12.10
  as_component_new@Base 0.10.0
  as_component_scope_from_string@Base 0.12.7
@@ -200,6 +207,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_search_matches@Base 0.10.0
  as_component_search_matches_all@Base 0.10.0
  as_component_set_active_locale@Base 0.10.0
+ as_component_set_branch@Base 0.14.0
  as_component_set_compulsory_for_desktop@Base 0.10.0
  as_component_set_data_id@Base 0.10.0
  as_component_set_description@Base 0.10.0
@@ -223,6 +231,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_value_flags@Base 0.10.0
  as_component_to_string@Base 0.10.0
  as_component_to_xml_data@Base 0.12.10
+ as_content_rating_add_attribute@Base 0.14.0
  as_content_rating_attribute_from_csm_age@Base 0.13.1
  as_content_rating_attribute_get_description@Base 0.13.1
  as_content_rating_attribute_to_csm_age@Base 0.12.10
@@ -266,6 +275,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_control_kind_get_type@Base 0.13.1
  as_control_kind_to_string@Base 0.12.11
  as_copy_file@Base 0.10.0
+ as_data_id_match_flags_get_type@Base 0.14.0
  as_display_length_kind_from_string@Base 0.13.1
  as_display_length_kind_get_type@Base 0.13.1
  as_display_length_kind_to_string@Base 0.13.1
@@ -294,6 +304,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_get_current_distro_component_id@Base 0.12.5
  as_get_default_categories@Base 0.10.0
  as_get_license_url@Base 0.12.7
+ as_gstring_replace@Base 0.14.0
  as_icon_get_filename@Base 0.10.0
  as_icon_get_height@Base 0.10.0
  as_icon_get_kind@Base 0.10.0
@@ -359,6 +370,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_license_is_metadata_license@Base 0.10.0
  as_license_to_spdx_id@Base 0.10.0
  as_markup_convert_simple@Base 0.10.0
+ as_markup_strsplit_words@Base 0.14.0
  as_merge_kind_from_string@Base 0.10.0
  as_merge_kind_get_type@Base 0.13.1
  as_merge_kind_to_string@Base 0.10.0
@@ -368,19 +380,23 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_components_to_collection@Base 0.10.0
  as_metadata_error_get_type@Base 0.13.1
  as_metadata_error_quark@Base 0.10.0
+ as_metadata_file_guess_style@Base 0.14.0
  as_metadata_get_architecture@Base 0.10.0
  as_metadata_get_component@Base 0.10.0
  as_metadata_get_components@Base 0.10.0
  as_metadata_get_format_style@Base 0.10.0
  as_metadata_get_format_version@Base 0.10.0
  as_metadata_get_locale@Base 0.10.0
+ as_metadata_get_media_baseurl@Base 0.14.0
  as_metadata_get_origin@Base 0.10.0
  as_metadata_get_parse_flags@Base 0.12.1
  as_metadata_get_type@Base 0.10.0
  as_metadata_get_update_existing@Base 0.10.0
  as_metadata_get_write_header@Base 0.10.0
+ as_metadata_location_get_type@Base 0.14.0
  as_metadata_new@Base 0.10.0
  as_metadata_parse@Base 0.10.0
+ as_metadata_parse_bytes@Base 0.14.0
  as_metadata_parse_desktop_data@Base 0.10.2
  as_metadata_parse_file@Base 0.10.0
  as_metadata_save_collection@Base 0.10.0
@@ -389,6 +405,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_metadata_set_format_style@Base 0.10.0
  as_metadata_set_format_version@Base 0.10.0
  as_metadata_set_locale@Base 0.10.0
+ as_metadata_set_media_baseurl@Base 0.14.0
  as_metadata_set_origin@Base 0.10.0
  as_metadata_set_parse_flags@Base 0.12.1
  as_metadata_set_update_existing@Base 0.10.0
@@ -400,6 +417,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_parse_flags_get_type@Base 0.13.1
  as_pool_add_component@Base 0.10.0
  as_pool_add_metadata_location@Base 0.10.0
+ as_pool_build_search_tokens@Base 0.14.0
  as_pool_clear2@Base 0.12.7
  as_pool_clear@Base 0.10.0
  as_pool_clear_metadata_locations@Base 0.10.0
@@ -430,6 +448,18 @@ libappstream.so.4 libappstream4 #MINVER#
  as_pool_set_cache_location@Base 0.12.7
  as_pool_set_flags@Base 0.10.2
  as_pool_set_locale@Base 0.10.0
+ as_profile_clear@Base 0.14.0
+ as_profile_dump@Base 0.14.0
+ as_profile_get_type@Base 0.14.0
+ as_profile_new@Base 0.14.0
+ as_profile_prune@Base 0.14.0
+ as_profile_set_autodump@Base 0.14.0
+ as_profile_set_autoprune@Base 0.14.0
+ as_profile_set_duration_min@Base 0.14.0
+ as_profile_start@Base 0.14.0
+ as_profile_start_literal@Base 0.14.0
+ as_profile_task_free@Base 0.14.0
+ as_profile_task_set_threaded@Base 0.14.0
  as_provided_add_item@Base 0.10.0
  as_provided_get_items@Base 0.10.0
  as_provided_get_kind@Base 0.10.0
@@ -442,6 +472,8 @@ libappstream.so.4 libappstream4 #MINVER#
  as_provided_new@Base 0.10.0
  as_provided_set_kind@Base 0.10.0
  as_ptr_array_to_str@Base 0.12.9
+ as_ref_string_assign_safe@Base 0.14.0
+ as_ref_string_release@Base 0.14.0
  as_relation_compare_from_string@Base 0.12.0
  as_relation_compare_get_type@Base 0.13.1
  as_relation_compare_to_string@Base 0.12.0
@@ -520,10 +552,40 @@ libappstream.so.4 libappstream4 #MINVER#
  as_releases_to_metainfo_xml_chunk@Base 0.12.9
  as_releases_to_news_data@Base 0.12.9
  as_releases_to_news_file@Base 0.12.9
+ as_review_add_flags@Base 0.14.0
+ as_review_add_metadata@Base 0.14.0
+ as_review_equal@Base 0.14.0
+ as_review_flags_get_type@Base 0.14.0
+ as_review_get_date@Base 0.14.0
+ as_review_get_description@Base 0.14.0
+ as_review_get_flags@Base 0.14.0
+ as_review_get_id@Base 0.14.0
+ as_review_get_locale@Base 0.14.0
+ as_review_get_metadata_item@Base 0.14.0
+ as_review_get_priority@Base 0.14.0
+ as_review_get_rating@Base 0.14.0
+ as_review_get_reviewer_id@Base 0.14.0
+ as_review_get_reviewer_name@Base 0.14.0
+ as_review_get_summary@Base 0.14.0
+ as_review_get_type@Base 0.14.0
+ as_review_get_version@Base 0.14.0
+ as_review_new@Base 0.14.0
+ as_review_set_date@Base 0.14.0
+ as_review_set_description@Base 0.14.0
+ as_review_set_flags@Base 0.14.0
+ as_review_set_id@Base 0.14.0
+ as_review_set_locale@Base 0.14.0
+ as_review_set_priority@Base 0.14.0
+ as_review_set_rating@Base 0.14.0
+ as_review_set_reviewer_id@Base 0.14.0
+ as_review_set_reviewer_name@Base 0.14.0
+ as_review_set_summary@Base 0.14.0
+ as_review_set_version@Base 0.14.0
  as_screenshot_add_image@Base 0.10.0
  as_screenshot_add_video@Base 0.12.8
  as_screenshot_get_active_locale@Base 0.10.0
  as_screenshot_get_caption@Base 0.10.0
+ as_screenshot_get_image@Base 0.14.0
  as_screenshot_get_images@Base 0.10.0
  as_screenshot_get_images_all@Base 0.10.0
  as_screenshot_get_kind@Base 0.10.0
@@ -575,12 +637,22 @@ libappstream.so.4 libappstream4 #MINVER#
  as_url_kind_from_string@Base 0.10.0
  as_url_kind_get_type@Base 0.13.1
  as_url_kind_to_string@Base 0.10.0
+ as_utils_build_data_id@Base 0.14.0
  as_utils_compare_versions@Base 0.10.0
+ as_utils_data_id_equal@Base 0.14.0
+ as_utils_data_id_get_cid@Base 0.14.0
+ as_utils_data_id_hash@Base 0.14.0
+ as_utils_data_id_match@Base 0.14.0
+ as_utils_data_id_valid@Base 0.14.0
  as_utils_dns_to_rdns@Base 0.12.5
+ as_utils_error_get_type@Base 0.14.0
+ as_utils_error_quark@Base 0.14.0
  as_utils_find_files@Base 0.10.0
  as_utils_find_files_matching@Base 0.10.0
+ as_utils_install_metadata_file@Base 0.14.0
  as_utils_is_category_name@Base 0.10.0
  as_utils_is_desktop_environment@Base 0.10.0
+ as_utils_is_platform_triplet@Base 0.14.0
  as_utils_is_tld@Base 0.10.0
  as_utils_is_writable@Base 0.10.0
  as_utils_locale_is_compatible@Base 0.10.0
@@ -617,10 +689,15 @@ libappstream.so.4 libappstream4 #MINVER#
  as_validator_issue_set_tag@Base 0.12.8
  as_validator_new@Base 0.10.0
  as_validator_set_check_urls@Base 0.11.7
+ as_validator_validate_bytes@Base 0.14.0
  as_validator_validate_data@Base 0.10.0
  as_validator_validate_file@Base 0.10.0
  as_validator_validate_tree@Base 0.10.0
  as_value_flags_get_type@Base 0.13.1
+ as_vercmp@Base 0.14.0
+ as_vercmp_flags_get_type@Base 0.14.0
+ as_vercmp_simple@Base 0.14.0
+ as_version_string@Base 0.14.0
  as_video_codec_kind_from_string@Base 0.12.8
  as_video_codec_kind_get_type@Base 0.13.1
  as_video_codec_kind_to_string@Base 0.12.8
