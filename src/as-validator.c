@@ -45,6 +45,7 @@
 
 #include "as-utils.h"
 #include "as-utils-private.h"
+#include "as-vercmp.h"
 #include "as-spdx.h"
 #include "as-component.h"
 #include "as-component-private.h"
@@ -267,6 +268,30 @@ as_validator_clear_issues (AsValidator *validator)
 }
 
 /**
+ * as_validator_check_success:
+ *
+ * Check if, according to the current recorded issues, the last validated data was valid.
+ */
+static gboolean
+as_validator_check_success (AsValidator *validator)
+{
+	AsValidatorPrivate *priv = GET_PRIVATE (validator);
+	GHashTableIter iter;
+	gpointer value;
+
+	g_hash_table_iter_init (&iter, priv->issues);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		AsIssueSeverity severity;
+		AsValidatorIssue *issue = AS_VALIDATOR_ISSUE (value);
+		severity = as_validator_issue_get_severity (issue);
+		if (severity == AS_ISSUE_SEVERITY_ERROR || severity == AS_ISSUE_SEVERITY_WARNING)
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+/**
  * as_validator_setup_networking:
  */
 static gboolean
@@ -433,10 +458,6 @@ as_validator_check_content_empty (AsValidator *validator, xmlNode *node, const g
 
 	node_content = as_strstripnl ((gchar*) xmlNodeGetContent (node));
 	if (!as_is_empty (node_content))
-		return;
-
-	/* release tags are allowed to be empty */
-	if (g_str_has_prefix (tag_path, "release"))
 		return;
 
 	as_validator_add_issue (validator, node,
@@ -649,6 +670,8 @@ as_validator_check_description_tag (AsValidator *validator, xmlNode* node, AsFor
 								"description/p");
 			}
 			if (main_description) {
+				if (node_content != NULL)
+					g_strstrip (node_content);
 				if ((first_paragraph) && (strlen (node_content) < 80)) {
 					as_validator_add_issue (validator, iter,
 								"description-first-para-too-short",
@@ -965,6 +988,12 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 				g_autofree gchar *image_url = as_strstripnl ((gchar*) xmlNodeGetContent (iter2));
 
 				image_found = TRUE;
+				if (!as_validate_is_url (image_url)) {
+					as_validator_add_issue (validator, iter2,
+								"web-url-expected",
+								image_url);
+					continue;
+				}
 				if (!as_validate_is_secure_url (image_url)) {
 					as_validator_add_issue (validator, iter2,
 								"screenshot-media-url-not-secure",
@@ -994,6 +1023,12 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 								video_url,
 								"screenshot-video-not-found");
 
+				if (!as_validate_is_url (video_url)) {
+					as_validator_add_issue (validator, iter2,
+								"web-url-expected",
+								video_url);
+					continue;
+				}
 				if (!as_validate_is_secure_url (video_url)) {
 					as_validator_add_issue (validator, iter2,
 								"screenshot-media-url-not-secure",
@@ -1203,27 +1238,179 @@ as_validator_validate_iso8601_complete_date (AsValidator *validator, xmlNode *no
 }
 
 /**
+ * as_validator_check_platform_triplet:
+ **/
+static void
+as_validator_check_platform_triplet (AsValidator *validator, xmlNode *node, const gchar *triplet)
+{
+	g_auto(GStrv) parts = g_strsplit (triplet, "-", 3);
+	if (g_strv_length (parts) != 3) {
+		as_validator_add_issue (validator, node,
+					"artifact-invalid-platform-triplet",
+					"%u != 3", g_strv_length (parts));
+		return;
+	}
+	if (!as_utils_is_platform_triplet_arch (parts[0])) {
+		as_validator_add_issue (validator, node,
+					"artifact-invalid-platform-triplet",
+					"Architecture invalid: %s", parts[0]);
+		return;
+	}
+	if (!as_utils_is_platform_triplet_oskernel (parts[1])) {
+		as_validator_add_issue (validator, node,
+					"artifact-invalid-platform-triplet",
+					"OS/Kernel invalid: %s", parts[1]);
+		return;
+	}
+	if (!as_utils_is_platform_triplet_osenv (parts[2])) {
+		as_validator_add_issue (validator, node,
+					"artifact-invalid-platform-triplet",
+					"OS/Environment invalid: %s", parts[2]);
+		return;
+	}
+}
+
+/**
+ * as_validator_check_artifact:
+ **/
+static void
+as_validator_check_artifact (AsValidator *validator, xmlNode *node)
+{
+	gchar *prop;
+
+	/* validate type */
+	prop = as_xml_get_prop_value (node, "type");
+	if (prop != NULL) {
+		if (as_artifact_kind_from_string (prop) == AS_ARTIFACT_KIND_UNKNOWN)
+			as_validator_add_issue (validator, node, "artifact-type-invalid", prop);
+		g_free (prop);
+	}
+
+	/* validate platform */
+	prop = as_xml_get_prop_value (node, "platform");
+	if (prop != NULL) {
+		as_validator_check_platform_triplet (validator, node, prop);
+		g_free (prop);
+	}
+
+	/* validate bundle type */
+	prop = as_xml_get_prop_value (node, "bundle");
+	if (prop != NULL) {
+		if (as_bundle_kind_from_string (prop) == AS_BUNDLE_KIND_UNKNOWN)
+			as_validator_add_issue (validator, node, "artifact-bundle-type-invalid", prop);
+		g_free (prop);
+	}
+
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+
+		if (g_strcmp0 (node_name, "location") == 0) {
+			g_autofree gchar *url = as_xml_get_node_value (iter);
+			if (!as_validate_is_url (url)) {
+				as_validator_add_issue (validator, iter, "web-url-expected", url);
+				continue;
+			}
+			if (!as_validate_is_secure_url (url))
+				as_validator_add_issue (validator, iter, "url-not-secure", url);
+			continue;
+		} else if (g_strcmp0 (node_name, "checksum") == 0) {
+			g_autofree gchar *tmp = as_xml_get_prop_value (iter, "type");
+			if (as_checksum_kind_from_string (tmp) == AS_CHECKSUM_KIND_NONE)
+				as_validator_add_issue (validator, iter, "artifact-checksum-type-invalid", tmp);
+			continue;
+		} else if (g_strcmp0 (node_name, "size") == 0) {
+			g_autofree gchar *tmp = as_xml_get_prop_value (iter, "type");
+			if (as_size_kind_from_string (tmp) == AS_SIZE_KIND_UNKNOWN)
+				as_validator_add_issue (validator, iter, "artifact-size-type-invalid", tmp);
+			continue;
+		} else if (g_strcmp0 (node_name, "filename") == 0) {
+			g_autofree gchar *fname = as_xml_get_node_value (iter);
+			if (g_path_is_absolute (fname) || g_str_has_prefix (fname, "."))
+				as_validator_add_issue (validator, iter, "artifact-filename-not-basename", fname);
+			continue;
+		} else {
+			/* unknown tag */
+			as_validator_add_issue (validator, iter, "unknown-tag", node_name);
+		}
+	}
+}
+
+/**
+ * as_validator_check_release_issue:
+ **/
+static void
+as_validator_check_release_issue (AsValidator *validator, xmlNode *node)
+{
+	gchar *prop;
+	AsIssueKind kind = AS_ISSUE_KIND_UNKNOWN;
+
+	/* validate type */
+	prop = as_xml_get_prop_value (node, "type");
+	kind = as_issue_kind_from_string (prop);
+	if (prop != NULL) {
+		if (kind == AS_ISSUE_KIND_UNKNOWN)
+			as_validator_add_issue (validator, node, "release-issue-type-invalid", prop);
+		g_free (prop);
+	}
+
+	/* validate url */
+	prop = as_xml_get_prop_value (node, "url");
+	if (prop != NULL) {
+		if (!as_validate_is_url (prop))
+			as_validator_add_issue (validator, node, "web-url-expected", prop);
+		else if (!as_validate_is_secure_url (prop))
+			as_validator_add_issue (validator, node, "url-not-secure", prop);
+		g_free (prop);
+	}
+
+	/* validate value */
+	if (kind == AS_ISSUE_KIND_CVE) {
+		g_autofree gchar *value = as_xml_get_node_value (node);
+		if (!g_str_has_prefix (value, "CVE-"))
+			as_validator_add_issue (validator, node, "release-issue-is-cve-but-no-cve-id", value);
+	}
+}
+
+/**
  * as_validator_check_release:
  **/
 static void
 as_validator_check_release (AsValidator *validator, xmlNode *node, AsFormatStyle mode)
 {
-	xmlNode *iter;
 	gchar *prop;
 
 	/* validate date strings */
-	prop = (gchar*) xmlGetProp (node, (xmlChar*) "date");
+	prop = as_xml_get_prop_value (node, "date");
 	if (prop != NULL) {
 		as_validator_validate_iso8601_complete_date (validator, node, prop);
 		g_free (prop);
 	}
-	prop = (gchar*) xmlGetProp (node, (xmlChar*) "date_eol");
+	prop = as_xml_get_prop_value (node, "date_eol");
 	if (prop != NULL) {
 		as_validator_validate_iso8601_complete_date (validator, node, prop);
 		g_free (prop);
 	}
 
-	for (iter = node->children; iter != NULL; iter = iter->next) {
+	/* validate type */
+	prop = as_xml_get_prop_value (node, "type");
+	if (prop != NULL) {
+		if (as_release_kind_from_string (prop) == AS_RELEASE_KIND_UNKNOWN)
+			as_validator_add_issue (validator, node, "release-type-invalid", prop);
+		g_free (prop);
+	}
+
+	/* validate urgency */
+	prop = as_xml_get_prop_value (node, "urgency");
+	if (prop != NULL) {
+		if (as_urgency_kind_from_string (prop) == AS_URGENCY_KIND_UNKNOWN)
+			as_validator_add_issue (validator, node, "release-urgency-invalid", prop);
+		g_free (prop);
+	}
+
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
 		if (iter->type != XML_ELEMENT_NODE)
 			continue;
@@ -1234,6 +1421,61 @@ as_validator_check_release (AsValidator *validator, xmlNode *node, AsFormatStyle
 			as_validator_check_description_tag (validator, iter, mode, FALSE);
 			continue;
 		}
+
+		/* validate url */
+		if (g_strcmp0 (node_name, "url") == 0) {
+			g_autofree gchar *url = as_xml_get_node_value (iter);
+			if (!as_validate_is_url (url)) {
+				as_validator_add_issue (validator, iter, "web-url-expected", url);
+				continue;
+			}
+			if (!as_validate_is_secure_url (url))
+				as_validator_add_issue (validator, iter, "url-not-secure", url);
+			continue;
+		}
+
+		/* validate artifacts */
+		if (g_strcmp0 (node_name, "artifacts") == 0) {
+			for (xmlNode *iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
+				if (iter2->type != XML_ELEMENT_NODE)
+					continue;
+				if (g_strcmp0 ((const gchar*) iter2->name, "artifact") != 0) {
+					as_validator_add_issue (validator, iter2,
+								"invalid-child-tag-name",
+								/* TRANSLATORS: An invalid XML tag was found, "Found" refers to the tag name found, "Allowed" to the permitted name. */
+								_("Found: %s - Allowed: %s"),
+								(const gchar*) iter2->name,
+								"artifact");
+					continue;
+				}
+				/* validate artifact */
+				as_validator_check_artifact (validator, iter2);
+			}
+			continue;
+		}
+
+		/* validate issues */
+		if (g_strcmp0 (node_name, "issues") == 0) {
+			for (xmlNode *iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
+				if (iter2->type != XML_ELEMENT_NODE)
+					continue;
+				if (g_strcmp0 ((const gchar*) iter2->name, "issue") != 0) {
+					as_validator_add_issue (validator, iter2,
+								"invalid-child-tag-name",
+								/* TRANSLATORS: An invalid XML tag was found, "Found" refers to the tag name found, "Allowed" to the permitted name. */
+								_("Found: %s - Allowed: %s"),
+								(const gchar*) iter2->name,
+								"issue");
+					continue;
+				}
+				/* validate issue */
+				as_validator_check_release_issue (validator, iter2);
+			}
+			continue;
+		}
+
+		/* if we are here, we have an unknown tag */
+		as_validator_add_issue (validator, iter, "unknown-tag", node_name);
 	}
 }
 
@@ -1243,9 +1485,7 @@ as_validator_check_release (AsValidator *validator, xmlNode *node, AsFormatStyle
 static void
 as_validator_check_releases (AsValidator *validator, xmlNode *node, AsFormatStyle mode)
 {
-	xmlNode *iter;
-
-	for (iter = node->children; iter != NULL; iter = iter->next) {
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
@@ -1273,7 +1513,6 @@ as_validator_check_releases (AsValidator *validator, xmlNode *node, AsFormatStyl
 static AsComponent*
 as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xmlNode *root)
 {
-	xmlNode *iter;
 	AsComponent *cpt;
 	g_autofree gchar *cpttype = NULL;
 	g_autoptr(GHashTable) found_tags = NULL;
@@ -1323,7 +1562,7 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 		as_validator_add_issue (validator, NULL, "component-summary-missing", NULL);
 	}
 
-	for (iter = root->children; iter != NULL; iter = iter->next) {
+	for (xmlNode *iter = root->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
 		g_autofree gchar *node_content = NULL;
 		gboolean tag_valid = TRUE;
@@ -1393,6 +1632,11 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 				if (!as_validate_is_url (node_content)) {
 					as_validator_add_issue (validator, iter, "icon-remote-no-url", NULL);
 				} else {
+					if (as_validate_is_url (node_content)) {
+						as_validator_add_issue (validator, iter, "web-url-expected", node_content);
+						continue;
+					}
+
 					if (!as_validate_is_secure_url (node_content))
 						as_validator_add_issue (validator, iter, "icon-remote-not-secure", node_content);
 
@@ -1412,6 +1656,11 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			g_autofree gchar *prop = as_validator_check_type_property (validator, cpt, iter);
 			if (as_url_kind_from_string (prop) == AS_URL_KIND_UNKNOWN)
 				as_validator_add_issue (validator, iter, "url-invalid-type", prop);
+
+			if (!as_validate_is_url (node_content)) {
+				as_validator_add_issue (validator, iter, "web-url-expected", node_content);
+				continue;
+			}
 
 			if (!as_validate_is_secure_url (node_content))
 				as_validator_add_issue (validator, iter, "url-not-secure", node_content);
@@ -1454,6 +1703,7 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			}
 		} else if (g_strcmp0 (node_name, "releases") == 0) {
 			as_validator_check_releases (validator, iter, mode);
+			can_be_empty = TRUE;
 		} else if (g_strcmp0 (node_name, "languages") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags);
 			as_validator_check_children_quick (validator, iter, "lang", FALSE);
@@ -1680,7 +1930,7 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			const gchar *version_prev = as_release_get_version (release_prev);
 			if (version == NULL || version_prev == NULL)
 				continue;
-			if (as_utils_compare_versions (version_prev, version) < 0) {
+			if (as_vercmp_simple (version_prev, version) < 0) {
 				as_validator_add_issue (validator, NULL,
 							"releases-not-in-order",
 							"%s << %s",
@@ -1700,7 +1950,11 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
  * @validator: An instance of #AsValidator.
  * @metadata_file: An AppStream XML file.
  *
- * Validate an AppStream XML file
+ * Validate an AppStream XML file.
+ * Remember to run %as_validator_clear_issues if you do not want previous
+ * validation runs to affect the outcome of this validation.
+ *
+ * Returns: %TRUE if file validated successfully.
  **/
 gboolean
 as_validator_validate_file (AsValidator *validator, GFile *metadata_file)
@@ -1710,6 +1964,7 @@ as_validator_validate_file (AsValidator *validator, GFile *metadata_file)
 	g_autoptr(GInputStream) stream_data = NULL;
 	g_autoptr(GConverter) conv = NULL;
 	g_autoptr(GString) asxmldata = NULL;
+	g_autoptr(GBytes) bytes = NULL;
 	g_autofree gchar *fname = NULL;
 	gssize len;
 	const gsize buffer_size = 1024 * 32;
@@ -1761,7 +2016,8 @@ as_validator_validate_file (AsValidator *validator, GFile *metadata_file)
 	if (len < 0)
 		return FALSE;
 
-	ret = as_validator_validate_data (validator, asxmldata->str);
+	bytes = g_bytes_new_static (asxmldata->str, asxmldata->len);
+	ret = as_validator_validate_bytes (validator, bytes);
 	as_validator_clear_current_fname (validator);
 
 	return ret;
@@ -1771,12 +2027,12 @@ as_validator_validate_file (AsValidator *validator, GFile *metadata_file)
  * as_validator_open_xml_document:
  */
 static xmlDoc*
-as_validator_open_xml_document (AsValidator *validator, const gchar *xmldata)
+as_validator_open_xml_document (AsValidator *validator, const gchar *xmldata, gssize len)
 {
 	xmlDoc *doc;
 	g_autoptr(GError) error = NULL;
 
-	doc = as_xml_parse_document (xmldata, -1, &error);
+	doc = as_xml_parse_document (xmldata, len, &error);
 	if (doc == NULL) {
 		if (error != NULL) {
 			as_validator_add_issue (validator, NULL,
@@ -1791,19 +2047,27 @@ as_validator_open_xml_document (AsValidator *validator, const gchar *xmldata)
 }
 
 /**
- * as_validator_validate_data:
+ * as_validator_validate_bytes:
  * @validator: An instance of #AsValidator.
- * @metadata: XML metadata.
+ * @metadata: XML metadata as #GBytes.
  *
- * Validate AppStream XML data
+ * Validate AppStream XML data from a byte array.
+ * Remember to run %as_validator_clear_issues if you do not want previous
+ * validation runs to affect the outcome of this validation.
+ *
+ * Returns: %TRUE if bytes validated successfully.
+ *
+ * Since: 0.14.0
  **/
 gboolean
-as_validator_validate_data (AsValidator *validator, const gchar *metadata)
+as_validator_validate_bytes (AsValidator *validator, GBytes *metadata)
 {
 	gboolean ret;
 	xmlNode* root;
 	xmlDoc *doc;
 	g_autoptr(AsContext) ctx = NULL;
+	const gchar *data;
+	gsize data_len;
 	AsComponent *cpt;
 
 	/* setup networking, in case we want to check URLs */
@@ -1813,7 +2077,8 @@ as_validator_validate_data (AsValidator *validator, const gchar *metadata)
 	ctx = as_context_new ();
 	as_context_set_locale (ctx, "C");
 
-	doc = as_validator_open_xml_document (validator, metadata);
+	data = g_bytes_get_data (metadata, &data_len);
+	doc = as_validator_open_xml_document (validator, data, data_len);
 	if (doc == NULL)
 		return FALSE;
 	root = xmlDocGetRootElement (doc);
@@ -1858,7 +2123,25 @@ as_validator_validate_data (AsValidator *validator, const gchar *metadata)
 	}
 
 	xmlFreeDoc (doc);
-	return ret;
+	return ret && as_validator_check_success (validator);
+}
+
+/**
+ * as_validator_validate_data:
+ * @validator: An instance of #AsValidator.
+ * @metadata: XML metadata.
+ *
+ * Validate AppStream XML data.
+ * Remember to run %as_validator_clear_issues if you do not want previous
+ * validation runs to affect the outcome of this validation.
+ *
+ * Returns: %TRUE if data validated successfully.
+ **/
+gboolean
+as_validator_validate_data (AsValidator *validator, const gchar *metadata)
+{
+	g_autoptr(GBytes) bytes = g_bytes_new_static (metadata, strlen (metadata));
+	return as_validator_validate_bytes (validator, bytes);
 }
 
 /**
@@ -1988,6 +2271,8 @@ as_validator_analyze_component_metainfo_relation_cb (const gchar *fname, AsCompo
  * @root_dir: The root directory of the filesystem tree that should be validated.
  *
  * Validate a full directory tree for issues in AppStream metadata.
+ *
+ * Returns: %TRUE if file validated successfully.
  **/
 gboolean
 as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
@@ -2113,7 +2398,7 @@ as_validator_validate_tree (AsValidator *validator, const gchar *root_dir)
 		}
 
 		/* now read the XML */
-		doc = as_validator_open_xml_document (validator, asdata->str);
+		doc = as_validator_open_xml_document (validator, asdata->str, asdata->len);
 		if (doc == NULL) {
 			as_validator_clear_current_fname (validator);
 			continue;
@@ -2172,7 +2457,7 @@ out:
 	if (validated_cpts != NULL)
 		g_hash_table_unref (validated_cpts);
 
-	return ret;
+	return ret && as_validator_check_success (validator);
 }
 
 /**

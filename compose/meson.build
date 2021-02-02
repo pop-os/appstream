@@ -10,6 +10,7 @@ ascompose_src = [
     'asc-hint-tags.c',
     'asc-image.c',
     'asc-result.c',
+    'asc-utils-metainfo.c',
     'asc-utils.c'
 ]
 
@@ -21,6 +22,7 @@ ascompose_pub_headers = [
     'asc-hint.h',
     'asc-image.h',
     'asc-result.h',
+    'asc-utils-metainfo.h',
     'asc-utils.h'
 ]
 
@@ -81,6 +83,7 @@ pkgc.generate(
     requires: ['glib-2.0',
                'gio-2.0',
                'gobject-2.0',
+               'gdk-pixbuf-2.0',
                'appstream']
 )
 
@@ -121,7 +124,8 @@ if get_option ('gir')
         includes: [
             as_gir,
             'GObject-2.0',
-            'Gio-2.0'
+            'Gio-2.0',
+            'GdkPixbuf-2.0'
         ],
         header: 'appstream-compose.h',
         include_directories: [appstream_lib_inc],

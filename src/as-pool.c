@@ -58,6 +58,7 @@
 #include "as-distro-extras.h"
 #include "as-stemmer.h"
 #include "as-cache.h"
+#include "as-profile.h"
 
 #include "as-metadata.h"
 
@@ -66,6 +67,7 @@ typedef struct
 	gchar *screenshot_service_url;
 	gchar *locale;
 	gchar *current_arch;
+	AsProfile *profile;
 
 	GPtrArray *xml_dirs;
 	GPtrArray *yaml_dirs;
@@ -127,6 +129,8 @@ as_pool_init (AsPool *pool)
 	g_autoptr(AsDistroDetails) distro = NULL;
 
 	g_mutex_init (&priv->mutex);
+
+	priv->profile = as_profile_new ();
 
 	/* set active locale */
 	priv->locale = as_get_current_locale ();
@@ -212,6 +216,8 @@ as_pool_finalize (GObject *object)
 	g_free (priv->locale);
 	g_free (priv->current_arch);
 	g_strfreev (priv->term_greylist);
+
+	g_object_unref (priv->profile);
 
 	g_mutex_unlock (&priv->mutex);
 	g_mutex_clear (&priv->mutex);
@@ -734,6 +740,9 @@ as_pool_load_collection_data (AsPool *pool, gboolean refresh, GError **error)
 	g_autoptr(GPtrArray) mdata_files = NULL;
 	GError *tmp_error = NULL;
 	g_autoptr(GMutexLocker) locker = NULL;
+	g_autoptr(AsProfileTask) ptask = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:load_collection_data");
 
 	/* see if we can use the system caches */
 	if (!refresh && as_pool_has_system_metadata_paths (pool)) {
@@ -929,12 +938,14 @@ as_pool_load_collection_data (AsPool *pool, gboolean refresh, GError **error)
 static GHashTable*
 as_pool_get_desktop_entries_table (AsPool *pool)
 {
-	guint i;
+	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	g_autoptr(AsMetadata) metad = NULL;
 	g_autoptr(GPtrArray) de_files = NULL;
+	g_autoptr(AsProfileTask) ptask = NULL;
 	GHashTable *de_cpt_table = NULL;
 	GError *error = NULL;
-	AsPoolPrivate *priv = GET_PRIVATE (pool);
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:get_desktop_entries_table");
 
 	/* prepare metadata parser */
 	metad = as_metadata_new ();
@@ -956,7 +967,7 @@ as_pool_get_desktop_entries_table (AsPool *pool)
 	}
 
 	/* parse the found data */
-	for (i = 0; i < de_files->len; i++) {
+	for (guint i = 0; i < de_files->len; i++) {
 		g_autoptr(GFile) infile = NULL;
 		AsComponent *cpt;
 		const gchar *fname = (const gchar*) g_ptr_array_index (de_files, i);
@@ -1002,11 +1013,13 @@ as_pool_get_desktop_entries_table (AsPool *pool)
 static void
 as_pool_load_metainfo_data (AsPool *pool, GHashTable *desktop_entry_cpts)
 {
-	guint i;
+	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	g_autoptr(AsMetadata) metad = NULL;
 	g_autoptr(GPtrArray) mi_files = NULL;
+	g_autoptr(AsProfileTask) ptask = NULL;
 	GError *error = NULL;
-	AsPoolPrivate *priv = GET_PRIVATE (pool);
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:load_metainfo_data");
 
 	/* prepare metadata parser */
 	metad = as_metadata_new ();
@@ -1023,7 +1036,7 @@ as_pool_load_metainfo_data (AsPool *pool, GHashTable *desktop_entry_cpts)
 	}
 
 	/* parse the found data */
-	for (i = 0; i < mi_files->len; i++) {
+	for (guint i = 0; i < mi_files->len; i++) {
 		AsComponent *cpt;
 		AsLaunchable *launchable;
 		g_autoptr(GFile) infile = NULL;
@@ -1124,6 +1137,9 @@ as_pool_load_metainfo_desktop_data (AsPool *pool)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	g_autoptr(GHashTable) de_cpts = NULL;
+	g_autoptr(AsProfileTask) ptask = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:load_metainfo_desktop_data");
 
 	/* check if we actually need to load anything */
 	g_mutex_lock (&priv->mutex);
@@ -1211,11 +1227,14 @@ gboolean
 as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
+	g_autoptr(AsProfileTask) ptask = NULL;
 	gboolean ret = TRUE;
 	guint invalid_cpts_n;
 	gssize all_cpts_n;
 	gdouble valid_percentage;
 	GError *tmp_error = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:load");
 
 	g_mutex_lock (&priv->mutex);
 	if (as_flags_contains (priv->cache_flags, AS_CACHE_FLAG_NO_CLEAR)) {
@@ -1270,7 +1289,7 @@ as_pool_load (AsPool *pool, GCancellable *cancellable, GError **error)
 	/* we only return a non-TRUE value if a significant amount (10%) of components has been declared invalid. */
 	if ((invalid_cpts_n != 0) && (valid_percentage <= 90))
 		ret = FALSE;
-	
+
 	/* report errors if refining has failed */
 	if (!ret && (error != NULL)) {
 		if (*error == NULL) {
@@ -1411,8 +1430,11 @@ GPtrArray*
 as_pool_get_components (AsPool *pool)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
+	g_autoptr(AsProfileTask) ptask = NULL;
 	g_autoptr(GError) tmp_error = NULL;
 	GPtrArray *result = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:get_components");
 
 	result = as_cache_get_components_all (priv->cache, &tmp_error);
 	if (result == NULL) {
@@ -1448,8 +1470,11 @@ GPtrArray*
 as_pool_get_components_by_id (AsPool *pool, const gchar *cid)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
+	g_autoptr(AsProfileTask) ptask = NULL;
 	g_autoptr(GError) tmp_error = NULL;
 	GPtrArray *result = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:get_components_by_id");
 
 	result = as_cache_get_components_by_id (priv->cache, cid, &tmp_error);
 	if (result == NULL) {
@@ -1650,13 +1675,21 @@ as_user_search_term_valid (const gchar *term)
 }
 
 /**
- * as_pool_build_search_terms:
+ * as_pool_build_search_tokens:
+ * @pool: An instance of #AsPool.
+ * @search: the (user-provided) search phrase.
  *
- * Build an array of search terms from a search string and improve the search terms
- * slightly, by stripping whitespaces, casefolding the terms and removing greylist words.
+ * Splits up a string into an array of tokens that are suitable for searching.
+ * This includes stripping whitespaces, casefolding the terms and removing greylist words.
+ *
+ * This function is usually called automatically when needed, you will only need to
+ * run it explicitly when you need to check which search tokens the pool will actually
+ * use internally for a given phrase.
+ *
+ * Returns: (transfer full): Valid tokens to search for, or %NULL for error
  */
-static gchar**
-as_pool_build_search_terms (AsPool *pool, const gchar *search)
+gchar**
+as_pool_build_search_tokens (AsPool *pool, const gchar *search)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
 	g_autoptr(AsStemmer) stemmer = NULL;
@@ -1721,7 +1754,7 @@ as_pool_build_search_terms (AsPool *pool, const gchar *search)
  * @pool: An instance of #AsPool
  * @search: A search string
  *
- * Search for a list of components matching the search terms.
+ * Search for a list of components matching the search term.
  * The list will be ordered by match score.
  *
  * Returns: (transfer container) (element-type AsComponent): an array of the found #AsComponent objects.
@@ -1732,14 +1765,17 @@ GPtrArray*
 as_pool_search (AsPool *pool, const gchar *search)
 {
 	AsPoolPrivate *priv = GET_PRIVATE (pool);
+	g_autoptr(AsProfileTask) ptask = NULL;
 	g_autoptr(GError) tmp_error = NULL;
 	GPtrArray *result = NULL;
-	g_auto(GStrv) terms = NULL;
+	g_auto(GStrv) tokens = NULL;
+
+	ptask = as_profile_start_literal (priv->profile, "AsPool:search");
 
 	/* sanitize user's search term */
-	terms = as_pool_build_search_terms (pool, search);
+	tokens = as_pool_build_search_tokens (pool, search);
 
-	if (terms == NULL) {
+	if (tokens == NULL) {
 		/* the query was invalid */
 		g_autofree gchar *tmp = g_strdup (search);
 		as_strstripnl (tmp);
@@ -1748,16 +1784,16 @@ as_pool_search (AsPool *pool, const gchar *search)
 			g_debug ("Search query too broad. Matching everything.");
 			return as_pool_get_components (pool);
 		} else {
-			g_debug ("No valid search terms. Can not find any results.");
+			g_debug ("No valid search tokens. Can not find any results.");
 			return g_ptr_array_new_with_free_func (g_object_unref);
 		}
 	} else {
 		g_autofree gchar *tmp_str = NULL;
-		tmp_str = g_strjoinv (" ", terms);
+		tmp_str = g_strjoinv (" ", tokens);
 		g_debug ("Searching for: %s", tmp_str);
 	}
 
-	result = as_cache_search (priv->cache, terms, FALSE, &tmp_error);
+	result = as_cache_search (priv->cache, tokens, FALSE, &tmp_error);
 	if (result == NULL) {
 		g_mutex_lock (&priv->mutex);
 		g_warning ("Search in session cache failed: %s", tmp_error->message);
@@ -1767,7 +1803,7 @@ as_pool_search (AsPool *pool, const gchar *search)
 
 	if (as_pool_can_query_system_cache (pool)) {
 		g_autoptr(GPtrArray) tmp_res = NULL;
-		tmp_res = as_cache_search (priv->system_cache, terms, FALSE, &tmp_error);
+		tmp_res = as_cache_search (priv->system_cache, tokens, FALSE, &tmp_error);
 		if (tmp_res == NULL) {
 			g_warning ("Search in system cache failed: %s", tmp_error->message);
 			return result;

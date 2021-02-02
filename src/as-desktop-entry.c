@@ -80,8 +80,10 @@ as_get_locale_from_key (const gchar *key)
 		locale[strlen (locale)-6] = '\0';
 
 	/* filter out cruft */
-	if (as_is_cruft_locale (locale))
+	if (as_is_cruft_locale (locale)) {
+		g_free (locale);
 		return NULL;
+	}
 
 	delim = g_strrstr (locale, ".");
 	if (delim != NULL) {
@@ -148,26 +150,34 @@ as_add_filtered_categories (gchar **cats, AsComponent *cpt)
 /**
  * as_desktop_entry_parse_data:
  */
-AsComponent*
-as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersion fversion, GError **error)
+gboolean
+as_desktop_entry_parse_data (AsComponent *cpt, const gchar *data, gssize data_len, AsFormatVersion fversion, GError **error)
 {
-	g_autoptr(AsComponent) cpt = NULL;
 	g_autoptr(GKeyFile) df = NULL;
-	gchar *tmp;
-	gboolean ignore_cpt = FALSE;
 	g_auto(GStrv) keys = NULL;
-	guint i;
+	gboolean ignore_cpt = FALSE;
+	GError *tmp_error = NULL;
+	gchar *tmp;
+	g_autofree gchar *desktop_basename = g_strdup (as_component_get_id (cpt));
 
-	g_assert (cid != NULL);
+	if (desktop_basename == NULL) {
+		g_set_error_literal (error,
+				     AS_METADATA_ERROR,
+				     AS_METADATA_ERROR_PARSE,
+				     "Unable to determine component-id for component from desktop-entry data.");
+		return FALSE;
+	}
 
 	df = g_key_file_new ();
 	g_key_file_load_from_data (df,
 				   data,
-				   -1,
+				   data_len,
 				   G_KEY_FILE_KEEP_TRANSLATIONS,
-				   error);
-	if (*error != NULL)
-		return NULL;
+				   &tmp_error);
+	if (tmp_error != NULL) {
+		g_propagate_error (error, tmp_error);
+		return FALSE;
+	}
 
 	/* Type */
 	tmp = g_key_file_get_string (df,
@@ -177,7 +187,7 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
 	if (!as_strequal_casefold (tmp, "application")) {
 		g_free (tmp);
 		/* not an application, so we can't proceed, but also no error */
-		return NULL;
+		return FALSE;
 	}
 	g_free (tmp);
 
@@ -200,7 +210,7 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
 	if (as_strequal_casefold (tmp, "true")) {
 		g_free (tmp);
 		/* this file should be ignored, we can't return a component (but this is also no error) */
-		return NULL;
+		return FALSE;
 	}
 	g_free (tmp);
 
@@ -209,26 +219,24 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
 		g_set_error (error,
 				AS_METADATA_ERROR,
 				AS_METADATA_ERROR_PARSE,
-				"Data in '%s' does not contain a valid Desktop Entry.", cid);
-		return NULL;
+				"Data in '%s' does not contain a valid Desktop Entry.", as_component_get_id (cpt));
+		return FALSE;
 	}
 
 	/* create the new component we synthesize for this desktop entry */
-	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
-	as_component_set_id (cpt, cid);
 	as_component_set_ignored (cpt, ignore_cpt);
 	as_component_set_origin_kind (cpt, AS_ORIGIN_KIND_DESKTOP_ENTRY);
 
 	/* strip .desktop suffix if the reverse-domain-name scheme is followed and we build for
          * a recent AppStream version */
         if (fversion >= AS_FORMAT_VERSION_V0_10) {
-		g_auto(GStrv) parts = g_strsplit (cid, ".", 3);
+		g_auto(GStrv) parts = g_strsplit (desktop_basename, ".", 3);
 		if (g_strv_length (parts) == 3) {
-			if (as_utils_is_tld (parts[0]) && g_str_has_suffix (cid, ".desktop")) {
+			if (as_utils_is_tld (parts[0]) && g_str_has_suffix (desktop_basename, ".desktop")) {
 				g_autofree gchar *id_raw = NULL;
 				/* remove .desktop suffix */
-				id_raw = g_strdup (cid);
+				id_raw = g_strdup (desktop_basename);
 				id_raw[strlen (id_raw)-8] = '\0';
 
 				as_component_set_id (cpt, id_raw);
@@ -237,7 +245,7 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
 	}
 
 	keys = g_key_file_get_keys (df, DESKTOP_GROUP, NULL, NULL);
-	for (i = 0; keys[i] != NULL; i++) {
+	for (guint i = 0; keys[i] != NULL; i++) {
 		g_autofree gchar *locale = NULL;
 		g_autofree gchar *val = NULL;
 		gchar *key = keys[i];
@@ -320,9 +328,18 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
 		}
 	}
 
-	/* we have the lowest priority */
-	as_component_set_priority (cpt, -G_MAXINT);
-	return g_object_ref (cpt);
+	/* add this .desktop file as launchable entry, if we don't have one set already */
+	if (as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID) == NULL) {
+		g_autoptr(AsLaunchable) launch = as_launchable_new ();
+		as_launchable_set_kind (launch, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+		as_launchable_add_entry (launch, desktop_basename);
+		as_component_add_launchable (cpt, launch);
+
+		/* we have the lowest priority */
+		as_component_set_priority (cpt, -G_MAXINT);
+	}
+
+	return TRUE;
 }
 
 /**
@@ -330,8 +347,8 @@ as_desktop_entry_parse_data (const gchar *data, const gchar *cid, AsFormatVersio
  *
  * Parse a .desktop file.
  */
-AsComponent*
-as_desktop_entry_parse_file (GFile *file, AsFormatVersion fversion, GError **error)
+gboolean
+as_desktop_entry_parse_file (AsComponent *cpt, GFile *file, AsFormatVersion fversion, GError **error)
 {
 	g_autofree gchar *file_basename = NULL;
 	g_autoptr(GInputStream) file_stream = NULL;
@@ -342,7 +359,7 @@ as_desktop_entry_parse_file (GFile *file, AsFormatVersion fversion, GError **err
 
 	file_stream = G_INPUT_STREAM (g_file_read (file, NULL, error));
 	if (file_stream == NULL)
-		return NULL;
+		return FALSE;
 
 	file_basename = g_file_get_basename (file);
 	dedata = g_string_new ("");
@@ -352,11 +369,13 @@ as_desktop_entry_parse_file (GFile *file, AsFormatVersion fversion, GError **err
 	}
 	/* check if there was an error */
 	if (len < 0)
-		return NULL;
+		return FALSE;
 
 	/* parse desktop entry */
-	return as_desktop_entry_parse_data (dedata->str,
-					    file_basename,
+	as_component_set_id (cpt, file_basename);
+	return as_desktop_entry_parse_data (cpt,
+					    dedata->str,
+					    dedata->len,
 					    fversion,
 					    error);
 }

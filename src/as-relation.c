@@ -24,14 +24,15 @@
 #include <glib.h>
 
 #include "as-utils.h"
+#include "as-vercmp.h"
 
 /**
  * SECTION:as-relation
- * @short_description: Description of relations a software component has with other items
+ * @short_description: Description of relations a software component has with other things
  * @include: appstream.h
  *
  * A component can have recommends- or requires relations on other components, system properties,
- * other hardware and interfaces.
+ * hardware and other interfaces.
  * This class contains a representation of those relations.
  *
  * See also: #AsComponent
@@ -969,22 +970,22 @@ as_relation_version_compare (AsRelation *relation, const gchar *version, GError 
 
 	switch (priv->compare) {
 	case AS_RELATION_COMPARE_EQ:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc == 0;
 	case AS_RELATION_COMPARE_NE:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc != 0;
 	case AS_RELATION_COMPARE_LT:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc > 0;
 	case AS_RELATION_COMPARE_GT:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc < 0;
 	case AS_RELATION_COMPARE_LE:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc >= 0;
 	case AS_RELATION_COMPARE_GE:
-		rc = as_utils_compare_versions (priv->version, version);
+		rc = as_vercmp_simple (priv->version, version);
 		return rc <= 0;
 	default:
 		return FALSE;
@@ -1004,7 +1005,7 @@ gboolean
 as_relation_load_from_xml (AsRelation *relation, AsContext *ctx, xmlNode *node, GError **error)
 {
 	AsRelationPrivate *priv = GET_PRIVATE (relation);
-	gchar *content = NULL;
+	g_autofree gchar *content = NULL;
 
 	content = as_xml_get_node_value (node);
 	if (content == NULL)

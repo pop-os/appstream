@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Copyright (C) 2012-2020 Matthias Klumpp <matthias@tenstral.net>
- * Copyright (C) 2016 Richard Hughes <richard@hughsie.com>
+ * Copyright (C) 2014-2016 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -38,9 +38,10 @@
 #include <sys/stat.h>
 #include <errno.h>
 
+#include "as-version.h"
 #include "as-resources.h"
 #include "as-category.h"
-#include "as-component.h"
+#include "as-metadata.h"
 #include "as-component-private.h"
 
 /**
@@ -64,7 +65,75 @@
 const gchar*
 as_get_appstream_version (void)
 {
-	return PACKAGE_VERSION;
+	return as_version_string ();
+}
+
+/**
+ * as_utils_error_quark:
+ *
+ * Return value: An error quark.
+ *
+ * Since: 0.14.0
+ **/
+G_DEFINE_QUARK (as-utils-error-quark, as_utils_error)
+
+/**
+ * as_markup_strsplit_words:
+ * @text: the text to split.
+ * @line_len: the maximum length of the output line
+ *
+ * Splits up a long line into an array of smaller strings, each being no longer
+ * than @line_len. Words are not split.
+ *
+ * Returns: (transfer full): lines, or %NULL in event of an error
+ *
+ * Since: 0.14.0
+ **/
+gchar **
+as_markup_strsplit_words (const gchar *text, guint line_len)
+{
+	GPtrArray *lines;
+	g_autoptr(GString) curline = NULL;
+	g_auto(GStrv) tokens = NULL;
+
+	/* sanity check */
+	if (as_is_empty (text))
+		return NULL;
+	if (line_len == 0)
+		return NULL;
+
+	lines = g_ptr_array_new ();
+	curline = g_string_new ("");
+
+	/* tokenize the string */
+	tokens = g_strsplit (text, " ", -1);
+	for (guint i = 0; tokens[i] != NULL; i++) {
+
+		/* current line plus new token is okay */
+		if (curline->len + strlen (tokens[i]) < line_len) {
+			g_string_append_printf (curline, "%s ", tokens[i]);
+			continue;
+		}
+
+		/* too long, so remove space, add newline and dump */
+		if (curline->len > 0)
+			g_string_truncate (curline, curline->len - 1);
+		g_string_append (curline, "\n");
+		g_ptr_array_add (lines, g_strdup (curline->str));
+		g_string_truncate (curline, 0);
+		g_string_append_printf (curline, "%s ", tokens[i]);
+
+	}
+
+	/* any incomplete line? */
+	if (curline->len > 0) {
+		g_string_truncate (curline, curline->len - 1);
+		g_string_append (curline, "\n");
+		g_ptr_array_add (lines, g_strdup (curline->str));
+	}
+
+	g_ptr_array_add (lines, NULL);
+	return (gchar **) g_ptr_array_free (lines, FALSE);
 }
 
 /**
@@ -83,9 +152,9 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 	xmlNode *root;
 	xmlNode *iter;
 	gboolean ret = TRUE;
-	gchar *xmldata;
 	gchar *formatted = NULL;
 	GString *str = NULL;
+	g_autofree gchar *xmldata = NULL;
 
 	if (markup == NULL)
 		return NULL;
@@ -129,15 +198,22 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 			g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter);
 			g_strstrip (content);
 
-			/* remove extra whitespaces */
+			/* remove extra whitespaces and linebreaks */
 			strv = g_strsplit (content, "\n", -1);
 			for (guint i = 0; strv[i] != NULL; ++i)
 				g_strstrip (strv[i]);
-			tmp = g_strjoinv ("\n", strv);
+			tmp = g_strjoinv (" ", strv);
 
 			if (str->len > 0)
 				g_string_append (str, "\n");
-			g_string_append_printf (str, "%s\n", tmp);
+
+			if (to_kind == AS_MARKUP_KIND_MARKDOWN) {
+				g_auto(GStrv) spl = as_markup_strsplit_words (tmp, 100);
+				for (guint i = 0; spl[i] != NULL; i++)
+					g_string_append (str, spl[i]);
+			} else {
+				g_string_append_printf (str, "%s\n", tmp);
+			}
 		} else if ((g_strcmp0 ((gchar*) iter->name, "ul") == 0) || (g_strcmp0 ((gchar*) iter->name, "ol") == 0)) {
 			/* iterate over itemize contents */
 			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
@@ -147,9 +223,12 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 					g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter2);
 					g_strstrip (content);
 					if (to_kind == AS_MARKUP_KIND_MARKDOWN) {
-						g_string_append_printf (str,
-								" - %s\n",
-								content);
+						g_auto(GStrv) spl = NULL;
+						/* break to 100 chars, leaving room for the dot/indent */
+						spl = as_markup_strsplit_words (content, 100 - 3);
+						g_string_append_printf (str, " * %s", spl[0]);
+						for (guint i = 1; spl[i] != NULL; i++)
+							g_string_append_printf (str, "   %s", spl[i]);
 					} else {
 						g_string_append_printf (str,
 									" • %s\n",
@@ -965,7 +1044,7 @@ as_utils_is_desktop_environment (const gchar *desktop)
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
 
-	/* load the readonly data section and look for the TLD */
+	/* load the readonly data section and look for the desktop environment name */
 	data = g_resource_lookup_data (as_get_resource (),
 				       "/org/freedesktop/appstream/desktop-environments.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
@@ -974,6 +1053,142 @@ as_utils_is_desktop_environment (const gchar *desktop)
 		return FALSE;
 	key = g_strdup_printf ("\n%s\n", desktop);
 	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_is_platform_triplet_arch:
+ * @arch: an architecture ID.
+ *
+ * Check if the given string is a valid architecture part
+ * of a platform triplet.
+ *
+ * Returns: %TRUE if architecture is valid
+ *
+ * Since: 0.14.0
+ **/
+gboolean
+as_utils_is_platform_triplet_arch (const gchar *arch)
+{
+	g_autoptr(GBytes) data = NULL;
+	g_autofree gchar *key = NULL;
+
+	if (arch == NULL)
+		return FALSE;
+
+	/* "any" is always a valid value */
+	if (g_strcmp0 (arch, "any") == 0)
+		return TRUE;
+
+	/* load the readonly data section */
+	data = g_resource_lookup_data (as_get_resource (),
+				       "/org/freedesktop/appstream/platform_arch.txt",
+				       G_RESOURCE_LOOKUP_FLAGS_NONE,
+				       NULL);
+	if (data == NULL)
+		return FALSE;
+	key = g_strdup_printf ("\n%s\n", arch);
+	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_is_platform_triplet_oskernel:
+ * @os: an OS/kernel ID.
+ *
+ * Check if the given string is a valid OS/kernel part
+ * of a platform triplet.
+ *
+ * Returns: %TRUE if kernel ID is valid
+ *
+ * Since: 0.14.0
+ **/
+gboolean
+as_utils_is_platform_triplet_oskernel (const gchar *os)
+{
+	g_autoptr(GBytes) data = NULL;
+	g_autofree gchar *key = NULL;
+
+	if (os == NULL)
+		return FALSE;
+
+	/* "any" is always a valid value */
+	if (g_strcmp0 (os, "any") == 0)
+		return TRUE;
+
+	/* load the readonly data section */
+	data = g_resource_lookup_data (as_get_resource (),
+				       "/org/freedesktop/appstream/platform_os.txt",
+				       G_RESOURCE_LOOKUP_FLAGS_NONE,
+				       NULL);
+	if (data == NULL)
+		return FALSE;
+	key = g_strdup_printf ("\n%s\n", os);
+	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_is_platform_triplet_osenv:
+ * @env: an OS/environment ID.
+ *
+ * Check if the given string is a valid OS/environment part
+ * of a platform triplet.
+ *
+ * Returns: %TRUE if environment ID is valid
+ *
+ * Since: 0.14.0
+ **/
+gboolean
+as_utils_is_platform_triplet_osenv (const gchar *env)
+{
+	g_autoptr(GBytes) data = NULL;
+	g_autofree gchar *key = NULL;
+
+	if (env == NULL)
+		return FALSE;
+
+	/* "any" is always a valid value */
+	if (g_strcmp0 (env, "any") == 0)
+		return TRUE;
+
+	/* load the readonly data section */
+	data = g_resource_lookup_data (as_get_resource (),
+				       "/org/freedesktop/appstream/platform_env.txt",
+				       G_RESOURCE_LOOKUP_FLAGS_NONE,
+				       NULL);
+	if (data == NULL)
+		return FALSE;
+	key = g_strdup_printf ("\n%s\n", env);
+	return g_strstr_len (g_bytes_get_data (data, NULL), -1, key) != NULL;
+}
+
+/**
+ * as_utils_is_platform_triplet:
+ * @triplet: a platform triplet.
+ *
+ * Test if the given string is a valid platform triplet recognized by
+ * AppStream.
+ *
+ * Returns: %TRUE if triplet is valid.
+ *
+ * Since: 0.14.0
+ **/
+gboolean
+as_utils_is_platform_triplet (const gchar *triplet)
+{
+	g_auto(GStrv) parts = NULL;
+
+	if (triplet == NULL)
+		return FALSE;
+
+	parts = g_strsplit (triplet, "-", 3);
+	if (g_strv_length (parts) != 3)
+		return FALSE;
+	if (!as_utils_is_platform_triplet_arch (parts[0]))
+		return FALSE;
+	if (!as_utils_is_platform_triplet_oskernel (parts[1]))
+		return FALSE;
+	if (!as_utils_is_platform_triplet_osenv (parts[2]))
+		return FALSE;
+	return TRUE;
 }
 
 /**
@@ -1030,153 +1245,79 @@ as_utils_sort_components_into_categories (GPtrArray *cpts, GPtrArray *categories
 	}
 }
 
-/**
- * as_utils_compare_versions:
- *
- * Compare alpha and numeric segments of two versions.
- * The version compare algorithm is also used by RPM.
- *
- * Returns: 1: a is newer than b
- *	    0: a and b are the same version
- *	   -1: b is newer than a
- */
-gint
-as_utils_compare_versions (const gchar* a, const gchar *b)
+static inline const gchar*
+_as_fix_data_id_part (const gchar *tmp)
 {
-	/* easy comparison to see if versions are identical */
-	if (g_strcmp0 (a, b) == 0)
-		return 0;
-
-	if (a == NULL)
-		return -1;
-	if (b == NULL)
-		return 1;
-
-	gchar oldch1, oldch2;
-	gchar abuf[strlen(a)+1], bbuf[strlen(b)+1];
-	gchar *str1 = abuf, *str2 = bbuf;
-	gchar *one, *two;
-	int rc;
-	gboolean isnum;
-
-	strcpy (str1, a);
-	strcpy (str2, b);
-
-	one = str1;
-	two = str2;
-
-	/* loop through each version segment of str1 and str2 and compare them */
-	while (*one || *two) {
-		while (*one && !g_ascii_isalnum (*one) && *one != '~') one++;
-		while (*two && !g_ascii_isalnum (*two) && *two != '~') two++;
-
-		/* handle the tilde separator, it sorts before everything else */
-		if (*one == '~' || *two == '~') {
-			if (*one != '~') return 1;
-			if (*two != '~') return -1;
-			one++;
-			two++;
-			continue;
-		}
-
-		/* If we ran to the end of either, we are finished with the loop */
-		if (!(*one && *two)) break;
-
-		str1 = one;
-		str2 = two;
-
-		/* grab first completely alpha or completely numeric segment */
-		/* leave one and two pointing to the start of the alpha or numeric */
-		/* segment and walk str1 and str2 to end of segment */
-		if (g_ascii_isdigit (*str1)) {
-			while (*str1 && g_ascii_isdigit (*str1)) str1++;
-			while (*str2 && g_ascii_isdigit (*str2)) str2++;
-			isnum = TRUE;
-		} else {
-			while (*str1 && g_ascii_isalpha (*str1)) str1++;
-			while (*str2 && g_ascii_isalpha (*str2)) str2++;
-			isnum = FALSE;
-		}
-
-		/* save character at the end of the alpha or numeric segment */
-		/* so that they can be restored after the comparison */
-		oldch1 = *str1;
-		*str1 = '\0';
-		oldch2 = *str2;
-		*str2 = '\0';
-
-		/* this cannot happen, as we previously tested to make sure that */
-		/* the first string has a non-null segment */
-		if (one == str1) return -1;	/* arbitrary */
-
-		/* take care of the case where the two version segments are */
-		/* different types: one numeric, the other alpha (i.e. empty) */
-		/* numeric segments are always newer than alpha segments */
-		if (two == str2) return (isnum ? 1 : -1);
-
-		if (isnum) {
-			size_t onelen, twolen;
-			/* this used to be done by converting the digit segments */
-			/* to ints using atoi() - it's changed because long  */
-			/* digit segments can overflow an int - this should fix that. */
-
-			/* throw away any leading zeros - it's a number, right? */
-			while (*one == '0') one++;
-			while (*two == '0') two++;
-
-			/* whichever number has more digits wins */
-			onelen = strlen (one);
-			twolen = strlen (two);
-			if (onelen > twolen) return 1;
-			if (twolen > onelen) return -1;
-		}
-
-		/* strcmp will return which one is greater - even if the two */
-		/* segments are alpha or if they are numeric.  don't return  */
-		/* if they are equal because there might be more segments to */
-		/* compare */
-		rc = strcmp (one, two);
-		if (rc) return (rc < 1 ? -1 : 1);
-
-		/* restore character that was replaced by null above */
-		*str1 = oldch1;
-		one = str1;
-		*str2 = oldch2;
-		two = str2;
-	}
-
-	/* this catches the case where all numeric and alpha segments have */
-	/* compared identically but the segment sepparating characters were */
-	/* different */
-	if ((!*one) && (!*two)) return 0;
-
-	/* whichever version still has characters left over wins */
-	if (!*one) return -1; else return 1;
+	if (tmp == NULL || tmp[0] == '\0')
+		return AS_DATA_ID_WILDCARD;
+	return tmp;
 }
 
 /**
  * as_utils_build_data_id:
+ * @scope: Scope of the metadata as #AsComponentScope e.g. %AS_COMPONENT_SCOPE_SYSTEM
+ * @bundle_kind: Bundling system providing this data, e.g. 'package' or 'flatpak'
+ * @origin: Origin string, e.g. 'os' or 'gnome-apps-nightly'
+ * @cid: AppStream component ID, e.g. 'org.freedesktop.appstream.cli'
+ * @branch: Branch, e.g. '3-20' or 'master'
  *
- * Builds the unique metadata ID using the supplied information.
+ * Builds an identifier string unique to the individual dataset using the supplied information.
+ *
+ * Since: 0.14.0
  */
 gchar*
 as_utils_build_data_id (AsComponentScope scope,
-			const gchar *origin,
 			AsBundleKind bundle_kind,
-			const gchar *cid)
+			const gchar *origin,
+			const gchar *cid,
+			const gchar *branch)
 {
+	const gchar *scope_str = NULL;
+	const gchar *bundle_str = NULL;
+
 	/* if we have a package in system scope, the origin is "os", as they share the same namespace
 	 * and we can not have multiple versions of the same software installed on the system.
 	 * The data ID is needed to deduplicate entries */
-	if ((scope == AS_COMPONENT_SCOPE_SYSTEM) && (bundle_kind == AS_BUNDLE_KIND_PACKAGE))
+	if (scope == AS_COMPONENT_SCOPE_SYSTEM && bundle_kind == AS_BUNDLE_KIND_PACKAGE)
 		origin = "os";
 
+	if (scope != AS_COMPONENT_SCOPE_UNKNOWN)
+		scope_str = as_component_scope_to_string (scope);
+	if (bundle_kind != AS_BUNDLE_KIND_UNKNOWN)
+		bundle_str = as_bundle_kind_to_string (bundle_kind);
+
 	/* build the data-id */
-	return g_strdup_printf ("%s/%s/%s/%s",
-				as_component_scope_to_string (scope),
-				origin,
-				as_bundle_kind_to_string (bundle_kind),
-				cid);
+	return g_strdup_printf ("%s/%s/%s/%s/%s",
+				_as_fix_data_id_part (scope_str),
+				_as_fix_data_id_part (bundle_str),
+				_as_fix_data_id_part (origin),
+				_as_fix_data_id_part (cid),
+				_as_fix_data_id_part (branch));
+}
+
+/**
+ * as_utils_data_id_valid:
+ * @data_id: a component data ID
+ *
+ * Checks if a data ID is valid i.e. has the correct number of
+ * sections.
+ *
+ * Returns: %TRUE if the ID is valid
+ *
+ * Since: 0.14.0
+ */
+gboolean
+as_utils_data_id_valid (const gchar *data_id)
+{
+	guint i;
+	guint sections = 1;
+	if (data_id == NULL)
+		return FALSE;
+	for (i = 0; data_id[i] != '\0'; i++) {
+		if (data_id[i] == '/')
+			sections++;
+	}
+	return sections == AS_DATA_ID_PARTS_COUNT;
 }
 
 /**
@@ -1190,10 +1331,147 @@ as_utils_data_id_get_cid (const gchar *data_id)
 {
 	g_auto(GStrv) parts = NULL;
 
-	parts = g_strsplit (data_id, "/", 4);
-	if (g_strv_length (parts) != 4)
+	parts = g_strsplit (data_id, "/", 5);
+	if (g_strv_length (parts) != 5)
 		return NULL;
 	return g_strdup (parts[3]);
+}
+
+static inline guint
+_as_utils_data_id_find_part (const gchar *str)
+{
+	guint i;
+	for (i = 0; str[i] != '/' && str[i] != '\0'; i++);
+	return i;
+}
+
+static inline gboolean
+_as_utils_data_id_is_wildcard_part (const gchar *str, guint len)
+{
+	return len == 1 && str[0] == '*';
+}
+
+/**
+ * as_utils_data_id_match:
+ * @data_id1: a data ID
+ * @data_id2: another data ID
+ * @match_flags: a #AsDataIdMatchFlags bitfield, e.g. %AS_DATA_ID_MATCH_FLAG_ID
+ *
+ * Checks two data IDs for equality allowing globs to match, whilst also
+ * allowing clients to whitelist sections that have to match.
+ *
+ * Returns: %TRUE if the IDs should be considered equal.
+ *
+ * Since: 0.14.0
+ */
+gboolean
+as_utils_data_id_match (const gchar *data_id1,
+			const gchar *data_id2,
+			AsDataIdMatchFlags match_flags)
+{
+	guint last1 = 0;
+	guint last2 = 0;
+	guint len1;
+	guint len2;
+
+	/* trivial */
+	if (data_id1 == data_id2)
+		return TRUE;
+
+	/* invalid */
+	if (!as_utils_data_id_valid (data_id1) ||
+	    !as_utils_data_id_valid (data_id2))
+		return g_strcmp0 (data_id1, data_id2) == 0;
+
+	/* look at each part */
+	for (guint i = 0; i < AS_DATA_ID_PARTS_COUNT; i++) {
+		const gchar *tmp1 = data_id1 + last1;
+		const gchar *tmp2 = data_id2 + last2;
+
+		/* find the slash or the end of the string */
+		len1 = _as_utils_data_id_find_part (tmp1);
+		len2 = _as_utils_data_id_find_part (tmp2);
+
+		/* either string was a wildcard */
+		if (match_flags & (1 << i) &&
+		    !_as_utils_data_id_is_wildcard_part (tmp1, len1) &&
+		    !_as_utils_data_id_is_wildcard_part (tmp2, len2)) {
+			/* are substrings the same */
+			if (len1 != len2)
+				return FALSE;
+			if (memcmp (tmp1, tmp2, len1) != 0)
+				return FALSE;
+		}
+
+		/* advance to next section */
+		last1 += len1 + 1;
+		last2 += len2 + 1;
+	}
+	return TRUE;
+}
+
+/**
+ * as_utils_data_id_equal:
+ * @data_id1: a data ID
+ * @data_id2: another data ID
+ *
+ * Checks two component data IDs for equality allowing globs to match.
+ *
+ * Returns: %TRUE if the ID's should be considered equal.
+ *
+ * Since: 0.14.0
+ */
+gboolean
+as_utils_data_id_equal (const gchar *data_id1, const gchar *data_id2)
+{
+	return as_utils_data_id_match (data_id1,
+				       data_id2,
+				       AS_DATA_ID_MATCH_FLAG_SCOPE |
+				       AS_DATA_ID_MATCH_FLAG_BUNDLE_KIND |
+				       AS_DATA_ID_MATCH_FLAG_ORIGIN |
+				       AS_DATA_ID_MATCH_FLAG_ID |
+				       AS_DATA_ID_MATCH_FLAG_BRANCH);
+}
+
+/**
+ * as_utils_data_id_hash:
+ * @data_id: a data ID
+ *
+ * Converts a data-id to a hash value.
+ *
+ * This function implements the widely used DJB hash on the ID subset of the
+ * data-id string.
+ *
+ * It can be passed to g_hash_table_new() as the hash_func parameter,
+ * when using non-NULL strings or unique_ids as keys in a GHashTable.
+ *
+ * Returns: a hash value corresponding to the key
+ *
+ * Since: 0.14.0
+ */
+guint
+as_utils_data_id_hash (const gchar *data_id)
+{
+	gsize i;
+	guint hash = 5381;
+	guint section_cnt = 0;
+
+	/* not a unique ID */
+	if (!as_utils_data_id_valid (data_id))
+		return g_str_hash (data_id);
+
+	/* only include the component-id */
+	for (i = 0; data_id[i] != '\0'; i++) {
+		if (data_id[i] == '/') {
+			if (++section_cnt > 3)
+				break;
+			continue;
+		}
+		if (section_cnt < 3)
+			continue;
+		hash = (guint) ((hash << 5) + hash) + (guint) (data_id[i]);
+	}
+	return hash;
 }
 
 /**
@@ -1205,11 +1483,13 @@ AsBundleKind
 as_utils_get_component_bundle_kind (AsComponent *cpt)
 {
 	GPtrArray *bundles;
-	AsBundleKind bundle_kind;
+	AsBundleKind bundle_kind = AS_BUNDLE_KIND_UNKNOWN;
 
 	/* determine bundle - what should we do if there are multiple bundles of different types
 	 * defined for one component? */
-	bundle_kind = AS_BUNDLE_KIND_PACKAGE;
+	if (as_component_has_package (cpt) ||
+	    as_component_get_kind (cpt) == AS_COMPONENT_KIND_OPERATING_SYSTEM)
+		bundle_kind = AS_BUNDLE_KIND_PACKAGE;
 	bundles = as_component_get_bundles (cpt);
 	if (bundles->len > 0)
 		bundle_kind = as_bundle_get_kind (AS_BUNDLE (g_ptr_array_index (bundles, 0)));
@@ -1234,9 +1514,10 @@ as_utils_build_data_id_for_cpt (AsComponent *cpt)
 
 	/* build the data-id */
 	return as_utils_build_data_id (as_component_get_scope (cpt),
-					as_component_get_origin (cpt),
-					bundle_kind,
-					as_component_get_id (cpt));
+				       bundle_kind,
+				       as_component_get_origin (cpt),
+				       as_component_get_id (cpt),
+				       as_component_get_branch (cpt));
 }
 
 /**
@@ -1474,4 +1755,355 @@ as_strstripnl (gchar *string)
 
 	memmove (string, start, strlen ((gchar *) start) + 1);
 	return string;
+}
+
+/**
+ * as_ref_string_release:
+ * @rstr: a #GRefString to release.
+ *
+ * This function works exactly like %g_ref_string_release, except
+ * that it does not throw an error if %NULL is passed to it.
+ */
+void
+as_ref_string_release (GRefString *rstr)
+{
+	if (rstr == NULL)
+		return;
+	g_ref_string_release (rstr);
+}
+
+/**
+ * as_ref_string_assign_safe:
+ * @rstr_ptr: (out): a #AsRefString
+ * @str: a string, or a #AsRefString
+ *
+ * This function unrefs and clears @rstr_ptr if set, then sets @rstr if
+ * non-NULL. If @rstr and @rstr_ptr are the same string the action is ignored.
+ *
+ * This function should be used when @str cannot be guaranteed to be a
+ * refcounted string and is suitable for use in existing object setters.
+ */
+void
+as_ref_string_assign_safe (GRefString **rstr_ptr, const gchar *str)
+{
+	g_return_if_fail (rstr_ptr != NULL);
+	if (*rstr_ptr != NULL) {
+		g_ref_string_release (*rstr_ptr);
+		*rstr_ptr = NULL;
+	}
+	if (str != NULL)
+		*rstr_ptr = g_ref_string_new_intern (str);
+}
+
+/**
+ * as_ref_string_assign_transfer:
+ * @rstr_ptr: (out): a #AsRefString
+ * @new_rstr: a #AsRefString
+ *
+ * Clear the previous refstring in @rstr_ptr and move the new string @new_rstr in its place,
+ * without increasing its reference count again.
+ */
+void
+as_ref_string_assign_transfer (GRefString **rstr_ptr, GRefString *new_rstr)
+{
+	g_return_if_fail (rstr_ptr != NULL);
+	if (*rstr_ptr != NULL) {
+		g_ref_string_release (*rstr_ptr);
+		*rstr_ptr = NULL;
+	}
+	if (new_rstr != NULL)
+		*rstr_ptr = new_rstr;
+}
+
+/**
+ * as_utils_extract_tarball:
+ *
+ * Internal helper function to extract a tarball with tar.
+ */
+gboolean
+as_utils_extract_tarball (const gchar *filename, const gchar *target_dir, GError **error)
+{
+	g_autofree gchar *wdir = NULL;
+	gboolean ret;
+	gint exit_status;
+	const gchar *argv[] = { "/bin/tar",
+				"-xzf",
+				filename,
+				"-C",
+				target_dir,
+				NULL };
+
+	g_return_val_if_fail (filename != NULL, FALSE);
+
+	if (!as_utils_is_writable (target_dir)) {
+		g_set_error_literal (error,
+				     AS_UTILS_ERROR,
+				     AS_UTILS_ERROR_FAILED,
+				     "Can not extract tarball: target directory is not writable.");
+		return FALSE;
+	}
+
+	wdir = g_path_get_dirname (filename);
+	if (g_strcmp0 (wdir, ".") == 0)
+		g_clear_pointer (&wdir, g_free);
+
+	ret = g_spawn_sync (wdir,
+			    (gchar**) argv,
+			    NULL, /* envp */
+			    G_SPAWN_CLOEXEC_PIPES,
+			    NULL, /* child_setup */
+			    NULL, /* child_setup udata */
+			    NULL, /* stdout */
+			    NULL, /* stderr */
+			    &exit_status,
+			    error);
+	if (!ret) {
+		g_prefix_error (error, "Unable to run tar: ");
+		return FALSE;
+	}
+	if (exit_status == 0)
+		return TRUE;
+
+	g_set_error (error,
+		     AS_UTILS_ERROR,
+		     AS_UTILS_ERROR_FAILED,
+		     "Tarball extraction failed with 'tar' exit-code %i.",
+		     exit_status);
+	return FALSE;
+}
+
+/**
+ * as_metadata_location_get_prefix:
+ */
+static const gchar*
+as_metadata_location_get_prefix (AsMetadataLocation location)
+{
+	if (location == AS_METADATA_LOCATION_SHARED)
+		return "/usr/share";
+	if (location == AS_METADATA_LOCATION_CACHE)
+		return "/var/cache";
+	if (location == AS_METADATA_LOCATION_STATE)
+		return "/var/lib";
+	if (location == AS_METADATA_LOCATION_USER)
+		return g_get_user_data_dir ();
+	return NULL;
+}
+
+/**
+ * as_utils_install_metadata_file_internal:
+ */
+static gboolean
+as_utils_install_metadata_file_internal (const gchar *filename,
+					 const gchar *origin,
+					 const gchar *dir,
+					 const gchar *destdir,
+					 gboolean is_yaml,
+					 GError **error)
+{
+	gchar *tmp;
+	g_autofree gchar *basename = NULL;
+	g_autofree gchar *path_dest = NULL;
+	g_autofree gchar *path_parent = NULL;
+	g_autoptr(GFile) file_dest = NULL;
+	g_autoptr(GFile) file_src = NULL;
+
+	/* create directory structure */
+	path_parent = g_strdup_printf ("%s%s", destdir, dir);
+	if (g_mkdir_with_parents (path_parent, 0755) != 0) {
+		g_set_error (error,
+			     AS_UTILS_ERROR,
+			     AS_UTILS_ERROR_FAILED,
+			     "Failed to create %s", path_parent);
+		return FALSE;
+	}
+
+	/* calculate the new destination */
+	file_src = g_file_new_for_path (filename);
+	basename = g_path_get_basename (filename);
+	if (origin != NULL) {
+		g_autofree gchar *basename_new = NULL;
+		tmp = g_strstr_len (basename, -1, ".");
+		if (tmp == NULL) {
+			g_set_error (error,
+				     AS_UTILS_ERROR,
+				     AS_UTILS_ERROR_FAILED,
+				     "Name of metadata collection file is invalid %s",
+				     basename);
+			return FALSE;
+		}
+		basename_new = g_strdup_printf ("%s%s", origin, tmp);
+		/* replace the fedora.xml.gz into %{origin}.xml.gz */
+		path_dest = g_build_filename (path_parent, basename_new, NULL);
+	} else {
+		path_dest = g_build_filename (path_parent, basename, NULL);
+	}
+
+	/* actually copy file */
+	file_dest = g_file_new_for_path (path_dest);
+	if (!g_file_copy (file_src, file_dest,
+			  G_FILE_COPY_OVERWRITE,
+			  NULL, NULL, NULL, error))
+		return FALSE;
+
+	/* update the origin for XML files */
+	if (origin != NULL && !is_yaml) {
+		g_autoptr(AsMetadata) mdata = as_metadata_new ();
+		as_metadata_set_locale (mdata, "ALL");
+		if (!as_metadata_parse_file (mdata, file_dest, AS_FORMAT_KIND_XML, error))
+			return FALSE;
+		as_metadata_set_origin (mdata, origin);
+		if (!as_metadata_save_collection (mdata, path_dest, AS_FORMAT_KIND_XML, error))
+			return FALSE;
+	}
+
+	g_chmod (path_dest, 0755);
+	return TRUE;
+}
+
+/**
+ * as_utils_install_icon_tarball:
+ */
+static gboolean
+as_utils_install_icon_tarball (AsMetadataLocation location,
+				const gchar *filename,
+				const gchar *origin,
+				const gchar *size_id,
+				const gchar *destdir,
+				GError **error)
+{
+	g_autofree gchar *dir = NULL;
+	dir = g_strdup_printf ("%s%s/app-info/icons/%s/%s",
+			       destdir,
+			       as_metadata_location_get_prefix (location),
+			       origin,
+			       size_id);
+	if (g_mkdir_with_parents (dir, 0755) != 0) {
+		g_set_error (error,
+			     AS_UTILS_ERROR,
+			     AS_UTILS_ERROR_FAILED,
+			     "Failed to create %s", dir);
+		return FALSE;
+	}
+
+	if (!as_utils_extract_tarball (filename, dir, error))
+		return FALSE;
+	return TRUE;
+}
+
+/**
+ * as_utils_install_metadata_file:
+ * @location: the #AsMetadataLocation, e.g. %AS_METADATA_LOCATION_CACHE
+ * @filename: the full path of the file to install
+ * @origin: the origin to use for the installation, or %NULL
+ * @destdir: the destdir to use, or %NULL
+ * @error: A #GError or %NULL
+ *
+ * Installs an AppStream MetaInfo, AppStream Metadata Collection or AppStream Icon tarball file
+ * to the right place on the filesystem.
+ * Please note that this function does almost no validation and may guess missing values such
+ * as icon sizes and origin names.
+ * Ensure your metadata is good before installing it.
+ *
+ * Returns: %TRUE for success, %FALSE if error is set
+ *
+ * Since: 0.14.0
+ **/
+gboolean
+as_utils_install_metadata_file (AsMetadataLocation location,
+				const gchar *filename,
+				const gchar *origin,
+				const gchar *destdir,
+				GError **error)
+{
+	gboolean ret = FALSE;
+	g_autofree gchar *basename = NULL;
+	g_autofree gchar *path = NULL;
+	const gchar *icons_size_id = NULL;
+	const gchar *icons_size_ids[] = { "48x48",
+					  "48x48@2",
+					  "64x64",
+					  "64x64@2",
+					  "128x128",
+					  "128x128@2",
+					  NULL };
+
+	/* default value */
+	if (destdir == NULL)
+		destdir = "";
+	if (location == AS_METADATA_LOCATION_USER)
+		destdir = "";
+
+	switch (as_metadata_file_guess_style (filename)) {
+	case AS_FORMAT_STYLE_COLLECTION:
+		if (g_strstr_len (filename, -1, ".yml.gz") != NULL) {
+			path = g_build_filename (as_metadata_location_get_prefix (location),
+						 "app-info", "yaml", NULL);
+			ret = as_utils_install_metadata_file_internal (filename, origin, path, destdir, TRUE, error);
+		} else {
+			path = g_build_filename (as_metadata_location_get_prefix (location),
+						 "app-info", "xmls", NULL);
+			ret = as_utils_install_metadata_file_internal (filename, origin, path, destdir, FALSE, error);
+		}
+		break;
+	case AS_FORMAT_STYLE_METAINFO:
+		if (location == AS_METADATA_LOCATION_CACHE || location == AS_METADATA_LOCATION_STATE) {
+			g_set_error_literal (error,
+					     AS_UTILS_ERROR,
+					     AS_UTILS_ERROR_FAILED,
+					     "System cache and state locations are unsupported for MetaInfo files");
+			return FALSE;
+		}
+		path = g_build_filename (as_metadata_location_get_prefix (location),
+					 "metainfo", NULL);
+		ret = as_utils_install_metadata_file_internal (filename, NULL, path, destdir, FALSE, error);
+		break;
+	default:
+		basename = g_path_get_basename (filename);
+
+		if (g_str_has_suffix (basename, ".tar.gz")) {
+			gchar *tmp;
+			g_autofree gchar *tmp2 = NULL;
+			/* we may have an icon tarball */
+
+			/* guess icon size */
+			for (guint i = 0; icons_size_ids[i] != NULL; i++) {
+				if (g_strstr_len (basename, -1, icons_size_ids[i]) != NULL) {
+					icons_size_id = icons_size_ids[i];
+					break;
+				}
+			}
+
+			if (icons_size_id == NULL) {
+				g_set_error_literal (error,
+					AS_UTILS_ERROR,
+					AS_UTILS_ERROR_FAILED,
+					"Unable to find valid icon size in icon tarball name.");
+				return FALSE;
+			}
+
+			/* install icons if we know the origin name */
+			if (origin != NULL) {
+				ret = as_utils_install_icon_tarball (location, filename, origin, icons_size_id, destdir, error);
+				break;
+			}
+
+			/* guess origin */
+			tmp2 = g_strdup_printf ("_icons-%s.tar.gz", icons_size_id);
+			tmp = g_strstr_len (basename, -1, tmp2);
+			if (tmp != NULL) {
+				*tmp = '\0';
+				ret = as_utils_install_icon_tarball (location, filename, basename, icons_size_id, destdir, error);
+				break;
+			}
+		}
+
+		/* unrecognised */
+		g_set_error_literal (error,
+				     AS_UTILS_ERROR,
+				     AS_UTILS_ERROR_FAILED,
+				     "Can not process files of this type.");
+		break;
+	}
+
+	return ret;
 }

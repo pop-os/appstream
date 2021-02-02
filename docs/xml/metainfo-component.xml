@@ -132,9 +132,9 @@
 			</listitem>
 		</itemizedlist>
 		<para>
-			The license codes correspond to the identifiers found at the <ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
+			The license codes correspond to the identifiers found at the <ulink url="https://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
 			For instance, <literal>CC-BY-SA-3.0</literal> corresponds to the license at
-			<ulink url="http://creativecommons.org/licenses/by-sa/3.0/">creativecommons.org/licenses/by-sa/3.0</ulink>.
+			<ulink url="https://creativecommons.org/licenses/by-sa/3.0/">creativecommons.org/licenses/by-sa/3.0</ulink>.
 		</para>
 		</listitem>
 		</varlistentry>
@@ -311,9 +311,17 @@
 					URLs of this type should allow the user to contact the developer.
 				</para>
 				<para>
-					This could be an email address (mailto link), a webpage (e.g. an online
-					form or a page describing how to contact the developer) or some other valid URL.
+					This could for example be a HTTPS URL to an online form or a page describing how to contact the developer.
 				</para>
+				<note>
+					<title>Deprecation</title>
+					<para>
+						In the past, <code>mailto:</code> URL schemas to link to email addresses were also supported for this URL type.
+						It is recommended to not use them in new metadata, as they provide poor usability on most systems when users click
+						on such a link and no local email client is configured.
+					</para>
+				</note>
+
 				</listitem>
 			</varlistentry>
 			</variablelist>
@@ -377,9 +385,9 @@
                     <listitem>
                       <para>
                         The software can be launched from the menus of
-                        the <ulink url="http://cockpit-project.org">Cockpit</ulink> admin interface.
+                        the <ulink url="https://cockpit-project.org">Cockpit</ulink> admin interface.
                         The value of the tag is the name of a <ulink
-                        url="http://cockpit-project.org/guide/latest/packages.html">Cockpit
+                        url="https://cockpit-project.org/guide/latest/packages.html">Cockpit
                         package</ulink>.
                       </para>
                     </listitem>
@@ -478,10 +486,17 @@
 			<para>
 				To denote release artifacts, the <literal>artifacts</literal> child tag can be used. It itself contains the artifacts as <literal>artifact</literal> children.
 				Each artifact tag must have a <literal>type</literal> property with the value of either <code>binary</code> or <code>source</code> to indicate whether the
-				artifact is the releases' source-code or a binary distribution. In case of a <code>binary</code> type, an optional <literal>platform</literal> property may
-				also be set, containing a target triplet (also known as normalized GNU triplet), such as <code>x86_64-linux-gnu</code>. Refer to
-				<ulink url="https://wiki.debian.org/Multiarch/Tuples#Used_solution">Debian multiarch tuples</ulink> for a list of possible triplets to use and more information
-				on their purpose. For the Windows platform, a platform identifier string such as <code>win32</code> is also permitted as platform identifier.
+				artifact is the releases' source-code or a binary distribution.
+			</para>
+			<para>
+				In case of a <code>binary</code> type, an optional <literal>platform</literal> property may
+				also be set, containing a platform triplet (also known as normalized GNU triplet), such as <code>x86_64-linux-gnu</code>. Refer to
+				<ulink url="https://wiki.debian.org/Multiarch/Tuples#Used_solution">Debian multiarch tuples</ulink> for more information on normalized GNU triplets, and
+				<ulink url="https://github.com/ximion/appstream/blob/master/data/platforms.yml">AppStream's platforms.yml</ulink> for the triplet parts AppStream currently recognizes.
+				Note that AppStream only supports stricly three-part triplets in the form of <code>arch-oskernel-osenvironment</code>. Parts of the triplets which do not apply can be
+				replaced with <code>any</code>.
+			</para>
+			<para>
 				Binary artifacts may also have a <literal>bundle</literal> property to indicate the bundling system the binary distribution is made for. Refer to
 				the bundle types in <xref linkend="tag-ct-bundle"/> for a list of possible values.
 				Each <literal>artifact</literal> can have a number of children:
@@ -522,6 +537,18 @@
 						</listitem>
 					</varlistentry>
 
+					<varlistentry>
+						<term>filename</term>
+						<listitem>
+						<para>
+							An artifact may have a <literal>filename</literal> child, containing a non-absolute filename that the artifact may be stored under. The file name is only a naming hint and
+							applications are not required to follow it when downloading the file. If no <literal>filename</literal> tag is present, a file name may be generated from the artifact
+							<literal>location</literal> URL.
+							This tag must only appear once.
+						</para>
+						</listitem>
+					</varlistentry>
+
 				</variablelist>
 
 			<para>
@@ -548,7 +575,7 @@
         <size type="download">12345678</size>
         <size type="installed">42424242</size>
       </artifact>
-      <artifact type="binary" platform="win32">
+      <artifact type="binary" platform="x86_64-windows-msvc">
         <location>https://example.com/mytarball.bin.exe</location>
       </artifact>
       <artifact type="source">
@@ -996,7 +1023,7 @@
 					<listitem><para><literal>LicenseRef-Proprietary=https://example.com/mylicense.html</literal></para></listitem>
 				</itemizedlist>
 				A full list of recognized licenses and their identifiers can be found at the
-				<ulink url="http://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
+				<ulink url="https://spdx.org/licenses/">SPDX OpenSource License Registry</ulink>.
 			</para>
 			<para>
 				Custom licenses which are not in the SPDX registry, like proprietary licenses, can be denoted using the <code>LicenseRef</code> notation.
@@ -1083,7 +1110,7 @@
 		<para>
 			The value of the <code>&lt;video/&gt;</code> tag is a direct HTTP/HTTPS URL to a video uploaded to a public location on the web. The video must be in a
 			<ulink url="https://www.matroska.org/">Matroska (.mkv)</ulink> or <ulink url="https://www.webmproject.org/">WebM</ulink> container and use either the
-			<ulink url="https://www.webmproject.org/vp9/">VP9</ulink> or <ulink url="http://aomedia.org/av1-features/">AV1</ulink> codec.
+			<ulink url="https://www.webmproject.org/vp9/">VP9</ulink> or <ulink url="https://aomedia.org/av1-features/">AV1</ulink> codec.
 			The video should ideally work without any audio, but if audio is needed, the <ulink url="https://opus-codec.org/">Opus</ulink> codec should be used.
 			Software centers may still play the video without any sound though. Additionally, AppStream metadata repositories (like in distributions such as Fedora and Debian)
 			may impose size limitations to video files delivered by their CDN, so it is recommended to keep the video file size below 10MiB.
@@ -1379,7 +1406,7 @@
   <id>com.example.foobar</id>
   <name>Foo Bar</name>
   <summary>A foo-ish bar</summary>
-  <url type="homepage">http://www.example.org</url>
+  <url type="homepage">https://www.example.org</url>
   <metadata_license>CC0-1.0</metadata_license>
 
   <provides>

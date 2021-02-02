@@ -26,9 +26,11 @@
 extern "C" {
 #endif
 
+#include <as-version.h>
 #include <as-context.h>
 #include <as-component.h>
 #include <as-enums.h>
+#include <as-enum-types.h>
 #include <as-provided.h>
 #include <as-metadata.h>
 #include <as-pool.h>
@@ -48,12 +50,13 @@ extern "C" {
 #include <as-launchable.h>
 #include <as-relation.h>
 #include <as-issue.h>
-#include <as-enums-types.h>
+#include <as-review.h>
 
 #include <as-validator.h>
 #include <as-validator-issue.h>
 
 #include <as-utils.h>
+#include <as-vercmp.h>
 #include <as-spdx.h>
 
 #ifdef __cplusplus

@@ -1411,9 +1411,10 @@ as_cache_insert (AsCache *cache, AsComponent *cpt, GError **error)
 			const gchar *extended_cid = (const gchar*) g_ptr_array_index (extends, i);
 
 			extended_cdid = as_utils_build_data_id (as_component_get_scope (cpt),
-								as_component_get_origin (cpt),
 								as_utils_get_component_bundle_kind (cpt),
-								extended_cid);
+								as_component_get_origin (cpt),
+								extended_cid,
+								NULL);
 
 			hash_list = lmdb_val_memdup (as_cache_txn_get_value (cache,
 									     txn,
@@ -1852,9 +1853,18 @@ as_cache_get_component_by_data_id (AsCache *cache, const gchar *cdid, GError **e
 		lmdb_transaction_abort (txn);
 		return NULL;
 	}
+	if (dval.mv_size <= 0) {
+		/* nothing found? */
+		lmdb_transaction_abort (txn);
+		return NULL;
+	}
+
 	cpt = as_cache_component_from_dval (cache, txn, dval, error);
-	if (cpt == NULL)
-		return NULL; /* error */
+	if (cpt == NULL) {
+		g_propagate_error (error, tmp_error);
+		lmdb_transaction_abort (txn);
+		return NULL;
+	}
 
 	lmdb_transaction_commit (txn, NULL);
 	return cpt;

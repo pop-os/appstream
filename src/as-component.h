@@ -28,7 +28,7 @@
 #include <glib-object.h>
 #include "as-context.h"
 #include "as-enums.h"
-#include "as-enums-types.h"
+#include "as-enum-types.h"
 #include "as-provided.h"
 #include "as-icon.h"
 #include "as-screenshot.h"
@@ -41,6 +41,7 @@
 #include "as-launchable.h"
 #include "as-relation.h"
 #include "as-agreement.h"
+#include "as-review.h"
 
 G_BEGIN_DECLS
 
@@ -69,7 +70,7 @@ struct _AsComponentClass
  * @AS_COMPONENT_KIND_ADDON:		An extension of existing software, which does not run standalone
  * @AS_COMPONENT_KIND_FONT:		A font
  * @AS_COMPONENT_KIND_CODEC:		A multimedia codec
- * @AS_COMPONENT_KIND_INPUTMETHOD:	An input-method provider
+ * @AS_COMPONENT_KIND_INPUT_METHOD:	An input-method provider
  * @AS_COMPONENT_KIND_FIRMWARE:		Firmware
  * @AS_COMPONENT_KIND_DRIVER:		A driver
  * @AS_COMPONENT_KIND_LOCALIZATION:	Software localization (usually l10n resources)
@@ -90,7 +91,7 @@ typedef enum  {
 	AS_COMPONENT_KIND_ADDON,
 	AS_COMPONENT_KIND_FONT,
 	AS_COMPONENT_KIND_CODEC,
-	AS_COMPONENT_KIND_INPUTMETHOD,
+	AS_COMPONENT_KIND_INPUT_METHOD,
 	AS_COMPONENT_KIND_FIRMWARE,
 	AS_COMPONENT_KIND_DRIVER,
 	AS_COMPONENT_KIND_LOCALIZATION,
@@ -102,6 +103,8 @@ typedef enum  {
 	/*< private >*/
 	AS_COMPONENT_KIND_LAST
 } AsComponentKind;
+
+#define AS_COMPONENT_KIND_INPUTMETHOD AS_COMPONENT_KIND_INPUT_METHOD
 
 const gchar		*as_component_kind_to_string (AsComponentKind kind);
 AsComponentKind		as_component_kind_from_string (const gchar *kind_str);
@@ -162,6 +165,35 @@ typedef enum {
 	AS_VALUE_FLAG_NO_TRANSLATION_FALLBACK = 1 << 1
 } AsValueFlags;
 
+/**
+ * AsSearchTokenMatch:
+ * @AS_SEARCH_TOKEN_MATCH_NONE:			No token matching
+ * @AS_SEARCH_TOKEN_MATCH_MIMETYPE:		Use the component mimetypes
+ * @AS_SEARCH_TOKEN_MATCH_PKGNAME:		Use the component package name
+ * @AS_SEARCH_TOKEN_MATCH_ORIGIN:		Use the app origin
+ * @AS_SEARCH_TOKEN_MATCH_DESCRIPTION:		Use the component description
+ * @AS_SEARCH_TOKEN_MATCH_COMMENT:		Use the component comment
+ * @AS_SEARCH_TOKEN_MATCH_NAME:			Use the component name
+ * @AS_SEARCH_TOKEN_MATCH_KEYWORD:		Use the component keyword
+ * @AS_SEARCH_TOKEN_MATCH_ID:			Use the component ID
+ *
+ * The token match kind, which we want to be exactly 16 bits for storage
+ * reasons.
+ **/
+typedef enum /*< skip >*/ __attribute__((__packed__)) {
+	AS_SEARCH_TOKEN_MATCH_NONE		= 0,
+	AS_SEARCH_TOKEN_MATCH_MIMETYPE		= 1 << 0,
+	AS_SEARCH_TOKEN_MATCH_PKGNAME		= 1 << 1,
+	AS_SEARCH_TOKEN_MATCH_ORIGIN		= 1 << 2,
+	AS_SEARCH_TOKEN_MATCH_DESCRIPTION	= 1 << 3,
+	AS_SEARCH_TOKEN_MATCH_SUMMARY		= 1 << 4,
+	AS_SEARCH_TOKEN_MATCH_KEYWORD		= 1 << 5,
+	AS_SEARCH_TOKEN_MATCH_NAME		= 1 << 6,
+	AS_SEARCH_TOKEN_MATCH_ID		= 1 << 7,
+	/*< private >*/
+	AS_SEARCH_TOKEN_MATCH_LAST		= 0xffff
+} AsSearchTokenMatch;
+
 AsComponent		*as_component_new (void);
 
 AsValueFlags		as_component_get_value_flags (AsComponent *cpt);
@@ -187,6 +219,10 @@ void			as_component_set_kind (AsComponent *cpt,
 const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
 							const gchar *origin);
+
+const gchar		*as_component_get_branch (AsComponent *cpt);
+void			as_component_set_branch (AsComponent *cpt,
+						 const gchar *branch);
 
 AsComponentScope	as_component_get_scope (AsComponent *cpt);
 void			as_component_set_scope (AsComponent *cpt,
@@ -272,6 +308,9 @@ void			as_component_add_provided (AsComponent *cpt,
 							AsProvided *prov);
 AsProvided		*as_component_get_provided_for_kind (AsComponent *cpt,
 							AsProvidedKind kind);
+void			as_component_add_provided_item (AsComponent *cpt,
+							AsProvidedKind kind,
+							const gchar *item);
 
 const gchar		*as_component_get_url (AsComponent *cpt,
 						AsUrlKind url_kind);
@@ -363,16 +402,21 @@ guint			as_component_get_sort_score (AsComponent *cpt);
 void			as_component_set_sort_score (AsComponent *cpt,
 							guint score);
 
+GPtrArray		*as_component_get_reviews (AsComponent *cpt);
+void		 	as_component_add_review	(AsComponent *cpt,
+						 AsReview *review);
+
 AsContext		*as_component_get_context (AsComponent *cpt);
 
 GHashTable		*as_component_get_name_table (AsComponent *cpt);
 GHashTable		*as_component_get_summary_table (AsComponent *cpt);
 GHashTable		*as_component_get_keywords_table (AsComponent *cpt);
 
-gboolean		as_component_load_from_xml_data (AsComponent *cpt,
-							 AsContext *context,
-							 const gchar *data,
-							 GError **error);
+gboolean		as_component_load_from_bytes (AsComponent *cpt,
+						      AsContext *context,
+						      AsFormatKind format,
+						      GBytes *bytes,
+						      GError **error);
 gchar			*as_component_to_xml_data (AsComponent *cpt,
 						   AsContext *context,
 						   GError **error);
@@ -381,6 +425,12 @@ gchar			*as_component_to_xml_data (AsComponent *cpt,
 
 G_DEPRECATED
 const gchar		*as_component_get_desktop_id (AsComponent *cpt);
+
+G_DEPRECATED
+gboolean		as_component_load_from_xml_data (AsComponent *cpt,
+							 AsContext *context,
+							 const gchar *data,
+							 GError **error);
 
 G_END_DECLS
 
