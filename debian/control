@@ -172,6 +172,7 @@ Section: libdevel
 Depends: gir1.2-appstreamcompose-1.0 (= ${binary:Version}),
          libappstream-compose0 (= ${binary:Version}),
          libappstream-dev (= ${binary:Version}),
+         libgdk-pixbuf2.0-dev,
          ${misc:Depends}
 Suggests: appstream-generator
 Description: Building blocks to compose AppStream metadata (development files)
