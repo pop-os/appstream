@@ -297,13 +297,11 @@ ascli_dump_component (const gchar *cachepath, const gchar *identifier, AsFormatK
  * Install a metainfo file.
  */
 int
-ascli_put_metainfo (const gchar *fname)
+ascli_put_metainfo (const gchar *fname, const gchar *origin, gboolean for_user)
 {
-	g_autofree gchar *tmp = NULL;
-	g_autofree gchar *dest = NULL;
+	AsMetadataLocation location;
+	const gchar *dest_dir;
 	g_autoptr(GError) error = NULL;
-	g_autofree gchar *metainfo_target = NULL;
-	const gchar *root_dir;
 
 	if (fname == NULL) {
 		ascli_print_stderr (_("You need to specify a metadata file."));
@@ -311,32 +309,18 @@ ascli_put_metainfo (const gchar *fname)
 	}
 
 	/* determine our root directory */
-	root_dir = g_getenv ("DESTDIR");
-	if (root_dir == NULL)
-		metainfo_target = g_strdup ("/usr/share/metainfo");
-	else
-		metainfo_target = g_build_filename (root_dir, "share", "metainfo", NULL);
+	dest_dir = g_getenv ("DESTDIR");
 
-	g_mkdir_with_parents (metainfo_target, 0755);
-	if (!as_utils_is_writable (metainfo_target)) {
-		ascli_print_stderr (_("Unable to write to '%s', can not install metainfo file."), metainfo_target);
-		return 1;
-	}
+	location = AS_METADATA_LOCATION_CACHE;
+	if (g_str_has_suffix (fname, ".metainfo.xml") || g_str_has_suffix (fname, ".appdata.xml"))
+		location = AS_METADATA_LOCATION_SHARED;
+	if (for_user)
+		location = AS_METADATA_LOCATION_USER;
 
-	if ((!g_str_has_suffix (fname, ".metainfo.xml")) && (!g_str_has_suffix (fname, ".appdata.xml"))) {
-		ascli_print_stderr (_("Can not copy '%s': File does not have a '.metainfo.xml' or '.appdata.xml' suffix."));
-		return 2;
-	}
-
-	tmp = g_path_get_basename (fname);
-	dest = g_build_filename (metainfo_target, tmp, NULL);
-
-	as_copy_file (fname, dest, &error);
-	if (error != NULL) {
-		g_printerr ("%s\n", error->message);
+	if (!as_utils_install_metadata_file (location, fname, origin, dest_dir, &error)) {
+		ascli_print_stderr (_("Unable to install metadata file: %s"), error->message);
 		return 3;
 	}
-	g_chmod (dest, 0755);
 
 	return 0;
 }
@@ -421,6 +405,39 @@ ascli_convert_data (const gchar *in_fname, const gchar *out_fname, AsFormatKind 
 			return 1;
 		}
 	}
+
+	return 0;
+}
+
+/**
+ * ascli_show_os_info:
+ *
+ * Display information about the current operating system from the AppStream
+ * metadata cache.
+ */
+int
+ascli_show_os_info (const gchar *cachepath, gboolean no_cache)
+{
+	g_autoptr(AsPool) pool = NULL;
+	g_autoptr(GPtrArray) result = NULL;
+	g_autoptr(AsDistroDetails) distro = NULL;
+	g_autoptr(GError) error = NULL;
+
+	distro = as_distro_details_new ();
+	pool = ascli_data_pool_new_and_open (cachepath, no_cache, &error);
+	if (error != NULL) {
+		g_printerr ("%s\n", error->message);
+		return 1;
+	}
+
+	result = as_pool_get_components_by_id (pool, as_distro_details_get_cid (distro));
+	if (result->len == 0) {
+		ascli_print_stderr (_("Unable to find operating system component '%s'!"), as_distro_details_get_cid (distro));
+		return 4;
+	}
+
+	ascli_print_components (result, TRUE);
+	ascli_print_key_value (_("Version"), as_distro_details_get_version (distro), FALSE);
 
 	return 0;
 }

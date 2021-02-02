@@ -28,30 +28,18 @@
 #include "asc-hint.h"
 
 #include "as-utils-private.h"
+#include "asc-globals-private.h"
 
 typedef struct
 {
 	GPtrArray		*vars;
 	gchar			*tag;
 	AsIssueSeverity		severity;
-	gchar			*explanation_tmpl;
+	GRefString		*explanation_tmpl;
 } AscHintPrivate;
 
 G_DEFINE_TYPE_WITH_PRIVATE (AscHint, asc_hint, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (asc_hint_get_instance_private (o))
-
-static void
-asc_hint_finalize (GObject *object)
-{
-	AscHint *hint = ASC_HINT (object);
-	AscHintPrivate *priv = GET_PRIVATE (hint);
-
-	priv->severity = AS_ISSUE_SEVERITY_UNKNOWN;
-	if (priv->vars != NULL)
-		g_ptr_array_unref (priv->vars);
-
-	G_OBJECT_CLASS (asc_hint_parent_class)->finalize (object);
-}
 
 static void
 asc_hint_init (AscHint *hint)
@@ -59,8 +47,21 @@ asc_hint_init (AscHint *hint)
 	AscHintPrivate *priv = GET_PRIVATE (hint);
 
 	priv->vars = g_ptr_array_new_with_free_func (g_free);
+}
+
+static void
+asc_hint_finalize (GObject *object)
+{
+	AscHint *hint = ASC_HINT (object);
+	AscHintPrivate *priv = GET_PRIVATE (hint);
+
 	g_free (priv->tag);
-	g_free (priv->explanation_tmpl);
+	as_ref_string_release (priv->explanation_tmpl);
+	priv->severity = AS_ISSUE_SEVERITY_UNKNOWN;
+	if (priv->vars != NULL)
+		g_ptr_array_unref (priv->vars);
+
+	G_OBJECT_CLASS (asc_hint_parent_class)->finalize (object);
 }
 
 static void
@@ -146,8 +147,7 @@ void
 asc_hint_set_explanation_template (AscHint *hint, const gchar *explanation_tmpl)
 {
 	AscHintPrivate *priv = GET_PRIVATE (hint);
-	g_free (priv->explanation_tmpl);
-	priv->explanation_tmpl = g_strdup (explanation_tmpl);
+	as_ref_string_assign_safe (&priv->explanation_tmpl, explanation_tmpl);
 }
 
 /**
@@ -208,6 +208,23 @@ asc_hint_add_explanation_var (AscHint *hint, const gchar *var_name, const gchar 
 }
 
 /**
+ * asc_hint_get_explanation_vars_list:
+ * @hint: an #AscHint instance.
+ *
+ * Returns a list with the flattened key/value pairs for this hint.
+ * Values are located in uneven list entries, following their keys in even list entries.
+ *
+ * Returns: (transfer none) (element-type utf8): A flattened #GPtrArray with the key/value pairs.
+ **/
+GPtrArray*
+asc_hint_get_explanation_vars_list (AscHint *hint)
+{
+	AscHintPrivate *priv = GET_PRIVATE (hint);
+	g_assert_cmpint (priv->vars->len % 2, ==, 0);
+	return priv->vars;
+}
+
+/**
  * asc_hint_format_explanation:
  * @hint: an #AscHint instance.
  *
@@ -226,12 +243,12 @@ asc_hint_format_explanation (AscHint *hint)
 	if (priv->explanation_tmpl == NULL)
 		return NULL;
 
-	parts = g_strsplit (priv->explanation_tmpl, "{", -1);
+	parts = g_strsplit (priv->explanation_tmpl, "{{", -1);
 	for (guint i = 0; parts[i] != NULL; i++) {
 		gboolean replaced = FALSE;
 
 		for (guint j = 0; j < priv->vars->len; j += 2) {
-			g_autofree gchar *tmp = g_strconcat (g_ptr_array_index (priv->vars, j), "}", NULL);
+			g_autofree gchar *tmp = g_strconcat (g_ptr_array_index (priv->vars, j), "}}", NULL);
 			g_autofree gchar *tmp2 = NULL;
 			if (!g_str_has_prefix (parts[i], tmp))
 				continue;
@@ -249,7 +266,7 @@ asc_hint_format_explanation (AscHint *hint)
 
 			/* keep the placeholder in place */
 			tmp = parts[i];
-			parts[i] = g_strconcat ("{", parts[i], NULL);
+			parts[i] = g_strconcat ("{{", parts[i], NULL);
 		}
 	}
 
@@ -267,4 +284,33 @@ asc_hint_new (void)
 	AscHint *hint;
 	hint = g_object_new (ASC_TYPE_HINT, NULL);
 	return ASC_HINT (hint);
+}
+
+/**
+ * asc_hint_new_for_tag:
+ * @tag: The tag ID to construct this hint for.
+ * @error: A #GError or %NULL
+ *
+ * Creates a new #AscHint with the given tag. If the selected tag was not registered+
+ * with the global tag registry, %NULL is returned and an error is set.
+ **/
+AscHint*
+asc_hint_new_for_tag (const gchar *tag, GError **error)
+{
+	AscHintTag *htag;
+	g_autoptr(AscHint) hint = asc_hint_new ();
+
+	htag = asc_globals_get_hint_tag_details (tag);
+	if (htag == NULL || htag->severity == AS_ISSUE_SEVERITY_UNKNOWN) {
+		g_set_error (error,
+			     ASC_COMPOSE_ERROR,
+			     ASC_COMPOSE_ERROR_FAILED,
+			     "The selected hint tag '%s' could not be found. Unable to create hint object.", tag);
+		return NULL;
+	}
+
+	asc_hint_set_tag (hint, htag->tag);
+	asc_hint_set_severity (hint, htag->severity);
+	asc_hint_set_explanation_template (hint, htag->explanation);
+	return g_steal_pointer (&hint);
 }

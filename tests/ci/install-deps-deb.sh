@@ -1,16 +1,25 @@
+#!/bin/sh
 #
-# Docker file for AppStream CI tests
+# Install AppStream build dependencies
 #
-FROM debian:testing
+set -e
+set -x
 
-# prepare
-RUN apt-get update -qq
+export DEBIAN_FRONTEND=noninteractive
+
+# update caches
+apt-get update -qq
 
 # install build essentials
-RUN apt-get install -yq gcc g++ clang
+apt-get install -yq \
+    eatmydata \
+    build-essential \
+    gdb \
+    gcc \
+    g++
 
 # install common build dependencies
-RUN apt-get install -yq --no-install-recommends \
+eatmydata apt-get install -yq --no-install-recommends \
     meson \
     ninja-build \
     gettext \
@@ -31,13 +40,15 @@ RUN apt-get install -yq --no-install-recommends \
     valac
 
 # install build dependencies for libappstream-compose
-RUN apt-get install -yq --no-install-recommends \
-    libgdk-pixbuf-2.0-dev \
+. /etc/os-release
+if [ "$ID" = "ubuntu" ]; then
+    gdk_pixbuf_dep="libgdk-pixbuf2.0-dev"
+else
+    gdk_pixbuf_dep="libgdk-pixbuf-2.0-dev"
+fi;
+eatmydata apt-get install -yq --no-install-recommends \
+    $gdk_pixbuf_dep \
     librsvg2-dev \
     libcairo2-dev \
     libfontconfig-dev \
     libpango1.0-dev
-
-# finish
-RUN mkdir /build
-WORKDIR /build

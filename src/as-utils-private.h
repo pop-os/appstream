@@ -24,10 +24,13 @@
 #include <glib-object.h>
 #include "as-settings-private.h"
 #include "as-utils.h"
-#include "as-component.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
+
+/* component data-ID constants */
+#define AS_DATA_ID_WILDCARD	"*"
+#define	AS_DATA_ID_PARTS_COUNT	5
 
 /**
  * AsMarkupKind:
@@ -76,9 +79,6 @@ gboolean		as_utils_is_root (void);
 AS_INTERNAL_VISIBLE
 gboolean		as_utils_is_writable (const gchar *path);
 
-guint			as_gstring_replace (GString *string,
-					    const gchar *search,
-					    const gchar *replace);
 AS_INTERNAL_VISIBLE
 gchar			*as_str_replace (const gchar *str,
 					 const gchar *old_str,
@@ -106,11 +106,6 @@ gboolean		as_arch_compatible (const gchar *arch1,
 
 gboolean		as_utils_search_token_valid (const gchar *token);
 
-gchar			*as_utils_build_data_id (AsComponentScope scope,
-						 const gchar *origin,
-						 AsBundleKind bundle_kind,
-						 const gchar *cid);
-gchar			*as_utils_data_id_get_cid (const gchar *data_id);
 AsBundleKind		as_utils_get_component_bundle_kind (AsComponent *cpt);
 gchar			*as_utils_build_data_id_for_cpt (AsComponent *cpt);
 
@@ -134,6 +129,23 @@ gchar			*as_date_time_format_iso8601 (GDateTime *datetime);
 
 AS_INTERNAL_VISIBLE
 gchar			*as_strstripnl (gchar *string);
+
+AS_INTERNAL_VISIBLE
+void			as_ref_string_release (GRefString *rstr);
+AS_INTERNAL_VISIBLE
+void			as_ref_string_assign_safe (GRefString **rstr_ptr,
+						   const gchar *str);
+
+void			as_ref_string_assign_transfer (GRefString **rstr_ptr,
+						       GRefString *new_rstr);
+
+gboolean		as_utils_extract_tarball (const gchar *filename,
+						  const gchar *target_dir,
+						  GError **error);
+
+gboolean		as_utils_is_platform_triplet_arch (const gchar *arch);
+gboolean		as_utils_is_platform_triplet_oskernel (const gchar *os);
+gboolean		as_utils_is_platform_triplet_osenv (const gchar *env);
 
 #pragma GCC visibility pop
 G_END_DECLS

@@ -42,11 +42,11 @@ typedef struct
 {
 	AsFormatVersion		format_version;
 	AsFormatStyle		style;
-	gchar 			*locale;
-	gchar 			*origin;
-	gchar 			*media_baseurl;
-	gchar 			*arch;
-	gchar			*fname;
+	GRefString		*locale;
+	GRefString		*origin;
+	GRefString		*media_baseurl;
+	GRefString		*arch;
+	GRefString		*fname;
 	gint 			priority;
 
 	gboolean		internal_mode;
@@ -56,46 +56,6 @@ typedef struct
 G_DEFINE_TYPE_WITH_PRIVATE (AsContext, as_context, G_TYPE_OBJECT)
 
 #define GET_PRIVATE(o) (as_context_get_instance_private (o))
-
-/**
- * as_format_kind_to_string:
- * @kind: the #AsFormatKind.
- *
- * Converts the enumerated value to an text representation.
- *
- * Returns: string version of @kind
- *
- * Since: 0.10
- **/
-const gchar*
-as_format_kind_to_string (AsFormatKind kind)
-{
-	if (kind == AS_FORMAT_KIND_XML)
-		return "xml";
-	if (kind == AS_FORMAT_KIND_YAML)
-		return "yaml";
-	return "unknown";
-}
-
-/**
- * as_format_kind_from_string:
- * @kind_str: the string.
- *
- * Converts the text representation to an enumerated value.
- *
- * Returns: a #AsFormatKind or %AS_FORMAT_KIND_UNKNOWN for unknown
- *
- * Since: 0.10
- **/
-AsFormatKind
-as_format_kind_from_string (const gchar *kind_str)
-{
-	if (g_strcmp0 (kind_str, "xml") == 0)
-		return AS_FORMAT_KIND_XML;
-	if (g_strcmp0 (kind_str, "yaml") == 0)
-		return AS_FORMAT_KIND_YAML;
-	return AS_FORMAT_KIND_UNKNOWN;
-}
 
 /**
  * as_format_version_to_string:
@@ -124,6 +84,10 @@ as_format_version_to_string (AsFormatVersion version)
 		return "0.11";
 	if (version == AS_FORMAT_VERSION_V0_12)
 		return "0.12";
+	if (version == AS_FORMAT_VERSION_V0_13)
+		return "0.13";
+	if (version == AS_FORMAT_VERSION_V0_14)
+		return "0.14";
 	return "?.??";
 }
 
@@ -141,6 +105,10 @@ as_format_version_to_string (AsFormatVersion version)
 AsFormatVersion
 as_format_version_from_string (const gchar *version_str)
 {
+	if (g_strcmp0 (version_str, "0.14") == 0)
+		return AS_FORMAT_VERSION_V0_14;
+	if (g_strcmp0 (version_str, "0.13") == 0)
+		return AS_FORMAT_VERSION_V0_13;
 	if (g_strcmp0 (version_str, "0.12") == 0)
 		return AS_FORMAT_VERSION_V0_12;
 	if (g_strcmp0 (version_str, "0.11") == 0)
@@ -164,11 +132,11 @@ as_context_finalize (GObject *object)
 	AsContext *ctx = AS_CONTEXT (object);
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
 
-	g_free (priv->locale);
-	g_free (priv->origin);
-	g_free (priv->media_baseurl);
-	g_free (priv->arch);
-	g_free (priv->fname);
+	as_ref_string_release (priv->locale);
+	as_ref_string_release (priv->origin);
+	as_ref_string_release (priv->media_baseurl);
+	as_ref_string_release (priv->arch);
+	as_ref_string_release (priv->fname);
 
 	G_OBJECT_CLASS (as_context_parent_class)->finalize (object);
 }
@@ -178,9 +146,9 @@ as_context_init (AsContext *ctx)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
 
-	priv->format_version = AS_CURRENT_FORMAT_VERSION;
+	priv->format_version = AS_FORMAT_VERSION_CURRENT;
 	priv->style = AS_FORMAT_STYLE_UNKNOWN;
-	priv->fname = g_strdup (":memory");
+	priv->fname = g_ref_string_new_intern (":memory");
 	priv->priority = 0;
 	priv->internal_mode = FALSE;
 }
@@ -297,8 +265,7 @@ void
 as_context_set_origin (AsContext *ctx, const gchar *value)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
-	g_free (priv->origin);
-	priv->origin = g_strdup (value);
+	as_ref_string_assign_safe (&priv->origin, value);
 }
 
 /**
@@ -325,14 +292,14 @@ void
 as_context_set_locale (AsContext *ctx, const gchar *value)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
-	g_free (priv->locale);
 
 	g_atomic_int_set (&priv->all_locale, FALSE);
 	if (g_strcmp0 (value, "ALL") == 0) {
+		g_autofree gchar *tmp = as_get_current_locale ();
 		g_atomic_int_set (&priv->all_locale, TRUE);
-		priv->locale = as_get_current_locale ();
+		as_ref_string_assign_safe (&priv->locale, tmp);
 	} else {
-		priv->locale = g_strdup (value);
+		as_ref_string_assign_safe (&priv->locale, value);
 	}
 }
 
@@ -386,8 +353,7 @@ void
 as_context_set_media_baseurl (AsContext *ctx, const gchar *value)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
-	g_free (priv->media_baseurl);
-	priv->media_baseurl = g_strdup (value);
+	as_ref_string_assign_safe (&priv->media_baseurl, value);
 }
 
 /**
@@ -414,8 +380,7 @@ void
 as_context_set_architecture (AsContext *ctx, const gchar *value)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
-	g_free (priv->arch);
-	priv->arch = g_strdup (value);
+	as_ref_string_assign_safe (&priv->arch, value);
 }
 
 /**
@@ -442,8 +407,7 @@ void
 as_context_set_filename (AsContext *ctx, const gchar *fname)
 {
 	AsContextPrivate *priv = GET_PRIVATE (ctx);
-	g_free (priv->fname);
-	priv->fname = g_strdup (fname);
+	as_ref_string_assign_safe (&priv->fname, fname);
 }
 
 /**
@@ -535,6 +499,7 @@ void
 as_context_localized_ht_set (AsContext *ctx, GHashTable *lht, const gchar *value, const gchar *locale)
 {
 	const gchar *selected_locale;
+	g_autofree gchar *locale_noenc = NULL;
 
 	/* if no locale was specified, we assume the default locale
 	 * NOTE: %NULL does NOT necessarily mean lang=C here! */
@@ -548,8 +513,9 @@ as_context_localized_ht_set (AsContext *ctx, GHashTable *lht, const gchar *value
 	if (selected_locale == NULL)
 		selected_locale = "C";
 
+	locale_noenc = as_locale_strip_encoding (g_strdup (selected_locale));
 	g_hash_table_insert (lht,
-			     as_locale_strip_encoding (g_strdup (selected_locale)),
+			     g_ref_string_new_intern (locale_noenc),
 			     g_strdup (value));
 }
 

@@ -134,6 +134,7 @@ test_image_transform ()
 	g_autofree gchar *sample_img_fname = NULL;
 	g_autoptr(AscImage) image = NULL;
 	g_autoptr(GError) error = NULL;
+	gboolean ret;
 
 	g_autofree gchar *data = NULL;
 	gsize data_len;
@@ -147,8 +148,12 @@ test_image_transform ()
 	sample_img_fname = g_build_filename (datadir, "appstream-logo.png", NULL);
 
 	/* load image from file */
-	image = asc_image_new_from_file (sample_img_fname, &error);
+	image = asc_image_new_from_file (sample_img_fname,
+					 0,
+					 ASC_IMAGE_LOAD_FLAG_NONE,
+					 &error);
 	g_assert_no_error (error);
+	g_assert_nonnull (image);
 
 	g_assert_cmpint (asc_image_get_width (image), ==, 136);
 	g_assert_cmpint (asc_image_get_height (image), ==, 144);
@@ -158,8 +163,13 @@ test_image_transform ()
 	g_assert_cmpint (asc_image_get_width (image), ==, 64);
 	g_assert_cmpint (asc_image_get_height (image), ==, 64);
 
-	asc_image_save_png (image, "/tmp/asc-iscale_test.png", &error);
+	ret = asc_image_save_filename (image,
+				      "/tmp/asc-iscale_test.png",
+				      0, 0,
+				      ASC_IMAGE_SAVE_FLAG_NONE,
+				      &error);
 	g_assert_no_error (error);
+	g_assert (ret);
 
 	g_object_unref (image);
 	image = NULL;
@@ -168,12 +178,21 @@ test_image_transform ()
 	g_file_get_contents (sample_img_fname, &data, &data_len, &error);
 	g_assert_no_error (error);
 
-	image = asc_image_new_from_data (data, data_len, &error);
+	image = asc_image_new_from_data (data, data_len,
+					 0,
+					 ASC_IMAGE_LOAD_FLAG_NONE,
+					 &error);
 	g_assert_no_error (error);
+	g_assert_nonnull (image);
 
 	asc_image_scale (image, 124, 124);
-	asc_image_save_png (image, "/tmp/asc-iscale-d_test.png", &error);
+	ret = asc_image_save_filename (image,
+				      "/tmp/asc-iscale-d_test.png",
+				      0, 0,
+				      ASC_IMAGE_SAVE_FLAG_NONE,
+				      &error);
 	g_assert_no_error (error);
+	g_assert (ret);
 }
 
 /**
@@ -238,21 +257,33 @@ static void
 test_compose_hints ()
 {
 	g_autoptr(AscHint) hint = NULL;
+	g_autoptr(GError) error = NULL;
 	g_autofree gchar *tmp = NULL;
 
-	hint = asc_hint_new ();
+	hint = asc_hint_new_for_tag ("internal-unknown-tag", &error);
+	g_assert_no_error (error);
+	g_assert_nonnull (hint);
+
+	g_assert_cmpstr (asc_hint_get_tag (hint), ==, "internal-unknown-tag");
+	g_assert_cmpint (asc_hint_get_severity (hint), ==, AS_ISSUE_SEVERITY_ERROR);
+	g_assert_cmpstr (asc_hint_get_explanation_template (hint), ==, "The given tag was unknown. This is a bug.");
+	g_assert (asc_hint_is_valid (hint));
+	g_assert (asc_hint_is_error (hint));
+
 	asc_hint_set_tag (hint, "dev-testsuite-test");
 	asc_hint_set_severity (hint, AS_ISSUE_SEVERITY_INFO);
 	g_assert (asc_hint_is_valid (hint));
 	g_assert (!asc_hint_is_error (hint));
 
 	asc_hint_set_explanation_template (hint,
-					   "This is an explanation for {name} which contains {amount} placeholders, including one left {invalid} intentionally.");
+					   "This is an explanation for {{name}} which contains {{amount}} placeholders, "
+					   "including one {odd} one and one left {{invalid}} intentionally.");
 	asc_hint_add_explanation_var (hint, "name", "the compose testsuite");
 	asc_hint_add_explanation_var (hint, "amount", "3");
 
 	tmp = asc_hint_format_explanation (hint);
-	g_assert_cmpstr (tmp, ==, "This is an explanation for the compose testsuite which contains 3 placeholders, including one left {invalid} intentionally.");
+	g_assert_cmpstr (tmp, ==, "This is an explanation for the compose testsuite which contains 3 placeholders, "
+				  "including one {odd} one and one left {{invalid}} intentionally.");
 }
 
 /**
@@ -274,7 +305,7 @@ test_compose_result ()
 	as_component_set_id (cpt, "org.freedesktop.appstream.dummy");
 
 	cres = asc_result_new ();
-	ret = asc_result_add_component (cres, cpt, "<testdata>", &error);
+	ret = asc_result_add_component_with_string (cres, cpt, "<testdata>", &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
@@ -286,7 +317,7 @@ test_compose_result ()
 	g_assert_cmpint (asc_result_components_count (cres), ==, 1);
 	g_assert_cmpint (asc_result_hints_count (cres), ==, 1);
 
-	ret = asc_result_update_component_gcid (cres, cpt, "<moredata>");
+	ret = asc_result_update_component_gcid_with_string (cres, cpt, "<moredata>");
 	g_assert_true (ret);
 
 	g_assert_true (asc_result_get_component (cres, "org.freedesktop.appstream.dummy") == cpt);
@@ -297,7 +328,7 @@ test_compose_result ()
 	g_assert_false (ret);
 
 	/* component no longer exists after an error, so this should fail now */
-	ret = asc_result_update_component_gcid (cres, cpt, "<moredata>");
+	ret = asc_result_update_component_gcid_with_string (cres, cpt, "<moredata>");
 	g_assert_false (ret);
 
 	g_assert_cmpint (asc_result_components_count (cres), ==, 0);

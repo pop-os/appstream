@@ -347,7 +347,7 @@ test_appstream_write_description ()
 						"  </releases>\n"
 						"</component>\n";
 
-	const gchar *EXPECTED_XML_DISTRO = "<components version=\"0.12\">\n"
+	const gchar *EXPECTED_XML_DISTRO = "<components version=\"0.14\">\n"
 					   "  <component>\n"
 					   "    <id>org.example.Test</id>\n"
 					   "    <name>Test</name>\n"
@@ -444,6 +444,73 @@ test_appstream_write_description ()
 	tmp = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_XML, NULL);
 	g_assert (as_xml_test_compare_xml (tmp, EXPECTED_XML_DISTRO));
 	g_free (tmp);
+}
+
+/**
+ * test_appstream_description_l10n_cleanup:
+ */
+static void
+test_appstream_description_l10n_cleanup (void)
+{
+	const gchar *DESC_L10N_XML = "<component>\n"
+				    "  <id>org.example.Test</id>\n"
+				    "  <name>Test</name>\n"
+				    "  <summary>Just a unittest.</summary>\n"
+				    "  <description>\n"
+				    "    <p>First paragraph</p>\n"
+				    "    <p xml:lang=\"de\">Erster Absatz</p>\n"
+				    "    <p>Second paragraph</p>\n"
+				    "    <p xml:lang=\"de\">Zweiter Absatz</p>\n"
+				    "    <p>Features:</p>\n"
+				    "    <p xml:lang=\"ca\">Característiques:</p>\n"
+				    "    <p xml:lang=\"cs\">Vlastnosti:</p>\n"
+				    "    <p xml:lang=\"de\">Funktionen:</p>\n"
+				    "    <p xml:lang=\"nn\">Funksjonar:</p>\n"
+				    "    <ul>\n"
+				    "      <li>Browse the maps clicking in a map division to see its name, capital and flag</li>\n"
+				    "      <li xml:lang=\"ca\">Busqueu en els mapes fent clic a sobre d'una zona del mapa per a veure el seu nom, capital i bandera</li>\n"
+				    "      <li xml:lang=\"de\">Landkarte erkunden, indem Sie in der Karte auf ein Land klicken und dessen Name, Hauptstadt und Flagge angezeigt wird</li>\n"
+				    "      <li>The game tells you a map division name and you have to click on it</li>\n"
+				    "      <li xml:lang=\"ca\">El joc mostra el nom d'una zona en el mapa i heu de fer clic sobre el lloc on està</li>\n"
+				    "    </ul>\n"
+				    "  </description>\n"
+				    "</component>\n";
+	const gchar *ENGLISH_DESC_TEXT = "<p>First paragraph</p>\n"
+					 "<p>Second paragraph</p>\n"
+					 "<p>Features:</p>\n"
+					 "<ul>\n"
+					 "  <li>Browse the maps clicking in a map division to see its name, capital and flag</li>\n"
+					 "  <li>The game tells you a map division name and you have to click on it</li>\n"
+					 "</ul>\n";
+	g_autoptr(AsComponent) cpt = NULL;
+
+	cpt = as_xml_test_read_data (DESC_L10N_XML, AS_FORMAT_STYLE_METAINFO);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.Test");
+
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "Test");
+	g_assert_cmpstr (as_component_get_summary (cpt), ==, "Just a unittest.");
+
+	as_component_set_active_locale (cpt, "C");
+	g_assert_cmpstr (as_component_get_description (cpt), ==, ENGLISH_DESC_TEXT);
+	as_component_set_active_locale (cpt, "de");
+	g_assert_cmpstr (as_component_get_description (cpt), ==, "<p>Erster Absatz</p>\n"
+								 "<p>Zweiter Absatz</p>\n"
+								 "<p>Funktionen:</p>\n"
+								 "<ul>\n"
+								 "  <li>Landkarte erkunden, indem Sie in der Karte auf ein Land klicken und dessen Name, Hauptstadt und Flagge angezeigt wird</li>\n"
+								 "</ul>\n");
+	as_component_set_active_locale (cpt, "ca");
+	g_assert_cmpstr (as_component_get_description (cpt), ==, "<p>Característiques:</p>\n"
+								 "<ul>\n"
+								 "  <li>Busqueu en els mapes fent clic a sobre d'una zona del mapa per a veure el seu nom, capital i bandera</li>\n"
+								 "  <li>El joc mostra el nom d'una zona en el mapa i heu de fer clic sobre el lloc on està</li>\n"
+								 "</ul>\n");
+
+	/* not enough translation for these, we should have fallen back to English */
+	as_component_set_active_locale (cpt, "cs");
+	g_assert_cmpstr (as_component_get_description (cpt), ==, ENGLISH_DESC_TEXT);
+	as_component_set_active_locale (cpt, "nn");
+	g_assert_cmpstr (as_component_get_description (cpt), ==, ENGLISH_DESC_TEXT);
 }
 
 /**
@@ -704,7 +771,7 @@ test_xml_write_suggests (void)
 					   "    <id>org.example.Awesome</id>\n"
 					   "  </suggests>\n"
 					   "</component>\n";
-	const gchar *expected_sug_xml_coll = "<components version=\"0.12\">\n"
+	const gchar *expected_sug_xml_coll = "<components version=\"0.14\">\n"
 					"  <component>\n"
 					"    <id>org.example.SuggestsTest</id>\n"
 					"    <suggests type=\"upstream\">\n"
@@ -734,6 +801,7 @@ test_xml_write_suggests (void)
 	/* test metainfo serialization */
 	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
 	g_assert (as_xml_test_compare_xml (res, expected_sug_xml_mi));
+	g_free (res);
 
 	/* test collection serialization */
 	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_COLLECTION);
@@ -981,7 +1049,7 @@ test_appstream_write_metainfo_to_collection (void)
 					"  </releases>\n"
 					"</component>\n";
 
-	const gchar *EXPECTED_XML_COLL =   "<components version=\"0.12\">\n"
+	const gchar *EXPECTED_XML_COLL =   "<components version=\"0.14\">\n"
 					   "  <component>\n"
 					   "    <id>org.example.Test</id>\n"
 					   "    <name>Test</name>\n"
@@ -1121,6 +1189,14 @@ test_xml_read_screenshots (void)
 	g_assert_cmpstr (as_image_get_url (img), ==, "https://example.org/alpha_small.png");
 	g_assert_cmpint (as_image_get_width (img), ==, 800);
 	g_assert_cmpint (as_image_get_height (img), ==, 600);
+
+	/* get closest images */
+	img = as_screenshot_get_image (scr1, 120, 120);
+	g_assert_nonnull (img);
+	g_assert_cmpstr (as_image_get_url (img), ==, "https://example.org/alpha_small.png");
+	img = as_screenshot_get_image (scr1, 1400, 1000);
+	g_assert_nonnull (img);
+	g_assert_cmpstr (as_image_get_url (img), ==, "https://example.org/alpha.png");
 
 	/* screenshot 2 */
 	g_assert_cmpint (as_screenshot_get_kind (scr2), ==, AS_SCREENSHOT_KIND_EXTRA);
@@ -1534,6 +1610,7 @@ static const gchar *xmldata_releases =  "<component>\n"
 					"      <artifacts>\n"
 					"        <artifact type=\"binary\" platform=\"x86_64-linux-gnu\" bundle=\"tarball\">\n"
 					"          <location>https://example.com/mytarball.bin.tar.xz</location>\n"
+					"          <filename>mytarball-1.2.0.bin.tar.xz</filename>\n"
 					"          <checksum type=\"sha256\">f7dd28d23679b5cd6598534a27cd821cf3375c385a10a633f104d9e4841991a8</checksum>\n"
 					"          <size type=\"download\">112358</size>\n"
 					"          <size type=\"installed\">42424242</size>\n"
@@ -1588,6 +1665,8 @@ test_xml_read_releases (void)
 
 			g_assert_cmpint (as_artifact_get_locations (artifact)->len, ==, 1);
 			g_assert_cmpstr (g_ptr_array_index (as_artifact_get_locations (artifact), 0), ==, "https://example.com/mytarball.bin.tar.xz");
+
+			g_assert_cmpstr (as_artifact_get_filename (artifact), ==, "mytarball-1.2.0.bin.tar.xz");
 
 			cs = as_artifact_get_checksum (artifact, AS_CHECKSUM_KIND_SHA256);
 			g_assert_cmpstr (as_checksum_get_value (cs), ==, "f7dd28d23679b5cd6598534a27cd821cf3375c385a10a633f104d9e4841991a8");
@@ -1654,6 +1733,7 @@ test_xml_write_releases (void)
 	as_artifact_set_platform (artifact, "x86_64-linux-gnu");
 	as_artifact_set_bundle_kind (artifact, AS_BUNDLE_KIND_TARBALL);
 	as_artifact_add_location (artifact, "https://example.com/mytarball.bin.tar.xz");
+	as_artifact_set_filename (artifact, "mytarball-1.2.0.bin.tar.xz");
 	cs = as_checksum_new ();
 	as_checksum_set_kind (cs, AS_CHECKSUM_KIND_SHA256);
 	as_checksum_set_value (cs, "f7dd28d23679b5cd6598534a27cd821cf3375c385a10a633f104d9e4841991a8");
@@ -1748,6 +1828,62 @@ test_xml_read_releases_legacy (void)
 }
 
 /**
+ * test_xml_rw_reviews:
+ */
+static void
+test_xml_rw_reviews (void)
+{
+	static const gchar *xmldata_reviews =
+			"<component>\n"
+			"  <id>org.example.ReviewTest</id>\n"
+			"  <reviews>\n"
+			"    <review id=\"17\" date=\"2016-09-15\" rating=\"80\">\n"
+			"      <priority>5</priority>\n"
+			"      <summary>Hello world</summary>\n"
+			"      <description>\n"
+			"        <p>Mighty Fine</p>\n"
+			"      </description>\n"
+			"      <version>1.2.3</version>\n"
+			"      <reviewer_id>deadbeef</reviewer_id>\n"
+			"      <reviewer_name>Richard Hughes</reviewer_name>\n"
+			"      <lang>en_GB</lang>\n"
+			"      <metadata>\n"
+			"        <value key=\"foo\">bar</value>\n"
+			"      </metadata>\n"
+			"    </review>\n"
+			"  </reviews>\n"
+			"</component>\n";
+	g_autoptr(AsComponent) cpt = NULL;
+	GPtrArray *reviews;
+	AsReview *review;
+	g_autofree gchar *res = NULL;
+
+	/* read */
+	cpt = as_xml_test_read_data (xmldata_reviews, AS_FORMAT_STYLE_METAINFO);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.ReviewTest");
+
+	reviews = as_component_get_reviews (cpt);
+	g_assert_cmpint (reviews->len, ==, 1);
+	review = AS_REVIEW (g_ptr_array_index (reviews, 0));
+
+	/* validate */
+	g_assert_cmpint (as_review_get_priority (review), ==, 5);
+	g_assert (as_review_get_date (review) != NULL);
+	g_assert_cmpstr (as_review_get_id (review), ==, "17");
+	g_assert_cmpstr (as_review_get_version (review), ==, "1.2.3");
+	g_assert_cmpstr (as_review_get_reviewer_id (review), ==, "deadbeef");
+	g_assert_cmpstr (as_review_get_reviewer_name (review), ==, "Richard Hughes");
+	g_assert_cmpstr (as_review_get_summary (review), ==, "Hello world");
+	g_assert_cmpstr (as_review_get_locale (review), ==, "en_GB");
+	g_assert_cmpstr (as_review_get_description (review), ==, "<p>Mighty Fine</p>");
+	g_assert_cmpstr (as_review_get_metadata_item (review, "foo"), ==, "bar");
+
+	/* write */
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
+	g_assert (as_xml_test_compare_xml (res, xmldata_reviews));
+}
+
+/**
  * main:
  */
 int
@@ -1777,6 +1913,7 @@ main (int argc, char **argv)
 
 	g_test_add_func ("/XML/Read/Description", test_appstream_read_description);
 	g_test_add_func ("/XML/Write/Description", test_appstream_write_description);
+	g_test_add_func ("/XML/DescriptionL10NCleanup", test_appstream_description_l10n_cleanup);
 
 	g_test_add_func ("/XML/Write/MetainfoToCollection", test_appstream_write_metainfo_to_collection);
 
@@ -1813,6 +1950,8 @@ main (int argc, char **argv)
 	g_test_add_func ("/XML/Read/Releases", test_xml_read_releases);
 	g_test_add_func ("/XML/Write/Releases", test_xml_write_releases);
 	g_test_add_func ("/XML/Read/ReleasesLegacy", test_xml_read_releases_legacy);
+
+	g_test_add_func ("/XML/ReadWrite/Reviews", test_xml_rw_reviews);
 
 	ret = g_test_run ();
 	g_free (datadir);

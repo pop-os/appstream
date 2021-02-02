@@ -401,6 +401,11 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  N_("Consider using a secure (HTTPS) URL for this web link."),
 	},
 
+	{ "web-url-expected",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("A web URL was expected for this value."),
+	},
+
 	{ "url-uses-ftp",
 	  AS_ISSUE_SEVERITY_WARNING,
 	  N_("This web link uses the FTP protocol. Consider switching to HTTP(S) instead."),
@@ -627,6 +632,60 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  N_("The releases are not sorted in a latest to oldest version order. "
 	     "This is required as some tools will assume that the latest version is always at the top. "
 	     "Sorting releases also increases overall readability of the metainfo file."),
+	},
+
+	{ "release-urgency-invalid",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  N_("The value set as release urgency is not a known urgency value."),
+	},
+
+	{ "release-type-invalid",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  N_("The value set as release type is invalid."),
+	},
+
+	{ "artifact-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
+	  N_("The value set as artifact type is invalid. Must be either `source` or `binary`."),
+	},
+
+	{ "artifact-bundle-type-invalid",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  N_("The value set as artifact bundle type is invalid."),
+	},
+
+	{ "artifact-invalid-platform-triplet",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  N_("The platform triplet for this release is invalid. It must be in the form of "
+	     "`architecture-oskernel-osenv` - refer to the AppStream documentation or information "
+	     "on normalized GNU triplets for more information and valid fields."),
+	},
+
+	{ "artifact-checksum-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The selected checksumming algorithm is unsupported or unknown."),
+	},
+
+	{ "artifact-size-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
+	  N_("The size type is unknown. Must be `download` or `installed`."),
+	},
+
+	{ "artifact-filename-not-basename",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The artifact filename must be a file basename, not a (relative or absolute) path."),
+	},
+
+	{ "release-issue-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The value set as release issue type is invalid."),
+	},
+
+	{ "release-issue-is-cve-but-no-cve-id",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  N_("The issue is tagged at security vulnerability with a CVE number, but its value does not look like a valid CVE identifier."),
 	},
 
 	{ "invalid-iso8601-date",

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<components version="0.12">
+<components version="0.14">
   <component type="desktop-application" priority="-1">
     <id>org.kde.ksysguard</id>
     <name xml:lang="ar">حارس نظامك</name>
@@ -108,6 +108,7 @@
       <category>System</category>
     </categories>
     <icon type="stock">utilities-system-monitor</icon>
+    <launchable type="desktop-id">org.kde.ksysguard.desktop</launchable>
     <mimetypes>
       <mimetype>application/x-ksysguard</mimetype>
     </mimetypes>
@@ -903,6 +904,7 @@
       <keyword>檔案系統</keyword>
     </keywords>
     <icon type="stock">org.gnome.Nautilus</icon>
+    <launchable type="desktop-id">org.gnome.Nautilus.desktop</launchable>
     <mimetypes>
       <mimetype>inode/directory</mimetype>
       <mimetype>application/x-gnome-saved-search</mimetype>

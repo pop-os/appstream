@@ -163,6 +163,28 @@ as_yaml_node_get_value (GNode *n)
 }
 
 /**
+ * as_yaml_node_get_key_refstr:
+ *
+ * Helper method to get the key of a node.
+ */
+GRefString*
+as_yaml_node_get_key_refstr (GNode *n)
+{
+	return g_ref_string_new_intern (as_yaml_node_get_key (n));
+}
+
+/**
+ * as_yaml_node_get_value_refstr:
+ *
+ * Helper method to get the value of a node.
+ */
+GRefString*
+as_yaml_node_get_value_refstr (GNode *n)
+{
+	return g_ref_string_new_intern (as_yaml_node_get_value (n));
+}
+
+/**
  * as_yaml_print_unknown:
  */
 void
@@ -239,7 +261,7 @@ as_yaml_emit_scalar (yaml_emitter_t *emitter, const gchar *value)
 					NULL,
 					NULL,
 					(yaml_char_t*) value,
-					strlen (value),
+					-1,
 					TRUE,
 					TRUE,
 					style);
@@ -261,7 +283,7 @@ as_yaml_emit_scalar_raw (yaml_emitter_t *emitter, const gchar *value)
 					NULL,
 					NULL,
 					(yaml_char_t*) value,
-					strlen (value),
+					-1,
 					TRUE,
 					TRUE,
 					YAML_ANY_SCALAR_STYLE);
@@ -284,7 +306,7 @@ as_yaml_emit_scalar_uint64 (yaml_emitter_t *emitter, guint64 value)
 					NULL,
 					NULL,
 					(yaml_char_t*) value_str,
-					strlen (value_str),
+					-1,
 					TRUE,
 					TRUE,
 					YAML_ANY_SCALAR_STYLE);
@@ -314,7 +336,7 @@ as_yaml_emit_scalar_key (yaml_emitter_t *emitter, const gchar *key)
 					NULL,
 					NULL,
 					(yaml_char_t*) key,
-					strlen (key),
+					-1,
 					TRUE,
 					TRUE,
 					keystyle);
@@ -362,7 +384,7 @@ as_yaml_emit_entry_timestamp (yaml_emitter_t *emitter, const gchar *key, guint64
 					NULL,
 					NULL,
 					(yaml_char_t*) time_str,
-					strlen (time_str),
+					-1,
 					TRUE,
 					TRUE,
 					YAML_ANY_SCALAR_STYLE);
@@ -388,7 +410,7 @@ as_yaml_emit_long_entry (yaml_emitter_t *emitter, const gchar *key, const gchar 
 					NULL,
 					NULL,
 					(yaml_char_t*) value,
-					strlen (value),
+					-1,
 					TRUE,
 					TRUE,
 					YAML_FOLDED_SCALAR_STYLE);
@@ -413,7 +435,7 @@ as_yaml_emit_long_entry_literal (yaml_emitter_t *emitter, const gchar *key, cons
 					NULL,
 					NULL,
 					(yaml_char_t*) value,
-					strlen (value),
+					-1,
 					TRUE,
 					TRUE,
 					YAML_LITERAL_SCALAR_STYLE);
@@ -484,14 +506,14 @@ as_yaml_get_node_locale (AsContext *ctx, GNode *node)
 void
 as_yaml_set_localized_table (AsContext *ctx, GNode *node, GHashTable *l10n_table)
 {
-	GNode *n;
-
-	for (n = node->children; n != NULL; n = n->next) {
+	for (GNode *n = node->children; n != NULL; n = n->next) {
 		const gchar *locale = as_yaml_get_node_locale (ctx, n);
-		if (locale != NULL)
+		if (locale != NULL) {
+			g_autofree gchar *locale_noenc = as_locale_strip_encoding (g_strdup (locale));
 			g_hash_table_insert (l10n_table,
-						as_locale_strip_encoding (g_strdup (locale)),
+						g_ref_string_new_intern (locale_noenc),
 						g_strdup (as_yaml_node_get_value (n)));
+		}
 	}
 }
 

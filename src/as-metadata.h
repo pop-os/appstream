@@ -83,20 +83,26 @@ typedef enum {
 
 #define	AS_METADATA_ERROR	as_metadata_error_quark ()
 
+AsFormatStyle		as_metadata_file_guess_style (const gchar *filename);
+
 AsMetadata		*as_metadata_new (void);
 GQuark			as_metadata_error_quark (void);
 
-void			as_metadata_parse_file (AsMetadata *metad,
+gboolean		as_metadata_parse_file (AsMetadata *metad,
 						GFile *file,
 						AsFormatKind format,
 						GError **error);
 
-void			as_metadata_parse (AsMetadata *metad,
-						const gchar *data,
-						AsFormatKind format,
-						GError **error);
+gboolean		as_metadata_parse (AsMetadata *metad,
+					   const gchar *data,
+					   AsFormatKind format,
+					   GError **error);
+gboolean		as_metadata_parse_bytes (AsMetadata *metad,
+						 GBytes *bytes,
+						 AsFormatKind format,
+						 GError **error);
 
-void			as_metadata_parse_desktop_data (AsMetadata *metad,
+gboolean		as_metadata_parse_desktop_data (AsMetadata *metad,
 							const gchar *data,
 							const gchar *cid,
 							GError **error);
@@ -111,7 +117,7 @@ void			as_metadata_add_component (AsMetadata *metad,
 gchar			*as_metadata_component_to_metainfo (AsMetadata *metad,
 								AsFormatKind format,
 								GError **error);
-void			as_metadata_save_metainfo (AsMetadata *metad,
+gboolean		as_metadata_save_metainfo (AsMetadata *metad,
 							const gchar *fname,
 							AsFormatKind format,
 							GError **error);
@@ -119,7 +125,7 @@ void			as_metadata_save_metainfo (AsMetadata *metad,
 gchar			*as_metadata_components_to_collection (AsMetadata *metad,
 								AsFormatKind format,
 								GError **error);
-void			as_metadata_save_collection (AsMetadata *metad,
+gboolean		as_metadata_save_collection (AsMetadata *metad,
 							const gchar *fname,
 							AsFormatKind format,
 							GError **error);
@@ -138,7 +144,7 @@ const gchar		*as_metadata_get_locale (AsMetadata *metad);
 
 const gchar		*as_metadata_get_origin (AsMetadata *metad);
 void			as_metadata_set_origin (AsMetadata *metad,
-							const gchar *origin);
+						const gchar *origin);
 
 gboolean		as_metadata_get_update_existing (AsMetadata *metad);
 void			as_metadata_set_update_existing (AsMetadata *metad,
@@ -147,6 +153,10 @@ void			as_metadata_set_update_existing (AsMetadata *metad,
 gboolean		as_metadata_get_write_header (AsMetadata *metad);
 void			as_metadata_set_write_header (AsMetadata *metad,
 								gboolean wheader);
+
+const gchar		*as_metadata_get_media_baseurl (AsMetadata *metad);
+void			as_metadata_set_media_baseurl (AsMetadata *metad,
+							const gchar *url);
 
 const gchar		*as_metadata_get_architecture (AsMetadata *metad);
 void			as_metadata_set_architecture (AsMetadata *metad,

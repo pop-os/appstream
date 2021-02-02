@@ -32,57 +32,32 @@ static gboolean _colored_output = FALSE;
  * ascli_format_long_output:
  */
 gchar*
-ascli_format_long_output (const gchar *str, guint indent_level)
+ascli_format_long_output (const gchar *str, guint line_length, guint indent_level)
 {
 	GString *res = NULL;
-	guint count = 0;
-	gssize last_space = 0;
-	const gchar *char_ptr = str;
-
-	g_autofree gchar *spacing = NULL;
-	g_autofree gchar *break_indent = NULL;
+	g_auto(GStrv) spl = NULL;
 
 	if (str == NULL)
 		return NULL;
-
-	spacing = g_strnfill (indent_level, ' ');
-	break_indent = g_strdup_printf ("\n%s", spacing);
+	if (indent_level >= line_length)
+		indent_level = line_length - 4;
 
 	res = g_string_sized_new (strlen (str));
 
-	while (*char_ptr != '\0') {
-		gunichar uchar = g_utf8_get_char_validated (char_ptr, -1);
+	spl = as_markup_strsplit_words (str, line_length - indent_level);
+	for (guint i = 0; spl[i] != NULL; i++)
+		g_string_append (res, spl[i]);
 
-		if (uchar == '\n') {
-			g_string_append (res, break_indent);
-			count = 0;
-			last_space = 0;
-			goto next;
-		}
+	/* drop trailing newline */
+	if (res->len > 0)
+		g_string_truncate (res, res->len - 1);
 
-		g_string_append_unichar (res, uchar);
-		count++;
-
-		if (g_unichar_isspace (uchar)) {
-			last_space = res->len;
-			if (count > 80) {
-				g_string_append (res, break_indent);
-				count = 0;
-				last_space = 0;
-				goto next;
-			}
-		} else if (count > 80) {
-			/* insert a linebreak at previous position */
-			if (last_space > 0) {
-				g_string_erase (res, last_space, 0);
-				g_string_insert (res, last_space, break_indent);
-				count = 0;
-				last_space = 0;
-			}
-		}
-
-	next:
-		char_ptr = g_utf8_next_char (char_ptr);
+	/* indent the block, if requested */
+	if (indent_level > 0) {
+		g_autofree gchar *spacing = g_strnfill (indent_level, ' ');
+		g_autofree gchar *spacing_nl = g_strconcat ("\n", spacing, NULL);
+		as_gstring_replace (res, "\n", spacing_nl);
+		g_string_prepend (res, spacing);
 	}
 
 	return g_string_free (res, FALSE);
@@ -101,17 +76,14 @@ ascli_print_key_value (const gchar* key, const gchar* val, gboolean highlight)
 	if ((val == NULL) || (g_strcmp0 (val, "") == 0))
 		return;
 
-	if (strlen (val) > 120) {
-		/* only produces slightly better output (indented).
-		 * we need word-wrapping in future
-		 */
-		fmtval = ascli_format_long_output (val, 2);
+	if (strlen (val) > 100) {
+		g_autofree gchar *tmp = ascli_format_long_output (val, 100, 2);
+		fmtval = g_strconcat ("\n", tmp, NULL);
 	} else {
 		fmtval = g_strdup (val);
 	}
 
 	str = g_strdup_printf ("%s: ", key);
-
 	if (_colored_output) {
 		g_print ("%c[%dm%s%c[%dm%s\n", 0x1B, 1, str, 0x1B, 0, fmtval);
 	} else {
@@ -293,6 +265,8 @@ ascli_print_component (AsComponent *cpt, gboolean show_detailed)
 	}
 
 	ascli_print_key_value (_("Identifier"), short_idline, FALSE);
+	if (show_detailed && as_component_get_kind (cpt) != AS_COMPONENT_KIND_OPERATING_SYSTEM)
+		ascli_print_key_value (_("Internal ID"), as_component_get_data_id (cpt), FALSE);
 	ascli_print_key_value (_("Name"), as_component_get_name (cpt), FALSE);
 	ascli_print_key_value (_("Summary"), as_component_get_summary (cpt), FALSE);
 	ascli_print_key_value (_("Package"), pkgs_str, FALSE);

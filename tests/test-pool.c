@@ -39,11 +39,11 @@ print_cptarray (GPtrArray *cpt_array)
 
 	g_printf ("----\n");
 	for (i = 0; i < cpt_array->len; i++) {
-		AsComponent *cpt;
-		cpt = (AsComponent*) g_ptr_array_index (cpt_array, i);
+		g_autofree gchar *tmp = NULL;
+		AsComponent *cpt = (AsComponent*) g_ptr_array_index (cpt_array, i);
 
-		g_printf ("  - %s\n",
-				  as_component_to_string (cpt));
+		tmp = as_component_to_string (cpt);
+		g_printf ("  - %s\n", tmp);
 	}
 	g_printf ("----\n");
 }
@@ -224,18 +224,18 @@ test_cache ()
 	as_cache_open (cache, cache_testpath, "C", &error);
 	g_assert_no_error (error);
 
-	ccpt = as_cache_get_component_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	ccpt = as_cache_get_component_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
 	g_assert_no_error (error);
 	g_assert_nonnull (ccpt);
 
 	g_assert_cmpstr (as_component_get_name (ccpt), ==, "Inkscape");
 	g_object_unref (ccpt);
 
-	ret = as_cache_remove_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	ret = as_cache_remove_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
 	g_assert_no_error (error);
 	g_assert (ret);
 
-	ccpt = as_cache_get_component_by_data_id (cache, "system/os/package/org.inkscape.Inkscape", &error);
+	ccpt = as_cache_get_component_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
 	g_assert_no_error (error);
 	g_assert_null (ccpt);
 }
@@ -488,14 +488,12 @@ test_pool_read_async ()
 	g_test_log_set_fatal_handler (test_log_allow_warnings, NULL);
 
 	result = as_pool_search (pool, "web");
-	if (result->len != 0 && result->len != 1)
-		g_assert (0);
+	g_assert_cmpint (result->len, ==, 0);
 	g_clear_pointer (&result, g_ptr_array_unref);
 
 	cpts = as_pool_get_components (pool);
 	g_assert_nonnull (cpts);
-	if (cpts->len != 0 && cpts->len != 19)
-		g_assert (0);
+	g_assert_cmpint (cpts->len, ==, 0);
 	g_ptr_array_unref (cpts);
 
 	/* wait for the callback to be run (unless it already has!) */

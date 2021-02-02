@@ -34,6 +34,7 @@
 #include <gio/gio.h>
 #include <glib/gi18n-lib.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include "as-utils.h"
 #include "as-utils-private.h"
@@ -173,7 +174,6 @@ as_extract_icon_cache_tarball (const gchar *asicons_target,
 	g_autofree gchar *target_dir = NULL;
 	g_autofree gchar *cmd = NULL;
 	g_autofree gchar *stderr_txt = NULL;
-	gint res;
 	g_autoptr(GError) tmp_error = NULL;
 
 	escaped_size = g_uri_escape_string (icons_size, NULL, FALSE);
@@ -189,19 +189,8 @@ as_extract_icon_cache_tarball (const gchar *asicons_target,
 		return;
 	}
 
-	if (!as_utils_is_writable (target_dir)) {
-		g_debug ("Unable to write to '%s': Can't add AppStream icon-cache from APT to the pool.", target_dir);
-		return;
-	}
-
-	cmd = g_strdup_printf ("/bin/tar -xzf '%s' -C '%s'", icons_tarball, target_dir);
-	g_spawn_command_line_sync (cmd, NULL, &stderr_txt, &res, &tmp_error);
-	if (tmp_error != NULL) {
-		g_debug ("Failed to run tar: %s", tmp_error->message);
-	}
-	if (res != 0) {
-		g_debug ("Running tar failed with exit-code %i: %s", res, stderr_txt);
-	}
+	if (!as_utils_extract_tarball (icons_tarball, target_dir, &tmp_error))
+		g_debug ("ERROR: Unable to extract AppStream icon tarball from APT cache: %s", tmp_error->message);
 }
 
 /**
@@ -239,6 +228,8 @@ as_pool_scan_apt (AsPool *pool, gboolean force, GError **error)
 	gboolean data_changed = FALSE;
 	gboolean icons_available = FALSE;
 	guint i;
+
+	g_debug ("Scanning for metadata changes in the APT cache.");
 
 	/* skip this step if the APT lists directory doesn't exist */
 	if (!g_file_test (apt_lists_dir, G_FILE_TEST_IS_DIR)) {

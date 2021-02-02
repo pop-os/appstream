@@ -161,7 +161,7 @@ test_component ()
 				  "  <pkgname>fedex</pkgname>\n"
 				  "</component>\n");
 	g_assert_cmpstr (str2, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
-				   "<components version=\"0.12\">\n"
+				   "<components version=\"0.14\">\n"
 				   "  <component type=\"desktop-application\">\n"
 				   "    <id>org.example.test.desktop</id>\n"
 				   "    <name>Test</name>\n"
@@ -388,12 +388,84 @@ test_spdx (void)
 }
 
 /**
- * test_desktop_entry:
+ * test_read_desktop_entry_simple:
+ *
+ * Read XDG desktop-entry file.
+ */
+static void
+test_read_desktop_entry_simple ()
+{
+	static const gchar *desktop_entry_data =
+		"[Desktop Entry]\n"
+		"Type=Application\n"
+		"Name=FooBar\n"
+		"Name[de_DE]=FööBär\n"
+		"Comment=A foo-ish bar.\n"
+		"Keywords=Hobbes;Bentham;Locke;\n"
+		"Keywords[de_DE]=Heidegger;Kant;Hegel;\n";
+
+	gboolean ret;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autoptr(GError) error = NULL;
+	AsComponent *cpt;
+	AsLaunchable *launch;
+	GPtrArray *entries;
+	gchar *tmp;
+
+	metad = as_metadata_new ();
+
+	ret = as_metadata_parse_desktop_data (metad, desktop_entry_data, "foobar.desktop", &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	cpt = as_metadata_get_component (metad);
+	g_assert_nonnull (cpt);
+	as_component_set_active_locale (cpt, "C.UTF-8");
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "foobar.desktop");
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "FooBar");
+	tmp = g_strjoinv (", ", as_component_get_keywords (cpt));
+	g_assert_cmpstr (tmp, ==, "Hobbes, Bentham, Locke");
+	g_free (tmp);
+
+	as_component_set_active_locale (cpt, "de_DE");
+	g_assert_cmpstr (as_component_get_name (cpt), ==, "FööBär");
+	tmp = g_strjoinv (", ", as_component_get_keywords (cpt));
+	g_assert_cmpstr (tmp, ==, "Heidegger, Kant, Hegel");
+	g_free (tmp);
+
+	launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	g_assert_nonnull (launch);
+	g_assert_cmpint (as_launchable_get_kind (launch), ==, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	entries = as_launchable_get_entries (launch);
+	g_assert_cmpint (entries->len, ==, 1);
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (entries, 0), ==, "foobar.desktop");
+
+	/* test component-id trimming */
+	as_metadata_clear_components (metad);
+	ret = as_metadata_parse_desktop_data (metad, desktop_entry_data, "org.example.foobar.desktop", &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	cpt = as_metadata_get_component (metad);
+	g_assert_nonnull (cpt);
+
+	as_component_set_active_locale (cpt, "C.UTF-8");
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.foobar");
+
+	launch = as_component_get_launchable (cpt, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	g_assert_nonnull (launch);
+	g_assert_cmpint (as_launchable_get_kind (launch), ==, AS_LAUNCHABLE_KIND_DESKTOP_ID);
+	entries = as_launchable_get_entries (launch);
+	g_assert_cmpint (entries->len, ==, 1);
+	g_assert_cmpstr ((const gchar*) g_ptr_array_index (entries, 0), ==, "org.example.foobar.desktop");
+}
+
+/**
+ * test_desktop_entry_convert:
  *
  * Test reading a desktop-entry.
  */
 static void
-test_desktop_entry ()
+test_desktop_entry_convert ()
 {
 	g_autoptr(AsMetadata) metad = NULL;
 	g_autofree gchar *nautilus_de_fname = NULL;
@@ -478,26 +550,78 @@ test_desktop_entry ()
 static void
 test_version_compare ()
 {
-	g_assert_cmpint (as_utils_compare_versions ("6", "8"), <, 0);
-	g_assert_cmpint (as_utils_compare_versions ("0.6.12b-d", "0.6.12a"), >, 0);
-	g_assert_cmpint (as_utils_compare_versions ("7.4", "7.4"), ==, 0);
-	g_assert_cmpint (as_utils_compare_versions ("ab.d", "ab.f"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("6", "8"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("0.6.12b-d", "0.6.12a"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("7.4", "7.4"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("ab.d", "ab.f"), <, 0);
 
-	g_assert_cmpint (as_utils_compare_versions ("0.6.16", "0.6.14"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("0.6.16", "0.6.14"), >, 0);
 
-	g_assert_cmpint (as_utils_compare_versions ("5.9.1+dfsg-5pureos1", "5.9.1+dfsg-5"), >, 0);
-	g_assert_cmpint (as_utils_compare_versions ("2.79", "2.79a"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("5.9.1+dfsg-5pureos1", "5.9.1+dfsg-5"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("2.79", "2.79a"), <, 0);
 
-	g_assert_cmpint (as_utils_compare_versions ("3.0.rc2", "3.0.0"), <, 0);
-	g_assert_cmpint (as_utils_compare_versions ("3.0.0~rc2", "3.0.0"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("3.0.rc2", "3.0.0"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("3.0.0~rc2", "3.0.0"), <, 0);
 
-	g_assert_cmpint (as_utils_compare_versions (NULL, NULL), ==, 0);
-	g_assert_cmpint (as_utils_compare_versions (NULL, "4.0"), <, 0);
-	g_assert_cmpint (as_utils_compare_versions ("4.0", NULL), >, 0);
+	g_assert_cmpint (as_vercmp_simple (NULL, NULL), ==, 0);
+	g_assert_cmpint (as_vercmp_simple (NULL, "4.0"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("4.0", NULL), >, 0);
 
-	/* TODO: Handle epochs as well? */
-	/* g_assert_cmpint (as_utils_compare_versions ("4:5.6-2", "8.0-6"), >, 0); */
-	/* g_assert_cmpint (as_utils_compare_versions ("1:1.0-4", "3:0.8-2"), <, 0); */
+	/* issue #288 */
+	g_assert_cmpint (as_vercmp_simple ("11.0.9.1+1-0ubuntu1", "11.0.9+11-0ubuntu2"), >, 0);
+
+	/* same */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.3"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("001.002.003", "001.002.003"), ==, 0);
+
+	/* epochs */
+	g_assert_cmpint (as_vercmp_simple ("4:5.6-2", "8.0-6"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("1:1.0-4", "3:0.8-2"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1:1.0-4", "3:0.8-2"), <, 0);
+	g_assert_cmpint (as_vercmp ("1:1.0-4", "3:0.8-2", AS_VERCMP_FLAG_IGNORE_EPOCH), >, 0);
+
+	/* upgrade and downgrade */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.4"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("001.002.000", "001.002.009"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.2"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("001.002.009", "001.002.000"), >, 0);
+
+	/* unequal depth */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.3.1"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3.1", "1.2.4"), <, 0);
+
+	/* mixed-alpha-numeric */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3a", "1.2.3a"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3a", "1.2.3b"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3b", "1.2.3a"), >, 0);
+
+	/* alpha version append */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.3a"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3a", "1.2.3"), >, 0);
+
+	/* alpha only */
+	g_assert_cmpint (as_vercmp_simple ("alpha", "alpha"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("alpha", "beta"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("beta", "alpha"), >, 0);
+
+	/* alpha-compare */
+	g_assert_cmpint (as_vercmp_simple ("1.2a.3", "1.2a.3"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2a.3", "1.2b.3"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2b.3", "1.2a.3"), >, 0);
+
+	/* tilde is all-powerful */
+	g_assert_cmpint (as_vercmp_simple ("1.2.3~rc1", "1.2.3~rc1"), ==, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3~rc1", "1.2.3"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3", "1.2.3~rc1"), >, 0);
+	g_assert_cmpint (as_vercmp_simple ("1.2.3~rc2", "1.2.3~rc1"), >, 0);
+
+	/* more complex */
+	g_assert_cmpint (as_vercmp_simple ("0.9", "1"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("9", "9a"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("9a", "10"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("9+", "10"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("9half", "10"), <, 0);
+	g_assert_cmpint (as_vercmp_simple ("9.5", "10"), <, 0);
 }
 
 /**
@@ -673,6 +797,117 @@ as_test_content_rating_from_locale (void)
 	}
 }
 
+/**
+ * test_utils_data_id_hash:
+ *
+ * Shows the data-id globbing functions at work
+ */
+void
+test_utils_data_id_hash (void)
+{
+	AsComponent *found;
+	g_autoptr(AsComponent) cpt1 = NULL;
+	g_autoptr(AsComponent) cpt2 = NULL;
+	g_autoptr(GHashTable) hash = NULL;
+
+	/* create new couple of apps */
+	cpt1 = as_component_new ();
+	as_component_set_id (cpt1, "org.gnome.Software.desktop");
+	as_component_set_branch (cpt1, "master");
+	g_assert_cmpstr (as_component_get_data_id (cpt1), ==,
+			 "*/*/*/org.gnome.Software.desktop/master");
+	cpt2 = as_component_new ();
+	as_component_set_id (cpt2, "org.gnome.Software.desktop");
+	as_component_set_branch (cpt2, "stable");
+	g_assert_cmpstr (as_component_get_data_id (cpt2), ==,
+			 "*/*/*/org.gnome.Software.desktop/stable");
+
+	/* add to hash table using the data ID as a key */
+	hash = g_hash_table_new ((GHashFunc) as_utils_data_id_hash,
+				 (GEqualFunc) as_utils_data_id_equal);
+	g_hash_table_insert (hash, (gpointer) as_component_get_data_id (cpt1), cpt1);
+	g_hash_table_insert (hash, (gpointer) as_component_get_data_id (cpt2), cpt2);
+
+	/* get with exact key */
+	found = g_hash_table_lookup (hash, "*/*/*/org.gnome.Software.desktop/master");
+	g_assert (found != NULL);
+	found = g_hash_table_lookup (hash, "*/*/*/org.gnome.Software.desktop/stable");
+	g_assert (found != NULL);
+
+	/* get with more details specified */
+	found = g_hash_table_lookup (hash, "system/*/*/org.gnome.Software.desktop/master");
+	g_assert (found != NULL);
+	found = g_hash_table_lookup (hash, "system/*/*/org.gnome.Software.desktop/stable");
+	g_assert (found != NULL);
+
+	/* get with less details specified */
+	found = g_hash_table_lookup (hash, "*/*/*/org.gnome.Software.desktop/*");
+	g_assert (found != NULL);
+
+	/* different key */
+	found = g_hash_table_lookup (hash, "*/*/*/gimp.desktop/*");
+	g_assert (found == NULL);
+
+	/* different branch */
+	found = g_hash_table_lookup (hash, "*/*/*/org.gnome.Software.desktop/obsolete");
+	g_assert (found == NULL);
+
+	/* check hash function */
+	g_assert_cmpint (as_utils_data_id_hash ("*/*/*/gimp.desktop/master"), ==,
+			 as_utils_data_id_hash ("system/*/*/gimp.desktop/stable"));
+}
+
+/**
+ * test_utils_data_id_hash_str:
+ *
+ * Shows the as_utils_data_id_* functions are safe with bare text.
+ */
+void
+test_utils_data_id_hash_str (void)
+{
+	AsComponent *found;
+	g_autoptr(AsComponent) app = NULL;
+	g_autoptr(GHashTable) hash = NULL;
+
+	/* create new app */
+	app = as_component_new ();
+	as_component_set_id (app, "org.gnome.Software");
+
+	/* add to hash table using the data ID as a key */
+	hash = g_hash_table_new ((GHashFunc) as_utils_data_id_hash,
+				 (GEqualFunc) as_utils_data_id_equal);
+	g_hash_table_insert (hash, (gpointer) "dave", app);
+
+	/* get with exact key */
+	found = g_hash_table_lookup (hash, "dave");
+	g_assert (found != NULL);
+
+	/* different key */
+	found = g_hash_table_lookup (hash, "frank");
+	g_assert (found == NULL);
+}
+
+/**
+ * test_utils_platform_triplet:
+ */
+void
+test_utils_platform_triplet (void)
+{
+	g_assert_true (as_utils_is_platform_triplet ("x86_64-linux-gnu"));
+	g_assert_true (as_utils_is_platform_triplet ("x86_64-windows-msvc"));
+	g_assert_true (as_utils_is_platform_triplet ("x86_64-linux-gnu"));
+	g_assert_true (as_utils_is_platform_triplet ("aarch64-linux-gnu_ilp32"));
+	g_assert_true (as_utils_is_platform_triplet ("wasm64-any-any"));
+	g_assert_true (as_utils_is_platform_triplet ("any-linux-gnu"));
+	g_assert_true (as_utils_is_platform_triplet ("any-any-any"));
+	g_assert_false (as_utils_is_platform_triplet ("aarch64-any"));
+	g_assert_false (as_utils_is_platform_triplet ("---"));
+	g_assert_false (as_utils_is_platform_triplet (NULL));
+	g_assert_false (as_utils_is_platform_triplet ("x86_64-gnu-windows"));
+	g_assert_false (as_utils_is_platform_triplet ("x86-64-linux-gnu"));
+	g_assert_false (as_utils_is_platform_triplet ("x86-lunix-gna"));
+}
+
 int
 main (int argc, char **argv)
 {
@@ -699,13 +934,19 @@ main (int argc, char **argv)
 	g_test_add_func ("/AppStream/Component", test_component);
 	g_test_add_func ("/AppStream/SPDX", test_spdx);
 	g_test_add_func ("/AppStream/TranslationFallback", test_translation_fallback);
-	g_test_add_func ("/AppStream/DesktopEntry", test_desktop_entry);
+	g_test_add_func ("/AppStream/ReadDesktopEntry", test_read_desktop_entry_simple);
+	g_test_add_func ("/AppStream/ConvertDesktopEntry", test_desktop_entry_convert);
 	g_test_add_func ("/AppStream/VersionCompare", test_version_compare);
 	g_test_add_func ("/AppStream/DistroDetails", test_distro_details);
 	g_test_add_func ("/AppStream/rDNSConvert", test_rdns_convert);
 	g_test_add_func ("/AppStream/URIToBasename", test_filebasename_from_uri);
 	g_test_add_func ("/AppStream/ContentRating/Mapings", test_content_rating_mappings);
 	g_test_add_func ("/AppStream/ContentRating/from-locale", as_test_content_rating_from_locale);
+
+	g_test_add_func ("/AppStream/DataID/hash", test_utils_data_id_hash);
+	g_test_add_func ("/AppStream/DataID/hash-str", test_utils_data_id_hash_str);
+
+	g_test_add_func ("/AppStream/PlatformTriplets", test_utils_platform_triplet);
 
 	ret = g_test_run ();
 	g_free (datadir);

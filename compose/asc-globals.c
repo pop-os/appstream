@@ -27,6 +27,8 @@
 #include "config.h"
 #include "asc-globals-private.h"
 
+#include "as-utils-private.h"
+#include "as-validator-issue-tag.h"
 #include "asc-resources.h"
 
 #define ASC_TYPE_GLOBALS (asc_globals_get_type ())
@@ -263,6 +265,89 @@ asc_globals_get_pangrams_for (const gchar *lang)
 }
 
 /**
+ * asc_globals_create_hint_tag_table:
+ *
+ * Create hint tag cache.
+ * IMPORTANT: This function may only be called while a lock is held
+ * on the hint tag table mutex.
+ */
+static void
+asc_globals_create_hint_tag_table ()
+{
+	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	g_return_if_fail (priv->hint_tags == NULL);
+
+	priv->hint_tags = g_hash_table_new_full (g_str_hash,
+						 g_str_equal,
+						 (GDestroyNotify) as_ref_string_release,
+						 (GDestroyNotify) asc_hint_tag_free);
+
+	/* add compose issue hint tags */
+	for (guint i = 0; asc_hint_tag_list[i].tag != NULL; i++) {
+		AscHintTag *htag;
+		const AscHintTagStatic s = asc_hint_tag_list[i];
+		htag = asc_hint_tag_new (s.tag, s.severity, s.explanation);
+		gboolean r = g_hash_table_insert (priv->hint_tags,
+							g_ref_string_new_intern (asc_hint_tag_list[i].tag),
+							htag);
+		if (G_UNLIKELY (!r))
+			g_critical ("Duplicate compose-hint tag '%s' found in tag list. This is a bug in appstream-compose.", asc_hint_tag_list[i].tag);
+	}
+
+	/* add validator issue hint tags */
+	for (guint i = 0; as_validator_issue_tag_list[i].tag != NULL; i++) {
+		AscHintTag *htag;
+		gboolean r;
+		AsIssueSeverity severity;
+		g_autofree gchar *compose_tag = g_strconcat ("asv-", as_validator_issue_tag_list[i].tag, NULL);
+		g_autofree gchar *explanation = g_markup_printf_escaped ("<code>{{location}}</code> - <em>{{hint}}</em><br/>%s",
+									 as_validator_issue_tag_list[i].explanation);
+
+		/* any validator issue can not be of type error in as-compose - if the validation issue
+		 * is so severe that it renders the compose process impossible, we will throw another issue
+		 * of type "error" which will immediately terminate the data genertaion. */
+		severity = as_validator_issue_tag_list[i].severity;
+		if (severity == AS_ISSUE_SEVERITY_ERROR)
+			severity = AS_ISSUE_SEVERITY_WARNING;
+
+		htag = asc_hint_tag_new (compose_tag, severity, explanation);
+		r = g_hash_table_insert (priv->hint_tags,
+					 g_ref_string_new_intern (compose_tag),
+					 htag);
+		if (G_UNLIKELY (!r))
+			g_critical ("Duplicate issue-tag '%s' found in tag list. This is a bug in appstream-compose.", as_validator_issue_tag_list[i].tag);
+	}
+}
+
+/**
+ * asc_globals_add_hint_tag:
+ *
+ * Register a new hint tag. If a previous tag with the given name
+ * already existed, the existing tag will not be replaced.
+ *
+ * Returns: %TRUE if the tag was registered and did not exist previously.
+ */
+gboolean
+asc_globals_add_hint_tag (const gchar *tag, AsIssueSeverity severity, const gchar *explanation)
+{
+	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	AscHintTag *htag;
+	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->hint_tags_mutex);
+	g_return_val_if_fail (tag != NULL, FALSE);
+
+	if (priv->hint_tags == NULL)
+		asc_globals_create_hint_tag_table ();
+	if (g_hash_table_contains (priv->hint_tags, tag))
+		return FALSE;
+
+	htag = asc_hint_tag_new (tag, severity, explanation);
+	g_hash_table_insert (priv->hint_tags,
+			     g_ref_string_new_intern (tag),
+			     htag);
+	return TRUE;
+}
+
+/**
  * asc_globals_get_hint_info:
  *
  * Return details for a given hint tag.
@@ -273,31 +358,72 @@ AscHintTag*
 asc_globals_get_hint_tag_details (const gchar *tag)
 {
 	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->hint_tags_mutex);
+	g_return_val_if_fail (tag != NULL, NULL);
 
-	/* return the cache value without locking, if possible */
-	if (priv->hint_tags != NULL)
-		return g_hash_table_lookup (priv->hint_tags, tag);
-
-	/* create hints cache */
-	{
-		g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->hint_tags_mutex);
-		/* protect against possible locking race */
-		if (priv->hint_tags != NULL)
-			return g_hash_table_lookup (priv->hint_tags, tag);
-
-		priv->hint_tags = g_hash_table_new_full (g_str_hash,
-							 g_str_equal,
-							 g_free,
-							 NULL);
-
-		for (guint i = 0; asc_hint_tag_list[i].tag != NULL; i++) {
-			gboolean r = g_hash_table_insert (priv->hint_tags,
-							  g_strdup (asc_hint_tag_list[i].tag),
-							  &asc_hint_tag_list[i]);
-			if (G_UNLIKELY (!r))
-				g_critical ("Duplicate compose-hint tag '%s' found in tag list. This is a bug in appstream-compose.", asc_hint_tag_list[i].tag);
-		}
-	}
-
+	if (priv->hint_tags == NULL)
+		asc_globals_create_hint_tag_table ();
 	return g_hash_table_lookup (priv->hint_tags, tag);
+}
+
+/**
+ * asc_globals_get_hint_tags:
+ *
+ * Retrieve all hint tags that we know.
+ *
+ * Returns: (transfer full): A list of valid hint tags. Free with %g_strfreev
+ */
+gchar**
+asc_globals_get_hint_tags ()
+{
+	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	GHashTableIter iter;
+	gpointer key;
+	gchar **strv;
+	guint i = 0;
+	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&priv->hint_tags_mutex);
+
+	if (priv->hint_tags == NULL)
+		asc_globals_create_hint_tag_table ();
+
+	/* deep-copy the table keys to a strv */
+	strv = g_new0 (gchar*, g_hash_table_size (priv->hint_tags) + 1);
+	g_hash_table_iter_init (&iter, priv->hint_tags);
+	while (g_hash_table_iter_next (&iter, &key, NULL))
+		strv[i++] = g_strdup ((const gchar*) key);
+
+	return strv;
+}
+
+/**
+ * asc_globals_hint_tag_severity:
+ *
+ * Retrieve the severity of the given hint tag.
+ *
+ * Returns: An #AsIssueSeverity or %AS_ISSUE_SEVERITY_UNKNOWN if the tag did not exist
+ *          or has an unknown severity.
+ */
+AsIssueSeverity
+asc_globals_hint_tag_severity (const gchar *tag)
+{
+	AscHintTag *htag = asc_globals_get_hint_tag_details (tag);
+	if (htag == NULL)
+		return AS_ISSUE_SEVERITY_UNKNOWN;
+	return htag->severity;
+}
+
+/**
+ * asc_globals_hint_tag_explanation:
+ *
+ * Retrieve the explanation template of the given hint tag.
+ *
+ * Returns: An explanation template, or %NULL if the tag was not found.
+ */
+const gchar*
+asc_globals_hint_tag_explanation (const gchar *tag)
+{
+	AscHintTag *htag = asc_globals_get_hint_tag_details (tag);
+	if (htag == NULL)
+		return NULL;
+	return htag->explanation;
 }
