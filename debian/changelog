@@ -1,3 +1,14 @@
+appstream (0.14.0-2) unstable; urgency=medium
+
+  * Add missing dependency on libgdk-pixbuf2.0-dev to
+    appstream-compose dev package
+  * Add 01_qt-better-errors.patch, 02_no-propagated-error-autoclean.patch:
+    - Resolves a crash in Plasma Discover (and possibly other applications
+      trying to open a nonexistent metadata file) due to propagated error
+      objects being dereferenced by their creating function.
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 05 Feb 2021 20:36:26 +0100
+
 appstream (0.14.0-1) unstable; urgency=medium
 
   * New upstream version: 0.14.0
