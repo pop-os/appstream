@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2020 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -168,7 +168,7 @@ typedef enum {
 /**
  * AsSearchTokenMatch:
  * @AS_SEARCH_TOKEN_MATCH_NONE:			No token matching
- * @AS_SEARCH_TOKEN_MATCH_MIMETYPE:		Use the component mimetypes
+ * @AS_SEARCH_TOKEN_MATCH_MEDIATYPE:		Use the component mediatypes
  * @AS_SEARCH_TOKEN_MATCH_PKGNAME:		Use the component package name
  * @AS_SEARCH_TOKEN_MATCH_ORIGIN:		Use the app origin
  * @AS_SEARCH_TOKEN_MATCH_DESCRIPTION:		Use the component description
@@ -182,7 +182,7 @@ typedef enum {
  **/
 typedef enum /*< skip >*/ __attribute__((__packed__)) {
 	AS_SEARCH_TOKEN_MATCH_NONE		= 0,
-	AS_SEARCH_TOKEN_MATCH_MIMETYPE		= 1 << 0,
+	AS_SEARCH_TOKEN_MATCH_MEDIATYPE		= 1 << 0,
 	AS_SEARCH_TOKEN_MATCH_PKGNAME		= 1 << 1,
 	AS_SEARCH_TOKEN_MATCH_ORIGIN		= 1 << 2,
 	AS_SEARCH_TOKEN_MATCH_DESCRIPTION	= 1 << 3,
@@ -193,6 +193,8 @@ typedef enum /*< skip >*/ __attribute__((__packed__)) {
 	/*< private >*/
 	AS_SEARCH_TOKEN_MATCH_LAST		= 0xffff
 } AsSearchTokenMatch;
+
+#define AS_SEARCH_TOKEN_MATCH_MIMETYPE AS_SEARCH_TOKEN_MATCH_MEDIATYPE
 
 AsComponent		*as_component_new (void);
 

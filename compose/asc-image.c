@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016-2020 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2014-2016 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -207,7 +207,7 @@ asc_optimize_png (const gchar *fname, GError **error)
 	g_autofree gchar *opng_stdout = NULL;
 	g_autofree gchar *opng_stderr = NULL;
 	g_autofree const gchar **argv = NULL;
-	g_autoptr(GError) tmp_error = NULL;
+	GError *tmp_error = NULL;
 
 	if (!asc_globals_get_use_optipng ())
 		return TRUE;

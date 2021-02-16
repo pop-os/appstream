@@ -170,15 +170,7 @@ hljs.configure({
 					</p><p>
 						The AppStream library will prefer <code class="literal">cached</code> over <code class="literal">local</code> over <code class="literal">remote</code>
 						icons when setting the non-stock icon for the application.
-					</p></dd><dt id="tag-ct-mimetypes"><span class="term">&lt;mimetypes/&gt;</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#tag-ct-mimetypes">#</a></dt><dd><p>
-						This tag can contain one or more <code class="code">&lt;mimetype&gt;</code> tags, describing the mime types this component supports.
-						The data can usually be fetched from the Desktop files.
-						Example:
-					</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;mimetypes&gt;
-    &lt;mimetype&gt;text/html&lt;/mimetype&gt;
-    &lt;mimetype&gt;image/jpeg&lt;/mimetype&gt;
-    &lt;mimetype&gt;application/rss+xml&lt;/mimetype&gt;
-&lt;/mimetypes&gt;</pre></div></dd><dt id="tag-ct-categories"><span class="term">&lt;categories/&gt;</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#tag-ct-categories">#</a></dt><dd><p>
+					</p></dd><dt id="tag-ct-categories"><span class="term">&lt;categories/&gt;</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#tag-ct-categories">#</a></dt><dd><p>
 						This tag can contain one or more <code class="code">&lt;category&gt;</code> tags, describing the categories this component
 						is located in. This tag is usually applied to components of type <code class="literal">desktop-application</code>, although it might be used by others later.
 						This data is usually taken from Desktop files, a list of categories can be found in the
@@ -188,7 +180,7 @@ hljs.configure({
     &lt;category&gt;Science&lt;/category&gt;
     &lt;category&gt;Network&lt;/category&gt;
     &lt;category&gt;Telephony&lt;/category&gt;
-&lt;/categories&gt;</pre></div><div id="id-1.4.4.5.5.12.2.3" class="admonition note normal"><img class="symbol" alt="Note" title="Note" src="static/images/icon-note.png" /><h6>Note: Deprecated Tags</h6><p>
+&lt;/categories&gt;</pre></div><div id="id-1.4.4.5.5.11.2.3" class="admonition note normal"><img class="symbol" alt="Note" title="Note" src="static/images/icon-note.png" /><h6>Note: Deprecated Tags</h6><p>
 							The tag <code class="code">&lt;appcategories&gt;</code> with its <code class="code">&lt;appcategory&gt;</code> child elements is deprecated API.
 							AppStream parsers should handle these tags just like the <code class="literal">category</code> tags, there is no difference except for the name.
 						</p></div></dd><dt id="tag-ct-keywords"><span class="term">&lt;keywords/&gt;</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#tag-ct-keywords">#</a></dt><dd><p>
@@ -369,16 +361,6 @@ hljs.configure({
       &lt;category&gt;network&lt;/category&gt;
       &lt;category&gt;web&lt;/category&gt;
     &lt;/categories&gt;
-    &lt;mimetypes&gt;
-      &lt;mimetype&gt;text/html&lt;/mimetype&gt;
-      &lt;mimetype&gt;text/xml&lt;/mimetype&gt;
-      &lt;mimetype&gt;application/xhtml+xml&lt;/mimetype&gt;
-      &lt;mimetype&gt;application/vnd.mozilla.xul+xml&lt;/mimetype&gt;
-      &lt;mimetype&gt;text/mml&lt;/mimetype&gt;
-      &lt;mimetype&gt;application/x-xpinstall&lt;/mimetype&gt;
-      &lt;mimetype&gt;x-scheme-handler/http&lt;/mimetype&gt;
-      &lt;mimetype&gt;x-scheme-handler/https&lt;/mimetype&gt;
-    &lt;/mimetypes&gt;
     &lt;url type="homepage"&gt;https://www.mozilla.com&lt;/url&gt;
     &lt;screenshots&gt;
       &lt;screenshot type="default"&gt;
@@ -388,6 +370,15 @@ hljs.configure({
     &lt;/screenshots&gt;
     &lt;provides&gt;
       &lt;binary&gt;firefox&lt;/binary&gt;
+
+      &lt;mediatype&gt;text/html&lt;/mediatype&gt;
+      &lt;mediatype&gt;text/xml&lt;/mediatype&gt;
+      &lt;mediatype&gt;application/xhtml+xml&lt;/mediatype&gt;
+      &lt;mediatype&gt;application/vnd.mozilla.xul+xml&lt;/mediatype&gt;
+      &lt;mediatype&gt;text/mml&lt;/mediatype&gt;
+      &lt;mediatype&gt;application/x-xpinstall&lt;/mediatype&gt;
+      &lt;mediatype&gt;x-scheme-handler/http&lt;/mediatype&gt;
+      &lt;mediatype&gt;x-scheme-handler/https&lt;/mediatype&gt;
     &lt;/provides&gt;
   &lt;/component&gt;
   &lt;component&gt;

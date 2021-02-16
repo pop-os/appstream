@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2020 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU General Public License Version 2
  *
@@ -209,9 +209,8 @@ ascli_what_provides (const gchar *cachepath, const gchar *kind_str, const gchar 
 
 	kind = as_provided_kind_from_string (kind_str);
 	if (kind == AS_PROVIDED_KIND_UNKNOWN) {
-		uint i;
 		g_printerr ("%s\n", _("Invalid type for provided item selected. Valid values are:"));
-		for (i = 1; i < AS_PROVIDED_KIND_LAST; i++)
+		for (guint i = 1; i < AS_PROVIDED_KIND_LAST; i++)
 			g_printerr (" • %s\n", as_provided_kind_to_string (i));
 		return 3;
 	}
