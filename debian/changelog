@@ -1,3 +1,13 @@
+appstream (0.14.1-1) unstable; urgency=medium
+
+  * New upstream version: 0.14.1
+  * Update .symbols file
+  * Drop all patches: Applied upstream
+  * Override Lintian warning about bad metainfo files in the testsuite
+    - Those are bad on purpose, for testing AppStream itself.
+
+ -- Matthias Klumpp <mak@debian.org>  Tue, 16 Feb 2021 20:54:02 +0100
+
 appstream (0.14.0-2) unstable; urgency=medium
 
   * Add missing dependency on libgdk-pixbuf2.0-dev to
