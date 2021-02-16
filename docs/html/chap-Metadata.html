@@ -315,33 +315,44 @@ hljs.configure({
 			It is suggested that the build system auto-generates this tag and its children.
 			Currently allowed item types are listed below. If you miss something,
 			<a class="ulink" href="https://github.com/ximion/appstream/issues/new" target="_blank">file a bug against AppStream<span class="ulink-url"> (https://github.com/ximion/appstream/issues/new)</span></a> so we can add the new type.
-			</p><div class="variablelist"><dl class="variablelist"><dt id="id-1.3.6.4.3.11.2.3.1"><span class="term">&lt;library/&gt;</span></dt><dd><p>
+			</p><div class="variablelist"><dl class="variablelist"><dt id="id-1.3.6.4.3.11.2.3.1"><span class="term">&lt;mediatype/&gt;</span></dt><dd><p>
+					Describes the media types (also known as MIME types) this software supports, meaning it can open, edit or otherwise handle them.
+					This tag is especially useful for generic components and addon-type components. For applications, the metadata may automatically
+					be fetched from their <code class="filename">.desktop</code> files by the distribution's metadata generator if a desktop-entry file is set
+					as <a class="xref" href="chap-Metadata.html#tag-launchable">&lt;launchable/&gt;</a>.
+				Example:
+				</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">
+&lt;provides&gt;
+    &lt;mediatype&gt;text/html&lt;/mediatype&gt;
+    &lt;mediatype&gt;image/jpeg&lt;/mediatype&gt;
+    &lt;mediatype&gt;application/rss+xml&lt;/mediatype&gt;
+ &lt;/provides&gt;</pre></div></dd><dt id="id-1.3.6.4.3.11.2.3.2"><span class="term">&lt;library/&gt;</span></dt><dd><p>
 					Contains the name of a shared library placed in a publicly accessible library path, such as <code class="filename">/usr/lib</code>, <code class="filename">/usr/lib/&lt;triplet&gt;</code>
 					or <code class="filename">/lib</code>.
-					For example, for the libappstream library, the value for <code class="literal">library</code> would be </p><div class="verbatim-wrap"><strong class="userinput"><code>libappstream.so.1</code></strong></div><p>.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.2"><span class="term">&lt;binary/&gt;</span></dt><dd><p>
+					For example, for the <code class="literal">libappstream</code> library, the value for <code class="literal">library</code> would be <code class="code">libappstream.so.1</code>.
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.3"><span class="term">&lt;binary/&gt;</span></dt><dd><p>
 					Name of a binary installed into a location in <code class="envar">PATH</code>.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.3"><span class="term">&lt;font/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.4"><span class="term">&lt;font/&gt;</span></dt><dd><p>
 					Full name of a font provided by this component. See <a class="xref" href="sect-Metadata-Fonts.html" title="2.7. Fonts">Section 2.7, “Fonts”</a> for more information.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.4"><span class="term">&lt;modalias/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.5"><span class="term">&lt;modalias/&gt;</span></dt><dd><p>
 					A modalias glob representing the hardware types (for example USB, PCI, ACPI, DMI) this component handles.
 					Useful for installing printer drivers or other USB protocol drivers for smartphones, firmware, and
 					out of tree kernel drivers.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.5"><span class="term">&lt;firmware/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.6"><span class="term">&lt;firmware/&gt;</span></dt><dd><p>
 					This provided element is described in details for the <code class="literal">firmware</code> component type, where it is mandatory.
 					Please see <a class="xref" href="sect-Metadata-Firmware.html#tag-firmware-provides">&lt;provides/&gt; ↪ &lt;firmware/&gt;</a> for more information.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.6"><span class="term">&lt;python2/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.7"><span class="term">&lt;python2/&gt;</span></dt><dd><p>
 					Name of a Python 2 module this component provides.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.7"><span class="term">&lt;python3/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.8"><span class="term">&lt;python3/&gt;</span></dt><dd><p>
 					Name of a Python 3 module this component provides.
-				</p></dd><dt id="id-1.3.6.4.3.11.2.3.8"><span class="term">&lt;dbus/&gt;</span></dt><dd><p>
+				</p></dd><dt id="id-1.3.6.4.3.11.2.3.9"><span class="term">&lt;dbus/&gt;</span></dt><dd><p>
 					Contains the well-known name of a D-Bus service as its value. The type of the service must be specified using the <code class="literal">type</code> property
 					of this tag. Allowed values are <code class="code">user</code> and <code class="code">system</code>.
 				</p><p>
 					Example:
 				</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;provides&gt;
   &lt;dbus type="system"&gt;org.freedesktop.packagekit&lt;/dbus&gt;
-&lt;/provides&gt;</pre></div></dd><dt id="id-1.3.6.4.3.11.2.3.9"><span class="term">&lt;id/&gt;</span></dt><dd><p>
+&lt;/provides&gt;</pre></div></dd><dt id="id-1.3.6.4.3.11.2.3.10"><span class="term">&lt;id/&gt;</span></dt><dd><p>
 					Contains the component-ID of another software component. The presence of this tag indicates that the software component containing it is able to
 					provide all functionality of the one referenced in the <code class="code">&lt;provides/&gt; ↪ &lt;id/&gt;</code> tag.
 				</p><p>
@@ -479,15 +490,10 @@ hljs.configure({
   &lt;display_length compare="gt"&gt;xsmall&lt;/display_length&gt;
 &lt;/requires&gt;</pre></div></dd></dl></div></dd><dt id="tag-mimetypes"><span class="term">&lt;mimetypes/&gt;</span> <a title="Permalink" class="permalink" href="chap-Metadata.html#tag-mimetypes">#</a></dt><dd><p>
 			This tag can contain one or more <code class="code">&lt;mimetype/&gt;</code> children, describing the MIME types this application supports.
-			This tag is especially useful for generic components and addon-type components. For applications, the metadata will automatically
-			be fetched from their <code class="filename">.desktop</code> files by the distribution's metadata generator.
-			Example:
-			</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">
-&lt;mimetypes&gt;
-    &lt;mimetype&gt;text/html&lt;/mimetype&gt;
-    &lt;mimetype&gt;image/jpeg&lt;/mimetype&gt;
-    &lt;mimetype&gt;application/rss+xml&lt;/mimetype&gt;
- &lt;/mimetypes&gt;</pre></div></dd><dt id="tag-project_group"><span class="term">&lt;project_group/&gt;</span> <a title="Permalink" class="permalink" href="chap-Metadata.html#tag-project_group">#</a></dt><dd><p>
+		</p><div id="id-1.3.6.4.3.13.2.2" class="admonition important normal"><img class="symbol" alt="Important" title="Important" src="static/images/icon-important.png" /><h6>Important: Deprecation</h6><p>
+				This tag is deprecated and should not be used for new metadata. Please use <a class="xref" href="chap-Metadata.html#tag-provides">&lt;provides/&gt;</a> ↪ <code class="literal">mediatype</code> tags
+				instead.
+			</p></div></dd><dt id="tag-project_group"><span class="term">&lt;project_group/&gt;</span> <a title="Permalink" class="permalink" href="chap-Metadata.html#tag-project_group">#</a></dt><dd><p>
 			If you include the <code class="code">&lt;project_group/&gt;</code> tag then this identifies your project with a specific upstream umbrella project.
 			Known values include <code class="literal">GNOME</code>, <code class="literal">KDE</code>, <code class="literal">XFCE</code>, <code class="literal">MATE</code> and <code class="literal">LXDE</code>, although other umbrella projects like Yorba or Mozilla make sense too.
 		</p><div id="id-1.3.6.4.3.14.2.2" class="admonition note normal"><img class="symbol" alt="Note" title="Note" src="static/images/icon-note.png" /><h6>Note</h6><p>
