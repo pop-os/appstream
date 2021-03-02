@@ -25,19 +25,33 @@
 
 #include "as-component.h"
 #include "as-metadata.h"
+#include "as-utils-private.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
+typedef GPtrArray* (*AsTranslateDesktopTextFn)(const GKeyFile *de,
+					       const gchar *text,
+					       gpointer user_data);
+
+AS_INTERNAL_VISIBLE
 gboolean	as_desktop_entry_parse_data (AsComponent *cpt,
 					     const gchar *data,
 					     gssize data_len,
 					     AsFormatVersion fversion,
+					     gboolean ignore_nodisplay,
+					     GPtrArray *issues,
+					     AsTranslateDesktopTextFn de_l10n_fn,
+					     gpointer user_data,
 					     GError **error);
 
 gboolean	as_desktop_entry_parse_file (AsComponent *cpt,
 					     GFile *file,
 					     AsFormatVersion fversion,
+					     gboolean ignore_nodisplay,
+					     GPtrArray *issues,
+					     AsTranslateDesktopTextFn de_l10n_fn,
+					     gpointer user_data,
 					     GError **error);
 
 #pragma GCC visibility pop

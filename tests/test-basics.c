@@ -82,7 +82,7 @@ static void
 test_simplemarkup ()
 {
 	g_autofree gchar *str = NULL;
-	GError *error = NULL;
+	g_autoptr(GError) error = NULL;
 
 	str = as_markup_convert_simple ("<p>Test!</p><p>Blah.</p><ul><li>A</li><li>B</li></ul><p>End.</p>", &error);
 	g_assert_no_error (error);
@@ -98,7 +98,6 @@ test_simplemarkup ()
 					"</ul>"
 					"<p>Last paragraph.</p>", &error);
 	g_assert_no_error (error);
-	g_print ("!!! %s\n", str);
 	g_assert (g_strcmp0 (str, "Paragraph using all allowed markup, like an emphasis or some code.\n\n"
 				  "Second paragraph.\n"
 				  " • List item, emphasized\n"
@@ -129,11 +128,11 @@ _get_dummy_strv (const gchar *value)
 static void
 test_component ()
 {
-	AsComponent *cpt;
-	AsMetadata *metad;
-	gchar *str;
-	gchar *str2;
-	gchar **strv;
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsMetadata) metad = NULL;
+	g_autofree gchar *str = NULL;
+	g_autofree gchar *str2 = NULL;
+	g_auto(GStrv) strv = NULL;
 
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_DESKTOP_APP);
@@ -144,13 +143,11 @@ test_component ()
 
 	strv = _get_dummy_strv ("fedex");
 	as_component_set_pkgnames (cpt, strv);
-	g_strfreev (strv);
 
 	metad = as_metadata_new ();
 	as_metadata_add_component (metad, cpt);
 	str = as_metadata_component_to_metainfo (metad, AS_FORMAT_KIND_XML, NULL);
 	str2 = as_metadata_components_to_collection (metad, AS_FORMAT_KIND_XML, NULL);
-	g_object_unref (metad);
 	g_debug ("%s", str2);
 
 	g_assert_cmpstr (str, ==, "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
@@ -169,9 +166,6 @@ test_component ()
 				   "    <pkgname>fedex</pkgname>\n"
 				   "  </component>\n"
 				   "</components>\n");
-
-	g_free (str);
-	g_free (str2);
 }
 
 /**
