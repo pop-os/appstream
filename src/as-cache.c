@@ -717,15 +717,15 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 	AsCachePrivate *priv = GET_PRIVATE (cache);
 	GError *tmp_error = NULL;
 	gint rc;
-	const gchar *volatile_dir = NULL;
 	MDB_txn *txn = NULL;
 	MDB_dbi db_config;
 	g_autofree gchar *cache_format = NULL;
-	mdb_mode_t db_mode;
+	unsigned int db_flags;
 	gboolean nosync;
 	gboolean readonly;
 	g_autoptr(GMutexLocker) locker = NULL;
 	int db_fd;
+	g_autofree gchar *volatile_fname = NULL;
 
 	/* close cache in case it was open */
 	as_cache_close (cache);
@@ -761,18 +761,21 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 	}
 
 	/* determine database mode */
-	db_mode = MDB_NOSUBDIR | MDB_NOMETASYNC | MDB_NOLOCK;
+	db_flags = MDB_NOSUBDIR | MDB_NOMETASYNC | MDB_NOLOCK;
 	nosync = priv->nosync;
 	readonly = priv->readonly;
 
 	/* determine where to put a volatile database */
 	if (g_strcmp0 (fname, ":temporary") == 0) {
-		if (as_utils_is_root ()) {
-			volatile_dir = g_get_tmp_dir ();
-		} else {
-			volatile_dir = g_get_user_cache_dir ();
-			if ((volatile_dir == NULL) || (!g_file_test (volatile_dir, G_FILE_TEST_IS_DIR)))
-				volatile_dir = g_get_tmp_dir ();
+		g_autofree gchar *volatile_dir = as_get_user_cache_dir ();
+		volatile_fname = g_build_filename (volatile_dir, "appcache-XXXXXX.mdb", NULL);
+
+		if (g_mkdir_with_parents (volatile_dir, 0755) != 0) {
+			g_set_error (error,
+				     AS_CACHE_ERROR,
+				     AS_CACHE_ERROR_FAILED,
+				     "Unable to create cache directory (%s)",volatile_dir);
+			goto fail;
 		}
 
 		/* we can skip syncs in temporary mode - in case of a crash, the data is lost anyway */
@@ -782,7 +785,7 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 		readonly = FALSE;
 
 	} else if (g_strcmp0 (fname, ":memory") == 0) {
-		volatile_dir = g_get_user_runtime_dir ();
+		volatile_fname = g_build_filename (g_get_user_runtime_dir (), "appstream-cache-XXXXXX.mdb", NULL);
 		/* we can skip syncs in in-memory mode - they don't mean anything anyway*/
 		nosync = TRUE;
 
@@ -791,15 +794,15 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 	}
 
 	if (readonly)
-		db_mode |= MDB_RDONLY;
+		db_flags |= MDB_RDONLY;
 	if (nosync)
-		db_mode |= MDB_NOSYNC;
+		db_flags |= MDB_NOSYNC;
 
-	g_free (priv->fname);
-	if (volatile_dir != NULL) {
+	if (volatile_fname != NULL) {
 		gint fd;
 
-		priv->fname = g_build_filename (volatile_dir, "appstream-cache-XXXXXX.mdb", NULL);
+		g_free (priv->fname);
+		priv->fname = g_steal_pointer (&volatile_fname);
 		fd = g_mkstemp (priv->fname);
 		if (fd < 0) {
 			g_set_error (error,
@@ -813,6 +816,7 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 
 		priv->volatile_db_fname = g_strdup (priv->fname);
 	} else {
+		g_free (priv->fname);
 		priv->fname = g_strdup (fname);
 	}
 
@@ -822,7 +826,7 @@ as_cache_open (AsCache *cache, const gchar *fname, const gchar *locale, GError *
 		g_debug ("Opening cache file: %s", priv->fname);
 	rc = mdb_env_open (priv->db_env,
 			   priv->fname,
-			   db_mode,
+			   db_flags,
 			   0755);
 	if (rc != MDB_SUCCESS) {
 		g_set_error (error,
@@ -1033,6 +1037,8 @@ as_cache_close (AsCache *cache)
 	if (!priv->opened)
 		return FALSE;
 
+	if (!priv->readonly)
+		mdb_env_sync (priv->db_env, 1);
 	mdb_env_close (priv->db_env);
 
 	/* ensure any temporary file is gone, in case we used an in-memory database */
@@ -2071,13 +2077,33 @@ as_cache_get_components_by_launchable (AsCache *cache, AsLaunchableKind kind, co
 	}
 }
 
+typedef struct {
+	AsComponent *cpt;
+	GPtrArray *matched_terms;
+	guint terms_found;
+} AsSearchResultItem;
+
+static void
+as_search_result_item_free (AsSearchResultItem *item)
+{
+	if (item->cpt != NULL)
+		g_object_unref (item->cpt);
+	if (item->matched_terms != NULL)
+		g_ptr_array_unref (item->matched_terms);
+	g_slice_free (AsSearchResultItem, item);
+}
+
 /**
  * as_cache_update_results_with_fts_value:
  *
  * Update results table using the full-text search scoring data from a GVariant dict
  */
 static gboolean
-as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn, MDB_val dval, GHashTable *results_ht, gboolean exact_match, GError **error)
+as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn,
+					MDB_val dval, const gchar *matched_term,
+					GHashTable *results_ht,
+					gboolean exact_match,
+					GError **error)
 {
 	GError *tmp_error = NULL;
 	g_autofree gchar *entry_data = NULL;
@@ -2095,7 +2121,7 @@ as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn, MDB_val dv
 
 	for (gsize i = 0; i < data_len; i += ENTRY_LEN) {
 		guint sort_score;
-		AsComponent *cpt;
+		AsSearchResultItem *sitem;
 		const guint8 *cpt_hash;
 		AsTokenType match_pval;
 
@@ -2103,46 +2129,93 @@ as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn, MDB_val dv
 		match_pval = (AsTokenType) *(data + i + AS_CACHE_CHECKSUM_LEN);
 
 		/* retrieve component with this hash */
-		cpt = g_hash_table_lookup (results_ht, cpt_hash);
-		if (cpt == NULL) {
-			cpt = as_cache_component_by_hash (cache, txn, cpt_hash, &tmp_error);
+		sitem = g_hash_table_lookup (results_ht, cpt_hash);
+		if (sitem == NULL) {
+			sitem = g_slice_new0 (AsSearchResultItem);
+			sitem->cpt = as_cache_component_by_hash (cache, txn, cpt_hash, &tmp_error);
+			sitem->matched_terms = g_ptr_array_new_with_free_func (g_free);
 			if (tmp_error != NULL) {
 				g_propagate_prefixed_error (error, tmp_error, "Failed to retrieve component data: ");
+				as_search_result_item_free (sitem);
 				return FALSE;
 			}
-			if (cpt != NULL) {
+			if (sitem->cpt == NULL) {
+				as_search_result_item_free (sitem);
+			} else {
 				sort_score = 0;
 				if (exact_match)
 					sort_score |= match_pval << 2;
 				else
 					sort_score |= match_pval;
 
-				if ((as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON) && (match_pval > 0))
+				if ((as_component_get_kind (sitem->cpt) == AS_COMPONENT_KIND_ADDON) && (match_pval > 0))
 					sort_score--;
 
-				as_component_set_sort_score (cpt, sort_score);
+				as_component_set_sort_score (sitem->cpt, sort_score);
+				sitem->terms_found = 1;
+				g_ptr_array_add (sitem->matched_terms, g_strdup (matched_term));
 
 				g_hash_table_insert (results_ht,
 						     g_memdup (cpt_hash, AS_CACHE_CHECKSUM_LEN),
-						     cpt);
+						     sitem);
 			}
 		} else {
-			sort_score = as_component_get_sort_score (cpt);
+			gboolean term_matched = FALSE;
+
+			sort_score = as_component_get_sort_score (sitem->cpt);
 			if (exact_match)
 				sort_score |= match_pval << 2;
 			else
 				sort_score |= match_pval;
 
-			if (as_component_get_sort_score (cpt) == 0) {
-				if ((as_component_get_kind (cpt) == AS_COMPONENT_KIND_ADDON))
+			if (as_component_get_sort_score (sitem->cpt) == 0) {
+				if ((as_component_get_kind (sitem->cpt) == AS_COMPONENT_KIND_ADDON))
 					sort_score--;
 			}
 
-			as_component_set_sort_score (cpt, sort_score);
+			as_component_set_sort_score (sitem->cpt, sort_score);
+
+			/* due to stemming and partial matches, we may match the same term a lot of times,
+			 * but we only want to register a specific term match once (while still bumping up the
+			 * search result's match score) */
+			for (guint j = 0; j < sitem->matched_terms->len; j++) {
+				if (g_strcmp0 (matched_term, (const gchar *) g_ptr_array_index (sitem->matched_terms, j)) == 0) {
+					term_matched = TRUE;
+					break;
+				}
+			}
+			if (!term_matched)
+				sitem->terms_found++;
 		}
 	}
 
 	return TRUE;
+}
+
+/**
+ * as_cache_search_items_table_to_results:
+ *
+ * Converts the found items hash table entries to results list of components.
+ */
+static void
+as_cache_search_items_table_to_results (GHashTable *results_ht, GPtrArray *results, guint required_terms_n)
+{
+	GHashTableIter ht_iter;
+	gpointer ht_value;
+
+	if (g_hash_table_size (results_ht) == 0)
+		return;
+
+	g_hash_table_iter_init (&ht_iter, results_ht);
+	while (g_hash_table_iter_next (&ht_iter, NULL, &ht_value)) {
+		AsSearchResultItem *sitem = (AsSearchResultItem*) ht_value;
+		if (sitem->terms_found < required_terms_n)
+			continue;
+		g_ptr_array_add (results, g_steal_pointer (&sitem->cpt));
+	}
+
+	/* the items hash table contents are invalid now */
+	g_hash_table_remove_all (results_ht);
 }
 
 /**
@@ -2161,12 +2234,16 @@ as_cache_search (AsCache *cache, gchar **terms, gboolean sort, GError **error)
 {
 	AsCachePrivate *priv = GET_PRIVATE (cache);
 	MDB_txn *txn;
-	GError *tmp_error = NULL;
 	g_autoptr(GPtrArray) results = NULL;
 	g_autoptr(GHashTable) results_ht = NULL;
-	GHashTableIter ht_iter;
-	gpointer ht_value;
 	g_autoptr(GMutexLocker) locker = NULL;
+
+	MDB_cursor *cur;
+	gint rc;
+	MDB_val dkey;
+	MDB_val dval;
+	g_autofree gsize *terms_lens = NULL;
+	guint terms_n = 0;
 
 	if (!as_cache_check_opened (cache, FALSE, error))
 		return NULL;
@@ -2186,87 +2263,79 @@ as_cache_search (AsCache *cache, gchar **terms, gboolean sort, GError **error)
 	results_ht = g_hash_table_new_full (as_cache_checksum_hash,
 					    as_cache_checksum_equal,
 					    g_free,
-					    (GDestroyNotify) g_object_unref);
+					    (GDestroyNotify) as_search_result_item_free);
 
-	/* search by using exact matches first */
-	for (guint i = 0; terms[i] != NULL; i++) {
-		g_autoptr(GPtrArray) tmp_res = NULL;
-		MDB_val dval;
+	terms_n = g_strv_length (terms);
 
-		dval = as_cache_txn_get_value (cache, txn, priv->db_fts, terms[i], &tmp_error);
-		if (tmp_error != NULL) {
-			g_propagate_error (error, tmp_error);
-			lmdb_transaction_abort (txn);
-			return NULL;
-		}
-		if (dval.mv_size <= 0)
-			continue;
-
-		if (!as_cache_update_results_with_fts_value (cache, txn, dval, results_ht, TRUE, error)) {
-			lmdb_transaction_abort (txn);
-			return NULL;
-		}
+	/* unconditionally perform partial matching, which is slower, but yields more complete results
+	 * closer to what the users seem to expect compared to the more narrow results we get when running
+	 * an exact match query on the database */
+	rc = mdb_cursor_open (txn, priv->db_fts, &cur);
+	if (rc != MDB_SUCCESS) {
+		g_set_error (error,
+				AS_CACHE_ERROR,
+				AS_CACHE_ERROR_FAILED,
+				"Unable to iterate cache (no cursor): %s", mdb_strerror (rc));
+		lmdb_transaction_abort (txn);
+		return NULL;
 	}
 
-	/* if we got no results by exact matches, try partial matches (which is slower) */
-	if (g_hash_table_size (results_ht) <= 0) {
-		MDB_cursor *cur;
-		gint rc;
-		MDB_val dkey;
-		MDB_val dval;
+	/* cache term string lengths */
+	terms_lens = g_new0 (gsize, terms_n + 1);
+	for (guint i = 0; terms[i] != NULL; i++)
+		terms_lens[i] = strlen (terms[i]);
 
-		rc = mdb_cursor_open (txn, priv->db_fts, &cur);
-		if (rc != MDB_SUCCESS) {
-			g_set_error (error,
-				     AS_CACHE_ERROR,
-				     AS_CACHE_ERROR_FAILED,
-				     "Unable to iterate cache (no cursor): %s", mdb_strerror (rc));
-			lmdb_transaction_abort (txn);
-			return NULL;
-		}
+	rc = mdb_cursor_get (cur, &dkey, &dval, MDB_FIRST);
+	while (rc == 0) {
+		const gchar *matched_term = NULL;
+		const gchar *token = dkey.mv_data;
+		gsize token_len = dkey.mv_size;
 
-		rc = mdb_cursor_get (cur, &dkey, &dval, MDB_FIRST);
-		while (rc == 0) {
-			gboolean match = FALSE;
+		for (guint i = 0; terms[i] != NULL; i++) {
+			gsize term_len = terms_lens[i];
+			/* if term length is bigger than the key, it will never match */
+			if (term_len > dkey.mv_size)
+				continue;
 
-			for (guint i = 0; terms[i] != NULL; i++) {
-				gsize term_len = strlen (terms[i]);
-				/* if term length is bigger than the key, it will never match.
-				 * if it is equal, we already matches it and shouldn't be here */
-				if (term_len >= dkey.mv_size)
-					continue;
-				if (strncmp (dkey.mv_data, terms[i], term_len) == 0) {
-					/* prefix match was successful */
-					match = TRUE;
+			for (guint j = 0; j < token_len - term_len + 1; j++) {
+				if (strncmp (token + j, terms[i], term_len) == 0) {
+					/* partial match was successful */
+					matched_term = terms[i];
 					break;
 				}
 			}
-			if (!match) {
-				rc = mdb_cursor_get(cur, &dkey, &dval, MDB_NEXT);
-				continue;
-			}
-
-			/* we got a prefix match, so add the components to our search result */
-			if (dval.mv_size <= 0)
-				continue;
-			if (!as_cache_update_results_with_fts_value (cache, txn, dval, results_ht, FALSE, error)) {
-				mdb_cursor_close (cur);
-				lmdb_transaction_abort (txn);
-				return NULL;
-			}
-
-			rc = mdb_cursor_get(cur, &dkey, &dval, MDB_NEXT);
+			if (matched_term != NULL)
+				break;
 		}
-		mdb_cursor_close (cur);
-	}
+		if (matched_term == NULL) {
+			rc = mdb_cursor_get(cur, &dkey, &dval, MDB_NEXT);
+			continue;
+		}
 
-	/* we don't need the mutex anymore, no class struct access here */
-	g_clear_pointer (&locker, g_mutex_locker_free);
+		/* we got a partial match, so add the components to our search result */
+		if (dval.mv_size <= 0)
+			continue;
+		if (!as_cache_update_results_with_fts_value (cache, txn,
+								dval, matched_term,
+								results_ht,
+								FALSE,
+								error)) {
+			mdb_cursor_close (cur);
+			lmdb_transaction_abort (txn);
+			return NULL;
+		}
+
+		rc = mdb_cursor_get(cur, &dkey, &dval, MDB_NEXT);
+	}
+	mdb_cursor_close (cur);
 
 	/* compile our result */
-	g_hash_table_iter_init (&ht_iter, results_ht);
-	while (g_hash_table_iter_next (&ht_iter, NULL, &ht_value))
-		g_ptr_array_add (results, g_object_ref (AS_COMPONENT (ht_value)));
+	as_cache_search_items_table_to_results (results_ht,
+						results,
+						terms_n);
+
+	/* we don't need the mutex anymore, no class member access here */
+	g_clear_pointer (&locker, g_mutex_locker_free);
 
 	/* sort the results by their priority */
 	if (sort)

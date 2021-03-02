@@ -138,9 +138,6 @@ const GOptionEntry validate_options[] = {
 	{ NULL }
 };
 
-/* only used by the "refresh --force" command */
-static gboolean optn_force = FALSE;
-
 /*** HELPER METHODS ***/
 
 /**
@@ -237,6 +234,8 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 {
 	g_autoptr(GOptionContext) opt_context = NULL;
 	gint ret;
+	gboolean optn_force = FALSE;
+	gboolean optn_user = FALSE;
 
 	const GOptionEntry refresh_options[] = {
 		{ "force", (gchar) 0, 0,
@@ -244,6 +243,12 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 			&optn_force,
 			/* TRANSLATORS: ascli flag description for: --force */
 			_("Enforce a cache refresh."),
+			NULL },
+		{ "user", (gchar) 0, 0,
+			G_OPTION_ARG_NONE,
+			&optn_user,
+			/* TRANSLATORS: ascli flag description for: --user */
+			_("Update the user-specific instead of the system-wide cache."),
 			NULL },
 		{ NULL }
 	};
@@ -257,8 +262,9 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 		return ret;
 
 	return ascli_refresh_cache (optn_cachepath,
-					optn_datapath,
-					optn_force);
+				    optn_datapath,
+				    optn_user,
+				    optn_force);
 }
 
 /**
@@ -270,8 +276,8 @@ static int
 as_client_run_search (const gchar *command, char **argv, int argc)
 {
 	g_autoptr(GOptionContext) opt_context = NULL;
+	g_autoptr(GString) search = NULL;
 	gint ret;
-	const gchar *value = NULL;
 
 	opt_context = as_client_new_subcommand_option_context (command, find_options);
 	g_option_context_add_main_entries (opt_context, data_collection_options, NULL);
@@ -280,11 +286,19 @@ as_client_run_search (const gchar *command, char **argv, int argc)
 	if (ret != 0)
 		return ret;
 
-	if (argc > 2)
-		value = argv[2];
+	search = g_string_new ("");
+	if (argc > 2) {
+		for (gint i = 2; i < argc; i++) {
+			g_string_append (search, argv[i]);
+			g_string_append_c (search, ' ');
+		}
+		/* drop trailing space */
+		if (search->len > 0)
+			g_string_truncate (search, search->len - 1);
+	}
 
 	return ascli_search_component (optn_cachepath,
-					value,
+					(search->len == 0)? NULL : search->str,
 					optn_details,
 					optn_no_cache);
 }

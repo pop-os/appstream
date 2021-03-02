@@ -48,10 +48,11 @@ static QList<Component> cptArrayToQList(GPtrArray *cpts)
     QList<Component> res;
     res.reserve(cpts->len);
     for (uint i = 0; i < cpts->len; i++) {
-        auto cpt = AS_COMPONENT(g_ptr_array_index(cpts, i));
-        Component x(cpt);
-        res.append(x);
+        auto ccpt = AS_COMPONENT(g_ptr_array_index(cpts, i));
+        Component cpt(ccpt);
+        res.append(cpt);
     }
+    g_ptr_array_unref (cpts);
     return res;
 }
 
@@ -124,12 +125,16 @@ QList<AppStream::Component> Pool::componentsByKind(Component::Kind kind) const
     return cptArrayToQList(as_pool_get_components_by_kind(d->pool, static_cast<AsComponentKind>(kind)));
 }
 
-QList<AppStream::Component> Pool::componentsByCategories(const QStringList categories) const
+QList<AppStream::Component> Pool::componentsByCategories(const QStringList& categories) const
 {
-    // FIXME: Todo
     QList<AppStream::Component> res;
-    //! return cptArrayToQList(as_pool_get_components_by_categories (d->pool, );
-    return res;
+    g_autofree gchar **cats_strv = NULL;
+
+    cats_strv = g_new0(gchar *, categories.size() + 1);
+    for (int i = 0; i < categories.size(); ++i)
+        cats_strv[i] = (gchar*) qPrintable(categories.at(i));
+
+    return cptArrayToQList(as_pool_get_components_by_categories (d->pool, cats_strv));
 }
 
 QList<Component> Pool::componentsByLaunchable(Launchable::Kind kind, const QString& value) const

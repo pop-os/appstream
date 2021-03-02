@@ -97,8 +97,10 @@ as_markup_strsplit_words (const gchar *text, guint line_len)
 	g_auto(GStrv) tokens = NULL;
 
 	/* sanity check */
-	if (as_is_empty (text))
+	if (text == NULL)
 		return NULL;
+	if (text[0] == '\0')
+		return g_strsplit (text, " ", -1);
 	if (line_len == 0)
 		return NULL;
 
@@ -130,6 +132,14 @@ as_markup_strsplit_words (const gchar *text, guint line_len)
 		g_string_truncate (curline, curline->len - 1);
 		g_string_append (curline, "\n");
 		g_ptr_array_add (lines, g_strdup (curline->str));
+	}
+
+	/* any superfluous linebreak at the start?
+	 * (this may happen if text is just one, very long word with no spaces) */
+	if (lines->len > 0) {
+		gchar *first_line = (gchar*) g_ptr_array_index (lines, 0);
+		if (!g_str_has_prefix (text, "\n") && g_strcmp0 (first_line, "\n") == 0)
+			g_ptr_array_remove_index (lines, 0);
 	}
 
 	g_ptr_array_add (lines, NULL);
@@ -2106,4 +2116,40 @@ as_utils_install_metadata_file (AsMetadataLocation location,
 	}
 
 	return ret;
+}
+
+/**
+ * as_get_user_cache_dir:
+ *
+ * Obtain the user-specific data cache directory for AppStream.
+ *
+ * Since: 0.14.2
+ */
+gchar*
+as_get_user_cache_dir ()
+{
+	const gchar *cache_root;
+	if (as_utils_is_root ()) {
+		cache_root = g_get_tmp_dir ();
+	} else {
+		cache_root = g_get_user_cache_dir ();
+		if (cache_root == NULL || !g_file_test (cache_root, G_FILE_TEST_IS_DIR))
+			cache_root = g_get_tmp_dir ();
+	}
+	return g_build_filename (cache_root, "appstream", NULL);
+}
+
+/**
+ * as_unichar_accepted:
+ *
+ * Test if the unicode character is in the accepted set for
+ * string values in AppStream.
+ *
+ * We permit any printable, non-spacing, format or zero-width space characters, as
+ * well as enclosing marks and U+00AD SOFT HYPHEN
+ */
+gboolean
+as_unichar_accepted (gunichar c)
+{
+	return g_unichar_isprint (c) || g_unichar_iszerowidth (c) || c == 173;
 }

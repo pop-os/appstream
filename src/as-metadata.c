@@ -600,6 +600,10 @@ as_metadata_parse_desktop_data (AsMetadata *metad, const gchar *data, const gcha
 					   data,
 					   -1,
 					   priv->format_version,
+					   TRUE,
+					   NULL, /* issues */
+					   NULL, /* l10n function */
+					   NULL, /* l10n func user data */
 					   &tmp_error);
 	if (!ret) {
 		if (tmp_error == NULL) {
