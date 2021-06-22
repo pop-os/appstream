@@ -186,51 +186,70 @@ hljs.configure({
 								A list of provided library names.
 							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.2"><span class="term">binaries</span></dt><dd><p>
 								A list of provided binaries in <code class="envar">PATH</code>.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.3"><span class="term">mediatypes</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.3"><span class="term">fonts</span></dt><dd><p>
+								A list of provided fonts. Each font entry is of type <span class="emphasis"><em>dict</em></span> and has a
+								<code class="literal">name</code> key.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.4"><span class="term">modaliases</span></dt><dd><p>
+								A list of modalias globs representing the hardware types this component handles.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.5"><span class="term">mediatypes</span></dt><dd><p>
 								A list of media types (MIME types) this component can handle.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.4"><span class="term">firmware</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.6"><span class="term">firmware</span></dt><dd><p>
 								A list of provided firmware. Each firmware entry is of type <span class="emphasis"><em>dict</em></span> and has a
 								<code class="literal">type</code> key, which has either <code class="code">runtime</code> or <code class="code">flashed</code> as
 								value.
 								Firmware of type <code class="code">flashed</code> has a <code class="literal">guid</code> key, containing the GUID of the device
 								the firmware is flashed on, while firmware of type <code class="code">runtime</code> has a <code class="literal">file</code> key,
 								containing the firmware filename which the kernel is looking for.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.5"><span class="term">dbus</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.7"><span class="term">python2</span></dt><dd><p>
+								A list of Python 2 modules this component provides.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.8"><span class="term">python3</span></dt><dd><p>
+								A list of Python 3 modules this component provides.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.9"><span class="term">dbus</span></dt><dd><p>
 								A list of provided DBus services. Each service entry in the list is of type <span class="emphasis"><em>dict</em></span> and has a
 								<code class="literal">type</code> key, which has either <code class="code">system</code> or <code class="code">user</code> as
 								value. <code class="code">user</code> means the DBus service name is for a user/session service, while <code class="code">system</code> means
 								it describes a system service.
 								The <code class="literal">service</code> key contains the name of the DBus service file. All dict values are of type <span class="emphasis"><em>str</em></span>.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd></dl></div><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></div></dd><dt id="field-dep11-developername"><span class="term">DeveloperName</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#field-dep11-developername">#</a></dt><dd><p>See <a class="xref" href="chap-CollectionData.html#tag-ct-developer_name">&lt;developer_name/&gt;</a>.</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></div></dd><dt id="field-dep11-launchable"><span class="term">Launchable</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#field-dep11-launchable">#</a></dt><dd><p>See <a class="xref" href="chap-CollectionData.html#tag-ct-launchable">&lt;launchable/&gt;</a>.</p><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.18.2.3.10"><span class="term">ids</span></dt><dd><p>
+								A list of component-IDs that this component is able to provide all functionality of.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(str)</em></span></p></div></div></dd></dl></div><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict</em></span></p></div></div></dd><dt id="field-dep11-developername"><span class="term">DeveloperName</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#field-dep11-developername">#</a></dt><dd><p>See <a class="xref" href="chap-CollectionData.html#tag-ct-developer_name">&lt;developer_name/&gt;</a>.</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></div></dd><dt id="field-dep11-launchable"><span class="term">Launchable</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#field-dep11-launchable">#</a></dt><dd><p>See <a class="xref" href="chap-CollectionData.html#tag-ct-launchable">&lt;launchable/&gt;</a>.</p><p>
 						A dictionary containing the launchable-type as key, and a list of IDs used for launching the application as value.
 					</p><p>
 						Example:
-					</p><div class="verbatim-wrap highlight YAML"><pre class="programlisting">Launch:
+					</p><div class="verbatim-wrap highlight YAML"><pre class="programlisting">Launchable:
   desktop-id:
     - org.gnome.Sysprof2.desktop</pre></div><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>dict(list)</em></span></p></div></div></dd><dt id="field-dep11-releases"><span class="term">Releases</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#field-dep11-releases">#</a></dt><dd><p>See <a class="xref" href="chap-CollectionData.html#tag-ct-releases">&lt;releases/&gt;</a>.</p><p>
 					The <code class="literal">Releases</code> contains a list of releases sorted latest-to-oldest, where each list items contains the following fields/keys:
 				</p><div class="variablelist"><dl class="variablelist"><dt id="id-1.4.5.6.3.21.2.3.1"><span class="term">version</span></dt><dd><p>
 								The version number of this release.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.2"><span class="term">unix-timestamp</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>yes</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.2"><span class="term">type</span></dt><dd><p>
+								The release type. Allowed values are:
+							</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p><code class="code">stable</code></p></li><li class="listitem"><p><code class="code">development</code></p></li></ul></div><p>
+								By default, if no release type is defined, <code class="code">stable</code> is assumed.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.3"><span class="term">urgency</span></dt><dd><p>
+								How important it is to install the new release as an update. Allowed values are:
+							</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p><code class="code">low</code></p></li><li class="listitem"><p><code class="code">medium</code></p></li><li class="listitem"><p><code class="code">high</code></p></li><li class="listitem"><p><code class="code">critical</code></p></li></ul></div><p>
+								If no urgency is defined, a <code class="code">medium</code> urgency is implicitly assumed.
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>no</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.4"><span class="term">unix-timestamp</span></dt><dd><p>
 								The UNIX timestamp of when this software was released.
 							</p><p>
 								One of the <code class="literal">unix-timestamp</code> or <code class="literal">date</code> fields must be present.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.3"><span class="term">date</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>int</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.5"><span class="term">date</span></dt><dd><p>
 								The <a class="ulink" href="https://en.wikipedia.org/wiki/ISO_8601" target="_blank">ISO 8601<span class="ulink-url"> (https://en.wikipedia.org/wiki/ISO_8601)</span></a> complete date of when this software was released.
 							</p><p>
 								One of the <code class="literal">unix-timestamp</code> or <code class="literal">date</code> fields must be present.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.4"><span class="term">description</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>str</em></span>, <span class="property">required</span>:<span class="emphasis"><em>maybe</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.6"><span class="term">description</span></dt><dd><p>
 								A description of this release. May contain allowed HTML markup.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.5"><span class="term">issues</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>localized</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.7"><span class="term">issues</span></dt><dd><p>
 								A list of dictionaries describing the issues resolved by this release. The dictionaries contain a
 								<code class="literal">id</code> key for the value of an issue as described in the XML specification, as well as a
 								<code class="literal">type</code> and <code class="literal">url</code> key for the tag properties of the same name described in the
 								XML AppStream specification.
-							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.6"><span class="term">artifacts</span></dt><dd><p>
+							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd><dt id="id-1.4.5.6.3.21.2.3.8"><span class="term">artifacts</span></dt><dd><p>
 								A list of dictionaries describing the artifacts published for this release. Refer to the XML specification
 								for details, which is mapped to YAML following the usual scheme.
 							</p><div class="verbatim-wrap"><div class="literallayout"><p>Field info: <span class="property">value-type</span>:<span class="emphasis"><em>list(dict)</em></span></p></div></div></dd></dl></div><p>
-					It is recommended to order this list starting with the latest timestamp to the olderst one.
+					It is recommended to order this list starting with the latest timestamp to the oldest one.
 				</p><p>
 					Example:
 				</p><div class="verbatim-wrap highlight YAML"><pre class="programlisting">Releases:

@@ -720,8 +720,7 @@ void
 as_component_set_bundles_array (AsComponent *cpt, GPtrArray *bundles)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	g_ptr_array_unref (priv->bundles);
-	priv->bundles = g_ptr_array_ref (bundles);
+	as_assign_ptr_array_safe (priv->bundles, bundles);
 	as_component_invalidate_data_id (cpt);
 }
 
@@ -890,6 +889,8 @@ void
 as_component_set_pkgnames (AsComponent *cpt, gchar **packages)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (G_UNLIKELY (priv->pkgnames == packages))
+		return;
 
 	g_strfreev (priv->pkgnames);
 	priv->pkgnames = g_strdupv (packages);
@@ -918,9 +919,7 @@ void
 as_component_set_source_pkgname (AsComponent *cpt, const gchar* spkgname)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-
-	g_free (priv->source_pkgname);
-	priv->source_pkgname = g_strdup (spkgname);
+	as_assign_string_safe (priv->source_pkgname, spkgname);
 }
 
 /**
@@ -955,8 +954,7 @@ as_component_set_id (AsComponent *cpt, const gchar* value)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 
-	g_free (priv->id);
-	priv->id = g_strdup (value);
+	as_assign_string_safe (priv->id, value);
 	g_object_notify ((GObject *) cpt, "id");
 	as_component_invalidate_data_id (cpt);
 }
@@ -1002,8 +1000,7 @@ void
 as_component_set_data_id (AsComponent *cpt, const gchar* value)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	g_free (priv->data_id);
-	priv->data_id = g_strdup (value);
+	as_assign_string_safe (priv->data_id, value);
 }
 
 /**
@@ -1301,14 +1298,31 @@ void
 as_component_set_keywords (AsComponent *cpt, gchar **value, const gchar *locale)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_autoptr(GPtrArray) keywords = NULL;
 
 	/* if no locale was specified, we assume the default locale */
 	if (locale == NULL)
 		locale = as_component_get_active_locale (cpt);
 
+	keywords = g_ptr_array_new ();
+
+	if (value != NULL) {
+		for (guint i = 0; value[i] != NULL; ++i) {
+			if (g_strcmp0 (value[i], "") != 0)
+				g_ptr_array_add (keywords, g_strdup (value[i]));
+		}
+	}
+	g_ptr_array_add (keywords, NULL);
+
+#if GLIB_CHECK_VERSION(2,64,0)
 	g_hash_table_insert (priv->keywords,
 				g_ref_string_new_intern (locale),
-				g_strdupv (value));
+				(gchar **) (g_ptr_array_steal (keywords, NULL)));
+#else
+	g_hash_table_insert (priv->keywords,
+				g_ref_string_new_intern (locale),
+				(gchar **) g_ptr_array_free (g_steal_pointer (&keywords), FALSE));
+#endif
 
 	g_object_notify ((GObject *) cpt, "keywords");
 }
@@ -3198,11 +3212,8 @@ as_component_set_context (AsComponent *cpt, AsContext *context)
 	priv->context = g_object_ref (context);
 
 	/* reset individual properties, so the new context overrides them */
-	g_free (priv->active_locale_override);
-	priv->active_locale_override = NULL;
-
-	as_ref_string_release (priv->origin);
-	priv->origin = NULL;
+	as_ref_string_assign_safe (&priv->active_locale_override, NULL);
+	as_ref_string_assign_safe (&priv->origin, NULL);
 
 	g_free (priv->arch);
 	priv->arch = NULL;
@@ -3948,7 +3959,7 @@ as_component_xml_serialize_provides (AsComponent *cpt, xmlNode *cnode)
 							     (xmlChar*) g_ptr_array_index (items, j));
 					xmlNewProp (n,
 						    (xmlChar*) "type",
-						    (xmlChar*) "runtime");
+						    (xmlChar*) "flashed");
 				}
 				break;
 			case AS_PROVIDED_KIND_DBUS_SYSTEM:
@@ -4950,7 +4961,7 @@ as_component_yaml_emit_provides (AsComponent *cpt, yaml_emitter_t *emitter)
 				as_yaml_mapping_start (emitter);
 
 				as_yaml_emit_entry (emitter, "type", "runtime");
-				as_yaml_emit_entry (emitter, "guid", value);
+				as_yaml_emit_entry (emitter, "file", value);
 
 				as_yaml_mapping_end (emitter);
 			}
@@ -4962,7 +4973,7 @@ as_component_yaml_emit_provides (AsComponent *cpt, yaml_emitter_t *emitter)
 				as_yaml_mapping_start (emitter);
 
 				as_yaml_emit_entry (emitter, "type", "flashed");
-				as_yaml_emit_entry (emitter, "file", value);
+				as_yaml_emit_entry (emitter, "guid", value);
 
 				as_yaml_mapping_end (emitter);
 			}

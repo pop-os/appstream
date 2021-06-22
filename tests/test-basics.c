@@ -60,6 +60,66 @@ test_strstripnl ()
 }
 
 /**
+ * test_random:
+ */
+static void
+test_random ()
+{
+	g_autofree gchar *str1 = NULL;
+	g_autofree gchar *str2 = NULL;
+
+	str1 = as_random_alnum_string (24);
+	g_assert_cmpint (strlen (str1), ==, 24);
+
+	str2 = as_random_alnum_string (24);
+	g_assert_cmpint (strlen (str2), ==, 24);
+
+	g_assert_cmpstr (str1, !=, str2);
+}
+
+/**
+ * test_safe_assign:
+ *
+ * Test safe variable assignment macros.
+ */
+static void
+test_safe_assign ()
+{
+	gchar *tmp;
+	g_autofree gchar *member1 = g_strdup ("Test A");
+	g_autofree gchar *value1 = g_strdup ("New Value");
+	g_autoptr(GPtrArray) member2 = g_ptr_array_new_with_free_func (g_free);
+	g_autoptr(GPtrArray) value2 = g_ptr_array_new_with_free_func (g_free);
+
+	/* assigning a variable to itself should be safe */
+	tmp = member1;
+	as_assign_string_safe (member1, member1);
+	g_assert_cmpstr (member1, ==, "Test A");
+	g_assert (tmp == member1);
+
+	/* assign new literal */
+	tmp = member1;
+	as_assign_string_safe (member1, "Literal");
+	g_assert_cmpstr (member1, ==, (const gchar*) "Literal");
+
+	/* assign new value */
+	tmp = member1;
+	as_assign_string_safe (member1, value1);
+	g_assert_cmpstr (member1, ==, "New Value");
+	g_assert (member1 != value1);
+	g_assert_cmpstr (value1, ==, "New Value");
+
+	/* test PtrArray assignments */
+	g_ptr_array_add (member2, g_strdup ("Item1"));
+	as_assign_ptr_array_safe (member2, member2);
+	g_assert_cmpstr (g_ptr_array_index (member2, 0), ==, "Item1");
+
+	g_ptr_array_add (value2, g_strdup ("Very new item"));
+	as_assign_ptr_array_safe (member2, value2);
+	g_assert_cmpstr (g_ptr_array_index (member2, 0), ==, "Very new item");
+}
+
+/**
  * test_categories:
  *
  * Test #AsCategory properties.
@@ -352,6 +412,7 @@ test_spdx (void)
 	g_assert (as_license_is_metadata_license ("0BSD"));
 	g_assert (as_license_is_metadata_license ("MIT AND FSFAP"));
 	g_assert (!as_license_is_metadata_license ("GPL-2.0 AND FSFAP"));
+	g_assert (as_license_is_metadata_license ("GPL-2.0+ OR GFDL-1.3-only"));
 
 	/* check license URL generation */
 	tmp = as_get_license_url ("LGPL-2.0-or-later");
@@ -923,6 +984,8 @@ main (int argc, char **argv)
 	g_log_set_fatal_mask (NULL, G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL);
 
 	g_test_add_func ("/AppStream/Strstrip", test_strstripnl);
+	g_test_add_func ("/AppStream/Random", test_random);
+	g_test_add_func ("/AppStream/SafeAssign", test_safe_assign);
 	g_test_add_func ("/AppStream/Categories", test_categories);
 	g_test_add_func ("/AppStream/SimpleMarkupConvert", test_simplemarkup);
 	g_test_add_func ("/AppStream/Component", test_component);

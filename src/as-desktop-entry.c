@@ -238,7 +238,7 @@ as_check_desktop_string (GPtrArray *issues, const gchar *field, const gchar *str
 /**
  * as_get_external_desktop_translations:
  */
-GPtrArray*
+static GPtrArray*
 as_get_external_desktop_translations (GKeyFile *kf, const gchar *text, const gchar *locale,
 				      AsTranslateDesktopTextFn de_l10n_fn, gpointer user_data)
 {
@@ -253,7 +253,7 @@ as_get_external_desktop_translations (GKeyFile *kf, const gchar *text, const gch
 		/* NOTE: We could use g_return_val_if_fail here, but we could just as well write a more descriptive message */
 		g_critical ("Invalid amount of list entries in external desktop translation l10n listing. "
 			    "Make sure you return locale names in even, and translations in odd indices. This is a programmer error.");
-		return FALSE;
+		return NULL;
 	}
 	return l10n;
 }
@@ -437,7 +437,7 @@ as_desktop_entry_parse_data (AsComponent *cpt,
 			l10n_data = as_get_external_desktop_translations (df, val, locale,
 									  de_l10n_fn, user_data);
 			if (l10n_data != NULL) {
-				for (guint j = 0; j < l10n_data->len; i += 2)
+				for (guint j = 0; j < l10n_data->len; j += 2)
 					as_component_set_name (cpt,
 							       g_ptr_array_index (l10n_data, j),
 							       g_ptr_array_index (l10n_data, j + 1));
@@ -452,7 +452,7 @@ as_desktop_entry_parse_data (AsComponent *cpt,
 			l10n_data = as_get_external_desktop_translations (df, val, locale,
 									  de_l10n_fn, user_data);
 			if (l10n_data != NULL) {
-				for (guint j = 0; j < l10n_data->len; i += 2)
+				for (guint j = 0; j < l10n_data->len; j += 2)
 					as_component_set_name (cpt,
 							       g_ptr_array_index (l10n_data, j),
 							       g_ptr_array_index (l10n_data, j + 1));
@@ -468,24 +468,16 @@ as_desktop_entry_parse_data (AsComponent *cpt,
 			g_auto(GStrv) kws = NULL;
 			g_autoptr(GPtrArray) l10n_data = NULL;
 
-			/* drop last ";" to not get an empty entry later */
-			if (g_str_has_suffix (val, ";"))
-				val[strlen (val) -1] = '\0';
-
 			kws = g_strsplit (val, ";", -1);
 			as_component_set_keywords (cpt, kws, locale);
 
 			l10n_data = as_get_external_desktop_translations (df, val, locale,
 									  de_l10n_fn, user_data);
 			if (l10n_data != NULL) {
-				for (guint j = 0; j < l10n_data->len; i += 2) {
+				for (guint j = 0; j < l10n_data->len; j += 2) {
 					g_auto(GStrv) e_kws = NULL;
 					const gchar *e_locale = g_ptr_array_index (l10n_data, j);
 					gchar *e_value = g_ptr_array_index (l10n_data, j + 1);
-
-					/* drop last ";" to not get an empty entry later */
-					if (g_str_has_suffix (e_value, ";"))
-						e_value[strlen (e_value) -1] = '\0';
 
 					e_kws = g_strsplit (e_value, ";", -1);
 					as_component_set_keywords (cpt, e_kws, e_locale);

@@ -286,8 +286,8 @@ static GString*
 as_utils_spdx_license_3to2 (const gchar *license3)
 {
 	GString *license2 = g_string_new (license3);
-	as_gstring_replace (license2, "-only", "");
-	as_gstring_replace (license2, "-or-later", "+");
+	as_gstring_replace2 (license2, "-only", "", 1);
+	as_gstring_replace2 (license2, "-or-later", "+", 1);
 	return license2;
 }
 
@@ -302,8 +302,8 @@ static GString*
 as_utils_spdx_license_2to3 (const gchar *license2)
 {
 	GString *license3 = g_string_new (license2);
-	as_gstring_replace (license3, ".0+", ".0-or-later");
-	as_gstring_replace (license3, ".1+", ".1-or-later");
+	as_gstring_replace2 (license3, ".0+", ".0-or-later", 1);
+	as_gstring_replace2 (license3, ".1+", ".1-or-later", 1);
 	return license3;
 }
 
@@ -523,8 +523,20 @@ as_license_to_spdx_id (const gchar *license)
 	return g_string_free (str, FALSE);
 }
 
-static gboolean
-as_validate_is_content_license_id (const gchar *license_id)
+/**
+ * as_license_is_metadata_license_id:
+ * @license_id: a single SPDX license ID, e.g. "FSFAP"
+ *
+ * Tests license ID against the vetted list of licenses that
+ * can be used for metainfo metadata.
+ * This function will not work for license expressions, if you need
+ * to test an SPDX license expression for compliance, please
+ * use %as_license_is_metadata_license insread.
+ *
+ * Returns: %TRUE if the string is a valid metadata license ID.
+ */
+gboolean
+as_license_is_metadata_license_id (const gchar *license_id)
 {
 	if (g_strcmp0 (license_id, "@FSFAP") == 0)
 		return TRUE;
@@ -587,19 +599,53 @@ as_validate_is_content_license_id (const gchar *license_id)
 gboolean
 as_license_is_metadata_license (const gchar *license)
 {
-	guint i;
+	gboolean requires_all_tokens = TRUE;
+	guint license_bad_cnt = 0;
+	guint license_good_cnt = 0;
 	g_auto(GStrv) tokens = NULL;
 
 	tokens = as_spdx_license_tokenize (license);
+	/* not a valid SPDX expression */
 	if (tokens == NULL)
 		return FALSE;
 
-	for (i = 0; tokens[i] != NULL; i++) {
-		if (!as_validate_is_content_license_id (tokens[i]))
+	/* this is too complicated to process */
+	for (guint i = 0; tokens[i] != NULL; i++) {
+		if (g_strcmp0 (tokens[i], "(") == 0 ||
+		    g_strcmp0 (tokens[i], ")") == 0) {
 			return FALSE;
+		}
 	}
 
-	return TRUE;
+	/* this is a simple expression parser and can be easily tricked */
+	for (guint i = 0; tokens[i] != NULL; i++) {
+		if (g_strcmp0 (tokens[i], "+") == 0)
+			continue;
+		if (g_strcmp0 (tokens[i], "|") == 0) {
+			requires_all_tokens = FALSE;
+			continue;
+		}
+		if (g_strcmp0 (tokens[i], "&") == 0) {
+			requires_all_tokens = TRUE;
+			continue;
+		}
+		if (as_license_is_metadata_license_id (tokens[i])) {
+			license_good_cnt++;
+		} else {
+			license_bad_cnt++;
+		}
+	}
+
+	/* any valid token makes this valid */
+	if (!requires_all_tokens && license_good_cnt > 0)
+		return TRUE;
+
+	/* all tokens are required to be valid */
+	if (requires_all_tokens && license_bad_cnt == 0)
+		return TRUE;
+
+	/* looks like the license was bad */
+	return FALSE;
 }
 
 /**
