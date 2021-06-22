@@ -4,10 +4,10 @@ set -e
 
 if [ "$1" = "purge" ]; then
     # remove the AppStream global cache
-    rm -rf /var/cache/app-info/gv
+    rm -rf /var/cache/app-info/cache
     rmdir /var/cache/app-info/ | true
 
-    # remove the AppStream data
+    # remove the AppStream data fetched via APT
     rm -rf /var/lib/app-info
 fi
 
