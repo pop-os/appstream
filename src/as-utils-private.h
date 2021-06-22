@@ -32,6 +32,45 @@ G_BEGIN_DECLS
 #define AS_DATA_ID_WILDCARD	"*"
 #define	AS_DATA_ID_PARTS_COUNT	5
 
+
+/**
+ * as_assign_string_safe:
+ * @target: target variable variable to assign string to
+ * @new_val: the value to set the target variable to
+ *
+ * Assigns @new_val to @target, freeing the previous content of
+ * @target, unless both variables have been identical.
+ *
+ * This is useful in setter functions for class members, to ensure
+ * we do not accidentally free a memory region that is still in use.
+ */
+#define as_assign_string_safe(target, new_val) \
+  G_STMT_START { \
+    if (G_LIKELY ((target) != (new_val))) { \
+	g_free (target); \
+	target = g_strdup (new_val); \
+      } \
+  } G_STMT_END
+
+/**
+ * as_assign_ptr_array_safe:
+ * @target: target variable variable to assign #GPtrArray to
+ * @new_ptrarray: the value to set the target variable to
+ *
+ * Assigns @new_ptrarray to @target, decreasing the reference count of
+ * @target, unless both variables are already identical.
+ *
+ * This is useful in setter functions for class members, to ensure
+ * we do not accidentally free a memory region that is still in use.
+ */
+#define as_assign_ptr_array_safe(target, new_ptrarray) \
+  G_STMT_START { \
+    if (G_LIKELY ((target) != (new_ptrarray))) { \
+	g_ptr_array_unref (target); \
+	target = g_ptr_array_ref (new_ptrarray); \
+      } \
+  } G_STMT_END
+
 /**
  * AsMarkupKind:
  * @AS_MARKUP_KIND_UNKNOWN:	Unknown markup.
@@ -82,7 +121,8 @@ gboolean		as_utils_is_writable (const gchar *path);
 AS_INTERNAL_VISIBLE
 gchar			*as_str_replace (const gchar *str,
 					 const gchar *old_str,
-					 const gchar *new_str);
+					 const gchar *new_str,
+					 guint limit);
 
 gchar			**as_ptr_array_to_strv (GPtrArray *array);
 const gchar		*as_ptr_array_find_string (GPtrArray *array,
@@ -97,7 +137,10 @@ AS_INTERNAL_VISIBLE
 gboolean		as_copy_file (const gchar *source, const gchar *destination, GError **error);
 
 gboolean		as_is_cruft_locale (const gchar *locale);
-gchar			*as_locale_strip_encoding (gchar *locale);
+
+AS_INTERNAL_VISIBLE
+gchar			*as_locale_strip_encoding (const gchar *locale);
+
 gchar			*as_utils_locale_to_language (const gchar *locale);
 
 gchar			*as_get_current_arch (void);
@@ -150,6 +193,11 @@ gboolean		as_utils_is_platform_triplet_osenv (const gchar *env);
 gchar			*as_get_user_cache_dir ();
 
 gboolean		as_unichar_accepted (gunichar c);
+
+gchar			*as_sanitize_text_spaces (const gchar *text);
+
+AS_INTERNAL_VISIBLE
+gchar			*as_random_alnum_string (gssize len);
 
 #pragma GCC visibility pop
 G_END_DECLS

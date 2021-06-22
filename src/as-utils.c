@@ -89,12 +89,13 @@ G_DEFINE_QUARK (as-utils-error-quark, as_utils_error)
  *
  * Since: 0.14.0
  **/
-gchar **
+gchar**
 as_markup_strsplit_words (const gchar *text, guint line_len)
 {
 	GPtrArray *lines;
 	g_autoptr(GString) curline = NULL;
 	g_auto(GStrv) tokens = NULL;
+	gsize curline_char_count = 0;
 
 	/* sanity check */
 	if (text == NULL)
@@ -110,21 +111,40 @@ as_markup_strsplit_words (const gchar *text, guint line_len)
 	/* tokenize the string */
 	tokens = g_strsplit (text, " ", -1);
 	for (guint i = 0; tokens[i] != NULL; i++) {
+		gsize token_unilen = g_utf8_strlen (tokens[i], -1);
+		gboolean token_has_linebreak = g_strstr_len (tokens[i], -1, "\n") != NULL;
 
 		/* current line plus new token is okay */
-		if (curline->len + strlen (tokens[i]) < line_len) {
-			g_string_append_printf (curline, "%s ", tokens[i]);
+		if (curline_char_count + token_unilen < line_len) {
+			/* we can't just check for a suffix \n here, as tokens may contain internal linebreaks */
+			if (token_has_linebreak) {
+				g_string_append (curline, (tokens[i][0] == '\0')? " " : tokens[i]);
+				g_ptr_array_add (lines, g_strdup (curline->str));
+				g_string_truncate (curline, 0);
+				curline_char_count = 0;
+			} else {
+				g_string_append_printf (curline, "%s ", tokens[i]);
+				curline_char_count += token_unilen + 1;
+			}
 			continue;
 		}
 
 		/* too long, so remove space, add newline and dump */
-		if (curline->len > 0)
+		if (curline->len > 0) {
 			g_string_truncate (curline, curline->len - 1);
+			curline_char_count -= 1;
+		}
+
 		g_string_append (curline, "\n");
 		g_ptr_array_add (lines, g_strdup (curline->str));
 		g_string_truncate (curline, 0);
-		g_string_append_printf (curline, "%s ", tokens[i]);
-
+		curline_char_count = 0;
+		if (token_has_linebreak) {
+			g_ptr_array_add (lines, g_strdup (tokens[i]));
+		} else {
+			g_string_append_printf (curline, "%s ", tokens[i]);
+			curline_char_count += token_unilen + 1;
+		}
 	}
 
 	/* any incomplete line? */
@@ -144,6 +164,30 @@ as_markup_strsplit_words (const gchar *text, guint line_len)
 
 	g_ptr_array_add (lines, NULL);
 	return (gchar **) g_ptr_array_free (lines, FALSE);
+}
+
+/**
+ * as_sanitize_text_spaces:
+ * @text: The text to sanitize.
+ *
+ * Sanitize a text string by removing extra whitespaces and all
+ * linebreaks. This is ideal to run on a text obtained from XML
+ * prior to passing it through to a word-wrapping function.
+ *
+ * Returns: The sanitized string.
+ */
+gchar*
+as_sanitize_text_spaces (const gchar *text)
+{
+	g_auto(GStrv) strv = NULL;
+
+	if (text == NULL)
+		return NULL;
+
+	strv = g_strsplit (text, "\n", -1);
+	for (guint i = 0; strv[i] != NULL; ++i)
+		g_strstrip (strv[i]);
+	return g_strjoinv (" ", strv);
 }
 
 /**
@@ -203,47 +247,59 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 			continue;
 
 		if (g_strcmp0 ((gchar*) iter->name, "p") == 0) {
-			g_auto(GStrv) strv = NULL;
-			g_autofree gchar *tmp = NULL;
-			g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter);
-			g_strstrip (content);
+			g_autofree gchar *clean_text = NULL;
+			g_autofree gchar *text_content = (gchar*) xmlNodeGetContent (iter);
 
 			/* remove extra whitespaces and linebreaks */
-			strv = g_strsplit (content, "\n", -1);
-			for (guint i = 0; strv[i] != NULL; ++i)
-				g_strstrip (strv[i]);
-			tmp = g_strjoinv (" ", strv);
+			clean_text = as_sanitize_text_spaces (text_content);
 
 			if (str->len > 0)
 				g_string_append (str, "\n");
 
 			if (to_kind == AS_MARKUP_KIND_MARKDOWN) {
-				g_auto(GStrv) spl = as_markup_strsplit_words (tmp, 100);
+				g_auto(GStrv) spl = as_markup_strsplit_words (clean_text, 100);
 				for (guint i = 0; spl[i] != NULL; i++)
 					g_string_append (str, spl[i]);
 			} else {
-				g_string_append_printf (str, "%s\n", tmp);
+				g_string_append_printf (str, "%s\n", clean_text);
 			}
 		} else if ((g_strcmp0 ((gchar*) iter->name, "ul") == 0) || (g_strcmp0 ((gchar*) iter->name, "ol") == 0)) {
+			g_autofree gchar *item_c = NULL;
+			gboolean is_ordered_list = g_strcmp0 ((gchar*) iter->name, "ol") == 0;
+			guint entry_no = 0;
+
+			/* set item style for unordered lists */
+			if (!is_ordered_list) {
+				if (to_kind == AS_MARKUP_KIND_MARKDOWN)
+					item_c = g_strdup ("*");
+				else
+					item_c = g_strdup ("•");
+			}
+
 			/* iterate over itemize contents */
 			for (iter2 = iter->children; iter2 != NULL; iter2 = iter2->next) {
 				if (iter2->type != XML_ELEMENT_NODE)
 					continue;
 				if (g_strcmp0 ((gchar*) iter2->name, "li") == 0) {
-					g_autofree gchar *content = (gchar*) xmlNodeGetContent (iter2);
-					g_strstrip (content);
-					if (to_kind == AS_MARKUP_KIND_MARKDOWN) {
-						g_auto(GStrv) spl = NULL;
-						/* break to 100 chars, leaving room for the dot/indent */
-						spl = as_markup_strsplit_words (content, 100 - 3);
-						g_string_append_printf (str, " * %s", spl[0]);
-						for (guint i = 1; spl[i] != NULL; i++)
-							g_string_append_printf (str, "   %s", spl[i]);
-					} else {
-						g_string_append_printf (str,
-									" • %s\n",
-									content);
+					g_auto(GStrv) spl = NULL;
+					g_autofree gchar *clean_item = NULL;
+					g_autofree gchar *item_content = (gchar*) xmlNodeGetContent (iter2);
+					entry_no++;
+
+					/* remove extra whitespaces and linebreaks */
+					clean_item = as_sanitize_text_spaces (item_content);
+
+					/* set item number for ordered list */
+					if (is_ordered_list) {
+						g_free (item_c);
+						item_c = g_strdup_printf ("%u.", entry_no);
 					}
+
+					/* break to 100 chars, leaving room for the dot/indent */
+					spl = as_markup_strsplit_words (clean_item, 100 - 4);
+					g_string_append_printf (str, " %s %s", item_c, spl[0]);
+					for (guint i = 1; spl[i] != NULL; i++)
+						g_string_append_printf (str, "   %s", spl[i]);
 				} else {
 					/* only <li> is valid in lists */
 					ret = FALSE;
@@ -593,66 +649,70 @@ as_ptr_array_to_strv (GPtrArray *array)
 }
 
 /**
- * as_gstring_replace:
- * @string: The #GString to operate on
- * @search: The text to search for
- * @replace: The text to use for substitutions
+ * as_gstring_replace2:
+ * @string: a #GString
+ * @find: the string to find in @string
+ * @replace: the string to insert in place of @find
+ * @limit: the maximum instances of @find to replace with @replace, or `0` for no limit
  *
- * Performs multiple search and replace operations on the given string.
+ * Replaces the string @find with the string @replace in a #GString up to
+ * @limit times. If the number of instances of @find in the #GString is
+ * less than @limit, all instances are replaced. If @limit is `0`,
+ * all instances of @find are replaced.
  *
- * Returns: the number of replacements done, or 0 if @search is not found.
+ * Returns: the number of find and replace operations performed.
  **/
 guint
-as_gstring_replace (GString *string, const gchar *search, const gchar *replace)
+as_gstring_replace2 (GString *string, const gchar *find, const gchar *replace, guint limit)
 {
-	gchar *tmp;
-	guint count = 0;
-	gsize search_idx = 0;
-	gsize replace_len;
-	gsize search_len;
+#if GLIB_CHECK_VERSION(2,68,0)
+	return g_string_replace (string, find, replace, limit);
+#else
+	/* note: This is a direct copy from GLib upstream (with whitespace
+	 * fixed spaces to tabs and with style fixed). Once we can depend on
+	 * GLib 2.68, this copy should be dropped and g_string_replace() used
+	 * instead.
+	 *
+	 * GLib is licensed under the LGPL-2.1+.
+	 */
+	gsize f_len, r_len, pos;
+	gchar *cur, *next;
+	guint n = 0;
 
 	g_return_val_if_fail (string != NULL, 0);
-	g_return_val_if_fail (search != NULL, 0);
+	g_return_val_if_fail (find != NULL, 0);
 	g_return_val_if_fail (replace != NULL, 0);
 
-	/* nothing to do */
-	if (string->len == 0)
-		return 0;
+	f_len = strlen (find);
+	r_len = strlen (replace);
+	cur = string->str;
 
-	search_len = strlen (search);
-	replace_len = strlen (replace);
+	while ((next = strstr (cur, find)) != NULL) {
+		pos = next - string->str;
+		g_string_erase (string, pos, f_len);
+		g_string_insert (string, pos, replace);
+		cur = string->str + pos + r_len;
+		n++;
+	}
 
-	do {
-		tmp = g_strstr_len (string->str + search_idx, -1, search);
-		if (tmp == NULL)
-			break;
+	return n;
+#endif /* !GLIB_CHECK_VERSION(2,68.0) */
+}
 
-		/* advance the counter in case @replace contains @search */
-		search_idx = (gsize) (tmp - string->str);
-
-		/* reallocate the string if required */
-		if (search_len > replace_len) {
-			g_string_erase (string,
-					(gssize) search_idx,
-					(gssize) (search_len - replace_len));
-			memcpy (tmp, replace, replace_len);
-		} else if (search_len < replace_len) {
-			g_string_insert_len (string,
-					     (gssize) search_idx,
-					     replace,
-					     (gssize) (replace_len - search_len));
-			/* we have to treat this specially as it could have
-			 * been reallocated when the insertion happened */
-			memcpy (string->str + search_idx, replace, replace_len);
-		} else {
-			/* just memcmp in the new string */
-			memcpy (tmp, replace, replace_len);
-		}
-		search_idx += replace_len;
-		count++;
-	} while (TRUE);
-
-	return count;
+/**
+ * as_gstring_replace:
+ * @string: a #GString
+ * @find: the string to find in @string
+ * @replace: the string to insert in place of @find
+ *
+ * Replaces all occurences of @find with the string @replace in a #GString.
+ *
+ * Returns: the number of find and replace operations performed.
+ **/
+guint
+as_gstring_replace (GString *string, const gchar *find, const gchar *replace)
+{
+	return as_gstring_replace2 (string, find, replace, 0);
 }
 
 /**
@@ -660,18 +720,20 @@ as_gstring_replace (GString *string, const gchar *search, const gchar *replace)
  * @str: The string to operate on
  * @old_str: The old value to replace.
  * @new_str: The new value to replace @old_str with.
+ * @limit: the maximum instances of @find to replace with @new_str, or `0` for
+ * no limit
  *
  * Performs search & replace on the given string.
  *
  * Returns: A new string with the characters replaced.
  */
 gchar*
-as_str_replace (const gchar *str, const gchar *old_str, const gchar *new_str)
+as_str_replace (const gchar *str, const gchar *old_str, const gchar *new_str, guint limit)
 {
 	GString *gstr;
 
 	gstr = g_string_new (str);
-	as_gstring_replace (gstr, old_str, new_str);
+	as_gstring_replace2 (gstr, old_str, new_str, limit);
 	return g_string_free (gstr, FALSE);
 }
 
@@ -776,16 +838,12 @@ as_is_cruft_locale (const gchar *locale)
  * as_locale_strip_encoding:
  *
  * Remove the encoding from a locale string.
- * The function modifies the string directly.
+ * The function returns a newly allocated string.
  */
 gchar*
-as_locale_strip_encoding (gchar *locale)
+as_locale_strip_encoding (const gchar *locale)
 {
-	gchar *tmp;
-	tmp = g_strstr_len (locale, -1, ".UTF-8");
-	if (tmp != NULL)
-		*tmp = '\0';
-	return locale;
+	return as_str_replace (locale, ".UTF-8", "", 1);
 }
 
 /**
@@ -2128,15 +2186,22 @@ as_utils_install_metadata_file (AsMetadataLocation location,
 gchar*
 as_get_user_cache_dir ()
 {
-	const gchar *cache_root;
-	if (as_utils_is_root ()) {
-		cache_root = g_get_tmp_dir ();
+	const gchar *cache_root = g_get_user_cache_dir ();
+	if (cache_root == NULL) {
+		g_autoptr(GError) error = NULL;
+		gchar *tmp_dir = g_dir_make_tmp ("appstream-XXXXXX", &error);
+		if (tmp_dir == NULL) {
+			/* something went very wrong here, we could neither get a user cache dir, nor
+			 * access to a temporary directory in /tmp */
+			g_error ("Unable to create temporary cache directory: %s", error->message);
+			return NULL;
+		}
+		return tmp_dir;
 	} else {
-		cache_root = g_get_user_cache_dir ();
-		if (cache_root == NULL || !g_file_test (cache_root, G_FILE_TEST_IS_DIR))
-			cache_root = g_get_tmp_dir ();
+		gchar *cache_dir = g_build_filename (cache_root, "appstream", NULL);
+		g_mkdir_with_parents (cache_dir, 0755);
+		return cache_dir;
 	}
-	return g_build_filename (cache_root, "appstream", NULL);
 }
 
 /**
@@ -2152,4 +2217,29 @@ gboolean
 as_unichar_accepted (gunichar c)
 {
 	return g_unichar_isprint (c) || g_unichar_iszerowidth (c) || c == 173;
+}
+
+/**
+ * as_random_alnum_string:
+ * @len: Length of the generated string.
+ *
+ * Create a random alphanumeric (only ASCII letters and numbers)
+ * string that can be used for tests and filenames.
+ *
+ * Returns: A random alphanumeric string.
+ */
+gchar*
+as_random_alnum_string (gssize len)
+{
+	gchar *ret;
+	static char alnum_plain_chars[] =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		"abcdefghijklmnopqrstuvwxyz"
+		"1234567890";
+
+	ret = g_new0 (gchar, len + 1);
+	for (gssize i = 0; i < len; i++)
+		ret[i] = alnum_plain_chars[g_random_int_range(0, strlen (alnum_plain_chars))];
+
+	return ret;
 }
