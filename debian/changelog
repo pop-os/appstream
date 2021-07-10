@@ -1,9 +1,16 @@
-appstream (0.14.4-1) UNRELEASED; urgency=medium
+appstream (0.14.4-1) unstable; urgency=medium
 
   * New upstream version: 0.14.4
+    - Handle locale modifiers properly, preventing bad YAML generation
+    - Improve text line wrapping
+    - Parse slightly more complex expressions for metadata licenses
+    - Don't flag cache as updated if update failed
+    - Use system cache even if some invalid metadata was ignored
+    - Fix bad XML being generated for flashed firmware
   * Delete the right cache directory on purge (Closes: #982433)
+  * Update d/watch file version
 
- -- Matthias Klumpp <mak@debian.org>  Tue, 22 Jun 2021 22:26:34 +0200
+ -- Matthias Klumpp <mak@debian.org>  Sat, 10 Jul 2021 19:36:58 +0200
 
 appstream (0.14.2-1) unstable; urgency=medium
 
