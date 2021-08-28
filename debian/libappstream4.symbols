@@ -131,6 +131,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_add_suggested@Base 0.10.0
  as_component_add_translation@Base 0.10.0
  as_component_add_url@Base 0.10.0
+ as_component_clear_languages@Base 0.14.5
  as_component_get_active_locale@Base 0.10.0
  as_component_get_addons@Base 0.10.0
  as_component_get_agreement_by_kind@Base 0.12.1
@@ -221,6 +222,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_component_set_name@Base 0.10.0
  as_component_set_name_variant_suffix@Base 0.12.10
  as_component_set_origin@Base 0.10.0
+ as_component_set_pkgname@Base 0.14.5
  as_component_set_pkgnames@Base 0.10.0
  as_component_set_priority@Base 0.10.2
  as_component_set_project_group@Base 0.10.0
@@ -730,3 +732,17 @@ libappstream.so.4 libappstream4 #MINVER#
  as_video_set_locale@Base 0.12.8
  as_video_set_url@Base 0.12.8
  as_video_set_width@Base 0.12.8
+ as_yaml_emit_entry@Base 0.14.5
+ as_yaml_emit_entry_timestamp@Base 0.14.5
+ as_yaml_emit_entry_uint64@Base 0.14.5
+ as_yaml_emit_long_entry@Base 0.14.5
+ as_yaml_emit_long_entry_literal@Base 0.14.5
+ as_yaml_emit_scalar@Base 0.14.5
+ as_yaml_emit_scalar_key@Base 0.14.5
+ as_yaml_emit_scalar_raw@Base 0.14.5
+ as_yaml_emit_scalar_uint64@Base 0.14.5
+ as_yaml_emit_sequence@Base 0.14.5
+ as_yaml_mapping_end@Base 0.14.5
+ as_yaml_mapping_start@Base 0.14.5
+ as_yaml_sequence_end@Base 0.14.5
+ as_yaml_sequence_start@Base 0.14.5
