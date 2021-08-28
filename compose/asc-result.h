@@ -60,6 +60,7 @@ AsComponent		*asc_result_get_component (AscResult *result,
 GPtrArray		*asc_result_fetch_components (AscResult *result);
 GPtrArray		*asc_result_get_hints (AscResult *result,
 						const gchar *cid);
+GPtrArray		*asc_result_fetch_hints_all (AscResult *result);
 const gchar		**asc_result_get_component_ids_with_hints (AscResult *result);
 
 
@@ -87,6 +88,8 @@ gboolean		asc_result_remove_component (AscResult *result,
 						     AsComponent *cpt);
 gboolean		asc_result_remove_component_by_id (AscResult *result,
 							   const gchar *cid);
+void			asc_result_remove_hints_for_cid (AscResult *result,
+							 const gchar *cid);
 
 gboolean		asc_result_add_hint_by_cid (AscResult *result,
 						    const gchar *component_id,

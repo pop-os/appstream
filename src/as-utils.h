@@ -132,6 +132,7 @@ gboolean		as_utils_install_metadata_file (AsMetadataLocation location,
 							const gchar *destdir,
 							GError **error);
 
+
 /* DEPRECATED */
 
 G_DEPRECATED_FOR(as_version_string)

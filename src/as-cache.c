@@ -342,7 +342,11 @@ lmdb_val_memdup (MDB_val val, gsize *len)
 	*len = val.mv_size;
 	if (val.mv_size == 0)
 		return NULL;
+#if GLIB_CHECK_VERSION(2,68,0)
+	return g_memdup2 (val.mv_data, val.mv_size);
+#else
 	return g_memdup (val.mv_data, val.mv_size);
+#endif
 }
 
 /**
@@ -431,7 +435,6 @@ as_txn_put_hash_kv_str (MDB_txn *txn, MDB_dbi dbi, const guint8 *hash, const gch
 	MDB_val dkey;
 	MDB_val dval;
 	gint rc;
-	g_autofree gchar *key_hash = NULL;
 
 	dkey.mv_size = AS_CACHE_CHECKSUM_LEN;
 	dkey.mv_data = (guint8*) hash;
@@ -580,7 +583,6 @@ as_txn_get_value_by_hash (AsCache *cache, MDB_txn *txn, MDB_dbi dbi, const guint
 	MDB_cursor *cur;
 	MDB_val dkey;
 	MDB_val dval = {0, NULL};
-	g_autofree gchar *key_hash = NULL;
 	gint rc;
 
 	if (hash == NULL)
@@ -1193,8 +1195,6 @@ as_cache_insert (AsCache *cache, AsComponent *cpt, GError **error)
 
 	g_hash_table_iter_init (&tc_iter, token_cache);
 	while (g_hash_table_iter_next (&tc_iter, &tc_key, &tc_value)) {
-		g_autoptr(GPtrArray) entries = NULL;
-		g_autoptr(GVariant) nvar = NULL;
 		MDB_val fts_val;
 		g_autofree guint8 *match_list = NULL;
 		gsize match_list_len;
@@ -1222,7 +1222,12 @@ as_cache_insert (AsCache *cache, AsComponent *cpt, GError **error)
 						  NULL);
 
 		match_pval = (AsTokenType *) tc_value;
-		match_list = g_memdup (fts_val.mv_data, fts_val.mv_size); /* TODO: There is potential to save on allocations here */
+		/* TODO: There is potential to save on allocations here */
+#if GLIB_CHECK_VERSION(2,68,0)
+		match_list = g_memdup2 (fts_val.mv_data, fts_val.mv_size);
+#else
+		match_list = g_memdup (fts_val.mv_data, fts_val.mv_size);
+#endif
 		match_list_len = fts_val.mv_size;
 
 		if (as_cache_hash_match_dict_insert (&match_list, &match_list_len, cpt_checksum, *match_pval)) {
@@ -2107,8 +2112,6 @@ as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn,
 					GError **error)
 {
 	GError *tmp_error = NULL;
-	g_autofree gchar *entry_data = NULL;
-	g_auto(GStrv) entries = NULL;
 	guint8 *data = NULL;
 	gsize data_len = 0;
 	const gsize ENTRY_LEN = sizeof(AsTokenType) + AS_CACHE_CHECKSUM_LEN * sizeof(guint8);
@@ -2156,9 +2159,16 @@ as_cache_update_results_with_fts_value (AsCache *cache, MDB_txn *txn,
 				sitem->terms_found = 1;
 				g_ptr_array_add (sitem->matched_terms, g_strdup (matched_term));
 
+#if GLIB_CHECK_VERSION(2,68,0)
+				g_hash_table_insert (results_ht,
+						     g_memdup2 (cpt_hash, AS_CACHE_CHECKSUM_LEN),
+						     sitem);
+#else
 				g_hash_table_insert (results_ht,
 						     g_memdup (cpt_hash, AS_CACHE_CHECKSUM_LEN),
 						     sitem);
+#endif
+
 			}
 		} else {
 			gboolean term_matched = FALSE;

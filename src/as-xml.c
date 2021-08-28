@@ -21,6 +21,8 @@
 #include "as-xml.h"
 
 #include <string.h>
+#include <libxml/xmlversion.h>
+
 #include "as-utils.h"
 #include "as-utils-private.h"
 
@@ -29,6 +31,10 @@
  * @short_description: Helper functions to parse AppStream XML data
  * @include: appstream.h
  */
+
+#if !defined(LIBXML_THREAD_ENABLED)
+#error "libxml2 needs to be compiled with thread support!"
+#endif
 
 /**
  * as_xml_get_node_value:
@@ -999,13 +1005,14 @@ libxml_generic_error (gchar **error_str_ptr, const char *format, ...)
 
 /**
  * as_xml_set_out_of_context_error:
+ *
+ * NOTE: The error-function is supposed to be set & called
+ * thread-local, so we don't need to do any locking here. We just
+ * need to make sure it is set for each thread.
  */
 static void
 as_xml_set_out_of_context_error (gchar **error_msg_ptr)
 {
-	static GMutex mutex;
-
-	g_mutex_lock (&mutex);
 	if (error_msg_ptr == NULL) {
 		xmlSetGenericErrorFunc (NULL, NULL);
 	} else {
@@ -1013,7 +1020,6 @@ as_xml_set_out_of_context_error (gchar **error_msg_ptr)
 		(*error_msg_ptr) = NULL;
 		xmlSetGenericErrorFunc (error_msg_ptr, (xmlGenericErrorFunc) libxml_generic_error);
 	}
-	g_mutex_unlock (&mutex);
 }
 
 /**

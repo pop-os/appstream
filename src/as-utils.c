@@ -118,7 +118,10 @@ as_markup_strsplit_words (const gchar *text, guint line_len)
 		if (curline_char_count + token_unilen < line_len) {
 			/* we can't just check for a suffix \n here, as tokens may contain internal linebreaks */
 			if (token_has_linebreak) {
-				g_string_append (curline, (tokens[i][0] == '\0')? " " : tokens[i]);
+				if (tokens[i][0] == '\0')
+					g_string_append_c (curline, ' ');
+				else
+					g_string_append_printf (curline, "%s ", tokens[i]);
 				g_ptr_array_add (lines, g_strdup (curline->str));
 				g_string_truncate (curline, 0);
 				curline_char_count = 0;
@@ -406,7 +409,7 @@ as_utils_delete_dir_recursive (const gchar* dirname)
 	gboolean ret = FALSE;
 	GFile *dir;
 	GFileEnumerator *enr;
-	GFileInfo *info;
+	g_autoptr(GFileInfo) info = NULL;
 	g_return_val_if_fail (dirname != NULL, FALSE);
 
 	if (!g_file_test (dirname, G_FILE_TEST_IS_DIR))
@@ -595,8 +598,7 @@ gchar*
 as_get_current_locale (void)
 {
 	const gchar * const *locale_names;
-	gchar *tmp;
-	gchar *locale = NULL;
+	const gchar *locale = NULL;
 
 	/* use LANGUAGE, LC_ALL, LC_MESSAGES and LANG */
 	locale_names = g_get_language_names ();
@@ -610,17 +612,13 @@ as_get_current_locale (void)
 		 * multiple caches on systems which generate them via a backend in PackageKit. */
 		const gchar *env_lang = g_getenv ("LANG");
 		if ((env_lang != NULL) && (g_strstr_len (env_lang, -1, "_") != NULL))
-			locale = g_strdup (env_lang);
+			locale = env_lang;
 	}
 	if (locale == NULL)
-		locale = g_strdup (locale_names[0]);
+		locale = locale_names[0];
 
-	/* set active locale without UTF-8 suffix, UTF-8 is default in AppStream */
-	tmp = g_strstr_len (locale, -1, ".UTF-8");
-	if (tmp != NULL)
-		*tmp = '\0';
-
-	return locale;
+	/* return active locale without UTF-8 suffix, UTF-8 is default in AppStream */
+	return as_locale_strip_encoding (locale);
 }
 
 /**
@@ -865,7 +863,7 @@ as_get_current_arch (void)
 	if (g_strcmp0 (uts.machine, "x86_64") == 0) {
 		arch = g_strdup ("amd64");
 	} else if (g_pattern_match_simple ("i?86", uts.machine)) {
-		arch = g_strdup ("ia32");
+		arch = g_strdup ("i386");
 	} else if (g_strcmp0 (uts.machine, "aarch64")) {
 		arch = g_strdup ("arm64");
 	} else {
@@ -915,6 +913,12 @@ as_utils_locale_to_language (const gchar *locale)
 	tmp = g_strstr_len (country_code, -1, "_");
 	if (tmp != NULL)
 		*tmp = '\0';
+
+	/* return the part before any "@" for locale with modifiers like "ca@valencia" */
+	tmp = g_strstr_len (country_code, -1, "@");
+	if (tmp != NULL)
+		*tmp = '\0';
+
 	return country_code;
 }
 
@@ -1083,9 +1087,11 @@ as_utils_is_tld (const gchar *tld)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource = as_get_resource ();
+	g_assert (resource != NULL);
 
 	/* load the readonly data section and look for the TLD */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/iana-filtered-tld-list.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -1111,9 +1117,11 @@ as_utils_is_desktop_environment (const gchar *desktop)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource = as_get_resource ();
+	g_assert (resource != NULL);
 
 	/* load the readonly data section and look for the desktop environment name */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/desktop-environments.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -1139,6 +1147,7 @@ as_utils_is_platform_triplet_arch (const gchar *arch)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource;
 
 	if (arch == NULL)
 		return FALSE;
@@ -1147,8 +1156,11 @@ as_utils_is_platform_triplet_arch (const gchar *arch)
 	if (g_strcmp0 (arch, "any") == 0)
 		return TRUE;
 
+	resource = as_get_resource ();
+	g_assert (resource != NULL);
+
 	/* load the readonly data section */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/platform_arch.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -1174,6 +1186,7 @@ as_utils_is_platform_triplet_oskernel (const gchar *os)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource;
 
 	if (os == NULL)
 		return FALSE;
@@ -1182,8 +1195,11 @@ as_utils_is_platform_triplet_oskernel (const gchar *os)
 	if (g_strcmp0 (os, "any") == 0)
 		return TRUE;
 
+	resource = as_get_resource ();
+	g_assert (resource != NULL);
+
 	/* load the readonly data section */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/platform_os.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -1209,6 +1225,7 @@ as_utils_is_platform_triplet_osenv (const gchar *env)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource;
 
 	if (env == NULL)
 		return FALSE;
@@ -1217,8 +1234,11 @@ as_utils_is_platform_triplet_osenv (const gchar *env)
 	if (g_strcmp0 (env, "any") == 0)
 		return TRUE;
 
+	resource = as_get_resource ();
+	g_assert (resource != NULL);
+
 	/* load the readonly data section */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/platform_env.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -2242,4 +2262,177 @@ as_random_alnum_string (gssize len)
 		ret[i] = alnum_plain_chars[g_random_int_range(0, strlen (alnum_plain_chars))];
 
 	return ret;
+}
+
+/**
+ * as_utils_find_stock_icon_filename_full:
+ * @root_dir: the directory to search in, including prefix.
+ * @icon_name: the stock icon search name, e.g. "microphone.svg" or "kate"
+ * @icon_size: the icon color, e.g. 64 or 128. If size is 0, the first found icon is returned.
+ * @icon_scale the icon scaling factor, 1 for non HiDPI displays
+ * @error: a #GError or %NULL
+ *
+ * Finds an icon filename in the filesystem that matches the given specifications.
+ * This function may return a bigger icon than requested, which is suitable to be scaled down
+ * to the actually requested size.
+ * If no icon with the right scale factor is found, %NULL is returned.
+ *
+ * This algorithm does not implement the full Freedesktop icon theme specification,
+ * instead is is designed to find 99% of all application icons quickly and
+ * efficiently. It is not explicitly designed to find non-application stock
+ * icons as well.
+ * It also deliberately does not support legacy icon search locations and formats.
+ * It will however work on incomplete directory trees with missing icon theme definition files,
+ * by using a heuristic to find the right icon.
+ * If you need more features, and have a complete icon theme definition installed, use the
+ * icon-finding functions provided by GTK+ and Qt instead.
+ *
+ * If @icon_name is an absolute path, it will be returned unconditionally, as long
+ * as the icon it references exists on the filesystem.
+ *
+ * Returns: (transfer full): a newly allocated %NULL terminated string
+ *
+ * Since: 0.14.5
+ **/
+gchar*
+as_utils_find_stock_icon_filename_full (const gchar *root_dir,
+					const gchar *icon_name,
+					guint icon_size,
+					guint icon_scale,
+					GError **error)
+{
+	guint min_size_idx = 0;
+	const gchar *supported_ext[] = { ".png",
+					 ".svg",
+					 ".svgz",
+					 "",
+					 NULL };
+	const struct {
+		guint size;
+		const gchar *size_str;
+	} sizes[] =  {
+		{ 48,  "48x48" },
+		{ 64,  "64x64" },
+		{ 96,  "96x96" },
+		{ 128, "128x128" },
+		{ 256, "256x256" },
+		{ 512, "512x512" },
+		{ 0,   "scalable" },
+		{ 0,   NULL }
+	};
+	const gchar *types[] = { "actions",
+				 "animations",
+				 "apps",
+				 "categories",
+				 "devices",
+				 "emblems",
+				 "emotes",
+				 "filesystems",
+				 "intl",
+				 "mimetypes",
+				 "places",
+				 "status",
+				 "stock",
+				 NULL };
+	g_autofree gchar *prefix = NULL;
+
+	g_return_val_if_fail (icon_name != NULL, NULL);
+
+	/* fallbacks & sanitizations */
+	if (root_dir == NULL)
+		root_dir = "";
+	if (icon_scale <= 0)
+		icon_scale = 1;
+	if (icon_size > 512)
+		icon_size = 512;
+
+	/* is this an absolute path */
+	if (icon_name[0] == '/') {
+		g_autofree gchar *tmp = NULL;
+		tmp = g_build_filename (root_dir, icon_name, NULL);
+		if (!g_file_test (tmp, G_FILE_TEST_EXISTS)) {
+			g_set_error (error,
+				     AS_UTILS_ERROR,
+				     AS_UTILS_ERROR_FAILED,
+				     "specified icon '%s' does not exist",
+				     icon_name);
+			return NULL;
+		}
+		return g_strdup (tmp);
+	}
+
+	/* detect prefix */
+	prefix = g_build_filename (root_dir, "usr", NULL);
+	if (!g_file_test (prefix, G_FILE_TEST_EXISTS)) {
+		g_free (prefix);
+		prefix = g_strdup (root_dir);
+	}
+	if (!g_file_test (prefix, G_FILE_TEST_EXISTS)) {
+		g_set_error (error,
+			     AS_UTILS_ERROR,
+			     AS_UTILS_ERROR_FAILED,
+			     "Failed to find icon '%s' in %s", icon_name, prefix);
+		return NULL;
+	}
+
+	/* select minimum size */
+	for (guint i = 0; sizes[i].size_str != NULL; i++) {
+		if (sizes[i].size >= icon_size) {
+			min_size_idx = i;
+			break;
+		}
+	}
+
+	/* hicolor icon theme search */
+	for (guint i = min_size_idx; sizes[i].size_str != NULL; i++) {
+		g_autofree gchar *size = NULL;
+		if (icon_scale == 1)
+			size = g_strdup (sizes[i].size_str);
+		else
+			size = g_strdup_printf ("%s@%i", sizes[i].size_str, icon_scale);
+		for (guint m = 0; types[m] != NULL; m++) {
+			for (guint j = 0; supported_ext[j] != NULL; j++) {
+				g_autofree gchar *tmp = NULL;
+				tmp = g_strdup_printf ("%s/share/icons/"
+							"hicolor/%s/%s/%s%s",
+							prefix,
+							size,
+							types[m],
+							icon_name,
+							supported_ext[j]);
+				if (g_file_test (tmp, G_FILE_TEST_EXISTS))
+					return g_strdup (tmp);
+			}
+		}
+	}
+
+	/* breeze icon theme search, for KDE Plasma compatibility */
+	for (guint i = min_size_idx; sizes[i].size_str != NULL; i++) {
+		g_autofree gchar *size = NULL;
+		if (icon_scale == 1)
+			size = g_strdup (sizes[i].size_str);
+		else
+			size = g_strdup_printf ("%s@%i", sizes[i].size_str, icon_scale);
+		for (guint m = 0; types[m] != NULL; m++) {
+			for (guint j = 0; supported_ext[j] != NULL; j++) {
+				g_autofree gchar *tmp = NULL;
+				tmp = g_strdup_printf ("%s/share/icons/"
+							"breeze/%s/%s/%s%s",
+							prefix,
+							types[m],
+							size,
+							icon_name,
+							supported_ext[j]);
+				if (g_file_test (tmp, G_FILE_TEST_EXISTS))
+					return g_strdup (tmp);
+			}
+		}
+	}
+
+	/* failed */
+	g_set_error (error,
+		     AS_UTILS_ERROR,
+		     AS_UTILS_ERROR_FAILED,
+		     "Failed to find icon %s", icon_name);
+	return NULL;
 }

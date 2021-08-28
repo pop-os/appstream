@@ -30,11 +30,14 @@
 #include <appstream.h>
 
 #include <asc-globals.h>
+#include <asc-compose.h>
 #include <asc-utils.h>
 #include <asc-canvas.h>
 #include <asc-font.h>
 #include <asc-hint.h>
 #include <asc-image.h>
+#include <asc-unit.h>
+#include <asc-directory-unit.h>
 #include <asc-result.h>
 #include <asc-enums-types.h>
 
