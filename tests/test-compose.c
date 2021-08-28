@@ -22,6 +22,7 @@
 #include "appstream-compose.h"
 #include "asc-font-private.h"
 #include "asc-utils-metainfo.h"
+#include "asc-utils-l10n.h"
 
 #include "as-test-utils.h"
 
@@ -31,6 +32,26 @@ typedef struct
 {
 	gchar *path;
 } Fixture;
+
+/**
+ * asc_assert_no_results_issue:
+ */
+void
+asc_assert_no_hints_in_result (AscResult *cres)
+{
+	g_autoptr(GPtrArray) hints = asc_result_fetch_hints_all (cres);
+
+	if (hints->len > 0) {
+		g_printerr("--------\nHints:");
+		for (guint i = 0; i < hints->len; i++) {
+			g_autofree gchar *text = NULL;
+			AscHint *hint = ASC_HINT (g_ptr_array_index (hints, i));
+			text = asc_hint_format_explanation (hint);
+			g_printerr("\n%s\n", text);
+		}
+	}
+	g_assert_cmpint (hints->len, ==, 0);
+}
 
 /**
  * test_utils:
@@ -115,7 +136,7 @@ test_read_fontinfo ()
 	lang_list = asc_font_get_language_list (font);
 	i = 0;
 	for (GList *l = lang_list; l != NULL; l = l->next) {
-		g_assert (expected_langs[i] != NULL);
+		g_assert_true (expected_langs[i] != NULL);
 		g_assert_cmpstr (expected_langs[i], ==, l->data);
 		i++;
 	}
@@ -147,9 +168,9 @@ test_image_transform ()
 
 	/* check if our GdkPixbuf supports the minimum amount of image formats we need */
 	supported_fmts = asc_image_supported_format_names ();
-	g_assert (g_hash_table_contains (supported_fmts, "png"));
-	g_assert (g_hash_table_contains (supported_fmts, "svg"));
-	g_assert (g_hash_table_contains (supported_fmts, "jpeg"));
+	g_assert_true (g_hash_table_contains (supported_fmts, "png"));
+	g_assert_true (g_hash_table_contains (supported_fmts, "svg"));
+	g_assert_true (g_hash_table_contains (supported_fmts, "jpeg"));
 
 	sample_img_fname = g_build_filename (datadir, "appstream-logo.png", NULL);
 
@@ -175,7 +196,7 @@ test_image_transform ()
 				      ASC_IMAGE_SAVE_FLAG_NONE,
 				      &error);
 	g_assert_no_error (error);
-	g_assert (ret);
+	g_assert_true (ret);
 
 	g_object_unref (image);
 	image = NULL;
@@ -186,6 +207,7 @@ test_image_transform ()
 
 	image = asc_image_new_from_data (data, data_len,
 					 0,
+					 FALSE,
 					 ASC_IMAGE_LOAD_FLAG_NONE,
 					 &error);
 	g_assert_no_error (error);
@@ -198,7 +220,7 @@ test_image_transform ()
 				      ASC_IMAGE_SAVE_FLAG_NONE,
 				      &error);
 	g_assert_no_error (error);
-	g_assert (ret);
+	g_assert_true (ret);
 }
 
 /**
@@ -273,13 +295,13 @@ test_compose_hints ()
 	g_assert_cmpstr (asc_hint_get_tag (hint), ==, "internal-unknown-tag");
 	g_assert_cmpint (asc_hint_get_severity (hint), ==, AS_ISSUE_SEVERITY_ERROR);
 	g_assert_cmpstr (asc_hint_get_explanation_template (hint), ==, "The given tag was unknown. This is a bug.");
-	g_assert (asc_hint_is_valid (hint));
-	g_assert (asc_hint_is_error (hint));
+	g_assert_true (asc_hint_is_valid (hint));
+	g_assert_true (asc_hint_is_error (hint));
 
 	asc_hint_set_tag (hint, "dev-testsuite-test");
 	asc_hint_set_severity (hint, AS_ISSUE_SEVERITY_INFO);
-	g_assert (asc_hint_is_valid (hint));
-	g_assert (!asc_hint_is_error (hint));
+	g_assert_true (asc_hint_is_valid (hint));
+	g_assert_true (!asc_hint_is_error (hint));
 
 	asc_hint_set_explanation_template (hint,
 					   "This is an explanation for {{name}} which contains {{amount}} placeholders, "
@@ -313,7 +335,7 @@ test_compose_result ()
 	cres = asc_result_new ();
 	ret = asc_result_add_component_with_string (cres, cpt, "<testdata>", &error);
 	g_assert_no_error (error);
-	g_assert (ret);
+	g_assert_true (ret);
 
 	ret = asc_result_add_hint (cres, cpt,
 				   "x-dev-testsuite-info",
@@ -513,6 +535,9 @@ teardown (Fixture *fixture, gconstpointer user_data)
 	g_clear_pointer (&fixture->path, g_free);
 }
 
+/**
+ * test_compose_optipng_not_found:
+ */
 static void
 test_compose_optipng_not_found (Fixture *fixture, gconstpointer user_data)
 {
@@ -522,6 +547,128 @@ test_compose_optipng_not_found (Fixture *fixture, gconstpointer user_data)
 	asc_globals_set_use_optipng (TRUE);
 	g_assert_false (asc_globals_get_use_optipng ());
 	g_test_assert_expected_messages ();
+}
+
+/**
+ * test_compose_directory_unit:
+ */
+static void
+test_compose_directory_unit ()
+{
+	g_autoptr(GError) error = NULL;
+	gboolean ret;
+	GPtrArray *contents;
+	g_autoptr(GBytes) data = NULL;
+	g_autoptr(AscDirectoryUnit) dirunit = asc_directory_unit_new (datadir);
+
+	ret = asc_unit_open (ASC_UNIT (dirunit), &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	contents = asc_unit_get_contents (ASC_UNIT (dirunit));
+	g_assert_cmpint (contents->len, ==, 12);
+	as_sort_strings (contents);
+
+	g_assert_cmpstr (g_ptr_array_index (contents, 0), ==, "/Noto.LICENSE");
+	g_assert_cmpstr (g_ptr_array_index (contents, 4), ==, "/table.svgz");
+
+	/* read existent data */
+	g_assert_true (asc_unit_file_exists (ASC_UNIT (dirunit), "/usr/dummy"));
+	data = asc_unit_read_data (ASC_UNIT (dirunit), "/usr/dummy", &error);
+	g_assert_no_error (error);
+	g_assert_nonnull (data);
+	g_assert_cmpstr ((const gchar*) g_bytes_get_data (data, NULL), ==, "Hello Universe!\n");
+
+	/* read nonexistent data */
+	g_bytes_unref (data);
+	g_assert_false (asc_unit_file_exists (ASC_UNIT (dirunit), "/nonexistent"));
+	data = asc_unit_read_data (ASC_UNIT (dirunit), "/nonexistent", &error);
+	g_assert_error (error, G_FILE_ERROR, G_FILE_ERROR_NOENT);
+	g_assert_null (data);
+}
+
+/**
+ * test_compose_locale_stats:
+ */
+static void
+test_compose_locale_stats ()
+{
+	gboolean ret;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(AscResult) cres = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsTranslation) tr = NULL;
+	g_autoptr(AscDirectoryUnit) dirunit = asc_directory_unit_new (datadir);
+
+	/* open sample data directory unit */
+	ret = asc_unit_open (ASC_UNIT (dirunit), &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* create dummy result with a dummy component */
+	cpt = as_component_new ();
+	as_component_set_id (cpt, "org.freedesktop.appstream.dummy");
+
+	tr = as_translation_new ();
+	as_translation_set_kind (tr, AS_TRANSLATION_KIND_GETTEXT);
+	as_translation_set_id (tr, "app");
+	as_component_add_translation (cpt, tr);
+
+	cres = asc_result_new ();
+	ret = asc_result_add_component_with_string (cres, cpt, "<testdata>", &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* try loading a Gettext translation */
+	asc_read_translation_status (cres,
+					ASC_UNIT (dirunit),
+					"/usr",
+					25);
+	asc_assert_no_hints_in_result (cres);
+	g_assert_cmpint (as_component_get_language (cpt, "en_GB"), ==, 100);
+	g_assert_cmpint (as_component_get_language (cpt, "ru"), ==, 33);
+
+	/* try loading Qt translations, style 1 */
+	as_component_clear_languages (cpt);
+	as_translation_set_kind (tr, AS_TRANSLATION_KIND_QT);
+	as_translation_set_id (tr, "kdeapp1/translations/kdeapp");
+	as_component_add_translation (cpt, tr);
+
+	asc_read_translation_status (cres,
+					ASC_UNIT (dirunit),
+					"/usr",
+					25);
+	asc_assert_no_hints_in_result (cres);
+	g_assert_cmpint (as_component_get_language (cpt, "fr"), ==, 100);
+	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, -1);
+
+	/* try loading Qt translations, style 2 */
+	as_component_clear_languages (cpt);
+	as_translation_set_kind (tr, AS_TRANSLATION_KIND_QT);
+	as_translation_set_id (tr, "kdeapp2/translations/kdeapp");
+	as_component_add_translation (cpt, tr);
+
+	asc_read_translation_status (cres,
+					ASC_UNIT (dirunit),
+					"/usr",
+					25);
+	asc_assert_no_hints_in_result (cres);
+	g_assert_cmpint (as_component_get_language (cpt, "fr"), ==, 100);
+	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, -1);
+
+	/* try loading Qt translations, style 3 */
+	as_component_clear_languages (cpt);
+	as_translation_set_kind (tr, AS_TRANSLATION_KIND_QT);
+	as_translation_set_id (tr, "kdeapp3");
+	as_component_add_translation (cpt, tr);
+
+	asc_read_translation_status (cres,
+					ASC_UNIT (dirunit),
+					"/usr",
+					25);
+	asc_assert_no_hints_in_result (cres);
+	g_assert_cmpint (as_component_get_language (cpt, "fr"), ==, 100);
+	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, 100);
 }
 
 int
@@ -534,9 +681,9 @@ main (int argc, char **argv)
 		return 1;
 	}
 
-	g_assert (argv[1] != NULL);
+	g_assert_nonnull (argv[1]);
 	datadir = g_build_filename (argv[1], "samples", "compose", NULL);
-	g_assert (g_file_test (datadir, G_FILE_TEST_EXISTS) != FALSE);
+	g_assert_true (g_file_test (datadir, G_FILE_TEST_EXISTS));
 
 	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
 	g_test_init (&argc, &argv, NULL);
@@ -552,6 +699,8 @@ main (int argc, char **argv)
 	g_test_add_func ("/AppStream/Compose/Hints", test_compose_hints);
 	g_test_add_func ("/AppStream/Compose/Result", test_compose_result);
 	g_test_add_func ("/AppStream/Compose/DesktopEntry", test_compose_desktop_entry);
+	g_test_add_func ("/AppStream/Compose/DirectoryUnit", test_compose_directory_unit);
+	g_test_add_func ("/AppStream/Compose/LocaleStats", test_compose_locale_stats);
 
 	ret = g_test_run ();
 	g_free (datadir);

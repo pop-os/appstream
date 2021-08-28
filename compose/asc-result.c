@@ -253,6 +253,35 @@ asc_result_get_hints (AscResult *result, const gchar *cid)
 }
 
 /**
+ * asc_result_fetch_hints_all:
+ * @result: an #AscResult instance.
+ *
+ * Get a list of all hints for all components that are registered with this result.
+ *
+ * Returns: (transfer container) (element-type AscHint) : An array of #AscHint
+ **/
+GPtrArray*
+asc_result_fetch_hints_all (AscResult *result)
+{
+	AscResultPrivate *priv = GET_PRIVATE (result);
+	GPtrArray *res;
+	GHashTableIter iter;
+	gpointer value;
+
+	res = g_ptr_array_new_full (g_hash_table_size (priv->hints),
+				    g_object_unref);
+
+	g_hash_table_iter_init (&iter, priv->hints);
+	while (g_hash_table_iter_next (&iter, NULL, &value)) {
+		GPtrArray *hints = value;
+		for (guint i = 0; i < hints->len; i++)
+			g_ptr_array_add (res,
+					 g_object_ref (ASC_HINT (g_ptr_array_index (hints, i))));
+	}
+	return res;
+}
+
+/**
  * asc_result_get_component_ids_with_hints:
  * @result: an #AscResult instance.
  *
@@ -492,6 +521,20 @@ asc_result_remove_component (AscResult *result, AsComponent *cpt)
 	g_hash_table_remove (priv->mdata_hashes, cpt);
 
 	return ret;
+}
+
+/**
+ * asc_result_remove_hints_for_cid:
+ * @result: an #AscResult instance.
+ * @cid: The component ID
+ *
+ * Remove all hints that we have associated with the selected component-ID.
+ */
+void
+asc_result_remove_hints_for_cid (AscResult *result, const gchar *cid)
+{
+	AscResultPrivate *priv = GET_PRIVATE (result);
+	g_hash_table_remove (priv->hints, cid);
 }
 
 /**

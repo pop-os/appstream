@@ -898,6 +898,25 @@ as_component_set_pkgnames (AsComponent *cpt, gchar **packages)
 }
 
 /**
+ * as_component_set_pkgname:
+ * @cpt: a #AsComponent instance.
+ * @pkgname: the package name
+ *
+ * Set the package name that provides this component.
+ *
+ * Since: 0.14.5
+ */
+void
+as_component_set_pkgname (AsComponent *cpt, const gchar *pkgname)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_strfreev (priv->pkgnames);
+	priv->pkgnames = g_new0 (gchar*, 2);
+	priv->pkgnames[0] = g_strdup (pkgname);
+	g_object_notify ((GObject *) cpt, "pkgnames");
+}
+
+/**
  * as_component_get_source_pkgname:
  * @cpt: a #AsComponent instance.
  *
@@ -1982,6 +2001,21 @@ as_component_get_languages (AsComponent *cpt)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
 	return g_hash_table_get_keys (priv->languages);
+}
+
+/**
+ * as_component_clear_languages:
+ * @cpt: an #AsComponent instance.
+ *
+ * Remove all registered language translation information.
+ *
+ * Since: 0.14.5
+ **/
+void
+as_component_clear_languages (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_hash_table_remove_all (priv->languages);
 }
 
 /**
@@ -3553,11 +3587,8 @@ as_component_load_launchable_from_xml (AsComponent *cpt, xmlNode *node)
 static void
 as_component_load_relations_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, AsRelationKind kind)
 {
-	xmlNode *iter;
-
-	for (iter = node->children; iter != NULL; iter = iter->next) {
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
 		g_autoptr(AsRelation) relation = NULL;
-		g_autofree gchar *content = NULL;
 
 		/* discard spaces */
 		if (iter->type != XML_ELEMENT_NODE)
@@ -3618,7 +3649,6 @@ gboolean
 as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GError **error)
 {
 	AsComponentPrivate *priv = GET_PRIVATE (cpt);
-	xmlNode *iter;
 	const gchar *node_name;
 	g_autoptr(GPtrArray) pkgnames = NULL;
 	g_autofree gchar *priority_str = NULL;
@@ -3658,7 +3688,7 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 	/* clear any existing descriptions */
 	g_hash_table_remove_all (priv->description);
 
-	for (iter = node->children; iter != NULL; iter = iter->next) {
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
 		g_autofree gchar *content = NULL;
 		g_autofree gchar *lang = NULL;
 		AsTag tag_id;

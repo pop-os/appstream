@@ -59,7 +59,7 @@ _astest_issue_info_to_string (const gchar *tag, const gchar *hint, glong line, A
 {
 	return g_strdup_printf ("%s:%s:%li:%s",
 				tag,
-				hint,
+				hint == NULL? "" : hint,
 				line,
 				as_issue_severity_to_string (severity));
 }
@@ -91,7 +91,7 @@ _astest_check_validate_issues (GList *issues, AsVResultCheck *checks_all)
 		const gchar *tag = as_validator_issue_get_tag (issue);
 		const gchar *hint = as_validator_issue_get_hint (issue);
 
-		check_key = g_strconcat (tag, ":", hint, NULL);
+		check_key = g_strconcat (tag, ":", hint == NULL? "" : hint, NULL);
 		issue_idstr = _astest_issue_info_to_string (tag,
 							    hint,
 							    as_validator_issue_get_line (issue),
@@ -205,6 +205,10 @@ test_validator_manyerrors_desktopapp ()
 		  "hmm...", 33,
 		  AS_ISSUE_SEVERITY_WARNING,
 		},
+		{ "content-rating-missing",
+		  "", -1,
+		  AS_ISSUE_SEVERITY_INFO,
+		},
 
 		{ NULL, NULL, 0, AS_ISSUE_SEVERITY_UNKNOWN }
 	};
@@ -250,6 +254,10 @@ test_validator_relationissues ()
 		  "bleh", 25,
 		  AS_ISSUE_SEVERITY_WARNING,
 		},
+		{ "releases-info-missing",
+		  "", -1,
+		  AS_ISSUE_SEVERITY_PEDANTIC,
+		},
 
 		{ NULL, NULL, 0, AS_ISSUE_SEVERITY_UNKNOWN }
 	};
@@ -272,9 +280,9 @@ main (int argc, char **argv)
 		return 1;
 	}
 
-	g_assert (argv[1] != NULL);
+	g_assert_nonnull (argv[1]);
 	datadir = g_build_filename (argv[1], "samples", NULL);
-	g_assert (g_file_test (datadir, G_FILE_TEST_EXISTS) != FALSE);
+	g_assert_true (g_file_test (datadir, G_FILE_TEST_EXISTS));
 
 	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
 	g_test_init (&argc, &argv, NULL);

@@ -4,12 +4,16 @@ appstream_compose_lib_inc = include_directories ('.')
 
 ascompose_src = [
     'asc-canvas.c',
+    'asc-compose.c',
+    'asc-directory-unit.c',
     'asc-font.c',
     'asc-globals.c',
     'asc-hint.c',
     'asc-hint-tags.c',
     'asc-image.c',
     'asc-result.c',
+    'asc-unit.c',
+    'asc-utils-l10n.c',
     'asc-utils-metainfo.c',
     'asc-utils.c'
 ]
@@ -17,11 +21,15 @@ ascompose_src = [
 ascompose_pub_headers = [
     'appstream-compose.h',
     'asc-canvas.h',
+    'asc-compose.h',
+    'asc-directory-unit.h',
     'asc-font.h',
     'asc-globals.h',
     'asc-hint.h',
     'asc-image.h',
     'asc-result.h',
+    'asc-unit.h',
+    'asc-utils-l10n.h',
     'asc-utils-metainfo.h',
     'asc-utils.h'
 ]
@@ -67,7 +75,8 @@ appstream_compose_lib = library ('appstream-compose',
                    rsvg_dep,
                    freetype_dep,
                    pango_dep,
-                   fontconfig_dep],
+                   fontconfig_dep,
+                   yaml_dep],
     include_directories: [root_inc_dir],
     c_args: ['-DASC_COMPILATION',
              '-DI_KNOW_THE_APPSTREAM_COMPOSE_API_IS_SUBJECT_TO_CHANGE'],
@@ -96,7 +105,9 @@ appstream_compose_dep = declare_dependency(
     ],
     dependencies: [appstream_dep,
                    glib_dep,
-                   gobject_dep],
+                   gobject_dep,
+                   gio_dep,
+                   gdkpixbuf_dep],
     include_directories: [appstream_compose_lib_inc]
 )
 
