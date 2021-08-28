@@ -55,6 +55,22 @@ Description: Software component metadata management
  pool as well as for working with AppStream metadata directly, including
  validating it for compliance with the specification.
 
+Package: appstream-compose
+Architecture: any
+Depends: appstream,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Description: Compose metadata collections from directory trees
+ AppStream is a metadata specification which permits software components to
+ provide information about themselves to automated systems and end-users
+ before the software is actually installed.
+ This permits informative displays of new applications to users in software
+ centers, as well as allowing a system to make decisions on which new software
+ a user might want to install (e.g. missing firmware or media handlers).
+ .
+ This package extends the `appstreamcli` utility with a `compose` subcommand
+ to generate AppStream metadata and media files from directory trees.
+
 Package: libappstream4
 Architecture: any
 Section: libs
