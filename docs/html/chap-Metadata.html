@@ -108,10 +108,14 @@ hljs.configure({
 				<code class="literal">local</code> icons are loaded from a file in the filesystem.
 				They should specify a full file path.
 				This icon type may have <code class="literal">width</code> and <code class="literal">height</code>
-                                properties.
+				properties. If targeting a hi-DPI screen, this icon type may have a <code class="literal">scale</code> property.
 			</p><p>
 				<code class="literal">remote</code> icons loaded from a remote URL. Currently, only HTTP/HTTPS urls are supported.
 				This icon type should have <code class="literal">width</code> and <code class="literal">height</code> properties.
+				If targeting a hi-DPI screen, this icon type may have a <code class="literal">scale</code> property.
+			</p><p>
+				The semantics of each property in the <code class="code">&lt;icon/&gt;</code> tag are the same as for the <code class="code">&lt;icon/&gt;</code> tag for collections.
+				See <a class="xref" href="chap-CollectionData.html#tag-ct-icon">&lt;icon/&gt;</a>.
 			</p></dd><dt id="tag-description"><span class="term">&lt;description/&gt;</span> <a title="Permalink" class="permalink" href="chap-Metadata.html#tag-description">#</a></dt><dd><p>
 			A long description of this component. Some markup can be used.
 		</p><p>
@@ -558,11 +562,13 @@ hljs.configure({
 		</p><p>
 			The <code class="code">&lt;screenshots/&gt;</code> tag contains multiple <code class="code">&lt;screenshot/&gt;</code> children, where at least one of them must have the property
 			<code class="code">type="default"</code> to indicate the primary screenshot of the software. Every <code class="code">&lt;screenshot/&gt;</code> tag must have at least
-			one <code class="code">&lt;image/&gt;</code> or <code class="code">&lt;video/&gt;</code> child, but never an <code class="literal">image</code> and <code class="literal">video</code> at the same time.
-			Also, screenshots containing videos must not be the default screenshot.
+			one <code class="code">&lt;image/&gt;</code> or <code class="code">&lt;video/&gt;</code> child, but never an <code class="literal">image</code> <span class="emphasis"><em>and</em></span> <code class="literal">video</code>
+			at the same time.
+		</p><p>
+			Screenshots containing a video must not be the default screenshot.
 		</p><p>
 			The value of the <code class="code">&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web.
-			Images should ideally be provided in the PNG format, however using JPEG or WebP is also fine for images in metainfo files.
+			Images should ideally be provided in the PNG format, using JPEG or WebP is also permitted for images in metainfo files.
 		</p><p>
 			The <code class="code">&lt;image/&gt;</code> tag may have the following properties:
 			</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p><code class="code">type</code></p><p>
@@ -599,10 +605,12 @@ hljs.configure({
 						different locales present.
 					</p></li></ul></div><p>
 		</p><p>
-			Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a translatable <code class="code">&lt;caption/&gt;</code> child, defining a short (ideally not more than 256 characters)
+			Optionally, a <code class="code">&lt;screenshot/&gt;</code> tag may have a translatable <code class="code">&lt;caption/&gt;</code> child, defining a short (ideally not more than 100 characters)
 			description of what the user can see on the referenced screenshot.
 		</p><p>
-			Ideally, all image screenshots as well as videos should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels.
+			A <code class="code">source</code> video should be concise, easy to understand and not have an overly large file size.
+			Try to use a reasonably large image for <code class="code">source</code> images, as they may be scaled down to <code class="code">thumbnail</code> images in metadata processing.
+			It is suggested to have videos and images in 16:9 aspect ratio, as long as that is sensible for the displayed application.
 		</p><p>
 			Example:
 		</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;screenshots&gt;
@@ -628,6 +636,10 @@ hljs.configure({
 			In case a software components gets its translation from multiple translation domains, the <code class="code">&lt;translation/&gt;</code> tag may be defined more
 			than once.
 		</p><p>
+			The source strings in the component are assumed to be in the <code class="code">en_US</code> locale. If that is not the case, specify the source locale using
+			the <code class="code">source_locale</code> attribute on the <code class="code">&lt;translation/&gt;</code> tag. The metadata generator will use the source locale
+			to synthesize a <code class="code">&lt;lang/&gt;</code> tag for the source locale, with 100% translation.
+		</p><p>
 			For Gettext translations, localization data will be looked for in <code class="filename">${prefix}/share/locale/${locale}/LC_MESSAGES/${id}.mo</code>, where
 			<code class="code">${id}</code> is replaced with the translation domain specified in the <code class="code">&lt;translation/&gt;</code> tag.
 			For Qt translations, if the ID string contains slashes, we will look for translations following either the <code class="filename">${prefix}/share/${id}_${locale}.qm</code>
@@ -636,6 +648,7 @@ hljs.configure({
 		</p><p>
 			Example:
 		</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;translation type="gettext"&gt;foobar&lt;/translation&gt;
+&lt;translation type="gettext" source_locale="de_DE"&gt;foobar&lt;/translation&gt;
 &lt;translation type="qt"&gt;FooBar/translations/foobar&lt;/translation&gt;</pre></div></dd><dt id="tag-suggests"><span class="term">&lt;suggests/&gt;</span> <a title="Permalink" class="permalink" href="chap-Metadata.html#tag-suggests">#</a></dt><dd><p>
 			The <code class="code">&lt;suggests/&gt;</code> tag is an optional tag which can be added to specify the component-ids of other software this components suggests.
 			Software centers might present the suggested software on the installation page of the described component.

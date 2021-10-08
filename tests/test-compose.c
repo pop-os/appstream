@@ -23,6 +23,7 @@
 #include "asc-font-private.h"
 #include "asc-utils-metainfo.h"
 #include "asc-utils-l10n.h"
+#include "asc-utils-screenshots.h"
 
 #include "as-test-utils.h"
 
@@ -63,6 +64,7 @@ test_utils ()
 {
 	gchar *tmp;
 
+	/* global ID */
 	tmp = asc_build_component_global_id ("foobar.desktop", "DEADBEEF");
 	g_assert_cmpstr (tmp, ==, "f/fo/foobar.desktop/DEADBEEF");
 	g_free (tmp);
@@ -81,6 +83,27 @@ test_utils ()
 
 	tmp = asc_build_component_global_id ("io.sample.awesomeapp.sdk", NULL);
 	g_assert_cmpstr (tmp, ==, "io/sample/awesomeapp.sdk/last");
+	g_free (tmp);
+
+	/* filename from URL */
+	tmp = asc_filename_from_url ("https://example.com/file.txt");
+	g_assert_cmpstr (tmp, ==, "file.txt");
+	g_free (tmp);
+
+	tmp = asc_filename_from_url ("https://example.com/file.txt?format=raw");
+	g_assert_cmpstr (tmp, ==, "file.txt");
+	g_free (tmp);
+
+	tmp = asc_filename_from_url ("https://example.com//page.html#anchor");
+	g_assert_cmpstr (tmp, ==, "page.html");
+	g_free (tmp);
+
+	tmp = asc_filename_from_url ("https://example.com/#");
+	g_assert_cmpstr (tmp, ==, "example.com");
+	g_free (tmp);
+
+	tmp = asc_filename_from_url ("https://example.com/?/");
+	g_assert_cmpstr (tmp, ==, "example.com");
 	g_free (tmp);
 }
 
@@ -294,7 +317,7 @@ test_compose_hints ()
 
 	g_assert_cmpstr (asc_hint_get_tag (hint), ==, "internal-unknown-tag");
 	g_assert_cmpint (asc_hint_get_severity (hint), ==, AS_ISSUE_SEVERITY_ERROR);
-	g_assert_cmpstr (asc_hint_get_explanation_template (hint), ==, "The given tag was unknown. This is a bug.");
+	g_assert_cmpstr (asc_hint_get_explanation_template (hint), ==, "The given tag was unknown. Please file an issue against AppStream.");
 	g_assert_true (asc_hint_is_valid (hint));
 	g_assert_true (asc_hint_is_error (hint));
 
@@ -526,6 +549,7 @@ setup (Fixture *fixture, gconstpointer user_data)
 	fixture->path = g_strdup (g_getenv ("PATH"));
 	/* not unset because glib has a hardcoded fallback */
 	g_setenv ("PATH", "", TRUE);
+	asc_globals_clear ();
 }
 
 static void
@@ -533,6 +557,7 @@ teardown (Fixture *fixture, gconstpointer user_data)
 {
 	g_setenv ("PATH", fixture->path, TRUE);
 	g_clear_pointer (&fixture->path, g_free);
+	asc_globals_clear ();
 }
 
 /**
@@ -566,11 +591,11 @@ test_compose_directory_unit ()
 	g_assert_true (ret);
 
 	contents = asc_unit_get_contents (ASC_UNIT (dirunit));
-	g_assert_cmpint (contents->len, ==, 12);
+	g_assert_cmpint (contents->len, ==, 13);
 	as_sort_strings (contents);
 
 	g_assert_cmpstr (g_ptr_array_index (contents, 0), ==, "/Noto.LICENSE");
-	g_assert_cmpstr (g_ptr_array_index (contents, 4), ==, "/table.svgz");
+	g_assert_cmpstr (g_ptr_array_index (contents, 5), ==, "/table.svgz");
 
 	/* read existent data */
 	g_assert_true (asc_unit_file_exists (ASC_UNIT (dirunit), "/usr/dummy"));
@@ -628,6 +653,9 @@ test_compose_locale_stats ()
 	g_assert_cmpint (as_component_get_language (cpt, "en_GB"), ==, 100);
 	g_assert_cmpint (as_component_get_language (cpt, "ru"), ==, 33);
 
+	/* the source locale should be 100% translated */
+	g_assert_cmpint (as_component_get_language (cpt, "en_US"), ==, 100);
+
 	/* try loading Qt translations, style 1 */
 	as_component_clear_languages (cpt);
 	as_translation_set_kind (tr, AS_TRANSLATION_KIND_QT);
@@ -641,6 +669,9 @@ test_compose_locale_stats ()
 	asc_assert_no_hints_in_result (cres);
 	g_assert_cmpint (as_component_get_language (cpt, "fr"), ==, 100);
 	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, -1);
+
+	/* the source locale should be 100% translated */
+	g_assert_cmpint (as_component_get_language (cpt, "en_US"), ==, 100);
 
 	/* try loading Qt translations, style 2 */
 	as_component_clear_languages (cpt);
@@ -669,6 +700,95 @@ test_compose_locale_stats ()
 	asc_assert_no_hints_in_result (cres);
 	g_assert_cmpint (as_component_get_language (cpt, "fr"), ==, 100);
 	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, 100);
+}
+
+static void
+test_compose_source_locale (void)
+{
+	gboolean ret;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(AscResult) cres = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(AsTranslation) tr = NULL;
+	g_autoptr(AscDirectoryUnit) dirunit = asc_directory_unit_new (datadir);
+
+	/* open sample data directory unit */
+	ret = asc_unit_open (ASC_UNIT (dirunit), &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* create dummy result with a dummy component, and set a non-standard
+	 * source locale on the translation */
+	cpt = as_component_new ();
+	as_component_set_id (cpt, "org.freedesktop.appstream.dummy");
+
+	tr = as_translation_new ();
+	as_translation_set_kind (tr, AS_TRANSLATION_KIND_GETTEXT);
+	as_translation_set_id (tr, "app");
+	as_translation_set_source_locale (tr, "de");
+	as_component_add_translation (cpt, tr);
+
+	cres = asc_result_new ();
+	ret = asc_result_add_component_with_string (cres, cpt, "<testdata>", &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* try loading a Gettext translation */
+	asc_read_translation_status (cres,
+					ASC_UNIT (dirunit),
+					"/usr",
+					25);
+	asc_assert_no_hints_in_result (cres);
+	g_assert_cmpint (as_component_get_language (cpt, "en_GB"), ==, 100);
+	g_assert_cmpint (as_component_get_language (cpt, "ru"), ==, 33);
+
+	/* the source locale should be 100% translated */
+	g_assert_cmpint (as_component_get_language (cpt, "de"), ==, 100);
+
+	/* and the default source locale should not be translated */
+	g_assert_cmpint (as_component_get_language (cpt, "en_US"), ==, -1);
+}
+
+static void
+test_compose_video_info (void)
+{
+	g_autoptr(AscResult) cres = NULL;
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autoptr(GError) error = NULL;
+	gboolean ret = FALSE;
+	g_autofree gchar *vid_fname = NULL;
+	AscVideoInfo *vinfo = NULL;
+
+	cpt = as_component_new ();
+	as_component_set_id (cpt, "org.freedesktop.appstream.dummy");
+
+	cres = asc_result_new ();
+	ret = asc_result_add_component_with_string (cres, cpt, "<testdata>", &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	if (asc_globals_get_ffprobe_binary () == NULL) {
+		g_print ("WARNING: Skipping video info test because `ffprobe` binary was not found in PATH!\n");
+		return;
+	}
+
+	vid_fname = g_build_filename (datadir, "sample-video.mkv", NULL);
+	vinfo = asc_extract_video_info (cres, cpt, vid_fname);
+	g_assert_nonnull (vinfo);
+
+	g_assert_cmpstr (vinfo->codec_name, ==, "av1");
+	g_assert_cmpstr (vinfo->audio_codec_name, ==, NULL);
+
+	g_assert_cmpint (vinfo->width, ==, 640);
+	g_assert_cmpint (vinfo->height, ==, 480);
+
+	g_assert_cmpstr (vinfo->format_name, ==, "matroska,webm");
+
+	g_assert_cmpint (vinfo->container_kind, ==, AS_VIDEO_CONTAINER_KIND_MKV);
+	g_assert_cmpint (vinfo->codec_kind, ==, AS_VIDEO_CODEC_KIND_AV1);
+	g_assert_true (vinfo->is_acceptable);
+
+	asc_video_info_free (vinfo);
 }
 
 int
@@ -701,8 +821,14 @@ main (int argc, char **argv)
 	g_test_add_func ("/AppStream/Compose/DesktopEntry", test_compose_desktop_entry);
 	g_test_add_func ("/AppStream/Compose/DirectoryUnit", test_compose_directory_unit);
 	g_test_add_func ("/AppStream/Compose/LocaleStats", test_compose_locale_stats);
+	g_test_add_func ("/AppStream/Compose/SourceLocale", test_compose_source_locale);
+	g_test_add_func ("/AppStream/Compose/VideoInfo", test_compose_video_info);
 
 	ret = g_test_run ();
 	g_free (datadir);
+
+	/* make sanitizers happy */
+	asc_globals_clear ();
+
 	return ret;
 }

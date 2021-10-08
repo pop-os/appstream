@@ -205,11 +205,16 @@
 				<literal>local</literal> icons are loaded from a file in the filesystem.
 				They should specify a full file path.
 				This icon type may have <literal>width</literal> and <literal>height</literal>
-                                properties.
+				properties. If targeting a hi-DPI screen, this icon type may have a <literal>scale</literal> property.
 			</para>
 			<para>
 				<literal>remote</literal> icons loaded from a remote URL. Currently, only HTTP/HTTPS urls are supported.
 				This icon type should have <literal>width</literal> and <literal>height</literal> properties.
+				If targeting a hi-DPI screen, this icon type may have a <literal>scale</literal> property.
+			</para>
+			<para>
+				The semantics of each property in the <code>&lt;icon/&gt;</code> tag are the same as for the <code>&lt;icon/&gt;</code> tag for collections.
+				See <xref linkend="tag-ct-icon"/>.
 			</para>
 		</listitem>
 		</varlistentry>
@@ -1131,12 +1136,15 @@
 		<para>
 			The <code>&lt;screenshots/&gt;</code> tag contains multiple <code>&lt;screenshot/&gt;</code> children, where at least one of them must have the property
 			<code>type="default"</code> to indicate the primary screenshot of the software. Every <code>&lt;screenshot/&gt;</code> tag must have at least
-			one <code>&lt;image/&gt;</code> or <code>&lt;video/&gt;</code> child, but never an <literal>image</literal> and <literal>video</literal> at the same time.
-			Also, screenshots containing videos must not be the default screenshot.
+			one <code>&lt;image/&gt;</code> or <code>&lt;video/&gt;</code> child, but never an <literal>image</literal> <emphasis>and</emphasis> <literal>video</literal>
+			at the same time.
+		</para>
+		<para>
+			Screenshots containing a video must not be the default screenshot.
 		</para>
 		<para>
 			The value of the <code>&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web.
-			Images should ideally be provided in the PNG format, however using JPEG or WebP is also fine for images in metainfo files.
+			Images should ideally be provided in the PNG format, using JPEG or WebP is also permitted for images in metainfo files.
 		</para>
 		<para>
 			The <code>&lt;image/&gt;</code> tag may have the following properties:
@@ -1215,11 +1223,13 @@
 			</itemizedlist>
 		</para>
 		<para>
-			Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a translatable <code>&lt;caption/&gt;</code> child, defining a short (ideally not more than 256 characters)
+			Optionally, a <code>&lt;screenshot/&gt;</code> tag may have a translatable <code>&lt;caption/&gt;</code> child, defining a short (ideally not more than 100 characters)
 			description of what the user can see on the referenced screenshot.
 		</para>
 		<para>
-			Ideally, all image screenshots as well as videos should have a 16:9 aspect ratio, and should have a width that is no smaller than 620 pixels.
+			A <code>source</code> video should be concise, easy to understand and not have an overly large file size.
+			Try to use a reasonably large image for <code>source</code> images, as they may be scaled down to <code>thumbnail</code> images in metadata processing.
+			It is suggested to have videos and images in 16:9 aspect ratio, as long as that is sensible for the displayed application.
 		</para>
 		<para>
 			Example:
@@ -1260,6 +1270,11 @@
 			than once.
 		</para>
 		<para>
+			The source strings in the component are assumed to be in the <code>en_US</code> locale. If that is not the case, specify the source locale using
+			the <code>source_locale</code> attribute on the <code>&lt;translation/&gt;</code> tag. The metadata generator will use the source locale
+			to synthesize a <code>&lt;lang/&gt;</code> tag for the source locale, with 100% translation.
+		</para>
+		<para>
 			For Gettext translations, localization data will be looked for in <filename>${prefix}/share/locale/${locale}/LC_MESSAGES/${id}.mo</filename>, where
 			<code>${id}</code> is replaced with the translation domain specified in the <code>&lt;translation/&gt;</code> tag.
 			For Qt translations, if the ID string contains slashes, we will look for translations following either the <filename>${prefix}/share/${id}_${locale}.qm</filename>
@@ -1270,6 +1285,7 @@
 			Example:
 		</para>
 		<programlisting language="XML"><![CDATA[<translation type="gettext">foobar</translation>
+<translation type="gettext" source_locale="de_DE">foobar</translation>
 <translation type="qt">FooBar/translations/foobar</translation>]]></programlisting>
 		</listitem>
 		</varlistentry>

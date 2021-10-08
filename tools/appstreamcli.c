@@ -171,7 +171,8 @@ as_client_new_subcommand_option_context (const gchar *command, const GOptionEntr
 
 	opt_context = g_option_context_new ("- AppStream CLI.");
 	g_option_context_set_help_enabled (opt_context, TRUE);
-	g_option_context_add_main_entries (opt_context, entries, NULL);
+	if (entries != NULL)
+		g_option_context_add_main_entries (opt_context, entries, NULL);
 
 	/* set the summary text */
 	summary = as_client_get_summary_for (command);
@@ -453,6 +454,30 @@ as_client_run_validate_tree (const gchar *command, char **argv, int argc)
 						   optn_format,
 						   !optn_nonet);
 	}
+}
+
+/**
+ * as_client_run_check_license:
+ *
+ * Print license information.
+ */
+static int
+as_client_run_check_license (const gchar *command, char **argv, int argc)
+{
+	g_autoptr(GOptionContext) opt_context = NULL;
+	gint ret;
+
+	opt_context = as_client_new_subcommand_option_context (command, NULL);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
+
+	if (argc != 3) {
+		/* TRANSLATORS: ascli check-license is missing its parameter */
+		ascli_print_stderr (_("No license, license expression or license exception string was provided."));
+		return 4;
+	}
+	return ascli_check_license (argv[2]);
 }
 
 /**
@@ -801,7 +826,8 @@ as_client_run_news_to_metainfo (const gchar *command, char **argv, int argc)
 {
 	g_autoptr(GOptionContext) opt_context = NULL;
 	const gchar *optn_format_text = NULL;
-	guint optn_limit = 0;
+	gint optn_limit = 0;
+	gint optn_translatable_n = -1;
 	const gchar *mi_fname = NULL;
 	const gchar *news_fname = NULL;
 	const gchar *out_fname = NULL;
@@ -812,12 +838,20 @@ as_client_run_news_to_metainfo (const gchar *command, char **argv, int argc)
 			G_OPTION_ARG_STRING,
 			&optn_format_text,
 			/* TRANSLATORS: ascli flag description for: --format as part of the news-to-metainfo command */
-			N_("Assume the input file is in the selected format ('yaml' or 'text')."), NULL },
-		{ "limit", 0, 0,
+			N_("Assume the input file is in the selected format ('yaml' or 'text')."),
+			NULL },
+		{ "limit", 'l', 0,
 			G_OPTION_ARG_INT,
 			&optn_limit,
 			/* TRANSLATORS: ascli flag description for: --limit as part of the news-to-metainfo command */
-			N_("Limit the number of release entries that end up in the metainfo file (0 for unlimited)."), NULL },
+			N_("Limit the number of release entries that end up in the metainfo file (<= 0 for unlimited)."),
+			NULL },
+		{ "translatable-count", 't', 0,
+			G_OPTION_ARG_INT,
+			&optn_translatable_n,
+			/* TRANSLATORS: ascli flag description for: --translatable-count as part of the news-to-metainfo command */
+			N_("Set the number of releases that should have descriptions marked for translation (latest releases are translated first, -1 for unlimited)."),
+			NULL },
 		{ NULL }
 	};
 
@@ -837,6 +871,7 @@ as_client_run_news_to_metainfo (const gchar *command, char **argv, int argc)
 					mi_fname,
 					out_fname,
 					optn_limit,
+					optn_translatable_n,
 					optn_format_text);
 }
 
@@ -897,8 +932,13 @@ as_client_run_compose (const gchar *command, char **argv, int argc)
 
 	asc_argv = g_new0 (const gchar*, argc + 2);
 	asc_argv[0] = ascompose_exe;
-	for (gint i = 0; i < argc; i++)
-		asc_argv[i+1] = argv[i];
+	if (argc < 2) {
+		/* TRANSLATORS: Unexpected number of parameters on the command-line */
+		ascli_print_stderr (_("Invalid number of parameters"));
+		return 5;
+	}
+	for (gint i = 2; i < argc; i++)
+		asc_argv[i-1] = argv[i];
 
 	return execv(ascompose_exe, (gchar * const*) asc_argv);
 }
@@ -1133,6 +1173,11 @@ as_client_run (char **argv, int argc)
 			/* TRANSLATORS: `appstreamcli validate-tree` command description. */
 			_("Validate an installed file-tree of an application for valid metadata."),
 			as_client_run_validate_tree);
+	ascli_add_cmd (commands,
+			2, "check-license", NULL, "LICENSE",
+			/* TRANSLATORS: `appstreamcli `check-license` command description. */
+			_("Check license string for validity and print details about it."),
+			as_client_run_check_license);
 
 	ascli_add_cmd (commands,
 			3, "install", NULL, "COMPONENT-ID",
