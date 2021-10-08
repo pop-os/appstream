@@ -280,6 +280,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_copy_file@Base 0.10.0
  as_curl_check_url_exists@Base 0.14.1
  as_curl_download_bytes@Base 0.14.1
+ as_curl_download_to_filename@Base 0.14.6
  as_curl_error_quark@Base 0.14.1
  as_curl_get_type@Base 0.14.1
  as_curl_is_url@Base 0.14.1
@@ -426,7 +427,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_news_format_kind_from_string@Base 0.12.9
  as_news_format_kind_to_string@Base 0.12.9
  as_news_to_releases_from_data@Base 0.12.9
- as_news_to_releases_from_file@Base 0.12.9
+ as_news_to_releases_from_filename@Base 0.14.6
  as_parse_flags_get_type@Base 0.13.1
  as_pool_add_component@Base 0.10.0
  as_pool_add_metadata_location@Base 0.10.0
@@ -638,6 +639,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_suggested_set_kind@Base 0.10.0
  as_translation_get_id@Base 0.10.0
  as_translation_get_kind@Base 0.10.0
+ as_translation_get_source_locale@Base 0.14.6
  as_translation_get_type@Base 0.10.0
  as_translation_kind_from_string@Base 0.10.0
  as_translation_kind_get_type@Base 0.13.1
@@ -645,6 +647,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_translation_new@Base 0.10.0
  as_translation_set_id@Base 0.10.0
  as_translation_set_kind@Base 0.10.0
+ as_translation_set_source_locale@Base 0.14.6
  as_urgency_kind_from_string@Base 0.10.0
  as_urgency_kind_get_type@Base 0.13.1
  as_urgency_kind_to_string@Base 0.10.0
@@ -658,6 +661,7 @@ libappstream.so.4 libappstream4 #MINVER#
  as_utils_data_id_hash@Base 0.14.0
  as_utils_data_id_match@Base 0.14.0
  as_utils_data_id_valid@Base 0.14.0
+ as_utils_delete_dir_recursive@Base 0.14.6
  as_utils_dns_to_rdns@Base 0.12.5
  as_utils_error_get_type@Base 0.14.0
  as_utils_error_quark@Base 0.14.0
