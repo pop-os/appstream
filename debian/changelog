@@ -1,3 +1,15 @@
+appstream (0.14.6-1) unstable; urgency=medium
+
+  * New upstream version: 0.14.6 (Closes: #995798)
+  * Bump standards version (no changes needed)
+  * appstream-compose: Recommend optipng and ffmpeg
+    - This allows as-compose to use the optipng and ffprobe
+      binaries to improve its output, if available.
+  * Update symbols file
+  * Update lintian override for test sample data
+
+ -- Matthias Klumpp <mak@debian.org>  Fri, 08 Oct 2021 19:58:18 +0200
+
 appstream (0.14.5-1) unstable; urgency=medium
 
   * New upstream version: 0.14.5
