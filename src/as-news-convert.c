@@ -131,7 +131,9 @@ as_releases_to_metainfo_xml_chunk (GPtrArray *releases, GError **error)
  * as_news_yaml_to_release:
  */
 static GPtrArray*
-as_news_yaml_to_releases (const gchar *yaml_data, GError **error)
+as_news_yaml_to_releases (const gchar *yaml_data,
+			  gint limit,
+			  GError **error)
 {
 	yaml_parser_t parser;
 	yaml_event_t event;
@@ -226,8 +228,12 @@ as_news_yaml_to_releases (const gchar *yaml_data, GError **error)
 				}
 			}
 
-			if (as_release_get_version (rel) != NULL)
+			if (as_release_get_version (rel) != NULL) {
 				g_ptr_array_add (releases, g_steal_pointer (&rel));
+				if (limit > 0 && releases->len >= (guint) limit)
+					parse = FALSE;
+			}
+
 			g_node_traverse (root,
 					G_IN_ORDER,
 					G_TRAVERSE_ALL,
@@ -401,9 +407,10 @@ as_news_releases_to_yaml (GPtrArray *releases, gchar **yaml_data)
 typedef enum {
 	AS_NEWS_SECTION_KIND_UNKNOWN,
 	AS_NEWS_SECTION_KIND_HEADER,
+	AS_NEWS_SECTION_KIND_NOTES,
 	AS_NEWS_SECTION_KIND_BUGFIX,
 	AS_NEWS_SECTION_KIND_FEATURES,
-	AS_NEWS_SECTION_KIND_NOTES,
+	AS_NEWS_SECTION_KIND_MISC,
 	AS_NEWS_SECTION_KIND_TRANSLATION,
 	AS_NEWS_SECTION_KIND_DOCUMENTATION,
 	AS_NEWS_SECTION_KIND_CONTRIBUTORS,
@@ -413,7 +420,9 @@ typedef enum {
 static AsNewsSectionKind
 as_news_text_guess_section (const gchar *lines)
 {
-	if (g_strstr_len (lines, -1, "~~~") != NULL)
+	if (g_strstr_len (lines, -1, "~~~~") != NULL)
+		return AS_NEWS_SECTION_KIND_HEADER;
+	if (g_strstr_len (lines, -1, "----") != NULL)
 		return AS_NEWS_SECTION_KIND_HEADER;
 	if (g_strstr_len (lines, -1, "Bugfix:\n") != NULL)
 		return AS_NEWS_SECTION_KIND_BUGFIX;
@@ -433,6 +442,10 @@ as_news_text_guess_section (const gchar *lines)
 		return AS_NEWS_SECTION_KIND_NOTES;
 	if (g_strstr_len (lines, -1, "Note:\n") != NULL)
 		return AS_NEWS_SECTION_KIND_NOTES;
+	if (g_strstr_len (lines, -1, "Miscellaneous:\n") != NULL)
+		return AS_NEWS_SECTION_KIND_MISC;
+	if (g_strstr_len (lines, -1, "Misc:\n") != NULL)
+		return AS_NEWS_SECTION_KIND_MISC;
 	if (g_strstr_len (lines, -1, "Translations:\n") != NULL)
 		return AS_NEWS_SECTION_KIND_TRANSLATION;
 	if (g_strstr_len (lines, -1, "Translation:\n") != NULL)
@@ -628,7 +641,7 @@ as_news_text_to_para_markup (GString *desc, const gchar *txt, GError **error)
  * as_news_text_to_releases:
  */
 static GPtrArray*
-as_news_text_to_releases (const gchar *data, GError **error)
+as_news_text_to_releases (const gchar *data, gint limit, GError **error)
 {
 	guint i;
 	g_autoptr(GString) data_str = NULL;
@@ -636,6 +649,7 @@ as_news_text_to_releases (const gchar *data, GError **error)
 	g_auto(GStrv) split = NULL;
 	g_autoptr(GPtrArray) releases = NULL;
 	g_autoptr(AsRelease) rel = NULL;
+	gboolean limit_reached = FALSE;
 
 	if (data == NULL) {
 		g_set_error (error,
@@ -669,8 +683,11 @@ as_news_text_to_releases (const gchar *data, GError **error)
 				as_release_set_description (rel, desc->str, "C");
 				g_string_truncate (desc, 0);
 			}
-			if (rel != NULL)
+			if (rel != NULL) {
 				g_ptr_array_add (releases, g_steal_pointer (&rel));
+				if (limit > 0 && releases->len >= (guint) limit)
+					limit_reached = TRUE;
+			}
 			rel = as_release_new ();
 
 			/* parse header */
@@ -710,6 +727,18 @@ as_news_text_to_releases (const gchar *data, GError **error)
 			if (!as_news_text_to_list_markup (desc, lines + 1, error))
 				return FALSE;
 			break;
+		case AS_NEWS_SECTION_KIND_MISC:
+			lines = g_strsplit (split[i], "\n", -1);
+			if (g_strv_length (lines) == 2) {
+				as_news_text_add_markup (desc, "p",
+							 "This release includes the following change:");
+			} else {
+				as_news_text_add_markup (desc, "p",
+							 "This release includes the following changes:");
+			}
+			if (!as_news_text_to_list_markup (desc, lines + 1, error))
+				return FALSE;
+			break;
 		case AS_NEWS_SECTION_KIND_DOCUMENTATION:
 			lines = g_strsplit (split[i], "\n", -1);
 			as_news_text_add_markup (desc, "p",
@@ -742,10 +771,13 @@ as_news_text_to_releases (const gchar *data, GError **error)
 				     "Failed to detect section '%s'", split[i]);
 			return FALSE;
 		}
+
+		if (limit_reached)
+			break;
 	}
 
 	/* flush old release content */
-	if (desc->len > 0) {
+	if (desc->len > 0 && !limit_reached) {
 		as_release_set_description (rel, desc->str, "C");
 		g_ptr_array_add (releases, g_steal_pointer (&rel));
 	}
@@ -811,28 +843,57 @@ as_news_releases_to_text (GPtrArray *releases, gchar **md_data)
  * Convert NEWS data to a list of AsRelease elements.
  */
 GPtrArray*
-as_news_to_releases_from_data (const gchar *data, AsNewsFormatKind kind, GError **error)
+as_news_to_releases_from_data (const gchar *data,
+			       AsNewsFormatKind kind,
+			       gint entry_limit,
+			       gint translatable_limit,
+			       GError **error)
 {
+	GPtrArray *releases = NULL;
+
 	if (kind == AS_NEWS_FORMAT_KIND_YAML)
-		return as_news_yaml_to_releases (data, error);
-
+		releases = as_news_yaml_to_releases (data, entry_limit, error);
 	if (kind == AS_NEWS_FORMAT_KIND_TEXT)
-		return as_news_text_to_releases (data, error);
+		releases = as_news_text_to_releases (data, entry_limit, error);
 
-	g_set_error (error,
-			AS_METADATA_ERROR,
-			AS_METADATA_ERROR_FAILED,
-			"Unable to detect input data format.");
-	return NULL;
+	if (releases == NULL) {
+		/* if no error was set, we simply had no idea about the format.
+		 * Otherwise, parsing must have failed. */
+		if (error == NULL)
+			g_set_error (error,
+					AS_METADATA_ERROR,
+					AS_METADATA_ERROR_FAILED,
+					"Unable to detect input data format.");
+		return NULL;
+	}
+
+	/* trim release entries to the desired size */
+	if (entry_limit > 0 && (guint) entry_limit < releases->len)
+		g_ptr_array_remove_range (releases, entry_limit, releases->len - entry_limit);
+
+	/* mark only the desired amount of stuff as translatable */
+	if (translatable_limit >= 0) {
+		for (guint i = 0; i < releases->len; i++) {
+			AsRelease *release = AS_RELEASE (g_ptr_array_index (releases, i));
+			if (i >= (guint) translatable_limit)
+				as_release_set_description_translatable (release, FALSE);
+		}
+	}
+
+	return releases;
 }
 
 /**
- * as_news_to_releases_from_file:
+ * as_news_to_releases_from_filename:
  *
  * Convert NEWS file to a list of AsRelease elements.
  */
 GPtrArray*
-as_news_to_releases_from_file (const gchar *fname, AsNewsFormatKind kind, GError **error)
+as_news_to_releases_from_filename (const gchar *fname,
+				   AsNewsFormatKind kind,
+				   gint entry_limit,
+				   gint translatable_limit,
+				   GError **error)
 {
 	g_autofree gchar *data = NULL;
 
@@ -850,7 +911,11 @@ as_news_to_releases_from_file (const gchar *fname, AsNewsFormatKind kind, GError
 	if (!g_file_get_contents (fname, &data, NULL, error))
 		return NULL;
 
-	return as_news_to_releases_from_data (data, kind, error);
+	return as_news_to_releases_from_data (data,
+					      kind,
+					      entry_limit,
+					      translatable_limit,
+					      error);
 }
 
 /**

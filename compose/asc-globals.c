@@ -43,6 +43,7 @@ typedef struct
 {
 	gboolean	use_optipng;
 	gchar		*optipng_bin;
+	gchar		*ffprobe_bin;
 	gchar		*tmp_dir;
 
 	GMutex		pangrams_mutex;
@@ -76,8 +77,8 @@ static GObject*
 asc_globals_constructor (GType type, guint n_construct_properties, GObjectConstructParam *construct_properties)
 {
 	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&g_globals_mutex);
-	if (g_globals)
-		return g_object_ref (G_OBJECT (g_globals));
+	if (g_globals != NULL)
+		return G_OBJECT (g_globals);
 	else
 		return G_OBJECT_CLASS (asc_globals_parent_class)->constructor (type, n_construct_properties, construct_properties);
 }
@@ -90,6 +91,7 @@ asc_globals_finalize (GObject *object)
 
 	g_free (priv->tmp_dir);
 	g_free (priv->optipng_bin);
+	g_free (priv->ffprobe_bin);
 
 	g_mutex_clear (&priv->pangrams_mutex);
 	if (priv->pangrams_en != NULL)
@@ -115,6 +117,9 @@ asc_globals_init (AscGlobals *globals)
 	if (priv->optipng_bin != NULL)
 		priv->use_optipng = TRUE;
 
+	priv->ffprobe_bin = g_find_program_in_path ("ffprobe");
+
+	g_mutex_init (&priv->hint_tags_mutex);
 	g_mutex_init (&priv->pangrams_mutex);
 }
 
@@ -130,6 +135,22 @@ static AscGlobalsPrivate*
 asc_globals_get_priv (void)
 {
 	return GET_PRIVATE (g_object_new (ASC_TYPE_GLOBALS, NULL));
+}
+
+/**
+ * asc_globals_clear:
+ *
+ * Clear all global state and restore defaults.
+ */
+void
+asc_globals_clear (void)
+{
+	g_autoptr(GMutexLocker) locker = g_mutex_locker_new (&g_globals_mutex);
+	if (g_globals == NULL)
+		return;
+
+	g_object_unref (g_globals);
+	g_globals = NULL;
 }
 
 /**
@@ -225,6 +246,31 @@ asc_globals_set_optipng_binary (const gchar *path)
 	priv->optipng_bin = g_strdup (path);
 	if (priv->optipng_bin == NULL)
 		priv->use_optipng = FALSE;
+}
+
+/**
+ * asc_globals_get_ffprobe_binary:
+ *
+ * Get path to the "ffprobe" binary we should use.
+ **/
+const gchar*
+asc_globals_get_ffprobe_binary (void)
+{
+	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	return priv->ffprobe_bin;
+}
+
+/**
+ * asc_globals_set_ffprobe_binary:
+ *
+ * Set path to the "ffprobe" binary we should use.
+ **/
+void
+asc_globals_set_ffprobe_binary (const gchar *path)
+{
+	AscGlobalsPrivate *priv = asc_globals_get_priv ();
+	g_free (priv->ffprobe_bin);
+	priv->ffprobe_bin = g_strdup (path);
 }
 
 /**

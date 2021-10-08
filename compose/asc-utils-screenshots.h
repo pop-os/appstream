@@ -25,12 +25,38 @@
 
 #include <glib-object.h>
 #include <appstream.h>
+#include "as-curl.h"
+
+#include "asc-result.h"
 
 G_BEGIN_DECLS
 
-gchar		*asc_build_component_global_id (const gchar *component_id,
-						const gchar *checksum);
+/**
+ * AscVideoInfo: (skip):
+ *
+ * Contains some basic information about the video
+ * we downloaded from an upstream site.
+ */
+typedef struct {
+	gchar *codec_name;
+	gchar *audio_codec_name;
+	gint width;
+	gint height;
+	gchar *format_name;
+	AsVideoContainerKind container_kind;
+	AsVideoCodecKind codec_kind;
+	gboolean is_acceptable;
+} AscVideoInfo;
 
-gchar 		*asc_filename_from_url (const gchar *url);
+AscVideoInfo	*asc_extract_video_info (AscResult *cres,
+					 AsComponent *cpt,
+				         const gchar *vid_fname);
+void		asc_video_info_free (AscVideoInfo *vinfo);
+
+void		asc_process_screenshots (AscResult *cres,
+					 AsComponent *cpt,
+					 AsCurl *acurl,
+					 const gchar *media_export_root,
+					 gboolean store_screenshots);
 
 G_END_DECLS

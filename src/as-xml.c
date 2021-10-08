@@ -52,6 +52,10 @@ as_xml_get_node_value (const xmlNode *node)
 
 /**
  * as_xml_get_node_value_refstr:
+ *
+ * Return the node value as an interned #GRefString.
+ *
+ * Returns: The #GRefString or %NULL if the value did not exist.
  */
 GRefString*
 as_xml_get_node_value_refstr (const xmlNode *node)
@@ -61,17 +65,23 @@ as_xml_get_node_value_refstr (const xmlNode *node)
 	if (content != NULL)
 		as_strstripnl (content);
 	if (content == NULL)
-		return g_ref_string_new_intern ("");
+		return NULL;
 	return g_ref_string_new_intern (content);
 }
 
 /**
  * as_xml_get_prop_value_refstr:
+ *
+ * Return the property value as an interned #GRefString.
+ *
+ * Returns: The #GRefString or %NULL if the property did not exist.
  */
 GRefString*
 as_xml_get_prop_value_refstr (const xmlNode *node, const gchar *prop_name)
 {
 	g_autofree gchar *tmp = as_xml_get_prop_value (node, prop_name);
+	if (tmp == NULL)
+		return NULL;
 	return g_ref_string_new_intern (tmp);
 }
 
@@ -640,10 +650,11 @@ as_xml_add_description_collection_mode_helper (xmlNode *parent, const gchar *des
 /**
  * as_xml_add_description_node:
  *
- * Add a description node to the XML document tree.
+ * Add a description node to the XML document tree, allowing to mark
+ * MetaInfo description blocks as untranslatable.
  */
 void
-as_xml_add_description_node (AsContext *ctx, xmlNode *root, GHashTable *desc_table)
+as_xml_add_description_node (AsContext *ctx, xmlNode *root, GHashTable *desc_table, gboolean mi_translatable)
 {
 	g_autoptr(GList) keys = NULL;
 	keys = g_hash_table_get_keys (desc_table);
@@ -686,6 +697,9 @@ as_xml_add_description_node (AsContext *ctx, xmlNode *root, GHashTable *desc_tab
 		c_helper = (AsXMLMarkupParseHelper *) g_ptr_array_index (markup_nodes, 0);
 
 		dnode = xmlNewChild (root, NULL, (xmlChar*) "description", NULL);
+		if (!mi_translatable)
+			as_xml_add_text_prop (dnode, "translatable", "no");
+
 		cnode = dnode;
 		do {
 			if ((c_helper->tag_id == AS_TAG_UL) || (c_helper->tag_id == AS_TAG_OL)) {

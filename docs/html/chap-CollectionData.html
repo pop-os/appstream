@@ -148,19 +148,29 @@ hljs.configure({
 					</p><p>
 						<code class="literal">stock</code> icons are loaded from stock. The icon name should never include any file-extension or path.
 					</p><p>
-						<code class="literal">cached</code> icons are loaded from the AppStream icon cache. The icon tag should contain the icon file name, including it's
+						<code class="literal">cached</code> icons are loaded from the AppStream icon cache. The icon tag should contain the icon file name, including its
 						extension. It must not contain a full or relative path to the icon file.
+						This icon type may have <code class="literal">width</code> and <code class="literal">height</code> properties.
+						If targeting a hi-DPI screen, this icon type may have a <code class="literal">scale</code> property.
 					</p><p>
 						<code class="literal">local</code> icons are reserved for AppStream data installed by local applications or via 3rd-party application installers.
 						They should specify a full file path.
 						This icon type may have <code class="literal">width</code> and <code class="literal">height</code> properties.
+						If targeting a hi-DPI screen, this icon type may have a <code class="literal">scale</code> property.
 					</p><p>
 						<code class="literal">remote</code> icons loaded from a remote URL. Currently, only HTTP urls are supported.
 						This icon type should have <code class="literal">width</code> and <code class="literal">height</code> properties.
+						If targeting a hi-DPI screen, this icon type may have a <code class="literal">scale</code> property.
+					</p><p>
+						If specified, the <code class="literal">scale</code> property is defined as in the
+						<a class="ulink" href="https://specifications.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html#definitions" target="_blank">Freedesktop Icon Theme Specification<span class="ulink-url"> (https://specifications.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html#definitions)</span></a>.
+						It’s an integer value ≥1 indicating how many pixels in the image represent a logical pixel on the display, in each dimension.
+						This allows icons for hi-DPI screens to be displayed at the same logical size as on lower resolution screens, but without upscaling artifacts.
 					</p><p>
 						Examples of the different methods to specify an icon:
 					</p><div class="verbatim-wrap highlight XML"><pre class="programlisting">&lt;icon type="stock"&gt;gimp&lt;/icon&gt;
 &lt;icon type="cached"&gt;firefox.png&lt;/icon&gt;
+&lt;icon type="cached" width="128" height="128" scale="2"&gt;firefox.png&lt;/icon&gt;
 &lt;icon type="remote" width="64" height="64"&gt;https://example.com/icons/foobar.png&lt;/icon&gt;
 &lt;icon type="local" width="64" height="64"&gt;/usr/share/pixmaps/foobar.png&lt;/icon&gt;</pre></div><p>
 						Multiple <code class="code">&lt;icon/&gt;</code> tags might be combined for one application, for example to define a <code class="literal">stock</code> icon
@@ -214,10 +224,11 @@ hljs.configure({
 						Images of <code class="code">type="thumbnail"</code> define thumbnails of the screenshot.
 					</p><p>
 						The metadata generator should scale the source image down to several thumbnails useful for the client to load.
-						The recommended sizes for thumbnail images are:
-					</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p><span class="emphasis"><em>752x423</em></span> (large)</p></li><li class="listitem"><p><span class="emphasis"><em>624x351</em></span> (normal)</p></li><li class="listitem"><p><span class="emphasis"><em>112x63</em></span> (small)</p></li><li class="listitem"><p><span class="emphasis"><em>1504x846</em></span> (large, HiDPI)</p></li><li class="listitem"><p><span class="emphasis"><em>1248x702</em></span> (normal, HiDPI)</p></li><li class="listitem"><p><span class="emphasis"><em>224x126</em></span> (small, HiDPI)</p></li></ul></div><p>
+						The recommended widths for thumbnail images are:
+					</p><div class="itemizedlist"><ul class="itemizedlist"><li class="listitem"><p><span class="emphasis"><em>752</em></span> (large)</p></li><li class="listitem"><p><span class="emphasis"><em>624</em></span> (normal)</p></li><li class="listitem"><p><span class="emphasis"><em>112</em></span> (small)</p></li><li class="listitem"><p><span class="emphasis"><em>1504</em></span> (large, HiDPI)</p></li><li class="listitem"><p><span class="emphasis"><em>1248</em></span> (normal, HiDPI)</p></li><li class="listitem"><p><span class="emphasis"><em>224</em></span> (small, HiDPI)</p></li></ul></div><p>
 						In order to support HiDPI screens, the thumbnails should also be available in their bigger sizes. A metadata generator should, however, never attempt
 						to scale up a smaller image to a larger size, and just ship the smaller sizes instead.
+						When scaling images to the respective thumbnail width, the image aspect ratio must be preserved, padding, cropping or stretching should not happen.
 					</p><p>
 						Optionally, a screenshot can contain a <code class="code">&lt;caption&gt;</code> tag, describing the screenshot's caption. This is usually what the user can see
 						on the image shown. The tag is translatable.
