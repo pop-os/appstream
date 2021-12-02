@@ -259,7 +259,7 @@
 				<term>&lt;categories/&gt;</term>
 				<listitem>
 					<para>
-						This tag can contain one or more <code>&lt;category&gt;></code> entries, describing the categories this software component
+						This tag can contain one or more <code>&lt;category&gt;</code> entries, describing the categories this software component
 						is associated with.
 						This tag is usually applied to components of type <literal>desktop-application</literal>, but can be used with any component.
 						A list of valid category names can be found in the
@@ -349,7 +349,7 @@
 					URLs of this type should allow the user to contact the developer.
 				</para>
 				<para>
-					This could for example be a HTTPS URL to an online form or a page describing how to contact the developer.
+					This could for example be an HTTPS URL to an online form or a page describing how to contact the developer.
 				</para>
 				<note>
 					<title>Deprecation</title>
@@ -375,7 +375,7 @@
 		</para>
 
 		<para>
-		  The <code>&lt;launchable/&gt;</code> tag has a essential <literal>type</literal> property indicating the system that is used to launch the component.  The following types are allowed:
+		  The <code>&lt;launchable/&gt;</code> tag has an essential <literal>type</literal> property indicating the system that is used to launch the component.  The following types are allowed:
                 </para>
                 <variablelist>
                   <varlistentry>
@@ -509,10 +509,10 @@
 			</para>
 
 			<para>
-				A release may also have an <literal>url</literal> tag as child.
+				A release may also have a <literal>url</literal> tag as child.
 				The release url should point to detailed release notes that explain the changes made in this particular release.
 				The <literal>url</literal> tag may have a <literal>type</literal> property with <code>details</code> as the only currently
-				allowed value. If the <literal>type</literal> is missing, an URL type of <code>details</code> is implicitly assumed.
+				allowed value. If the <literal>type</literal> is missing, a URL type of <code>details</code> is implicitly assumed.
 			</para>
 
 			<para>
@@ -640,7 +640,7 @@
 			This includes binaries and libraries. Private interfaces should never be added to a <literal>provides</literal> tag.
 			</para>
 			<para>
-			A <literal>provides</literal> tag contain a number of children describing the type and name of the provided public interface items.
+			A <literal>provides</literal> tag contains a number of children describing the type and name of the provided public interface items.
 			It is suggested that the build system auto-generates this tag and its children.
 			Currently allowed item types are listed below. If you miss something,
 			<ulink url="https://github.com/ximion/appstream/issues/new">file a bug against AppStream</ulink> so we can add the new type.
@@ -710,7 +710,7 @@
 				<term>&lt;firmware/&gt;</term>
 				<listitem>
 				<para>
-					This provided element is described in details for the <literal>firmware</literal> component type, where it is mandatory.
+					This provided element is described in detail for the <literal>firmware</literal> component type, where it is mandatory.
 					Please see <xref linkend="tag-firmware-provides"/> for more information.
 				</para>
 				</listitem>
@@ -768,22 +768,30 @@
 
 		</varlistentry>
 
-		<varlistentry id="tag-requires-recommends">
-		<term>&lt;requires/&gt; &amp; &lt;recommends/&gt;</term>
+		<varlistentry id="tag-relations">
+		<term>&lt;requires/&gt;, &lt;recommends/&gt; &amp; &lt;supports/&gt;</term>
 		<listitem>
 			<para>
-				The <literal>requires</literal> tag denotes an <emphasis>absolute</emphasis> requirement on a different system component.
-				A component can require a certain hardware to be present, or kernel, or other component to be installed first. If a requirement
+				The <literal>requires</literal> tag denotes an <emphasis>absolute</emphasis> requirement on a different entity.
+				For example, a component can require certain hardware to be present, require a specific minimum kernel version,
+				or another component to be installed first. If a requirement specified in a <literal>requires</literal> tag
 				is not met, AppStream clients should prevent the installation of the particular software component.
 			</para>
 			<para>
 				If it is not essential that a certain requirement is met by the system, but just recommended to be available, a
 				<literal>recommends</literal> tag should be used. In this case, AppStream clients should allow the installation of the software
-				component, but may display a warning before allowing it.
+				component, but may display a warning before allowing the installation.
+				It is permissible, but not required, to prevent installation of software which does not have all items specified as
+				<literal>recommends</literal> met on the system that it is installed to.
 			</para>
 			<para>
-				A <literal>requires</literal> or <literal>recommends</literal> tag contains children describing the type, value and version relation
-				of the required item.
+				Components may also set a <literal>supports</literal> tag. This is an even weaker relation than <literal>recommends</literal>,
+				and means the particular component can make use of certain hardware capabilities or other software if it is available, but will
+				also be usable if it is not.
+			</para>
+			<para>
+				A <literal>requires</literal>, <literal>recommends</literal> or <literal>supports</literal> tag contains children describing the type,
+				value and version relation of the required item.
 				Each child can have a <literal>version</literal> and a <literal>compare</literal> property, to allow depending on a certain minimal
 				version of the respective item.
 				The <literal>version</literal> property contains the version to be compared against, while the <literal>compare</literal> property contains
@@ -798,17 +806,18 @@
 			<itemizedlist>
 				<listitem><para><code>eq</code> - Equal to</para></listitem>
 				<listitem><para><code>ne</code> - Not equal to</para></listitem>
-				<listitem><para><code>lt</code> - Lesser than</para></listitem>
+				<listitem><para><code>lt</code> - Less than</para></listitem>
 				<listitem><para><code>gt</code> - Greater than</para></listitem>
-				<listitem><para><code>le</code> - Lesser than or equal to</para></listitem>
+				<listitem><para><code>le</code> - Less than or equal to</para></listitem>
 				<listitem><para><code>ge</code> - Greater than or equal to</para></listitem>
 			</itemizedlist>
 			<para>
-				Possible item types to declare a requirement on or a recommendation for are:
+				Please note that not all item types are valid for all relation types.
+				Generally valid item types are listed below, with information as for which relation kins they are valid.
 			</para>
 
 			<variablelist>
-			<varlistentry id="tag-requires-recommends-id">
+			<varlistentry id="tag-relations-id">
 				<term>&lt;id/&gt;</term>
 				<listitem>
 				<para>
@@ -817,23 +826,25 @@
 				<programlisting language="XML"><![CDATA[<requires>
   <id version="1.0" compare="ge">org.example.my_software</id>
 </requires>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal>, <literal>supports</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-modalias">
+			<varlistentry id="tag-relations-modalias">
 				<term>&lt;modalias/&gt;</term>
 				<listitem>
 				<para>
-					Check for a specific hardware to be present via its modalias. The modalias may contain a wildcard expression.
+					Check for specific hardware to be present via its modalias. The modalias may contain a wildcard expression.
 					Example:
 				</para>
 				<programlisting language="XML"><![CDATA[<recommends>
   <modalias>usb:v1130p0202d*</modalias>
 </recommends>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal>, <literal>supports</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-kernel">
+			<varlistentry id="tag-relations-kernel">
 				<term>&lt;kernel/&gt;</term>
 				<listitem>
 				<para>
@@ -843,10 +854,11 @@
 				<programlisting language="XML"><![CDATA[<requires>
   <kernel version="4.14" compare="ge">Linux</kernel>
 </requires>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-memory">
+			<varlistentry id="tag-relations-memory">
 				<term>&lt;memory/&gt;</term>
 				<listitem>
 				<para>
@@ -859,17 +871,18 @@
 				<programlisting language="XML"><![CDATA[<recommends>
   <memory>2048</memory> <!-- recommend at least 2GiB of memory -->
 </recommends>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-firmware">
+			<varlistentry id="tag-relations-firmware">
 				<term>&lt;firmware/&gt;</term>
 				<listitem>
 				<para>
 					Depend on a specific device firmware. The value of this tag should either be a name like <literal>bootloader</literal>, be
 					empty to reference the firmware itself described by the <literal>firmware</literal>-type component this tag is contained in,
 					or contain a GUID.
-					This tag is commonly used and interpreted by <ulink url="https://www.fwupd.org/">Fwupd</ulink>.
+					This tag is commonly used and interpreted by the <ulink url="https://fwupd.org/">LVFS</ulink>.
 					Example:
 				</para>
 				<programlisting language="XML"><![CDATA[<requires>
@@ -877,23 +890,47 @@
   <firmware compare="ge" version="0.1.2"/>
   <firmware compare="ge" version="0.3.4">bootloader</firmware>
 </requires>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-control">
+			<varlistentry id="tag-relations-hardware">
+				<term>&lt;hardware/&gt;</term>
+				<listitem>
+				<para>
+					Require, recommend or support a specific system hardware configuration. The value of this item is a
+					<ulink url="https://docs.microsoft.com/en-us/windows-hardware/drivers/dashboard/using-chids">Computer Hardware ID (CHID)</ulink>
+					without any surrounding braces.
+				</para>
+				<para>
+					On Linux systems, the CHIDs of the system can be queried using the <command>sudo fwupdtool hwids</command> command.
+				</para>
+				<para>
+					This tag is commonly used and interpreted by the <ulink url="https://fwupd.org/">LVFS</ulink> and fwupd tool.
+					Example:
+				</para>
+				<programlisting language="XML"><![CDATA[<requires>
+  <hardware>be6ab11f-af5f-572e-be18-84301d880764</hardware>
+</requires>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal>, <literal>supports</literal></para>
+				</listitem>
+			</varlistentry>
+
+			<varlistentry id="tag-relations-control">
 				<term>&lt;control/&gt;</term>
 				<listitem>
 				<para>
-					This item type can be used to recommend or require certain ways a user can control the software. This usually maps to certain methods
-					of input. If multiples of these tag are found within a requires/recommends block, only one of them needs to be satisfied on the system
-					to mark an application as compatible. This means if <literal>touch</literal> and <literal>pointing</literal> are both recommended as controls,
-					an system that only has a mouse and no touchscreen will still be considered able to run the application.
-					Valid values for this tag are:
+					This item type can be used to indicate support for or require certain ways a user can control the software. This usually maps to certain methods
+					of input. If multiples <literal>control</literal> tags with different values are found within a requires/supports block, only one of them needs
+					to be satisfied on the system to mark an application as compatible. This means if <literal>touch</literal> and <literal>pointing</literal> are both
+					supported as controls for an application-type component, a system that only has a mouse and no touchscreen will still be considered able to run
+					the application. Valid values for this tag are:
 				</para>
 				<itemizedlist>
 					<listitem><para><code>pointing</code> - Input via mouse/cursors/other pointing devices is possible</para></listitem>
 					<listitem><para><code>keyboard</code> - Keyboard input is possible</para></listitem>
 					<listitem><para><code>console</code> - Control via a console / command-line interface</para></listitem>
+					<listitem><para><code>tablet</code> - Graphics tablet input</para></listitem>
 					<listitem><para><code>touch</code> - Input by touching a surface with fingers is possible</para></listitem>
 					<listitem><para><code>gamepad</code> - The component supports gamepads (any game controller with wheels/buttons/joysticks)</para></listitem>
 					<listitem><para><code>tv-remote</code> - Input via a TV remote (with arrow keys, number pad, other basic inputs) is supported.</para></listitem>
@@ -901,30 +938,41 @@
 					<listitem><para><code>vision</code> - The software can be controlled by computer vision / visual object and sign detection</para></listitem>
 				</itemizedlist>
 				<para>
-					If a control type is <emphasis>recommended</emphasis>, it means the software supports the given method of user input. As long as one of the input methods
-					is available on the system, the software can be used. Installation on systems without the given control is still permitted.
-					If a control type is <emphasis>required</emphasis>, the same applies, but the software installer should refuse to install the application on devices which
-					do not have at least one of the input methods. It is therefore advised to only use the <code>control</code> tag in <code>recommends</code> listings,
-					and avoid to use it in <code>requires</code>.
+					If a control type is <emphasis>supported</emphasis> (= in a <literal>supports</literal> block), it means the software supports the given method of user
+					input. As long as one of the input methods is available on the system, the software can be used. Installation on systems without the given control may
+					still be permitted, but the software may not be easily usable.
+				</para>
+				<para>
+					If a control type is <emphasis>recommended</emphasis> (= in a <literal>recommends</literal> block), it means the software prefers the given method of
+					user input. The software may still be installed if the input control method is not available, but functionality may be severely degraded.
+				</para>
+				<para>
+					If a control type is <emphasis>required</emphasis> (= in a <literal>requires</literal> block), the same applies, but the software installer should refuse
+					to install the software on devices which do not have at least one of the input methods. It is therefore advised to only use the <code>control</code> tag
+					in <code>supports</code> and possibly <code>recommends</code> blocks, and avoid to use it in <code>requires</code>.
 				</para>
 				<para>
 					For certain component types, some permitted controls are implicitly assumed: For <link linkend="sect-Metadata-Application">desktop-application</link>
 					and <link linkend="sect-Metadata-WebApplication">web-application</link> components, <literal>pointing</literal> and <literal>keyboard</literal> controls
-					are assumed.
+					are assumed supported, unless explicit support is defined by the metadata author.
 					For <link linkend="sect-Metadata-ConsoleApplication">console-application</link>, control via <literal>console</literal> is assumed.
 				</para>
 				<para>
-					Example control recommendation:
+					For any other, non-application-like component types, the <literal>control</literal> relation item is currently considered unsupported.
 				</para>
-				<programlisting language="XML"><![CDATA[<recommends>
+				<para>
+					Example control support block:
+				</para>
+				<programlisting language="XML"><![CDATA[<supports>
   <control>pointing</control>
   <control>keyboard</control>
   <control>touch</control>
-</recommends>]]></programlisting>
+</supports>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal>, <literal>supports</literal></para>
 				</listitem>
 			</varlistentry>
 
-			<varlistentry id="tag-requires-recommends-display_length">
+			<varlistentry id="tag-relations-display_length">
 				<term>&lt;display_length/&gt;</term>
 				<listitem>
 				<para>
@@ -944,7 +992,7 @@
 					</para>
 				</note>
 				<para>
-					Relations for the display length can be defined using a <literal>compare</literal> property as described in <xref linkend="tag-requires-recommends"/>.
+					Relations for the display length can be defined using a <literal>compare</literal> property as described in <xref linkend="tag-relations"/>.
 					If this property is not present, a value of <code>ge</code> (greater-or-equal) is implicitly assumed.
 				</para>
 				<para>
@@ -972,7 +1020,7 @@
 						Please note that a display with a lot of vertical space may not be a television screen, but could also be a large gaming monitor.
 						Similar logic applies to the smaller screen sizes. Therefore, to indicate that an application runs well on a certain <emphasis>device</emphasis>
 						and not just on a certain <emphasis>display</emphasis>, additional metadata is needed, like the application's supported
-						input controls as defined via <xref linkend="tag-requires-recommends-control"/>.
+						input controls as defined via <xref linkend="tag-relations-control"/>.
 					</para>
 				</note>
 				<para>
@@ -1006,6 +1054,7 @@
   <display_length compare="lt">xlarge</display_length>
   <display_length compare="gt">xsmall</display_length>
 </requires>]]></programlisting>
+				<para>Valid for: <literal>requires</literal>, <literal>recommends</literal></para>
 				</listitem>
 			</varlistentry>
 
@@ -1073,7 +1122,7 @@
 		<listitem>
 			<para>
 				The <code>&lt;project_license/&gt;</code> tag is indicating the license of the component (application/library/addon/font/etc.) described in the metadata document.
-				It should be a <ulink url="https://spdx.org/specifications">SPDX license expression</ulink>. Please note the SPDX license IDs are case-sensitive in AppStream.
+				It should be an <ulink url="https://spdx.org/specifications">SPDX license expression</ulink>. Please note the SPDX license IDs are case-sensitive in AppStream.
 				Possible values include:
 				<itemizedlist>
 					<listitem><para><literal>GPL-2.0</literal></para></listitem>
@@ -1118,7 +1167,7 @@
 		</para>
 		<para>
 			Values might be for example "The GNOME Foundation" or "The KDE Community".
-			You must not include hyperlinks or emails in this field, if you want to link to the developer's homepage, use the <xref linkend="tag-url"/>-tag instead.
+			You must not include hyperlinks or emails in this field; if you want to link to the developer's homepage, use the <xref linkend="tag-url"/>-tag instead.
 		</para>
 		<para>
 			This tag is translatable.
@@ -1144,7 +1193,7 @@
 		</para>
 		<para>
 			The value of the <code>&lt;image/&gt;</code> tag is a direct HTTP/HTTPS URL to a screenshot uploaded to a public location on the web.
-			Images should ideally be provided in the PNG format, using JPEG or WebP is also permitted for images in metainfo files.
+			Images should ideally be provided in the PNG format; using JPEG or WebP is also permitted for images in metainfo files.
 		</para>
 		<para>
 			The <code>&lt;image/&gt;</code> tag may have the following properties:
@@ -1446,6 +1495,36 @@
 		</listitem>
 		</varlistentry>
 
+		<varlistentry id="tag-tags">
+		<term>&lt;tags/&gt;</term>
+		<listitem>
+		<para>
+			The <code>&lt;tags/&gt;</code> tag is an optional tag which can be used to give the component one or multiple arbitrary labels.
+			For example, it can be used for apps to tag themselves as "featured" in specific software centers, or to group software together
+			by some well-defined criteria.
+		</para>
+		<para>
+			The interpretation of tags is completely defined by the client application that is reading AppStream metadata. Tags defined
+			in metainfo files may be filtered by collection metadata generators, and may even be completely ignored by clients. Components
+			must not rely on the presence of specific tags to behave correctly.
+		</para>
+		<para>
+			The <literal>tags</literal> tag must have <literal>tag</literal> children which must have a value comprised only of lower-case
+			ASCII characters, dots, hyphens and numbers. Spaces are not allowed. The tag must also have a <literal>namespace</literal>
+			attribute to designate a namespace where the particular tag is valid. The namespace is an arbitrary string which has the
+			same character limitations as the tag value. It may for example be the name of the client too that consumes the data, or
+			the name of the organization the tag belongs to.
+		</para>
+		<para>
+			Example:
+		</para>
+		<programlisting language="XML"><![CDATA[<tags>
+  <tag namespace="lvfs">vendor-2021q1</tag>
+  <tag namespace="plasma">featured</tag>
+</tags>]]></programlisting>
+		</listitem>
+		</varlistentry>
+
 		<varlistentry id="tag-custom">
 		<term>&lt;custom/&gt;</term>
 		<listitem>
@@ -1459,7 +1538,7 @@
 		<para>
 			The tag must have <literal>value</literal> children which must have a <literal>key</literal> property. The value of the <literal>value</literal>
 			tag denotes a user-defined value, while the key string set for the <literal>key</literal> property denotes a user-specified key string.
-			The key must be unique, multiple keys with the same name are not allowed.
+			The key must be unique; multiple keys with the same name are not allowed.
 		</para>
 		<para>
 			To avoid name conflicts, it is recommended to prefix keys with a vendor prefix, like <code>GNOME::</code> or <code>KDE::</code>.

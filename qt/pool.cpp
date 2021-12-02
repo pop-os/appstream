@@ -18,6 +18,7 @@
  */
 
 #include <appstream.h>
+#include "as-pool-private.h"
 #include "pool.h"
 
 #include <QStringList>
@@ -56,10 +57,19 @@ static QList<Component> cptArrayToQList(GPtrArray *cpts)
     return res;
 }
 
+static void
+pool_changed_cb (AsPool *cpool, AppStream::Pool *qpool)
+{
+    qpool->changed();
+}
+
 Pool::Pool(QObject *parent)
     : QObject (parent),
       d(new PoolPrivate())
-{}
+{
+    g_signal_connect (d->pool, "changed",
+                      G_CALLBACK (pool_changed_cb), this);
+}
 
 Pool::~Pool()
 {
@@ -86,10 +96,7 @@ bool Pool::load(QString* strerror)
 
 void Pool::clear()
 {
-    g_autoptr(GError) error = nullptr;
-    auto ret = as_pool_clear2 (d->pool, &error);
-    if (!ret && error)
-        d->lastError = QString::fromUtf8(error->message);
+    as_pool_clear (d->pool);
 }
 
 QString Pool::lastError() const
@@ -97,10 +104,20 @@ QString Pool::lastError() const
     return d->lastError;
 }
 
-bool Pool::addComponent(const AppStream::Component& cpt)
+bool Pool::addComponents(const QList<AppStream::Component>& cpts)
 {
-    // FIXME: We ignore errors for now.
-    return as_pool_add_component (d->pool, cpt.m_cpt, NULL);
+    g_autoptr(GError) error = nullptr;
+    g_autoptr(GPtrArray) array = nullptr;
+
+    array = g_ptr_array_sized_new (cpts.length());
+    for (const auto& cpt : cpts)
+        g_ptr_array_add(array, cpt.asComponent());
+
+    bool ret = as_pool_add_components (d->pool, array, &error);
+    if (!ret)
+        d->lastError = QString::fromUtf8(error->message);
+
+    return ret;
 }
 
 QList<Component> Pool::components() const
@@ -140,23 +157,19 @@ QList<AppStream::Component> Pool::componentsByCategories(const QStringList& cate
 QList<Component> Pool::componentsByLaunchable(Launchable::Kind kind, const QString& value) const
 {
     return cptArrayToQList(as_pool_get_components_by_launchable(d->pool,
-                                                                   static_cast<AsLaunchableKind>(kind),
-                                                                   qPrintable(value)));
+                                                                static_cast<AsLaunchableKind>(kind),
+                                                                qPrintable(value)));
+}
+
+QList<Component> Pool::componentsByExtends(const QString &extendedId) const
+{
+    return cptArrayToQList(as_pool_get_components_by_extends(d->pool,
+                                                             qPrintable(extendedId)));
 }
 
 QList<AppStream::Component> Pool::search(const QString& term) const
 {
     return cptArrayToQList(as_pool_search(d->pool, qPrintable(term)));
-}
-
-void Pool::clearMetadataLocations()
-{
-    as_pool_clear_metadata_locations(d->pool);
-}
-
-void Pool::addMetadataLocation(const QString& directory)
-{
-    as_pool_add_metadata_location (d->pool, qPrintable(directory));
 }
 
 void Pool::setLocale(const QString& locale)
@@ -166,7 +179,7 @@ void Pool::setLocale(const QString& locale)
 
 uint Pool::flags() const
 {
-    return (uint) as_pool_get_flags(d->pool);
+    return as_pool_get_flags(d->pool);
 }
 
 void Pool::setFlags(uint flags)
@@ -174,22 +187,86 @@ void Pool::setFlags(uint flags)
     as_pool_set_flags (d->pool, (AsPoolFlags) flags);
 }
 
+void Pool::addFlags(uint flags)
+{
+    as_pool_add_flags(d->pool, (AsPoolFlags) flags);
+}
+
+void Pool::removeFlags(uint flags)
+{
+    as_pool_remove_flags(d->pool, (AsPoolFlags) flags);
+}
+
+void Pool::resetExtraDataLocations()
+{
+    as_pool_reset_extra_data_locations (d->pool);
+}
+
+void Pool::addExtraDataLocation(const QString &directory, Metadata::FormatStyle formatStyle)
+{
+    as_pool_add_extra_data_location (d->pool,
+                                     qPrintable(directory),
+                                     (AsFormatStyle) formatStyle);
+}
+
+void Pool::setLoadStdDataLocations(bool enabled)
+{
+    as_pool_set_load_std_data_locations(d->pool, enabled);
+}
+
+void Pool::overrideCacheLocations(const QString &sysDir, const QString &userDir)
+{
+    as_pool_override_cache_locations (d->pool,
+                                      sysDir.isEmpty()? nullptr : qPrintable(sysDir),
+                                      userDir.isEmpty()? nullptr : qPrintable(userDir));
+}
+
+bool Pool::addComponent(const AppStream::Component& cpt)
+{
+    QList<AppStream::Component> cpts;
+    cpts.append(cpt);
+    return addComponents(cpts);
+}
+
 uint Pool::cacheFlags() const
 {
-    return (uint) as_pool_get_cache_flags(d->pool);
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    return as_pool_get_cache_flags(d->pool);
+#pragma GCC diagnostic pop
 }
 
 void Pool::setCacheFlags(uint flags)
 {
-    as_pool_set_cache_flags (d->pool, (AsCacheFlags) flags);
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    as_pool_set_cache_flags(d->pool,
+                            (AsCacheFlags) flags);
+#pragma GCC diagnostic pop
+}
+
+void Pool::clearMetadataLocations()
+{
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    as_pool_clear_metadata_locations(d->pool);
+#pragma GCC diagnostic pop
+}
+
+void Pool::addMetadataLocation(const QString& directory)
+{
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    as_pool_add_metadata_location (d->pool, qPrintable(directory));
+#pragma GCC diagnostic pop
 }
 
 QString AppStream::Pool::cacheLocation() const
 {
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     return QString::fromUtf8(as_pool_get_cache_location(d->pool));
+#pragma GCC diagnostic pop
 }
 
 void Pool::setCacheLocation(const QString &location)
 {
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
     as_pool_set_cache_location(d->pool, qPrintable(location));
+#pragma GCC diagnostic pop
 }

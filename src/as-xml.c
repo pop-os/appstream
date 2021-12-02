@@ -424,12 +424,14 @@ static xmlNode*
 as_xml_markup_parse_helper_export_node (AsXMLMarkupParseHelper *helper, xmlNode *parent, gboolean localized)
 {
 	if ((helper->tag_id == AS_TAG_P) || (helper->tag_id == AS_TAG_LI)) {
+		/* add node and subnodes */
 		xmlNode *cn = xmlAddChild (parent, xmlCopyNode (helper->node, TRUE));
 		if (helper->localized && localized) {
 			xmlNewProp (cn,
 				    (xmlChar*) "xml:lang",
 				    (xmlChar*) helper->locale);
 		}
+
 		return cn;
 	}
 
@@ -1117,12 +1119,14 @@ as_xml_node_to_str (xmlNode *root, GError **error)
 	if (error_msg_str != NULL) {
 		if (error == NULL) {
 			g_warning ("Could not serialize XML document: %s", error_msg_str);
+			g_free (g_steal_pointer (&xmlstr));
 			goto out;
 		} else {
 			g_set_error (error,
 					AS_METADATA_ERROR,
 					AS_METADATA_ERROR_FAILED,
 					"Could not serialize XML document: %s", error_msg_str);
+			g_free (g_steal_pointer (&xmlstr));
 			goto out;
 		}
 	}

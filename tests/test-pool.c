@@ -20,6 +20,7 @@
 
 #include <config.h>
 #include <glib.h>
+#include <glib/gstdio.h>
 #include <glib/gprintf.h>
 
 #include "appstream.h"
@@ -27,10 +28,15 @@
 #include "as-test-utils.h"
 #include "as-stemmer.h"
 #include "as-cache.h"
-#include "../src/as-utils-private.h"
-#include "../src/as-component-private.h"
+#include "as-file-monitor.h"
+#include "as-utils-private.h"
+#include "as-component-private.h"
 
 static gchar *datadir = NULL;
+static gchar *cache_dummy_dir = NULL;
+
+static GMainLoop *_test_loop = NULL;
+static guint _test_loop_timeout_id = 0;
 
 static void
 print_cptarray (GPtrArray *cpt_array)
@@ -63,6 +69,38 @@ _as_get_single_component_by_cid (AsPool *pool, const gchar *cid)
 	return g_object_ref (AS_COMPONENT (g_ptr_array_index (result, 0)));
 }
 
+static gboolean
+as_test_hang_check_cb (gpointer user_data)
+{
+	g_main_loop_quit (_test_loop);
+	_test_loop_timeout_id = 0;
+	g_clear_pointer (&_test_loop, g_main_loop_unref);
+	return G_SOURCE_REMOVE;
+}
+
+static void
+as_test_loop_run_with_timeout (guint timeout_ms)
+{
+	g_assert_true (_test_loop_timeout_id == 0);
+	g_assert_true (_test_loop == NULL);
+	_test_loop = g_main_loop_new (NULL, FALSE);
+	_test_loop_timeout_id = g_timeout_add (timeout_ms, as_test_hang_check_cb, NULL);
+	g_main_loop_run (_test_loop);
+}
+
+static void
+as_test_loop_quit (void)
+{
+	if (_test_loop_timeout_id > 0) {
+		g_source_remove (_test_loop_timeout_id);
+		_test_loop_timeout_id = 0;
+	}
+	if (_test_loop != NULL) {
+		g_main_loop_quit (_test_loop);
+		g_clear_pointer (&_test_loop, g_main_loop_unref);
+	}
+}
+
 /**
  * test_get_sampledata_pool:
  *
@@ -75,21 +113,23 @@ test_get_sampledata_pool (gboolean use_caches)
 	AsPoolFlags flags;
 	g_autofree gchar *mdata_dir = NULL;
 
+	/* sanity check */
+	g_assert_nonnull (cache_dummy_dir);
+
 	/* create AsPool and load sample metadata */
 	mdata_dir = g_build_filename (datadir, "collection", NULL);
 
 	pool = as_pool_new ();
-	as_pool_clear_metadata_locations (pool);
-	as_pool_add_metadata_location (pool, mdata_dir);
+	as_pool_add_extra_data_location (pool, mdata_dir, AS_FORMAT_STYLE_COLLECTION);
 	as_pool_set_locale (pool, "C");
 
 	flags = as_pool_get_flags (pool);
-	as_flags_remove (flags, AS_POOL_FLAG_READ_DESKTOP_FILES);
-	as_flags_remove (flags, AS_POOL_FLAG_READ_METAINFO);
+	if (!use_caches)
+		as_flags_add (flags, AS_POOL_FLAG_IGNORE_CACHE_AGE);
 	as_pool_set_flags (pool, flags);
 
-	if (!use_caches)
-		as_pool_set_cache_flags (pool, AS_CACHE_FLAG_NONE);
+	as_pool_set_load_std_data_locations (pool, FALSE);
+	as_pool_override_cache_locations (pool, cache_dummy_dir, NULL);
 
 	return pool;
 }
@@ -150,31 +190,47 @@ as_assert_component_lists_equal (GPtrArray *cpts_a, GPtrArray *cpts_b)
 static void
 test_cache ()
 {
-	g_autoptr(AsPool) pool = NULL;
-	g_autoptr(GPtrArray) cpts_prev = NULL;
-	g_autoptr(GPtrArray) cpts_post = NULL;
+	g_autoptr(GPtrArray) xml_files = NULL;
+	g_autoptr(GError) error = NULL;
 	g_autoptr(AsMetadata) mdata = NULL;
 	g_autoptr(AsCache) cache = NULL;
-	g_autoptr(AsComponent) ccpt = NULL;
-	g_autoptr(GError) error = NULL;
+	g_autoptr(GPtrArray) cpts_pre = NULL;
+	g_autoptr(GPtrArray) cpts_post = NULL;
+	gboolean ret;
+	g_autofree gchar *mdata_dir = NULL;
 	g_autofree gchar *xmldata_precache = NULL;
 	g_autofree gchar *xmldata_postcache = NULL;
-	gboolean ret;
-	static const gchar *cache_testpath = "/tmp/as-unittest-cache.cache";
+	g_autofree gchar *cache_testpath = g_build_filename (cache_dummy_dir, "ctest", NULL);
 
-	pool = test_get_sampledata_pool (FALSE);
-	as_pool_set_cache_location (pool, cache_testpath);
+	mdata_dir = g_build_filename (datadir, "collection", "xml", NULL);
 
-	as_pool_load (pool, NULL, &error);
+	xml_files = as_utils_find_files_matching (mdata_dir, "*.xml", FALSE, &error);
 	g_assert_no_error (error);
+	g_assert_nonnull (xml_files);
 
-	/* get XML representation of the data currently in the pool */
 	mdata = as_metadata_new ();
-	cpts_prev = as_pool_get_components (pool);
-	as_sort_components (cpts_prev);
-	g_assert_cmpint (cpts_prev->len, ==, 19);
-	for (guint i = 0; i < cpts_prev->len; i++) {
-		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts_prev, i));
+	as_metadata_set_locale (mdata, "C");
+	as_metadata_set_format_style (mdata, AS_FORMAT_STYLE_COLLECTION);
+
+	for (guint i = 0; i < xml_files->len; i++) {
+		g_autoptr(GFile) file = NULL;
+		const gchar *fname = g_ptr_array_index (xml_files, i);
+
+		if (g_str_has_suffix (fname, "merges.xml") || g_str_has_suffix (fname, "suggestions.xml"))
+			continue;
+
+		file = g_file_new_for_path (fname);
+		ret = as_metadata_parse_file (mdata, file, AS_FORMAT_KIND_XML, &error);
+		g_assert_no_error (error);
+		g_assert_true (ret);
+	}
+
+	cpts_pre = g_ptr_array_new_with_free_func (g_object_unref);
+	for (guint i = 0; i < as_metadata_get_components (mdata)->len; i++) {
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (as_metadata_get_components (mdata), i));
+
+		if (g_strcmp0 (as_component_get_id (cpt), "org.example.DeleteMe") == 0)
+			continue;
 
 		/* keywords are not cached explicitly, they are stored in the search terms list instead. Therefore, we don't
 		 * serialize them here */
@@ -183,26 +239,50 @@ test_cache ()
 		/* FIXME: language lists are not deterministic yet, so we ignore them for now */
 		g_hash_table_remove_all (as_component_get_languages_table (cpt));
 
+		g_ptr_array_add (cpts_pre, g_object_ref (cpt));
+	}
+	g_assert_cmpint (cpts_pre->len, ==, 20);
+
+	/* generate XML of the components added to the cache */
+	as_metadata_clear_components (mdata);
+	as_sort_components (cpts_pre);
+	for (guint i = 0; i < cpts_pre->len; i++) {
+		AsComponent *cpt = AS_COMPONENT (g_ptr_array_index (cpts_pre, i));
 		as_metadata_add_component (mdata, cpt);
 	}
-
 	xmldata_precache = as_metadata_components_to_collection (mdata, AS_FORMAT_KIND_XML, &error);
 	g_assert_no_error (error);
 
-	/* ensure we get the same result back that we cached before */
-	g_object_unref (pool);
-	pool = test_get_sampledata_pool (FALSE);
-	as_pool_clear_metadata_locations (pool);
-	as_pool_set_cache_flags (pool, as_pool_get_cache_flags (pool) | AS_CACHE_FLAG_NO_CLEAR);
+	/* create new cache for writing */
+	cache = as_cache_new ();
+	as_cache_set_locale (cache, "C");
+	as_cache_set_locations (cache, cache_testpath, cache_testpath);
 
-	as_pool_set_cache_location (pool, cache_testpath);
-	as_pool_load (pool, NULL, &error);
+	/* add data */
+	ret = as_cache_set_contents_for_path (cache,
+					      cpts_pre,
+					      mdata_dir,
+					      NULL,
+					      &error);
 	g_assert_no_error (error);
+	g_assert_true (ret);
 
-	cpts_post = as_pool_get_components (pool);
-	g_assert_cmpint (cpts_post->len, ==, 19);
-	as_assert_component_lists_equal (cpts_post, cpts_prev);
 
+	/* new cache for loading */
+	g_clear_pointer (&cache, g_object_unref);
+	cache = as_cache_new ();
+	as_cache_set_locale (cache, "C");
+	as_cache_set_locations (cache, cache_testpath, cache_testpath);
+
+	/* ensure we get the same result back that we cached before */
+	as_cache_load_section_for_path (cache, mdata_dir, NULL, NULL);
+
+	cpts_post = as_cache_get_components_all (cache, &error);
+	g_assert_no_error (error);
+	g_assert_cmpint (cpts_post->len, ==, 20);
+	as_assert_component_lists_equal (cpts_post, cpts_pre);
+
+	/* generate XML of the components retrieved from cache */
 	as_metadata_clear_components (mdata);
 	as_sort_components (cpts_post);
 	for (guint i = 0; i < cpts_post->len; i++) {
@@ -212,28 +292,11 @@ test_cache ()
 
 	xmldata_postcache = as_metadata_components_to_collection (mdata, AS_FORMAT_KIND_XML, &error);
 	g_assert_no_error (error);
+
 	g_assert_true (as_test_compare_lines (xmldata_precache, xmldata_postcache));
 
-	/* load an "modify" read-only cache */
-	cache = as_cache_new ();
-	as_cache_set_readonly (cache, TRUE);
-	as_cache_open (cache, cache_testpath, "C", &error);
-	g_assert_no_error (error);
-
-	ccpt = as_cache_get_component_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
-	g_assert_no_error (error);
-	g_assert_nonnull (ccpt);
-
-	g_assert_cmpstr (as_component_get_name (ccpt), ==, "Inkscape");
-	g_object_unref (ccpt);
-
-	ret = as_cache_remove_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
-	g_assert_no_error (error);
-	g_assert_true (ret);
-
-	ccpt = as_cache_get_component_by_data_id (cache, "system/package/os/org.inkscape.Inkscape/*", &error);
-	g_assert_no_error (error);
-	g_assert_null (ccpt);
+	/* cleanup */
+	as_utils_delete_dir_recursive (cache_testpath);
 }
 
 /**
@@ -271,7 +334,7 @@ test_pool_read ()
 	/* check total pool component count */
 	all_cpts = as_pool_get_components (dpool);
 	g_assert_nonnull (all_cpts);
-	g_assert_cmpint (all_cpts->len, ==, 19);
+	g_assert_cmpint (all_cpts->len, ==, 20);
 
 	/* generic tests */
 	result = as_pool_search (dpool, "kig");
@@ -311,7 +374,7 @@ test_pool_read ()
 
 	/* we return all components if the search string is too short */
 	result = as_pool_search (dpool, "s");
-	g_assert_cmpint (result->len, ==, 19);
+	g_assert_cmpint (result->len, ==, 20);
 	g_clear_pointer (&result, g_ptr_array_unref);
 
 	strv = g_strsplit ("Science", ";", 0);
@@ -428,7 +491,6 @@ test_pool_read_async_ready_cb (AsPool *pool, GAsyncResult *result, gpointer user
 {
 	g_autoptr(GError) error = NULL;
 	g_autoptr(GPtrArray) all_cpts = NULL;
-	GMainLoop **loop = (GMainLoop**) user_data;
 
 	g_debug ("AsPool-Async-Load: Received ready callback.");
 	as_pool_load_finish (pool, result, &error);
@@ -439,11 +501,10 @@ test_pool_read_async_ready_cb (AsPool *pool, GAsyncResult *result, gpointer user
 	/* check total retrieved component count */
 	all_cpts = as_pool_get_components (pool);
 	g_assert_nonnull (all_cpts);
-	g_assert_cmpint (all_cpts->len, ==, 19);
+	g_assert_cmpint (all_cpts->len, ==, 20);
 
-	/* we received the callback, so quite the loop */
-	g_main_loop_quit (*loop);
-	g_clear_pointer (loop, g_main_loop_unref);
+	/* we received the callback, so quit the loop */
+	as_test_loop_quit ();
 }
 
 /**
@@ -471,18 +532,18 @@ static void
 test_pool_read_async ()
 {
 	g_autoptr(AsPool) pool = NULL;
-	g_autoptr(GPtrArray) cpts = NULL;
 	g_autoptr(GPtrArray) result = NULL;
-	g_autoptr(GMainLoop) loop = g_main_loop_new (NULL, FALSE);
 
 	/* load sample data */
 	pool = test_get_sampledata_pool (FALSE);
+	as_pool_add_flags (pool, AS_POOL_FLAG_RESOLVE_ADDONS);
 
 	g_debug ("AsPool-Async-Load: Requesting pool data loading.");
+	_test_loop = g_main_loop_new (NULL, FALSE);
 	as_pool_load_async (pool,
 			    NULL, /* cancellable */
 			    (GAsyncReadyCallback) test_pool_read_async_ready_cb,
-			    &loop);
+			    NULL);
 
 	g_debug ("AsPool-Async-Load: Searching for components (immediately)");
 
@@ -491,25 +552,33 @@ test_pool_read_async ()
 	g_test_log_set_fatal_handler (test_log_allow_warnings, NULL);
 
 	result = as_pool_search (pool, "web");
-	g_assert_cmpint (result->len, ==, 0);
+	if (result->len != 0 && result->len != 1) {
+		g_warning ("Invalid number of components retrieved: %i", result->len);
+		g_assert_not_reached ();
+	}
 	g_clear_pointer (&result, g_ptr_array_unref);
 
-	cpts = as_pool_get_components (pool);
-	g_assert_nonnull (cpts);
-	g_assert_cmpint (cpts->len, ==, 0);
-	g_ptr_array_unref (cpts);
+	result = as_pool_get_components (pool);
+	g_assert_nonnull (result);
+	if (result->len != 0 && result->len != 20) {
+		g_warning ("Invalid number of components retrieved: %i", result->len);
+		g_assert_not_reached ();
+	}
+	g_clear_pointer (&result, g_ptr_array_unref);
 
 	/* wait for the callback to be run (unless it already has!) */
-	if (loop != NULL)
-		g_main_loop_run (loop);
+	if (_test_loop != NULL)
+		g_main_loop_run (_test_loop);
+	g_clear_pointer (&_test_loop, g_object_unref);
 
 	/* reset handler */
 	g_test_log_set_fatal_handler (NULL, NULL);
 
 	g_debug ("AsPool-Async-Load: Checking component count (after loaded)");
-	cpts = as_pool_get_components (pool);
-	g_assert_nonnull (cpts);
-	g_assert_cmpint (cpts->len, ==, 19);
+	result = as_pool_get_components (pool);
+	g_assert_nonnull (result);
+	g_assert_cmpint (result->len, ==, 20);
+	g_clear_pointer (&result, g_ptr_array_unref);
 }
 
 /**
@@ -604,7 +673,9 @@ test_pool_empty ()
 	gboolean ret;
 
 	pool = as_pool_new ();
-	as_pool_clear_metadata_locations (pool);
+	as_pool_set_load_std_data_locations (pool, FALSE);
+	as_pool_override_cache_locations (pool, cache_dummy_dir, NULL);
+	as_pool_reset_extra_data_locations (pool);
 	as_pool_set_locale (pool, "C");
 
 	/* test reading from the pool when it wasn't loaded yet */
@@ -636,6 +707,318 @@ test_pool_empty ()
 	g_clear_pointer (&result, g_ptr_array_unref);
 }
 
+static void
+monitor_test_cb (AsFileMonitor *mon, const gchar *filename, guint *cnt)
+{
+	(*cnt)++;
+}
+
+/**
+ * test_filemonitor_dir:
+ */
+static void
+test_filemonitor_dir (void)
+{
+	gboolean ret;
+	guint cnt_added = 0;
+	guint cnt_removed = 0;
+	guint cnt_changed = 0;
+	g_autoptr(AsFileMonitor) mon = NULL;
+	g_autoptr(GError) error = NULL;
+	const gchar *tmpdir = "/tmp/as-monitor-test/usr/share/appstream/xml";
+	g_autofree gchar *tmpfile = NULL;
+	g_autofree gchar *tmpfile_new = NULL;
+	g_autofree gchar *cmd_touch = NULL;
+
+	/* cleanup */
+	ret = as_utils_delete_dir_recursive (tmpdir);
+	g_assert_true (ret);
+	g_assert_true (!g_file_test (tmpdir, G_FILE_TEST_EXISTS));
+
+	/* create directory */
+	g_mkdir_with_parents (tmpdir, 0700);
+
+	/* prepare */
+	tmpfile = g_build_filename (tmpdir, "test.txt", NULL);
+	tmpfile_new = g_build_filename (tmpdir, "newtest.txt", NULL);
+	g_remove (tmpfile);
+	g_remove (tmpfile_new);
+
+	g_assert_true (!g_file_test (tmpfile, G_FILE_TEST_EXISTS));
+	g_assert_true (!g_file_test (tmpfile_new, G_FILE_TEST_EXISTS));
+
+	mon = as_file_monitor_new ();
+	g_signal_connect (mon, "added",
+			  G_CALLBACK (monitor_test_cb), &cnt_added);
+	g_signal_connect (mon, "removed",
+			  G_CALLBACK (monitor_test_cb), &cnt_removed);
+	g_signal_connect (mon, "changed",
+			  G_CALLBACK (monitor_test_cb), &cnt_changed);
+
+	/* add watch */
+	ret = as_file_monitor_add_directory (mon, tmpdir, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* touch file */
+	cmd_touch = g_strdup_printf ("touch %s", tmpfile);
+	ret = g_spawn_command_line_sync (cmd_touch, NULL, NULL, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 1);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* just change the mtime */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_spawn_command_line_sync (cmd_touch, NULL, NULL, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 1);
+
+	/* delete it */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	g_unlink (tmpfile);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 1);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* save a new file with temp copy */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_file_set_contents (tmpfile, "foo", -1, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 1);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* modify file with temp copy */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_file_set_contents (tmpfile, "bar", -1, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 1);
+
+	/* rename the file */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	g_assert_cmpint (g_rename (tmpfile, tmpfile_new), ==, 0);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 1);
+	g_assert_cmpint (cnt_removed, ==, 1);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	g_unlink (tmpfile);
+	g_unlink (tmpfile_new);
+
+	/* cleanup */
+	as_utils_delete_dir_recursive (tmpdir);
+}
+
+/**
+ * test_filemonitor_file:
+ */
+static void
+test_filemonitor_file (void)
+{
+	gboolean ret;
+	guint cnt_added = 0;
+	guint cnt_removed = 0;
+	guint cnt_changed = 0;
+	g_autoptr(AsFileMonitor) mon = NULL;
+	g_autoptr(GError) error = NULL;
+	const gchar *tmpfile = "/tmp/one.txt";
+	const gchar *tmpfile_new = "/tmp/two.txt";
+	g_autofree gchar *cmd_touch = NULL;
+
+	g_remove (tmpfile);
+	g_remove (tmpfile_new);
+	g_assert_true (!g_file_test (tmpfile, G_FILE_TEST_EXISTS));
+	g_assert_true (!g_file_test (tmpfile_new, G_FILE_TEST_EXISTS));
+
+	mon = as_file_monitor_new ();
+	g_signal_connect (mon, "added",
+			  G_CALLBACK (monitor_test_cb), &cnt_added);
+	g_signal_connect (mon, "removed",
+			  G_CALLBACK (monitor_test_cb), &cnt_removed);
+	g_signal_connect (mon, "changed",
+			  G_CALLBACK (monitor_test_cb), &cnt_changed);
+
+	/* add a single file */
+	ret = as_file_monitor_add_file (mon, tmpfile, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	/* touch file */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	cmd_touch = g_strdup_printf ("touch %s", tmpfile);
+	ret = g_spawn_command_line_sync (cmd_touch, NULL, NULL, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 1);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* just change the mtime */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_spawn_command_line_sync (cmd_touch, NULL, NULL, NULL, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 1);
+
+	/* delete it */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	g_unlink (tmpfile);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 1);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* save a new file with temp copy */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_file_set_contents (tmpfile, "foo", -1, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 1);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 0);
+
+	/* modify file with temp copy */
+	cnt_added = cnt_removed = cnt_changed = 0;
+	ret = g_file_set_contents (tmpfile, "bar", -1, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+	as_test_loop_run_with_timeout (2000);
+	as_test_loop_quit ();
+	g_assert_cmpint (cnt_added, ==, 0);
+	g_assert_cmpint (cnt_removed, ==, 0);
+	g_assert_cmpint (cnt_changed, ==, 1);
+}
+
+static void
+pool_changed_cb (AsPool *pool, gboolean *data_changed)
+{
+	as_test_loop_quit ();
+	*data_changed = TRUE;
+}
+
+/**
+ * test_pool_autoreload:
+ *
+ * Test automatic pool data reloading
+ */
+static void
+test_pool_autoreload ()
+{
+	g_autoptr(AsPool) pool = NULL;
+	g_autoptr(GError) error = NULL;
+	g_autoptr(GPtrArray) result = NULL;
+	g_autofree gchar *src_datafile1 = NULL;
+	g_autofree gchar *src_datafile2 = NULL;
+	g_autofree gchar *dst_datafile1 = NULL;
+	g_autofree gchar *dst_datafile2 = NULL;
+	gboolean data_changed = FALSE;
+	gboolean ret;
+	const gchar *tmpdir = "/tmp/as-monitor-test/pool-data";
+
+	/* create pristine, monitoring pool */
+	pool = as_pool_new ();
+	as_pool_set_load_std_data_locations (pool, FALSE);
+	as_pool_override_cache_locations (pool, cache_dummy_dir, NULL);
+	as_pool_reset_extra_data_locations (pool);
+	as_pool_set_locale (pool, "C");
+	as_pool_add_flags (pool, AS_POOL_FLAG_MONITOR);
+
+	g_signal_connect (pool, "changed",
+			  G_CALLBACK (pool_changed_cb), &data_changed);
+
+	/* create test directory */
+	ret = as_utils_delete_dir_recursive (tmpdir);
+	g_assert_true (ret);
+	g_mkdir_with_parents (tmpdir, 0700);
+
+	/* add new data directory */
+	as_pool_add_extra_data_location (pool, tmpdir, AS_FORMAT_STYLE_COLLECTION);
+
+	/* ensure cache is empty */
+	result = as_pool_get_components_by_id (pool, "org.inkscape.Inkscape");
+	g_assert_cmpint (result->len, ==, 0);
+	g_clear_pointer (&result, g_ptr_array_unref);
+
+	/* add data and wait for auto-reload */
+	data_changed = FALSE;
+	src_datafile1 = g_build_filename (datadir, "collection", "xml", "foobar-1.xml", NULL);
+	dst_datafile1 = g_build_filename (tmpdir, "foobar-1.xml", NULL);
+	ret = as_copy_file (src_datafile1, dst_datafile1, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	if (!data_changed)
+		as_test_loop_run_with_timeout (14000);
+
+	/* check again */
+	result = as_pool_get_components_by_id (pool, "org.inkscape.Inkscape");
+	g_assert_cmpint (result->len, ==, 1);
+	g_clear_pointer (&result, g_ptr_array_unref);
+
+
+	/* add more data */
+	data_changed = FALSE;
+	src_datafile2 = g_build_filename (datadir, "collection", "xml", "lvfs-gdpr.xml", NULL);
+	dst_datafile2 = g_build_filename (tmpdir, "lvfs-gdpr.xml", NULL);
+	ret = as_copy_file (src_datafile2, dst_datafile2, &error);
+	g_assert_no_error (error);
+	g_assert_true (ret);
+
+	if (!data_changed)
+		as_test_loop_run_with_timeout (14000);
+
+	/* check for more data */
+	result = as_pool_get_components_by_id (pool, "org.inkscape.Inkscape");
+	g_assert_cmpint (result->len, ==, 1);
+	g_clear_pointer (&result, g_ptr_array_unref);
+	result = as_pool_get_components_by_id (pool, "org.fwupd.lvfs");
+	g_assert_cmpint (result->len, ==, 1);
+	g_clear_pointer (&result, g_ptr_array_unref);
+
+	/* check if deleting stuff yields the expected result */
+	data_changed = FALSE;
+	g_unlink (dst_datafile1);
+
+	if (!data_changed)
+		as_test_loop_run_with_timeout (14000);
+
+	result = as_pool_get_components_by_id (pool, "org.inkscape.Inkscape");
+	g_assert_cmpint (result->len, ==, 0);
+	g_clear_pointer (&result, g_ptr_array_unref);
+	result = as_pool_get_components_by_id (pool, "org.fwupd.lvfs");
+	g_assert_cmpint (result->len, ==, 1);
+	g_clear_pointer (&result, g_ptr_array_unref);
+}
+
 /**
  * main:
  */
@@ -654,6 +1037,12 @@ main (int argc, char **argv)
 	datadir = g_build_filename (datadir, "samples", NULL);
 	g_assert_true (g_file_test (datadir, G_FILE_TEST_EXISTS));
 
+	cache_dummy_dir = g_build_filename (g_get_tmp_dir (),
+					    "as-test-cache-dummy",
+					    "XXXXXX",
+					    NULL);
+	g_mkdtemp (cache_dummy_dir);
+
 	g_setenv ("G_MESSAGES_DEBUG", "all", TRUE);
 	g_test_init (&argc, &argv, NULL);
 
@@ -665,12 +1054,18 @@ main (int argc, char **argv)
 	g_test_add_func ("/AppStream/PoolEmpty", test_pool_empty);
 	g_test_add_func ("/AppStream/Cache", test_cache);
 	g_test_add_func ("/AppStream/Merges", test_merge_components);
-
 #ifdef HAVE_STEMMING
 	g_test_add_func ("/AppStream/Stemming", test_search_stemming);
 #endif
+	g_test_add_func ("/AppStream/FileMonitorDir", test_filemonitor_dir);
+	g_test_add_func ("/AppStream/FileMonitorFile", test_filemonitor_file);
+	g_test_add_func ("/AppStream/PoolAutoReload", test_pool_autoreload);
 
 	ret = g_test_run ();
+
+	/* cleanup */
+	as_utils_delete_dir_recursive (cache_dummy_dir);
+	g_free (cache_dummy_dir);
 	g_free (datadir);
 
 	return ret;

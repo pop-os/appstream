@@ -1,9 +1,9 @@
 project('AppStream', 'c',
-  meson_version: '>=0.48',
+  meson_version: '>=0.50',
   default_options: ['c_std=c11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.14.6',
+  version: '0.15.0',
 )
 
 cc = meson.get_compiler('c')
@@ -90,17 +90,10 @@ glib_dep = dependency('glib-2.0', version: '>=2.58')
 gobject_dep = dependency('gobject-2.0', version: '>=2.58')
 gio_dep = dependency('gio-2.0', version: '>=2.58')
 gio_unix_dep = dependency('gio-unix-2.0', version: '>=2.58')
-curl_dep = dependency('libcurl', version : '>= 7.62')
+curl_dep = dependency('libcurl', version: '>= 7.62')
 xml2_dep = dependency('libxml-2.0')
 yaml_dep = dependency('yaml-0.1')
-lmdb_dep = dependency('lmdb', required: false)
-
-if not lmdb_dep.found()
-    lmdb_lib = cc.find_library('lmdb', required: true)
-    if not cc.has_header('lmdb.h')
-        error('Headers for dependency "lmdb" not found')
-    endif
-endif
+xmlb_dep = dependency('xmlb', version: '>= 0.3.4', fallback: ['libxmlb', 'libxmlb_dep'])
 
 if get_option ('gir')
     # ensure we have a version of GIR that isn't broken with Meson
@@ -138,9 +131,9 @@ if get_option('compose')
     subdir('compose/')
 endif
 subdir('tools/')
+subdir('po/')
 subdir('data/')
 subdir('contrib/')
-subdir('po/')
 subdir('docs/')
 subdir('tests/')
 if get_option('qt')

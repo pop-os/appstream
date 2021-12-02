@@ -9,6 +9,7 @@ aslib_src = [
     'as-curl.c',
     'as-desktop-entry.c',
     'as-distro-extras.c',
+    'as-file-monitor.c',
     'as-news-convert.c',
     'as-profile.c',
     'as-stemmer.c',
@@ -95,6 +96,7 @@ aslib_priv_headers = [
     'as-desktop-entry.h',
     'as-distro-details-private.h',
     'as-distro-extras.h',
+    'as-file-monitor.h',
     'as-icon-private.h',
     'as-image-private.h',
     'as-issue-private.h',
@@ -115,10 +117,10 @@ aslib_priv_headers = [
 ]
 
 as_version_h = configure_file(
-  input: 'as-version.h.in',
-  output: 'as-version.h',
-  install_dir: join_paths(get_option('includedir'), 'appstream'),
-  configuration: conf
+    input: 'as-version.h.in',
+    output: 'as-version.h',
+    install_dir: join_paths(get_option('includedir'), 'appstream'),
+    configuration: conf
 )
 
 aslib_pub_enums = glib.mkenums_simple('as-enum-types',
@@ -162,12 +164,9 @@ aslib_deps = [glib_dep,
               gobject_dep,
               gio_unix_dep,
               curl_dep,
-              lmdb_dep,
+              xmlb_dep,
               xml2_dep,
               yaml_dep]
-if not lmdb_dep.found()
-    aslib_deps += [lmdb_lib]
-endif
 if get_option ('stemming')
     aslib_deps += [stemmer_lib]
 endif

@@ -190,7 +190,7 @@ as_sanitize_text_spaces (const gchar *text)
 	strv = g_strsplit (text, "\n", -1);
 	for (guint i = 0; strv[i] != NULL; ++i)
 		g_strstrip (strv[i]);
-	return g_strjoinv (" ", strv);
+	return g_strstrip (g_strjoinv (" ", strv));
 }
 
 /**
@@ -426,21 +426,18 @@ as_utils_delete_dir_recursive (const gchar* dirname)
 	if (error != NULL)
 		goto out;
 	while (info != NULL) {
-		gchar *path;
-		path = g_build_filename (dirname, g_file_info_get_name (info), NULL);
-		if (g_file_test (path, G_FILE_TEST_IS_DIR)) {
+		g_autofree gchar *path = g_build_filename (dirname, g_file_info_get_name (info), NULL);
+		if (g_file_test (path, G_FILE_TEST_IS_DIR))
 			as_utils_delete_dir_recursive (path);
-		} else {
+		else
 			g_remove (path);
-		}
 		g_object_unref (info);
 		info = g_file_enumerator_next_file (enr, NULL, &error);
 		if (error != NULL)
 			goto out;
 	}
-	if (g_file_test (dirname, G_FILE_TEST_EXISTS)) {
+	if (g_file_test (dirname, G_FILE_TEST_EXISTS))
 		g_rmdir (dirname);
-	}
 	ret = TRUE;
 
 out:
@@ -1582,6 +1579,12 @@ as_utils_get_component_bundle_kind (AsComponent *cpt)
 	if (bundles->len > 0)
 		bundle_kind = as_bundle_get_kind (AS_BUNDLE (g_ptr_array_index (bundles, 0)));
 
+	/* assume "package" for system-wide components from metainfo files */
+	if (bundle_kind == AS_BUNDLE_KIND_UNKNOWN &&
+	    as_component_get_scope (cpt) == AS_COMPONENT_SCOPE_SYSTEM &&
+	    as_component_get_origin_kind (cpt) == AS_ORIGIN_KIND_METAINFO)
+		return AS_BUNDLE_KIND_PACKAGE;
+
 	return bundle_kind;
 }
 
@@ -2435,4 +2438,22 @@ as_utils_find_stock_icon_filename_full (const gchar *root_dir,
 		     AS_UTILS_ERROR_FAILED,
 		     "Failed to find icon %s", icon_name);
 	return NULL;
+}
+
+/**
+ * as_utils_guess_scope_from_path:
+ * @path: The filename to test.
+ *
+ * Guess the #AsComponentScope that applies to a given path.
+ *
+ * Returns: the #AsComponentScope
+ *
+ * Since: 0.14.8
+ */
+AsComponentScope
+as_utils_guess_scope_from_path (const gchar *path)
+{
+	if (g_str_has_prefix (path, "/home") || g_str_has_prefix (path, g_get_home_dir ()))
+		return AS_COMPONENT_SCOPE_USER;
+	return AS_COMPONENT_SCOPE_SYSTEM;
 }
