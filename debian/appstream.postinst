@@ -2,6 +2,13 @@
 # postinst script for appstream
 set -e
 
+if [ "$1" = "triggered" ]; then
+    # Only update caches for OS resources on trigger, and also
+    # do not force an update so this only runs when necessary
+    appstreamcli refresh-cache --source=os || true
+    exit 0
+fi
+
 # Force-upgrade the cache, to ensure it matches the installed
 # version of AppStream and is present.
 appstreamcli refresh-cache --force || true
