@@ -315,6 +315,12 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	     "make the item value refer to either the shortest or longest side of the display.")
 	},
 
+	{ "relation-hardware-value-invalid",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
+	  N_("This `hardware` item contains an invalid value. It should be a Computer Hardware ID (CHID) UUID without braces.")
+	},
+
 	{ "component-type-invalid",
 	  AS_ISSUE_SEVERITY_ERROR,
 	  N_("The set component type is not a recognized, valid AppStream component type.")
@@ -754,6 +760,18 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks) and keep the URL intact. */
 	  N_("This component has no `content_rating` tag to provide age rating information. "
 	     "You can generate the tag data online by answering a few questions at https://hughsie.github.io/oars/"),
+	},
+
+	{ "component-tag-missing-namespace",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks) and keep the URL intact. */
+	  N_("This `tag` is missing a `namespace` attribute."),
+	},
+
+	{ "component-tag-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks) and keep the URL intact. */
+	  N_("This tag or its namespace contains invalid characters. Only lower-cased ASCII letters, numbers, dots, hyphens and underscores are permitted."),
 	},
 
 	{ NULL, AS_ISSUE_SEVERITY_UNKNOWN, NULL }

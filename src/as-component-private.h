@@ -67,10 +67,9 @@ const gchar		*as_component_get_architecture (AsComponent *cpt);
 void			 as_component_set_architecture (AsComponent *cpt,
 							const gchar *arch);
 
-void			 as_component_create_token_cache (AsComponent *cpt);
-GHashTable		*as_component_get_token_cache_table (AsComponent *cpt);
-void			 as_component_set_token_cache_valid (AsComponent *cpt,
-							     gboolean valid);
+void			as_component_create_token_cache (AsComponent *cpt);
+GPtrArray		*as_component_generate_tokens_for (AsComponent *cpt,
+							   AsSearchTokenMatch token_kind);
 
 void			as_component_set_ignored (AsComponent *cpt,
 						  gboolean ignore);

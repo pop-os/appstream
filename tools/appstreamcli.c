@@ -26,6 +26,7 @@
 #include <stdio.h>
 
 #include "as-profile.h"
+#include "as-utils-private.h"
 
 #include "ascli-utils.h"
 #include "ascli-actions-mdata.h"
@@ -66,7 +67,7 @@ const GOptionEntry data_collection_options[] = {
 		G_OPTION_ARG_NONE,
 		&optn_no_cache,
 		/* TRANSLATORS: ascli flag description for: --no-cache */
-		N_("Make request without any caching."),
+		N_("Ignore cache age and build a fresh cache before performing the query."),
 		NULL },
 	{ NULL }
 };
@@ -236,7 +237,7 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 	g_autoptr(GOptionContext) opt_context = NULL;
 	gint ret;
 	gboolean optn_force = FALSE;
-	gboolean optn_user = FALSE;
+	g_auto(GStrv) optn_sources = NULL;
 
 	const GOptionEntry refresh_options[] = {
 		{ "force", (gchar) 0, 0,
@@ -245,11 +246,11 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 			/* TRANSLATORS: ascli flag description for: --force */
 			_("Enforce a cache refresh."),
 			NULL },
-		{ "user", (gchar) 0, 0,
-			G_OPTION_ARG_NONE,
-			&optn_user,
-			/* TRANSLATORS: ascli flag description for: --user */
-			_("Update the user-specific instead of the system-wide cache."),
+		{ "source", (gchar) 0, 0,
+			G_OPTION_ARG_STRING_ARRAY,
+			&optn_sources,
+			/* TRANSLATORS: ascli flag description for: --source in a refresh action. Don't translate strings in backticks: `name` */
+			_("Limit cache refresh to data from a specific source, e.g. `os` or `flatpak`. May be specified multiple times."),
 			NULL },
 		{ NULL }
 	};
@@ -264,7 +265,7 @@ as_client_run_refresh_cache (const gchar *command, char **argv, int argc)
 
 	return ascli_refresh_cache (optn_cachepath,
 				    optn_datapath,
-				    optn_user,
+				    (const gchar * const*) optn_sources,
 				    optn_force);
 }
 
@@ -1291,13 +1292,22 @@ as_client_run (char **argv, int argc)
 		optn_nonet = TRUE;
 	}
 
+	/* set some global defaults, in case we run as root in an unsafe environment */
+	if (as_utils_is_root ()) {
+		/* users umask shouldn't interfere with us creating new files when we are root */
+		as_reset_umask ();
+
+		/* ensure we never start gvfsd as root: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 */
+		g_setenv ("GIO_USE_VFS", "local", TRUE);
+	}
+
 	ascli_set_output_colored (!optn_no_color);
 
 	/* if out terminal is no tty, disable colors automatically */
 	if (!isatty (fileno (stdout)))
 		ascli_set_output_colored (FALSE);
 
-	/* don't let gvfsd start it's own session bus: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 */
+	/* don't let gvfsd start its own session bus: https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=852696 */
 	g_setenv ("GIO_USE_VFS", "local", TRUE);
 
 	/* prepare profiler */

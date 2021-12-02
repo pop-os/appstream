@@ -49,6 +49,7 @@ struct _AsRelationClass
  * @AS_RELATION_KIND_UNKNOWN:		Unknown kind
  * @AS_RELATION_KIND_REQUIRES:		The referenced item is required by the component
  * @AS_RELATION_KIND_RECOMMENDS:	The referenced item is recommended
+ * @AS_RELATION_KIND_SUPPORTS:		The referenced item is supported
  *
  * Type of a component's relation to other items.
  **/
@@ -56,6 +57,7 @@ typedef enum  {
 	AS_RELATION_KIND_UNKNOWN,
 	AS_RELATION_KIND_REQUIRES,
 	AS_RELATION_KIND_RECOMMENDS,
+	AS_RELATION_KIND_SUPPORTS,
 	/*< private >*/
 	AS_RELATION_KIND_LAST
 } AsRelationKind;
@@ -70,6 +72,7 @@ typedef enum  {
  * @AS_RELATION_ITEM_KIND_FIRMWARE:		A device firmware requirement (used by fwupd)
  * @AS_RELATION_ITEM_KIND_CONTROL:		An input method for users to control software
  * @AS_RELATION_ITEM_KIND_DISPLAY_LENGTH:	Display edge length
+ * @AS_RELATION_ITEM_KIND_HARDWARE:		A Computer Hardware ID (CHID) to depend on system hardware
  *
  * Type of the item an #AsRelation is for.
  **/
@@ -82,6 +85,7 @@ typedef enum  {
 	AS_RELATION_ITEM_KIND_FIRMWARE,
 	AS_RELATION_ITEM_KIND_CONTROL,
 	AS_RELATION_ITEM_KIND_DISPLAY_LENGTH,
+	AS_RELATION_ITEM_KIND_HARDWARE,
 	/*< private >*/
 	AS_RELATION_ITEM_KIND_LAST
 } AsRelationItemKind;
@@ -120,7 +124,8 @@ typedef enum {
  * @AS_CONTROL_KIND_GAMEPAD:	Gamepad input (any game controller with wheels/buttons/joysticks)
  * @AS_CONTROL_KIND_VOICE:	Control via voice recognition/activation
  * @AS_CONTROL_KIND_VISION:	Computer vision / visual object and sign detection
- * @AS_CONTROL_KIND_TV_REMOTE:	A television remote
+ * @AS_CONTROL_KIND_TV_REMOTE:	Input via a television remote
+ * @AS_CONTROL_KIND_TABLET:	Graphics tablet input
  *
  * Kind of an input method for users to control software
  **/
@@ -134,6 +139,7 @@ typedef enum {
 	AS_CONTROL_KIND_VOICE,
 	AS_CONTROL_KIND_VISION,
 	AS_CONTROL_KIND_TV_REMOTE,
+	AS_CONTROL_KIND_TABLET,
 	/*< private >*/
 	AS_CONTROL_KIND_LAST
 } AsControlKind;

@@ -36,24 +36,34 @@ void PoolReadTest::testRead01()
     // set up the data pool to read our sample data, without localization
     auto pool = std::make_unique<Pool>();
 
-    pool->clearMetadataLocations();
-    pool->addMetadataLocation(AS_SAMPLE_DATA_PATH);
+    pool->resetExtraDataLocations();
     pool->setLocale("C");
+    pool->setLoadStdDataLocations(false);
+    pool->addExtraDataLocation(AS_SAMPLE_DATA_PATH,
+                               Metadata::FormatStyleCollection);
+
+    // temporary cache location, so we don't use any system cache ever during tests
+    QTemporaryDir cacheDir;
+    QVERIFY(cacheDir.isValid());
 
     // don't load system metainfo/desktop files
     auto flags = pool->flags();
-    flags &= ~Pool::FlagReadDesktopFiles;
-    flags &= ~Pool::FlagReadMetainfo;
+    flags &= ~Pool::FlagLoadOsDesktopFiles;
+    flags &= ~Pool::FlagLoadOsMetainfo;
+    flags &= ~Pool::FlagIgnoreCacheAge;
     pool->setFlags(flags);
 
-    // don't use caches
-    pool->setCacheFlags(Pool::CacheFlagNone);
+    // use clean caches
+    pool->overrideCacheLocations(cacheDir.path(), nullptr);
 
     // read metadata
-    QVERIFY(pool->load());
+    bool ret = pool->load();
+    if (!ret)
+        qWarning() << pool->lastError();
+    QVERIFY(ret);
 
     auto cpts = pool->components();
-    QCOMPARE(cpts.size(), 19);
+    QCOMPARE(cpts.size(), 20);
 
     cpts = pool->componentsById("org.neverball.Neverball");
     QCOMPARE(cpts.size(), 1);

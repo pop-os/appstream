@@ -520,7 +520,7 @@ as_validator_check_children_quick (AsValidator *validator, xmlNode *node, const 
 						"invalid-child-tag-name",
 						/* TRANSLATORS: An invalid XML tag was found, "Found" refers to the tag name found, "Allowed" to the permitted name. */
 						_("Found: %s - Allowed: %s"),
-						(const gchar*) node->name,
+						node_name,
 						allowed_tagname);
 		}
 	}
@@ -908,6 +908,76 @@ as_validator_validate_update_contact (AsValidator *validator, xmlNode *uc_node)
 }
 
 /**
+ * as_id_string_valid:
+ */
+gboolean
+as_id_string_valid (const gchar *str, gboolean allow_uppercase)
+{
+	if (str == NULL)
+		return FALSE;
+
+	for (guint i = 0; str[i] != '\0'; i++) {
+		/* check if we have a printable, alphanumeric ASCII character or a dot, hyphen or underscore */
+		if ((!g_ascii_isalnum (str[i])) &&
+		    (str[i] != '.') &&
+		    (str[i] != '-') &&
+		    (str[i] != '_')) {
+			/* found a character that is not whitelisted */
+			return FALSE;
+		}
+
+		if (!allow_uppercase && g_ascii_isalpha (str[i]) && g_ascii_isupper (str[i]))
+			return FALSE;
+	}
+
+	return TRUE;
+}
+
+/**
+ * as_validator_check_tags:
+ **/
+static void
+as_validator_check_tags (AsValidator *validator, xmlNode *node)
+{
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
+		const gchar *node_name;
+		g_autofree gchar *ns = NULL;
+		g_autofree gchar *value = NULL;
+
+		/* discard spaces */
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+		node_name = (const gchar*) iter->name;
+
+		if (g_strcmp0 (node_name, "tag") != 0) {
+			as_validator_add_issue (validator, node,
+						"invalid-child-tag-name",
+						/* TRANSLATORS: An invalid XML tag was found, "Found" refers to the tag name found, "Allowed" to the permitted name. */
+						_("Found: %s - Allowed: %s"),
+						(const gchar*) node->name,
+						"tag");
+			continue;
+		}
+		as_validator_check_content_empty (validator, iter, "tags/tag");
+
+		ns = as_xml_get_prop_value (iter, "namespace");
+		if (ns == NULL) {
+			as_validator_add_issue (validator, iter, "component-tag-missing-namespace", NULL);
+			continue;
+		}
+
+		if (!as_id_string_valid (ns, FALSE)) {
+			as_validator_add_issue (validator, iter, "component-tag-invalid", ns);
+			continue;
+		}
+
+		value = as_xml_get_node_value (iter);
+		if (!as_id_string_valid (value, FALSE))
+			as_validator_add_issue (validator, iter, "component-tag-invalid", value);
+	}
+}
+
+/**
  * as_validator_check_screenshots:
  *
  * Validate a "screenshots" tag.
@@ -1045,10 +1115,10 @@ as_validator_check_screenshots (AsValidator *validator, xmlNode *node, AsCompone
 }
 
 /**
- * as_validator_check_requires_recommends:
+ * as_validator_check_relations:
  **/
 static void
-as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, AsComponent *cpt, AsRelationKind kind)
+as_validator_check_relations (AsValidator *validator, xmlNode *node, AsComponent *cpt, AsRelationKind kind)
 {
 	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
 		const gchar *node_name;
@@ -1095,6 +1165,7 @@ as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, A
 		switch (item_kind) {
 		case AS_RELATION_ITEM_KIND_MODALIAS:
 		case AS_RELATION_ITEM_KIND_CONTROL:
+		case AS_RELATION_ITEM_KIND_HARDWARE:
 			can_have_version = FALSE;
 			can_have_compare = FALSE;
 			break;
@@ -1160,6 +1231,19 @@ as_validator_check_requires_recommends (AsValidator *validator, xmlNode *node, A
 			side_str = as_xml_get_prop_value (iter, "side");
 			if (as_display_side_kind_from_string (side_str) == AS_DISPLAY_SIDE_KIND_UNKNOWN)
 				as_validator_add_issue (validator, iter, "relation-display-length-side-property-invalid", side_str);
+		}
+
+		/* check hardware for sanity */
+		if (item_kind == AS_RELATION_ITEM_KIND_HARDWARE) {
+			guint dash_count = 0;
+			for (guint i = 0; content[i] != '\0'; i++)
+			     if (content[i] == '-')
+				     dash_count++;
+
+			if (g_str_has_prefix (content, "{") || g_str_has_suffix (content, "}"))
+				as_validator_add_issue (validator, iter, "relation-hardware-value-invalid", content);
+			else if (dash_count != 4)
+				as_validator_add_issue (validator, iter, "relation-hardware-value-invalid", content);
 		}
 	}
 }
@@ -1726,11 +1810,16 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			as_validator_check_children_quick (validator, iter, "content_attribute", TRUE);
 			can_be_empty = TRUE;
 		} else if (g_strcmp0 (node_name, "requires") == 0) {
-			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_REQUIRES);
+			as_validator_check_relations (validator, iter, cpt, AS_RELATION_KIND_REQUIRES);
 		} else if (g_strcmp0 (node_name, "recommends") == 0) {
-			as_validator_check_requires_recommends (validator, iter, cpt, AS_RELATION_KIND_RECOMMENDS);
+			as_validator_check_relations (validator, iter, cpt, AS_RELATION_KIND_RECOMMENDS);
+		} else if (g_strcmp0 (node_name, "supports") == 0) {
+			as_validator_check_relations (validator, iter, cpt, AS_RELATION_KIND_SUPPORTS);
 		} else if (g_strcmp0 (node_name, "agreement") == 0) {
 			as_validator_check_children_quick (validator, iter, "agreement_section", FALSE);
+		} else if (g_strcmp0 (node_name, "tags") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags);
+			as_validator_check_tags (validator, iter);
 		} else if (g_strcmp0 (node_name, "name_variant_suffix") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags);
 		} else if (g_strcmp0 (node_name, "custom") == 0) {

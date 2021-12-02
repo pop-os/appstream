@@ -22,14 +22,17 @@ apt-get install -yq \
 eatmydata apt-get install -yq --no-install-recommends \
     meson \
     ninja-build \
+    git \
     gettext \
     itstool \
     libglib2.0-dev \
     libxml2-dev \
     libyaml-dev \
-    liblmdb-dev \
+    libxmlb-dev \
+    liblzma-dev \
     libcurl4-gnutls-dev \
     gtk-doc-tools \
+    itstool \
     libgirepository1.0-dev \
     qtbase5-dev \
     xmlto \

@@ -33,59 +33,76 @@
  * ascli_refresh_cache:
  */
 int
-ascli_refresh_cache (const gchar *cachepath, const gchar *datapath, gboolean user, gboolean forced)
+ascli_refresh_cache (const gchar *cachepath,
+		     const gchar *datapath,
+		     const gchar* const* sources_str,
+		     gboolean forced)
 {
-	g_autoptr(AsPool) dpool = NULL;
+	g_autoptr(AsPool) pool = NULL;
 	g_autoptr(GError) error = NULL;
+	gboolean cache_updated;
 	gboolean ret = FALSE;
 
-	dpool = as_pool_new ();
+	if (!as_utils_is_root ())
+		/* TRANSLATORS: In ascli: Status information during a "refresh" action. */
+		g_print ("• %s\n", _("Only refreshing metadata cache specific to the current user."));
+
+	pool = as_pool_new ();
+	if (sources_str != NULL) {
+		as_pool_set_load_std_data_locations (pool, FALSE);
+
+		for (guint i = 0; sources_str[i] != NULL; i++) {
+			if (g_strcmp0 (sources_str[i], "os") == 0) {
+				as_pool_add_flags (pool, AS_POOL_FLAG_LOAD_OS_COLLECTION |
+							 AS_POOL_FLAG_LOAD_OS_METAINFO |
+							 AS_POOL_FLAG_LOAD_OS_DESKTOP_FILES);
+				g_print ("• %s\n", _("Updating software metadata cache for the operating system."));
+			} else if (g_strcmp0 (sources_str[i], "flatpak") == 0) {
+				as_pool_add_flags (pool, AS_POOL_FLAG_LOAD_FLATPAK);
+				g_print ("• %s\n", _("Updating software metadata cache for Flatpak."));
+			} else {
+				ascli_print_stderr (_("A metadata source group with the name '%s' does not exist!"), sources_str[i]);
+				return 1;
+			}
+		}
+	}
+
 	if (datapath != NULL) {
-		AsPoolFlags flags;
+		/* we auto-disable loading data from sources that are not in datapath for now */
+		as_pool_set_load_std_data_locations (pool, FALSE);
 
 		/* the user wants data from a different path to be used */
-		as_pool_clear_metadata_locations (dpool);
-		as_pool_add_metadata_location (dpool, datapath);
-
-		/* we auto-disable loading data from sources that are not in datapath for now */
-		flags = as_pool_get_flags (dpool);
-		as_flags_remove (flags, AS_POOL_FLAG_READ_DESKTOP_FILES);
-		as_flags_remove (flags, AS_POOL_FLAG_READ_METAINFO);
-		as_pool_set_flags (dpool, flags);
-
-		/* disable loading data from cache */
-		as_pool_set_cache_flags (dpool, AS_CACHE_FLAG_NONE);
+		as_pool_add_extra_data_location (pool,
+						 datapath,
+						 AS_FORMAT_STYLE_COLLECTION);
 	}
 
 	if (cachepath == NULL) {
-		ret = as_pool_refresh_system_cache (dpool, user, forced, &error);
+		ret = as_pool_refresh_system_cache (pool, forced, &cache_updated, &error);
 	} else {
-		as_pool_set_cache_location (dpool, cachepath);
-		as_pool_load (dpool, NULL, &error);
+		as_pool_override_cache_locations (pool, cachepath, NULL);
+		as_pool_load (pool, NULL, &error);
+		cache_updated = TRUE;
 	}
 
-	if (error != NULL) {
+	if (!ret) {
 		if (g_error_matches (error, AS_POOL_ERROR, AS_POOL_ERROR_TARGET_NOT_WRITABLE))
 			/* TRANSLATORS: In ascli: The requested action needs higher permissions. */
-			g_printerr ("%s\n%s\n", error->message, _("You might need superuser permissions to perform this action."));
+			g_printerr ("✘ %s\n  %s\n", error->message, _("You might need superuser permissions to perform this action."));
 		else
-			g_printerr ("%s\n", error->message);
+			g_printerr ("✘ %s\n", error->message);
 		return 2;
 	}
 
-	if (ret) {
-		/* we performed a cache refresh */
-
+	if (cache_updated) {
 		/* TRANSLATORS: Updating the metadata cache succeeded */
-		g_print ("%s\n", _("AppStream cache update completed successfully."));
-
-		/* no > 0 error code, since we updated something */
-		return 0;
+		g_print ("✔ %s\n", _("Metadata cache was updated successfully."));
 	} else {
-		/* cache wasn't updated, so the update wasn't necessary */
-		g_print ("%s\n", _("AppStream cache update is not necessary."));
-		return 0;
+		/* TRANSLATORS: Metadata cache was not updated, likely because it was recent enough */
+		g_print ("✔ %s\n", _("Metadata cache update is not necessary."));
 	}
+
+	return 0;
 }
 
 /**
@@ -95,22 +112,22 @@ static AsPool*
 ascli_data_pool_new_and_open (const gchar *cachepath, gboolean no_cache, GError **error)
 {
 	AsPool *dpool;
+	AsPoolFlags flags;
 
 	dpool = as_pool_new ();
-	if (cachepath == NULL) {
-		/* no cache object to load, we can use a normal pool - unless (system) caching
-		 * is generally disallowed. */
-		if (no_cache) {
-			as_pool_set_cache_flags (dpool, AS_CACHE_FLAG_USE_USER);
-		}
+	flags = as_pool_get_flags (dpool);
+	if (no_cache)
+		as_flags_add (flags, AS_POOL_FLAG_IGNORE_CACHE_AGE);
 
+	if (cachepath == NULL) {
+		/* no cache object to load, we can use a normal pool */
 		as_pool_load (dpool, NULL, error);
 	} else {
 		/* use an exported cache object */
-		as_pool_set_cache_flags (dpool, AS_CACHE_FLAG_USE_USER);
-		as_pool_set_cache_location (dpool, cachepath);
+		as_pool_override_cache_locations (dpool, cachepath, cachepath);
 		as_pool_load (dpool, NULL, error);
 	}
+	as_pool_set_flags (dpool, flags);
 
 	return dpool;
 }
@@ -179,6 +196,7 @@ ascli_search_component (const gchar *cachepath, const gchar *search_term, gboole
 	}
 
 	if (result->len == 0) {
+		/* TRANSLATORS: We got no full-text search results */
 		ascli_print_stdout (_("No component matching '%s' found."), search_term);
 		return 0;
 	}
