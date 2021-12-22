@@ -98,11 +98,11 @@ as_cache_section_free (AsCacheSection *csec)
 	g_free (csec);
 }
 
-gint
+static gint
 as_cache_section_cmp (gconstpointer a, gconstpointer b)
 {
 	const AsCacheSection *s1 = *((AsCacheSection **) a);
-	const AsCacheSection *s2 = *((AsCacheSection **) a);
+	const AsCacheSection *s2 = *((AsCacheSection **) b);
 
 	/* sort masking data last */
 	if (s1->is_mask && !s2->is_mask)
@@ -577,9 +577,6 @@ as_cache_builder_add_simple_tokens (XbBuilderNode *root,
 	for (guint i = 0; i < MIN(token_array->len, 32); i++)
 		xb_builder_node_add_token (token_node,
 					   g_ptr_array_index (token_array, i));
-#if !(LIBXMLB_CHECK_VERSION(0, 3, 6))
-	xb_builder_node_add_flag (token_node, XB_BUILDER_NODE_FLAG_TOKENIZE_TEXT);
-#endif
 }
 
 /**

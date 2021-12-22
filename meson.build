@@ -3,7 +3,7 @@ project('AppStream', 'c',
   default_options: ['c_std=c11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.15.0',
+  version: '0.15.1',
 )
 
 cc = meson.get_compiler('c')
@@ -86,14 +86,15 @@ add_project_arguments('-D_POSIX_C_SOURCE=200112L', language: 'c')
 #
 # Dependencies
 #
-glib_dep = dependency('glib-2.0', version: '>=2.58')
-gobject_dep = dependency('gobject-2.0', version: '>=2.58')
-gio_dep = dependency('gio-2.0', version: '>=2.58')
-gio_unix_dep = dependency('gio-unix-2.0', version: '>=2.58')
+glib_dep = dependency('glib-2.0', version: '>= 2.62')
+gobject_dep = dependency('gobject-2.0', version: '>= 2.62')
+gio_dep = dependency('gio-2.0', version: '>= 2.62')
+gio_unix_dep = dependency('gio-unix-2.0', version: '>= 2.62')
 curl_dep = dependency('libcurl', version: '>= 7.62')
 xml2_dep = dependency('libxml-2.0')
 yaml_dep = dependency('yaml-0.1')
-xmlb_dep = dependency('xmlb', version: '>= 0.3.4', fallback: ['libxmlb', 'libxmlb_dep'])
+xmlb_dep = dependency('xmlb', version: '>= 0.3.6',
+                      fallback: ['libxmlb', 'libxmlb_dep'], default_options: ['gtkdoc=false'])
 
 if get_option ('gir')
     # ensure we have a version of GIR that isn't broken with Meson

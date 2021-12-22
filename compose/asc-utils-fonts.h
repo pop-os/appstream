@@ -26,15 +26,17 @@
 #include "as-settings-private.h"
 #include "asc-result.h"
 #include "asc-unit.h"
+#include "asc-compose.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
 AS_INTERNAL_VISIBLE
-void		asc_read_translation_status (AscResult *cres,
-						AscUnit *unit,
-						const gchar *prefix,
-						guint min_percentage);
+void		asc_process_fonts (AscResult *cres,
+				   AscUnit *unit,
+				   const gchar *media_export_root,
+				   AscIconPolicy icon_policy,
+				   AscComposeFlags flags);
 
 #pragma GCC visibility pop
 G_END_DECLS

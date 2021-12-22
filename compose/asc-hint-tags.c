@@ -68,6 +68,19 @@ AscHintTagStatic asc_hint_tag_list[] =  {
           "The identifier tag is essential for AppStream metadata, and must not be missing."
 	},
 
+	{ "metainfo-no-name",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "Component has no name specified. Ensure that the AppStream MetaInfo file or the .desktop file (if there is any) specify a component name."
+	},
+
+	{ "metainfo-no-summary",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "Component does not contain a short summary. Ensure that the components MetaInfo file has a <code>summary</code> tag, or that its .desktop file "
+	  "has a <code>Comment=</code> field set.<br/>"
+	  "More information can be found in the <a href=\"http://standards.freedesktop.org/desktop-entry-spec/latest/ar01s05.html\">Desktop Entry specification</a> "
+	  "and the <a href=\"https://www.freedesktop.org/software/appstream/docs/sect-Metadata-Application.html#tag-dapp-summary\">MetaInfo specification</a>."
+	},
+
 	{ "metainfo-license-invalid",
 	  AS_ISSUE_SEVERITY_ERROR,
 	  "The MetaInfo file does not seem to be licensed under a permissive license that is in the allowed set for AppStream metadata. "
@@ -216,6 +229,79 @@ AscHintTagStatic asc_hint_tag_list[] =  {
 	  AS_ISSUE_SEVERITY_WARNING,
 	  "The video codec '{{codec}}' or container '{{container}}' of '{{fname}}' are not supported. Please encode the video "
 	  "as VP9 or AV1 using the WebM or Matroska container."
+	},
+
+	{ "screenshot-video-too-big",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  "The video '{{fname}}' exceeds the maximum allowed file size of {{max_size}} (its size is {{size}}). Please try to make a shorter screencast."
+	},
+
+	{ "screenshot-image-too-big",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  "The image '{{fname}}' exceeds the maximum allowed file size of {{max_size}} (its size is {{size}}). Please create a smaller screenshot image."
+	},
+
+	{ "font-load-error",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "Unable to load font '{{fname}}' from unit '{{unit_name}}: {{error}}"
+	},
+
+	{ "font-metainfo-but-no-font",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "A MetaInfo file with component-type <code>font</code> was found, but we could not find any matching font file (TrueType or OpenType) in the package.<br/> "
+	  "This can mean that the <code>&lt;provides&gt; - &lt;font&gt;</code> tags contain wrong values that we could not map to the actual fonts, or that the package simply contained no fonts at all.<br/> "
+	  "Fonts in this package: <em>{{font_names}}</em>"
+	},
+
+	{ "font-render-error",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  "Unable to render image for font '{{name}}': {{error}}"
+	},
+
+	{ "gui-app-without-icon",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "The component is a GUI application (application which has a .desktop file for the XDG menu and <code>Type=Application</code>), "
+	  "but we could not find a matching icon for this application."
+	},
+
+	{ "web-app-without-icon",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "The component is a GUI web application, but it either has no icon set in its MetaInfo file, "
+	  "or we could not find a matching icon for this application."
+	},
+
+	{ "font-without-icon",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  "The component is a font, but somehow we failed to automatically generate an icon for it, and no custom icon was set explicitly. "
+	  "Is there a font file in the analyzed package, and does the MetaInfo file set the right font name to look for?"
+	},
+
+	{ "os-without-icon",
+	  AS_ISSUE_SEVERITY_INFO,
+	  "The component is an operating system, but no icon was found for it. Setting an icon would improve the look of this component in GUIs."
+	},
+
+	{ "no-valid-category",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "This software component is no member of any valid category."
+	},
+
+	{ "description-missing",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  "Software components of type '{{kind}}' require a long description, and we were unable to find one. Please add one via a MetaInfo file."
+	},
+
+	{ "no-metainfo",
+	  AS_ISSUE_SEVERITY_WARNING,
+	  "This software component is missing a <a href=\"https://freedesktop.org/software/appstream/docs/chap-Metadata.html#sect-Metadata-GenericComponent\">MetaInfo file</a> "
+	  "as metadata source.<br/>"
+	  "To synthesize suitable metadata anyway, we took some data from its desktop-entry file.<br/>"
+	  "This has many disadvantages, like low-quality and incomplete metadata. Therefore clients may ignore this component entirely due to poor metadata.<br/>"
+	  "Additionally, a lot of software from desktop-entry files should either not be installable and searchable via the software catalog "
+	  "(like desktop-specific settings applications) or be tagged accordingly via MetaInfo files.<br/>"
+	  "Please consider to either hide this .desktop file from AppStream by adding a <code>X-AppStream-Ignore=true</code> field to it, or to write a MetaInfo file for this component.<br/>"
+	  "You can consult the <a href=\"http://freedesktop.org/software/appstream/docs/chap-Quickstart.html\">MetaInfo quickstart guides</a> for more information "
+	  "on how to write a MetaInfo file, or file a bug with the upstream author of this software component."
 	},
 
 	{ NULL, AS_ISSUE_SEVERITY_UNKNOWN, NULL }

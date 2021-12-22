@@ -1036,6 +1036,24 @@ as_utils_search_token_valid (const gchar *token)
 }
 
 /**
+ * as_utils_ensure_resources:
+ *
+ * Perform a sanity check to ensure GResource can be loaded.
+ */
+void
+as_utils_ensure_resources ()
+{
+	static GMutex mutex;
+	GResource *resource = NULL;
+
+	g_mutex_lock (&mutex);
+	resource = as_get_resource ();
+	if (resource == NULL)
+		g_error ("Failed to load internal resources: as_get_resource() returned NULL!");
+	g_mutex_unlock (&mutex);
+}
+
+/**
  * as_utils_is_category_id:
  * @category_name: a XDG category name, e.g. "ProjectManagement"
  *
@@ -1052,13 +1070,15 @@ as_utils_is_category_name (const gchar *category_name)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
+	GResource *resource = as_get_resource ();
+	g_assert (resource != NULL);
 
 	/* custom spec-extensions are generally valid if prefixed correctly */
 	if (g_str_has_prefix (category_name, "X-"))
 		return TRUE;
 
 	/* load the readonly data section and look for the category name */
-	data = g_resource_lookup_data (as_get_resource (),
+	data = g_resource_lookup_data (resource,
 				       "/org/freedesktop/appstream/xdg-category-names.txt",
 				       G_RESOURCE_LOOKUP_FLAGS_NONE,
 				       NULL);
@@ -1144,7 +1164,7 @@ as_utils_is_platform_triplet_arch (const gchar *arch)
 {
 	g_autoptr(GBytes) data = NULL;
 	g_autofree gchar *key = NULL;
-	GResource *resource;
+	GResource *resource = NULL;
 
 	if (arch == NULL)
 		return FALSE;
@@ -1700,15 +1720,8 @@ as_sort_components_by_score (GPtrArray *cpts)
 void
 as_object_ptr_array_absorb (GPtrArray *dest, GPtrArray *src)
 {
-#if GLIB_CHECK_VERSION(2,58,0)
 	while (src->len != 0)
 		g_ptr_array_add (dest, g_ptr_array_steal_index_fast (src, 0));
-#else
-	while (src->len != 0) {
-		g_ptr_array_add (dest, g_object_ref (g_ptr_array_index (src, 0)));
-		g_ptr_array_remove_index_fast (src, 0);
-	}
-#endif
 }
 
 /**
@@ -1764,46 +1777,6 @@ as_filebasename_from_uri (const gchar *uri)
 		tmp[0] = '\0';
 
 	return bname;
-}
-
-/**
- * as_date_time_format_iso8601:
- * @datetime: A #GDateTime
- *
- * Format datetime in ISO 8601 format.
- *
- * Compatibility wrapper to support GLib < 2.62.
- * This function can go away if we bump the GLib minimal version.
- */
-gchar*
-as_date_time_format_iso8601 (GDateTime *datetime)
-{
-#if GLIB_CHECK_VERSION(2,62,0)
-	return g_date_time_format_iso8601 (datetime);
-#else
-	GString *outstr = NULL;
-	gchar *main_date = NULL;
-	gint64 offset;
-
-	/* Main date and time. */
-	main_date = g_date_time_format (datetime, "%Y-%m-%dT%H:%M:%S");
-	outstr = g_string_new (main_date);
-	g_free (main_date);
-
-	/* Timezone. Format it as `%:::z` unless the offset is zero, in which case
-	 * we can simply use `Z`. */
-	offset = g_date_time_get_utc_offset (datetime);
-
-	if (offset == 0) {
-		g_string_append_c (outstr, 'Z');
-	} else {
-		gchar *time_zone = g_date_time_format (datetime, "%:::z");
-		g_string_append (outstr, time_zone);
-		g_free (time_zone);
-	}
-
-	return g_string_free (outstr, FALSE);
-#endif
 }
 
 /**
@@ -2448,7 +2421,7 @@ as_utils_find_stock_icon_filename_full (const gchar *root_dir,
  *
  * Returns: the #AsComponentScope
  *
- * Since: 0.14.8
+ * Since: 0.15.0
  */
 AsComponentScope
 as_utils_guess_scope_from_path (const gchar *path)

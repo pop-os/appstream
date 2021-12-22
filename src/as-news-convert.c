@@ -414,6 +414,7 @@ typedef enum {
 	AS_NEWS_SECTION_KIND_TRANSLATION,
 	AS_NEWS_SECTION_KIND_DOCUMENTATION,
 	AS_NEWS_SECTION_KIND_CONTRIBUTORS,
+	AS_NEWS_SECTION_KIND_TRANSLATORS,
 	AS_NEWS_SECTION_KIND_LAST
 } AsNewsSectionKind;
 
@@ -458,6 +459,8 @@ as_news_text_guess_section (const gchar *lines)
 		return AS_NEWS_SECTION_KIND_CONTRIBUTORS;
 	if (g_strstr_len (lines, -1, "Thanks to:\n") != NULL)
 		return AS_NEWS_SECTION_KIND_CONTRIBUTORS;
+	if (g_strstr_len (lines, -1, "Translators:\n") != NULL)
+		return AS_NEWS_SECTION_KIND_TRANSLATORS;
 	return AS_NEWS_SECTION_KIND_UNKNOWN;
 }
 
@@ -532,7 +535,7 @@ as_news_text_to_release_hdr (AsRelease *release, GString *desc, const gchar *txt
 	    (g_strstr_len (release_txt, -1, "-XX") != NULL) ||
 	    (g_strstr_len (release_txt, -1, "-??") != NULL)) {
 		g_autoptr(GDateTime) dt_now = g_date_time_new_now_local ();
-		date_str = as_date_time_format_iso8601 (dt_now);
+		date_str = g_date_time_format_iso8601 (dt_now);
 		as_release_set_kind (release, AS_RELEASE_KIND_DEVELOPMENT);
 		as_release_set_date (release, date_str);
 
@@ -753,6 +756,20 @@ as_news_text_to_releases (const gchar *data, gint limit, GError **error)
 		case AS_NEWS_SECTION_KIND_CONTRIBUTORS:
 			as_news_text_add_markup (desc, "p",
 						 "With contributions from:");
+
+			if (g_strstr_len (split[i], -1, "* ") != NULL ||
+			    g_strstr_len (split[i], -1, "- ") != NULL) {
+				lines = g_strsplit (split[i], "\n", -1);
+				if (!as_news_text_to_list_markup (desc, lines + 1, error))
+					return FALSE;
+			} else {
+				if (!as_news_text_to_para_markup (desc, split[i], error))
+					return FALSE;
+			}
+			break;
+		case AS_NEWS_SECTION_KIND_TRANSLATORS:
+			as_news_text_add_markup (desc, "p",
+						 "Updated localization by:");
 
 			if (g_strstr_len (split[i], -1, "* ") != NULL ||
 			    g_strstr_len (split[i], -1, "- ") != NULL) {

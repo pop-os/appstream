@@ -18,18 +18,17 @@
  * along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#if !defined (__APPSTREAM_COMPOSE_H) && !defined (ASC_COMPILATION)
-#error "Only <appstream-compose.h> can be included directly."
-#endif
 #pragma once
 
 #include <glib-object.h>
 #include <appstream.h>
+#include "as-settings-private.h"
 #include "as-curl.h"
 
 #include "asc-result.h"
 
 G_BEGIN_DECLS
+#pragma GCC visibility push(hidden)
 
 /**
  * AscVideoInfo: (skip):
@@ -48,15 +47,20 @@ typedef struct {
 	gboolean is_acceptable;
 } AscVideoInfo;
 
+AS_INTERNAL_VISIBLE
 AscVideoInfo	*asc_extract_video_info (AscResult *cres,
 					 AsComponent *cpt,
 				         const gchar *vid_fname);
+AS_INTERNAL_VISIBLE
 void		asc_video_info_free (AscVideoInfo *vinfo);
 
 void		asc_process_screenshots (AscResult *cres,
 					 AsComponent *cpt,
 					 AsCurl *acurl,
 					 const gchar *media_export_root,
+					 const gssize max_size_bytes,
+					 gboolean process_videos,
 					 gboolean store_screenshots);
 
+#pragma GCC visibility pop
 G_END_DECLS
