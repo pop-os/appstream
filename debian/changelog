@@ -1,3 +1,17 @@
+appstream (0.15.1-1) unstable; urgency=medium
+
+  [ Matthias Klumpp ]
+  * New upstream version: 0.15.1
+  * Update symbols file
+
+  [ Laurent Bigonville ]
+  * debian/control: Set librsvg2-dev BD version to 2.48
+  * Only build libappstream-compose library on architecture where librsvg is
+    building (Closes: #988827)
+  * debian/control: Mark -dev and gir packages as M-A: same
+
+ -- Matthias Klumpp <mak@debian.org>  Wed, 22 Dec 2021 18:40:12 +0100
+
 appstream (0.15.0-1) unstable; urgency=medium
 
   * New upstream version: 0.15.0
