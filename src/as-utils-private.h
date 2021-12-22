@@ -172,8 +172,6 @@ gchar			*as_ptr_array_to_str (GPtrArray *array,
 AS_INTERNAL_VISIBLE
 gchar			*as_filebasename_from_uri (const gchar *uri);
 
-gchar			*as_date_time_format_iso8601 (GDateTime *datetime);
-
 AS_INTERNAL_VISIBLE
 gchar			*as_strstripnl (gchar *string);
 
@@ -209,6 +207,8 @@ gchar			*as_utils_find_stock_icon_filename_full (const gchar *root_dir,
 								 guint icon_size,
 								 guint icon_scale,
 								 GError **error);
+AS_INTERNAL_VISIBLE
+void			as_utils_ensure_resources ();
 
 #pragma GCC visibility pop
 G_END_DECLS

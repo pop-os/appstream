@@ -46,6 +46,8 @@ AscResult		*asc_result_new (void);
 gboolean		asc_result_unit_ignored (AscResult *result);
 guint			asc_result_components_count (AscResult *result);
 guint			asc_result_hints_count (AscResult *result);
+gboolean		asc_result_is_ignored (AscResult *result,
+					       AsComponent *cpt);
 
 AsBundleKind		asc_result_get_bundle_kind (AscResult *result);
 void			asc_result_set_bundle_kind (AscResult *result,
@@ -86,10 +88,16 @@ gboolean		asc_result_add_component_with_string (AscResult *result,
 								GError **error);
 gboolean		asc_result_remove_component (AscResult *result,
 						     AsComponent *cpt);
+gboolean		asc_result_remove_component_full (AscResult *result,
+							  AsComponent *cpt,
+							  gboolean remove_gcid);
 gboolean		asc_result_remove_component_by_id (AscResult *result,
 							   const gchar *cid);
 void			asc_result_remove_hints_for_cid (AscResult *result,
 							 const gchar *cid);
+gboolean		asc_result_has_hint (AscResult *result,
+						AsComponent *cpt,
+						const gchar *tag);
 
 gboolean		asc_result_add_hint_by_cid (AscResult *result,
 						    const gchar *component_id,

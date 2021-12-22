@@ -98,7 +98,7 @@ asc_result_class_init (AscResultClass *klass)
  * asc_result_unit_ignored:
  * @result: an #AscResult instance.
  *
- * Returns: %TRUE if this result means the analyzed unit was ignored entirely..
+ * Returns: %TRUE if this result means the analyzed unit was ignored entirely.
  **/
 gboolean
 asc_result_unit_ignored (AscResult *result)
@@ -138,6 +138,24 @@ asc_result_hints_count (AscResult *result)
 	while (g_hash_table_iter_next (&iter, NULL, &value))
 		count += ((GPtrArray*) value)->len;
 	return count;
+}
+
+/**
+ * asc_result_is_ignored:
+ * @result: an #AscResult instance.
+ * @cpt: the component to check for.
+ *
+ * Check if an #AsComponent was set to be ignored in this result
+ * (usually due to errors).
+ *
+ * Returns: %TRUE if the component is ignored.
+ **/
+gboolean
+asc_result_is_ignored (AscResult *result, AsComponent *cpt)
+{
+	AscResultPrivate *priv = GET_PRIVATE (result);
+	return !g_hash_table_contains (priv->cpts,
+				       as_component_get_id (cpt));
 }
 
 /**
@@ -501,6 +519,31 @@ asc_result_add_component_with_string (AscResult *result, AsComponent *cpt, const
 }
 
 /**
+ * asc_result_remove_component_full:
+ * @result: an #AscResult instance.
+ * @cpt: The #AsComponent to remove.
+ * @remove_gcid: %TRUE if global component ID should be unregistered as well.
+ *
+ * Remove a component from the results set.
+ *
+ * Returns: %TRUE if the component was found and removed.
+ **/
+gboolean
+asc_result_remove_component_full (AscResult *result, AsComponent *cpt, gboolean remove_gcid)
+{
+	AscResultPrivate *priv = GET_PRIVATE (result);
+	gboolean ret;
+
+	ret = g_hash_table_remove (priv->cpts,
+				   as_component_get_id (cpt));
+	if (remove_gcid)
+		g_hash_table_remove (priv->gcids, as_component_get_id (cpt));
+	g_hash_table_remove (priv->mdata_hashes, cpt);
+
+	return ret;
+}
+
+/**
  * asc_result_remove_component:
  * @result: an #AscResult instance.
  * @cpt: The #AsComponent to remove.
@@ -512,15 +555,7 @@ asc_result_add_component_with_string (AscResult *result, AsComponent *cpt, const
 gboolean
 asc_result_remove_component (AscResult *result, AsComponent *cpt)
 {
-	AscResultPrivate *priv = GET_PRIVATE (result);
-	gboolean ret;
-
-	ret = g_hash_table_remove (priv->cpts,
-				   as_component_get_id (cpt));
-	g_hash_table_remove (priv->gcids, as_component_get_id (cpt));
-	g_hash_table_remove (priv->mdata_hashes, cpt);
-
-	return ret;
+	return asc_result_remove_component_full (result, cpt, TRUE);
 }
 
 /**
@@ -535,6 +570,35 @@ asc_result_remove_hints_for_cid (AscResult *result, const gchar *cid)
 {
 	AscResultPrivate *priv = GET_PRIVATE (result);
 	g_hash_table_remove (priv->hints, cid);
+}
+
+/**
+ * asc_result_has_hint:
+ * @result: an #AscResult instance.
+ * @cpt: the #AsComponent to check
+ * @tag: the hint tag to check for
+ *
+ * Test if a hint tag is associated with a given component in this result.
+ *
+ * Returns: %TRUE if a hint with this tag exists for the selected component.
+ */
+gboolean
+asc_result_has_hint (AscResult *result, AsComponent *cpt, const gchar *tag)
+{
+	AscResultPrivate *priv = GET_PRIVATE (result);
+	GPtrArray *hints;
+	const gchar *cid = as_component_get_id (cpt);
+
+	hints = g_hash_table_lookup (priv->hints, cid);
+	if (hints == NULL)
+		return FALSE;
+	for (guint i = 0; i < hints->len; i++) {
+		AscHint *hint = ASC_HINT (g_ptr_array_index (hints, i));
+		if (g_strcmp0 (asc_hint_get_tag (hint), tag) == 0)
+			return TRUE;
+	}
+
+	return FALSE;
 }
 
 /**

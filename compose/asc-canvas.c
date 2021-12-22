@@ -26,6 +26,7 @@
 
 #include "config.h"
 #include "asc-canvas.h"
+#include "asc-canvas-private.h"
 
 #include <cairo.h>
 #include <cairo-ft.h>
@@ -432,7 +433,8 @@ asc_canvas_save_png (AscCanvas *canvas, const gchar *fname, GError **error)
 		g_set_error (error,
 			     ASC_CANVAS_ERROR,
 			     ASC_CANVAS_ERROR_FONT,
-			     "Could not save canvas to PNG: %i", status);
+			     "Could not save canvas to PNG: %s",
+			     cairo_status_to_string (status));
 		return FALSE;
 	}
 

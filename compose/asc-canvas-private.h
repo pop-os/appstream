@@ -21,20 +21,26 @@
 #pragma once
 
 #include <glib-object.h>
-#include <appstream.h>
-
 #include "as-settings-private.h"
-#include "asc-result.h"
-#include "asc-unit.h"
+#include "asc-canvas.h"
+#include "asc-font.h"
 
 G_BEGIN_DECLS
 #pragma GCC visibility push(hidden)
 
 AS_INTERNAL_VISIBLE
-void		asc_read_translation_status (AscResult *cres,
-						AscUnit *unit,
-						const gchar *prefix,
-						guint min_percentage);
+gboolean	asc_canvas_draw_text_line (AscCanvas *canvas,
+					   AscFont *font,
+					   const gchar *text,
+					   gint border_width,
+					   GError **error);
+AS_INTERNAL_VISIBLE
+gboolean	asc_canvas_draw_text (AscCanvas *canvas,
+					AscFont *font,
+					const gchar *text,
+					gint border_width,
+					gint line_pad,
+					GError **error);
 
 #pragma GCC visibility pop
 G_END_DECLS

@@ -81,6 +81,11 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	     "and to provide more detailed information on this component immediately in the first paragraph.")
 	},
 
+	{ "description-first-word-not-capitalized",
+	  AS_ISSUE_SEVERITY_INFO,
+	  N_("The description line does not start with a capitalized word, project name or number.")
+	},
+
 	{ "description-has-plaintext-url",
 	  AS_ISSUE_SEVERITY_WARNING,
 	  N_("The description contains a web URL in plain text. This is not allowed, please use the <url/> tag instead to share links.")
@@ -133,7 +138,12 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "cid-contains-uppercase-letter",
 	  AS_ISSUE_SEVERITY_PEDANTIC,
-	  N_("The component ID should only contain lowercase letters.")
+	  N_("The component ID should only contain lowercase characters.")
+	},
+
+	{ "cid-domain-not-lowercase",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The domain part of the rDNS component ID (first two parts) must only contain lowercase characters.")
 	},
 
 	{ "cid-missing-affiliation-freedesktop",
@@ -273,7 +283,8 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "relation-item-invalid-vercmp",
 	  AS_ISSUE_SEVERITY_ERROR,
-	  N_("Invalid comparison operation on relation item. Only eq/ne/lt/gt/le/ge are permitted.")
+	  /* TRANSLATORS: `eq/ne/lt/gt/le/ge` are AppStream XML values. Please do not translate them. */
+	  N_("Invalid comparison operation on relation item. Only one of `eq/ne/lt/gt/le/ge` is permitted.")
 	},
 
 	{ "relation-item-has-vercmp",
@@ -378,7 +389,12 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 
 	{ "summary-has-url",
 	  AS_ISSUE_SEVERITY_ERROR,
-	  N_("The summary must not contain any URL. Use the <url/> tags for links.")
+	  N_("The summary must not contain any URL. Use the `<url/>` tags for links.")
+	},
+
+	{ "summary-first-word-not-capitalized",
+	  AS_ISSUE_SEVERITY_INFO,
+	  N_("The summary text does not start with a capitalized word, project name or number.")
 	},
 
 	{ "icon-stock-cached-has-url",
@@ -416,7 +432,7 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  N_("Invalid `type` property for this `url` tag. URLs of this type are not known in the AppStream specification."),
 	},
 
-	{ "url-not-found",
+	{ "url-not-reachable",
 	  AS_ISSUE_SEVERITY_WARNING,
 	  N_("Unable to reach remote location that this URL references - does it exist?"),
 	},
