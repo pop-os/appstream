@@ -7,19 +7,19 @@ Build-Depends: debhelper-compat (= 13),
                gobject-introspection,
                gperf,
                gtk-doc-tools,
+               itstool,
                libcairo2-dev,
                libcurl4-gnutls-dev (>= 7.62) | libcurl-dev (>= 7.62),
                libfontconfig-dev,
                libgdk-pixbuf-2.0-dev,
-               libgirepository1.0-dev (>= 1.58),
-               libglib2.0-dev (>= 2.58),
+               libgirepository1.0-dev (>= 1.62),
+               libglib2.0-dev (>= 2.62),
                libjs-highlight.js,
-               libxmlb-dev (>= 0.3.4),
-               itstool,
                libpango1.0-dev,
                librsvg2-dev (>= 2.48) [amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32],
                libstemmer-dev,
                libxml2-dev (>= 2.8.0),
+               libxmlb-dev (>= 0.3.6),
                libyaml-dev (>= 0.1.6),
                meson (>= 0.56),
                qtbase5-dev (>= 5.6),
@@ -53,7 +53,7 @@ Description: Software component metadata management
  validating it for compliance with the specification.
 
 Package: appstream-compose
-Architecture: amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32
+Architecture: amd64 arm64 armel armhf i386 mips64el mipsel powerpc ppc64 ppc64el riscv64 s390x sparc64 x32
 Depends: appstream,
          ${misc:Depends},
          ${shlibs:Depends}
@@ -163,7 +163,7 @@ Description: Qt5 library to access AppStream services (development files)
  software management tools which use the Qt-based AppStream library.
 
 Package: libappstream-compose0
-Architecture: amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32
+Architecture: amd64 arm64 armel armhf i386 mips64el mipsel powerpc ppc64 ppc64el riscv64 s390x sparc64 x32
 Section: libs
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
@@ -182,7 +182,7 @@ Description: Building blocks to compose AppStream metadata
  icons, etc.).
 
 Package: libappstream-compose-dev
-Architecture: amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32
+Architecture: amd64 arm64 armel armhf i386 mips64el mipsel powerpc ppc64 ppc64el riscv64 s390x sparc64 x32
 Section: libdevel
 Multi-Arch: same
 Depends: gir1.2-appstreamcompose-1.0 (= ${binary:Version}),
@@ -203,7 +203,7 @@ Description: Building blocks to compose AppStream metadata (development files)
  using the AppStream compose library.
 
 Package: gir1.2-appstreamcompose-1.0
-Architecture: amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32
+Architecture: amd64 arm64 armel armhf i386 mips64el mipsel powerpc ppc64 ppc64el riscv64 s390x sparc64 x32
 Section: introspection
 Multi-Arch: same
 Depends: libappstream-compose0 (= ${binary:Version}),
