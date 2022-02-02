@@ -9,7 +9,7 @@ Build-Depends: debhelper-compat (= 13),
                gtk-doc-tools,
                itstool,
                libcairo2-dev,
-               libcurl4-gnutls-dev (>= 7.62) | libcurl-dev (>= 7.62),
+               libcurl4-gnutls-dev | libcurl-dev (>= 7.62),
                libfontconfig-dev,
                libgdk-pixbuf-2.0-dev,
                libgirepository1.0-dev (>= 1.62),
@@ -18,11 +18,11 @@ Build-Depends: debhelper-compat (= 13),
                libpango1.0-dev,
                librsvg2-dev (>= 2.48) [amd64 arm64 armel armhf i386 mips64el mipsel ppc64el s390x powerpc ppc64 riscv64 sparc64 x32],
                libstemmer-dev,
-               libxml2-dev (>= 2.8.0),
+               libxml2-dev,
                libxmlb-dev (>= 0.3.6),
-               libyaml-dev (>= 0.1.6),
+               libyaml-dev,
                meson (>= 0.56),
-               qtbase5-dev (>= 5.6),
+               qtbase5-dev,
                valac
 Rules-Requires-Root: no
 Standards-Version: 4.6.0
@@ -96,7 +96,7 @@ Section: libdevel
 Multi-Arch: same
 Depends: gir1.2-appstream-1.0 (= ${binary:Version}),
          libappstream4 (= ${binary:Version}),
-         libglib2.0-dev (>= 2.46),
+         libglib2.0-dev,
          ${misc:Depends}
 Description: Library to access AppStream services (development files)
  AppStream is a metadata specification which permits software components to
@@ -149,7 +149,7 @@ Architecture: any
 Multi-Arch: same
 Section: libdevel
 Depends: libappstreamqt2 (= ${binary:Version}),
-         qtbase5-dev (>= 5.4),
+         qtbase5-dev,
          ${misc:Depends}
 Description: Qt5 library to access AppStream services (development files)
  AppStream is a metadata specification which permits software components to
