@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2022 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2016-2020 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -588,7 +588,7 @@ static guint content_rating_csm_ages[AS_CONTENT_RATING_SYSTEM_LAST][7] = {
 /**
  * as_content_rating_system_get_csm_ages:
  * @system: an #AsContentRatingSystem
- * @length_out: (out) (not optional): return location for the length of the
+ * @length_out: (out) (not nullable): return location for the length of the
  *    returned array
  *
  * Get the CSM ages corresponding to the entries returned by

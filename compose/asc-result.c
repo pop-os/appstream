@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -360,7 +360,7 @@ asc_result_update_component_gcid (AscResult *result, AsComponent *cpt, GBytes *b
 		g_autofree gchar *tmp = NULL;
 
 		old_hash_len = strlen (old_hash);
-		tmp = malloc(old_hash_len + data_len);
+		tmp = g_malloc (old_hash_len + data_len);
 		memcpy (tmp, old_hash, old_hash_len);
 		memcpy (tmp + old_hash_len, data, data_len);
 

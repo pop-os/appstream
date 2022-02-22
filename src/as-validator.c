@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -777,6 +777,10 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 	g_auto(GStrv) cid_parts = NULL;
 	gboolean hyphen_found = FALSE;
 	g_autofree gchar *cid = (gchar*) xmlNodeGetContent (idnode);
+	g_return_if_fail (cid != NULL);
+
+	if (cid[0] != '\0' && g_ascii_ispunct (cid[0]))
+		as_validator_add_issue (validator, idnode, "cid-punctuation-prefix", cid);
 
 	cid_parts = g_strsplit (cid, ".", -1);
 	if (g_strv_length (cid_parts) < 3) {
@@ -813,11 +817,12 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 			c = g_utf8_substring (cid, i, i + 1);
 			as_validator_add_issue (validator, idnode,
 						"cid-invalid-character",
-						"%s: '%c'", cid, c);
+						"%s: '%s'", cid, c);
 		}
 
 		if (!hyphen_found && cid[i] == '-') {
 			hyphen_found = TRUE;
+			/* a hyphen in the ID is bad news, because we can't use the ID on DBus and it also clashes with other naming schemes */
 			as_validator_add_issue (validator, idnode, "cid-contains-hyphen", cid);
 		}
 
@@ -833,11 +838,6 @@ as_validator_validate_component_id (AsValidator *validator, xmlNode *idnode, AsC
 						"%s: %s → _%s", cid, cid_parts[i], cid_parts[i]);
 			break;
 		}
-	}
-
-
-	/* a hyphen in the ID is bad news, because we can't use the ID on DBus and it also clashes with other naming schemes */
-	if (g_strstr_len (cid, -1, "-") != NULL) {
 	}
 
 	/* project-group specific constraints on the ID */
@@ -1519,11 +1519,22 @@ as_validator_check_release (AsValidator *validator, xmlNode *node, AsFormatStyle
 {
 	gchar *prop;
 
+	/* validate presence of version property */
+	prop = as_xml_get_prop_value (node, "version");
+	if (prop == NULL)
+		as_validator_add_issue (validator, node, "release-version-missing", "version");
+	g_free (prop);
+
 	/* validate date strings */
 	prop = as_xml_get_prop_value (node, "date");
 	if (prop != NULL) {
 		as_validator_validate_iso8601_complete_date (validator, node, prop);
 		g_free (prop);
+	} else {
+		g_autofree gchar *timestamp = as_xml_get_prop_value (node, "timestamp");
+		/* Neither timestamp, nor date property exists */
+		if (timestamp == NULL)
+			as_validator_add_issue (validator, node, "release-time-missing", "date");
 	}
 	prop = as_xml_get_prop_value (node, "date_eol");
 	if (prop != NULL) {
@@ -1645,6 +1656,45 @@ as_validator_check_releases (AsValidator *validator, xmlNode *node, AsFormatStyl
 }
 
 /**
+ * as_validator_check_branding:
+ **/
+static void
+as_validator_check_branding (AsValidator *validator, xmlNode *node)
+{
+	for (xmlNode *iter = node->children; iter != NULL; iter = iter->next) {
+		if (iter->type != XML_ELEMENT_NODE)
+			continue;
+
+		if (g_strcmp0 ((gchar*) iter->name, "color") == 0) {
+			gchar *tmp;
+			guint len;
+
+			tmp = as_xml_get_prop_value (iter, "type");
+			if (as_color_kind_from_string (tmp) == AS_COLOR_KIND_UNKNOWN)
+				as_validator_add_issue (validator, iter, "branding-color-type-invalid", tmp);
+			g_free (tmp);
+
+			tmp = as_xml_get_prop_value (iter, "scheme_preference");
+			if (tmp != NULL && as_color_scheme_kind_from_string (tmp) == AS_COLOR_SCHEME_KIND_UNKNOWN)
+				as_validator_add_issue (validator, iter, "branding-color-scheme-type-invalid", tmp);
+			g_free (tmp);
+
+			tmp = as_xml_get_node_value (iter);
+			len = strlen (tmp);
+			if (!g_str_has_prefix (tmp, "#") || (len != 7 && len != 9))
+				as_validator_add_issue (validator, iter, "branding-color-invalid", tmp);
+		} else {
+			as_validator_add_issue (validator, iter,
+						"invalid-child-tag-name",
+						/* TRANSLATORS: An invalid XML tag was found, "Found" refers to the tag name found, "Allowed" to the permitted names. */
+						_("Found: %s - Allowed: %s"),
+						(const gchar*) iter->name,
+						"color");
+		}
+	}
+}
+
+/**
  * as_validator_validate_component_node:
  **/
 static AsComponent*
@@ -1653,6 +1703,7 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 	AsComponent *cpt;
 	g_autofree gchar *cpttype = NULL;
 	g_autoptr(GHashTable) found_tags = NULL;
+	g_autofree gchar *date_eol_str = NULL;
 
 	AsFormatStyle mode;
 	gboolean has_metadata_license = FALSE;
@@ -1676,6 +1727,12 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 		}
 	}
 
+	/* validate EOL date format */
+	date_eol_str = as_xml_get_prop_value (root, "date_eol");
+	if (date_eol_str != NULL)
+		as_validator_validate_iso8601_complete_date (validator, root, date_eol_str);
+
+	/* validate other component properties */
 	if ((as_component_get_priority (cpt) != 0) && (mode == AS_FORMAT_STYLE_METAINFO))
 		as_validator_add_issue (validator, root, "component-priority-in-metainfo", NULL);
 
@@ -1898,6 +1955,9 @@ as_validator_validate_component_node (AsValidator *validator, AsContext *ctx, xm
 			as_validator_check_relations (validator, iter, cpt, AS_RELATION_KIND_SUPPORTS);
 		} else if (g_strcmp0 (node_name, "agreement") == 0) {
 			as_validator_check_children_quick (validator, iter, "agreement_section", FALSE);
+		} else if (g_strcmp0 (node_name, "branding") == 0) {
+			as_validator_check_appear_once (validator, iter, found_tags);
+			as_validator_check_branding (validator, iter);
 		} else if (g_strcmp0 (node_name, "tags") == 0) {
 			as_validator_check_appear_once (validator, iter, found_tags);
 			as_validator_check_tags (validator, iter);

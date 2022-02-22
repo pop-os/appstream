@@ -20,14 +20,11 @@ hljs.configure({
 				you have strong reasons for preferring YAML).
 				XML is the official format for AppStream collection metadata.
 			</p></div><p>
-			The DEP-11 YAML metadata can be validated for correctness using the <code class="command">dep11-validate</code> tool from the
-			<a class="ulink" href="https://packages.debian.org/source/sid/appstream-dep11" target="_blank">AppStream DEP-11 utils<span class="ulink-url"> (https://packages.debian.org/source/sid/appstream-dep11)</span></a>.
-		</p><p>
 			Fields not mentioned in this document are not recognized by DEP-11 YAML parsers.
 		</p></div><div class="sect2" id="spec-dep11-filenaming"><div class="titlepage"><div><div><h3 class="title" id="spec-dep11-filenaming"><span class="number">3.2.2 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">File naming and location</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#spec-dep11-filenaming">#</a></h3></div></div></div><p>
-			Take a look at <a class="xref" href="chap-CollectionData.html#spec-asxml-filenaming" title="3.1.2. File naming and location">Section 3.1.2, “File naming and location”</a> for AppStream XML files. While the XML data belongs into the <code class="filename">xmls</code> subdirectory in
-			<code class="filename">/usr/share/app-info</code> (or <code class="filename">/var/cache/app-info</code>), the YAML data is stored in the <code class="filename">yaml</code> subdirectory.
-			All other rules affecting the XML apply the DEP-11 YAML as well, including the recommendation to compress the files with gzip.
+			Take a look at <a class="xref" href="chap-CollectionData.html#spec-asxml-filenaming" title="3.1.2. File naming and location">Section 3.1.2, “File naming and location”</a> for AppStream XML files. While the XML data belongs into the <code class="filename">xml</code> subdirectory in
+			<code class="filename">/usr/share/swcatalog</code> (or <code class="filename">/var/cache/swcatalog</code>), the YAML data is stored in the <code class="filename">yaml</code> subdirectory.
+			All other rules affecting the XML apply the DEP-11 YAML as well, including the recommendation to compress the files with gzip and the icon search logic.
 		</p></div><div class="sect2" id="spec-dep11-general"><div class="titlepage"><div><div><h3 class="title" id="spec-dep11-general"><span class="number">3.2.3 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">General DEP-11 YAML structure</span> <a title="Permalink" class="permalink" href="sect-AppStream-YAML.html#spec-dep11-general">#</a></h3></div></div></div><p>
 			Each YAML file starts with a header document, which defines the basic properties of the metadata, which is followed by the actual metadata in form of one
 			YAML document per AppStream component.
@@ -451,5 +448,5 @@ Screenshots:
       - height: 63
         url: texstudio_2.8.4+debian-3_amd64/screenshots/112x63/screenshot-1.png
         width: 112</pre></div></div></div></div><div class="page-bottom"><div id="_bottom-navigation"><a class="nav-link" href="sect-AppStream-IconCache.html"><span class="next-icon">→</span><span class="nav-label">Icon Cache</span></a><a class="nav-link" href="chap-CollectionData.html"><span class="prev-icon">←</span><span class="nav-label"><span class="number">Chapter 3 </span>Collection Metadata</span></a></div></div></div><div id="_inward"></div></div><div id="_footer-wrap"><div id="_footer"><p>©
-        2021 
+        2022 
         Freedesktop.org, the AppStream Project</p></div></div></body></html>

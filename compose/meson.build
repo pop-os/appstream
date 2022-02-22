@@ -10,6 +10,7 @@ ascompose_src = [
     'asc-globals.c',
     'asc-hint.c',
     'asc-hint-tags.c',
+    'asc-icon-policy.c',
     'asc-image.c',
     'asc-result.c',
     'asc-unit.c',
@@ -27,6 +28,7 @@ ascompose_pub_headers = [
     'asc-directory-unit.h',
     'asc-globals.h',
     'asc-hint.h',
+    'asc-icon-policy.h',
     'asc-image.h',
     'asc-result.h',
     'asc-unit.h',
@@ -40,6 +42,7 @@ ascompose_pub_enums = glib.mkenums_simple('asc-enums-types',
 )
 
 ascompose_priv_headers = [
+    'asc-canvas-private.h',
     'asc-font.h',
     'asc-font-private.h',
     'asc-globals-private.h',
@@ -121,7 +124,8 @@ sed_prog = find_program('sed')
 pc_fixup = run_command(sed_prog,
                        '-i',
                        '/^Requires.private\|^Libs.private/ d',
-                       join_paths(meson.build_root(), 'meson-private', 'appstream-compose.pc'))
+                       join_paths(meson.project_build_root(), 'meson-private', 'appstream-compose.pc'),
+                       check: false)
 if pc_fixup.returncode() != 0
     error('Unable to fix up the .pc file:\n' + pc_fixup.stderr())
 endif

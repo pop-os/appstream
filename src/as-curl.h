@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2020-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2020-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -53,6 +53,9 @@ typedef enum {
 GQuark			as_curl_error_quark (void);
 
 AsCurl			*as_curl_new (GError **error);
+
+void			as_curl_set_cainfo (AsCurl *acurl,
+						const gchar *cainfo);
 
 GBytes			*as_curl_download_bytes (AsCurl *acurl,
 						 const gchar *url,

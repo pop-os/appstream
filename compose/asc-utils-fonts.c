@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -129,6 +129,8 @@ asc_render_font_screenshots (AscResult *cres,
 								NULL);
 					continue;
 				}
+
+				g_debug ("Saving font screenshot image: %s", img_name);
 				ret = asc_canvas_save_png (cv, img_filename, &tmp_error);
 				if (!ret) {
 					asc_result_add_hint (cres, cpt,
@@ -165,108 +167,132 @@ asc_render_font_icon (AscResult *cres,
 		      AscUnit *unit,
 		      AscFont *font,
 		      const gchar *cpt_icons_path,
+		      const gchar *icons_export_dir,
 		      AsComponent *cpt,
-		      AscIconPolicy icon_policy)
+		      AscIconPolicy *icon_policy)
 {
-	const gint sizes[] = {  64,
-				128,
-				-1 };
-	const gint scale_factors[] = {  1,
-					2,
-					-1 };
+	AscIconPolicyIter iter;
+	guint size;
+	guint scale_factor;
+	AscIconState icon_state;
 
-	for (guint k = 0; scale_factors[k] > 0; k++) {
-		for (guint i = 0; sizes[i] > 0; i++) {
-			g_autofree gchar *size_str = NULL;
-			g_autofree gchar *icon_dir = NULL;
-			g_autofree gchar *icon_name = NULL;
-			g_autofree gchar *icon_full_path = NULL;
-			const gchar *custom_icon_text = NULL;
+	asc_icon_policy_iter_init (&iter, icon_policy);
+	while (asc_icon_policy_iter_next (&iter, &size, &scale_factor, &icon_state)) {
+		g_autofree gchar *size_str = NULL;
+		g_autofree gchar *icon_dir = NULL;
+		g_autofree gchar *icon_name = NULL;
+		g_autofree gchar *icon_full_path = NULL;
+		const gchar *custom_icon_text = NULL;
 
-			size_str = (scale_factors[k] == 1)
-					? g_strdup_printf ("%ix%i",
-							   sizes[i], sizes[i])
-					: g_strdup_printf ("%ix%i@%i",
-							   sizes[i], sizes[i],
-							   scale_factors[k]);
-			icon_dir = g_build_filename (cpt_icons_path, size_str, NULL);
-			g_mkdir_with_parents (icon_dir, 0755);
+		/* skip icon if it should be skipped */
+		if (icon_state == ASC_ICON_STATE_IGNORED)
+			continue;
 
-			/* check if we have a custom icon text value (useful for symbolic fonts) */
-			custom_icon_text = as_component_get_custom_value (cpt, "FontIconText");
-			if (!as_is_empty (custom_icon_text))
-				asc_font_set_sample_icon_text (font, custom_icon_text); /* Font will ensure that the value does not exceed 3 chars */
+		size_str = (scale_factor == 1)
+				? g_strdup_printf ("%ix%i",
+						   size, size)
+				: g_strdup_printf ("%ix%i@%i",
+						   size, size,
+						   scale_factor);
+		icon_dir = g_build_filename (cpt_icons_path, size_str, NULL);
+		g_mkdir_with_parents (icon_dir, 0755);
 
-			icon_name = g_strdup_printf ("%s_%s.png",
-						     asc_unit_get_bundle_id_safe (unit),
-						     asc_font_get_id (font));
-			icon_full_path = g_build_filename (icon_dir, icon_name, NULL);
+		/* check if we have a custom icon text value (useful for symbolic fonts) */
+		custom_icon_text = as_component_get_custom_value (cpt, "FontIconText");
+		if (!as_is_empty (custom_icon_text))
+			asc_font_set_sample_icon_text (font, custom_icon_text); /* Font will ensure that the value does not exceed 3 chars */
 
-			if (!g_file_test (icon_full_path, G_FILE_TEST_EXISTS)) {
-				g_autoptr(AscCanvas) cv = NULL;
-				g_autoptr(GError) tmp_error = NULL;
-				gboolean ret;
+		icon_name = g_strdup_printf ("%s_%s.png",
+						asc_unit_get_bundle_id_safe (unit),
+						asc_font_get_id (font));
+		icon_full_path = g_build_filename (icon_dir, icon_name, NULL);
 
-				/* we didn't create an icon yet - let's render it! */
-				cv = asc_canvas_new (sizes[i] * scale_factors[k],
-						     sizes[i] * scale_factors[k]);
-				ret = asc_canvas_draw_text_line (cv,
-								 font,
-								 asc_font_get_sample_icon_text (font),
-								 -1, /* border width */
-								 &tmp_error);
-				if (!ret) {
-					asc_result_add_hint (cres, cpt,
-								"font-render-error",
-								"name", asc_font_get_fullname (font),
-								"error", tmp_error->message,
-								NULL);
-					continue;
-				}
-				ret = asc_canvas_save_png (cv, icon_full_path, &tmp_error);
-				if (!ret) {
-					asc_result_add_hint (cres, cpt,
-								"font-render-error",
-								"name", asc_font_get_fullname (font),
-								"error", tmp_error->message,
-								NULL);
-					continue;
-				}
+		if (!g_file_test (icon_full_path, G_FILE_TEST_EXISTS)) {
+			g_autoptr(AscCanvas) cv = NULL;
+			g_autoptr(GError) tmp_error = NULL;
+			gboolean ret;
+
+			/* we didn't create an icon yet - let's render it! */
+			cv = asc_canvas_new (size * scale_factor,
+						size * scale_factor);
+			ret = asc_canvas_draw_text_line (cv,
+							 font,
+							 asc_font_get_sample_icon_text (font),
+							 -1, /* border width */
+							 &tmp_error);
+			if (!ret) {
+				asc_result_add_hint (cres, cpt,
+						     "font-render-error",
+						     "name", asc_font_get_fullname (font),
+						     "error", tmp_error->message,
+						     NULL);
+				continue;
+			}
+			g_debug ("Saving font icon: %s/%s", size_str, icon_name);
+			ret = asc_canvas_save_png (cv, icon_full_path, &tmp_error);
+			if (!ret) {
+				asc_result_add_hint (cres, cpt,
+						     "font-render-error",
+						     "name", asc_font_get_fullname (font),
+						     "error", tmp_error->message,
+						     NULL);
+				continue;
 			}
 
-			if (icon_policy != ASC_ICON_POLICY_ONLY_REMOTE) {
-				g_autoptr(AsIcon) icon = as_icon_new ();
-				as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
-				as_icon_set_width (icon, sizes[i]);
-				as_icon_set_height (icon, sizes[i]);
-				as_icon_set_scale (icon, scale_factors[k]);
-				as_icon_set_name (icon, icon_name);
-				as_component_add_icon (cpt, icon);
-			}
+			if (icons_export_dir != NULL) {
+				g_autofree gchar *icon_export_dir = NULL;
+				g_autofree gchar *icon_export_fname = NULL;
 
-			if (icon_policy != ASC_ICON_POLICY_ONLY_CACHED) {
-				const gchar *gcid = NULL;
-				g_autofree gchar *remote_icon_url = NULL;
-				g_autoptr(AsIcon) icon = as_icon_new ();
+				g_debug ("Copying icon to icon export dir: %s/%s", size_str, icon_name);
+				icon_export_dir = g_build_filename (icons_export_dir, size_str, NULL);
+				icon_export_fname = g_build_filename (icon_export_dir, icon_name, NULL);
 
-				gcid = asc_result_gcid_for_component (cres, cpt);
-				if (as_is_empty (gcid)) {
-					asc_result_add_hint (cres,
-							     cpt,
-							     "internal-error",
-							     "msg", "No global ID could be found for component when processing fonts.",
+				g_mkdir_with_parents (icon_export_dir, 0755);
+				if (!as_copy_file (icon_full_path, icon_export_fname, &tmp_error)) {
+					g_autofree gchar *tmp_icon_fname = g_strdup_printf ("%s/%s", size_str, icon_name);
+					g_warning ("Unable to write exported icon: %s", icon_export_fname);
+					asc_result_add_hint (cres, cpt,
+							     "icon-write-error",
+							     "fname", tmp_icon_fname,
+							     "msg", tmp_error->message,
 							     NULL);
-					return FALSE;
+					continue;
 				}
-
-				remote_icon_url = g_build_filename (gcid, "icons", size_str, icon_name, NULL);
-				as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
-				as_icon_set_width (icon, sizes[i]);
-				as_icon_set_height (icon, sizes[i]);
-				as_icon_set_scale (icon, scale_factors[k]);
-				as_icon_set_url (icon, remote_icon_url);
-				as_component_add_icon (cpt, icon);
 			}
+		}
+
+		if (icon_state != ASC_ICON_STATE_REMOTE_ONLY) {
+			g_autoptr(AsIcon) icon = as_icon_new ();
+			as_icon_set_kind (icon, AS_ICON_KIND_CACHED);
+			as_icon_set_width (icon, size);
+			as_icon_set_height (icon, size);
+			as_icon_set_scale (icon, scale_factor);
+			as_icon_set_name (icon, icon_name);
+			as_component_add_icon (cpt, icon);
+		}
+
+		if (icon_state != ASC_ICON_STATE_CACHED_ONLY) {
+			const gchar *gcid = NULL;
+			g_autofree gchar *remote_icon_url = NULL;
+			g_autoptr(AsIcon) icon = as_icon_new ();
+
+			gcid = asc_result_gcid_for_component (cres, cpt);
+			if (as_is_empty (gcid)) {
+				asc_result_add_hint (cres,
+						     cpt,
+						     "internal-error",
+						     "msg", "No global ID could be found for component when processing fonts.",
+						     NULL);
+				return FALSE;
+			}
+
+			remote_icon_url = g_build_filename (gcid, "icons", size_str, icon_name, NULL);
+			as_icon_set_kind (icon, AS_ICON_KIND_REMOTE);
+			as_icon_set_width (icon, size);
+			as_icon_set_height (icon, size);
+			as_icon_set_scale (icon, scale_factor);
+			as_icon_set_url (icon, remote_icon_url);
+			as_component_add_icon (cpt, icon);
 		}
 	}
 
@@ -291,7 +317,8 @@ process_font_data_for_component (AscResult *cres,
 				 AsComponent *cpt,
 				 GHashTable *all_fonts,
 				 const gchar *media_export_root,
-				 AscIconPolicy icon_policy,
+				 const gchar *icons_export_dir,
+				 AscIconPolicy *icon_policy,
 				 AscComposeFlags flags)
 {
 	const gchar *gcid = NULL;
@@ -325,8 +352,13 @@ process_font_data_for_component (AscResult *cres,
 	}
 
 	/* data export paths */
-	cpt_icons_path = g_build_filename (media_export_root, gcid, "icons", NULL);
-	cpt_screenshots_path = g_build_filename (media_export_root, gcid, "screenshots", NULL);
+	if (media_export_root == NULL)
+		cpt_icons_path = g_build_filename (asc_globals_get_tmp_dir (), gcid, NULL);
+	else
+		cpt_icons_path = g_build_filename (media_export_root, gcid, "icons", NULL);
+
+	if (media_export_root != NULL)
+		cpt_screenshots_path = g_build_filename (media_export_root, gcid, "screenshots", NULL);
 
 	/* if we have no fonts hints, we simply process all the fonts
 	 * that we found in this unit. */
@@ -454,6 +486,7 @@ process_font_data_for_component (AscResult *cres,
 							 unit,
 							 font,
 							 cpt_icons_path,
+							 icons_export_dir,
 							 cpt,
 							 icon_policy);
 
@@ -469,11 +502,16 @@ process_font_data_for_component (AscResult *cres,
 	}
 
 	/* render all sample screenshots for all font styles we have */
-	if (as_flags_contains (flags, ASC_COMPOSE_FLAG_STORE_SCREENSHOTS))
-		asc_render_font_screenshots (cres,
-					     selected_fonts,
-					     cpt_screenshots_path,
-					     cpt);
+	if (as_flags_contains (flags, ASC_COMPOSE_FLAG_STORE_SCREENSHOTS)) {
+		if (cpt_screenshots_path == NULL)
+			g_warning ("Screenshot storage is enabled, but no screenshot media path could be constructed for %s.",
+				   as_component_get_id (cpt));
+		else
+			asc_render_font_screenshots (cres,
+						     selected_fonts,
+						     cpt_screenshots_path,
+						     cpt);
+	}
 }
 
 /**
@@ -485,7 +523,8 @@ void
 asc_process_fonts (AscResult *cres,
 		   AscUnit *unit,
 		   const gchar *media_export_root,
-		   AscIconPolicy icon_policy,
+		   const gchar *icons_export_dir,
+		   AscIconPolicy *icon_policy,
 		   AscComposeFlags flags)
 {
 	GPtrArray *contents = NULL;
@@ -564,6 +603,7 @@ asc_process_fonts (AscResult *cres,
 						 cpt,
 						 all_fonts,
 						 media_export_root,
+						 icons_export_dir,
 						 icon_policy,
 						 flags);
 	}

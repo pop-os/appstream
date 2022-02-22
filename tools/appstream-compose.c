@@ -1,20 +1,20 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2019-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2019-2022 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU General Public License Version 2
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the license, or
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -313,10 +313,10 @@ main (int argc, char **argv)
 	asc_compose_set_origin (compose, origin);
 
 	if (mdata_dir == NULL)
-		mdata_dir = g_build_filename (res_root_dir, prefix, "share/app-info/xmls", NULL);
+		mdata_dir = g_build_filename (res_root_dir, prefix, "share/swcatalog/xml", NULL);
 	asc_compose_set_data_result_dir (compose, mdata_dir);
 	if (icons_dir == NULL)
-		icons_dir = g_build_filename (res_root_dir, prefix, "share/app-info/icons", origin, NULL);
+		icons_dir = g_build_filename (res_root_dir, prefix, "share/swcatalog/icons", origin, NULL);
 	asc_compose_set_icons_result_dir (compose, icons_dir);
 
 	/* optional */

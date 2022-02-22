@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2020-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2020-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -170,6 +170,20 @@ verify_and_return:
 	}
 
 	return TRUE;
+}
+
+/**
+ * as_curl_set_cainfo:
+ * @acurl: an #AsCurl instance.
+ * @cainfo: Path to a CA file.
+ *
+ * Set a CA file holding one or more certificates to verify the peer with.
+ **/
+void
+as_curl_set_cainfo (AsCurl *acurl, const gchar *cainfo)
+{
+	AsCurlPrivate *priv = GET_PRIVATE (acurl);
+	curl_easy_setopt (priv->curl, CURLOPT_CAINFO, cainfo);
 }
 
 /**

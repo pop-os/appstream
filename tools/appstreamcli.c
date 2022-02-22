@@ -1,20 +1,20 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
- * Licensed under the GNU General Public License Version 2
+ * Licensed under the GNU Lesser General Public License Version 2.1
  *
  * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 2 of the license, or
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 2.1 of the license, or
  * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * GNU Lesser General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
+ * You should have received a copy of the GNU Lesser General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
@@ -525,6 +525,24 @@ as_client_run_put (const gchar *command, char **argv, int argc)
 	return ascli_put_metainfo (fname, optn_origin, optn_usermode);
 }
 
+static const gchar *optn_bundle_type = NULL;
+static gboolean optn_choose_first = FALSE;
+
+const GOptionEntry pkgmanage_options[] = {
+	{ "bundle-type", 0, 0,
+		G_OPTION_ARG_STRING,
+		&optn_bundle_type,
+		/* TRANSLATORS: ascli flag description for: --bundle-type (part of the "remove" and "install" subcommands) */
+		N_("Limit the command to use only components from the given bundling system (`flatpak` or `package`)."), NULL },
+	{ "first", 0, 0,
+		G_OPTION_ARG_NONE,
+		&optn_choose_first,
+		/* TRANSLATORS: ascli flag description for: --first (part of the "remove" and "install" subcommands) */
+		N_("Do not ask for which software component should be used and always choose the first entry."),
+		NULL },
+	{ NULL }
+};
+
 /**
  * as_client_run_install:
  *
@@ -533,7 +551,15 @@ as_client_run_put (const gchar *command, char **argv, int argc)
 static int
 as_client_run_install (const gchar *command, char **argv, int argc)
 {
+	g_autoptr(GOptionContext) opt_context = NULL;
 	const gchar *value = NULL;
+	AsBundleKind bundle_kind;
+	gint ret;
+
+	opt_context = as_client_new_subcommand_option_context (command, pkgmanage_options);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
 
 	if (argc > 2)
 		value = argv[2];
@@ -542,7 +568,16 @@ as_client_run_install (const gchar *command, char **argv, int argc)
 		return 1;
 	}
 
-	return ascli_install_component (value);
+	bundle_kind = as_bundle_kind_from_string (optn_bundle_type);
+	if (optn_bundle_type != NULL && bundle_kind == AS_BUNDLE_KIND_UNKNOWN) {
+		/* TRANSLATORS: ascli install currently only supports two values for --bundle-type. */
+		ascli_print_stderr (_("No valid bundle kind was specified. Only `package` and `flatpak` are currently recognized."));
+		return ASCLI_EXIT_CODE_BAD_INPUT;
+	}
+
+	return ascli_install_component (value,
+					bundle_kind,
+					optn_choose_first);
 }
 
 /**
@@ -553,7 +588,15 @@ as_client_run_install (const gchar *command, char **argv, int argc)
 static int
 as_client_run_remove (const gchar *command, char **argv, int argc)
 {
+	g_autoptr(GOptionContext) opt_context = NULL;
 	const gchar *value = NULL;
+	AsBundleKind bundle_kind;
+	gint ret;
+
+	opt_context = as_client_new_subcommand_option_context (command, pkgmanage_options);
+	ret = as_client_option_context_parse (opt_context, command, &argc, &argv);
+	if (ret != 0)
+		return ret;
 
 	if (argc > 2)
 		value = argv[2];
@@ -562,7 +605,16 @@ as_client_run_remove (const gchar *command, char **argv, int argc)
 		return 1;
 	}
 
-	return ascli_remove_component (value);
+	bundle_kind = as_bundle_kind_from_string (optn_bundle_type);
+	if (optn_bundle_type != NULL && bundle_kind == AS_BUNDLE_KIND_UNKNOWN) {
+		/* TRANSLATORS: ascli install currently only supports two values for --bundle-type. */
+		ascli_print_stderr (_("No valid bundle kind was specified. Only `package` and `flatpak` are currently recognized."));
+		return ASCLI_EXIT_CODE_BAD_INPUT;
+	}
+
+	return ascli_remove_component (value,
+					bundle_kind,
+					optn_choose_first);
 }
 
 /**
@@ -915,6 +967,15 @@ as_client_run_metainfo_to_news (const gchar *command, char **argv, int argc)
 }
 
 /**
+ * as_client_check_compose_available:
+ */
+static gboolean
+as_client_check_compose_available (void)
+{
+	return g_file_test (LIBEXECDIR "/appstreamcli-compose", G_FILE_TEST_EXISTS);
+}
+
+/**
  * as_client_run_compose:
  *
  * Delegate the "compose" command to the appstream-compose binary,
@@ -927,7 +988,10 @@ as_client_run_compose (const gchar *command, char **argv, int argc)
 	g_autofree const gchar **asc_argv = NULL;
 
 	if (!g_file_test (ascompose_exe, G_FILE_TEST_EXISTS)) {
+		/* TRANSLATORS: appstreamcli-compose was not found */
 		ascli_print_stderr (_("Compose binary '%s' was not found! Can not continue."), ascompose_exe);
+		ascli_print_stderr (_("You may be able to install the AppStream Compose addon via: `%s`"),
+				    "sudo appstreamcli install org.freedesktop.appstream.compose");
 		return 4;
 	}
 
@@ -1015,6 +1079,7 @@ static gchar*
 as_client_get_help_summary (GPtrArray *commands)
 {
 	guint current_block_id = 0;
+	gboolean compose_available = FALSE;
 	g_autoptr(GArray) blocks_maxlen = NULL;
 	GString *string = g_string_new ("");
 
@@ -1023,6 +1088,7 @@ as_client_get_help_summary (GPtrArray *commands)
 				/* these are commands we can use with appstreamcli */
 				_("Subcommands:"));
 
+	compose_available = as_client_check_compose_available ();
 	blocks_maxlen = g_array_new (FALSE, FALSE, sizeof (guint));
 	for (guint i = 0; i < commands->len; i++) {
 		guint nlen;
@@ -1045,6 +1111,10 @@ as_client_get_help_summary (GPtrArray *commands)
 		guint synopsis_len;
 		g_autofree gchar *summary_wrap = NULL;
 		AsCliCommandItem *item = (AsCliCommandItem *) g_ptr_array_index (commands, i);
+
+		/* don't display compose help if ascompose binary was not found */
+		if (!compose_available && g_strcmp0 (item->name, "compose") == 0)
+			continue;
 
 		if (item->block_id != current_block_id) {
 			current_block_id = item->block_id;
@@ -1212,7 +1282,7 @@ as_client_run (char **argv, int argc)
 			_("Convert collection XML to YAML or vice versa."),
 			as_client_run_convert);
 	ascli_add_cmd (commands,
-			4, "compare-versions", "vercmp", "VER1 [COMP] VER2",
+			4, "vercmp", "compare-versions", "VER1 [COMP] VER2",
 			/* TRANSLATORS: `appstreamcli vercmp` command description. */
 			_("Compare two version numbers."),
 			as_client_run_compare_versions);
@@ -1237,12 +1307,11 @@ as_client_run (char **argv, int argc)
 			/* TRANSLATORS: `appstreamcli metainfo-to-news` command description. */
 			_("Write NEWS text or YAML file with information from a metainfo file."),
 			as_client_run_metainfo_to_news);
-	if (g_file_test (LIBEXECDIR "/appstreamcli-compose", G_FILE_TEST_EXISTS))
-		ascli_add_cmd (commands,
-				5, "compose", NULL, NULL,
-				/* TRANSLATORS: `appstreamcli compose` command description. */
-				_("Compose AppStream collection metadata from directory trees."),
-				as_client_run_compose);
+	ascli_add_cmd (commands,
+			5, "compose", NULL, NULL,
+			/* TRANSLATORS: `appstreamcli compose` command description. */
+			_("Compose AppStream collection metadata from directory trees."),
+			as_client_run_compose);
 
 	/* we handle the unknown options later in the individual subcommands */
 	g_option_context_set_ignore_unknown_options (opt_context, TRUE);

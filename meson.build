@@ -1,13 +1,13 @@
 project('AppStream', 'c',
-  meson_version: '>=0.50',
+  meson_version: '>=0.56',
   default_options: ['c_std=c11', 'cpp_std=gnu++14'],
 
   license: 'LGPL-2.1+ and GPL-2.0+',
-  version: '0.15.1',
+  version: '0.15.2',
 )
 
 cc = meson.get_compiler('c')
-source_root = meson.source_root()
+source_root = meson.project_source_root()
 
 as_version = meson.project_version()
 as_api_level = '4'
@@ -69,10 +69,15 @@ if get_option('maintainer')
                          '-Wnull-dereference',
                          '-Wfloat-equal',
                          #'-Wformat-signedness',
-                         '-Winline'
+                         '-Winline',
+                         '-Wno-error=comment',
     ]
     add_project_arguments(maintainer_c_args, language: 'c')
     add_project_arguments(maintainer_c_args, language: 'cpp')
+endif
+
+if get_option('static-analysis') and host_machine.system() != 'windows'
+  add_project_arguments(['-fanalyzer', '-Wno-analyzer-null-dereference'], language : 'c')
 endif
 
 # a few compiler warning flags we always want enabled
@@ -120,6 +125,7 @@ gperf = find_program('gperf')
 #
 # Modules
 #
+fs   = import('fs')
 glib = import('gnome')
 i18n = import('i18n')
 pkgc = import('pkgconfig')

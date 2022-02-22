@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -42,6 +42,7 @@
 #include "as-relation.h"
 #include "as-agreement.h"
 #include "as-review.h"
+#include "as-branding.h"
 
 G_BEGIN_DECLS
 
@@ -217,6 +218,11 @@ void			as_component_set_data_id (AsComponent *cpt,
 AsComponentKind		as_component_get_kind (AsComponent *cpt);
 void			as_component_set_kind (AsComponent *cpt,
 						AsComponentKind value);
+
+const gchar		*as_component_get_date_eol (AsComponent *cpt);
+void			as_component_set_date_eol (AsComponent *cpt,
+						   const gchar *date);
+guint64			as_component_get_timestamp_eol (AsComponent *cpt);
 
 const gchar		*as_component_get_origin (AsComponent *cpt);
 void			as_component_set_origin (AsComponent *cpt,
@@ -403,6 +409,10 @@ void			as_component_add_agreement (AsComponent *cpt,
 						    AsAgreement *agreement);
 AsAgreement		*as_component_get_agreement_by_kind (AsComponent *cpt,
 							     AsAgreementKind kind);
+
+AsBranding		*as_component_get_branding (AsComponent *cpt);
+void			as_component_set_branding (AsComponent *cpt,
+						    AsBranding *branding);
 
 void			as_component_clear_tags (AsComponent *cpt);
 gboolean		as_component_add_tag (AsComponent *cpt,

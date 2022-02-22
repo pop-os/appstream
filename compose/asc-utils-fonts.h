@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -35,7 +35,8 @@ AS_INTERNAL_VISIBLE
 void		asc_process_fonts (AscResult *cres,
 				   AscUnit *unit,
 				   const gchar *media_export_root,
-				   AscIconPolicy icon_policy,
+				   const gchar *icons_export_dir,
+				   AscIconPolicy *icon_policy,
 				   AscComposeFlags flags);
 
 #pragma GCC visibility pop
