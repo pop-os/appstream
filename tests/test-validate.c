@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -98,7 +98,7 @@ _astest_check_validate_issues (GList *issues, AsVResultCheck *checks_all)
 							    as_validator_issue_get_severity (issue));
 		check = g_hash_table_lookup (checks, check_key);
 		if (check == NULL) {
-			g_error ("Encountered unexpected validation issue: %s", issue_idstr);
+			g_critical ("Encountered unexpected validation issue: %s", issue_idstr);
 			g_assert_not_reached ();
 		}
 		expected_idstr = _astest_issue_info_to_string (check->tag,
@@ -115,7 +115,7 @@ _astest_check_validate_issues (GList *issues, AsVResultCheck *checks_all)
 		g_autofree gchar **strv = NULL;
 		strv = (gchar**) g_hash_table_get_keys_as_array (checks, NULL);
 		tmp = g_strjoinv ("; ", strv);
-		g_error ("Expected validation issues were not found: %s", tmp);
+		g_critical ("Expected validation issues were not found: %s", tmp);
 		g_assert_not_reached ();
 	}
 }

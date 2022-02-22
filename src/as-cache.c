@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2018-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2018-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -65,6 +65,9 @@ typedef struct
 
 G_DEFINE_TYPE_WITH_PRIVATE (AsCache, as_cache, G_TYPE_OBJECT)
 #define GET_PRIVATE(o) (as_cache_get_instance_private (o))
+
+/* location of the system-wide cache */
+static const gchar *AS_APPSTREAM_SYS_CACHE_DIR = "/var/cache/swcatalog/cache";
 
 typedef struct {
 	gboolean		is_os_data;
@@ -170,10 +173,17 @@ as_cache_init (AsCache *cache)
 	/* we choose the system-wide cache directory if we are root, otherwise we will write to
 	 * a user-specific directory. The system cache dir is always considered immutable. */
 	priv->system_cache_dir = g_strdup (AS_APPSTREAM_SYS_CACHE_DIR);
-	if (as_utils_is_root ())
+	if (as_utils_is_root ()) {
 		priv->cache_root_dir = g_strdup (priv->system_cache_dir);
-	else
-		priv->cache_root_dir = as_get_user_cache_dir ();
+	} else {
+		g_autoptr(GError) tmp_error = NULL;
+		priv->cache_root_dir = as_get_user_cache_dir (&tmp_error);
+		if (priv->cache_root_dir == NULL) {
+			g_critical ("Failed to obtain user cache directory: %s", tmp_error->message);
+			priv->cache_root_dir = g_strdup ("/tmp");
+		}
+	}
+
 	priv->default_paths_changed = FALSE;
 }
 
@@ -1598,17 +1608,35 @@ as_cache_get_components_all (AsCache *cache, GError **error)
 GPtrArray*
 as_cache_get_components_by_id (AsCache *cache, const gchar *id, GError **error)
 {
+	GPtrArray *results = NULL;
 	g_autofree gchar *id_lower = NULL;
 	g_auto(XbQueryContext) context = XB_QUERY_CONTEXT_INIT ();
 
 	id_lower = g_utf8_strdown (id, -1);
 	xb_value_bindings_bind_str (xb_query_context_get_bindings (&context), 0, id_lower, NULL);
-	return as_cache_query_components (cache,
-					  "components/component/id[lower-case(text())=?]/..",
-					  &context,
-					  0,
-					  FALSE,
-					  error);
+	results = as_cache_query_components (cache,
+					     "components/component/id[lower-case(text())=?]/..",
+					     &context,
+					     0,
+					     FALSE,
+					     error);
+
+	/* don't continue if we have an error */
+	if (results == NULL)
+		return results;
+
+	if (results->len == 0) {
+		/* we found no exact matches, try components providing this ID */
+		g_ptr_array_unref (results);
+		results = as_cache_query_components (cache,
+						     "components/component/provides/id[lower-case(text())=?]/../..",
+						     &context,
+						     0,
+						     FALSE,
+						     error);
+	}
+
+	return results;
 }
 
 /**

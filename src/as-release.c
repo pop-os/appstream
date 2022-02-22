@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2022 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2014 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -383,8 +383,7 @@ void
 as_release_set_date_eol (AsRelease *release, const gchar *date)
 {
 	AsReleasePrivate *priv = GET_PRIVATE (release);
-	g_free (priv->date_eol);
-	priv->date_eol = g_strdup (date);
+	as_assign_string_safe (priv->date_eol, date);
 }
 
 /**
@@ -1121,8 +1120,8 @@ as_release_load_from_yaml (AsRelease *release, AsContext *ctx, GNode *node, GErr
 			if (time != NULL) {
 				priv->timestamp = g_date_time_to_unix (time);
 			} else {
-				// FIXME: Better error, maybe with line number?
-				g_debug ("Invalid ISO-8601 date in %s",
+				/* FIXME: Better error, maybe with line number? */
+				g_debug ("Invalid ISO-8601 release date in %s",
 					 as_context_get_filename (ctx));
 			}
 		} else if (g_strcmp0 (key, "date-eol") == 0) {

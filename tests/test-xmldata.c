@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -597,7 +597,7 @@ test_appstream_read_description (void)
 								 "<p>Paragraph</p>\n");
 }
 
-static const gchar *xmldata_simple =    "<component>\n"
+static const gchar *xmldata_simple =    "<component date_eol=\"2022-02-22T00:00:00Z\">\n"
 					"  <id>org.example.SimpleTest</id>\n"
 					"  <name>TestComponent</name>\n"
 					"  <name_variant_suffix>Generic</name_variant_suffix>\n"
@@ -620,6 +620,8 @@ test_xml_read_simple (void)
 	g_assert_cmpstr (as_component_get_name (cpt), ==, "TestComponent");
 	g_assert_cmpstr (as_component_get_summary (cpt), ==, "Just part of an unittest");
 	g_assert_cmpstr (as_component_get_name_variant_suffix (cpt), ==, "Generic");
+	g_assert_cmpstr (as_component_get_date_eol (cpt), ==, "2022-02-22T00:00:00Z");
+	g_assert_cmpint (as_component_get_timestamp_eol (cpt), ==, 1645488000);
 }
 
 /**
@@ -636,6 +638,7 @@ test_xml_write_simple (void)
 	cpt = as_component_new ();
 	as_component_set_kind (cpt, AS_COMPONENT_KIND_GENERIC);
 	as_component_set_id (cpt, "org.example.SimpleTest");
+	as_component_set_date_eol (cpt, "2022-02-22");
 
 	as_component_set_name (cpt, "TestComponent", "C");
 	as_component_set_summary (cpt, "Just part of an unittest", "C");
@@ -1978,6 +1981,42 @@ test_xml_rw_tags (void)
 }
 
 /**
+ * test_xml_rw_branding:
+ */
+static void
+test_xml_rw_branding (void)
+{
+	static const gchar *xmldata_tags =
+			"<component>\n"
+			"  <id>org.example.BrandingTest</id>\n"
+			"  <branding>\n"
+			"    <color type=\"primary\" scheme_preference=\"light\">#ff00ff</color>\n"
+			"    <color type=\"primary\" scheme_preference=\"dark\">#993d3d</color>\n"
+			"  </branding>\n"
+			"</component>\n";
+	g_autoptr(AsComponent) cpt = NULL;
+	g_autofree gchar *res = NULL;
+	AsBranding *branding;
+
+	/* read */
+	cpt = as_xml_test_read_data (xmldata_tags, AS_FORMAT_STYLE_METAINFO);
+	g_assert_cmpstr (as_component_get_id (cpt), ==, "org.example.BrandingTest");
+
+	/* validate */
+	branding = as_component_get_branding (cpt);
+	g_assert_nonnull (branding);
+
+	g_assert_cmpstr (as_branding_get_color (branding, AS_COLOR_KIND_PRIMARY, AS_COLOR_SCHEME_KIND_LIGHT),
+			 ==, "#ff00ff");
+	g_assert_cmpstr (as_branding_get_color (branding, AS_COLOR_KIND_PRIMARY, AS_COLOR_SCHEME_KIND_DARK),
+			 ==, "#993d3d");
+
+	/* write */
+	res = as_xml_test_serialize (cpt, AS_FORMAT_STYLE_METAINFO);
+	g_assert_true (as_xml_test_compare_xml (res, xmldata_tags));
+}
+
+/**
  * main:
  */
 int
@@ -2047,6 +2086,7 @@ main (int argc, char **argv)
 
 	g_test_add_func ("/XML/ReadWrite/Reviews", test_xml_rw_reviews);
 	g_test_add_func ("/XML/ReadWrite/Tags", test_xml_rw_tags);
+	g_test_add_func ("/XML/ReadWrite/Branding", test_xml_rw_branding);
 
 	ret = g_test_run ();
 	g_free (datadir);

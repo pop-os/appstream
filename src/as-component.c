@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -41,6 +41,7 @@
 #include "as-relation-private.h"
 #include "as-agreement-private.h"
 #include "as-review-private.h"
+#include "as-branding-private.h"
 #include "as-desktop-entry.h"
 
 
@@ -68,6 +69,7 @@ typedef struct
 	AsOriginKind		origin_kind;
 	AsContext		*context; /* the document context associated with this component */
 	GRefString		*active_locale_override;
+	gchar			*date_eol;
 
 	gchar			*id;
 	gchar			*data_id;
@@ -108,6 +110,8 @@ typedef struct
 
 	GPtrArray		*icons; /* of AsIcon elements */
 	GPtrArray		*reviews; /* of AsReview */
+
+	AsBranding		*branding;
 
 	GRefString		*arch; /* the architecture this data was generated from */
 	gint			priority; /* used internally */
@@ -398,6 +402,7 @@ as_component_finalize (GObject* object)
 
 	g_free (priv->id);
 	g_free (priv->data_id);
+	g_free (priv->date_eol);
 	g_free (priv->source_pkgname);
 	g_strfreev (priv->pkgnames);
 	as_ref_string_release (priv->metadata_license);
@@ -437,6 +442,9 @@ as_component_finalize (GObject* object)
 	g_ptr_array_unref (priv->supports);
 	g_ptr_array_unref (priv->agreements);
 	g_ptr_array_unref (priv->reviews);
+
+	if (priv->branding != NULL)
+		g_object_unref (priv->branding);
 
 	if (priv->translations != NULL)
 		g_ptr_array_unref (priv->translations);
@@ -841,6 +849,84 @@ as_component_set_kind (AsComponent *cpt, AsComponentKind value)
 
 	priv->kind = value;
 	g_object_notify ((GObject *) cpt, "kind");
+}
+
+/**
+ * as_component_get_date_eol:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets the end-of-life date for the entire component.
+ *
+ * Returns: The EOL date as string in ISO8601 format.
+ *
+ * Since: 0.15.2
+ **/
+const gchar*
+as_component_get_date_eol (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->date_eol;
+}
+
+/**
+ * as_component_set_date_eol:
+ * @cpt: a #AsComponent instance.
+ * @date: the EOL date in ISO8601 format.
+ *
+ * Sets an end-of-life date for this component.
+ *
+ * Since: 0.15.2
+ **/
+void
+as_component_set_date_eol (AsComponent *cpt, const gchar *date)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	as_assign_string_safe (priv->date_eol, date);
+}
+
+/**
+ * as_component_get_timestamp_eol:
+ * @cpt: a #AsComponent instance.
+ *
+ * Gets the UNIX timestamp for the date when this component
+ * is out of support (end-of-life) and will receive no more
+ * updates, not even security fixes.
+ *
+ * Returns: UNIX timestamp, or 0 for unset or invalid.
+ *
+ * Since: 0.15.2
+ **/
+guint64
+as_component_get_timestamp_eol (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_autoptr(GDateTime) time = NULL;
+
+	if (priv->date_eol == NULL)
+		return 0;
+
+	time = as_iso8601_to_datetime (priv->date_eol);
+	if (time != NULL) {
+		return g_date_time_to_unix (time);
+	} else {
+		g_warning ("Unable to retrieve EOL timestamp from component EOL date: %s", priv->date_eol);
+		return 0;
+	}
+}
+
+/**
+ * as_component_sanitize_date_eol:
+ */
+gchar*
+as_component_sanitize_date_eol (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	g_autoptr(GDateTime) time = as_iso8601_to_datetime (priv->date_eol);
+	if (time != NULL)
+		return g_date_time_format_iso8601 (time);
+
+	/* error, not a valid date */
+	return NULL;
 }
 
 /**
@@ -3394,6 +3480,44 @@ as_component_get_agreement_by_kind (AsComponent *cpt, AsAgreementKind kind)
 }
 
 /**
+ * as_component_get_branding:
+ * @cpt: an #AsComponent instance.
+ *
+ * Get the branding associated with this component, or %NULL
+ * in case this component has no special branding.
+ *
+ * Returns: (transfer none) (nullable): An #AsBranding.
+ *
+ * Since: 0.15.2
+ **/
+AsBranding*
+as_component_get_branding (AsComponent *cpt)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	return priv->branding;
+}
+
+/**
+ * as_component_set_branding:
+ * @cpt: a #AsComponent instance.
+ * @branding: an #AsBranding instance.
+ *
+ * Set branding for this component.
+ *
+ * Since: 0.15.2
+ **/
+void
+as_component_set_branding (AsComponent *cpt, AsBranding *branding)
+{
+	AsComponentPrivate *priv = GET_PRIVATE (cpt);
+	if (branding == priv->branding)
+		return;
+	if (priv->branding != NULL)
+		g_object_unref (priv->branding);
+	priv->branding = g_object_ref (branding);
+}
+
+/**
  * as_component_get_context:
  * @cpt: a #AsComponent instance.
  *
@@ -3642,7 +3766,7 @@ as_component_set_kind_from_node (AsComponent *cpt, xmlNode *node)
 	g_autofree gchar *cpttype = NULL;
 
 	/* find out which kind of component we are dealing with */
-	cpttype = (gchar*) xmlGetProp (node, (xmlChar*) "type");
+	cpttype = as_xml_get_prop_value (node, "type");
 	if ((cpttype == NULL) || (g_strcmp0 (cpttype, "generic") == 0)) {
 		priv->kind = AS_COMPONENT_KIND_GENERIC;
 	} else {
@@ -3839,6 +3963,7 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 	g_autoptr(GPtrArray) pkgnames = NULL;
 	g_autofree gchar *priority_str = NULL;
 	g_autofree gchar *merge_str = NULL;
+	g_autofree gchar *date_eol_str = NULL;
 
 	/* sanity check */
 	if ((g_strcmp0 ((gchar*) node->name, "component") != 0) && (g_strcmp0 ((gchar*) node->name, "application") != 0)) {
@@ -3853,6 +3978,13 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 
 	/* set component kind */
 	as_component_set_kind_from_node (cpt, node);
+
+	/* end-of-life date for this component */
+	date_eol_str = as_xml_get_prop_value (node, "date_eol");
+	if (date_eol_str != NULL) {
+		g_free (priv->date_eol);
+		priv->date_eol = g_steal_pointer (&date_eol_str);
+	}
 
 	/* set the priority for this component */
 	priority_str = (gchar*) xmlGetProp (node, (xmlChar*) "priority");
@@ -4057,6 +4189,10 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 						as_component_add_review (cpt, review);
 				}
 			}
+		} else if (tag_id == AS_TAG_BRANDING) {
+			g_autoptr(AsBranding) branding = as_branding_new ();
+			if (as_branding_load_from_xml (branding, ctx, iter, NULL))
+				as_component_set_branding (cpt, branding);
 		} else if (tag_id == AS_TAG_TAGS) {
 			for (xmlNode *sn = iter->children; sn != NULL; sn = sn->next) {
 				g_autofree gchar *ns = NULL;
@@ -4093,6 +4229,15 @@ as_component_load_from_xml (AsComponent *cpt, AsContext *ctx, xmlNode *node, GEr
 	{
 		g_auto(GStrv) strv = as_ptr_array_to_strv (pkgnames);
 		as_component_set_pkgnames (cpt, strv);
+	}
+
+	/* sanity check */
+	if (as_is_empty (priv->id)) {
+		g_set_error_literal (error,
+				AS_METADATA_ERROR,
+				AS_METADATA_ERROR_FAILED,
+				"Component is invalid (essential tags are missing or empty).");
+		return FALSE;
 	}
 
 	return TRUE;
@@ -4309,6 +4454,16 @@ as_component_to_xml_node (AsComponent *cpt, AsContext *ctx, xmlNode *root)
 					(xmlChar*) kind_str);
 	}
 
+	/* set end-of-life date */
+	if (priv->date_eol != NULL) {
+		g_autofree gchar *time_str = as_component_sanitize_date_eol (cpt);
+		if (time_str == NULL)
+			g_debug ("Invalid ISO-8601 date_eol for component %s",
+				 as_component_get_data_id (cpt));
+		else
+			as_xml_add_text_prop (cnode, "date_eol", time_str);
+	}
+
 	if (as_context_get_style (ctx) == AS_FORMAT_STYLE_COLLECTION) {
 		/* write some propties which only exist in collection XML */
 		if (priv->merge_kind != AS_MERGE_KIND_NONE) {
@@ -4462,6 +4617,10 @@ as_component_to_xml_node (AsComponent *cpt, AsContext *ctx, xmlNode *root)
 		AsAgreement *agreement = AS_AGREEMENT (g_ptr_array_index (priv->agreements, i));
 		as_agreement_to_xml_node (agreement, ctx, cnode);
 	}
+
+	/* branding */
+	if (priv->branding != NULL)
+		as_branding_to_xml_node (priv->branding, ctx, cnode);
 
 	/* releases */
 	if (priv->releases->len > 0) {
@@ -4880,6 +5039,8 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 			priv->priority = g_ascii_strtoll (value, NULL, 10);
 		} else if (field_id == AS_TAG_MERGE) {
 			priv->merge_kind = as_merge_kind_from_string (value);
+		} else if (field_id == AS_TAG_DATE_EOL) {
+			as_component_set_date_eol (cpt, value);
 		} else if (field_id == AS_TAG_PKGNAME) {
 			g_strfreev (priv->pkgnames);
 
@@ -4968,6 +5129,10 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 				if (as_agreement_load_from_yaml (agreement, ctx, n, NULL))
 					as_component_add_agreement (cpt, agreement);
 			}
+		} else if (field_id == AS_TAG_BRANDING) {
+			g_autoptr(AsBranding) branding = as_branding_new ();
+			if (as_branding_load_from_yaml (branding, ctx, node, NULL))
+				as_component_set_branding (cpt, branding);
 		} else if (field_id == AS_TAG_NAME_VARIANT_SUFFIX) {
 			if (priv->name_variant_suffix != NULL)
 				g_hash_table_unref (priv->name_variant_suffix);
@@ -5001,6 +5166,15 @@ as_component_load_from_yaml (AsComponent *cpt, AsContext *ctx, GNode *root, GErr
 		} else {
 			as_yaml_print_unknown ("root", key);
 		}
+	}
+
+	/* sanity check */
+	if (as_is_empty (priv->id)) {
+		g_set_error_literal (error,
+				AS_METADATA_ERROR,
+				AS_METADATA_ERROR_FAILED,
+				"Component is invalid (essential tags are missing or empty).");
+		return FALSE;
 	}
 
 	return TRUE;
@@ -5387,6 +5561,16 @@ as_component_emit_yaml (AsComponent *cpt, AsContext *ctx, yaml_emitter_t *emitte
 				    as_merge_kind_to_string (priv->merge_kind));
 	}
 
+	/* End-of-life date */
+	if (priv->date_eol != NULL) {
+		g_autofree gchar *time_str = as_component_sanitize_date_eol (cpt);
+		if (time_str == NULL)
+			g_debug ("Invalid ISO-8601 date_eol for component %s",
+				 as_component_get_data_id (cpt));
+		else
+			as_yaml_emit_entry (emitter, "DateEOL", time_str);
+	}
+
 	/* SourcePackage */
 	as_yaml_emit_entry (emitter, "SourcePackage", priv->source_pkgname);
 
@@ -5509,6 +5693,10 @@ as_component_emit_yaml (AsComponent *cpt, AsContext *ctx, yaml_emitter_t *emitte
 
 		as_yaml_sequence_end (emitter);
 	}
+
+	/* Branding */
+	if (priv->branding != NULL)
+		as_branding_emit_yaml (priv->branding, ctx, emitter);
 
 	/* Releases */
 	if (priv->releases->len > 0) {
@@ -5645,6 +5833,10 @@ as_component_emit_yaml (AsComponent *cpt, AsContext *ctx, yaml_emitter_t *emitte
  * Load metadata for this component from an XML string.
  * You normally do not want to use this method directly and instead use the more
  * convenient API of #AsMetadata to create and update components.
+ *
+ * If this function returns %TRUE, a valid component is returned unless the selected
+ * format was %AS_FORMAT_KIND_DESKTOP_ENTRY, in which case a component ID will have to
+ * be set explicitly by the caller in order to make the component valid.
  *
  * Returns: %TRUE on success.
  *

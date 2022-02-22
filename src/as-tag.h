@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2014-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2014-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -36,6 +36,7 @@ G_BEGIN_DECLS
  * @AS_TAG_TYPE:			- / `Type`
  * @AS_TAG_PRIORITY:			- / `Priority`
  * @AS_TAG_MERGE:			- / `Merge`
+ * @AS_TAG_DATE_EOL:			- / `DateEOL`
  * @AS_TAG_ID:				`id` / `ID`
  * @AS_TAG_PKGNAME:			`pkgname` / `Package`
  * @AS_TAG_SOURCE_PKGNAME:		`source_pkgname` / `SourcePackage`
@@ -70,6 +71,7 @@ G_BEGIN_DECLS
  * @AS_TAG_REVIEWS:			`reviews` / `Reviews`
  * @AS_TAG_NAME_VARIANT_SUFFIX:		`name_variant_suffix` / `NameVariantSuffix`
  * @AS_TAG_TAGS:			`tags` / `Tags`
+ * @AS_TAG_BRANDING:			`branding` / `Branding`
  * @AS_TAG_P:				Description markup `p`
  * @AS_TAG_LI:				Description markup `li`
  * @AS_TAG_OL:				Description markup `ol`
@@ -82,6 +84,7 @@ typedef enum {
 	AS_TAG_TYPE,
 	AS_TAG_PRIORITY,
 	AS_TAG_MERGE,
+	AS_TAG_DATE_EOL,
 	AS_TAG_ID,
 	AS_TAG_PKGNAME,
 	AS_TAG_SOURCE_PKGNAME,
@@ -116,6 +119,7 @@ typedef enum {
 	AS_TAG_REVIEWS,
 	AS_TAG_NAME_VARIANT_SUFFIX,
 	AS_TAG_TAGS,
+	AS_TAG_BRANDING,
 	AS_TAG_P,
 	AS_TAG_LI,
 	AS_TAG_UL,

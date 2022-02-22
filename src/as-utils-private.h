@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -192,7 +192,7 @@ gboolean		as_utils_is_platform_triplet_arch (const gchar *arch);
 gboolean		as_utils_is_platform_triplet_oskernel (const gchar *os);
 gboolean		as_utils_is_platform_triplet_osenv (const gchar *env);
 
-gchar			*as_get_user_cache_dir ();
+gchar			*as_get_user_cache_dir (GError **error);
 
 gboolean		as_unichar_accepted (gunichar c);
 

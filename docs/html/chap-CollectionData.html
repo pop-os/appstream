@@ -26,12 +26,16 @@ hljs.configure({
 			For Fedora 20 (Heisenbug) updates it would be <code class="filename">fedora-20-updates.xml.gz</code>.
 			3rd-party repositories use a vendor name and repository-name combination, for example Ubuntu PPAs might get <code class="filename">ppa-ubuntu12.04-username-foobar.xml</code>.
 		</p><p>
-			There are two valid locations to store AppStream XML data. <code class="filename">/usr/share/app-info/xmls</code> stores all AppStream data which
-			has been installed via software packages, while <code class="filename">/var/cache/app-info/xmls</code> stores application data which was downloaded
+			There are two valid locations to store AppStream XML data. <code class="filename">/usr/share/swcatalog/xml</code> stores all AppStream data which
+			has been installed via software packages, while <code class="filename">/var/lib/swcatalog/xml</code> stores application data which was downloaded
 			by the package manager or placed there by other tools (for example, Limba).
 			The XML files can either be plain files or be compressed with gzip. It is always a good idea to compress the files, because they tend to become
 			quite large.
-		</p></div><div class="sect2" id="spec-asxml-general"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-general"><span class="number">3.1.3 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">General XML structure</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#spec-asxml-general">#</a></h3></div></div></div><p>
+		</p><div id="id-1.4.4.3.4" class="admonition important normal"><img class="symbol" alt="Important" title="Important" src="static/images/icon-important.png" /><h6>Important: Legacy Path</h6><p>
+				AppStream tools scan the paths <code class="filename">/usr/share/app-info/(xml|xmls)</code> / <code class="filename">/var/lib/app-info/(xml|xmls)</code> path for legacy
+				compatibility as well. If possible, the old locations and old layouts should not be used anymore.
+				Support for the legacy path will likely be dropped completely with a future AppStream 1.0 release.
+			</p></div></div><div class="sect2" id="spec-asxml-general"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-general"><span class="number">3.1.3 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">General XML structure</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#spec-asxml-general">#</a></h3></div></div></div><p>
 			The XML starts with a <code class="code">&lt;components&gt;</code> tag as the root element. It has all the
 			<code class="code">&lt;component&gt;</code> tags of different <code class="literal">type</code>s as children.
 		</p><p>
@@ -49,7 +53,10 @@ hljs.configure({
 				</p></dd><dt id="id-1.4.4.4.6.2"><span class="term">origin</span></dt><dd><p>
 					Defines the repository ID this AppStream XML file belongs to. This usually matches the filename without extension (see the explanation on how to pick a good filename above).
 					It is also used to associate the right cached icons with AppStream metadata. This property is required.
-				</p></dd><dt id="id-1.4.4.4.6.3"><span class="term">architecture</span></dt><dd><p>
+				</p></dd><dt id="id-1.4.4.4.6.3"><span class="term">media_baseurl</span></dt><dd><p>
+					The base URL for media (screenshots, icons, ...) referenced in the metadata file.
+					If this is set, all urls in the document referencing media will be treated relative to the base url.
+				</p></dd><dt id="id-1.4.4.4.6.4"><span class="term">architecture</span></dt><dd><p>
 					Defines the architecture this data belongs to. This information is useful to resolve AppStream-ID conflicts on multiarch systems,
 					which appear if the user has metadata for two architectures installed. This property is optional.
 				</p></dd></dl></div></div><div class="sect2" id="spec-asxml-tags"><div class="titlepage"><div><div><h3 class="title" id="spec-asxml-tags"><span class="number">3.1.4 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">Valid tags for all component types</span> <a title="Permalink" class="permalink" href="chap-CollectionData.html#spec-asxml-tags">#</a></h3></div></div></div><p>
@@ -416,5 +423,5 @@ hljs.configure({
   &lt;/component&gt;
   &lt;!-- more components here! --&gt;
 &lt;/components&gt;</pre></div></div></div></div></div><div class="page-bottom"><div id="_bottom-navigation"><a class="nav-link" href="sect-AppStream-YAML.html"><span class="next-icon">→</span><span class="nav-label">AppStream collection YAML</span></a><a class="nav-link" href="sect-Metadata-Runtime.html"><span class="prev-icon">←</span><span class="nav-label">Runtime</span></a></div></div></div><div id="_inward"></div></div><div id="_footer-wrap"><div id="_footer"><p>©
-        2021 
+        2022 
         Freedesktop.org, the AppStream Project</p></div></div></body></html>

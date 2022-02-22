@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -605,6 +605,8 @@ as_metadata_parse_desktop_data (AsMetadata *metad, const gchar *data, const gcha
 					   NULL, /* l10n function */
 					   NULL, /* l10n func user data */
 					   &tmp_error);
+	if (ret)
+		ret = !as_is_empty (cid);
 	if (!ret) {
 		if (tmp_error == NULL) {
 			if (cid == NULL)

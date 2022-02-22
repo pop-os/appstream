@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2018-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2018-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -803,6 +803,7 @@ test_compose_font (void)
 	g_autoptr(GError) error = NULL;
 	g_autoptr(AscResult) cres = NULL;
 	g_autoptr(AsMetadata) mdata = NULL;
+	g_autoptr(AscIconPolicy) icon_policy = NULL;
 	g_autoptr(AscDirectoryUnit) dirunit = asc_directory_unit_new (datadir);
 	const gchar *export_tmpdir = "/tmp/asc-font-export";
 
@@ -839,10 +840,12 @@ test_compose_font (void)
 	g_assert_no_error (error);
 	g_assert_true (ret);
 
+	icon_policy = asc_icon_policy_new ();
 	asc_process_fonts (cres,
 			   ASC_UNIT (dirunit),
 			   export_tmpdir,
-			   ASC_ICON_POLICY_BALANCED,
+			   NULL, /* no icon export dir */
+			   icon_policy,
 			   ASC_COMPOSE_FLAG_STORE_SCREENSHOTS |
 			   ASC_COMPOSE_FLAG_PROCESS_FONTS);
 	asc_assert_no_hints_in_result (cres);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2016-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -86,8 +86,11 @@ class APPSTREAMQT_EXPORT Component {
             UrlKindFaq,
             UrlKindHelp,
             UrlKindDonation,
-            UrlTranslate,
-            UrlKindContact
+            UrlKindTranslate,
+            UrlKindContact,
+
+            // deprecated
+            UrlTranslate   [[deprecated]] = UrlKindTranslate,
         };
         Q_ENUM(UrlKind)
 

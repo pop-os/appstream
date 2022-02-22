@@ -16,20 +16,20 @@ hljs.configure({
 			The icons should be PNG files or vectorgraphics (PNG is preferred) and match the name referenced in the applications .desktop file.
 			Their size should be 64x64px, it is okay to just provide one size.
 		</p></div><div class="sect2" id="spec-iconcache-location"><div class="titlepage"><div><div><h3 class="title" id="spec-iconcache-location"><span class="number">3.3.2 </span><span xmlns:dm="urn:x-suse:ns:docmanager" class="name">Filesystem locations</span> <a title="Permalink" class="permalink" href="sect-AppStream-IconCache.html#spec-iconcache-location">#</a></h3></div></div></div><p>
-			All icons of type <code class="literal">cached</code> must be placed in <code class="filename">/usr/share/app-info/icons/%{origin}/%{size}/</code> or <code class="filename">/var/cache/app-info/icons/%{origin}/%{size}/</code>,
+			All icons of type <code class="literal">cached</code> must be placed in <code class="filename">/usr/share/swcatalog/icons/%{origin}/%{size}/</code> or <code class="filename">/var/cache/swcatalog/icons/%{origin}/%{size}/</code>,
 			where <code class="literal">origin</code> is the AppStream data origin defined in the AppStream data file (see <a class="xref" href="chap-CollectionData.html#spec-asxml-general" title="3.1.3. General XML structure">Section 3.1.3, “General XML structure”</a>), and <code class="literal">size</code>
 			is <code class="code">64x64</code> or <code class="code">128x128</code> depending on the size of the icon. And icon might be present with different sizes in both directories.
 		</p><p>
 			For example the cache icon <code class="code">krita.png</code> of a component in a data file with the origin <code class="code">jessie</code> should be stored in
-			<code class="filename">/usr/share/app-info/icons/jessie/64x64/krita.png</code> (or in the <code class="filename">/var/cache</code> location).
+			<code class="filename">/usr/share/swcatalog/icons/jessie/64x64/krita.png</code> (or in the <code class="filename">/var/cache</code> location).
 		</p><p>
 			Icon scaling factors commonly used for HiDPI display support are part of the size-directory filename and are separated from the regular size via an <code class="code">@</code> sign.
 			If the scaling factor is 1, it must be omitted from the directory name.
 			For example, if the icon scaling factor is <code class="literal">2</code> for icons of size <code class="literal">64x64</code> from origin <code class="literal">jessie</code>, the icon must be placed
-			in <code class="filename">/usr/share/app-info/icons/jessie/64x64@2/</code>.
+			in <code class="filename">/usr/share/swcatalog/icons/jessie/64x64@2/</code>.
 		</p><div id="id-1.4.6.3.5" class="admonition note normal"><img class="symbol" alt="Note" title="Note" src="static/images/icon-note.png" /><h6>Note: Legacy Support</h6><p>
 				In order to support the old icon cache layout, client applications may also look for icons in the folder below the size-directories, assuming
 				that the icons placed there are of size <code class="code">64x64</code> pixels.
 			</p></div></div></div></div><div class="page-bottom"><div id="_bottom-navigation"><a class="nav-link" href="chap-AppStream-Misc.html"><span class="next-icon">→</span><span class="nav-label"><span class="number">Chapter 4 </span>Miscellaneous</span></a><a class="nav-link" href="sect-AppStream-YAML.html"><span class="prev-icon">←</span><span class="nav-label">AppStream collection YAML</span></a></div></div></div><div id="_inward"></div></div><div id="_footer-wrap"><div id="_footer"><p>©
-        2021 
+        2022 
         Freedesktop.org, the AppStream Project</p></div></div></body></html>

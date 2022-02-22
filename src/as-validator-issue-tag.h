@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2018-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2018-2022 Matthias Klumpp <matthias@tenstral.net>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
  *
@@ -122,6 +122,11 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	{ "cid-invalid-character",
 	  AS_ISSUE_SEVERITY_ERROR,
 	  N_("The component ID contains an invalid character. Only ASCII characters, dots and numbers are permitted.")
+	},
+
+	{ "cid-punctuation-prefix",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The component ID starts with punctuation. This is not allowed.")
 	},
 
 	{ "cid-contains-hyphen",
@@ -685,6 +690,17 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  N_("The value set as release type is invalid."),
 	},
 
+	{ "release-version-missing",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
+	  N_("The release is missing the `version` property."),
+	},
+
+	{ "release-time-missing",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
+	  N_("The release is missing either the `date` (preferred) or the `timestamp` property."),
+	},
 	{ "artifact-type-invalid",
 	  AS_ISSUE_SEVERITY_ERROR,
 	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks). */
@@ -788,6 +804,21 @@ AsValidatorIssueTag as_validator_issue_tag_list[] =  {
 	  AS_ISSUE_SEVERITY_ERROR,
 	  /* TRANSLATORS: Please do not translate AppStream tag and property names (in backticks) and keep the URL intact. */
 	  N_("This tag or its namespace contains invalid characters. Only lower-cased ASCII letters, numbers, dots, hyphens and underscores are permitted."),
+	},
+
+	{ "branding-color-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The type of this color is not valid."),
+	},
+
+	{ "branding-color-scheme-type-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("The value of this color scheme preference is not valid."),
+	},
+
+	{ "branding-color-invalid",
+	  AS_ISSUE_SEVERITY_ERROR,
+	  N_("This color is not a valid HTML color code."),
 	},
 
 	{ NULL, AS_ISSUE_SEVERITY_UNKNOWN, NULL }

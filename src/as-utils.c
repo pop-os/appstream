@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2012-2021 Matthias Klumpp <matthias@tenstral.net>
+ * Copyright (C) 2012-2022 Matthias Klumpp <matthias@tenstral.net>
  * Copyright (C) 2014-2016 Richard Hughes <richard@hughsie.com>
  *
  * Licensed under the GNU Lesser General Public License Version 2.1
@@ -253,6 +253,11 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 			g_autofree gchar *clean_text = NULL;
 			g_autofree gchar *text_content = (gchar*) xmlNodeGetContent (iter);
 
+			/* Apparently the element is empty, which is odd. But we better add it instead
+			 * of completely ignoring it. */
+			if (text_content == NULL)
+				text_content = g_strdup ("");
+
 			/* remove extra whitespaces and linebreaks */
 			clean_text = as_sanitize_text_spaces (text_content);
 
@@ -288,6 +293,11 @@ as_description_markup_convert (const gchar *markup, AsMarkupKind to_kind, GError
 					g_autofree gchar *clean_item = NULL;
 					g_autofree gchar *item_content = (gchar*) xmlNodeGetContent (iter2);
 					entry_no++;
+
+					/* Apparently the item text is empty, which is odd.
+					 * Let's add an empty entry, instead of ignoring it entirely. */
+					if (item_content == NULL)
+						item_content = g_strdup ("");
 
 					/* remove extra whitespaces and linebreaks */
 					clean_item = as_sanitize_text_spaces (item_content);
@@ -2036,7 +2046,7 @@ as_utils_install_icon_tarball (AsMetadataLocation location,
 				GError **error)
 {
 	g_autofree gchar *dir = NULL;
-	dir = g_strdup_printf ("%s%s/app-info/icons/%s/%s",
+	dir = g_strdup_printf ("%s%s/swcatalog/icons/%s/%s",
 			       destdir,
 			       as_metadata_location_get_prefix (location),
 			       origin,
@@ -2101,11 +2111,11 @@ as_utils_install_metadata_file (AsMetadataLocation location,
 	case AS_FORMAT_STYLE_COLLECTION:
 		if (g_strstr_len (filename, -1, ".yml.gz") != NULL) {
 			path = g_build_filename (as_metadata_location_get_prefix (location),
-						 "app-info", "yaml", NULL);
+						 "swcatalog", "yaml", NULL);
 			ret = as_utils_install_metadata_file_internal (filename, origin, path, destdir, TRUE, error);
 		} else {
 			path = g_build_filename (as_metadata_location_get_prefix (location),
-						 "app-info", "xmls", NULL);
+						 "swcatalog", "xml", NULL);
 			ret = as_utils_install_metadata_file_internal (filename, origin, path, destdir, FALSE, error);
 		}
 		break;
@@ -2180,16 +2190,14 @@ as_utils_install_metadata_file (AsMetadataLocation location,
  * Since: 0.14.2
  */
 gchar*
-as_get_user_cache_dir ()
+as_get_user_cache_dir (GError **error)
 {
 	const gchar *cache_root = g_get_user_cache_dir ();
 	if (cache_root == NULL) {
-		g_autoptr(GError) error = NULL;
-		gchar *tmp_dir = g_dir_make_tmp ("appstream-XXXXXX", &error);
+		gchar *tmp_dir = g_dir_make_tmp ("appstream-XXXXXX", error);
 		if (tmp_dir == NULL) {
 			/* something went very wrong here, we could neither get a user cache dir, nor
 			 * access to a temporary directory in /tmp */
-			g_error ("Unable to create temporary cache directory: %s", error->message);
 			return NULL;
 		}
 		return tmp_dir;
