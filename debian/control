@@ -59,6 +59,8 @@ Depends: appstream,
          ${shlibs:Depends}
 Recommends: ffmpeg,
             optipng
+Replaces: appstream (<< 0.15.2)
+Breaks: appstream (<< 0.15.2)
 Description: Compose metadata collections from directory trees
  AppStream is a metadata specification which permits software components to
  provide information about themselves to automated systems and end-users
