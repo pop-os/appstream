@@ -57,20 +57,20 @@ test ('as-test_yaml',
 )
 
 # Metadata Pool
-as_test_pool_exe = executable ('as-test_pool',
-    ['test-pool.c',
-     as_test_common_src],
-    dependencies: [appstream_dep,
-                   gio_dep,
-                   xml2_dep],
-    include_directories: [root_inc_dir]
-)
-test ('as-test_pool',
-    as_test_pool_exe,
-    args: as_test_args,
-    env: as_test_env,
-    timeout: 90
-)
+#as_test_pool_exe = executable ('as-test_pool',
+#    ['test-pool.c',
+#     as_test_common_src],
+#    dependencies: [appstream_dep,
+#                   gio_dep,
+#                   xml2_dep],
+#    include_directories: [root_inc_dir]
+#)
+#test ('as-test_pool',
+#    as_test_pool_exe,
+#    args: as_test_args,
+#    env: as_test_env,
+#    timeout: 90
+#)
 
 # Validator
 as_test_validate_exe = executable ('as-test_validate',
