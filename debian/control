@@ -31,7 +31,7 @@ Vcs-Git: https://salsa.debian.org/pkgutopia-team/appstream.git
 Vcs-Browser: https://salsa.debian.org/pkgutopia-team/appstream
 
 Package: appstream
-Architecture: any
+Architecture: amd64 arm64 i386
 Depends: shared-mime-info,
          ${misc:Depends},
          ${shlibs:Depends}
@@ -73,7 +73,7 @@ Description: Compose metadata collections from directory trees
  to generate AppStream metadata and media files from directory trees.
 
 Package: libappstream4
-Architecture: any
+Architecture: amd64 arm64 i386
 Section: libs
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
@@ -93,7 +93,7 @@ Description: Library to access AppStream services
  metadata.
 
 Package: libappstream-dev
-Architecture: any
+Architecture: amd64 arm64 i386
 Section: libdevel
 Multi-Arch: same
 Depends: gir1.2-appstream-1.0 (= ${binary:Version}),
@@ -112,7 +112,7 @@ Description: Library to access AppStream services (development files)
  software management tools which use the AppStream library.
 
 Package: gir1.2-appstream-1.0
-Architecture: any
+Architecture: amd64 arm64 i386
 Section: introspection
 Multi-Arch: same
 Depends: libappstream4 (= ${binary:Version}),
@@ -129,7 +129,7 @@ Description: Library to access AppStream services (introspection data)
  This package contains introspection data for the AppStream library.
 
 Package: libappstreamqt2
-Architecture: any
+Architecture: amd64 arm64 i386
 Section: libs
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
@@ -147,7 +147,7 @@ Description: Qt5 library to access AppStream services
  services, like the software component metadata pool.
 
 Package: libappstreamqt-dev
-Architecture: any
+Architecture: amd64 arm64 i386
 Multi-Arch: same
 Section: libdevel
 Depends: libappstreamqt2 (= ${binary:Version}),
@@ -222,7 +222,7 @@ Description: Building blocks to compose AppStream metadata (introspection data)
  This package contains introspection data for the AppStream compose library.
 
 Package: appstream-doc
-Architecture: all
+Architecture: amd64 arm64 i386
 Multi-Arch: foreign
 Section: doc
 Depends: libjs-highlight.js,
@@ -239,7 +239,7 @@ Description: Developer documentation for AppStream
  This package provides developer documentation for AppStream.
 
 Package: apt-config-icons
-Architecture: all
+Architecture: amd64 arm64 i386
 Multi-Arch: foreign
 Section: misc
 Depends: appstream,
@@ -256,7 +256,7 @@ Description: APT configuration snippet to enable icon downloads
  of smaller 48x48px icons.
 
 Package: apt-config-icons-hidpi
-Architecture: all
+Architecture: amd64 arm64 i386
 Multi-Arch: foreign
 Section: misc
 Depends: apt-config-icons,
@@ -272,7 +272,7 @@ Description: APT configuration snippet to enable HiDPI icon downloads
  HiDPI displays.
 
 Package: apt-config-icons-large
-Architecture: all
+Architecture: amd64 arm64 i386
 Multi-Arch: foreign
 Section: misc
 Depends: apt-config-icons,
@@ -289,7 +289,7 @@ Description: APT configuration snippet to enable large icon downloads
  decide to fetch them on-demand from a web location.
 
 Package: apt-config-icons-large-hidpi
-Architecture: all
+Architecture: amd64 arm64 i386
 Multi-Arch: foreign
 Section: misc
 Depends: apt-config-icons-large,
